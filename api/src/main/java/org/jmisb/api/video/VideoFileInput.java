@@ -28,6 +28,8 @@ public class VideoFileInput extends VideoInput implements IVideoFileInput
     private double duration = 0.0;
     private int numFrames = 0;
 
+    private double rateMultiplier = 1.0;
+
     // TODO: put these in a utility class
     private long prevVideoTime;
     private double prevVideoPts;
@@ -184,20 +186,25 @@ public class VideoFileInput extends VideoInput implements IVideoFileInput
     }
 
     @Override
-    public void playAtSpeed(double multiplier)
+    public boolean isPlaying()
+    {
+        return playing;
+    }
+
+    @Override
+    public void setPlaybackSpeed(double multiplier)
     {
         if (multiplier <= 0)
         {
             throw new IllegalArgumentException("Multiplier must be greater than zero");
         }
-        setPlaybackRate(multiplier);
-        play();
+        this.rateMultiplier = multiplier;
     }
 
     @Override
-    public boolean isPlaying()
+    public double getPlaybackSpeed()
     {
-        return playing;
+        return this.rateMultiplier;
     }
 
     @Override
@@ -263,7 +270,7 @@ public class VideoFileInput extends VideoInput implements IVideoFileInput
         // TODO: deal with discontinuities, e.g., from seeking
         long time = System.currentTimeMillis();
 
-        long frameDuration = Math.round(1000.0 / demuxer.getVideoFrameRate());
+        long frameDuration = Math.round(1000.0 / (demuxer.getVideoFrameRate() * rateMultiplier));
 
         if (prevVideoTime != 0)
         {

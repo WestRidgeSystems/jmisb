@@ -36,7 +36,6 @@ public abstract class VideoInput implements IVideoInput
     VideoNotifier videoNotifier;
     MetadataNotifier metadataNotifier;
 
-    private double playbackRate = 1.0;
     private final static int QUEUE_SIZE = 100;
 
     String url;
@@ -319,15 +318,5 @@ public abstract class VideoInput implements IVideoInput
             avformat_free_context(formatContext);
             formatContext = null;
         }
-    }
-
-    /**
-     * Set the playback rate multiplier
-     *
-     * @param playbackRate The rate multiplier (e.g., 2.0 for 2x rate)
-     */
-    void setPlaybackRate(double playbackRate)
-    {
-        this.playbackRate = playbackRate;
     }
 }

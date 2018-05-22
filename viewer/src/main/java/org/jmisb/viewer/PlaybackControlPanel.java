@@ -10,11 +10,9 @@ import org.slf4j.LoggerFactory;
 import javax.swing.*;
 import javax.swing.plaf.basic.BasicSliderUI;
 import java.awt.*;
-import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
 import java.awt.event.MouseListener;
 import java.awt.event.MouseMotionListener;
-import java.lang.reflect.InvocationTargetException;
 
 /**
  * User interface for controlling playback
@@ -23,12 +21,16 @@ public class PlaybackControlPanel extends JPanel implements FrameListener
 {
     private static Logger logger = LoggerFactory.getLogger(PlaybackControlPanel.class);
     private JButton playPauseButton;
+    private JButton fastForwardButton;
     private JSlider seekSlider;
 
     private IVideoFileInput videoFileInput;
 
     private ImageIcon playIcon;
     private ImageIcon pauseIcon;
+    private ImageIcon ffOnIcon;
+    private ImageIcon ffOffIcon;
+
     private static final int iconSize = 24;
 
     private boolean wasPlaying;
@@ -120,7 +122,13 @@ public class PlaybackControlPanel extends JPanel implements FrameListener
         ImageIcon origPauseIcon = new ImageIcon(PlaybackControlPanel.class.getResource("/icons/pause.png"));
         pauseIcon = new ImageIcon(origPauseIcon.getImage().getScaledInstance(iconSize, iconSize, Image.SCALE_SMOOTH));
 
-        // Play/pause button at left
+        ImageIcon origFfOnIcon = new ImageIcon(PlaybackControlPanel.class.getResource("/icons/fast-forward-on.png"));
+        ffOnIcon = new ImageIcon(origFfOnIcon.getImage().getScaledInstance(iconSize, iconSize, Image.SCALE_SMOOTH));
+
+        ImageIcon origFfOffIcon = new ImageIcon(PlaybackControlPanel.class.getResource("/icons/fast-forward-off.png"));
+        ffOffIcon = new ImageIcon(origFfOffIcon.getImage().getScaledInstance(iconSize, iconSize, Image.SCALE_SMOOTH));
+
+        // Play/pause button
         playPauseButton = new JButton(playIcon);
         playPauseButton.setEnabled(false);
         playPauseButton.addActionListener(l ->
@@ -135,7 +143,26 @@ public class PlaybackControlPanel extends JPanel implements FrameListener
                     videoFileInput.play();
                 }
             }
-            updatePlayPauseButton();
+            updateButtons();
+        });
+
+        // Fast forward button
+        fastForwardButton = new JButton(ffOffIcon);
+        fastForwardButton.setEnabled(false);
+        fastForwardButton.addActionListener(l ->
+        {
+            if (videoFileInput != null && videoFileInput.isPlaying())
+            {
+                if (videoFileInput.getPlaybackSpeed() < 4.0)
+                {
+                    videoFileInput.setPlaybackSpeed(4.0);
+                }
+                else
+                {
+                    videoFileInput.setPlaybackSpeed(1.0);
+                }
+            }
+            updateButtons();
         });
 
         // Seek slider
@@ -144,21 +171,22 @@ public class PlaybackControlPanel extends JPanel implements FrameListener
         seekSlider.setEnabled(false);
 
         setLayout(new MigLayout("fill",
-                "[48:48:48][]",
+                "[48:48:48]0[48:48:48][]",
                 ""));
 
         add(playPauseButton, "w 40!");
+        add(fastForwardButton, "w 40!");
         add(seekSlider, "growx, aligny center");
     }
 
-    public void close()
+    void close()
     {
         playPauseButton.setEnabled(false);
         videoFileInput = null;
-        updatePlayPauseButton();
+        updateButtons();
     }
 
-    public void setInput(IVideoFileInput input)
+    void setInput(IVideoFileInput input)
     {
         videoFileInput = input;
 
@@ -171,7 +199,7 @@ public class PlaybackControlPanel extends JPanel implements FrameListener
 
         logger.debug("Setting slider range to [0, " + durationMs + "]");
 
-        updatePlayPauseButton();
+        updateButtons();
     }
 
     @Override
@@ -185,25 +213,31 @@ public class PlaybackControlPanel extends JPanel implements FrameListener
             {
                 seekSlider.setValue(position);
             }
-            updatePlayPauseButton();
+            updateButtons();
         });
     }
 
-    private void updatePlayPauseButton()
+    private void updateButtons()
     {
         if (videoFileInput == null)
         {
             playPauseButton.setEnabled(false);
+            fastForwardButton.setEnabled(false);
         }
 
         if (videoFileInput == null || !videoFileInput.isPlaying())
         {
             playPauseButton.setIcon(playIcon);
             playPauseButton.setToolTipText("Play");
+            fastForwardButton.setEnabled(false);
         } else
         {
             playPauseButton.setIcon(pauseIcon);
             playPauseButton.setToolTipText("Pause");
+
+            fastForwardButton.setEnabled(true);
+            fastForwardButton.setIcon(videoFileInput.getPlaybackSpeed() > 1.0 ? ffOnIcon : ffOffIcon);
+            fastForwardButton.setToolTipText("" + Math.round(videoFileInput.getPlaybackSpeed()) + "x");
         }
     }
 }

@@ -11,18 +11,25 @@ public interface IVideoFileInput extends IVideoInput
     void play();
 
     /**
-     * Play the video file at the specified speed
-     *
-     * @param multiplier The rate multiplier (e.g., 2.0 for 2x rate)
-     */
-    void playAtSpeed(double multiplier);
-
-    /**
      * Check if the video file is playing
      *
      * @return True if currently playing
      */
     boolean isPlaying();
+
+    /**
+     * Set the playback speed
+     *
+     * @param multiplier The rate multiplier (e.g., 2.0 for 2x rate)
+     */
+    void setPlaybackSpeed(double multiplier);
+
+    /**
+     * Get the current playback speed
+     *
+     * @return The rate multiplier (e.g., 2.0 for 2x rate)
+     */
+    double getPlaybackSpeed();
 
     /**
      * Pause video file playback
