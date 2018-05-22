@@ -1,0 +1,8 @@
+# JetBrains IDE
+*.iml
+.idea/
+target/
+
+# Data
+*.ts
+*.dat
