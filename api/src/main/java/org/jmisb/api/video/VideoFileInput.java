@@ -20,6 +20,7 @@ import static org.jmisb.core.video.TimingUtils.shortWait;
 public class VideoFileInput extends VideoInput implements IVideoFileInput
 {
     private static Logger logger = LoggerFactory.getLogger(VideoFileInput.class);
+    private final VideoFileInputOptions options;
     private FileDemuxer demuxer;
     private boolean open = false;
     private boolean playing = false;
@@ -33,12 +34,11 @@ public class VideoFileInput extends VideoInput implements IVideoFileInput
     private long videoDelay;
 
     /**
-     * Constructor
-     * <p>
      * Clients must use {@link VideoSystem#createInputFile()} to construct new instances
      */
-    VideoFileInput()
+    VideoFileInput(VideoFileInputOptions options)
     {
+        this.options = options;
     }
 
     @Override
@@ -99,11 +99,11 @@ public class VideoFileInput extends VideoInput implements IVideoFileInput
         demuxer = new FileDemuxer(this, formatContext);
         demuxer.start();
 
-        // Start notifier threads and begin playing
-        startNotifiers(false);
+        // Start notifier threads
+        playing = !options.isInitiallyPaused();
+        startNotifiers(options.isInitiallyPaused());
 
         open = true;
-        playing = true;
     }
 
     private int countFrames(avformat.AVStream videoStream)

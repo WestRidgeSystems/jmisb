@@ -17,7 +17,7 @@ import java.awt.event.MouseMotionListener;
 import java.lang.reflect.InvocationTargetException;
 
 /**
- * Created by dan on 6/6/17.
+ * User interface for controlling playback
  */
 public class PlaybackControlPanel extends JPanel implements FrameListener
 {

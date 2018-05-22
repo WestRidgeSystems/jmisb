@@ -95,7 +95,19 @@ public class VideoSystem
      */
     public static IVideoFileInput createInputFile()
     {
-        return new VideoFileInput();
+        VideoFileInputOptions options = new VideoFileInputOptions();
+        return new VideoFileInput(options);
+    }
+
+    /**
+     * Create a VideoFileInput
+     *
+     * @param options Input file options
+     * @return The created instance
+     */
+    public static IVideoFileInput createInputFile(VideoFileInputOptions options)
+    {
+        return new VideoFileInput(options);
     }
 
     /**

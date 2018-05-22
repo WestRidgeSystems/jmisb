@@ -174,7 +174,7 @@ public class MisbViewer extends JFrame implements ActionListener
         {
             closeVideo();
 
-            IVideoFileInput fileInput = VideoSystem.createInputFile();
+            IVideoFileInput fileInput = VideoSystem.createInputFile(new VideoFileInputOptions(true));
 
             fileInput.open(filename);
 
