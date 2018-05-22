@@ -1,0 +1,24 @@
+package org.jmisb.api.klv.st0102;
+
+/**
+ * Country coding methods
+ */
+public enum CountryCodingMethod
+{
+    ISO3166_TWO_LETTER,
+    ISO3166_THREE_LETTER,
+    ISO3166_MIXED,
+    ISO3166_NUMERIC,
+    FIPS10_4_TWO_LETTER,
+    FIPS10_4_FOUR_LETTER,
+    FIPS10_4_MIXED,
+    C1059_TWO_LETTER,
+    C1059_THREE_LETTER,
+    OMITTED_VALUE,
+    STANAG_1059_MIXED,
+    GENC_TWO_LETTER,
+    GENC_THREE_LETTER,
+    GENC_NUMERIC,
+    GENC_MIXED,
+    GENC_ADMINSUB
+}
