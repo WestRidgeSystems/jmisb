@@ -6,9 +6,9 @@
 
 jMISB is an open source Java library implementing various 
 [MISB](http://www.gwg.nga.mil/misb/ "MISB home page") standards. The
-project was begun in March 2017, and is currently an unreleased work in
-progress. Stay tuned here for updates, and please let us know if you have
-suggestions or would like to participate!
+project was begun in March 2017, and version 1.0.0 was released on May 23, 2018.
+Stay tuned here for updates, and please let us know if you have suggestions
+or would like to participate!
 
 ## Why jMISB?
 
