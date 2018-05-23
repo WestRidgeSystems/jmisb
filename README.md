@@ -1,3 +1,5 @@
+![Build Status](https://travis-ci.com/WestRidgeSystems/jmisb.svg?branch=develop)
+
 # Introduction
 
 ## About
