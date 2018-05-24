@@ -8,7 +8,7 @@ import java.util.prefs.Preferences;
 /**
  * Stores most-recently-used files
  */
-public class MruFileList
+class MruFileList
 {
     private static int MAX_ENTRIES = 4;
 
