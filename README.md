@@ -131,6 +131,8 @@ class ExampleProcessor implements FrameListener, MetadataListener
 More complete examples of usage may be found in the <code>viewer</code> demo 
 application and in unit tests. Additional sample applications are a work in
 progress.
+See the [javadocs](https://westridgesystems.github.io/jmisb) for a complete API 
+reference.
 
 # Versioning
 

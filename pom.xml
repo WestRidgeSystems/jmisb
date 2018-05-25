@@ -19,6 +19,14 @@
         <developerConnection>scm:git:ssh://git@github.com/WestRidgeSystems/jmisb.git</developerConnection>
     </scm>
 
+    <licenses>
+        <license>
+            <name>MIT</name>
+            <url>https://opensource.org/licenses/MIT</url>
+            <distribution>repo</distribution>
+        </license>
+    </licenses>
+
     <properties>
         <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
         <surefire.version>2.21.0</surefire.version>
