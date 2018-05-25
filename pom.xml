@@ -9,6 +9,10 @@
     <version>1.1.0-SNAPSHOT</version>
     <packaging>pom</packaging>
 
+    <name>jMISB</name>
+    <description>jMISB is an open source Java library implementing various MISB standards.</description>
+    <url>https://github.com/WestRidgeSystems/jmisb</url>
+
     <prerequisites>
         <maven>3.0.0</maven>
     </prerequisites>
@@ -26,6 +30,15 @@
             <distribution>repo</distribution>
         </license>
     </licenses>
+
+    <developers>
+        <developer>
+            <name>Dan Gutchess</name>
+            <email>dan@westridgesystems.com</email>
+            <organization>West Ridge Systems</organization>
+            <organizationUrl>https://westridgesystems.com</organizationUrl>
+        </developer>
+    </developers>
 
     <properties>
         <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
