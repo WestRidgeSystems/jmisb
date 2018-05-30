@@ -6,7 +6,9 @@
 
 jMISB is an open source Java library implementing various 
 [MISB](http://www.gwg.nga.mil/misb/ "MISB home page") standards. The
-project was begun in March 2017, and version 1.0.0 was released on May 23, 2018.
+project was begun in March 2017, and version 1.0.0 was released on 
+May 23, 2018. It leverages the excellent work by 
+[bytedeco](https://github.com/bytedeco) on bringing video support to Java.
 Stay tuned here for updates, and please let us know if you have suggestions
 or would like to participate!
 
@@ -129,6 +131,8 @@ class ExampleProcessor implements FrameListener, MetadataListener
 More complete examples of usage may be found in the <code>viewer</code> demo 
 application and in unit tests. Additional sample applications are a work in
 progress.
+See the [javadocs](https://westridgesystems.github.io/jmisb) for a complete API 
+reference.
 
 # Versioning
 

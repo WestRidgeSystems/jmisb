@@ -20,7 +20,7 @@ public class UdsParser
      * @param start Offset location to start parsing (must be at the start of a 16-byte UL)
      * @param length Number of bytes to parse
      * @return List of fields
-     * @throws KlvParseException
+     * @throws KlvParseException If a parsing error occurs
      */
     public static List<UdsField> parseFields(byte[] bytes, int start, int length) throws KlvParseException
     {

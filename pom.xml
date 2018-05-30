@@ -6,46 +6,79 @@
 
     <groupId>org.jmisb</groupId>
     <artifactId>jmisb</artifactId>
-    <version>1.0.0</version>
+    <version>1.1.0</version>
     <packaging>pom</packaging>
+
+    <name>jMISB</name>
+    <description>jMISB is an open source Java library implementing various MISB standards.</description>
+    <url>https://github.com/WestRidgeSystems/jmisb</url>
+
+    <prerequisites>
+        <maven>3.0.0</maven>
+    </prerequisites>
+
+    <scm>
+        <url>https://github.com/WestRidgeSystems/jmisb</url>
+        <connection>scm:git:git://github.com/WestRidgeSystems/jmisb.git</connection>
+        <developerConnection>scm:git:ssh://git@github.com/WestRidgeSystems/jmisb.git</developerConnection>
+    </scm>
+
+    <licenses>
+        <license>
+            <name>MIT</name>
+            <url>https://opensource.org/licenses/MIT</url>
+            <distribution>repo</distribution>
+        </license>
+    </licenses>
+
+    <developers>
+        <developer>
+            <name>Dan Gutchess</name>
+            <email>dan@westridgesystems.com</email>
+            <organization>West Ridge Systems</organization>
+            <organizationUrl>https://westridgesystems.com</organizationUrl>
+        </developer>
+    </developers>
 
     <properties>
         <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
+        <surefire.version>2.21.0</surefire.version>
     </properties>
+
+    <distributionManagement>
+        <snapshotRepository>
+            <id>ossrh</id>
+            <url>https://oss.sonatype.org/content/repositories/snapshots</url>
+        </snapshotRepository>
+        <repository>
+            <id>ossrh</id>
+            <url>https://oss.sonatype.org/service/local/staging/deploy/maven2/</url>
+        </repository>
+    </distributionManagement>
 
     <dependencyManagement>
         <dependencies>
             <dependency>
                 <groupId>org.testng</groupId>
                 <artifactId>testng</artifactId>
-                <version>6.14.2</version>
+                <version>6.14.3</version>
                 <scope>test</scope>
             </dependency>
             <dependency>
                 <groupId>org.slf4j</groupId>
                 <artifactId>slf4j-api</artifactId>
-                <version>1.8.0-beta1</version>
+                <version>1.8.0-beta2</version>
             </dependency>
             <dependency>
                 <groupId>org.slf4j</groupId>
                 <artifactId>slf4j-log4j12</artifactId>
-                <version>1.8.0-beta1</version>
+                <version>1.8.0-beta2</version>
                 <scope>runtime</scope>
             </dependency>
             <dependency>
                 <groupId>org.bytedeco.javacpp-presets</groupId>
                 <artifactId>ffmpeg-platform</artifactId>
-                <version>3.4.1-1.4</version>
-            </dependency>
-            <dependency>
-                <groupId>com.miglayout</groupId>
-                <artifactId>miglayout-core</artifactId>
-                <version>5.0</version>
-            </dependency>
-            <dependency>
-                <groupId>com.miglayout</groupId>
-                <artifactId>miglayout-swing</artifactId>
-                <version>5.0</version>
+                <version>3.4.2-1.4.1</version>
             </dependency>
         </dependencies>
     </dependencyManagement>
@@ -61,11 +94,71 @@
             <plugin>
                 <groupId>org.apache.maven.plugins</groupId>
                 <artifactId>maven-compiler-plugin</artifactId>
-                <version>3.6.1</version>
+                <version>3.7.0</version>
                 <configuration>
                     <source>1.8</source>
                     <target>1.8</target>
                 </configuration>
+            </plugin>
+            <plugin>
+                <groupId>org.apache.maven.plugins</groupId>
+                <artifactId>maven-jar-plugin</artifactId>
+                <version>3.1.0</version>
+                <configuration>
+                    <excludes>
+                        <exclude>**/log4j.properties</exclude>
+                    </excludes>
+                </configuration>
+            </plugin>
+            <plugin>
+                <groupId>org.sonatype.plugins</groupId>
+                <artifactId>nexus-staging-maven-plugin</artifactId>
+                <version>1.6.8</version>
+                <extensions>true</extensions>
+                <configuration>
+                    <serverId>ossrh</serverId>
+                    <nexusUrl>https://oss.sonatype.org/</nexusUrl>
+                </configuration>
+            </plugin>
+            <plugin>
+                <groupId>org.apache.maven.plugins</groupId>
+                <artifactId>maven-source-plugin</artifactId>
+                <version>3.0.1</version>
+                <executions>
+                    <execution>
+                        <id>attach-sources</id>
+                        <goals>
+                            <goal>jar-no-fork</goal>
+                        </goals>
+                    </execution>
+                </executions>
+            </plugin>
+            <plugin>
+                <groupId>org.apache.maven.plugins</groupId>
+                <artifactId>maven-javadoc-plugin</artifactId>
+                <version>3.0.1</version>
+                <executions>
+                    <execution>
+                        <id>attach-javadocs</id>
+                        <goals>
+                            <goal>jar</goal>
+                        </goals>
+                    </execution>
+                </executions>
+            </plugin>
+            <plugin>
+                <groupId>org.apache.maven.plugins</groupId>
+                <artifactId>maven-gpg-plugin</artifactId>
+                <version>1.6</version>
+                <executions>
+                    <execution>
+                        <id>sign-artifacts</id>
+                        <phase>verify</phase>
+                        <goals>
+                            <goal>sign</goal>
+                        </goals>
+                    </execution>
+                </executions>
             </plugin>
         </plugins>
     </build>

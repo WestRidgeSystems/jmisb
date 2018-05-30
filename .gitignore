@@ -3,6 +3,9 @@
 .idea/
 target/
 
+# Maven cruft
+*.versionsBackup
+
 # Data
 *.ts
 *.dat

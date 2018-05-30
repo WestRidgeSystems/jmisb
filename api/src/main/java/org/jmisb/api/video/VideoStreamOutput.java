@@ -43,8 +43,9 @@ public class VideoStreamOutput
 
     /**
      * Buffer a video frame for output
-     * @param frame
-     * @throws IOException
+     *
+     * @param frame The video frame to output
+     * @throws IOException if the frame could not be written
      */
     public void addVideoFrame(VideoFrame frame) throws IOException
     {
@@ -53,8 +54,9 @@ public class VideoStreamOutput
 
     /**
      * Buffer a metadata frame for output
-     * @param metadataFrame
-     * @throws IOException
+     *
+     * @param metadataFrame The metadata frame to output
+     * @throws IOException if the frame could not be written
      */
     public void addMetadataFrame(MetadataFrame metadataFrame) throws IOException
     {
