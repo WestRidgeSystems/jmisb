@@ -1,3 +1,4 @@
+### May 30, 2018 version 1.1.0
 * Prepared project files for release to the Central Repository
 * Clean up and publish javadocs to GitHub pages
 
