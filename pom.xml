@@ -80,16 +80,6 @@
                 <artifactId>ffmpeg-platform</artifactId>
                 <version>3.4.2-1.4.1</version>
             </dependency>
-            <dependency>
-                <groupId>com.miglayout</groupId>
-                <artifactId>miglayout-core</artifactId>
-                <version>5.1</version>
-            </dependency>
-            <dependency>
-                <groupId>com.miglayout</groupId>
-                <artifactId>miglayout-swing</artifactId>
-                <version>5.1</version>
-            </dependency>
         </dependencies>
     </dependencyManagement>
 
@@ -108,6 +98,16 @@
                 <configuration>
                     <source>1.8</source>
                     <target>1.8</target>
+                </configuration>
+            </plugin>
+            <plugin>
+                <groupId>org.apache.maven.plugins</groupId>
+                <artifactId>maven-jar-plugin</artifactId>
+                <version>3.1.0</version>
+                <configuration>
+                    <excludes>
+                        <exclude>**/log4j.properties</exclude>
+                    </excludes>
                 </configuration>
             </plugin>
             <plugin>
