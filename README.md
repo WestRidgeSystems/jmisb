@@ -52,33 +52,46 @@ reach the widest audience possible. The OSes we are initially targeting are:
 
 # Building
 
-To build, simply run the Maven command
+To build the library, simply run the Maven command:
 <pre>
 mvn package
 </pre>
 This will compile the source code, run unit tests, and generate the JAR files.
 
-To include jMISB as a dependency in your Maven build, include the following dependencies in
-your <code>pom.xml</code>:
+To get started, you may want to run <code>jmisb-viewer</code> and experiment 
+with some test data. This is a sample application intended mainly to aid in 
+development. To run it, issue:
+<pre>
+java -jar viewer/target/jmisb-viewer-x.y.z-jar-with-dependencies.jar
+</pre>
+
+# Including in Your Project
+
+If you are using a dependency management tool such as Maven with access to the 
+[Central Repository](https://search.maven.org/), you can configure it to use
+jMISB as a dependency. For Maven, add the following to your <code>pom.xml</code>:
 ```xml
     <dependency>
         <groupId>org.jmisb</groupId>
         <artifactId>jmisb-api</artifactId>
-        <version>1.0.0</version>
+        <version>1.1.0</version>
     </dependency>
 ```
-Or to include in your Gradle build, include the following:
+For Gradle, include the following:
 ```groovy
 dependencies {
-    compile group: 'org.jmisb', name: 'jmisb-api', version: '1.0.0'
+    compile group: 'org.jmisb', name: 'jmisb-api', version: '1.1.0'
 }
 ```
 
-# Usage
+# API Usage
+
+See the [javadocs](https://westridgesystems.github.io/jmisb) for a complete API 
+reference.
 
 A primary objective of jMISB is to provide an easy-to-use API allowing 
-non-domain experts to create applications leveraging MISB-formatted data.
-Below is a simple example of opening a network stream containing video
+non-domain experts to create applications leveraging MISB standards.
+Below is a simple example of reading a network stream containing video
 and (optionally) metadata.
 
 ```java
@@ -131,14 +144,12 @@ class ExampleProcessor implements FrameListener, MetadataListener
 More complete examples of usage may be found in the <code>viewer</code> demo 
 application and in unit tests. Additional sample applications are a work in
 progress.
-See the [javadocs](https://westridgesystems.github.io/jmisb) for a complete API 
-reference.
 
 # Versioning
 
-jMISB employs the <i>semantic versioning</i> approach to communicate to 
-client developers about the scope of changes in any new release. Version
-numbers are formatted as *major.minor.patch*, where:
+jMISB adheres to <i>semantic versioning</i> to communicate to client
+developers about the scope of changes in any new release. Version numbers
+are formatted as <code>major.minor.patch</code>, where:
 
 1. The major number is incremented to indicate incompatible API changes.
 2. The minor number is incremented to indicate new functionality has been
@@ -148,12 +159,10 @@ fix.
 
 In other words, users of the library should feel comfortable updating to use
 a new version unless the major number has changed. In general, users should 
-keep up to date with the latest patch release for a given major.minor 
-release branch.
+keep up to date with the latest patch release for a given 
+<code>major.minor</code> release branch.
 
 Use of -SNAPSHOT within the version number indicates that the version is
 for internal development only, i.e., the artifact is not to be used in a
 production environment.
-
-# Contact
 
