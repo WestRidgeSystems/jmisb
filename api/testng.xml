@@ -53,6 +53,7 @@
             <class name = "org.jmisb.api.video.VideoFileOutputTest"/>
             <class name = "org.jmisb.api.video.VideoFrameTest"/>
             <class name = "org.jmisb.api.video.VideoStreamInputTest"/>
+            <class name = "org.jmisb.api.video.VideoStreamOutputTest"/>
             <class name = "org.jmisb.api.video.VideoSystemTest"/>
         </classes>
     </test>

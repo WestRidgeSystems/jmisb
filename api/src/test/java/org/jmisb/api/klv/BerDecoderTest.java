@@ -3,9 +3,6 @@ package org.jmisb.api.klv;
 import org.testng.Assert;
 import org.testng.annotations.Test;
 
-/**
- * Created by dan on 6/2/17.
- */
 public class BerDecoderTest
 {
     @Test

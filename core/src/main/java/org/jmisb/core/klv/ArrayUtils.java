@@ -56,7 +56,7 @@ public class ArrayUtils
             }
             if (decorate)
             {
-                formatter.format("(byte)0x%02x, ", bytes[i]);
+                formatter.format("0x%02x, ", bytes[i]);
             }
             else
             {

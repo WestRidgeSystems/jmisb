@@ -5,9 +5,6 @@ import org.testng.annotations.Test;
 
 import java.io.IOException;
 
-/**
- * Created by dan on 5/10/17.
- */
 public class VideoSystemTest
 {
     @Test
