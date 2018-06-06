@@ -1,14 +1,14 @@
 package org.jmisb.api.klv.st0102.localset;
 
 import org.jmisb.api.klv.st0102.CountryCodingMethod;
-import org.jmisb.api.klv.st0102.SecurityMetadataValue;
+import org.jmisb.api.klv.st0102.ISecurityMetadataValue;
 
 import static org.jmisb.api.klv.st0102.CountryCodingMethod.ISO3166_MIXED;
 
 /**
  * Classifying Country and Releasing Instructions Country Coding Method (ST 0102 tag 2)
  */
-public class CcMethod implements SecurityMetadataValue
+public class CcMethod implements ISecurityMetadataValue
 {
     private byte method;
 

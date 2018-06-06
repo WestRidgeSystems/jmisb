@@ -8,7 +8,7 @@ import static java.time.format.DateTimeFormatter.ISO_LOCAL_DATE;
 /**
  * Classifying Country and Releasing Instructions Country Coding Method Version Date (ST 0102 tag 23)
  */
-public class CcmDate implements SecurityMetadataValue
+public class CcmDate implements ISecurityMetadataValue
 {
     private LocalDate date;
 

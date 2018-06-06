@@ -3,7 +3,7 @@ package org.jmisb.api.klv.st0102;
 /**
  * ST 0102 value
  */
-public interface SecurityMetadataValue
+public interface ISecurityMetadataValue
 {
     /**
      * Get the encoded bytes

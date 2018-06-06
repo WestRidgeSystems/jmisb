@@ -18,8 +18,6 @@ import java.time.LocalDateTime;
 import java.util.SortedMap;
 import java.util.TreeMap;
 
-import static org.jmisb.api.klv.st0601.UasDatalinkTag.SensorVerticalFov;
-
 public class VideoFileOutputTest
 {
     private static Logger logger = LoggerFactory.getLogger(VideoFileOutputTest.class);
@@ -107,7 +105,7 @@ public class VideoFileOutputTest
             double pts = 0.0;
             for (int i = 0; i < 120; ++i)
             {
-                SortedMap<UasDatalinkTag, UasDatalinkValue> values = new TreeMap<>();
+                SortedMap<UasDatalinkTag, IUasDatalinkValue> values = new TreeMap<>();
 
                 values.put(UasDatalinkTag.PrecisionTimeStamp, new PrecisionTimeStamp(LocalDateTime.now()));
 
@@ -170,7 +168,7 @@ public class VideoFileOutputTest
 
     private SecurityMetadataLocalSet getSecurityLs()
     {
-        SortedMap<SecurityMetadataKey, SecurityMetadataValue> values = new TreeMap<>();
+        SortedMap<SecurityMetadataKey, ISecurityMetadataValue> values = new TreeMap<>();
         values.put(SecurityMetadataKey.SecurityClassification, new ClassificationLocal(Classification.UNCLASSIFIED));
 
         values.put(SecurityMetadataKey.CcCodingMethod, new CcMethod(CountryCodingMethod.GENC_TWO_LETTER));

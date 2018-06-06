@@ -2,7 +2,6 @@ package org.jmisb.api.klv.st0601;
 
 import org.jmisb.api.common.KlvParseException;
 import org.jmisb.api.klv.*;
-import org.jmisb.core.klv.ArrayUtils;
 
 import java.util.*;
 
@@ -19,14 +18,14 @@ public class UasDatalinkMessage implements IMisbMessage
     // TODO: should we make this class immutable? May have benefits for stability in multi-threaded environments.
 
     /** Map containing all data elements in the message (except, normally, the checksum) */
-    private SortedMap<UasDatalinkTag, UasDatalinkValue> map = new TreeMap<>();
+    private SortedMap<UasDatalinkTag, IUasDatalinkValue> map = new TreeMap<>();
 
     /**
      * Create the message from the given key/value pairs
      *
      * @param values Tag/value pairs to be included in the message
      */
-    public UasDatalinkMessage(SortedMap<UasDatalinkTag, UasDatalinkValue> values)
+    public UasDatalinkMessage(SortedMap<UasDatalinkTag, IUasDatalinkValue> values)
     {
         this.map = values;
     }
@@ -68,7 +67,7 @@ public class UasDatalinkMessage implements IMisbMessage
             }
             else
             {
-                UasDatalinkValue value = UasDatalinkFactory.createValue(tag, field.getData());
+                IUasDatalinkValue value = UasDatalinkFactory.createValue(tag, field.getData());
                 setField(tag, value);
             }
         }
@@ -80,7 +79,7 @@ public class UasDatalinkMessage implements IMisbMessage
         }
     }
 
-    private void setField(UasDatalinkTag tag, UasDatalinkValue value)
+    private void setField(UasDatalinkTag tag, IUasDatalinkValue value)
     {
         map.put(tag, value);
     }
@@ -106,7 +105,7 @@ public class UasDatalinkMessage implements IMisbMessage
         // Note: we will insert key/length fields into chunks after all value fields have been added
 
         // Add all values from map
-        for (Map.Entry<UasDatalinkTag, UasDatalinkValue> entry : map.entrySet())
+        for (Map.Entry<UasDatalinkTag, IUasDatalinkValue> entry : map.entrySet())
         {
             UasDatalinkTag tag = entry.getKey();
 
@@ -116,7 +115,7 @@ public class UasDatalinkMessage implements IMisbMessage
                 continue;
             }
 
-            UasDatalinkValue value = entry.getValue();
+            IUasDatalinkValue value = entry.getValue();
             byte[] bytes = value.getBytes();
             if (bytes != null && bytes.length > 0)
             {

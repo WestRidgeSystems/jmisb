@@ -1,7 +1,7 @@
 package org.jmisb.viewer;
 
 import net.miginfocom.swing.MigLayout;
-import org.jmisb.api.video.FrameListener;
+import org.jmisb.api.video.IVideoListener;
 import org.jmisb.api.video.IVideoFileInput;
 import org.jmisb.api.video.VideoFrame;
 import org.slf4j.Logger;
@@ -17,7 +17,7 @@ import java.awt.event.MouseMotionListener;
 /**
  * User interface for controlling playback
  */
-public class PlaybackControlPanel extends JPanel implements FrameListener
+public class PlaybackControlPanel extends JPanel implements IVideoListener
 {
     private static Logger logger = LoggerFactory.getLogger(PlaybackControlPanel.class);
     private JButton playPauseButton;
@@ -203,7 +203,7 @@ public class PlaybackControlPanel extends JPanel implements FrameListener
     }
 
     @Override
-    public void onFrameReceived(VideoFrame image)
+    public void onVideoReceived(VideoFrame image)
     {
         // Need to update Swing on the EDT
         SwingUtilities.invokeLater(() ->

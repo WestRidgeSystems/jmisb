@@ -18,7 +18,7 @@ import java.util.Arrays;
  * Resolution ~84 nano degrees
  * </blockquote>
  */
-public class SensorRelativeElevation implements UasDatalinkValue
+public class SensorRelativeElevation implements IUasDatalinkValue
 {
     private double degrees;
     private static byte[] invalidBytes = new byte[]{(byte)0x80, (byte)0x00, (byte)0x00, (byte)0x00};

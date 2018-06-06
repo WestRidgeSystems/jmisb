@@ -5,7 +5,7 @@ import org.jmisb.core.klv.PrimitiveConverter;
 /**
  * Security Metadata version number (ST 0102 tag 22)
  */
-public class ST0102Version implements SecurityMetadataValue
+public class ST0102Version implements ISecurityMetadataValue
 {
     private int version;
 

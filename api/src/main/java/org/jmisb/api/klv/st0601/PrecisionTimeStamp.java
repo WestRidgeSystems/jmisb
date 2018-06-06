@@ -17,7 +17,7 @@ import java.time.ZoneOffset;
  * Resolution: 1 microsecond.
  * </blockquote>
  */
-public class PrecisionTimeStamp implements UasDatalinkValue
+public class PrecisionTimeStamp implements IUasDatalinkValue
 {
     private BigInteger microseconds;
     private final static BigInteger oneThousand = BigInteger.valueOf(1000);

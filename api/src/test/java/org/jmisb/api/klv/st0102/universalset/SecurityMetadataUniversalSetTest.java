@@ -5,7 +5,6 @@ import org.jmisb.api.klv.KlvConstants;
 import org.jmisb.api.klv.LengthField;
 import org.jmisb.api.klv.st0102.*;
 import org.jmisb.api.klv.st0102.Classification;
-import org.jmisb.core.klv.ArrayUtils;
 import org.testng.Assert;
 import org.testng.annotations.BeforeTest;
 import org.testng.annotations.Test;
@@ -23,7 +22,7 @@ public class SecurityMetadataUniversalSetTest
     @BeforeTest
     public void createSet()
     {
-        SortedMap<SecurityMetadataKey, SecurityMetadataValue> values = new TreeMap<>();
+        SortedMap<SecurityMetadataKey, ISecurityMetadataValue> values = new TreeMap<>();
         values.put(SecurityMetadataKey.SecurityClassification, new ClassificationUniversal(Classification.UNCLASSIFIED));
 
         values.put(SecurityMetadataKey.CcCodingMethod, new SecurityMetadataString("ISO-3166 Two Letter"));

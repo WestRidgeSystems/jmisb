@@ -5,7 +5,7 @@ import java.nio.charset.StandardCharsets;
 /**
  * Represents a string value in ST 0102
  */
-public class SecurityMetadataString implements SecurityMetadataValue
+public class SecurityMetadataString implements ISecurityMetadataValue
 {
     private String stringValue;
 

@@ -19,7 +19,7 @@ public class SecurityMetadataLocalSet extends SecurityMetadataMessage
      *
      * @param values Tag/value pairs to be included in the message
      */
-    public SecurityMetadataLocalSet(SortedMap<SecurityMetadataKey, SecurityMetadataValue> values)
+    public SecurityMetadataLocalSet(SortedMap<SecurityMetadataKey, ISecurityMetadataValue> values)
     {
         this.map = values;
     }
@@ -58,7 +58,7 @@ public class SecurityMetadataLocalSet extends SecurityMetadataMessage
                 throw new KlvParseException("Invalid Security Metadata tag: " + field.getLabel());
             }
 
-            SecurityMetadataValue value = LocalSetFactory.createValue(key, field.getData());
+            ISecurityMetadataValue value = LocalSetFactory.createValue(key, field.getData());
             setField(key, value);
         }
     }
@@ -77,10 +77,10 @@ public class SecurityMetadataLocalSet extends SecurityMetadataMessage
         List<byte[]> chunks = new ArrayList<>();
 
         // Add all values from map
-        for (Map.Entry<SecurityMetadataKey, SecurityMetadataValue> entry : map.entrySet())
+        for (Map.Entry<SecurityMetadataKey, ISecurityMetadataValue> entry : map.entrySet())
         {
             SecurityMetadataKey key = entry.getKey();
-            SecurityMetadataValue value = entry.getValue();
+            ISecurityMetadataValue value = entry.getValue();
             byte[] bytes = value.getBytes();
             if (bytes != null && bytes.length > 0)
             {

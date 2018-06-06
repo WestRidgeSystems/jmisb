@@ -14,7 +14,7 @@ import org.jmisb.core.klv.PrimitiveConverter;
  * Resolution: ~2.7 milli degrees.
  * </blockquote>
  */
-public class HorizontalFov implements UasDatalinkValue
+public class HorizontalFov implements IUasDatalinkValue
 {
     private double degrees;
     private static double MIN_VALUE = 0;

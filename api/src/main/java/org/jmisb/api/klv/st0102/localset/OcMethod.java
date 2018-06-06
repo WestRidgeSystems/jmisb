@@ -1,7 +1,7 @@
 package org.jmisb.api.klv.st0102.localset;
 
 import org.jmisb.api.klv.st0102.CountryCodingMethod;
-import org.jmisb.api.klv.st0102.SecurityMetadataValue;
+import org.jmisb.api.klv.st0102.ISecurityMetadataValue;
 
 import java.util.Arrays;
 import java.util.HashSet;
@@ -10,7 +10,7 @@ import java.util.Set;
 /**
  * Object Country Coding Method (ST 0102 tag 12)
  */
-public class OcMethod implements SecurityMetadataValue
+public class OcMethod implements ISecurityMetadataValue
 {
     private byte method;
     private static Set<Byte> legal = new HashSet<>(Arrays.asList((byte)0x01, (byte)0x02, (byte)0x03, (byte)0x04,

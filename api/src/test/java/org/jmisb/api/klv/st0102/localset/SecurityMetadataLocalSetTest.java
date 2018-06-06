@@ -2,7 +2,6 @@ package org.jmisb.api.klv.st0102.localset;
 
 import org.jmisb.api.klv.KlvConstants;
 import org.jmisb.api.klv.st0102.*;
-import org.jmisb.core.klv.ArrayUtils;
 import org.testng.Assert;
 import org.testng.annotations.BeforeTest;
 import org.testng.annotations.Test;
@@ -19,7 +18,7 @@ public class SecurityMetadataLocalSetTest
     @BeforeTest
     public void createSet()
     {
-        SortedMap<SecurityMetadataKey, SecurityMetadataValue> values = new TreeMap<>();
+        SortedMap<SecurityMetadataKey, ISecurityMetadataValue> values = new TreeMap<>();
         values.put(SecurityMetadataKey.SecurityClassification, new ClassificationLocal(Classification.UNCLASSIFIED));
 
         values.put(SecurityMetadataKey.CcCodingMethod, new CcMethod(CountryCodingMethod.GENC_TWO_LETTER));

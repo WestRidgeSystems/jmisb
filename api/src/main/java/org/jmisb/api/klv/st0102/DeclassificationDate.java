@@ -8,7 +8,7 @@ import static java.time.format.DateTimeFormatter.BASIC_ISO_DATE;
 /**
  * Declassification Date (ST 0102 tag 10)
  */
-public class DeclassificationDate implements SecurityMetadataValue
+public class DeclassificationDate implements ISecurityMetadataValue
 {
     private LocalDate date;
 

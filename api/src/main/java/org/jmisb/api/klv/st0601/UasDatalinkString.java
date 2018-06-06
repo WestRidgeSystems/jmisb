@@ -5,7 +5,7 @@ import java.nio.charset.StandardCharsets;
 /**
  * Represents a string value in ST 0601
  */
-public class UasDatalinkString implements UasDatalinkValue
+public class UasDatalinkString implements IUasDatalinkValue
 {
     private String stringValue;
 

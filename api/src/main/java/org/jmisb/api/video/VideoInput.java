@@ -24,8 +24,8 @@ import static org.jmisb.core.video.TimingUtils.shortWait;
 public abstract class VideoInput implements IVideoInput
 {
     private static Logger logger = LoggerFactory.getLogger(VideoInput.class);
-    private Set<FrameListener> frameListeners = new HashSet<>();
-    private Set<MetadataListener> metadataListeners = new HashSet<>();
+    private Set<IVideoListener> videoListeners = new HashSet<>();
+    private Set<IMetadataListener> metadataListeners = new HashSet<>();
 
     /** Queue of decoded video frames ready to be sent to listeners */
     private BlockingQueue<VideoFrame> decodedVideo = new LinkedBlockingQueue<>(QUEUE_SIZE);
@@ -60,25 +60,25 @@ public abstract class VideoInput implements IVideoInput
     }
 
     @Override
-    public void addFrameListener(FrameListener listener)
+    public void addFrameListener(IVideoListener listener)
     {
-        frameListeners.add(listener);
+        videoListeners.add(listener);
     }
 
     @Override
-    public void removeFrameListener(FrameListener listener)
+    public void removeFrameListener(IVideoListener listener)
     {
-        frameListeners.remove(listener);
+        videoListeners.remove(listener);
     }
 
     @Override
-    public void addMetadataListener(MetadataListener listener)
+    public void addMetadataListener(IMetadataListener listener)
     {
         metadataListeners.add(listener);
     }
 
     @Override
-    public void removeMetadataListener(MetadataListener listener)
+    public void removeMetadataListener(IMetadataListener listener)
     {
         metadataListeners.remove(listener);
     }
@@ -205,7 +205,7 @@ public abstract class VideoInput implements IVideoInput
                             // Sleep if we are trying to control playback rate
                             delayVideo(frame.getPts());
 
-                            frameListeners.forEach(listener -> listener.onFrameReceived(frame));
+                            videoListeners.forEach(listener -> listener.onVideoReceived(frame));
                             getOneFrame = false;
                         }
                     } catch (InterruptedException ignored)
@@ -267,7 +267,7 @@ public abstract class VideoInput implements IVideoInput
                             // Sleep if we are trying to control playback rate
                             delayMetadata(frame.getPts());
 
-                            metadataListeners.forEach(listener -> listener.onFrameReceived(frame));
+                            metadataListeners.forEach(listener -> listener.onMetadataReceived(frame));
                         }
                     } catch (InterruptedException ignored)
                     {

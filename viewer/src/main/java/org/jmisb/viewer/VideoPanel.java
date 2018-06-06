@@ -1,8 +1,8 @@
 package org.jmisb.viewer;
 
 import org.jmisb.api.video.MetadataFrame;
-import org.jmisb.api.video.FrameListener;
-import org.jmisb.api.video.MetadataListener;
+import org.jmisb.api.video.IVideoListener;
+import org.jmisb.api.video.IMetadataListener;
 import org.jmisb.api.video.VideoFrame;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -16,7 +16,7 @@ import java.awt.image.BufferedImage;
 /**
  * Simple JPanel to display video content
  */
-public class VideoPanel extends JPanel implements FrameListener, MetadataListener, ComponentListener
+public class VideoPanel extends JPanel implements IVideoListener, IMetadataListener, ComponentListener
 {
     private static Logger logger = LoggerFactory.getLogger(VideoPanel.class);
     private BufferedImage bufferedImage;
@@ -62,7 +62,7 @@ public class VideoPanel extends JPanel implements FrameListener, MetadataListene
     }
 
     @Override
-    public void onFrameReceived(VideoFrame frame)
+    public void onVideoReceived(VideoFrame frame)
     {
         // If the new frame is not the same as the old one, recompute letter boxing next time we draw
         if (bufferedImage == null || frame.getImage().getWidth() != bufferedImage.getWidth() ||
@@ -79,7 +79,7 @@ public class VideoPanel extends JPanel implements FrameListener, MetadataListene
     }
 
     @Override
-    public void onFrameReceived(MetadataFrame frame)
+    public void onMetadataReceived(MetadataFrame frame)
     {
     }
 

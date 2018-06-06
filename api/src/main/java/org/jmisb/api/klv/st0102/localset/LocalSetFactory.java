@@ -3,14 +3,14 @@ package org.jmisb.api.klv.st0102.localset;
 import org.jmisb.api.klv.st0102.*;
 
 /**
- * Dynamically create {@link SecurityMetadataValue}s from {@link SecurityMetadataKey}s.
+ * Dynamically create {@link ISecurityMetadataValue}s from {@link SecurityMetadataKey}s.
  */
 public class LocalSetFactory
 {
     private LocalSetFactory() {}
 
     /**
-     * Create a {@link SecurityMetadataValue} instance from encoded bytes
+     * Create a {@link ISecurityMetadataValue} instance from encoded bytes
      *
      * @param tag The tag defining the value type
      * @param bytes Encoded bytes
@@ -18,7 +18,7 @@ public class LocalSetFactory
      *
      * @throws IllegalArgumentException if input is invalid
      */
-    public static SecurityMetadataValue createValue(SecurityMetadataKey tag, byte[] bytes)
+    public static ISecurityMetadataValue createValue(SecurityMetadataKey tag, byte[] bytes)
     {
         // Keep the case statements in enum ordinal order so we can keep track of what is implemented. Mark all
         // unimplemented tags with TODO.

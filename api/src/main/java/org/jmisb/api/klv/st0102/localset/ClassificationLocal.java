@@ -1,12 +1,12 @@
 package org.jmisb.api.klv.st0102.localset;
 
 import org.jmisb.api.klv.st0102.Classification;
-import org.jmisb.api.klv.st0102.SecurityMetadataValue;
+import org.jmisb.api.klv.st0102.ISecurityMetadataValue;
 
 /**
  * Security classification level as defined by Security Metadata Local Set (ST 0102 tag 1)
  */
-public class ClassificationLocal implements SecurityMetadataValue
+public class ClassificationLocal implements ISecurityMetadataValue
 {
     private Classification value;
 

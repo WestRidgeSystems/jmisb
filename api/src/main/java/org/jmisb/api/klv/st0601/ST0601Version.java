@@ -9,7 +9,7 @@ package org.jmisb.api.klv.st0601;
  * (0601.0), or test data. 1..255 corresponds to document revisions ST 0601.1 through ST 0601.255.
  * </blockquote>
  */
-public class ST0601Version implements UasDatalinkValue
+public class ST0601Version implements IUasDatalinkValue
 {
     private byte version;
 

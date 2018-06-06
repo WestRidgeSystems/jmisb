@@ -14,7 +14,7 @@ import org.jmisb.core.klv.PrimitiveConverter;
  * Resolution: ~0.16 meters
  * </blockquote>
  */
-public class TargetWidth implements UasDatalinkValue
+public class TargetWidth implements IUasDatalinkValue
 {
     private double meters;
     private static double MIN_VAL = 0.0;

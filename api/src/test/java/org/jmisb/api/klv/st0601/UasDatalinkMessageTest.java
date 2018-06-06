@@ -1,7 +1,6 @@
 package org.jmisb.api.klv.st0601;
 
 import org.jmisb.api.common.KlvParseException;
-import org.jmisb.core.klv.ArrayUtils;
 import org.testng.Assert;
 import org.testng.annotations.BeforeTest;
 import org.testng.annotations.Test;
@@ -21,7 +20,7 @@ public class UasDatalinkMessageTest
     public void createSample()
     {
         // Create a message with only three fields (sensor lat/lon/alt)
-        SortedMap<UasDatalinkTag, UasDatalinkValue> values = new TreeMap<>();
+        SortedMap<UasDatalinkTag, IUasDatalinkValue> values = new TreeMap<>();
         values.put(UasDatalinkTag.SensorLatitude, new SensorLatitude(lat));
         values.put(UasDatalinkTag.SensorLongitude, new SensorLongitude(lon));
         values.put(UasDatalinkTag.SensorTrueAltitude, new SensorTrueAltitude(alt));

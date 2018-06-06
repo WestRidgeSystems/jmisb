@@ -15,7 +15,7 @@ import java.util.Arrays;
  * Resolution: ~42 nano degrees.
  * </blockquote>
  */
-public abstract class UasDatalinkLatitude implements UasDatalinkValue
+public abstract class UasDatalinkLatitude implements IUasDatalinkValue
 {
     private double degrees;
     private static byte[] invalidBytes = new byte[]{(byte)0x80, (byte)0x00, (byte)0x00, (byte)0x00};
