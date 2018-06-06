@@ -1,3 +1,5 @@
+ * Video output now handles input images with arbitrary underlying raster type
+
 ### June 6, 2018 version 1.2.0
  * Added the ability to write to a UDP stream
  * Renamed all interfaces to begin with 'I' for consistency
