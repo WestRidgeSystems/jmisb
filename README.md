@@ -109,14 +109,14 @@ catch (IOException e)
 ```
 
 The <code>ExampleProcessor</code> class simply needs to implement the
-<code>FrameListener</code> and <code>MetadataListener</code> interfaces
+<code>IVideoListener</code> and <code>IMetadataListener</code> interfaces
 to receive video and metadata asynchronously as the data arrives.
 
 ```java
-class ExampleProcessor implements FrameListener, MetadataListener
+class ExampleProcessor implements IVideoListener, IMetadataListener
 {
     @Override
-    private void onFrameReceived(VideoFrame frame)
+    private void onVideoReceived(VideoFrame frame)
     {
         BufferedImage image = frame.getImage();
         System.out.println("Center pixel RGB: " +
