@@ -12,7 +12,7 @@ import static org.jmisb.core.video.TimingUtils.shortWait;
 /**
  * Demux video/metadata contained in a file
  */
-public class FileDemuxer extends ProcessingThread
+class FileDemuxer extends ProcessingThread
 {
     private static Logger logger = LoggerFactory.getLogger(FileDemuxer.class);
     private final VideoInput inputStream;

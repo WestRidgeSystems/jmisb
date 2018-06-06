@@ -13,7 +13,7 @@ import static org.bytedeco.javacpp.avutil.AVERROR_EOF;
 /**
  * Utility methods for demuxing
  */
-public class DemuxerUtils
+class DemuxerUtils
 {
     private static Logger logger = LoggerFactory.getLogger(DemuxerUtils.class);
 

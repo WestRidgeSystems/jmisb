@@ -26,7 +26,7 @@ import static org.bytedeco.javacpp.avutil.av_q2d;
  * <p>
  * This thread decodes KLV metadata and sends {@link IMisbMessage}s up to the {@link VideoInput}.
  */
-public class MetadataDecodeThread extends ProcessingThread
+class MetadataDecodeThread extends ProcessingThread
 {
     private static Logger logger = LoggerFactory.getLogger(MetadataDecodeThread.class);
     private final static int INPUT_QUEUE_SIZE = 100;
@@ -34,6 +34,12 @@ public class MetadataDecodeThread extends ProcessingThread
     private final avformat.AVStream dataStream;
     private BlockingQueue<avcodec.AVPacket> packetQueue = new LinkedBlockingDeque<>(INPUT_QUEUE_SIZE);
 
+    /**
+     * Constructor
+     *
+     * @param inputStream The {@link VideoInput}
+     * @param dataStream The metadata stream
+     */
     MetadataDecodeThread(VideoInput inputStream, avformat.AVStream dataStream)
     {
         this.inputStream = inputStream;
@@ -87,22 +93,6 @@ public class MetadataDecodeThread extends ProcessingThread
                     "; fourcc = " + fourcc);
         }
 
-        // Open log file
-        // TODO: fix
-        FileOutputStream logFile = null;
-        /*
-        if (inputStream.getOptions().getDataDump() != null)
-        {
-            try
-            {
-                logFile = new FileOutputStream(inputStream.getOptions().getDataDump());
-            } catch (FileNotFoundException e)
-            {
-                logger.error("Could not open file", e);
-            }
-        }
-        */
-
         while (!isShutdown())
         {
             // If paused, sleep until play() or shutdown() is called
@@ -122,12 +112,6 @@ public class MetadataDecodeThread extends ProcessingThread
 
                     byte[] data = new byte[packet.size()];
                     packet.data().get(data);
-
-                    // Log data, if enabled
-                    if (logFile != null)
-                    {
-                        logFile.write(data);
-                    }
 
                     try
                     {
@@ -151,27 +135,11 @@ public class MetadataDecodeThread extends ProcessingThread
             }
             catch (InterruptedException ignored)
             {
-
-            } catch (IOException e)
-            {
-                logger.error("Error writing data stream file", e);
             }
         }
 
         if (logger.isDebugEnabled())
             logger.debug("Data stream decoder exiting");
-
-        if (logFile != null)
-        {
-            try
-            {
-                logFile.flush();
-                logFile.close();
-            } catch (IOException e)
-            {
-                logger.error("Error writing data stream file", e);
-            }
-        }
 
         avcodec.avcodec_free_context(codecContext);
     }
