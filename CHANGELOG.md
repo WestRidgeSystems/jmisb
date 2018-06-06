@@ -1,3 +1,4 @@
+ * Added the ability to write to a UDP stream
  * Build creates an uber-JAR for jmisb-viewer so it may be run more easily 
    from the command-line
  

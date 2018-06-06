@@ -20,34 +20,10 @@ import static org.bytedeco.javacpp.swscale.SWS_FAST_BILINEAR;
 /**
  * Write video/metadata to a file
  */
-public class VideoFileOutput implements IVideoFileOutput
+public class VideoFileOutput extends VideoOutput implements IVideoFileOutput
 {
     private static Logger logger = LoggerFactory.getLogger(VideoFileOutput.class);
     private String filename;
-    private VideoOutputOptions options;
-
-    // Format
-    private avformat.AVFormatContext formatContext;
-    private avformat.AVOutputFormat outputFormat;
-
-    // Video codec
-    private avcodec.AVCodecContext videoCodecContext;
-    private avcodec.AVCodec videoCodec;
-
-    // Metadata codec
-    private avcodec.AVCodecContext metadataCodecContext;
-    private avcodec.AVCodecParameters klvCodecParams;
-
-    // Streams
-    private static final int VIDEO_STREAM_INDEX = 0;
-    private static final int METADATA_STREAM_INDEX = 1;
-
-    private avformat.AVStream videoStream;
-    private avformat.AVStream metadataStream;
-
-    private swscale.SwsContext swsContext;
-
-    private int framesWritten = 0;
 
     /**
      * Constructor
@@ -56,7 +32,7 @@ public class VideoFileOutput implements IVideoFileOutput
      */
     VideoFileOutput(VideoOutputOptions options)
     {
-        this.options = options;
+        super(options);
     }
 
     @Override
@@ -64,96 +40,16 @@ public class VideoFileOutput implements IVideoFileOutput
     {
         this.filename = filename;
 
-        // Find h.264 video encoder
-        if ((videoCodec = avcodec.avcodec_find_encoder(AV_CODEC_ID_H264)) == null)
-        {
-            throw new IOException("Could not find H.264 codec");
-        }
+        initCodecs();
+        initFormat();
+        openVideoCodec();
+        createVideoStream();
 
-        // Allocate the video codec context
-        if ((videoCodecContext = avcodec.avcodec_alloc_context3(videoCodec)) == null)
-        {
-            throw new IOException("avcodec_alloc_context3() error: Could not allocate video encoding context.");
-        }
-
-        // Allocate the metadata codec context
-        if ((metadataCodecContext = avcodec.avcodec_alloc_context3(null)) == null)
-        {
-            throw new IOException("avcodec_alloc_context3() error: Could not allocate video encoding context.");
-        }
-        klvCodecParams = avcodec_parameters_alloc();
-        klvCodecParams.codec_tag(FfmpegUtils.fourCcToTag("klva"));
-        klvCodecParams.codec_type(AVMEDIA_TYPE_DATA);
-        klvCodecParams.codec_id(AV_CODEC_ID_SMPTE_KLV);
-
-        int ret;
-        if ((ret = avcodec.avcodec_parameters_to_context(metadataCodecContext, klvCodecParams)) < 0)
-        {
-            throw new IOException("Could not allocate metadata codec context: " + FfmpegUtils.formatError(ret));
-        }
-
-        // TODO: investigate H.264 profiles
-
-        // Set bit rate
-        videoCodecContext.bit_rate(options.getBitRate());
-
-        // Set frame rate
-        avutil.AVRational frameRate = avutil.av_d2q(options.getFrameRate(), 1001000);
-        avutil.AVRational timeBase = avutil.av_inv_q(frameRate);
-        videoCodecContext.time_base(timeBase);
-
-        // Encoded picture format
-        videoCodecContext.pix_fmt(AV_PIX_FMT_YUV420P);
-
-        // No B-frames
-        videoCodecContext.has_b_frames(0);
-        videoCodecContext.max_b_frames(0);
-
-        // I-frame interval
-        videoCodecContext.gop_size(options.getGopSize());
-
-        // Set dimensions
-        videoCodecContext.width(options.getWidth());
-        videoCodecContext.height(options.getHeight());
-
-        // Set the output format - MPEGTS
-        this.outputFormat = av_guess_format("mpegts", filename, null);
-
-        // Get the format context
-        formatContext = new avformat.AVFormatContext(null);
-        if (avformat.avformat_alloc_output_context2(formatContext, outputFormat,
-                "mpegts", filename) < 0)
-        {
-            throw new IOException("Could not allocate format context");
-        }
-
-        // Open the codec
-        avutil.AVDictionary opts = new avutil.AVDictionary(null);
-        if ((ret = avcodec_open2(videoCodecContext, videoCodec, opts)) < 0)
-        {
-            av_dict_free(opts);
-            throw new IOException("Error opening video codec: " + FfmpegUtils.formatError(ret));
-        }
-        av_dict_free(opts);
-
-        // Create the video stream
-        videoStream = avformat.avformat_new_stream(formatContext, videoCodec);
-        videoStream.index(VIDEO_STREAM_INDEX);
-        videoStream.time_base(avutil.av_inv_q(frameRate));
-
-        // Copy the video stream parameters to the muxer
-        if ((ret = avcodec_parameters_from_context(videoStream.codecpar(), videoCodecContext)) < 0)
-        {
-            throw new IOException("Could not copy the video stream parameters: " + FfmpegUtils.formatError(ret));
-        }
-
-        // Create the metadata stream
-        metadataStream = avformat.avformat_new_stream(formatContext, metadataCodecContext.codec());
-        metadataStream.index(METADATA_STREAM_INDEX);
-        metadataStream.codecpar(klvCodecParams);
-        metadataStream.time_base(videoStream.time_base());
+        // TODO: make optional
+        createMetadataStream();
 
         // Open the file
+        int ret;
         avformat.AVIOContext ioContext = new avformat.AVIOContext(null);
         if ((ret = avio_open2(ioContext, filename, AVIO_FLAG_WRITE, null, null)) < 0)
         {
@@ -161,7 +57,7 @@ public class VideoFileOutput implements IVideoFileOutput
         }
         formatContext.pb(ioContext);
 
-        opts = new avutil.AVDictionary(null);
+        avutil.AVDictionary opts = new avutil.AVDictionary(null);
         avformat_write_header(formatContext, opts);
         av_dict_free(opts);
 
@@ -220,27 +116,6 @@ public class VideoFileOutput implements IVideoFileOutput
         }
     }
 
-    /**
-     * Write all available data to the file before closing
-     */
-    private void flush() throws IOException
-    {
-        // Send null to the encoder, signalling EOF and entering "draining mode"
-        avcodec_send_frame(videoCodecContext, null);
-
-        // Write out all available packets
-        writeAvailablePackets(true);
-
-        // Write trailer
-        // TODO: may not be necessary
-        av_write_trailer(formatContext);
-
-        if (logger.isDebugEnabled())
-        {
-            logger.debug("# frames written: " + framesWritten);
-        }
-    }
-
     @Override
     public void addVideoFrame(VideoFrame frame) throws IOException
     {
@@ -262,27 +137,31 @@ public class VideoFileOutput implements IVideoFileOutput
         //
         // – You can keep calling the avcodec_receive_* function until you get AVERROR_EOF.
         //
-        AVFrame avFrame = convert(frame.getImage());
 
-        // Convert PTS in seconds to PTS in "time base" units
-        long pts = Math.round(frame.getPts() / av_q2d(videoStream.time_base()));
-        avFrame.pts(pts);
-        avFrame.pkt_dts(pts); // TODO: correct?
-
-        // Send the frame to the encoder
-        int ret;
-        ret = avcodec_send_frame(videoCodecContext, avFrame);
-        if (ret != 0 && ret != AVERROR_EAGAIN())
-        {
-            throw new IOException("Error sending frame to encoder: " + FfmpegUtils.formatError(ret));
-        }
+        encodeFrame(frame);
 
         // Write out any available packets
         writeAvailablePackets(false);
     }
 
+    @Override
+    public void addMetadataFrame(MetadataFrame frame) throws IOException
+    {
+        AVPacket packet = convert(frame);
+
+        // Write the packet to the file
+        int ret;
+        if ((ret = av_write_frame(formatContext, packet)) < 0)
+        {
+            throw new IOException("Error writing metadata packet: " + FfmpegUtils.formatError(ret));
+        }
+
+        // Free packet
+        av_packet_free(packet);
+    }
+
     /**
-     * Takes all available packets out of the encoder's internal buffer, then writes them to the file
+     * Takes all available packets out of the encoder's internal buffer, then writes them to the output
      *
      * @param eof If true, expect EOF and throw exception if not found
      * @throws IOException if expected EOF packet is not found
@@ -312,7 +191,7 @@ public class VideoFileOutput implements IVideoFileOutput
             throw new IOException("Expected EOF packet not found");
         }
 
-        // Write all new packets to the file
+        // Write all new packets to the output
         for (AVPacket packet : packets)
         {
             int ret3;
@@ -325,98 +204,26 @@ public class VideoFileOutput implements IVideoFileOutput
         }
     }
 
-    @Override
-    public void addMetadataFrame(MetadataFrame frame) throws IOException
-    {
-        // Convert frame to an AVPacket
-        AVPacket packet = av_packet_alloc();
-        packet.stream_index(METADATA_STREAM_INDEX);
-
-        // Convert PTS in seconds to PTS in "time base" units
-        long pts = Math.round(frame.getPts() / av_q2d(metadataStream.time_base()));
-        packet.pts(pts);
-
-        // TODO: how to set dts?
-        long dts = pts;
-        packet.dts(dts);
-
-        // Set packet data
-        byte[] bytes = frame.getMisbMessage().frameMessage(false);
-        BytePointer bytePointer = new BytePointer(bytes);
-        packet.data(bytePointer);
-        packet.size(bytes.length);
-
-        // Write the packet to the file
-        int ret;
-        if ((ret = av_write_frame(formatContext, packet)) < 0)
-        {
-            throw new IOException("Error writing metadata packet: " + FfmpegUtils.formatError(ret));
-        }
-
-        // Free packet
-        av_packet_free(packet);
-    }
-
     /**
-     * Convert a BufferedImage to an AVFrame, transforming to the pixel format required by the codec
+     * Write all available data to the output before closing
      *
-     * @param image The input image
-     * @return The output image
-     * @throws IOException If the frame could not be written
+     * @throws IOException if the data could not be written
      */
-    private avutil.AVFrame convert(BufferedImage image) throws IOException
+    private void flush() throws IOException
     {
-        // TODO: move to FrameConverter if possible
-        // TODO: handle other input formats
-        int srcFormat = AV_PIX_FMT_BGR24;
-        int srcWidth = image.getWidth();
-        int srcHeight = image.getHeight();
+        // Send null to the encoder, signalling EOF and entering "draining mode"
+        avcodec_send_frame(videoCodecContext, null);
 
-        int dstFormat = videoCodecContext.pix_fmt();
-        int dstWidth = videoCodecContext.width();
-        int dstHeight = videoCodecContext.height();
+        // Write out all available packets
+        writeAvailablePackets(true);
 
-        swsContext = swscale.sws_getCachedContext(swsContext,
-                srcWidth, srcHeight, srcFormat,
-                dstWidth, dstHeight, dstFormat,
-                SWS_FAST_BILINEAR, null, null, (DoublePointer) null);
+        // Write trailer
+        // TODO: may not be necessary
+        av_write_trailer(formatContext);
 
-        if (swsContext == null)
+        if (logger.isDebugEnabled())
         {
-            throw new IOException("Cannot initialize conversion context");
+            logger.debug("# frames written: " + framesWritten);
         }
-
-        // Wrap src image in AVFrame
-        // TODO: should only need to allocate once, when file is first opened or first frame is written
-        // TODO: must be deallocated using av_frame_free
-        AVFrame avFrameSrc = avutil.av_frame_alloc();
-
-        DataBuffer dataBuffer = image.getRaster().getDataBuffer();
-        if (dataBuffer instanceof DataBufferByte)
-        {
-            BytePointer pixelData = new BytePointer(((DataBufferByte) dataBuffer).getData());
-            av_image_fill_arrays(new PointerPointer(avFrameSrc), avFrameSrc.linesize(), pixelData, srcFormat, srcWidth, srcHeight, 1);
-        }
-        else
-        {
-            throw new IllegalArgumentException("Input must be an 8-bit image");
-        }
-
-        // Allocate the AVFrame
-        // TODO: should only need to allocate once, when file is first opened or first frame is written
-        // TODO: must be deallocated using av_frame_free
-        AVFrame avFrameDst = avutil.av_frame_alloc();
-
-        // Fill in the AVFrame structure
-        av_image_alloc(avFrameDst.data(), avFrameDst.linesize(), options.getWidth(), options.getHeight(),
-                videoCodecContext.pix_fmt(), 1);
-        avFrameDst.format(videoCodecContext.pix_fmt());
-        avFrameDst.width(options.getWidth());
-        avFrameDst.height(options.getHeight());
-
-        swscale.sws_scale(swsContext, new PointerPointer(avFrameSrc), avFrameSrc.linesize(),
-                0, image.getHeight(), new PointerPointer(avFrameDst), avFrameDst.linesize());
-
-        return avFrameDst;
     }
 }
