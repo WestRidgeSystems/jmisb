@@ -42,7 +42,7 @@ public class VideoStreamOutputTest
         }
 
         // Sample metadata
-        SortedMap<UasDatalinkTag, UasDatalinkValue> values = new TreeMap<>();
+        SortedMap<UasDatalinkTag, IUasDatalinkValue> values = new TreeMap<>();
         values.put(UasDatalinkTag.PrecisionTimeStamp, new PrecisionTimeStamp(LocalDateTime.now()));
         values.put(UasDatalinkTag.MissionId, new UasDatalinkString("Unit Testing"));
         values.put(UasDatalinkTag.PlatformDesignation, new UasDatalinkString("Thunderbolt"));
