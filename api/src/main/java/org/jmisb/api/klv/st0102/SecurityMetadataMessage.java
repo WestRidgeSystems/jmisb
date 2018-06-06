@@ -11,14 +11,14 @@ import java.util.TreeMap;
 public abstract class SecurityMetadataMessage implements IMisbMessage
 {
     /** Map containing all data elements in the message */
-    protected SortedMap<SecurityMetadataKey, SecurityMetadataValue> map = new TreeMap<>();
+    protected SortedMap<SecurityMetadataKey, ISecurityMetadataValue> map = new TreeMap<>();
 
     /**
      * Set a message field
      * @param key The key
      * @param value The value
      */
-    public void setField(SecurityMetadataKey key, SecurityMetadataValue value)
+    public void setField(SecurityMetadataKey key, ISecurityMetadataValue value)
     {
         map.put(key, value);
     }
@@ -28,7 +28,7 @@ public abstract class SecurityMetadataMessage implements IMisbMessage
      * @param key The key
      * @return The value
      */
-    public SecurityMetadataValue getField(SecurityMetadataKey key)
+    public ISecurityMetadataValue getField(SecurityMetadataKey key)
     {
         return map.get(key);
     }

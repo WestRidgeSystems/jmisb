@@ -17,7 +17,7 @@ public class SecurityMetadataUniversalSet extends SecurityMetadataMessage
      *
      * @param values Key/value pairs to be included in the message
      */
-    public SecurityMetadataUniversalSet(SortedMap<SecurityMetadataKey, SecurityMetadataValue> values)
+    public SecurityMetadataUniversalSet(SortedMap<SecurityMetadataKey, ISecurityMetadataValue> values)
     {
         this.map = values;
     }
@@ -43,7 +43,7 @@ public class SecurityMetadataUniversalSet extends SecurityMetadataMessage
         for (UdsField field : fields)
         {
             SecurityMetadataKey key = SecurityMetadataKey.getKey(field.getKey());
-            SecurityMetadataValue value = UniversalSetFactory.createValue(SecurityMetadataKey.getKey(field.getKey()), field.getValue());
+            ISecurityMetadataValue value = UniversalSetFactory.createValue(SecurityMetadataKey.getKey(field.getKey()), field.getValue());
             setField(key, value);
         }
     }
@@ -62,10 +62,10 @@ public class SecurityMetadataUniversalSet extends SecurityMetadataMessage
         List<byte[]> chunks = new ArrayList<>();
 
         // Add all values from map
-        for (Map.Entry<SecurityMetadataKey, SecurityMetadataValue> entry : map.entrySet())
+        for (Map.Entry<SecurityMetadataKey, ISecurityMetadataValue> entry : map.entrySet())
         {
             SecurityMetadataKey key = entry.getKey();
-            SecurityMetadataValue value = entry.getValue();
+            ISecurityMetadataValue value = entry.getValue();
             byte[] bytes = value.getBytes();
             if (bytes != null && bytes.length > 0)
             {

@@ -3,7 +3,7 @@ package org.jmisb.api.klv.st0601;
 /**
  * ST 0601 value
  */
-public interface UasDatalinkValue
+public interface IUasDatalinkValue
 {
     /**
      * Get the encoded bytes

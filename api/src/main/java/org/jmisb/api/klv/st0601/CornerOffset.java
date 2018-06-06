@@ -20,7 +20,7 @@ import java.util.Arrays;
  * Resolution: ~1.2 micro degrees, ~0.25 meters at equator.
  * </blockquote>
  */
-public class CornerOffset implements UasDatalinkValue
+public class CornerOffset implements IUasDatalinkValue
 {
     private double degrees;
     private static byte[] invalidBytes = new byte[]{(byte)0x80, (byte)0x00};

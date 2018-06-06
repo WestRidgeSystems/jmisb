@@ -1,14 +1,14 @@
 package org.jmisb.api.klv.st0102.universalset;
 
 import org.jmisb.api.klv.st0102.Classification;
-import org.jmisb.api.klv.st0102.SecurityMetadataValue;
+import org.jmisb.api.klv.st0102.ISecurityMetadataValue;
 
 import java.nio.charset.StandardCharsets;
 
 /**
  * Security classification level as defined by Security Metadata Universal Set (ST 0102 tag 1)
  */
-public class ClassificationUniversal implements SecurityMetadataValue
+public class ClassificationUniversal implements ISecurityMetadataValue
 {
     private Classification value;
 

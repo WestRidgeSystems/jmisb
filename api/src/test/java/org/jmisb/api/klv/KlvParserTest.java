@@ -61,7 +61,7 @@ public class KlvParserTest
         final double lat = 42.4036;
         final double lon = -71.1284;
         final double alt = 1258.3;
-        SortedMap<UasDatalinkTag, UasDatalinkValue> values = new TreeMap<>();
+        SortedMap<UasDatalinkTag, IUasDatalinkValue> values = new TreeMap<>();
         values.put(UasDatalinkTag.SensorLatitude, new SensorLatitude(lat));
         values.put(UasDatalinkTag.SensorLongitude, new SensorLongitude(lon));
         values.put(UasDatalinkTag.SensorTrueAltitude, new SensorTrueAltitude(alt));

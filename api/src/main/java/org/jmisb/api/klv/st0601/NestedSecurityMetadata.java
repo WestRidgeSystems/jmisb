@@ -14,7 +14,7 @@ import org.jmisb.api.klv.st0102.localset.SecurityMetadataLocalSet;
  * The length field is the size of all ST 0102 metadata items to be packaged within tag 0d48.
  * </blockquote>
  */
-public class NestedSecurityMetadata implements UasDatalinkValue
+public class NestedSecurityMetadata implements IUasDatalinkValue
 {
     private SecurityMetadataLocalSet localSet;
 

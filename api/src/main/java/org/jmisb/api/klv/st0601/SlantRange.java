@@ -14,7 +14,7 @@ import org.jmisb.core.klv.PrimitiveConverter;
  * Resolution: ~1.2 milli meters.
  * </blockquote>
  */
-public class SlantRange implements UasDatalinkValue
+public class SlantRange implements IUasDatalinkValue
 {
     private double meters;
     private static double MIN_VAL = 0.0;

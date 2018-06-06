@@ -18,7 +18,7 @@ import java.util.Arrays;
  * Resolution: ~610 micro degrees
  * </blockquote>
  */
-public class PlatformPitchAngle implements UasDatalinkValue
+public class PlatformPitchAngle implements IUasDatalinkValue
 {
     private double degrees;
     private static byte[] invalidBytes = new byte[]{(byte)0x80, (byte)0x00};

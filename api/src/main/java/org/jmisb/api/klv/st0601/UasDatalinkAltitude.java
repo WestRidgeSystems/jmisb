@@ -12,7 +12,7 @@ import org.jmisb.core.klv.PrimitiveConverter;
  * Resolution: ~0.3 meters.
  * </blockquote>
  */
-public abstract class UasDatalinkAltitude implements UasDatalinkValue
+public abstract class UasDatalinkAltitude implements IUasDatalinkValue
 {
     private double meters;
     private static double MIN_VALUE = -900;

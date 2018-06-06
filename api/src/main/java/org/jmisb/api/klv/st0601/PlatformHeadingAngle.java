@@ -15,7 +15,7 @@ import org.jmisb.core.klv.PrimitiveConverter;
  * Resolution: ~5.5 milli degrees
  * </blockquote>
  */
-public class PlatformHeadingAngle implements UasDatalinkValue
+public class PlatformHeadingAngle implements IUasDatalinkValue
 {
     private double degrees;
     private static double RANGE = 360.0;

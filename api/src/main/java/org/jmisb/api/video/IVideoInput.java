@@ -42,26 +42,26 @@ public interface IVideoInput extends AutoCloseable
      *
      * @param listener Listener to add
      */
-    void addFrameListener(FrameListener listener);
+    void addFrameListener(IVideoListener listener);
 
     /**
      * Remove a video frame listener
      *
      * @param listener Listener to remove
      */
-    void removeFrameListener(FrameListener listener);
+    void removeFrameListener(IVideoListener listener);
 
     /**
      * Add a metadata listener
      *
      * @param listener Listener to add
      */
-    void addMetadataListener(MetadataListener listener);
+    void addMetadataListener(IMetadataListener listener);
 
     /**
      * Remove a metadata listener
      *
      * @param listener Listener to remove
      */
-    void removeMetadataListener(MetadataListener listener);
+    void removeMetadataListener(IMetadataListener listener);
 }

@@ -120,4 +120,16 @@ public class VideoSystem
     {
         return new VideoFileOutput(options);
     }
+
+    /**
+     * Create a VideoStreamOutput
+     *
+     * @param options Output options
+     * @return The created instance
+     */
+    public static IVideoStreamOutput createOutputStream(VideoOutputOptions options)
+    {
+        return new VideoStreamOutput(options);
+    }
 }
+

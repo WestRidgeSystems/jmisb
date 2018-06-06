@@ -3,14 +3,14 @@ package org.jmisb.api.klv.st0601;
 import org.jmisb.api.common.KlvParseException;
 
 /**
- * Dynamically create {@link UasDatalinkValue}s from {@link UasDatalinkTag}s.
+ * Dynamically create {@link IUasDatalinkValue}s from {@link UasDatalinkTag}s.
  */
 public class UasDatalinkFactory
 {
     private UasDatalinkFactory() {}
 
     /**
-     * Create a {@link UasDatalinkValue} instance from encoded bytes
+     * Create a {@link IUasDatalinkValue} instance from encoded bytes
      *
      * @param tag The tag defining the value type
      * @param bytes Encoded bytes
@@ -19,7 +19,7 @@ public class UasDatalinkFactory
      * @throws IllegalArgumentException if input is invalid
      * @throws KlvParseException if a parsing error occurs
      */
-    public static UasDatalinkValue createValue(UasDatalinkTag tag, byte[] bytes) throws KlvParseException
+    public static IUasDatalinkValue createValue(UasDatalinkTag tag, byte[] bytes) throws KlvParseException
     {
         // Keep the case statements in enum ordinal order so we can keep track of what is implemented. Mark all
         // unimplemented tags with TODO.

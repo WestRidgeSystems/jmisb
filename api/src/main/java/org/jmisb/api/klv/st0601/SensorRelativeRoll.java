@@ -16,7 +16,7 @@ import org.jmisb.core.klv.PrimitiveConverter;
  * Resolution ~84 nano degrees
  * </blockquote>
  */
-public class SensorRelativeRoll implements UasDatalinkValue
+public class SensorRelativeRoll implements IUasDatalinkValue
 {
     private double degrees;
     private static double RANGE = 360.0;
