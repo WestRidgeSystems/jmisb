@@ -1,4 +1,6 @@
+### June 6, 2018 version 1.2.0
  * Added the ability to write to a UDP stream
+ * Renamed all interfaces to begin with 'I' for consistency
  * Build creates an uber-JAR for jmisb-viewer so it may be run more easily 
    from the command-line
  
