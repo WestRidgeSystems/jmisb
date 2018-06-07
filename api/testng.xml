@@ -26,9 +26,13 @@
             <class name = "org.jmisb.api.klv.st0601.ChecksumTest"/>
             <class name = "org.jmisb.api.klv.st0601.CornerOffsetTest"/>
             <class name = "org.jmisb.api.klv.st0601.HorizontalFovTest"/>
+            <class name = "org.jmisb.api.klv.st0601.PlatformAngleOfAttackFullTest"/>
             <class name = "org.jmisb.api.klv.st0601.PlatformHeadingAngleTest"/>
+            <class name = "org.jmisb.api.klv.st0601.PlatformPitchAngleFullTest"/>
             <class name = "org.jmisb.api.klv.st0601.PlatformPitchAngleTest"/>
+            <class name = "org.jmisb.api.klv.st0601.PlatformRollAngleFullTest"/>
             <class name = "org.jmisb.api.klv.st0601.PlatformRollAngleTest"/>
+            <class name = "org.jmisb.api.klv.st0601.PlatformSideslipAngleFullTest"/>
             <class name = "org.jmisb.api.klv.st0601.PrecisionTimeStampTest"/>
             <class name = "org.jmisb.api.klv.st0601.SensorLatitudeTest"/>
             <class name = "org.jmisb.api.klv.st0601.SensorLongitudeTest"/>

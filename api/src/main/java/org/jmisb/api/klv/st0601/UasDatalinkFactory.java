@@ -234,17 +234,13 @@ public class UasDatalinkFactory
             case CornerLonPt4:
                 return new FullCornerLongitude(bytes);
             case PlatformPitchAngleFull:
-                // TODO
-                return new OpaqueValue(bytes);
+                return new PlatformPitchAngleFull(bytes);
             case PlatformRollAngleFull:
-                // TODO
-                return new OpaqueValue(bytes);
+                return new PlatformRollAngleFull(bytes);
             case PlatformAngleOfAttackFull:
-                // TODO
-                return new OpaqueValue(bytes);
+                return new PlatformAngleOfAttackFull(bytes);
             case PlatformSideSlipAngle:
-                // TODO
-                return new OpaqueValue(bytes);
+                return new PlatformSideslipAngleFull(bytes);
             case MiisCoreIdentifier:
                 // TODO Implement ST 1204
                 return new OpaqueValue(bytes);
