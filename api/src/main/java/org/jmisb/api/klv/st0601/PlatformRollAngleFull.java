@@ -79,4 +79,10 @@ public class PlatformRollAngleFull implements IUasDatalinkValue
         int intVal = (int) Math.round((degrees / FLOAT_RANGE) * INT_RANGE);
         return PrimitiveConverter.int32ToBytes(intVal);
     }
+
+    @Override
+    public String getDisplayableValue()
+    {
+        return "" + degrees;
+    }
 }

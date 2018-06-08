@@ -81,4 +81,10 @@ public abstract class UasDatalinkLongitude implements IUasDatalinkValue
         int intVal = (int) Math.round((degrees / FLOAT_RANGE) * MAX_INT);
         return PrimitiveConverter.int32ToBytes(intVal);
     }
+
+    @Override
+    public String getDisplayableValue()
+    {
+        return "" + degrees;
+    }
 }

@@ -10,4 +10,10 @@ public interface ISecurityMetadataValue
      * @return The encoded byte array
      */
     byte[] getBytes();
+
+    /**
+     * Return a string of the displayable value
+     * @return String representing the value
+     */
+    String getDisplayableValue();
 }

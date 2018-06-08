@@ -41,4 +41,10 @@ public class SecurityMetadataString implements ISecurityMetadataValue
     {
         return stringValue.getBytes(StandardCharsets.US_ASCII);
     }
+
+    @Override
+    public String getDisplayableValue()
+    {
+        return stringValue;
+    }
 }

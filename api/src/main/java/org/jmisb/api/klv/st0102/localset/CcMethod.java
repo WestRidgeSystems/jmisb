@@ -141,4 +141,10 @@ public class CcMethod implements ISecurityMetadataValue
     {
         return new byte[]{method};
     }
+
+    @Override
+    public String getDisplayableValue()
+    {
+        return getMethod().toString();
+    }
 }

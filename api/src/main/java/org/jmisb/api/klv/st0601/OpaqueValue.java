@@ -21,4 +21,11 @@ public class OpaqueValue implements IUasDatalinkValue
     {
         return bytes;
     }
+
+    @Override
+    public String getDisplayableValue()
+    {
+        return "N/A";
+    }
+
 }

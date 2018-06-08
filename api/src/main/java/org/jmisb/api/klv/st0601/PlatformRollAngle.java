@@ -75,4 +75,10 @@ public class PlatformRollAngle implements IUasDatalinkValue
         short shortVal = (short) Math.round((degrees / FLOAT_RANGE) * INT_RANGE);
         return PrimitiveConverter.int16ToBytes(shortVal);
     }
+
+    @Override
+    public String getDisplayableValue()
+    {
+        return "" + degrees;
+    }
 }

@@ -39,4 +39,10 @@ public class DeclassificationDate implements ISecurityMetadataValue
     {
         return date.format(BASIC_ISO_DATE).getBytes(StandardCharsets.US_ASCII);
     }
+
+    @Override
+    public String getDisplayableValue()
+    {
+        return date.format(BASIC_ISO_DATE);
+    }
 }

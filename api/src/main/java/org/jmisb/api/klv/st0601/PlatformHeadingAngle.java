@@ -64,4 +64,10 @@ public class PlatformHeadingAngle implements IUasDatalinkValue
         int intVal = (int) Math.round((degrees / RANGE) * MAXINT);
         return PrimitiveConverter.uint16ToBytes(intVal);
     }
+
+    @Override
+    public String getDisplayableValue()
+    {
+        return "" + degrees;
+    }
 }

@@ -41,4 +41,10 @@ public class UasDatalinkString implements IUasDatalinkValue
     {
         return stringValue.getBytes(StandardCharsets.US_ASCII);
     }
+
+    @Override
+    public String getDisplayableValue()
+    {
+        return stringValue;
+    }
 }
