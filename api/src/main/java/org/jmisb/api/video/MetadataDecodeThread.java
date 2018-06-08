@@ -85,14 +85,6 @@ class MetadataDecodeThread extends ProcessingThread
             return;
         }
 
-        // TODO: check for "KLVA"?
-        String fourcc = FfmpegUtils.tagToFourCc(dataStream.codecpar().codec_tag());
-        if (logger.isDebugEnabled())
-        {
-            logger.debug("Data stream codec tag = " + dataStream.codecpar().codec_tag() +
-                    "; fourcc = " + fourcc);
-        }
-
         while (!isShutdown())
         {
             // If paused, sleep until play() or shutdown() is called

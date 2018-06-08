@@ -188,6 +188,8 @@ public class MisbViewer extends JFrame implements ActionListener
             videoInput = fileInput;
 
             updateFileMruList(filename);
+
+            printStreamInfo(fileInput);
         }
         catch (IOException ex)
         {
@@ -195,6 +197,15 @@ public class MisbViewer extends JFrame implements ActionListener
             JOptionPane.showMessageDialog(this,
                     "Could not open file: " + ex.getMessage(), "Error",
                     JOptionPane.ERROR_MESSAGE);
+        }
+    }
+
+    private void printStreamInfo(IVideoInput input)
+    {
+        List<PesInfo> info = input.getPesInfo();
+        for (PesInfo pes : info)
+        {
+            logger.debug(pes.toString());
         }
     }
 

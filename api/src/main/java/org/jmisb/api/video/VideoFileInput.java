@@ -73,7 +73,6 @@ public class VideoFileInput extends VideoInput implements IVideoFileInput
 
         // Find the video, audio, and data streams, if present
         avformat.AVStream videoStream = FfmpegUtils.getVideoStream(formatContext);
-        avformat.AVStream dataStream = FfmpegUtils.getDataStream(formatContext);
 
         duration = FfmpegUtils.getDuration(formatContext);
 
