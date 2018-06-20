@@ -70,6 +70,6 @@ public class TargetWidth implements IUasDatalinkValue
     @Override
     public String getDisplayableValue()
     {
-        return "" + meters;
+        return String.format("%.2fm", meters);
     }
 }

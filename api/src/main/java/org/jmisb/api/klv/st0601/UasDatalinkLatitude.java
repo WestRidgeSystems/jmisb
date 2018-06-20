@@ -83,6 +83,6 @@ public abstract class UasDatalinkLatitude implements IUasDatalinkValue
     @Override
     public String getDisplayableValue()
     {
-        return "" + degrees;
+        return String.format("%.4f\u00B0", degrees);
     }
 }

@@ -68,6 +68,6 @@ public abstract class UasDatalinkAltitude implements IUasDatalinkValue
     @Override
     public String getDisplayableValue()
     {
-        return "" + meters;
+        return String.format("%.1fm", meters);
     }
 }
