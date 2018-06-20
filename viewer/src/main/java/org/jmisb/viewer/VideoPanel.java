@@ -16,7 +16,7 @@ import java.awt.image.BufferedImage;
 /**
  * Simple JPanel to display video content
  */
-public class VideoPanel extends JPanel implements IVideoListener, IMetadataListener, ComponentListener
+public class VideoPanel extends JPanel implements IVideoListener, ComponentListener
 {
     private static Logger logger = LoggerFactory.getLogger(VideoPanel.class);
     private BufferedImage bufferedImage;
@@ -76,11 +76,6 @@ public class VideoPanel extends JPanel implements IVideoListener, IMetadataListe
         // Need to repaint on the EDT
         SwingUtilities.invokeLater(() ->
                 repaint(0, 0, getWidth(), getHeight()));
-    }
-
-    @Override
-    public void onMetadataReceived(MetadataFrame frame)
-    {
     }
 
     public void clear()

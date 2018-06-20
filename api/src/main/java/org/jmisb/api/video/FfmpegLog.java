@@ -12,10 +12,10 @@ import static org.bytedeco.javacpp.avutil.AV_LOG_TRACE;
 /**
  * Singleton class to redirect FFmpeg's logging to SLF4J
  */
-public class FfmpegLog extends avutil.LogCallback
+class FfmpegLog extends avutil.LogCallback
 {
     private static final Logger logger = LoggerFactory.getLogger(FfmpegLog.class);
-    public static final FfmpegLog INSTANCE = new FfmpegLog();
+    static final FfmpegLog INSTANCE = new FfmpegLog();
     private FfmpegLog() {}
 
     @Override

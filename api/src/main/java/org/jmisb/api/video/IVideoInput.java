@@ -1,6 +1,7 @@
 package org.jmisb.api.video;
 
 import java.io.IOException;
+import java.util.List;
 
 /**
  * Base interface for reading video and metadata
@@ -36,6 +37,13 @@ public interface IVideoInput extends AutoCloseable
      * @return URL string
      */
     String getUrl();
+
+    /**
+     * Get packetized elementary stream (PES) info
+     *
+     * @return A list containing {@link PesInfo} for each elementary stream
+     */
+    List<PesInfo> getPesInfo();
 
     /**
      * Add a video frame listener

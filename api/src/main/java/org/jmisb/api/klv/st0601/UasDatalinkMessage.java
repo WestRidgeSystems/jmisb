@@ -84,9 +84,25 @@ public class UasDatalinkMessage implements IMisbMessage
         map.put(tag, value);
     }
 
-    public Object getField(UasDatalinkTag tag)
+    /**
+     * Get the value of a given tag
+     *
+     * @param tag Tag of the value to retrieve
+     * @return The value, or null if no value was set
+     */
+    public IUasDatalinkValue getField(UasDatalinkTag tag)
     {
         return map.get(tag);
+    }
+
+    /**
+     * Get the set of tags with populated values
+     *
+     * @return The set of tags for which values have been set
+     */
+    public Collection<UasDatalinkTag> getTags()
+    {
+        return map.keySet();
     }
 
     @Override

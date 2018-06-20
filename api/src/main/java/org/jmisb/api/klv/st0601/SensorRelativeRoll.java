@@ -64,4 +64,10 @@ public class SensorRelativeRoll implements IUasDatalinkValue
         long longVal = Math.round((degrees / RANGE) * MAXINT);
         return PrimitiveConverter.uint32ToBytes(longVal);
     }
+
+    @Override
+    public String getDisplayableValue()
+    {
+        return String.format("%.4f\u00B0", degrees);
+    }
 }

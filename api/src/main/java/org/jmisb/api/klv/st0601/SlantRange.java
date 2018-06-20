@@ -65,4 +65,10 @@ public class SlantRange implements IUasDatalinkValue
         long longVal = Math.round((meters / MAX_VAL) * MAXINT);
         return PrimitiveConverter.uint32ToBytes(longVal);
     }
+
+    @Override
+    public String getDisplayableValue()
+    {
+        return String.format("%.2fm", meters);
+    }
 }

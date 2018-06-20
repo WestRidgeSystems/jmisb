@@ -1,5 +1,6 @@
 package org.jmisb.core.video;
 
+import org.bytedeco.javacpp.avcodec;
 import org.bytedeco.javacpp.avformat;
 
 import java.nio.ByteBuffer;
@@ -106,6 +107,26 @@ public class FfmpegUtils
         return av_q2d(rational);
     }
 
+    public static int getNumStreams(avformat.AVFormatContext context)
+    {
+        return context.nb_streams();
+    }
+
+    public static int getStreamType(avformat.AVFormatContext context, int index)
+    {
+        return context.streams(index).codecpar().codec_type();
+    }
+
+    public static String getCodecName(avformat.AVFormatContext context, int index)
+    {
+        avcodec.AVCodecDescriptor descriptor = avcodec.avcodec_descriptor_get(context.streams(index).codecpar().codec_id());
+
+        if (descriptor != null)
+            return descriptor.name().getString();
+
+        return "Unknown";
+    }
+
     private static int getStreamIndex(avformat.AVFormatContext context, int streamType)
     {
         int numStreams = context.nb_streams();
@@ -115,7 +136,19 @@ public class FfmpegUtils
 
             if (st.codecpar().codec_type() == streamType)
             {
-                return i;
+                // Require data stream to have fourcc = KLVA
+                if (streamType == AVMEDIA_TYPE_DATA)
+                {
+                    String fourcc = tagToFourCc(st.codecpar().codec_tag());
+                    if (fourcc.equals("KLVA"))
+                    {
+                        return i;
+                    }
+                }
+                else
+                {
+                    return i;
+                }
             }
         }
 

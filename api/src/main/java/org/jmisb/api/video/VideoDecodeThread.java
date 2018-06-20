@@ -20,7 +20,7 @@ import static org.bytedeco.javacpp.avutil.*;
  * This thread buffers and decodes video data, and sends uncompressed images in BGR24 format back up to the
  * {@link VideoInput}.
  */
-public class VideoDecodeThread extends ProcessingThread
+class VideoDecodeThread extends ProcessingThread
 {
     private static Logger logger = LoggerFactory.getLogger(VideoDecodeThread.class);
     private final static int INPUT_QUEUE_SIZE = 100;

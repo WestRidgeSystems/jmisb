@@ -81,4 +81,10 @@ public class PlatformPitchAngle implements IUasDatalinkValue
         short shortVal = (short) Math.round((degrees / FLOAT_RANGE) * INT_RANGE);
         return PrimitiveConverter.int16ToBytes(shortVal);
     }
+
+    @Override
+    public String getDisplayableValue()
+    {
+        return String.format("%.4f\u00B0", degrees);
+    }
 }

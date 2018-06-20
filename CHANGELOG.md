@@ -1,3 +1,10 @@
+### June 20, 2018 version 1.3.0
+ * Added a new method to get elementary stream info from IVideoInput
+ * Video output now handles input images with arbitrary underlying raster type
+ * Implemented ST 0601 tags 90-93
+ * Added API methods to get displayable (stringified) values
+ * Added a panel to viewer to display metadata, currently limited to ST 0601
+
 ### June 6, 2018 version 1.2.0
  * Added the ability to write to a UDP stream
  * Renamed all interfaces to begin with 'I' for consistency

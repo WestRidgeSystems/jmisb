@@ -39,4 +39,10 @@ public class OcmDate implements ISecurityMetadataValue
     {
         return date.format(ISO_LOCAL_DATE).getBytes(StandardCharsets.US_ASCII);
     }
+
+    @Override
+    public String getDisplayableValue()
+    {
+        return date.format(ISO_LOCAL_DATE);
+    }
 }

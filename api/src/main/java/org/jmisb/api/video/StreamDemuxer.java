@@ -11,7 +11,7 @@ import static org.jmisb.core.video.TimingUtils.shortWait;
 /**
  * Demux video/metadata contained in a network stream
  */
-public class StreamDemuxer extends ProcessingThread
+class StreamDemuxer extends ProcessingThread
 {
     private static Logger logger = LoggerFactory.getLogger(StreamDemuxer.class);
     private final VideoInput inputStream;

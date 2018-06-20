@@ -5,6 +5,7 @@ import org.jmisb.core.video.FfmpegUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
+import java.awt.*;
 import java.awt.image.BufferedImage;
 import java.awt.image.DataBuffer;
 import java.awt.image.DataBufferByte;
@@ -20,6 +21,7 @@ import static org.bytedeco.javacpp.swscale.SWS_FAST_BILINEAR;
  */
 public abstract class VideoOutput
 {
+    private static Logger logger = LoggerFactory.getLogger(VideoOutput.class);
     protected VideoOutputOptions options;
 
     // Format
@@ -41,6 +43,8 @@ public abstract class VideoOutput
     private avformat.AVStream metadataStream;
 
     private swscale.SwsContext swsContext;
+
+    private BufferedImage tempImageBuffer;
 
     int framesWritten = 0;
 
@@ -193,11 +197,26 @@ public abstract class VideoOutput
      */
     private avutil.AVFrame convert(BufferedImage image) throws IOException
     {
-        // TODO: move to FrameConverter if possible
-        // TODO: handle other input formats
+        // If needed, convert to TYPE_3BYTE_BGR format (TODO: is there a more efficient way?)
+        BufferedImage inputImage = image;
+        if (image.getType() != BufferedImage.TYPE_3BYTE_BGR)
+        {
+            // Lazily create tempImageBuffer
+            if (tempImageBuffer == null || tempImageBuffer.getWidth() != options.getWidth() ||
+                    tempImageBuffer.getHeight() != options.getHeight())
+            {
+                logger.debug("Converting BufferedImages of type " + image.getType());
+                tempImageBuffer = new BufferedImage(image.getWidth(), image.getHeight(), BufferedImage.TYPE_3BYTE_BGR);
+            }
+            Graphics2D g2d = tempImageBuffer.createGraphics();
+            g2d.drawImage(image, 0, 0, null);
+            g2d.dispose();
+            inputImage = tempImageBuffer;
+        }
+
         int srcFormat = AV_PIX_FMT_BGR24;
-        int srcWidth = image.getWidth();
-        int srcHeight = image.getHeight();
+        int srcWidth = inputImage.getWidth();
+        int srcHeight = inputImage.getHeight();
 
         int dstFormat = videoCodecContext.pix_fmt();
         int dstWidth = videoCodecContext.width();
@@ -218,7 +237,7 @@ public abstract class VideoOutput
         // TODO: must be deallocated using av_frame_free
         AVFrame avFrameSrc = avutil.av_frame_alloc();
 
-        DataBuffer dataBuffer = image.getRaster().getDataBuffer();
+        DataBuffer dataBuffer = inputImage.getRaster().getDataBuffer();
         if (dataBuffer instanceof DataBufferByte)
         {
             BytePointer pixelData = new BytePointer(((DataBufferByte) dataBuffer).getData());
@@ -242,7 +261,7 @@ public abstract class VideoOutput
         avFrameDst.height(options.getHeight());
 
         swscale.sws_scale(swsContext, new PointerPointer(avFrameSrc), avFrameSrc.linesize(),
-                0, image.getHeight(), new PointerPointer(avFrameDst), avFrameDst.linesize());
+                0, inputImage.getHeight(), new PointerPointer(avFrameDst), avFrameDst.linesize());
 
         return avFrameDst;
     }

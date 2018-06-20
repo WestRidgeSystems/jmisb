@@ -66,4 +66,10 @@ public class TargetWidth implements IUasDatalinkValue
         int intVal = (int) Math.round((meters / MAX_VAL) * MAXINT);
         return PrimitiveConverter.uint16ToBytes(intVal);
     }
+
+    @Override
+    public String getDisplayableValue()
+    {
+        return String.format("%.2fm", meters);
+    }
 }

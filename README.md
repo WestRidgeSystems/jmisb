@@ -74,13 +74,13 @@ jMISB as a dependency. For Maven, add the following to your <code>pom.xml</code>
     <dependency>
         <groupId>org.jmisb</groupId>
         <artifactId>jmisb-api</artifactId>
-        <version>1.2.0</version>
+        <version>1.3.0</version>
     </dependency>
 ```
 For Gradle, include the following:
 ```groovy
 dependencies {
-    compile group: 'org.jmisb', name: 'jmisb-api', version: '1.2.0'
+    compile group: 'org.jmisb', name: 'jmisb-api', version: '1.3.0'
 }
 ```
 
@@ -109,14 +109,14 @@ catch (IOException e)
 ```
 
 The <code>ExampleProcessor</code> class simply needs to implement the
-<code>FrameListener</code> and <code>MetadataListener</code> interfaces
+<code>IVideoListener</code> and <code>IMetadataListener</code> interfaces
 to receive video and metadata asynchronously as the data arrives.
 
 ```java
-class ExampleProcessor implements FrameListener, MetadataListener
+class ExampleProcessor implements IVideoListener, IMetadataListener
 {
     @Override
-    private void onFrameReceived(VideoFrame frame)
+    private void onVideoReceived(VideoFrame frame)
     {
         BufferedImage image = frame.getImage();
         System.out.println("Center pixel RGB: " +

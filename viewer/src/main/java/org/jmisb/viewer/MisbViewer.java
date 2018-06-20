@@ -24,7 +24,9 @@ public class MisbViewer extends JFrame implements ActionListener
 {
     private static Logger logger = LoggerFactory.getLogger(MisbViewer.class);
     private IVideoInput videoInput;
+    private JSplitPane splitPane;
     private VideoPanel videoPanel;
+    private MetadataPanel metadataPanel;
     private PlaybackControlPanel controlPanel;
     private JMenu fileMenu;
     private List<JMenuItem> mruFiles;
@@ -93,7 +95,13 @@ public class MisbViewer extends JFrame implements ActionListener
         );
 
         videoPanel = new VideoPanel();
-        add(videoPanel, "grow, wrap");
+        metadataPanel = new MetadataPanel();
+
+        // Create split pane
+        splitPane = new JSplitPane(JSplitPane.HORIZONTAL_SPLIT, videoPanel, metadataPanel);
+        splitPane.setDividerLocation(640 + splitPane.getInsets().left);
+        splitPane.setResizeWeight(0.5);
+        add(splitPane, "grow, wrap");
 
         controlPanel = new PlaybackControlPanel();
         add(controlPanel, "growx, alignx center");
@@ -181,13 +189,15 @@ public class MisbViewer extends JFrame implements ActionListener
             setTitle("jmisb - " + filename);
 
             fileInput.addFrameListener(videoPanel);
-            fileInput.addMetadataListener(videoPanel);
+            fileInput.addMetadataListener(metadataPanel);
             fileInput.addFrameListener(controlPanel);
 
             controlPanel.setInput(fileInput);
             videoInput = fileInput;
 
             updateFileMruList(filename);
+
+            printStreamInfo(fileInput);
         }
         catch (IOException ex)
         {
@@ -195,6 +205,15 @@ public class MisbViewer extends JFrame implements ActionListener
             JOptionPane.showMessageDialog(this,
                     "Could not open file: " + ex.getMessage(), "Error",
                     JOptionPane.ERROR_MESSAGE);
+        }
+    }
+
+    private void printStreamInfo(IVideoInput input)
+    {
+        List<PesInfo> info = input.getPesInfo();
+        for (PesInfo pes : info)
+        {
+            logger.debug(pes.toString());
         }
     }
 
@@ -250,7 +269,7 @@ public class MisbViewer extends JFrame implements ActionListener
         if (videoInput != null)
         {
             videoInput.removeFrameListener(videoPanel);
-            videoInput.removeMetadataListener(videoPanel);
+            videoInput.removeMetadataListener(metadataPanel);
             videoInput.removeFrameListener(controlPanel);
             try
             {

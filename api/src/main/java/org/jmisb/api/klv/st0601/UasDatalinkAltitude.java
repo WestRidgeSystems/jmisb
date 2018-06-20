@@ -64,4 +64,10 @@ public abstract class UasDatalinkAltitude implements IUasDatalinkValue
         int intVal = (int) Math.round(((meters - MIN_VALUE) / RANGE) * MAXINT);
         return PrimitiveConverter.uint16ToBytes(intVal);
     }
+
+    @Override
+    public String getDisplayableValue()
+    {
+        return String.format("%.1fm", meters);
+    }
 }

@@ -47,4 +47,10 @@ public class ClassificationLocal implements ISecurityMetadataValue
     {
         return new byte[]{value.getCode()};
     }
+
+    @Override
+    public String getDisplayableValue()
+    {
+        return value.toString();
+    }
 }

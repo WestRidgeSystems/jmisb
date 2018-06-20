@@ -28,7 +28,7 @@ public class ClassificationUniversal implements ISecurityMetadataValue
     public ClassificationUniversal(byte[] bytes)
     {
         String inputString = new String(bytes);
-        switch(inputString)
+        switch (inputString)
         {
             case "TOP SECRET//":
                 this.value = Classification.TOP_SECRET;
@@ -82,5 +82,11 @@ public class ClassificationUniversal implements ISecurityMetadataValue
                 break;
         }
         return string.getBytes(StandardCharsets.US_ASCII);
+    }
+
+    @Override
+    public String getDisplayableValue()
+    {
+        return new String(getBytes());
     }
 }

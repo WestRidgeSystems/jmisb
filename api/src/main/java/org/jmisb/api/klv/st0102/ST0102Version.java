@@ -45,4 +45,10 @@ public class ST0102Version implements ISecurityMetadataValue
     {
         return PrimitiveConverter.uint16ToBytes(version);
     }
+
+    @Override
+    public String getDisplayableValue()
+    {
+        return "" + version;
+    }
 }

@@ -2,6 +2,8 @@ package org.jmisb.api.klv.st0601;
 
 import org.jmisb.core.klv.PrimitiveConverter;
 
+import java.text.DecimalFormat;
+
 /**
  * Platform Heading Angle (ST 0601 tag 5)
  * <p>
@@ -63,5 +65,11 @@ public class PlatformHeadingAngle implements IUasDatalinkValue
     {
         int intVal = (int) Math.round((degrees / RANGE) * MAXINT);
         return PrimitiveConverter.uint16ToBytes(intVal);
+    }
+
+    @Override
+    public String getDisplayableValue()
+    {
+        return String.format("%.4f\u00B0", degrees);
     }
 }

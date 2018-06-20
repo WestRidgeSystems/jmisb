@@ -5,7 +5,7 @@ import org.jmisb.core.video.TimingUtils;
 /**
  * Thread allowing itself to be paused and unpaused
  */
-public class ProcessingThread extends Thread
+class ProcessingThread extends Thread
 {
     private final Object pauseLock = new Object();
     private boolean shutdown = false;

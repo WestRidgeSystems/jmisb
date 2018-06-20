@@ -66,4 +66,10 @@ public class VerticalFov implements IUasDatalinkValue
         int intVal = (int) Math.round((degrees / RANGE) * MAXINT);
         return PrimitiveConverter.uint16ToBytes(intVal);
     }
+
+    @Override
+    public String getDisplayableValue()
+    {
+        return String.format("%.4f\u00B0", degrees);
+    }
 }

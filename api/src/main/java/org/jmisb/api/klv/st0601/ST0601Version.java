@@ -49,4 +49,10 @@ public class ST0601Version implements IUasDatalinkValue
     {
         return new byte[]{version};
     }
+
+    @Override
+    public String getDisplayableValue()
+    {
+        return "" + (int)version;
+    }
 }

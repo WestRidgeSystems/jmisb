@@ -63,7 +63,7 @@ public class PrecisionTimeStamp implements IUasDatalinkValue
      * Get the value
      * @return Number of microseconds since the epoch
      */
-    BigInteger getMicroseconds()
+    public BigInteger getMicroseconds()
     {
         return microseconds;
     }
@@ -88,5 +88,11 @@ public class PrecisionTimeStamp implements IUasDatalinkValue
     {
         BigInteger milliseconds = microseconds.divide(oneThousand);
         return Instant.ofEpochMilli(milliseconds.longValue()).atZone(ZoneOffset.UTC).toLocalDateTime();
+    }
+
+    @Override
+    public String getDisplayableValue()
+    {
+        return "" + microseconds;
     }
 }

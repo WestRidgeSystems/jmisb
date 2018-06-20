@@ -42,4 +42,10 @@ public class NestedSecurityMetadata implements IUasDatalinkValue
     {
         return localSet.frameMessage(true);
     }
+
+    @Override
+    public String getDisplayableValue()
+    {
+        return "[Security metadata]";
+    }
 }

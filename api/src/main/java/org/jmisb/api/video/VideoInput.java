@@ -1,6 +1,7 @@
 package org.jmisb.api.video;
 
 import org.bytedeco.javacpp.avformat;
+import org.jmisb.core.video.FfmpegUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -8,7 +9,9 @@ import java.awt.image.BufferedImage;
 import java.awt.image.ColorModel;
 import java.awt.image.WritableRaster;
 import java.io.IOException;
+import java.util.ArrayList;
 import java.util.HashSet;
+import java.util.List;
 import java.util.Set;
 import java.util.concurrent.BlockingQueue;
 import java.util.concurrent.LinkedBlockingQueue;
@@ -57,6 +60,23 @@ public abstract class VideoInput implements IVideoInput
     public String getUrl()
     {
         return url;
+    }
+
+    @Override
+    public List<PesInfo> getPesInfo()
+    {
+        List<PesInfo> list = new ArrayList<>();
+        if (isOpen() && formatContext != null)
+        {
+            final int numStreams = FfmpegUtils.getNumStreams(formatContext);
+            for (int i = 0; i < numStreams; i++)
+            {
+                int type = FfmpegUtils.getStreamType(formatContext, i);
+                String codec = FfmpegUtils.getCodecName(formatContext, i);
+                list.add(new PesInfo(i, PesType.getType(type), codec));
+            }
+        }
+        return list;
     }
 
     @Override
