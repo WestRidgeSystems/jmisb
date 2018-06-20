@@ -7,6 +7,9 @@ import org.jmisb.api.video.IMetadataListener;
 import org.jmisb.api.video.MetadataFrame;
 
 import javax.swing.*;
+import java.awt.*;
+
+import static java.awt.Font.PLAIN;
 
 /**
  * Simple text pane to display MISB metadata
@@ -22,6 +25,15 @@ public class MetadataPanel extends JTextPane implements IMetadataListener
     {
         setEditable(false);
         setContentType("text/html");
+        setFont(new Font("Dialog", PLAIN, 12));
+    }
+
+    @Override
+    public void updateUI()
+    {
+        super.updateUI();
+        // Make HTML renderer use the component's font setting
+        putClientProperty(JEditorPane.HONOR_DISPLAY_PROPERTIES, true);
     }
 
     @Override
