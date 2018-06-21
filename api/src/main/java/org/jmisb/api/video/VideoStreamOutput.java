@@ -30,6 +30,7 @@ public class VideoStreamOutput extends VideoOutput implements IVideoStreamOutput
     private Runnable packetSender;
     private ScheduledFuture<?> senderFuture;
     private BlockingQueue<avcodec.AVPacket> klvPackets = new LinkedBlockingDeque<>();
+    private ScheduledExecutorService executorService;
 
     /**
      * Constructor
@@ -52,7 +53,17 @@ public class VideoStreamOutput extends VideoOutput implements IVideoStreamOutput
             throw new IllegalArgumentException("Invalid protocol: " + url + "; currently only UDP is supported");
         }
 
+        // Attempt to open the url
         this.url = url;
+        int ret;
+        avformat.AVIOContext ioContext = new avformat.AVIOContext(null);
+
+        if ((ret = avio_open2(ioContext, url, AVIO_FLAG_WRITE, null, null)) < 0)
+        {
+            String message = "Error opening stream: " + FfmpegUtils.formatError(ret);
+            logger.error(message);
+            throw new IOException(message);
+        }
 
         initCodecs();
         initFormat();
@@ -62,14 +73,6 @@ public class VideoStreamOutput extends VideoOutput implements IVideoStreamOutput
         // TODO: make optional
         createMetadataStream();
 
-        // Open the file
-        int ret;
-        avformat.AVIOContext ioContext = new avformat.AVIOContext(null);
-
-        if ((ret = avio_open2(ioContext, url, AVIO_FLAG_WRITE, null, null)) < 0)
-        {
-            throw new IOException("Error opening stream: " + FfmpegUtils.formatError(ret));
-        }
         formatContext.pb(ioContext);
 
         avutil.AVDictionary opts = new avutil.AVDictionary(null);
@@ -77,7 +80,7 @@ public class VideoStreamOutput extends VideoOutput implements IVideoStreamOutput
         av_dict_free(opts);
 
         createPacketSender();
-        ScheduledExecutorService executorService = Executors.newSingleThreadScheduledExecutor();
+        executorService = Executors.newSingleThreadScheduledExecutor();
         senderFuture = executorService.scheduleAtFixedRate(packetSender, 0, Math.round(1000.0/options.getFrameRate()), TimeUnit.MILLISECONDS);
     }
 
@@ -90,12 +93,39 @@ public class VideoStreamOutput extends VideoOutput implements IVideoStreamOutput
     @Override
     public void close()
     {
-        if (senderFuture != null)
+        if (logger.isDebugEnabled())
         {
             logger.debug("Closing " + url);
+        }
+
+        if (!isOpen())
+        {
+            logger.warn("Video output stream " + url + " is already closed; ignoring close() call");
+            return;
+        }
+
+        if (senderFuture != null)
+        {
             senderFuture.cancel(true);
             klvPackets.clear();
         }
+
+        if (executorService != null)
+        {
+            logger.debug("Shutting down executor service");
+            executorService.shutdown();
+            try
+            {
+                executorService.awaitTermination(5, TimeUnit.SECONDS);
+            } catch (InterruptedException e)
+            {
+                logger.error("Interrupted while awaiting executor service termination", e);
+            }
+            executorService = null;
+        }
+
+        // Clean up in super
+        cleanup();
     }
 
     @Override

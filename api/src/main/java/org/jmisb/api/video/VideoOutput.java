@@ -13,6 +13,8 @@ import java.io.IOException;
 
 import static org.bytedeco.javacpp.avcodec.*;
 import static org.bytedeco.javacpp.avformat.av_guess_format;
+import static org.bytedeco.javacpp.avformat.avformat_free_context;
+import static org.bytedeco.javacpp.avformat.avio_close;
 import static org.bytedeco.javacpp.avutil.*;
 import static org.bytedeco.javacpp.swscale.SWS_FAST_BILINEAR;
 
@@ -43,6 +45,8 @@ public abstract class VideoOutput
     private avformat.AVStream metadataStream;
 
     private swscale.SwsContext swsContext;
+    private AVFrame avFrameSrc;
+    private AVFrame avFrameDst;
 
     private BufferedImage tempImageBuffer;
 
@@ -156,9 +160,9 @@ public abstract class VideoOutput
     }
 
     /**
-     * Create the video stream
+     * Create the video AVStream
      *
-     * @throws IOException if the video stream could not be created
+     * @throws IOException if the AVStream could not be created
      */
     void createVideoStream() throws IOException
     {
@@ -175,6 +179,9 @@ public abstract class VideoOutput
         {
             throw new IOException("Could not copy the video stream parameters: " + FfmpegUtils.formatError(ret));
         }
+
+        // Allocate reusable frame
+        avFrameSrc = avutil.av_frame_alloc();
     }
 
     /**
@@ -189,13 +196,60 @@ public abstract class VideoOutput
     }
 
     /**
-     * Convert a BufferedImage to an AVFrame, transforming to the pixel format required by the codec
+     * Release any resources (to be called by any subclasses when stream/file is closed)
+     */
+    void cleanup()
+    {
+        if (formatContext != null && formatContext.pb() != null)
+        {
+            avio_close(formatContext.pb());
+        }
+
+        if (videoCodecContext != null)
+        {
+            avcodec_free_context(videoCodecContext);
+            videoCodecContext = null;
+        }
+
+        if (metadataCodecContext != null)
+        {
+            avcodec_free_context(metadataCodecContext);
+            metadataCodecContext = null;
+        }
+
+        if (klvCodecParams != null)
+        {
+            // Apparently already freed elsewhere
+            // avcodec_parameters_free(klvCodecParams);
+            klvCodecParams = null;
+        }
+
+        if (formatContext != null)
+        {
+            avformat_free_context(formatContext);
+            formatContext = null;
+        }
+
+        if (avFrameSrc != null)
+        {
+            av_frame_free(avFrameSrc);
+            avFrameSrc = null;
+        }
+
+        if (avFrameDst != null)
+        {
+            av_frame_free(avFrameDst);
+            avFrameDst = null;
+        }
+    }
+
+    /**
+     * Copy a BufferedImage to avFrameDst, transforming to the pixel format required by the codec
      *
      * @param image The input image
-     * @return The output image
      * @throws IOException If the frame could not be written
      */
-    private avutil.AVFrame convert(BufferedImage image) throws IOException
+    private void convert(BufferedImage image) throws IOException
     {
         // If needed, convert to TYPE_3BYTE_BGR format (TODO: is there a more efficient way?)
         BufferedImage inputImage = image;
@@ -233,37 +287,31 @@ public abstract class VideoOutput
         }
 
         // Wrap src image in AVFrame
-        // TODO: should only need to allocate once, when output is first opened or first frame is written
-        // TODO: must be deallocated using av_frame_free
-        AVFrame avFrameSrc = avutil.av_frame_alloc();
-
         DataBuffer dataBuffer = inputImage.getRaster().getDataBuffer();
-        if (dataBuffer instanceof DataBufferByte)
-        {
-            BytePointer pixelData = new BytePointer(((DataBufferByte) dataBuffer).getData());
-            av_image_fill_arrays(new PointerPointer(avFrameSrc), avFrameSrc.linesize(), pixelData, srcFormat, srcWidth, srcHeight, 1);
-        }
-        else
+        if (!(dataBuffer instanceof DataBufferByte))
         {
             throw new IllegalArgumentException("Input must be an 8-bit image");
         }
 
-        // Allocate the AVFrame
-        // TODO: should only need to allocate once, when output is first opened or first frame is written
-        // TODO: must be deallocated using av_frame_free
-        AVFrame avFrameDst = avutil.av_frame_alloc();
+        // Set up pointers and line sizes for avFrameSrc to point to inputImage's data
+        BytePointer pixelData = new BytePointer(((DataBufferByte) dataBuffer).getData());
+        av_image_fill_arrays(new PointerPointer(avFrameSrc), avFrameSrc.linesize(), pixelData,
+                srcFormat, srcWidth, srcHeight, 1);
 
-        // Fill in the AVFrame structure
-        av_image_alloc(avFrameDst.data(), avFrameDst.linesize(), options.getWidth(), options.getHeight(),
-                videoCodecContext.pix_fmt(), 1);
-        avFrameDst.format(videoCodecContext.pix_fmt());
-        avFrameDst.width(options.getWidth());
-        avFrameDst.height(options.getHeight());
+        // Lazily create avFrameDst and allocate its buffer
+        if (avFrameDst == null)
+        {
+            avFrameDst = av_frame_alloc();
+            av_image_alloc(avFrameDst.data(), avFrameDst.linesize(), options.getWidth(), options.getHeight(),
+                    videoCodecContext.pix_fmt(), 1);
+            avFrameDst.format(videoCodecContext.pix_fmt());
+            avFrameDst.width(options.getWidth());
+            avFrameDst.height(options.getHeight());
+        }
 
+        // Copy avFrameSrc -> avFrameDst
         swscale.sws_scale(swsContext, new PointerPointer(avFrameSrc), avFrameSrc.linesize(),
                 0, inputImage.getHeight(), new PointerPointer(avFrameDst), avFrameDst.linesize());
-
-        return avFrameDst;
     }
 
     /**
@@ -303,16 +351,16 @@ public abstract class VideoOutput
      */
     void encodeFrame(VideoFrame frame) throws IOException
     {
-        AVFrame avFrame = convert(frame.getImage());
+        convert(frame.getImage());
 
         // Convert PTS in seconds to PTS in "time base" units
         long pts = Math.round(frame.getPts() / av_q2d(videoStream.time_base()));
-        avFrame.pts(pts);
-        avFrame.pkt_dts(pts); // TODO: correct?
+        avFrameDst.pts(pts);
+        avFrameDst.pkt_dts(pts); // TODO: correct?
 
         // Send the frame to the encoder
         int ret;
-        ret = avcodec_send_frame(videoCodecContext, avFrame);
+        ret = avcodec_send_frame(videoCodecContext, avFrameDst);
         if (ret != 0 && ret != AVERROR_EAGAIN())
         {
             throw new IOException("Error sending frame to encoder: " + FfmpegUtils.formatError(ret));
