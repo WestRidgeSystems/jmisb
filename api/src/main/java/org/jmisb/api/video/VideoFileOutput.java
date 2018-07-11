@@ -80,40 +80,15 @@ public class VideoFileOutput extends VideoOutput implements IVideoFileOutput
 
         if (!isOpen())
         {
+            logger.warn("Video output file " + filename + " is already closed; ignoring close() call");
             return;
         }
 
+        // Write out any remaining frames
         flush();
 
-        if (formatContext != null && formatContext.pb() != null)
-        {
-            avio_close(formatContext.pb());
-        }
-
-        if (videoCodecContext != null)
-        {
-            avcodec_free_context(videoCodecContext);
-            videoCodecContext = null;
-        }
-
-        if (metadataCodecContext != null)
-        {
-            avcodec_free_context(metadataCodecContext);
-            metadataCodecContext = null;
-        }
-
-        if (klvCodecParams != null)
-        {
-            // Apparently already freed elsewhere
-            // avcodec_parameters_free(klvCodecParams);
-            klvCodecParams = null;
-        }
-
-        if (formatContext != null)
-        {
-            avformat_free_context(formatContext);
-            formatContext = null;
-        }
+        // Clean up in super
+        cleanup();
     }
 
     @Override

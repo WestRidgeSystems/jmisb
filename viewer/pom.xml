@@ -5,7 +5,7 @@
     <parent>
         <groupId>org.jmisb</groupId>
         <artifactId>jmisb</artifactId>
-        <version>1.3.0</version>
+        <version>1.4.0</version>
     </parent>
 
     <modelVersion>4.0.0</modelVersion>
@@ -48,44 +48,25 @@
         </dependency>
     </dependencies>
 
-    <profiles>
-        <profile>
-            <id>build-jar-with-dependencies</id>
-            <!-- Prevent building jar with dependencies if we are deploying -->
-            <activation>
-                <property>
-                    <name>!performRelease</name>
-                </property>
-            </activation>
-            <build>
-                <plugins>
-                    <plugin>
-                        <groupId>org.apache.maven.plugins</groupId>
-                        <artifactId>maven-assembly-plugin</artifactId>
-                        <version>3.1.0</version>
-                        <configuration>
-                            <descriptorRefs>
-                                <descriptorRef>jar-with-dependencies</descriptorRef>
-                            </descriptorRefs>
-                            <archive>
-                                <manifest>
-                                    <mainClass>org.jmisb.viewer.MisbViewer</mainClass>
-                                </manifest>
-                            </archive>
-                        </configuration>
-                        <executions>
-                            <execution>
-                                <id>make-assembly</id>
-                                <phase>package</phase>
-                                <goals>
-                                    <goal>single</goal>
-                                </goals>
-                            </execution>
-                        </executions>
-                    </plugin>
-                </plugins>
-            </build>
-        </profile>
-    </profiles>
+    <build>
+        <plugins>
+            <plugin>
+                <!-- Allow running from the command-line using mvn exec:exec -->
+                <groupId>org.codehaus.mojo</groupId>
+                <artifactId>exec-maven-plugin</artifactId>
+                <version>1.6.0</version>
+                <configuration>
+                    <executable>java</executable>
+                    <arguments>
+                        <argument>-Xms512m</argument>
+                        <argument>-Xmx2048m</argument>
+                        <argument>-classpath</argument>
+                        <classpath/>
+                        <argument>org.jmisb.viewer.MisbViewer</argument>
+                    </arguments>
+                </configuration>
+            </plugin>
+        </plugins>
+    </build>
 </project>
 

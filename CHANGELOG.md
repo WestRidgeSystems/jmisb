@@ -1,3 +1,9 @@
+### July 11, 2018 version 1.4.0
+ * Added Exec Maven plugin to allow running the viewer from the command line
+ * Added command-line argument -DuberJar to produce an uber-JAR of jmisb-api
+   and all its dependencies
+ * Fixed resource leaks in output streams
+
 ### June 20, 2018 version 1.3.0
  * Added a new method to get elementary stream info from IVideoInput
  * Video output now handles input images with arbitrary underlying raster type
