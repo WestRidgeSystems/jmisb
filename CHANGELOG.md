@@ -1,3 +1,4 @@
+### July 11, 2018 version 1.4.0
  * Added Exec Maven plugin to allow running the viewer from the command line
  * Added command-line argument -DuberJar to produce an uber-JAR of jmisb-api
    and all its dependencies
