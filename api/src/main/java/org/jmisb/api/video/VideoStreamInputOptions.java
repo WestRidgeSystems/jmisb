@@ -11,15 +11,12 @@ public class VideoStreamInputOptions
     /** Maximum analyze duration, in milliseconds */
     private long maxAnalyzeDuration;
 
-    /** Filename of debug file for logging data stream (null to turn logging off) */
-    private String dataDump;
-
     /**
      * Constructor specifying default options
      */
     public VideoStreamInputOptions()
     {
-        this(10_000, 15_000, null);
+        this(10_000, 15_000);
     }
 
     /**
@@ -27,13 +24,11 @@ public class VideoStreamInputOptions
      *
      * @param openTimeout Timeout before failing when opening a stream, in milliseconds
      * @param maxAnalyzeDuration Max analyze duration, in milliseconds
-     * @param dataDump Filename for logging data stream (null to turn logging off)
      */
-    public VideoStreamInputOptions(long openTimeout, long maxAnalyzeDuration, String dataDump)
+    public VideoStreamInputOptions(long openTimeout, long maxAnalyzeDuration)
     {
         this.openTimeout = openTimeout;
         this.maxAnalyzeDuration = maxAnalyzeDuration;
-        this.dataDump = dataDump;
     }
 
     /**
@@ -54,15 +49,5 @@ public class VideoStreamInputOptions
     public long getMaxAnalyzeDuration()
     {
         return maxAnalyzeDuration;
-    }
-
-    /**
-     * Get the data stream log file
-     *
-     * @return Filename of the data stream log file
-     */
-    public String getDataDump()
-    {
-        return dataDump;
     }
 }
