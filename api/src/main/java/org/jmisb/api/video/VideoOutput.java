@@ -344,7 +344,7 @@ public abstract class VideoOutput
     }
 
     /**
-     * Send a video frame to the encoder
+     * Encode a video frame
      *
      * @param frame The video frame
      * @throws IOException if an error occurs
@@ -358,12 +358,12 @@ public abstract class VideoOutput
         avFrameDst.pts(pts);
         avFrameDst.pkt_dts(pts); // TODO: correct?
 
-        // Send the frame to the encoder
+        // Encode the frame
         int ret;
         ret = avcodec_send_frame(videoCodecContext, avFrameDst);
         if (ret != 0 && ret != AVERROR_EAGAIN())
         {
-            throw new IOException("Error sending frame to encoder: " + FfmpegUtils.formatError(ret));
+            throw new IOException("Error encoding video frame: " + FfmpegUtils.formatError(ret));
         }
     }
 }

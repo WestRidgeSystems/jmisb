@@ -27,10 +27,16 @@ public class VideoStreamOutput extends VideoOutput implements IVideoStreamOutput
 {
     private static Logger logger = LoggerFactory.getLogger(VideoStreamOutput.class);
     private String url;
+
+    private Runnable videoEncoder;
+    private Future<?> encoderFuture;
+    private BlockingQueue<VideoFrame> videoFrames = new LinkedBlockingDeque<>();
+    private ExecutorService encoderExecSvc;
+
     private Runnable packetSender;
     private ScheduledFuture<?> senderFuture;
     private BlockingQueue<avcodec.AVPacket> klvPackets = new LinkedBlockingDeque<>();
-    private ScheduledExecutorService executorService;
+    private ScheduledExecutorService senderExecSvc;
 
     /**
      * Constructor
@@ -79,9 +85,15 @@ public class VideoStreamOutput extends VideoOutput implements IVideoStreamOutput
         avformat_write_header(formatContext, opts);
         av_dict_free(opts);
 
+        createVideoEncoder();
         createPacketSender();
-        executorService = Executors.newSingleThreadScheduledExecutor();
-        senderFuture = executorService.scheduleAtFixedRate(packetSender, 0, Math.round(1000.0/options.getFrameRate()), TimeUnit.MILLISECONDS);
+
+        encoderExecSvc = Executors.newSingleThreadExecutor();
+        encoderFuture = encoderExecSvc.submit(videoEncoder);
+
+        senderExecSvc = Executors.newSingleThreadScheduledExecutor();
+        senderFuture = senderExecSvc.scheduleAtFixedRate(packetSender, 0,
+                Math.round(1000.0/options.getFrameRate()), TimeUnit.MILLISECONDS);
     }
 
     @Override
@@ -104,25 +116,23 @@ public class VideoStreamOutput extends VideoOutput implements IVideoStreamOutput
             return;
         }
 
+        if (encoderFuture != null)
+        {
+            encoderFuture.cancel(true);
+            videoFrames.clear();
+        }
+
         if (senderFuture != null)
         {
             senderFuture.cancel(true);
             klvPackets.clear();
         }
 
-        if (executorService != null)
-        {
-            logger.debug("Shutting down executor service");
-            executorService.shutdown();
-            try
-            {
-                executorService.awaitTermination(5, TimeUnit.SECONDS);
-            } catch (InterruptedException e)
-            {
-                logger.error("Interrupted while awaiting executor service termination", e);
-            }
-            executorService = null;
-        }
+        shutdownExecSvc(encoderExecSvc);
+        encoderExecSvc = null;
+
+        shutdownExecSvc(senderExecSvc);
+        senderExecSvc = null;
 
         // Clean up in super
         cleanup();
@@ -131,7 +141,7 @@ public class VideoStreamOutput extends VideoOutput implements IVideoStreamOutput
     @Override
     public void queueVideoFrame(VideoFrame videoFrame) throws IOException
     {
-        encodeFrame(videoFrame);
+        videoFrames.offer(videoFrame);
     }
 
     @Override
@@ -142,42 +152,75 @@ public class VideoStreamOutput extends VideoOutput implements IVideoStreamOutput
     }
 
     /**
+     * Create the video encoder runnable to be run in the background
+     */
+    private void createVideoEncoder()
+    {
+        videoEncoder = () -> {
+
+            boolean cancelled = false;
+            while (!cancelled)
+            {
+                try
+                {
+                    // Block waiting for a frame to become available
+                    VideoFrame frame = videoFrames.take();
+                    encodeFrame(frame);
+
+                } catch (IOException e)
+                {
+                    // TODO: notify client of error
+                    logger.error("IOException while encoding frame", e);
+                    cancelled = true;
+                } catch (InterruptedException e)
+                {
+                    logger.error("InterruptedException while encoding frame", e);
+                    cancelled = true;
+                }
+            }
+        };
+    }
+
+    /**
      * Create the packet sender runnable, to be called once every 1/frame_rate seconds
      */
     private void createPacketSender()
     {
+        avcodec.AVPacket packet = av_packet_alloc();
         packetSender = () -> {
-            List<avcodec.AVPacket> packets = new ArrayList<>();
 
-            // Drain all encoded frames from the video encoder
             int ret2 = 0;
             while (ret2 != AVERROR_EOF && ret2 != AVERROR_EAGAIN())
             {
-                avcodec.AVPacket packet = av_packet_alloc();
                 ret2 = avcodec_receive_packet(videoCodecContext, packet);
                 if (ret2 == 0)
                 {
-                    packets.add(packet);
+                    int ret3;
+                    if ((ret3 = av_write_frame(formatContext, packet)) < 0)
+                    {
+                        logger.error("Error writing video packet: " + FfmpegUtils.formatError(ret3));
+                    }
                 } else if (ret2 == AVERROR_EOF)
                 {
                     logger.debug("EOF reached");
                 }
             }
-
-            // Get all metadata frames
-            // TODO: synchronize with video, don't just drain everything
-            klvPackets.drainTo(packets);
-
-            // Write all new packets to the output
-            for (avcodec.AVPacket packet : packets)
-            {
-                int ret3;
-                if ((ret3 = av_write_frame(formatContext, packet)) < 0)
-                {
-                    logger.error("Error writing video packet: " + FfmpegUtils.formatError(ret3));
-                }
-                av_packet_free(packet);
-            }
         };
+    }
+
+    private void shutdownExecSvc(ExecutorService service)
+    {
+        if (service != null)
+        {
+            logger.debug("Shutting down exec service");
+            service.shutdown();
+            try
+            {
+                service.awaitTermination(5, TimeUnit.SECONDS);
+            } catch (InterruptedException e)
+            {
+                logger.error("Interrupted while awaiting executor service termination", e);
+            }
+        }
     }
 }
