@@ -42,7 +42,6 @@ public class VideoFileOutput extends VideoOutput implements IVideoFileOutput
 
         initCodecs();
         initFormat();
-        openVideoCodec();
         createVideoStream();
 
         // TODO: make optional

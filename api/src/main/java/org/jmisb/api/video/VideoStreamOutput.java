@@ -73,7 +73,6 @@ public class VideoStreamOutput extends VideoOutput implements IVideoStreamOutput
 
         initCodecs();
         initFormat();
-        openVideoCodec();
         createVideoStream();
 
         // TODO: make optional
