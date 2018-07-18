@@ -312,7 +312,8 @@ public class MisbViewer extends JFrame implements ActionListener
         {
             urlField = new JTextField();
             urlField.setEditable(true);
-            urlField.setText("udp://127.0.0.1:30120");
+            // TODO: MRU for URLs
+            urlField.setText("udp://225.1.1.1:30120");
             urlField.setPreferredSize(new Dimension(400, 24));
 
             JPanel panel = new JPanel(new GridBagLayout());
@@ -343,7 +344,7 @@ public class MisbViewer extends JFrame implements ActionListener
                     try
                     {
                         VideoStreamInputOptions options = new VideoStreamInputOptions(
-                                10_000, 15_000, "klv.dat");
+                                10_000, 15_000);
 
                         videoInput = VideoSystem.createInputStream(options);
 

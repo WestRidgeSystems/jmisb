@@ -6,6 +6,12 @@ import java.io.IOException;
 
 /**
  * Interface for writing video/metadata to a UDP/IP network stream
+ * <p>
+ * It is the caller's responsibility to enqueue frames at a rate on average equal to the
+ * frame rate specified in the stream's {@link VideoOutputOptions}, and set the PTS values
+ * of the frames to provide timing information. The stream itself will output packets as
+ * soon as they are available from the encoder.
+ * </p>
  */
 @Beta
 public interface IVideoStreamOutput extends AutoCloseable
@@ -52,4 +58,11 @@ public interface IVideoStreamOutput extends AutoCloseable
      * @throws IOException if the stream could not be written
      */
     void queueMetadataFrame(MetadataFrame frame) throws IOException;
+
+    /**
+     * Get output statistics
+     *
+     * @return The output statistics
+     */
+    OutputStatistics getStatistics();
 }

@@ -69,17 +69,51 @@ public abstract class VideoOutput
      */
     void initCodecs() throws IOException
     {
-        // Find h.264 video encoder
-        if ((videoCodec = avcodec.avcodec_find_encoder(AV_CODEC_ID_H264)) == null)
-        {
-            throw new IOException("Could not find H.264 codec");
-        }
+        // Attempt to open hardware-accelerated codecs first; fall back on libx264
 
-        // Allocate the video codec context
-        if ((videoCodecContext = avcodec.avcodec_alloc_context3(videoCodec)) == null)
+        logger.debug("Trying NVIDIA encoder...");
+        videoCodec = avcodec.avcodec_find_encoder_by_name("h264_nvenc");
+        videoCodecContext = avcodec.avcodec_alloc_context3(videoCodec);
+        boolean codecOpened = false;
+        if (videoCodec != null && videoCodecContext != null)
+            codecOpened = openVideoCodec();
+        if (videoCodec == null || videoCodecContext == null || !codecOpened)
         {
-            throw new IOException("avcodec_alloc_context3() error: Could not allocate video encoding context.");
+            logger.debug("Trying Intel QuickSync encoder...");
+            videoCodec = avcodec.avcodec_find_encoder_by_name("h264_qsv");
+            videoCodecContext = avcodec.avcodec_alloc_context3(videoCodec);
+            if (videoCodec != null && videoCodecContext != null)
+                codecOpened = openVideoCodec();
         }
+        if (videoCodec == null || videoCodecContext == null || !codecOpened)
+        {
+            logger.debug("Trying VAAPI encoder...");
+            videoCodec = avcodec.avcodec_find_encoder_by_name("h264_vaapi");
+            videoCodecContext = avcodec.avcodec_alloc_context3(videoCodec);
+            if (videoCodec != null && videoCodecContext != null)
+                codecOpened = openVideoCodec();
+        }
+        if (videoCodec == null || videoCodecContext == null || !codecOpened)
+        {
+            logger.debug("Trying libx264 encoder...");
+            videoCodec = avcodec.avcodec_find_encoder_by_name("libx264");
+            videoCodecContext = avcodec.avcodec_alloc_context3(videoCodec);
+            if (videoCodec != null && videoCodecContext != null)
+                codecOpened = openVideoCodec();
+        }
+        if (videoCodec == null || videoCodecContext == null || !codecOpened)
+        {
+            logger.debug("Searching for any valid encoder...");
+            videoCodec = avcodec.avcodec_find_encoder(AV_CODEC_ID_H264);
+            videoCodecContext = avcodec.avcodec_alloc_context3(videoCodec);
+            if (videoCodec != null && videoCodecContext != null)
+                codecOpened = openVideoCodec();
+        }
+        if (videoCodec == null || videoCodecContext == null || !codecOpened)
+        {
+            throw new IOException("Could not initialize H.264 encoder");
+        }
+        logger.debug("video encoder = " + videoCodec.long_name().getString());
 
         // Allocate the metadata codec context
         if ((metadataCodecContext = avcodec.avcodec_alloc_context3(null)) == null)
@@ -96,30 +130,6 @@ public abstract class VideoOutput
         {
             throw new IOException("Could not allocate metadata codec context: " + FfmpegUtils.formatError(ret));
         }
-
-        // TODO: investigate H.264 profiles
-
-        // Set bit rate
-        videoCodecContext.bit_rate(options.getBitRate());
-
-        // Set frame rate
-        avutil.AVRational frameRate = avutil.av_d2q(options.getFrameRate(), 1001000);
-        avutil.AVRational timeBase = avutil.av_inv_q(frameRate);
-        videoCodecContext.time_base(timeBase);
-
-        // Encoded picture format
-        videoCodecContext.pix_fmt(AV_PIX_FMT_YUV420P);
-
-        // No B-frames
-        videoCodecContext.has_b_frames(0);
-        videoCodecContext.max_b_frames(0);
-
-        // I-frame interval
-        videoCodecContext.gop_size(options.getGopSize());
-
-        // Set dimensions
-        videoCodecContext.width(options.getWidth());
-        videoCodecContext.height(options.getHeight());
     }
 
     /**
@@ -144,19 +154,41 @@ public abstract class VideoOutput
     /**
      * Open the video codec
      *
-     * @throws IOException if the codec could not be opened
+     * @return false if the codec could not be opened (e.g., unsupported by the OS/hardware)
      */
-    void openVideoCodec() throws IOException
+    private boolean openVideoCodec()
     {
+        // codec context options must be set before opening codec
+
+        // TODO: investigate H.264 profiles
+
+        // Set bit rate
+        videoCodecContext.bit_rate(options.getBitRate());
+
+        // Set frame rate
+        avutil.AVRational frameRate = avutil.av_d2q(options.getFrameRate(), 1001000);
+        avutil.AVRational timeBase = avutil.av_inv_q(frameRate);
+        videoCodecContext.time_base(timeBase);
+
+        // Encoded picture format
+        videoCodecContext.pix_fmt(AV_PIX_FMT_YUV420P);
+
+        // No B-frames
+        videoCodecContext.has_b_frames(0);
+        videoCodecContext.max_b_frames(0);
+
+        // I-frame interval
+        videoCodecContext.gop_size(options.getGopSize());
+
+        // Set dimensions
+        videoCodecContext.width(options.getWidth());
+        videoCodecContext.height(options.getHeight());
+
         // Open the codec
-        int ret;
         avutil.AVDictionary opts = new avutil.AVDictionary(null);
-        if ((ret = avcodec_open2(videoCodecContext, videoCodec, opts)) < 0)
-        {
-            av_dict_free(opts);
-            throw new IOException("Error opening video codec: " + FfmpegUtils.formatError(ret));
-        }
+        int ret = avcodec_open2(videoCodecContext, videoCodec, opts);
         av_dict_free(opts);
+        return ret >= 0;
     }
 
     /**
@@ -344,7 +376,7 @@ public abstract class VideoOutput
     }
 
     /**
-     * Send a video frame to the encoder
+     * Encode a video frame
      *
      * @param frame The video frame
      * @throws IOException if an error occurs
@@ -358,12 +390,12 @@ public abstract class VideoOutput
         avFrameDst.pts(pts);
         avFrameDst.pkt_dts(pts); // TODO: correct?
 
-        // Send the frame to the encoder
+        // Encode the frame
         int ret;
         ret = avcodec_send_frame(videoCodecContext, avFrameDst);
         if (ret != 0 && ret != AVERROR_EAGAIN())
         {
-            throw new IOException("Error sending frame to encoder: " + FfmpegUtils.formatError(ret));
+            throw new IOException("Error encoding video frame: " + FfmpegUtils.formatError(ret));
         }
     }
 }

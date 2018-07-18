@@ -12,9 +12,7 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.concurrent.*;
 
-import static org.bytedeco.javacpp.avcodec.av_packet_alloc;
-import static org.bytedeco.javacpp.avcodec.av_packet_free;
-import static org.bytedeco.javacpp.avcodec.avcodec_receive_packet;
+import static org.bytedeco.javacpp.avcodec.*;
 import static org.bytedeco.javacpp.avformat.*;
 import static org.bytedeco.javacpp.avutil.AVERROR_EOF;
 import static org.bytedeco.javacpp.avutil.av_dict_free;
@@ -27,10 +25,19 @@ public class VideoStreamOutput extends VideoOutput implements IVideoStreamOutput
 {
     private static Logger logger = LoggerFactory.getLogger(VideoStreamOutput.class);
     private String url;
+
+    private Runnable videoEncoder;
+    private Future<?> encoderFuture;
+    private BlockingQueue<VideoFrame> videoFrames = new LinkedBlockingDeque<>();
+    private ExecutorService encoderExecSvc;
+
     private Runnable packetSender;
-    private ScheduledFuture<?> senderFuture;
+    private Future<?> senderFuture;
+    private BlockingQueue<avcodec.AVPacket> videoPackets = new LinkedBlockingDeque<>();
     private BlockingQueue<avcodec.AVPacket> klvPackets = new LinkedBlockingDeque<>();
-    private ScheduledExecutorService executorService;
+    private ExecutorService senderExecSvc;
+
+    private OutputStatistics outputStatistics = new OutputStatistics();
 
     /**
      * Constructor
@@ -46,6 +53,8 @@ public class VideoStreamOutput extends VideoOutput implements IVideoStreamOutput
     public void open(String url) throws IOException
     {
         logger.debug("Opening " + url);
+
+        outputStatistics.reset();
 
         String protocol = avio_find_protocol_name(url);
         if (protocol == null || !protocol.equals("udp"))
@@ -67,7 +76,6 @@ public class VideoStreamOutput extends VideoOutput implements IVideoStreamOutput
 
         initCodecs();
         initFormat();
-        openVideoCodec();
         createVideoStream();
 
         // TODO: make optional
@@ -79,9 +87,14 @@ public class VideoStreamOutput extends VideoOutput implements IVideoStreamOutput
         avformat_write_header(formatContext, opts);
         av_dict_free(opts);
 
+        createVideoEncoder();
         createPacketSender();
-        executorService = Executors.newSingleThreadScheduledExecutor();
-        senderFuture = executorService.scheduleAtFixedRate(packetSender, 0, Math.round(1000.0/options.getFrameRate()), TimeUnit.MILLISECONDS);
+
+        encoderExecSvc = Executors.newSingleThreadExecutor();
+        encoderFuture = encoderExecSvc.submit(videoEncoder);
+
+        senderExecSvc = Executors.newSingleThreadExecutor();
+        senderFuture = senderExecSvc.submit(packetSender);
     }
 
     @Override
@@ -104,41 +117,88 @@ public class VideoStreamOutput extends VideoOutput implements IVideoStreamOutput
             return;
         }
 
+        if (encoderFuture != null)
+        {
+            encoderFuture.cancel(true);
+            videoFrames.clear();
+        }
+
         if (senderFuture != null)
         {
             senderFuture.cancel(true);
+            videoPackets.clear();
             klvPackets.clear();
         }
 
-        if (executorService != null)
-        {
-            logger.debug("Shutting down executor service");
-            executorService.shutdown();
-            try
-            {
-                executorService.awaitTermination(5, TimeUnit.SECONDS);
-            } catch (InterruptedException e)
-            {
-                logger.error("Interrupted while awaiting executor service termination", e);
-            }
-            executorService = null;
-        }
+        shutdownExecSvc(encoderExecSvc);
+        encoderExecSvc = null;
+
+        shutdownExecSvc(senderExecSvc);
+        senderExecSvc = null;
 
         // Clean up in super
         cleanup();
     }
 
     @Override
-    public void queueVideoFrame(VideoFrame videoFrame) throws IOException
+    public void queueVideoFrame(VideoFrame videoFrame)
     {
-        encodeFrame(videoFrame);
+        videoFrames.offer(videoFrame);
+        outputStatistics.videoFrameQueued();
     }
 
     @Override
-    public void queueMetadataFrame(MetadataFrame metadataFrame) throws IOException
+    public void queueMetadataFrame(MetadataFrame metadataFrame)
     {
         avcodec.AVPacket packet = convert(metadataFrame);
         klvPackets.offer(packet);
+        outputStatistics.metadataFrameQueued();
+    }
+
+    @Override
+    public OutputStatistics getStatistics()
+    {
+        return outputStatistics;
+    }
+
+    /**
+     * Create the video encoder runnable to be run in the background
+     */
+    private void createVideoEncoder()
+    {
+        videoEncoder = () -> {
+
+            boolean cancelled = false;
+            while (!cancelled)
+            {
+                try
+                {
+                    // Block waiting for a frame to become available
+                    VideoFrame frame = videoFrames.take();
+                    encodeFrame(frame);
+
+                    avcodec.AVPacket packet = av_packet_alloc();
+                    int ret = 0;
+                    while (ret != AVERROR_EOF && ret != AVERROR_EAGAIN())
+                    {
+                        ret = avcodec_receive_packet(videoCodecContext, packet);
+                        if (ret == 0)
+                        {
+                            videoPackets.offer(av_packet_clone(packet));
+                        }
+                    }
+                } catch (IOException e)
+                {
+                    // TODO: notify client of error
+                    logger.error("IOException while encoding frame", e);
+                    cancelled = true;
+                } catch (InterruptedException e)
+                {
+                    // Normal way of shutting down; don't log as an error
+                    cancelled = true;
+                }
+            }
+        };
     }
 
     /**
@@ -147,37 +207,59 @@ public class VideoStreamOutput extends VideoOutput implements IVideoStreamOutput
     private void createPacketSender()
     {
         packetSender = () -> {
-            List<avcodec.AVPacket> packets = new ArrayList<>();
 
-            // Drain all encoded frames from the video encoder
-            int ret2 = 0;
-            while (ret2 != AVERROR_EOF && ret2 != AVERROR_EAGAIN())
+            boolean cancelled = false;
+            while (!cancelled)
             {
-                avcodec.AVPacket packet = av_packet_alloc();
-                ret2 = avcodec_receive_packet(videoCodecContext, packet);
-                if (ret2 == 0)
+                // Block waiting for a video packet
+                avcodec.AVPacket packet;
+                try
                 {
-                    packets.add(packet);
-                } else if (ret2 == AVERROR_EOF)
+                    packet = videoPackets.take();
+                    int ret;
+                    if ((ret = av_write_frame(formatContext, packet)) < 0)
+                    {
+                        logger.error("Error writing video packet: " + FfmpegUtils.formatError(ret));
+                    } else
+                    {
+                        outputStatistics.videoFrameSent();
+                    }
+                } catch (InterruptedException e)
                 {
-                    logger.debug("EOF reached");
+                    cancelled = true;
                 }
-            }
 
-            // Get all metadata frames
-            // TODO: synchronize with video, don't just drain everything
-            klvPackets.drainTo(packets);
-
-            // Write all new packets to the output
-            for (avcodec.AVPacket packet : packets)
-            {
-                int ret3;
-                if ((ret3 = av_write_frame(formatContext, packet)) < 0)
+                // Send KLV packets
+                List<avcodec.AVPacket> klvPacketsToSend = new ArrayList<>();
+                klvPackets.drainTo(klvPacketsToSend);
+                for (avcodec.AVPacket pkt : klvPacketsToSend)
                 {
-                    logger.error("Error writing video packet: " + FfmpegUtils.formatError(ret3));
+                    int ret;
+                    if ((ret = av_write_frame(formatContext, pkt)) < 0)
+                    {
+                        logger.error("Error writing metadata packet: " + FfmpegUtils.formatError(ret));
+                    } else
+                    {
+                        outputStatistics.metadataFrameSent();
+                    }
                 }
-                av_packet_free(packet);
             }
         };
+    }
+
+    private void shutdownExecSvc(ExecutorService service)
+    {
+        if (service != null)
+        {
+            logger.debug("Shutting down exec service");
+            service.shutdown();
+            try
+            {
+                service.awaitTermination(5, TimeUnit.SECONDS);
+            } catch (InterruptedException e)
+            {
+                logger.error("Interrupted while awaiting executor service termination", e);
+            }
+        }
     }
 }
