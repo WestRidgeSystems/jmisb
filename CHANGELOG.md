@@ -1,3 +1,7 @@
+### July 18, 2018 version 1.5.0
+ * KLV data added to output streams
+ * Output streams provide statistics on the # frames queued/sent
+ * Perform encoding on a separate thread for performance
  * Attempt to use hardware-accelerated encoding when available
  
 ### July 11, 2018 version 1.4.0
