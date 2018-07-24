@@ -50,10 +50,10 @@ public class UasDatalinkMessage implements IMisbMessage
         boolean checksumFound = false;
         for (LdsField field : fields)
         {
-            UasDatalinkTag tag = UasDatalinkTag.getTag(field.getLabel());
+            UasDatalinkTag tag = UasDatalinkTag.getTag(field.getTag());
             if (tag == UasDatalinkTag.Undefined)
             {
-                throw new KlvParseException("Invalid UAS Datalink tag: " + field.getLabel());
+                throw new KlvParseException("Invalid UAS Datalink tag: " + field.getTag());
             }
             else if (tag == UasDatalinkTag.Checksum)
             {

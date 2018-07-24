@@ -51,11 +51,11 @@ public class SecurityMetadataLocalSet extends SecurityMetadataMessage
         // Convert field data based on ST 0102
         for (LdsField field : fields)
         {
-            SecurityMetadataKey key = SecurityMetadataKey.getKey(field.getLabel());
+            SecurityMetadataKey key = SecurityMetadataKey.getKey(field.getTag());
 
             if (key == SecurityMetadataKey.Undefined)
             {
-                throw new KlvParseException("Invalid Security Metadata tag: " + field.getLabel());
+                throw new KlvParseException("Invalid Security Metadata tag: " + field.getTag());
             }
 
             ISecurityMetadataValue value = LocalSetFactory.createValue(key, field.getData());
