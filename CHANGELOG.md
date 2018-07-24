@@ -1,3 +1,5 @@
+ * Updated FFmpeg from 3.4.2 to 4.0.1
+ 
 ### July 18, 2018 version 1.5.0
  * KLV data added to output streams
  * Output streams provide statistics on the # frames queued/sent

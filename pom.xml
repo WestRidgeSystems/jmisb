@@ -42,7 +42,7 @@
 
     <properties>
         <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
-        <surefire.version>2.21.0</surefire.version>
+        <surefire.version>2.22.0</surefire.version>
     </properties>
 
     <distributionManagement>
@@ -78,7 +78,7 @@
             <dependency>
                 <groupId>org.bytedeco.javacpp-presets</groupId>
                 <artifactId>ffmpeg-platform</artifactId>
-                <version>3.4.2-1.4.1</version>
+                <version>4.0.1-1.4.2</version>
             </dependency>
         </dependencies>
     </dependencyManagement>
