@@ -50,15 +50,8 @@ public class VideoSystem
             // Redirect ffmpeg's log to slf4j
             avutil.setLogCallback(FfmpegLog.INSTANCE);
 
-            // Register all formats and codecs
-            avcodec_register_all();
-            av_register_all();
-            avformat_network_init();
-
             // TODO: needed?
             Loader.load(org.bytedeco.javacpp.avdevice.class);
-
-            avdevice_register_all();
         }
         catch (Exception ex)
         {
