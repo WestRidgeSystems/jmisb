@@ -2,6 +2,9 @@
 <!DOCTYPE suite SYSTEM "http://testng.org/testng-1.0.dtd" >
 
 <suite name = "ApiTests">
+    <groups>
+        <define name="integration-tests"/>
+    </groups>
     <test name = "klv">
         <classes>
             <class name = "org.jmisb.api.klv.BerDecoderTest"/>

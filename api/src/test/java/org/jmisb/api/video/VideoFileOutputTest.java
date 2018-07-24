@@ -18,6 +18,7 @@ import java.time.LocalDateTime;
 import java.util.SortedMap;
 import java.util.TreeMap;
 
+@Test(groups={"integration-tests"})
 public class VideoFileOutputTest
 {
     private static Logger logger = LoggerFactory.getLogger(VideoFileOutputTest.class);
