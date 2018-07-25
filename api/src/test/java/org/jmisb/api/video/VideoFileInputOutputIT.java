@@ -33,6 +33,8 @@ public class VideoFileInputOutputIT
     private final double sensorAltitude = 1258.3;
     private final double slantRange = 2000.0;
     private final String missionId = "Unit Testing";
+    private final byte version0601 = 11;
+    private final byte version0102 = 12;
 
     /**
      * Video stream only test
@@ -141,7 +143,7 @@ public class VideoFileInputOutputIT
                 values.put(UasDatalinkTag.FrameCenterElevation, new FrameCenterElevation(12.0));
 
                 values.put(UasDatalinkTag.SecurityLocalMetadataSet, new NestedSecurityMetadata(getSecurityLs()));
-                values.put(UasDatalinkTag.UasLdsVersionNumber, new ST0601Version((byte)11));
+                values.put(UasDatalinkTag.UasLdsVersionNumber, new ST0601Version(version0601));
 
                 UasDatalinkMessage message = new UasDatalinkMessage(values);
 
@@ -208,7 +210,7 @@ public class VideoFileInputOutputIT
         values.put(SecurityMetadataKey.OcCodingMethod, new CcMethod(CountryCodingMethod.GENC_TWO_LETTER));
         values.put(SecurityMetadataKey.ObjectCountryCodes, new SecurityMetadataString("US;CA"));
 
-        values.put(SecurityMetadataKey.Version, new ST0102Version(12));
+        values.put(SecurityMetadataKey.Version, new ST0102Version(version0102));
 
         return new SecurityMetadataLocalSet(values);
     }
@@ -238,6 +240,26 @@ public class VideoFileInputOutputIT
 
                 SlantRange decSlantRange = (SlantRange) datalinkMessage.getField(UasDatalinkTag.SlantRange);
                 Assert.assertEquals(decSlantRange.getMeters(), slantRange, SlantRange.DELTA);
+
+                ST0601Version decVersion = (ST0601Version) datalinkMessage.getField(UasDatalinkTag.UasLdsVersionNumber);
+                Assert.assertEquals(decVersion.getVersion(), version0601);
+
+                IUasDatalinkValue value = datalinkMessage.getField(UasDatalinkTag.SecurityLocalMetadataSet);
+                if (value instanceof NestedSecurityMetadata)
+                {
+                    NestedSecurityMetadata nestedData = (NestedSecurityMetadata) value;
+                    SecurityMetadataLocalSet localSet = nestedData.getLocalSet();
+
+                    ClassificationLocal decClassification = (ClassificationLocal) localSet.getField(SecurityMetadataKey.SecurityClassification);
+                    Assert.assertEquals(decClassification.getClassification(), Classification.UNCLASSIFIED);
+
+                    ST0102Version dec0102Version = (ST0102Version) localSet.getField(SecurityMetadataKey.Version);
+                    Assert.assertEquals(dec0102Version.getVersion(), version0102);
+                }
+                else
+                {
+                    Assert.fail("Found an invalid Security Metadata message");
+                }
             }
             else
             {
