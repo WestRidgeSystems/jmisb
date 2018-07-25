@@ -55,13 +55,15 @@
     </test>
     <test name = "video">
         <classes>
+            <!--unit tests-->
             <class name = "org.jmisb.api.video.MetadataFrameTest"/>
             <class name = "org.jmisb.api.video.VideoFileInputTest"/>
-            <class name = "org.jmisb.api.video.VideoFileOutputTest"/>
             <class name = "org.jmisb.api.video.VideoFrameTest"/>
             <class name = "org.jmisb.api.video.VideoStreamInputTest"/>
-            <class name = "org.jmisb.api.video.VideoStreamOutputTest"/>
             <class name = "org.jmisb.api.video.VideoSystemTest"/>
+            <!--integration tests-->
+            <class name = "org.jmisb.api.video.VideoFileInputOutputIT"/>
+            <class name = "org.jmisb.api.video.VideoStreamInputOutputIT"/>
         </classes>
     </test>
 </suite>

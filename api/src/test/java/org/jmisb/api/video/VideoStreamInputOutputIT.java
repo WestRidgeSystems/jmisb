@@ -15,10 +15,13 @@ import java.time.LocalDateTime;
 import java.util.SortedMap;
 import java.util.TreeMap;
 
+/**
+ * Integration test for {@link VideoStreamInput} and {@link VideoStreamOutput}
+ */
 @Test(groups={"integration-tests"})
-public class VideoStreamOutputTest
+public class VideoStreamInputOutputIT
 {
-    private static Logger logger = LoggerFactory.getLogger(VideoStreamOutputTest.class);
+    private static Logger logger = LoggerFactory.getLogger(VideoStreamInputOutputIT.class);
 
     private BufferedImage image;
     private UasDatalinkMessage message;
