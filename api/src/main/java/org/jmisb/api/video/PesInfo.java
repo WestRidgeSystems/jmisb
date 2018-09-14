@@ -1,5 +1,7 @@
 package org.jmisb.api.video;
 
+import java.util.List;
+
 /**
  * Packetized Elementary Stream (PES) information
  */
@@ -53,11 +55,51 @@ public class PesInfo
         return codecName;
     }
 
-    @Override
-    public String toString()
+    /**
+     * Return a JSON string representing the value
+     *
+     * @return The JSON string
+     */
+    public String asJson()
     {
-        return "Index: " + index + "; " +
-               "Type: " + type + "; " +
-               "Codec: " + codecName;
+        // TODO: this might be tedious to maintain; consider gson
+        StringBuilder sb = new StringBuilder();
+        sb.append("{ ");
+        sb.append("\"index\": ");
+        sb.append(index);
+        sb.append(", ");
+        sb.append("\"type\": \"");
+        sb.append(type);
+        sb.append("\", ");
+        sb.append("\"codec\": \"");
+        sb.append(codecName);
+        sb.append("\"");
+        sb.append("}");
+        return sb.toString();
+    }
+
+    /**
+     * Return a JSON string containing a list of PesInfo objects
+     *
+     * @param list The list
+     * @return The JSON string
+     */
+    public static String asJson(List<PesInfo> list)
+    {
+        StringBuilder sb = new StringBuilder();
+        sb.append("{\n");
+        sb.append("    \"streams\": [\n");
+        int i = 0;
+        for (PesInfo pes : list)
+        {
+            sb.append("        ");
+            sb.append(pes.asJson());
+            if (++i != list.size())
+                sb.append(",");
+            sb.append("\n");
+        }
+        sb.append("    ]\n");
+        sb.append("}\n");
+        return sb.toString();
     }
 }

@@ -24,7 +24,6 @@ public class MisbViewer extends JFrame implements ActionListener
 {
     private static Logger logger = LoggerFactory.getLogger(MisbViewer.class);
     private IVideoInput videoInput;
-    private JSplitPane splitPane;
     private VideoPanel videoPanel;
     private MetadataPanel metadataPanel;
     private PlaybackControlPanel controlPanel;
@@ -56,6 +55,8 @@ public class MisbViewer extends JFrame implements ActionListener
     {
         setTitle("MISB Viewer");
         JMenuBar menuBar = new JMenuBar();
+
+        // File menu
         fileMenu = new JMenu("File");
         fileMenu.setMnemonic(KeyEvent.VK_F);
         menuBar.add(fileMenu);
@@ -86,6 +87,16 @@ public class MisbViewer extends JFrame implements ActionListener
         exitMenuItem.addActionListener(this);
         fileMenu.add(exitMenuItem);
 
+        // View menu
+        JMenu viewMenu = new JMenu("View");
+        fileMenu.setMnemonic(KeyEvent.VK_V);
+        menuBar.add(viewMenu);
+
+        JMenuItem streamInfo = new JMenuItem("Stream Info", KeyEvent.VK_I);
+        streamInfo.setName("View|StreamInfo");
+        streamInfo.addActionListener(this);
+        viewMenu.add(streamInfo);
+
         setJMenuBar(menuBar);
 
         setLayout(new MigLayout(
@@ -98,7 +109,7 @@ public class MisbViewer extends JFrame implements ActionListener
         metadataPanel = new MetadataPanel();
 
         // Create split pane
-        splitPane = new JSplitPane(JSplitPane.HORIZONTAL_SPLIT, videoPanel, metadataPanel);
+        JSplitPane splitPane = new JSplitPane(JSplitPane.HORIZONTAL_SPLIT, videoPanel, metadataPanel);
         splitPane.setDividerLocation(640 + splitPane.getInsets().left);
         splitPane.setResizeWeight(0.5);
         add(splitPane, "grow, wrap");
@@ -126,6 +137,9 @@ public class MisbViewer extends JFrame implements ActionListener
                     break;
                 case "File|Exit":
                     closeApplication();
+                    break;
+                case "View|StreamInfo":
+                    displayStreamInfo();
                     break;
                 default:
                     if (item.getName().startsWith("File|Mru|"))
@@ -196,8 +210,6 @@ public class MisbViewer extends JFrame implements ActionListener
             videoInput = fileInput;
 
             updateFileMruList(filename);
-
-            printStreamInfo(fileInput);
         }
         catch (IOException ex)
         {
@@ -208,13 +220,10 @@ public class MisbViewer extends JFrame implements ActionListener
         }
     }
 
-    private void printStreamInfo(IVideoInput input)
+    private void displayStreamInfo()
     {
-        List<PesInfo> info = input.getPesInfo();
-        for (PesInfo pes : info)
-        {
-            logger.debug(pes.toString());
-        }
+        StreamInfoDialog dialog = new StreamInfoDialog(this, videoInput);
+        dialog.setVisible(true);
     }
 
     private void addMruMenuItems()
