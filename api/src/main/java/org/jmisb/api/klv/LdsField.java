@@ -5,21 +5,37 @@ package org.jmisb.api.klv;
  */
 public class LdsField
 {
-    final int tag;
+    private final int tag;
 
-    final byte[] data;
+    private final byte[] data;
 
+    /**
+     * Create an LDS field
+     *
+     * @param tag The integer tag
+     * @param data Byte array containing the value
+     */
     public LdsField(int tag, byte[] data)
     {
         this.tag = tag;
         this.data = data;
     }
 
-    public int getLabel()
+    /**
+     * Get the tag
+     *
+     * @return The integer tag
+     */
+    public int getTag()
     {
         return tag;
     }
 
+    /**
+     * Get the value
+     *
+     * @return The value stored as a byte array
+     */
     public byte[] getData()
     {
         return data;

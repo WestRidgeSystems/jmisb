@@ -1,3 +1,9 @@
+### September 14, 2018 version 1.6.0
+ * Updated FFmpeg from 3.4.2 to 4.0.1
+ * Added API methods to get PES information as a JSON string
+ * Separated integration tests using Maven Failsafe Plugin
+ * De-clutter build output making warnings easier to spot
+ 
 ### July 18, 2018 version 1.5.0
  * KLV data added to output streams
  * Output streams provide statistics on the # frames queued/sent

@@ -6,16 +6,12 @@
 
     <groupId>org.jmisb</groupId>
     <artifactId>jmisb</artifactId>
-    <version>1.5.0</version>
+    <version>1.6.0</version>
     <packaging>pom</packaging>
 
     <name>jMISB</name>
     <description>jMISB is an open source Java library implementing various MISB standards.</description>
     <url>https://github.com/WestRidgeSystems/jmisb</url>
-
-    <prerequisites>
-        <maven>3.0.0</maven>
-    </prerequisites>
 
     <scm>
         <url>https://github.com/WestRidgeSystems/jmisb</url>
@@ -31,6 +27,10 @@
         </license>
     </licenses>
 
+    <organization>
+        <name>West Ridge Systems</name>
+    </organization>
+
     <developers>
         <developer>
             <name>Dan Gutchess</name>
@@ -42,7 +42,8 @@
 
     <properties>
         <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
-        <surefire.version>2.21.0</surefire.version>
+        <surefire.version>2.22.0</surefire.version>
+        <failsafe.version>2.22.0</failsafe.version>
     </properties>
 
     <distributionManagement>
@@ -78,7 +79,7 @@
             <dependency>
                 <groupId>org.bytedeco.javacpp-presets</groupId>
                 <artifactId>ffmpeg-platform</artifactId>
-                <version>3.4.2-1.4.1</version>
+                <version>4.0.1-1.4.2</version>
             </dependency>
         </dependencies>
     </dependencyManagement>
@@ -127,6 +128,9 @@
                 <groupId>org.apache.maven.plugins</groupId>
                 <artifactId>maven-javadoc-plugin</artifactId>
                 <version>3.0.1</version>
+                <configuration>
+                    <quiet>true</quiet>
+                </configuration>
                 <executions>
                     <execution>
                         <id>attach-javadocs</id>
@@ -145,6 +149,26 @@
                     <serverId>ossrh</serverId>
                     <nexusUrl>https://oss.sonatype.org/</nexusUrl>
                 </configuration>
+            </plugin>
+            <plugin>
+                <groupId>org.apache.maven.plugins</groupId>
+                <artifactId>maven-enforcer-plugin</artifactId>
+                <version>3.0.0-M2</version>
+                <executions>
+                    <execution>
+                        <id>enforce-maven</id>
+                        <goals>
+                            <goal>enforce</goal>
+                        </goals>
+                        <configuration>
+                            <rules>
+                                <requireMavenVersion>
+                                    <version>3.0</version>
+                                </requireMavenVersion>
+                            </rules>
+                        </configuration>
+                    </execution>
+                </executions>
             </plugin>
         </plugins>
     </build>

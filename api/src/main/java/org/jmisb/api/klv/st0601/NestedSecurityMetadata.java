@@ -37,6 +37,16 @@ public class NestedSecurityMetadata implements IUasDatalinkValue
         this.localSet = new SecurityMetadataLocalSet(bytes, false);
     }
 
+    /**
+     * Get the wrapped {@link SecurityMetadataLocalSet} object
+     *
+     * @return The wrapped object
+     */
+    public SecurityMetadataLocalSet getLocalSet()
+    {
+        return localSet;
+    }
+
     @Override
     public byte[] getBytes()
     {

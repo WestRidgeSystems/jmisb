@@ -1,14 +1,8 @@
 package org.jmisb.api.video;
 
-import org.bytedeco.javacpp.Loader;
 import org.bytedeco.javacpp.avutil;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
-
-import static org.bytedeco.javacpp.avcodec.avcodec_register_all;
-import static org.bytedeco.javacpp.avdevice.avdevice_register_all;
-import static org.bytedeco.javacpp.avformat.av_register_all;
-import static org.bytedeco.javacpp.avformat.avformat_network_init;
 
 /**
  * Central class used to instantiate all streams
@@ -40,25 +34,8 @@ public class VideoSystem
     {
         try
         {
-            // TODO: needed?
-            Loader.load(org.bytedeco.javacpp.avutil.class);
-            Loader.load(org.bytedeco.javacpp.swresample.class);
-            Loader.load(org.bytedeco.javacpp.avcodec.class);
-            Loader.load(org.bytedeco.javacpp.avformat.class);
-            Loader.load(org.bytedeco.javacpp.swscale.class);
-
             // Redirect ffmpeg's log to slf4j
             avutil.setLogCallback(FfmpegLog.INSTANCE);
-
-            // Register all formats and codecs
-            avcodec_register_all();
-            av_register_all();
-            avformat_network_init();
-
-            // TODO: needed?
-            Loader.load(org.bytedeco.javacpp.avdevice.class);
-
-            avdevice_register_all();
         }
         catch (Exception ex)
         {
