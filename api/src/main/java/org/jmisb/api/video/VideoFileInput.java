@@ -154,15 +154,7 @@ public class VideoFileInput extends VideoInput implements IVideoFileInput
 
         if (isOpen())
         {
-            // TODO: make thread shutdown less ugly
-            demuxer.shutdown();
-            try
-            {
-                demuxer.join();
-            } catch (InterruptedException e)
-            {
-            }
-
+            stopFileDemuxer();
             stopNotifiers();
             freeContext();
             open = false;
@@ -305,6 +297,21 @@ public class VideoFileInput extends VideoInput implements IVideoFileInput
         while (pts > prevVideoPts)
         {
             shortWait(10);
+        }
+    }
+
+    /**
+     * Stop the demuxer thread
+     */
+    private void stopFileDemuxer()
+    {
+        demuxer.shutdown();
+        try
+        {
+            demuxer.join();
+        } catch (InterruptedException e)
+        {
+            logger.warn("Interrupted while joining demuxer thread", e);
         }
     }
 }

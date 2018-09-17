@@ -112,15 +112,7 @@ public class VideoStreamInput extends VideoInput implements IVideoStreamInput
 
         if (isOpen())
         {
-            // TODO: make thread shutdown less ugly
-            demuxer.shutdown();
-            try
-            {
-                demuxer.join();
-            } catch (InterruptedException e)
-            {
-            }
-
+            stopStreamDemuxer();
             stopNotifiers();
             freeContext();
             open = false;
@@ -143,5 +135,20 @@ public class VideoStreamInput extends VideoInput implements IVideoStreamInput
     protected void delayMetadata(double pts)
     {
         // No-op
+    }
+
+    /**
+     * Stop the demuxer thread
+     */
+    private void stopStreamDemuxer()
+    {
+        demuxer.shutdown();
+        try
+        {
+            demuxer.join();
+        } catch (InterruptedException e)
+        {
+            logger.warn("Interrupted while joining demuxer thread", e);
+        }
     }
 }

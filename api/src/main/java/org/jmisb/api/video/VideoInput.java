@@ -53,7 +53,18 @@ public abstract class VideoInput implements IVideoInput
     @Override
     public abstract void close();
 
+    /**
+     * Insert a sleep to control playback rate prior to notifying clients
+     *
+     * @param pts PTS of the video frame to be delivered
+     */
     protected abstract void delayVideo(double pts);
+
+    /**
+     * Insert a sleep to control playback rate prior to notifying clients
+     *
+     * @param pts PTS of the metadata frame to be delivered
+     */
     protected abstract void delayMetadata(double pts);
 
     @Override
