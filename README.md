@@ -130,7 +130,9 @@ class ExampleProcessor implements IVideoListener, IMetadataListener
         {
             UasDatalinkMessage msg = (UasDatalinkMessage)metadata;
             System.out.println("Sensor position: " +
-                msg.getField(SensorLatitude) + ", " + msg.getField(SensorLongitude));
+                msg.getField(UasDatalinkTag.SensorLatitude).getDisplayableValue() +
+                ", " +
+                msg.getField(UasDatalinkTag.SensorLongitude).getDisplayableValue());
         }
         else if (metadata instanceof SecurityMetadataMessage)
         {
@@ -139,6 +141,10 @@ class ExampleProcessor implements IVideoListener, IMetadataListener
     }
 }
 ```
+
+The result of `msg.getField(UasDatalinkTag.SensorLatitude)` will be an instance
+of the `SensorLatitude` class (`IUasDatalinkValue` is a superclass), and this
+relationship holds in general.
 
 More complete examples of usage may be found in the <code>viewer</code> demo
 application and in unit tests. Additional sample applications are a work in
