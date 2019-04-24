@@ -6,6 +6,7 @@ import org.jmisb.api.klv.*;
 import java.util.*;
 
 import static org.jmisb.api.klv.KlvConstants.UasDatalinkLocalUl;
+import static org.jmisb.core.klv.ArrayUtils.arrayFromChunks;
 
 /**
  * UAS Datalink Local Set message packet as defined by ST 0601
@@ -177,16 +178,7 @@ public class UasDatalinkMessage implements IMisbMessage
         }
 
         // Allocate array and write all chunks
-        // TODO: optimize
-        byte[] array = new byte[totalLength];
-        int i = 0;
-        for (byte[] chunk : chunks)
-        {
-            for (byte b : chunk)
-            {
-                array[i++] = b;
-            }
-        }
+        byte[] array = arrayFromChunks(chunks, totalLength);
 
         // Compute the checksum and replace the last two bytes of array
         Checksum.compute(array, true);
