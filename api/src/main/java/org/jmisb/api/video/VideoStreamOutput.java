@@ -1,8 +1,8 @@
 package org.jmisb.api.video;
 
-import org.bytedeco.javacpp.avcodec;
-import org.bytedeco.javacpp.avformat;
-import org.bytedeco.javacpp.avutil;
+import org.bytedeco.ffmpeg.avcodec.AVPacket;
+import org.bytedeco.ffmpeg.avformat.AVIOContext;
+import org.bytedeco.ffmpeg.avutil.AVDictionary;
 import org.jmisb.core.video.FfmpegUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -12,11 +12,17 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.concurrent.*;
 
-import static org.bytedeco.javacpp.avcodec.*;
-import static org.bytedeco.javacpp.avformat.*;
-import static org.bytedeco.javacpp.avutil.AVERROR_EOF;
-import static org.bytedeco.javacpp.avutil.av_dict_free;
-import static org.bytedeco.javacpp.presets.avutil.AVERROR_EAGAIN;
+import static org.bytedeco.ffmpeg.global.avcodec.av_packet_alloc;
+import static org.bytedeco.ffmpeg.global.avcodec.av_packet_clone;
+import static org.bytedeco.ffmpeg.global.avcodec.avcodec_receive_packet;
+import static org.bytedeco.ffmpeg.global.avformat.AVIO_FLAG_WRITE;
+import static org.bytedeco.ffmpeg.global.avformat.av_write_frame;
+import static org.bytedeco.ffmpeg.global.avformat.avformat_write_header;
+import static org.bytedeco.ffmpeg.global.avformat.avio_find_protocol_name;
+import static org.bytedeco.ffmpeg.global.avformat.avio_open2;
+import static org.bytedeco.ffmpeg.global.avutil.AVERROR_EOF;
+import static org.bytedeco.ffmpeg.global.avutil.av_dict_free;
+import static org.bytedeco.ffmpeg.presets.avutil.AVERROR_EAGAIN;
 
 /**
  * Manages an outgoing video stream
@@ -33,8 +39,8 @@ public class VideoStreamOutput extends VideoOutput implements IVideoStreamOutput
 
     private Runnable packetSender;
     private Future<?> senderFuture;
-    private BlockingQueue<avcodec.AVPacket> videoPackets = new LinkedBlockingDeque<>();
-    private BlockingQueue<avcodec.AVPacket> klvPackets = new LinkedBlockingDeque<>();
+    private BlockingQueue<AVPacket> videoPackets = new LinkedBlockingDeque<>();
+    private BlockingQueue<AVPacket> klvPackets = new LinkedBlockingDeque<>();
     private ExecutorService senderExecSvc;
 
     private OutputStatistics outputStatistics = new OutputStatistics();
@@ -65,7 +71,7 @@ public class VideoStreamOutput extends VideoOutput implements IVideoStreamOutput
         // Attempt to open the url
         this.url = url;
         int ret;
-        avformat.AVIOContext ioContext = new avformat.AVIOContext(null);
+        AVIOContext ioContext = new AVIOContext(null);
 
         if ((ret = avio_open2(ioContext, url, AVIO_FLAG_WRITE, null, null)) < 0)
         {
@@ -83,7 +89,7 @@ public class VideoStreamOutput extends VideoOutput implements IVideoStreamOutput
 
         formatContext.pb(ioContext);
 
-        avutil.AVDictionary opts = new avutil.AVDictionary(null);
+        AVDictionary opts = new AVDictionary(null);
         avformat_write_header(formatContext, opts);
         av_dict_free(opts);
 
@@ -150,7 +156,7 @@ public class VideoStreamOutput extends VideoOutput implements IVideoStreamOutput
     @Override
     public void queueMetadataFrame(MetadataFrame metadataFrame)
     {
-        avcodec.AVPacket packet = convert(metadataFrame);
+        AVPacket packet = convert(metadataFrame);
         klvPackets.offer(packet);
         outputStatistics.metadataFrameQueued();
     }
@@ -177,7 +183,7 @@ public class VideoStreamOutput extends VideoOutput implements IVideoStreamOutput
                     VideoFrame frame = videoFrames.take();
                     encodeFrame(frame);
 
-                    avcodec.AVPacket packet = av_packet_alloc();
+                    AVPacket packet = av_packet_alloc();
                     int ret = 0;
                     while (ret != AVERROR_EOF && ret != AVERROR_EAGAIN())
                     {
@@ -212,7 +218,7 @@ public class VideoStreamOutput extends VideoOutput implements IVideoStreamOutput
             while (!cancelled)
             {
                 // Block waiting for a video packet
-                avcodec.AVPacket packet;
+                AVPacket packet;
                 try
                 {
                     packet = videoPackets.take();
@@ -230,9 +236,9 @@ public class VideoStreamOutput extends VideoOutput implements IVideoStreamOutput
                 }
 
                 // Send KLV packets
-                List<avcodec.AVPacket> klvPacketsToSend = new ArrayList<>();
+                List<AVPacket> klvPacketsToSend = new ArrayList<>();
                 klvPackets.drainTo(klvPacketsToSend);
-                for (avcodec.AVPacket pkt : klvPacketsToSend)
+                for (AVPacket pkt : klvPacketsToSend)
                 {
                     int ret;
                     if ((ret = av_write_frame(formatContext, pkt)) < 0)

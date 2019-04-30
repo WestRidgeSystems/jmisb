@@ -1,18 +1,23 @@
 package org.jmisb.api.video;
 
+import org.bytedeco.ffmpeg.avutil.LogCallback;
 import org.bytedeco.javacpp.BytePointer;
-import org.bytedeco.javacpp.avutil;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
-import static org.bytedeco.javacpp.avutil.*;
-import static org.bytedeco.javacpp.avutil.AV_LOG_DEBUG;
-import static org.bytedeco.javacpp.avutil.AV_LOG_TRACE;
+import static org.bytedeco.ffmpeg.global.avutil.AV_LOG_DEBUG;
+import static org.bytedeco.ffmpeg.global.avutil.AV_LOG_ERROR;
+import static org.bytedeco.ffmpeg.global.avutil.AV_LOG_FATAL;
+import static org.bytedeco.ffmpeg.global.avutil.AV_LOG_INFO;
+import static org.bytedeco.ffmpeg.global.avutil.AV_LOG_PANIC;
+import static org.bytedeco.ffmpeg.global.avutil.AV_LOG_TRACE;
+import static org.bytedeco.ffmpeg.global.avutil.AV_LOG_VERBOSE;
+import static org.bytedeco.ffmpeg.global.avutil.AV_LOG_WARNING;
 
 /**
  * Singleton class to redirect FFmpeg's logging to SLF4J
  */
-class FfmpegLog extends avutil.LogCallback
+class FfmpegLog extends LogCallback
 {
     private static final Logger logger = LoggerFactory.getLogger(FfmpegLog.class);
     static final FfmpegLog INSTANCE = new FfmpegLog();

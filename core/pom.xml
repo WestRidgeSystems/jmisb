@@ -28,7 +28,7 @@
             <scope>runtime</scope>
         </dependency>
         <dependency>
-            <groupId>org.bytedeco.javacpp-presets</groupId>
+            <groupId>org.bytedeco</groupId>
             <artifactId>ffmpeg-platform</artifactId>
         </dependency>
     </dependencies>

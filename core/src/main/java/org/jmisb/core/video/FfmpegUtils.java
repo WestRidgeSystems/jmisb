@@ -1,12 +1,20 @@
 package org.jmisb.core.video;
 
-import org.bytedeco.javacpp.avcodec;
-import org.bytedeco.javacpp.avformat;
+import org.bytedeco.ffmpeg.avcodec.AVCodecDescriptor;
+import org.bytedeco.ffmpeg.avformat.AVFormatContext;
+import org.bytedeco.ffmpeg.avformat.AVStream;
+import org.bytedeco.ffmpeg.avutil.AVRational;
 
 import java.nio.ByteBuffer;
 import java.nio.ByteOrder;
 
-import static org.bytedeco.javacpp.avutil.*;
+import static org.bytedeco.ffmpeg.global.avcodec.avcodec_descriptor_get;
+import static org.bytedeco.ffmpeg.global.avformat.av_guess_frame_rate;
+import static org.bytedeco.ffmpeg.global.avutil.AVMEDIA_TYPE_DATA;
+import static org.bytedeco.ffmpeg.global.avutil.AVMEDIA_TYPE_VIDEO;
+import static org.bytedeco.ffmpeg.global.avutil.AV_TIME_BASE;
+import static org.bytedeco.ffmpeg.global.avutil.av_q2d;
+import static org.bytedeco.ffmpeg.global.avutil.av_strerror;
 
 /**
  * Utility methods for common FFmpeg operations
@@ -31,28 +39,28 @@ public class FfmpegUtils
         return "(" + error + ") " + new String(bytes);
     }
 
-    public static avformat.AVStream getVideoStream(avformat.AVFormatContext context)
+    public static AVStream getVideoStream(AVFormatContext context)
     {
         return getStreamOfType(context, AVMEDIA_TYPE_VIDEO);
     }
 
-    public static avformat.AVStream getDataStream(avformat.AVFormatContext context)
+    public static AVStream getDataStream(AVFormatContext context)
     {
         return getStreamOfType(context, AVMEDIA_TYPE_DATA);
     }
 
-    private static avformat.AVStream getStreamOfType(avformat.AVFormatContext context, int streamType)
+    private static AVStream getStreamOfType(AVFormatContext context, int streamType)
     {
         int index = getStreamIndex(context, streamType);
         return (index < 0) ? null : context.streams(index);
     }
 
-    public static int getVideoStreamIndex(avformat.AVFormatContext context)
+    public static int getVideoStreamIndex(AVFormatContext context)
     {
         return getStreamIndex(context, AVMEDIA_TYPE_VIDEO);
     }
 
-    public static int getDataStreamIndex(avformat.AVFormatContext context)
+    public static int getDataStreamIndex(AVFormatContext context)
     {
         return getStreamIndex(context, AVMEDIA_TYPE_DATA);
     }
@@ -90,7 +98,7 @@ public class FfmpegUtils
      * @param context The format context
      * @return The duration, in seconds
      */
-    public static double getDuration(avformat.AVFormatContext context)
+    public static double getDuration(AVFormatContext context)
     {
         return (double)(context.duration() / AV_TIME_BASE);
     }
@@ -101,25 +109,25 @@ public class FfmpegUtils
      * @param context The format context
      * @return The frame rate, in frames per second
      */
-    public static double getFrameRate(avformat.AVFormatContext context)
+    public static double getFrameRate(AVFormatContext context)
     {
-        AVRational rational = avformat.av_guess_frame_rate(context, getVideoStream(context), null);
+        AVRational rational = av_guess_frame_rate(context, getVideoStream(context), null);
         return av_q2d(rational);
     }
 
-    public static int getNumStreams(avformat.AVFormatContext context)
+    public static int getNumStreams(AVFormatContext context)
     {
         return context.nb_streams();
     }
 
-    public static int getStreamType(avformat.AVFormatContext context, int index)
+    public static int getStreamType(AVFormatContext context, int index)
     {
         return context.streams(index).codecpar().codec_type();
     }
 
-    public static String getCodecName(avformat.AVFormatContext context, int index)
+    public static String getCodecName(AVFormatContext context, int index)
     {
-        avcodec.AVCodecDescriptor descriptor = avcodec.avcodec_descriptor_get(context.streams(index).codecpar().codec_id());
+        AVCodecDescriptor descriptor = avcodec_descriptor_get(context.streams(index).codecpar().codec_id());
 
         if (descriptor != null)
             return descriptor.name().getString();
@@ -127,12 +135,12 @@ public class FfmpegUtils
         return "Unknown";
     }
 
-    private static int getStreamIndex(avformat.AVFormatContext context, int streamType)
+    private static int getStreamIndex(AVFormatContext context, int streamType)
     {
         int numStreams = context.nb_streams();
         for (int i = 0; i < numStreams; i++)
         {
-            avformat.AVStream st = context.streams(i);
+            AVStream st = context.streams(i);
 
             if (st.codecpar().codec_type() == streamType)
             {

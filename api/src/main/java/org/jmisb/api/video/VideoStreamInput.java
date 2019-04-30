@@ -1,5 +1,8 @@
 package org.jmisb.api.video;
 
+import org.bytedeco.ffmpeg.avcodec.AVCodec;
+import org.bytedeco.ffmpeg.avformat.AVStream;
+import org.bytedeco.ffmpeg.avutil.AVDictionary;
 import org.bytedeco.javacpp.*;
 import org.jmisb.core.video.FfmpegUtils;
 import org.slf4j.Logger;
@@ -7,9 +10,13 @@ import org.slf4j.LoggerFactory;
 
 import java.io.IOException;
 
-import static org.bytedeco.javacpp.avcodec.*;
-import static org.bytedeco.javacpp.avformat.*;
-import static org.bytedeco.javacpp.avutil.*;
+import static org.bytedeco.ffmpeg.global.avcodec.avcodec_find_decoder;
+import static org.bytedeco.ffmpeg.global.avformat.av_dump_format;
+import static org.bytedeco.ffmpeg.global.avformat.avformat_alloc_context;
+import static org.bytedeco.ffmpeg.global.avformat.avformat_find_stream_info;
+import static org.bytedeco.ffmpeg.global.avformat.avformat_open_input;
+import static org.bytedeco.ffmpeg.global.avutil.av_dict_free;
+import static org.bytedeco.ffmpeg.global.avutil.av_dict_set;
 
 /**
  * Manages an incoming video stream
@@ -41,7 +48,7 @@ public class VideoStreamInput extends VideoInput implements IVideoStreamInput
         // Open the input stream
         AVDictionary openOpts = new AVDictionary(null);
         String timeoutVal = "" + options.getOpenTimeout() * 1000;
-        avutil.av_dict_set(openOpts, "timeout", timeoutVal, 0);
+        av_dict_set(openOpts, "timeout", timeoutVal, 0);
         int ret = avformat_open_input(formatContext, url, null, openOpts);
         av_dict_free(openOpts);
         if (ret < 0)
@@ -70,7 +77,7 @@ public class VideoStreamInput extends VideoInput implements IVideoStreamInput
         av_dump_format(formatContext, 0, url, 0);
 
         // Find the video, audio, and data streams, if present
-        avformat.AVStream videoStream = FfmpegUtils.getVideoStream(formatContext);
+        AVStream videoStream = FfmpegUtils.getVideoStream(formatContext);
 
         // Require a valid video stream
         if (videoStream == null)
@@ -80,7 +87,7 @@ public class VideoStreamInput extends VideoInput implements IVideoStreamInput
         }
 
         // Find the decoder for the video stream to ensure we can decode it
-        avcodec.AVCodec codec = avcodec_find_decoder(videoStream.codecpar().codec_id());
+        AVCodec codec = avcodec_find_decoder(videoStream.codecpar().codec_id());
         if (codec == null)
         {
             freeContext();

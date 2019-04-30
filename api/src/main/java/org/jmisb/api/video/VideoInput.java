@@ -1,6 +1,6 @@
 package org.jmisb.api.video;
 
-import org.bytedeco.javacpp.avformat;
+import org.bytedeco.ffmpeg.avformat.AVFormatContext;
 import org.jmisb.core.video.FfmpegUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -17,8 +17,8 @@ import java.util.concurrent.BlockingQueue;
 import java.util.concurrent.LinkedBlockingQueue;
 import java.util.concurrent.TimeUnit;
 
-import static org.bytedeco.javacpp.avformat.avformat_close_input;
-import static org.bytedeco.javacpp.avformat.avformat_free_context;
+import static org.bytedeco.ffmpeg.global.avformat.avformat_close_input;
+import static org.bytedeco.ffmpeg.global.avformat.avformat_free_context;
 import static org.jmisb.core.video.TimingUtils.shortWait;
 
 /**
@@ -42,7 +42,7 @@ public abstract class VideoInput implements IVideoInput
     private final static int QUEUE_SIZE = 100;
 
     String url;
-    avformat.AVFormatContext formatContext;
+    AVFormatContext formatContext;
 
     @Override
     public abstract void open(String url) throws IOException;
@@ -64,8 +64,9 @@ public abstract class VideoInput implements IVideoInput
      * Insert a sleep to control playback rate prior to notifying clients
      *
      * @param pts PTS of the metadata frame to be delivered
+     * @throws InterruptedException If the thread is interrupted while waiting
      */
-    protected abstract void delayMetadata(double pts);
+    protected abstract void delayMetadata(double pts) throws InterruptedException;
 
     @Override
     public String getUrl()
@@ -249,6 +250,7 @@ public abstract class VideoInput implements IVideoInput
         void shutdown()
         {
             shutdown = true;
+            interrupt();
         }
 
         protected void pauseOutput()
@@ -310,6 +312,7 @@ public abstract class VideoInput implements IVideoInput
         void shutdown()
         {
             shutdown = true;
+            interrupt();
         }
 
         protected void pauseOutput()
