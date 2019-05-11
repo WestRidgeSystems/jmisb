@@ -1,3 +1,4 @@
+### May 11, 2019 version 1.7.0
  * Update to JavaCPP Presets 1.5 / FFmpeg 4.1.3
  * Option to enable or disable KLV stream in output
  * Metadata framing performance optimizations
