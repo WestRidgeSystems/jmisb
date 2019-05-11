@@ -84,8 +84,10 @@ public class VideoStreamOutput extends VideoOutput implements IVideoStreamOutput
         initFormat();
         createVideoStream();
 
-        // TODO: make optional
-        createMetadataStream();
+        if (options.hasKlvStream())
+        {
+            createMetadataStream();
+        }
 
         formatContext.pb(ioContext);
 
@@ -154,8 +156,13 @@ public class VideoStreamOutput extends VideoOutput implements IVideoStreamOutput
     }
 
     @Override
-    public void queueMetadataFrame(MetadataFrame metadataFrame)
+    public void queueMetadataFrame(MetadataFrame metadataFrame) throws IOException
     {
+        if (!options.hasKlvStream())
+        {
+            throw new IOException("Attempted to write metadata without a KLV stream");
+        }
+
         AVPacket packet = convert(metadataFrame);
         klvPackets.offer(packet);
         outputStatistics.metadataFrameQueued();

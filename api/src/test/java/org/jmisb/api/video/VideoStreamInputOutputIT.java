@@ -67,7 +67,7 @@ public class VideoStreamInputOutputIT
         final double frameDuration = 1.0 / frameRate;
 
         try (IVideoStreamOutput output = VideoSystem.createOutputStream(
-                new VideoOutputOptions(width, height, bitRate, frameRate, gopSize)))
+                new VideoOutputOptions(width, height, bitRate, frameRate, gopSize, false)))
         {
             output.open(url);
             Assert.assertTrue(output.isOpen());
@@ -97,7 +97,7 @@ public class VideoStreamInputOutputIT
         final double frameDuration = 1.0 / frameRate;
 
         try (IVideoStreamOutput output = VideoSystem.createOutputStream(
-                new VideoOutputOptions(width, height, bitRate, frameRate, gopSize)))
+                new VideoOutputOptions(width, height, bitRate, frameRate, gopSize, true)))
         {
             output.open(url);
 
@@ -125,7 +125,7 @@ public class VideoStreamInputOutputIT
         try
         {
             output = VideoSystem.createOutputStream(
-                    new VideoOutputOptions(width, height, bitRate, frameRate, gopSize));
+                    new VideoOutputOptions(width, height, bitRate, frameRate, gopSize, true));
 
             output.open(url);
             Assert.assertTrue(output.isOpen());
@@ -144,7 +144,7 @@ public class VideoStreamInputOutputIT
     public void testInvalidProtocol()
     {
         try (IVideoStreamOutput output = VideoSystem.createOutputStream(
-                new VideoOutputOptions(width, height, bitRate, frameRate, gopSize)))
+                new VideoOutputOptions(width, height, bitRate, frameRate, gopSize, true)))
         {
             output.open("http://127.0.0.1:30800/test.sdp");
         }
@@ -158,7 +158,7 @@ public class VideoStreamInputOutputIT
     public void testInvalidAddress() throws IOException
     {
         try (IVideoStreamOutput output = VideoSystem.createOutputStream(
-                new VideoOutputOptions(width, height, bitRate, frameRate, gopSize)))
+                new VideoOutputOptions(width, height, bitRate, frameRate, gopSize, true)))
         {
             output.open("udp://256.0.0.0:30800");
         }

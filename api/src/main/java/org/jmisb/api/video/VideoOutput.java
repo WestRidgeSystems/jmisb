@@ -153,19 +153,22 @@ public abstract class VideoOutput
         logger.debug("video encoder = " + videoCodec.long_name().getString());
 
         // Allocate the metadata codec context
-        if ((metadataCodecContext = avcodec_alloc_context3(null)) == null)
+        if (options.hasKlvStream())
         {
-            throw new IOException("avcodec_alloc_context3() error: Could not allocate video encoding context.");
-        }
-        klvCodecParams = avcodec_parameters_alloc();
-        klvCodecParams.codec_tag(FfmpegUtils.fourCcToTag("klva"));
-        klvCodecParams.codec_type(AVMEDIA_TYPE_DATA);
-        klvCodecParams.codec_id(AV_CODEC_ID_SMPTE_KLV);
+            if ((metadataCodecContext = avcodec_alloc_context3(null)) == null)
+            {
+                throw new IOException("avcodec_alloc_context3() error: Could not allocate video encoding context.");
+            }
+            klvCodecParams = avcodec_parameters_alloc();
+            klvCodecParams.codec_tag(FfmpegUtils.fourCcToTag("klva"));
+            klvCodecParams.codec_type(AVMEDIA_TYPE_DATA);
+            klvCodecParams.codec_id(AV_CODEC_ID_SMPTE_KLV);
 
-        int ret;
-        if ((ret = avcodec_parameters_to_context(metadataCodecContext, klvCodecParams)) < 0)
-        {
-            throw new IOException("Could not allocate metadata codec context: " + FfmpegUtils.formatError(ret));
+            int ret;
+            if ((ret = avcodec_parameters_to_context(metadataCodecContext, klvCodecParams)) < 0)
+            {
+                throw new IOException("Could not allocate metadata codec context: " + FfmpegUtils.formatError(ret));
+            }
         }
     }
 

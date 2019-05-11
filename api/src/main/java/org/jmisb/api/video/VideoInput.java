@@ -161,14 +161,10 @@ public abstract class VideoInput implements IVideoInput
      */
     void startNotifiers(boolean startPaused)
     {
-        videoNotifier = new VideoNotifier();
-        if (startPaused)
-            videoNotifier.pauseOutput();
+        videoNotifier = new VideoNotifier(startPaused);
         videoNotifier.start();
 
-        metadataNotifier = new MetadataNotifier();
-        if (startPaused)
-            metadataNotifier.pauseOutput();
+        metadataNotifier = new MetadataNotifier(startPaused);
         metadataNotifier.start();
     }
 
@@ -207,9 +203,14 @@ public abstract class VideoInput implements IVideoInput
      */
     protected class VideoNotifier extends Thread
     {
-        private boolean shutdown = false;
+        private volatile boolean shutdown = false;
         private boolean paused = false;
         private boolean getOneFrame = false;
+
+        VideoNotifier(boolean paused)
+        {
+            this.paused = paused;
+        }
 
         @Override
         public void run()
@@ -274,8 +275,13 @@ public abstract class VideoInput implements IVideoInput
      */
     protected class MetadataNotifier extends Thread
     {
-        private boolean shutdown = false;
+        private volatile boolean shutdown = false;
         private boolean paused = false;
+
+        MetadataNotifier(boolean paused)
+        {
+            this.paused = paused;
+        }
 
         @Override
         public void run()

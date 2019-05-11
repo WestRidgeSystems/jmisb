@@ -51,8 +51,10 @@ public class VideoFileOutput extends VideoOutput implements IVideoFileOutput
         initFormat();
         createVideoStream();
 
-        // TODO: make optional
-        createMetadataStream();
+        if (options.hasKlvStream())
+        {
+            createMetadataStream();
+        }
 
         // Open the file
         int ret;
@@ -128,6 +130,11 @@ public class VideoFileOutput extends VideoOutput implements IVideoFileOutput
     @Override
     public void addMetadataFrame(MetadataFrame frame) throws IOException
     {
+        if (!options.hasKlvStream())
+        {
+            throw new IOException("Attempted to write metadata without a KLV stream");
+        }
+
         AVPacket packet = convert(frame);
 
         // Write the packet to the file

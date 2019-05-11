@@ -48,11 +48,12 @@ public class VideoFileInputOutputIT
         final int bitRate = 1_500_000;
         final double frameRate = 30.0;
         final int gopSize = 30;
+        final boolean hasKlv = false;
         final double frameDuration = 1.0 / frameRate;
         final int numFrames = 300;
 
         try (IVideoFileOutput output = VideoSystem.createOutputFile(
-                new VideoOutputOptions(width, height, bitRate, frameRate, gopSize)))
+                new VideoOutputOptions(width, height, bitRate, frameRate, gopSize, hasKlv)))
         {
             output.open(filename);
 
@@ -92,11 +93,12 @@ public class VideoFileInputOutputIT
         final int bitRate = 500_000;
         final double frameRate = 15.0;
         final int gopSize = 30;
+        final boolean hasKlv = true;
         final double frameDuration = 1.0 / frameRate;
         final int numFrames = 120;
 
         try (IVideoFileOutput output = VideoSystem.createOutputFile(
-                new VideoOutputOptions(width, height, bitRate, frameRate, gopSize)))
+                new VideoOutputOptions(width, height, bitRate, frameRate, gopSize, hasKlv)))
         {
             output.open(filename);
 
