@@ -6,6 +6,7 @@ import org.jmisb.core.klv.ArrayUtils;
 import org.testng.Assert;
 import org.testng.annotations.Test;
 
+import java.nio.ByteBuffer;
 import java.util.List;
 import java.util.SortedMap;
 import java.util.TreeMap;
@@ -45,6 +46,29 @@ public class KlvParserTest
             Assert.assertEquals(lon.getDegrees(), -71.1284, SensorLongitude.DELTA);
             Assert.assertEquals(alt.getMeters(), 1258.3, SensorTrueAltitude.DELTA);
 
+        } catch (KlvParseException e)
+        {
+            Assert.fail("Parse exception");
+        }
+    }
+
+    @Test
+    public void testUnknownLabel()
+    {
+        ByteBuffer byteBuffer = ByteBuffer.allocate(20);
+        byteBuffer.put(KlvConstants.GeneralizedTransformationUl.getBytes());
+        byteBuffer.put((byte)0x03);
+        byteBuffer.put(new byte[]{0x00, 0x00, 0x00});
+
+        try
+        {
+            List<IMisbMessage> messages = KlvParser.parseBytes(byteBuffer.array());
+            Assert.assertEquals(messages.size(), 1);
+            IMisbMessage message = messages.get(0);
+            Assert.assertTrue(message instanceof RawMisbMessage);
+            RawMisbMessage rawMisbMessage = (RawMisbMessage) message;
+            Assert.assertEquals(rawMisbMessage.getUniversalLabel(), KlvConstants.GeneralizedTransformationUl);
+            Assert.assertEquals(rawMisbMessage.getBytes().length, 20);
         } catch (KlvParseException e)
         {
             Assert.fail("Parse exception");

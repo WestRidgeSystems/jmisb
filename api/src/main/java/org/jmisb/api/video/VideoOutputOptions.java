@@ -10,6 +10,7 @@ public class VideoOutputOptions
     private final double frameRate;
     private final int bitRate;
     private final int gopSize;
+    private final boolean klvStream;
 
     /**
      * Construct with default values
@@ -19,7 +20,7 @@ public class VideoOutputOptions
      */
     public VideoOutputOptions(int width, int height)
     {
-        this(width, height, 1500000, 30.0, 30);
+        this(width, height, 1500000, 30.0, 30, true);
     }
 
     /**
@@ -30,14 +31,16 @@ public class VideoOutputOptions
      * @param bitRate Target stream bit rate in bits/second
      * @param frameRate Stream frame rate in frames/second
      * @param gopSize Group of Picture size, i.e., the I-frame interval
+     * @param hasKlvStream True to include a KLV data stream
      */
-    public VideoOutputOptions(int width, int height, int bitRate, double frameRate, int gopSize)
+    public VideoOutputOptions(int width, int height, int bitRate, double frameRate, int gopSize, boolean hasKlvStream)
     {
         this.width = width;
         this.height = height;
         this.bitRate = bitRate;
         this.frameRate = frameRate;
         this.gopSize = gopSize;
+        this.klvStream = hasKlvStream;
     }
 
     /**
@@ -69,4 +72,10 @@ public class VideoOutputOptions
      * @return GOP size, i.e., the I-frame interval
      */
     public int getGopSize() { return gopSize; }
+
+    /**
+     * Check if the output has a KLV data stream
+     * @return True if the output has a KLV stream
+     */
+    public boolean hasKlvStream() { return klvStream; }
 }

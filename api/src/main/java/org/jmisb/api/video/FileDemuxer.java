@@ -1,12 +1,13 @@
 package org.jmisb.api.video;
 
-import org.bytedeco.javacpp.avcodec;
-import org.bytedeco.javacpp.avformat;
+import org.bytedeco.ffmpeg.avcodec.AVPacket;
+import org.bytedeco.ffmpeg.avformat.AVFormatContext;
 import org.jmisb.core.video.FfmpegUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
-import static org.bytedeco.javacpp.avutil.av_q2d;
+import static org.bytedeco.ffmpeg.global.avcodec.av_packet_unref;
+import static org.bytedeco.ffmpeg.global.avutil.av_q2d;
 import static org.jmisb.core.video.TimingUtils.shortWait;
 
 /**
@@ -16,7 +17,7 @@ class FileDemuxer extends ProcessingThread
 {
     private static Logger logger = LoggerFactory.getLogger(FileDemuxer.class);
     private final VideoInput inputStream;
-    private final avformat.AVFormatContext avFormatContext;
+    private final AVFormatContext avFormatContext;
 
     private VideoDecodeThread videoDecodeThread;
     private MetadataDecodeThread metadataDecodeThread;
@@ -26,7 +27,7 @@ class FileDemuxer extends ProcessingThread
     private boolean seekRequested = false;
     private double seekPosition;
 
-    FileDemuxer(VideoInput inputStream, avformat.AVFormatContext avFormatContext)
+    FileDemuxer(VideoInput inputStream, AVFormatContext avFormatContext)
     {
         this.inputStream = inputStream;
         this.avFormatContext = avFormatContext;
@@ -49,7 +50,7 @@ class FileDemuxer extends ProcessingThread
             metadataDecodeThread = new MetadataDecodeThread(inputStream, FfmpegUtils.getDataStream(avFormatContext));
         }
 
-        avcodec.AVPacket packet = new avcodec.AVPacket();
+        AVPacket packet = new AVPacket();
         while (!isShutdown())
         {
             // If paused, sleep until play() or shutdown() is called
@@ -106,7 +107,7 @@ class FileDemuxer extends ProcessingThread
             }
 
             // Release the packet's buffer
-            avcodec.av_packet_unref(packet);
+            av_packet_unref(packet);
         }
 
         if (logger.isDebugEnabled())

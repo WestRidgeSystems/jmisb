@@ -1,17 +1,24 @@
 package org.jmisb.api.video;
 
+import org.bytedeco.ffmpeg.avcodec.AVCodec;
+import org.bytedeco.ffmpeg.avcodec.AVPacket;
+import org.bytedeco.ffmpeg.avformat.AVStream;
 import org.bytedeco.javacpp.PointerPointer;
-import org.bytedeco.javacpp.avcodec;
-import org.bytedeco.javacpp.avformat;
 import org.jmisb.core.video.FfmpegUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 import java.io.IOException;
 
-import static org.bytedeco.javacpp.avcodec.avcodec_find_decoder;
-import static org.bytedeco.javacpp.avformat.*;
-import static org.bytedeco.javacpp.avutil.AVERROR_EOF;
+import static org.bytedeco.ffmpeg.global.avcodec.avcodec_find_decoder;
+import static org.bytedeco.ffmpeg.global.avformat.AVSEEK_FLAG_BACKWARD;
+import static org.bytedeco.ffmpeg.global.avformat.av_read_frame;
+import static org.bytedeco.ffmpeg.global.avformat.avformat_alloc_context;
+import static org.bytedeco.ffmpeg.global.avformat.avformat_find_stream_info;
+import static org.bytedeco.ffmpeg.global.avformat.avformat_flush;
+import static org.bytedeco.ffmpeg.global.avformat.avformat_open_input;
+import static org.bytedeco.ffmpeg.global.avformat.avformat_seek_file;
+import static org.bytedeco.ffmpeg.global.avutil.AVERROR_EOF;
 import static org.jmisb.core.video.TimingUtils.shortWait;
 
 /**
@@ -72,7 +79,7 @@ public class VideoFileInput extends VideoInput implements IVideoFileInput
         // av_dump_format(formatContext, 0, url, 0);
 
         // Find the video, audio, and data streams, if present
-        avformat.AVStream videoStream = FfmpegUtils.getVideoStream(formatContext);
+        AVStream videoStream = FfmpegUtils.getVideoStream(formatContext);
 
         duration = FfmpegUtils.getDuration(formatContext);
 
@@ -84,7 +91,7 @@ public class VideoFileInput extends VideoInput implements IVideoFileInput
         }
 
         // Find the decoder for the video stream to ensure we can decode it
-        avcodec.AVCodec codec = avcodec_find_decoder(videoStream.codecpar().codec_id());
+        AVCodec codec = avcodec_find_decoder(videoStream.codecpar().codec_id());
         if (codec == null)
         {
             freeContext();
@@ -107,11 +114,11 @@ public class VideoFileInput extends VideoInput implements IVideoFileInput
         open = true;
     }
 
-    private int countFrames(avformat.AVStream videoStream)
+    private int countFrames(AVStream videoStream)
     {
         // Loop through all frames, counting only video frames
         int numFrames = 0;
-        avcodec.AVPacket packet = new avcodec.AVPacket();
+        AVPacket packet = new AVPacket();
         while (true)
         {
             int ret;
@@ -154,15 +161,7 @@ public class VideoFileInput extends VideoInput implements IVideoFileInput
 
         if (isOpen())
         {
-            // TODO: make thread shutdown less ugly
-            demuxer.shutdown();
-            try
-            {
-                demuxer.join();
-            } catch (InterruptedException e)
-            {
-            }
-
+            stopFileDemuxer();
             stopNotifiers();
             freeContext();
             open = false;
@@ -299,12 +298,27 @@ public class VideoFileInput extends VideoInput implements IVideoFileInput
     }
 
     @Override
-    protected void delayMetadata(double pts)
+    protected void delayMetadata(double pts) throws InterruptedException
     {
         // Just sync to the video based on PTS
         while (pts > prevVideoPts)
         {
-            shortWait(10);
+            Thread.sleep(10);
+        }
+    }
+
+    /**
+     * Stop the demuxer thread
+     */
+    private void stopFileDemuxer()
+    {
+        demuxer.shutdown();
+        try
+        {
+            demuxer.join();
+        } catch (InterruptedException e)
+        {
+            logger.warn("Interrupted while joining demuxer thread", e);
         }
     }
 }

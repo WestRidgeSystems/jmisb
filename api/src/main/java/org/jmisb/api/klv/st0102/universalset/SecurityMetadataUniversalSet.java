@@ -7,6 +7,8 @@ import org.jmisb.api.klv.st0102.*;
 import java.time.LocalDate;
 import java.util.*;
 
+import static org.jmisb.core.klv.ArrayUtils.arrayFromChunks;
+
 /**
  * Security Metadata Universal Set message packet defined by ST 0102
  */
@@ -102,18 +104,7 @@ public class SecurityMetadataUniversalSet extends SecurityMetadataMessage
         }
 
         // Allocate array and write all chunks
-        // TODO: optimize
-        byte[] array = new byte[totalLength];
-        int i = 0;
-        for (byte[] chunk : chunks)
-        {
-            for (byte b : chunk)
-            {
-                array[i++] = b;
-            }
-        }
-
-        return array;
+        return arrayFromChunks(chunks, totalLength);
     }
 
     /**

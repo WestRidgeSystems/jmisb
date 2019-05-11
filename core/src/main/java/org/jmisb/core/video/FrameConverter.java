@@ -1,13 +1,13 @@
 package org.jmisb.core.video;
 
-import org.bytedeco.javacpp.avutil;
+import org.bytedeco.ffmpeg.avutil.AVFrame;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 import java.awt.image.*;
 import java.nio.ByteBuffer;
 
-import static org.bytedeco.javacpp.avutil.AV_PIX_FMT_BGR24;
+import static org.bytedeco.ffmpeg.global.avutil.AV_PIX_FMT_BGR24;
 
 /**
  * Convert video frames between AVFrame and BufferedImage
@@ -24,7 +24,7 @@ public class FrameConverter
      * @param frame The AVFrame; must be 3-byte BGR format
      * @return The BufferedImage
      */
-    public BufferedImage convert(avutil.AVFrame frame)
+    public BufferedImage convert(AVFrame frame)
     {
         if (frame == null)
         {

@@ -1,11 +1,12 @@
 package org.jmisb.api.video;
 
-import org.bytedeco.javacpp.avcodec;
-import org.bytedeco.javacpp.avformat;
+import org.bytedeco.ffmpeg.avcodec.AVPacket;
+import org.bytedeco.ffmpeg.avformat.AVFormatContext;
 import org.jmisb.core.video.FfmpegUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
+import static org.bytedeco.ffmpeg.global.avcodec.av_packet_unref;
 import static org.jmisb.core.video.TimingUtils.shortWait;
 
 /**
@@ -15,10 +16,10 @@ class StreamDemuxer extends ProcessingThread
 {
     private static Logger logger = LoggerFactory.getLogger(StreamDemuxer.class);
     private final VideoInput inputStream;
-    private final avformat.AVFormatContext avFormatContext;
+    private final AVFormatContext avFormatContext;
     private MetadataDecodeThread metadataDecodeThread;
 
-    StreamDemuxer(VideoInput inputStream, avformat.AVFormatContext avFormatContext)
+    StreamDemuxer(VideoInput inputStream, AVFormatContext avFormatContext)
     {
         this.inputStream = inputStream;
         this.avFormatContext = avFormatContext;
@@ -40,7 +41,7 @@ class StreamDemuxer extends ProcessingThread
             metadataDecodeThread = new MetadataDecodeThread(inputStream, FfmpegUtils.getDataStream(avFormatContext));
         }
 
-        avcodec.AVPacket packet = new avcodec.AVPacket();
+        AVPacket packet = new AVPacket();
         while (!isShutdown())
         {
             // Read a packet from the stream
@@ -64,7 +65,7 @@ class StreamDemuxer extends ProcessingThread
             }
 
             // Release the packet's buffer
-            avcodec.av_packet_unref(packet);
+            av_packet_unref(packet);
         }
 
         // Clean up resources

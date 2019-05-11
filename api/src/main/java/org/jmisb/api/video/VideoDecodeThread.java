@@ -1,5 +1,12 @@
 package org.jmisb.api.video;
 
+import org.bytedeco.ffmpeg.avcodec.AVCodec;
+import org.bytedeco.ffmpeg.avcodec.AVCodecContext;
+import org.bytedeco.ffmpeg.avcodec.AVPacket;
+import org.bytedeco.ffmpeg.avformat.AVStream;
+import org.bytedeco.ffmpeg.avutil.AVDictionary;
+import org.bytedeco.ffmpeg.avutil.AVFrame;
+import org.bytedeco.ffmpeg.swscale.SwsContext;
 import org.bytedeco.javacpp.*;
 import org.jmisb.core.video.FfmpegUtils;
 import org.jmisb.core.video.FrameConverter;
@@ -11,8 +18,26 @@ import java.util.concurrent.BlockingQueue;
 import java.util.concurrent.LinkedBlockingDeque;
 import java.util.concurrent.TimeUnit;
 
-import static org.bytedeco.javacpp.avcodec.*;
-import static org.bytedeco.javacpp.avutil.*;
+import static org.bytedeco.ffmpeg.global.avcodec.av_packet_clone;
+import static org.bytedeco.ffmpeg.global.avcodec.avcodec_alloc_context3;
+import static org.bytedeco.ffmpeg.global.avcodec.avcodec_find_decoder;
+import static org.bytedeco.ffmpeg.global.avcodec.avcodec_flush_buffers;
+import static org.bytedeco.ffmpeg.global.avcodec.avcodec_free_context;
+import static org.bytedeco.ffmpeg.global.avcodec.avcodec_open2;
+import static org.bytedeco.ffmpeg.global.avcodec.avcodec_parameters_to_context;
+import static org.bytedeco.ffmpeg.global.avcodec.avcodec_receive_frame;
+import static org.bytedeco.ffmpeg.global.avcodec.avcodec_send_packet;
+import static org.bytedeco.ffmpeg.global.avutil.AV_PIX_FMT_BGR24;
+import static org.bytedeco.ffmpeg.global.avutil.av_dict_free;
+import static org.bytedeco.ffmpeg.global.avutil.av_frame_alloc;
+import static org.bytedeco.ffmpeg.global.avutil.av_frame_free;
+import static org.bytedeco.ffmpeg.global.avutil.av_image_fill_arrays;
+import static org.bytedeco.ffmpeg.global.avutil.av_image_get_buffer_size;
+import static org.bytedeco.ffmpeg.global.avutil.av_malloc;
+import static org.bytedeco.ffmpeg.global.avutil.av_q2d;
+import static org.bytedeco.ffmpeg.global.swscale.SWS_FAST_BILINEAR;
+import static org.bytedeco.ffmpeg.global.swscale.sws_getContext;
+import static org.bytedeco.ffmpeg.global.swscale.sws_scale;
 
 /**
  * Video decoding thread
@@ -25,9 +50,9 @@ class VideoDecodeThread extends ProcessingThread
     private static Logger logger = LoggerFactory.getLogger(VideoDecodeThread.class);
     private final static int INPUT_QUEUE_SIZE = 100;
     private final VideoInput inputStream;
-    private final avformat.AVStream videoStream;
-    private avcodec.AVCodecContext codecContext;
-    private BlockingQueue<avcodec.AVPacket> packetQueue = new LinkedBlockingDeque<>(INPUT_QUEUE_SIZE);
+    private final AVStream videoStream;
+    private AVCodecContext codecContext;
+    private BlockingQueue<AVPacket> packetQueue = new LinkedBlockingDeque<>(INPUT_QUEUE_SIZE);
 
     /**
      * Image buffer in native stream format
@@ -41,7 +66,7 @@ class VideoDecodeThread extends ProcessingThread
 
     private final FrameConverter frameConverter = new FrameConverter();
 
-    VideoDecodeThread(VideoInput inputStream, avformat.AVStream videoStream)
+    VideoDecodeThread(VideoInput inputStream, AVStream videoStream)
     {
         this.inputStream = inputStream;
         this.videoStream = videoStream;
@@ -54,7 +79,7 @@ class VideoDecodeThread extends ProcessingThread
      * @param packet The packet to queue
      * @return True if the packet was queued, false if the queue is currently full
      */
-    public boolean enqueue(avcodec.AVPacket packet)
+    public boolean enqueue(AVPacket packet)
     {
         try
         {
@@ -79,7 +104,7 @@ class VideoDecodeThread extends ProcessingThread
     {
         Thread.currentThread().setName("VideoDecodeThread - " + inputStream.getUrl());
 
-        avcodec.AVCodec codec = avcodec_find_decoder(videoStream.codecpar().codec_id());
+        AVCodec codec = avcodec_find_decoder(videoStream.codecpar().codec_id());
         if (codec == null)
         {
             logger.error(
@@ -89,17 +114,17 @@ class VideoDecodeThread extends ProcessingThread
         }
 
         // Open video codec
-        avutil.AVDictionary opts = new avutil.AVDictionary(null);
+        AVDictionary opts = new AVDictionary(null);
         codecContext = avcodec_alloc_context3(codec);
         if (codecContext == null)
         {
             logger.error("Could not allocate codec context");
             return;
         }
-        if (avcodec.avcodec_parameters_to_context(codecContext, videoStream.codecpar()) < 0)
+        if (avcodec_parameters_to_context(codecContext, videoStream.codecpar()) < 0)
         {
             logger.error("Couldn't create AVCodecContext for video stream");
-            avcodec.avcodec_free_context(codecContext);
+            avcodec_free_context(codecContext);
             return;
         }
 
@@ -121,20 +146,20 @@ class VideoDecodeThread extends ProcessingThread
         allocateImages(videoStream.codecpar().width(), videoStream.codecpar().height());
 
         // Allocate SwsContext used for color conversion/scaling
-        swscale.SwsContext swsContext;
-        swsContext = swscale.sws_getContext(
+        SwsContext swsContext;
+        swsContext = sws_getContext(
                 videoStream.codecpar().width(),
                 videoStream.codecpar().height(),
                 codecContext.pix_fmt(),
                 bgrFrame.width(),
                 bgrFrame.height(),
                 bgrFrame.format(),
-                swscale.SWS_FAST_BILINEAR,
+                SWS_FAST_BILINEAR,
                 null,
                 null,
                 (DoublePointer) null);
 
-        avutil.AVFrame avFrame = avutil.av_frame_alloc();
+        AVFrame avFrame = av_frame_alloc();
 
         while (!isShutdown())
         {
@@ -147,17 +172,17 @@ class VideoDecodeThread extends ProcessingThread
 
             try
             {
-                avcodec.AVPacket packet = packetQueue.poll(10, TimeUnit.MILLISECONDS);
+                AVPacket packet = packetQueue.poll(10, TimeUnit.MILLISECONDS);
                 if (packet != null)
                 {
                     // Send the packet to the decoder
-                    if ((ret = avcodec.avcodec_send_packet(codecContext, packet)) < 0)
+                    if ((ret = avcodec_send_packet(codecContext, packet)) < 0)
                     {
                         logger.error("avcodec_send_packet error " + FfmpegUtils.formatError(ret));
                     }
 
                     // Check for decoded frames
-                    ret = avcodec.avcodec_receive_frame(codecContext, avFrame);
+                    ret = avcodec_receive_frame(codecContext, avFrame);
                     if (ret >= 0)
                     {
                         //long pts = av_frame_get_best_effort_timestamp(avFrame);
@@ -165,7 +190,7 @@ class VideoDecodeThread extends ProcessingThread
 //                        logger.debug("Video PTS = " + pts);
 
                         // Convert image from native pixel format to BGR24
-                        swscale.sws_scale(swsContext,
+                        sws_scale(swsContext,
                                 new PointerPointer(avFrame), avFrame.linesize(), 0, codecContext.height(),
                                 bgrFrame.data(), bgrFrame.linesize());
 
@@ -200,7 +225,7 @@ class VideoDecodeThread extends ProcessingThread
 
         // Clean up resources
         avcodec_free_context(codecContext);
-        avutil.av_frame_free(avFrame);
+        av_frame_free(avFrame);
 
         deallocateImages();
     }

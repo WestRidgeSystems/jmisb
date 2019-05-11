@@ -1,5 +1,16 @@
 package org.jmisb.api.video;
 
+import org.bytedeco.ffmpeg.avcodec.AVCodec;
+import org.bytedeco.ffmpeg.avcodec.AVCodecContext;
+import org.bytedeco.ffmpeg.avcodec.AVCodecParameters;
+import org.bytedeco.ffmpeg.avcodec.AVPacket;
+import org.bytedeco.ffmpeg.avformat.AVFormatContext;
+import org.bytedeco.ffmpeg.avformat.AVOutputFormat;
+import org.bytedeco.ffmpeg.avformat.AVStream;
+import org.bytedeco.ffmpeg.avutil.AVDictionary;
+import org.bytedeco.ffmpeg.avutil.AVFrame;
+import org.bytedeco.ffmpeg.avutil.AVRational;
+import org.bytedeco.ffmpeg.swscale.SwsContext;
 import org.bytedeco.javacpp.*;
 import org.jmisb.core.video.FfmpegUtils;
 import org.slf4j.Logger;
@@ -11,12 +22,38 @@ import java.awt.image.DataBuffer;
 import java.awt.image.DataBufferByte;
 import java.io.IOException;
 
-import static org.bytedeco.javacpp.avcodec.*;
-import static org.bytedeco.javacpp.avformat.av_guess_format;
-import static org.bytedeco.javacpp.avformat.avformat_free_context;
-import static org.bytedeco.javacpp.avformat.avio_close;
-import static org.bytedeco.javacpp.avutil.*;
-import static org.bytedeco.javacpp.swscale.SWS_FAST_BILINEAR;
+import static org.bytedeco.ffmpeg.global.avcodec.AV_CODEC_ID_H264;
+import static org.bytedeco.ffmpeg.global.avcodec.AV_CODEC_ID_SMPTE_KLV;
+import static org.bytedeco.ffmpeg.global.avcodec.av_packet_alloc;
+import static org.bytedeco.ffmpeg.global.avcodec.avcodec_alloc_context3;
+import static org.bytedeco.ffmpeg.global.avcodec.avcodec_find_encoder;
+import static org.bytedeco.ffmpeg.global.avcodec.avcodec_find_encoder_by_name;
+import static org.bytedeco.ffmpeg.global.avcodec.avcodec_free_context;
+import static org.bytedeco.ffmpeg.global.avcodec.avcodec_open2;
+import static org.bytedeco.ffmpeg.global.avcodec.avcodec_parameters_alloc;
+import static org.bytedeco.ffmpeg.global.avcodec.avcodec_parameters_from_context;
+import static org.bytedeco.ffmpeg.global.avcodec.avcodec_parameters_to_context;
+import static org.bytedeco.ffmpeg.global.avcodec.avcodec_send_frame;
+import static org.bytedeco.ffmpeg.global.avformat.av_guess_format;
+import static org.bytedeco.ffmpeg.global.avformat.avformat_alloc_output_context2;
+import static org.bytedeco.ffmpeg.global.avformat.avformat_free_context;
+import static org.bytedeco.ffmpeg.global.avformat.avformat_new_stream;
+import static org.bytedeco.ffmpeg.global.avformat.avio_close;
+import static org.bytedeco.ffmpeg.global.avutil.AVMEDIA_TYPE_DATA;
+import static org.bytedeco.ffmpeg.global.avutil.AV_PIX_FMT_BGR24;
+import static org.bytedeco.ffmpeg.global.avutil.AV_PIX_FMT_YUV420P;
+import static org.bytedeco.ffmpeg.global.avutil.av_d2q;
+import static org.bytedeco.ffmpeg.global.avutil.av_dict_free;
+import static org.bytedeco.ffmpeg.global.avutil.av_frame_alloc;
+import static org.bytedeco.ffmpeg.global.avutil.av_frame_free;
+import static org.bytedeco.ffmpeg.global.avutil.av_image_alloc;
+import static org.bytedeco.ffmpeg.global.avutil.av_image_fill_arrays;
+import static org.bytedeco.ffmpeg.global.avutil.av_inv_q;
+import static org.bytedeco.ffmpeg.global.avutil.av_q2d;
+import static org.bytedeco.ffmpeg.global.swscale.SWS_FAST_BILINEAR;
+import static org.bytedeco.ffmpeg.global.swscale.sws_getCachedContext;
+import static org.bytedeco.ffmpeg.global.swscale.sws_scale;
+import static org.bytedeco.ffmpeg.presets.avutil.AVERROR_EAGAIN;
 
 /**
  * Abstract base class for video output
@@ -27,24 +64,24 @@ public abstract class VideoOutput
     protected VideoOutputOptions options;
 
     // Format
-    avformat.AVFormatContext formatContext;
+    AVFormatContext formatContext;
 
     // Video codec
-    avcodec.AVCodecContext videoCodecContext;
-    private avcodec.AVCodec videoCodec;
+    AVCodecContext videoCodecContext;
+    private AVCodec videoCodec;
 
     // Metadata codec
-    avcodec.AVCodecContext metadataCodecContext;
-    avcodec.AVCodecParameters klvCodecParams;
+    AVCodecContext metadataCodecContext;
+    AVCodecParameters klvCodecParams;
 
     // Streams
     private static final int VIDEO_STREAM_INDEX = 0;
     private static final int METADATA_STREAM_INDEX = 1;
 
-    private avformat.AVStream videoStream;
-    private avformat.AVStream metadataStream;
+    private AVStream videoStream;
+    private AVStream metadataStream;
 
-    private swscale.SwsContext swsContext;
+    private SwsContext swsContext;
     private AVFrame avFrameSrc;
     private AVFrame avFrameDst;
 
@@ -72,40 +109,40 @@ public abstract class VideoOutput
         // Attempt to open hardware-accelerated codecs first; fall back on libx264
 
         logger.debug("Trying NVIDIA encoder...");
-        videoCodec = avcodec.avcodec_find_encoder_by_name("h264_nvenc");
-        videoCodecContext = avcodec.avcodec_alloc_context3(videoCodec);
+        videoCodec = avcodec_find_encoder_by_name("h264_nvenc");
+        videoCodecContext = avcodec_alloc_context3(videoCodec);
         boolean codecOpened = false;
         if (videoCodec != null && videoCodecContext != null)
             codecOpened = openVideoCodec();
         if (videoCodec == null || videoCodecContext == null || !codecOpened)
         {
             logger.debug("Trying Intel QuickSync encoder...");
-            videoCodec = avcodec.avcodec_find_encoder_by_name("h264_qsv");
-            videoCodecContext = avcodec.avcodec_alloc_context3(videoCodec);
+            videoCodec = avcodec_find_encoder_by_name("h264_qsv");
+            videoCodecContext = avcodec_alloc_context3(videoCodec);
             if (videoCodec != null && videoCodecContext != null)
                 codecOpened = openVideoCodec();
         }
         if (videoCodec == null || videoCodecContext == null || !codecOpened)
         {
             logger.debug("Trying VAAPI encoder...");
-            videoCodec = avcodec.avcodec_find_encoder_by_name("h264_vaapi");
-            videoCodecContext = avcodec.avcodec_alloc_context3(videoCodec);
+            videoCodec = avcodec_find_encoder_by_name("h264_vaapi");
+            videoCodecContext = avcodec_alloc_context3(videoCodec);
             if (videoCodec != null && videoCodecContext != null)
                 codecOpened = openVideoCodec();
         }
         if (videoCodec == null || videoCodecContext == null || !codecOpened)
         {
             logger.debug("Trying libx264 encoder...");
-            videoCodec = avcodec.avcodec_find_encoder_by_name("libx264");
-            videoCodecContext = avcodec.avcodec_alloc_context3(videoCodec);
+            videoCodec = avcodec_find_encoder_by_name("libx264");
+            videoCodecContext = avcodec_alloc_context3(videoCodec);
             if (videoCodec != null && videoCodecContext != null)
                 codecOpened = openVideoCodec();
         }
         if (videoCodec == null || videoCodecContext == null || !codecOpened)
         {
             logger.debug("Searching for any valid encoder...");
-            videoCodec = avcodec.avcodec_find_encoder(AV_CODEC_ID_H264);
-            videoCodecContext = avcodec.avcodec_alloc_context3(videoCodec);
+            videoCodec = avcodec_find_encoder(AV_CODEC_ID_H264);
+            videoCodecContext = avcodec_alloc_context3(videoCodec);
             if (videoCodec != null && videoCodecContext != null)
                 codecOpened = openVideoCodec();
         }
@@ -116,19 +153,22 @@ public abstract class VideoOutput
         logger.debug("video encoder = " + videoCodec.long_name().getString());
 
         // Allocate the metadata codec context
-        if ((metadataCodecContext = avcodec.avcodec_alloc_context3(null)) == null)
+        if (options.hasKlvStream())
         {
-            throw new IOException("avcodec_alloc_context3() error: Could not allocate video encoding context.");
-        }
-        klvCodecParams = avcodec_parameters_alloc();
-        klvCodecParams.codec_tag(FfmpegUtils.fourCcToTag("klva"));
-        klvCodecParams.codec_type(AVMEDIA_TYPE_DATA);
-        klvCodecParams.codec_id(AV_CODEC_ID_SMPTE_KLV);
+            if ((metadataCodecContext = avcodec_alloc_context3(null)) == null)
+            {
+                throw new IOException("avcodec_alloc_context3() error: Could not allocate video encoding context.");
+            }
+            klvCodecParams = avcodec_parameters_alloc();
+            klvCodecParams.codec_tag(FfmpegUtils.fourCcToTag("klva"));
+            klvCodecParams.codec_type(AVMEDIA_TYPE_DATA);
+            klvCodecParams.codec_id(AV_CODEC_ID_SMPTE_KLV);
 
-        int ret;
-        if ((ret = avcodec.avcodec_parameters_to_context(metadataCodecContext, klvCodecParams)) < 0)
-        {
-            throw new IOException("Could not allocate metadata codec context: " + FfmpegUtils.formatError(ret));
+            int ret;
+            if ((ret = avcodec_parameters_to_context(metadataCodecContext, klvCodecParams)) < 0)
+            {
+                throw new IOException("Could not allocate metadata codec context: " + FfmpegUtils.formatError(ret));
+            }
         }
     }
 
@@ -140,11 +180,11 @@ public abstract class VideoOutput
     void initFormat() throws IOException
     {
         // Set the output format - MPEGTS
-        avformat.AVOutputFormat outputFormat = av_guess_format("mpegts", null, null);
+        AVOutputFormat outputFormat = av_guess_format("mpegts", null, null);
 
         // Get the format context
-        formatContext = new avformat.AVFormatContext(null);
-        if (avformat.avformat_alloc_output_context2(formatContext, outputFormat,
+        formatContext = new AVFormatContext(null);
+        if (avformat_alloc_output_context2(formatContext, outputFormat,
                 (String)null, null) < 0)
         {
             throw new IOException("Could not allocate format context");
@@ -166,8 +206,8 @@ public abstract class VideoOutput
         videoCodecContext.bit_rate(options.getBitRate());
 
         // Set frame rate
-        avutil.AVRational frameRate = avutil.av_d2q(options.getFrameRate(), 1001000);
-        avutil.AVRational timeBase = avutil.av_inv_q(frameRate);
+        AVRational frameRate = av_d2q(options.getFrameRate(), 1001000);
+        AVRational timeBase = av_inv_q(frameRate);
         videoCodecContext.time_base(timeBase);
 
         // Encoded picture format
@@ -185,7 +225,7 @@ public abstract class VideoOutput
         videoCodecContext.height(options.getHeight());
 
         // Open the codec
-        avutil.AVDictionary opts = new avutil.AVDictionary(null);
+        AVDictionary opts = new AVDictionary(null);
         int ret = avcodec_open2(videoCodecContext, videoCodec, opts);
         av_dict_free(opts);
         return ret >= 0;
@@ -198,12 +238,12 @@ public abstract class VideoOutput
      */
     void createVideoStream() throws IOException
     {
-        avutil.AVRational frameRate = avutil.av_d2q(options.getFrameRate(), 1001000);
+        AVRational frameRate = av_d2q(options.getFrameRate(), 1001000);
 
         // Create the video stream
-        videoStream = avformat.avformat_new_stream(formatContext, videoCodec);
+        videoStream = avformat_new_stream(formatContext, videoCodec);
         videoStream.index(VIDEO_STREAM_INDEX);
-        videoStream.time_base(avutil.av_inv_q(frameRate));
+        videoStream.time_base(av_inv_q(frameRate));
 
         // Copy the video stream parameters to the muxer
         int ret;
@@ -213,7 +253,7 @@ public abstract class VideoOutput
         }
 
         // Allocate reusable frame
-        avFrameSrc = avutil.av_frame_alloc();
+        avFrameSrc = av_frame_alloc();
     }
 
     /**
@@ -221,7 +261,7 @@ public abstract class VideoOutput
      */
     void createMetadataStream()
     {
-        metadataStream = avformat.avformat_new_stream(formatContext, metadataCodecContext.codec());
+        metadataStream = avformat_new_stream(formatContext, metadataCodecContext.codec());
         metadataStream.index(METADATA_STREAM_INDEX);
         metadataStream.codecpar(klvCodecParams);
         metadataStream.time_base(videoStream.time_base());
@@ -308,7 +348,7 @@ public abstract class VideoOutput
         int dstWidth = videoCodecContext.width();
         int dstHeight = videoCodecContext.height();
 
-        swsContext = swscale.sws_getCachedContext(swsContext,
+        swsContext = sws_getCachedContext(swsContext,
                 srcWidth, srcHeight, srcFormat,
                 dstWidth, dstHeight, dstFormat,
                 SWS_FAST_BILINEAR, null, null, (DoublePointer) null);
@@ -342,7 +382,7 @@ public abstract class VideoOutput
         }
 
         // Copy avFrameSrc -> avFrameDst
-        swscale.sws_scale(swsContext, new PointerPointer(avFrameSrc), avFrameSrc.linesize(),
+        sws_scale(swsContext, new PointerPointer(avFrameSrc), avFrameSrc.linesize(),
                 0, inputImage.getHeight(), new PointerPointer(avFrameDst), avFrameDst.linesize());
     }
 

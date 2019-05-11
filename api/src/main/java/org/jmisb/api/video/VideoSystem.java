@@ -1,8 +1,9 @@
 package org.jmisb.api.video;
 
-import org.bytedeco.javacpp.avutil;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+
+import static org.bytedeco.ffmpeg.global.avutil.setLogCallback;
 
 /**
  * Central class used to instantiate all streams
@@ -35,7 +36,7 @@ public class VideoSystem
         try
         {
             // Redirect ffmpeg's log to slf4j
-            avutil.setLogCallback(FfmpegLog.INSTANCE);
+            setLogCallback(FfmpegLog.INSTANCE);
         }
         catch (Exception ex)
         {

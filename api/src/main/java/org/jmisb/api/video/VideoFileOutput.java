@@ -1,21 +1,28 @@
 package org.jmisb.api.video;
 
-import org.bytedeco.javacpp.*;
+import org.bytedeco.ffmpeg.avcodec.AVPacket;
+import org.bytedeco.ffmpeg.avformat.AVIOContext;
+import org.bytedeco.ffmpeg.avutil.AVDictionary;
 import org.jmisb.core.video.FfmpegUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
-import java.awt.image.BufferedImage;
-import java.awt.image.DataBuffer;
-import java.awt.image.DataBufferByte;
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
 
-import static org.bytedeco.javacpp.avcodec.*;
-import static org.bytedeco.javacpp.avformat.*;
-import static org.bytedeco.javacpp.avutil.*;
-import static org.bytedeco.javacpp.swscale.SWS_FAST_BILINEAR;
+import static org.bytedeco.ffmpeg.global.avcodec.av_packet_alloc;
+import static org.bytedeco.ffmpeg.global.avcodec.av_packet_free;
+import static org.bytedeco.ffmpeg.global.avcodec.avcodec_receive_packet;
+import static org.bytedeco.ffmpeg.global.avcodec.avcodec_send_frame;
+import static org.bytedeco.ffmpeg.global.avformat.AVIO_FLAG_WRITE;
+import static org.bytedeco.ffmpeg.global.avformat.av_write_frame;
+import static org.bytedeco.ffmpeg.global.avformat.av_write_trailer;
+import static org.bytedeco.ffmpeg.global.avformat.avformat_write_header;
+import static org.bytedeco.ffmpeg.global.avformat.avio_open2;
+import static org.bytedeco.ffmpeg.global.avutil.AVERROR_EOF;
+import static org.bytedeco.ffmpeg.global.avutil.av_dict_free;
+import static org.bytedeco.ffmpeg.presets.avutil.AVERROR_EAGAIN;
 
 /**
  * Write video/metadata to a file
@@ -44,19 +51,21 @@ public class VideoFileOutput extends VideoOutput implements IVideoFileOutput
         initFormat();
         createVideoStream();
 
-        // TODO: make optional
-        createMetadataStream();
+        if (options.hasKlvStream())
+        {
+            createMetadataStream();
+        }
 
         // Open the file
         int ret;
-        avformat.AVIOContext ioContext = new avformat.AVIOContext(null);
+        AVIOContext ioContext = new AVIOContext(null);
         if ((ret = avio_open2(ioContext, filename, AVIO_FLAG_WRITE, null, null)) < 0)
         {
             throw new IOException("Error opening file: " + FfmpegUtils.formatError(ret));
         }
         formatContext.pb(ioContext);
 
-        avutil.AVDictionary opts = new avutil.AVDictionary(null);
+        AVDictionary opts = new AVDictionary(null);
         avformat_write_header(formatContext, opts);
         av_dict_free(opts);
 
@@ -121,6 +130,11 @@ public class VideoFileOutput extends VideoOutput implements IVideoFileOutput
     @Override
     public void addMetadataFrame(MetadataFrame frame) throws IOException
     {
+        if (!options.hasKlvStream())
+        {
+            throw new IOException("Attempted to write metadata without a KLV stream");
+        }
+
         AVPacket packet = convert(frame);
 
         // Write the packet to the file

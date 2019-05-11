@@ -25,9 +25,7 @@ public class KlvParser
      * <p>
      * This is the main interface for parsing KLV metadata. It assumes that {@code bytes} contains one or more top-level
      * messages, i.e., byte sequences starting with a Universal Label (UL). If a particular UL is unsupported it will be
-     * ignored, and a warning will be logged.
-     * <p>
-     * TODO: add API to access ignored messages
+     * returned as a {@link RawMisbMessage}.
      *
      * @param bytes The byte array
      * @return List of {@link IMisbMessage}s
@@ -74,13 +72,12 @@ public class KlvParser
                         logger.debug("Security Metadata Local Set message");
                     SecurityMetadataLocalSet message = new SecurityMetadataLocalSet(nextMessage, true);
                     messages.add(message);
-                } else if (ul.equals(KlvConstants.GeneralizedTransformationUl))
-                {
-                    if (logger.isDebugEnabled())
-                        logger.debug("Generalized transformation message");
                 } else
                 {
-                    logger.warn("Unknown universal label; ignoring");
+                    if (logger.isDebugEnabled())
+                        logger.debug("Unsupported message type; wrapping as a raw message");
+                    RawMisbMessage message = new RawMisbMessage(ul, nextMessage);
+                    messages.add(message);
                 }
             } catch (IllegalArgumentException ex)
             {
