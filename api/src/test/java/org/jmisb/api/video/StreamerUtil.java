@@ -19,6 +19,9 @@ import java.time.LocalDateTime;
 import java.util.SortedMap;
 import java.util.TreeMap;
 
+/**
+ * Interactive test for VideoStreamOutput to stand up a UDP stream with a test pattern
+ */
 public class StreamerUtil
 {
     private static final int width = 640;
@@ -65,11 +68,12 @@ public class StreamerUtil
             double pts = 0.0;
             long numBuffered;
             OutputStatistics stats;
-            for (int i = 0; i < 10000; ++i)
+            for (int i = 0; i < 1000000; ++i)
             {
                 stats = output.getStatistics();
                 numBuffered = stats.getNumVideoFramesQueued() - stats.getNumVideoFramesSent();
-                System.out.println("num: " + numBuffered);
+
+                // Slow down so we don't buffer everything
                 if (numBuffered > gopSize)
                 {
                     Thread.sleep(Math.round(frameDuration * 1000));
@@ -82,15 +86,16 @@ public class StreamerUtil
                 pts += frameDuration;
             }
 
-            System.out.println("break------------------------");
             stats = output.getStatistics();
             numBuffered = stats.getNumVideoFramesQueued() - stats.getNumVideoFramesSent();
             while (numBuffered > 0)
             {
                 stats = output.getStatistics();
                 numBuffered = stats.getNumVideoFramesQueued() - stats.getNumVideoFramesSent();
-                System.out.println("num: " + numBuffered);
-                Thread.sleep(50);
+                System.out.println("buf: " + numBuffered + "  sent: " +
+                    stats.getNumVideoFramesSent() + "  enc:  " +
+                    stats.getNumVideoFramesEncoded());
+                Thread.sleep(Math.round(frameDuration * 1000));
             }
         } catch (IOException | InterruptedException e)
         {
