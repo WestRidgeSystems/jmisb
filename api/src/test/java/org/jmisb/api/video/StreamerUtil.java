@@ -58,7 +58,7 @@ public class StreamerUtil
         values.put(UasDatalinkTag.SensorTrueAltitude, new SensorTrueAltitude(1258.3));
         values.put(UasDatalinkTag.UasLdsVersionNumber, new ST0601Version((byte)11));
 
-        IMisbMessage message = new UasDatalinkMessage(values);
+        IMisbMessage message;
 
         try (IVideoStreamOutput output = VideoSystem.createOutputStream(
             new VideoOutputOptions(width, height, bitRate, frameRate, gopSize, true)))
@@ -81,9 +81,12 @@ public class StreamerUtil
                         stats.getNumVideoFramesSent() + "  enc:  " +
                         stats.getNumVideoFramesEncoded());
                 }
+                message = new UasDatalinkMessage(values);
+                values.put(UasDatalinkTag.PrecisionTimeStamp, new PrecisionTimeStamp(LocalDateTime.now()));
+                pts += frameDuration;
+
                 output.queueVideoFrame(new VideoFrame(image, pts));
                 output.queueMetadataFrame(new MetadataFrame(message, pts));
-                pts += frameDuration;
             }
 
             stats = output.getStatistics();
