@@ -21,6 +21,7 @@ import static org.bytedeco.ffmpeg.global.avformat.avio_find_protocol_name;
 import static org.bytedeco.ffmpeg.global.avformat.avio_open;
 import static org.bytedeco.ffmpeg.global.avutil.AVERROR_EOF;
 import static org.bytedeco.ffmpeg.global.avutil.av_dict_free;
+import static org.bytedeco.ffmpeg.global.avutil.av_dict_set;
 import static org.bytedeco.ffmpeg.presets.avutil.AVERROR_EAGAIN;
 
 /**
@@ -90,9 +91,12 @@ public class VideoStreamOutput extends VideoOutput implements IVideoStreamOutput
 
         formatContext.pb(ioContext);
 
-        AVDictionary opts = new AVDictionary(null);
-        avformat_write_header(formatContext, opts);
-        av_dict_free(opts);
+        AVDictionary muxerOptions = new AVDictionary(null);
+        // TODO: Set muxer private options disabling SDT and PAT?
+//        av_dict_set(muxerOptions, "sdt_period", "1000000", 0);
+//        av_dict_set(muxerOptions, "pat_period", "1000000", 0);
+        avformat_write_header(formatContext, muxerOptions);
+        av_dict_free(muxerOptions);
 
         createVideoEncoder();
         createPacketSender();
@@ -163,7 +167,7 @@ public class VideoStreamOutput extends VideoOutput implements IVideoStreamOutput
         }
 
         AVPacket packet = convert(metadataFrame);
-        klvPackets.offer(packet);
+        klvPackets.offer(av_packet_clone(packet));
         outputStatistics.metadataFrameQueued();
     }
 

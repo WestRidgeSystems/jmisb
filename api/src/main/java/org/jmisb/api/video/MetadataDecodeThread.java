@@ -6,6 +6,7 @@ import org.bytedeco.ffmpeg.avformat.AVStream;
 import org.jmisb.api.common.KlvParseException;
 import org.jmisb.api.klv.KlvParser;
 import org.jmisb.api.klv.IMisbMessage;
+import org.jmisb.core.klv.ArrayUtils;
 import org.jmisb.core.video.FfmpegUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -122,6 +123,10 @@ class MetadataDecodeThread extends ProcessingThread
                     catch (KlvParseException exception)
                     {
                         logger.error("KLV parse exception", exception);
+                        if (logger.isDebugEnabled())
+                        {
+                            logger.debug(ArrayUtils.toHexString(data));
+                        }
                     }
                 }
             }
