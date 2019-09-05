@@ -1,3 +1,4 @@
+### September 5, 2019 version 1.8.0
  * Support BER-OID encoding/decoding as required by ST 0601
  * Added new 0601 tags (up to ST 0601.15)
  * Fixed h264 encoding options causing corrupt video output
