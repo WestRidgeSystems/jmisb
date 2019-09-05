@@ -2,7 +2,7 @@ package org.jmisb.api.klv.st0102.universalset;
 
 import org.jmisb.api.klv.BerDecoder;
 import org.jmisb.api.klv.KlvConstants;
-import org.jmisb.api.klv.LengthField;
+import org.jmisb.api.klv.BerField;
 import org.jmisb.api.klv.st0102.*;
 import org.jmisb.api.klv.st0102.Classification;
 import org.testng.Assert;
@@ -55,18 +55,18 @@ public class SecurityMetadataUniversalSetTest
         Assert.assertEquals(Arrays.copyOfRange(bytes, 0, 16), KlvConstants.SecurityMetadataUniversalSetUl.getBytes());
 
         // Check that the length field was encoded correctly
-        LengthField lengthField = BerDecoder.decodeLengthField(bytes, 16, false);
-        Assert.assertEquals(bytes.length, 16 + lengthField.getSizeOfLength() + lengthField.getSizeOfValue());
+        BerField lengthField = BerDecoder.decode(bytes, 16, false);
+        Assert.assertEquals(bytes.length, 16 + lengthField.getLength() + lengthField.getValue());
 
         // Check that the first key corresponds to the security classification UL
-        int offset = 16 + lengthField.getSizeOfLength();
+        int offset = 16 + lengthField.getLength();
         Assert.assertEquals(Arrays.copyOfRange(bytes, offset, offset + 16), SecurityMetadataConstants.securityClassificationUl.getBytes());
 
         // Check that the value equals "UNCLASSIFIED//"
         offset += 16;
-        lengthField = BerDecoder.decodeLengthField(bytes, offset, false);
-        offset += lengthField.getSizeOfLength();
-        Assert.assertEquals(Arrays.copyOfRange(bytes, offset, offset + lengthField.getSizeOfValue()),
+        lengthField = BerDecoder.decode(bytes, offset, false);
+        offset += lengthField.getLength();
+        Assert.assertEquals(Arrays.copyOfRange(bytes, offset, offset + lengthField.getValue()),
                 "UNCLASSIFIED//".getBytes(StandardCharsets.US_ASCII));
     }
 

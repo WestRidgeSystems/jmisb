@@ -53,6 +53,9 @@ public interface IVideoStreamOutput extends AutoCloseable
 
     /**
      * Queue a {@link MetadataFrame} for output
+     * <p>
+     * Note that metadata frames will be buffered internally based pts values. Queued metadata
+     * frames will be sent once a video frame with greater or equal pts has been sent.
      *
      * @param frame The metadata frame to send
      * @throws IOException if the stream could not be written

@@ -360,6 +360,7 @@ public class MisbViewer extends JFrame implements ActionListener
                         videoInput.open(url);
                         owner.setTitle("jmisb - " + url);
                         videoInput.addFrameListener(videoPanel);
+                        videoInput.addMetadataListener(metadataPanel);
                         dispose();
                     }
                     catch (IOException ex)

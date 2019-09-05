@@ -1,6 +1,16 @@
+### September 5, 2019 version 1.8.0
+ * Support BER-OID encoding/decoding as required by ST 0601
+ * Added new 0601 tags (up to ST 0601.15)
+ * Fixed h264 encoding options causing corrupt video output
+ * Fixed corrupted metadata produced by VideoStreamOutput
+ * Improved synchronization of metadata with video (for output)
+ * Fixed viewer to display KLV metadata from network streams
+ * Added StreamerUtil as a simple interactive VideoStreamOutput test 
+ * Bumped JavaCPP Presets to 1.5.1
+ 
 ### May 11, 2019 version 1.7.0
- * Update to JavaCPP Presets 1.5 / FFmpeg 4.1.3
- * Option to enable or disable KLV stream in output
+ * Updated to JavaCPP Presets 1.5 / FFmpeg 4.1.3
+ * Added option to enable or disable KLV stream in output
  * Metadata framing performance optimizations
  * KLV parser wraps unsupported message types and returns them in a
    RawMisbMessage

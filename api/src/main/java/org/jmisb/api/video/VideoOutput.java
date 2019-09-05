@@ -40,6 +40,7 @@ import static org.bytedeco.ffmpeg.global.avformat.avformat_free_context;
 import static org.bytedeco.ffmpeg.global.avformat.avformat_new_stream;
 import static org.bytedeco.ffmpeg.global.avformat.avio_close;
 import static org.bytedeco.ffmpeg.global.avutil.AVMEDIA_TYPE_DATA;
+import static org.bytedeco.ffmpeg.global.avutil.AVMEDIA_TYPE_VIDEO;
 import static org.bytedeco.ffmpeg.global.avutil.AV_PIX_FMT_BGR24;
 import static org.bytedeco.ffmpeg.global.avutil.AV_PIX_FMT_YUV420P;
 import static org.bytedeco.ffmpeg.global.avutil.av_d2q;
@@ -54,6 +55,7 @@ import static org.bytedeco.ffmpeg.global.swscale.SWS_FAST_BILINEAR;
 import static org.bytedeco.ffmpeg.global.swscale.sws_getCachedContext;
 import static org.bytedeco.ffmpeg.global.swscale.sws_scale;
 import static org.bytedeco.ffmpeg.presets.avutil.AVERROR_EAGAIN;
+import static org.bytedeco.ffmpeg.global.avutil.av_dict_set;
 
 /**
  * Abstract base class for video output
@@ -68,6 +70,7 @@ public abstract class VideoOutput
 
     // Video codec
     AVCodecContext videoCodecContext;
+    private AVDictionary codecOptions;
     private AVCodec videoCodec;
 
     // Metadata codec
@@ -193,14 +196,17 @@ public abstract class VideoOutput
 
     /**
      * Open the video codec
-     *
      * @return false if the codec could not be opened (e.g., unsupported by the OS/hardware)
      */
     private boolean openVideoCodec()
     {
         // codec context options must be set before opening codec
+        videoCodecContext.codec_type(AVMEDIA_TYPE_VIDEO);
+        videoCodecContext.codec_id(AV_CODEC_ID_H264);
 
-        // TODO: investigate H.264 profiles
+        // Set dimensions
+        videoCodecContext.width(options.getWidth());
+        videoCodecContext.height(options.getHeight());
 
         // Set bit rate
         videoCodecContext.bit_rate(options.getBitRate());
@@ -213,21 +219,20 @@ public abstract class VideoOutput
         // Encoded picture format
         videoCodecContext.pix_fmt(AV_PIX_FMT_YUV420P);
 
-        // No B-frames
-        videoCodecContext.has_b_frames(0);
-        videoCodecContext.max_b_frames(0);
-
         // I-frame interval
         videoCodecContext.gop_size(options.getGopSize());
 
-        // Set dimensions
-        videoCodecContext.width(options.getWidth());
-        videoCodecContext.height(options.getHeight());
+        // Disable B frames
+        videoCodecContext.has_b_frames(0);
+        videoCodecContext.max_b_frames(0);
 
         // Open the codec
-        AVDictionary opts = new AVDictionary(null);
-        int ret = avcodec_open2(videoCodecContext, videoCodec, opts);
-        av_dict_free(opts);
+        codecOptions = new AVDictionary(null);
+        av_dict_set(codecOptions, "tune", "zerolatency", 0);
+        av_dict_set(codecOptions, "preset", "ultrafast", 0);
+        int ret = avcodec_open2(videoCodecContext, videoCodec, codecOptions);
+        logger.debug("H.264 encoder options: " + CodecUtils.getCodecInfo(videoCodecContext));
+
         return ret >= 0;
     }
 

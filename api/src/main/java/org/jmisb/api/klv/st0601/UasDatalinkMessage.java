@@ -41,9 +41,9 @@ public class UasDatalinkMessage implements IMisbMessage
     public UasDatalinkMessage(byte[] bytes) throws KlvParseException
     {
         // Parse the length field
-        LengthField lengthField = BerDecoder.decodeLengthField(bytes, UniversalLabel.LENGTH, false);
-        int lengthLength = lengthField.getSizeOfLength();
-        int valueLength = lengthField.getSizeOfValue();
+        BerField lengthField = BerDecoder.decode(bytes, UniversalLabel.LENGTH, false);
+        int lengthLength = lengthField.getLength();
+        int valueLength = lengthField.getValue();
 
         // Parse fields out of the array
         List<LdsField> fields = LdsParser.parseFields(bytes, UniversalLabel.LENGTH + lengthLength, valueLength);
@@ -136,9 +136,9 @@ public class UasDatalinkMessage implements IMisbMessage
             byte[] bytes = value.getBytes();
             if (bytes != null && bytes.length > 0)
             {
-                // TODO - encode tag with BER-OID if 0601 tags ever get above 127
-                chunks.add(new byte[]{(byte) tag.getCode()});
-                chunks.add(BerEncoder.encodeLengthField(bytes.length));
+                // Add key, length, value to chunks
+                chunks.add(BerEncoder.encode(tag.getCode(), Ber.OID));
+                chunks.add(BerEncoder.encode(bytes.length));
                 chunks.add(bytes.clone());
             }
         }
@@ -146,7 +146,7 @@ public class UasDatalinkMessage implements IMisbMessage
         // Add Key and Length of checksum with placeholder for value - Checksum must be final element
         byte[] checksum = new byte[2];
         chunks.add(new byte[]{(byte)UasDatalinkTag.Checksum.getCode()});
-        chunks.add(BerEncoder.encodeLengthField(checksum.length, Ber.SHORT_FORM));
+        chunks.add(BerEncoder.encode(checksum.length, Ber.SHORT_FORM));
         chunks.add(checksum);
 
         // Figure out value length
@@ -167,7 +167,7 @@ public class UasDatalinkMessage implements IMisbMessage
         else
         {
             // Prepend length field into front of the list
-            byte[] lengthField = BerEncoder.encodeLengthField(valueLength);
+            byte[] lengthField = BerEncoder.encode(valueLength);
             chunks.add(0, lengthField);
 
             // Prepend key field (UL) into front of the list

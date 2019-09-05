@@ -36,18 +36,18 @@ public class LdsParser
         int offset = start;
         while (offset < last)
         {
-            // Get the Key (tag)
-            // TODO: according to ST 0601, tags are actually BER-OID encoded. Below we treat it as a single byte uint8,
-            // which will work until 0601 starts including tags >127.
-            int tag = bytes[offset];
+            // Get the BER-OID encoded Key (tag)
+            BerField tagField = BerDecoder.decode(bytes, offset, true);
+            int tag = tagField.getValue();
+            offset += tagField.getLength();
 
-            // Get the Length
-            int lengthFieldOffset = offset + 1;
-            LengthField lengthField = BerDecoder.decodeLengthField(bytes, lengthFieldOffset, false);
+            // Get the Length (BER short or long form-encoded)
+            int lengthFieldOffset = offset;
+            BerField lengthField = BerDecoder.decode(bytes, lengthFieldOffset, false);
 
             // Get the Value
-            int begin = lengthFieldOffset + lengthField.getSizeOfLength();
-            int end = begin + lengthField.getSizeOfValue();
+            int begin = lengthFieldOffset + lengthField.getLength();
+            int end = begin + lengthField.getValue();
             if (end > bytes.length)
             {
                 // TODO: we will probably need a non-strict option to return the fields that were actually parsed

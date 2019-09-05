@@ -7,6 +7,8 @@ public class OutputStatistics
 {
     private long numVideoFramesSent;
     private long numVideoFramesQueued;
+    private long numVideoFramesEncoded;
+
     private long numMetadataFramesSent;
     private long numMetadataFramesQueued;
 
@@ -28,6 +30,16 @@ public class OutputStatistics
     public long getNumVideoFramesQueued()
     {
         return numVideoFramesQueued;
+    }
+
+    /**
+     * Get the total number of video frames encoded since opening the stream
+     *
+     * @return The total number of video frames
+     */
+    public long getNumVideoFramesEncoded()
+    {
+        return numVideoFramesEncoded;
     }
 
     /**
@@ -75,6 +87,14 @@ public class OutputStatistics
     void videoFrameSent()
     {
         numVideoFramesSent++;
+    }
+
+    /**
+     * Increment the total number of frames encoded
+     */
+    void videoFrameEncoded()
+    {
+        numVideoFramesEncoded++;
     }
 
     /**

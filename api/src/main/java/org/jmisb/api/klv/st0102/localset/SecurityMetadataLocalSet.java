@@ -40,10 +40,10 @@ public class SecurityMetadataLocalSet extends SecurityMetadataMessage
         if (hasKeyAndLength)
         {
             // Parse the length field
-            LengthField lengthField = BerDecoder.decodeLengthField(bytes, UniversalLabel.LENGTH, false);
-            int lengthLength = lengthField.getSizeOfLength();
+            BerField lengthField = BerDecoder.decode(bytes, UniversalLabel.LENGTH, false);
+            int lengthLength = lengthField.getLength();
             offset = UniversalLabel.LENGTH + lengthLength;
-            valueLength = lengthField.getSizeOfValue();
+            valueLength = lengthField.getValue();
         }
 
         // Parse fields out of the array
@@ -86,7 +86,7 @@ public class SecurityMetadataLocalSet extends SecurityMetadataMessage
             if (bytes != null && bytes.length > 0)
             {
                 chunks.add(new byte[]{(byte) key.getTag()});
-                chunks.add(BerEncoder.encodeLengthField(bytes.length));
+                chunks.add(BerEncoder.encode(bytes.length));
                 chunks.add(bytes.clone());
             }
         }
@@ -107,7 +107,7 @@ public class SecurityMetadataLocalSet extends SecurityMetadataMessage
         else
         {
             // Prepend length field into front of the list
-            byte[] lengthField = BerEncoder.encodeLengthField(valueLength);
+            byte[] lengthField = BerEncoder.encode(valueLength);
             chunks.add(0, lengthField);
 
             // Prepend key field (UL) into front of the list

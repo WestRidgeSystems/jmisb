@@ -256,6 +256,9 @@ public class UasDatalinkFactory
             case Georegistration:
                 // TODO Implement ST 1601
                 return new OpaqueValue(bytes);
+            case CompositeImaging:
+                // TODO Implement ST 1602
+                return new OpaqueValue(bytes);
             case Segment:
                 // TODO Implement ST 1607
                 return new OpaqueValue(bytes);
@@ -264,6 +267,109 @@ public class UasDatalinkFactory
                 return new OpaqueValue(bytes);
             case SdccFlp:
                 // TODO Implement ST 1010
+                return new OpaqueValue(bytes);
+            case DensityAltitudeExtended:
+            case SensorEllipsoidHeightExtended:
+            case AlternatePlatformEllipsoidHeightExtended:
+            case StreamDesignator:
+            case OperationalBase:
+            case BroadcastSource:
+                return new UasDatalinkString(bytes);
+            case RangeToRecoveryLocation:
+                // TODO
+                return new OpaqueValue(bytes);
+            case TimeAirborne:
+                // TODO
+                return new OpaqueValue(bytes);
+            case PropulsionUnitSpeed:
+                // TODO
+                return new OpaqueValue(bytes);
+            case PlatformCourseAngle:
+                // TODO
+                return new OpaqueValue(bytes);
+            case AltitudeAgl:
+                // TODO
+                return new OpaqueValue(bytes);
+            case RadarAltimeter:
+                // TODO
+                return new OpaqueValue(bytes);
+            case ControlCommand:
+                // TODO
+                return new OpaqueValue(bytes);
+            case ControlCommandVerification:
+                // TODO
+                return new OpaqueValue(bytes);
+            case SensorAzimuthRate:
+                // TODO
+                return new OpaqueValue(bytes);
+            case SensorElevationRate:
+                // TODO
+                return new OpaqueValue(bytes);
+            case SensorRollRate:
+                // TODO
+                return new OpaqueValue(bytes);
+            case OnBoardMiStoragePercentFull:
+                // TODO
+                return new OpaqueValue(bytes);
+            case ActiveWavelengthList:
+                // TODO
+                return new OpaqueValue(bytes);
+            case CountryCodes:
+                // TODO
+                return new OpaqueValue(bytes);
+            case NumberNavsatsInView:
+                // TODO
+                return new OpaqueValue(bytes);
+            case PositioningMethodSource:
+                // TODO
+                return new OpaqueValue(bytes);
+            case PlatformStatus:
+                // TODO
+                return new OpaqueValue(bytes);
+            case SensorControlMode:
+                // TODO
+                return new OpaqueValue(bytes);
+            case SensorFrameRatePack:
+                // TODO
+                return new OpaqueValue(bytes);
+            case WavelengthsList:
+                // TODO
+                return new OpaqueValue(bytes);
+            case TargetId:
+                return new UasDatalinkString(bytes);
+            case AirbaseLocations:
+                // TODO
+                return new OpaqueValue(bytes);
+            case TakeOffTime:
+                // TODO
+                return new OpaqueValue(bytes);
+            case TransmissionFrequency:
+                // TODO
+                return new OpaqueValue(bytes);
+            case OnBoardMiStorageCapacity:
+                return new OnBoardMiStorageCapacity(bytes);
+            case ZoomPercentage:
+                // TODO
+                return new OpaqueValue(bytes);
+            case CommunicationsMethod:
+                return new UasDatalinkString(bytes);
+            case LeapSeconds:
+                // TODO
+                return new OpaqueValue(bytes);
+            case CorrectionOffset:
+                // TODO
+                return new OpaqueValue(bytes);
+            case PayloadList:
+                // TODO
+                return new OpaqueValue(bytes);
+            case ActivePayloads:
+                // TODO
+                return new OpaqueValue(bytes);
+            case WeaponsStores:
+                // TODO
+                return new OpaqueValue(bytes);
+            case WaypointList:
+                // TODO
                 return new OpaqueValue(bytes);
         }
 

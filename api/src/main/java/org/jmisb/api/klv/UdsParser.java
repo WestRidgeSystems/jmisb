@@ -39,11 +39,11 @@ public class UdsParser
                 // TODO: we will probably need a non-strict option to return the fields that were actually parsed
                 throw new KlvParseException("Overrun encountered while parsing UDS fields");
             }
-            LengthField lengthField = BerDecoder.decodeLengthField(bytes, offset, false);
-            offset += lengthField.getSizeOfLength();
+            BerField lengthField = BerDecoder.decode(bytes, offset, false);
+            offset += lengthField.getLength();
 
             // Get the value
-            int end = offset + lengthField.getSizeOfValue();
+            int end = offset + lengthField.getValue();
             byte[] value = Arrays.copyOfRange(bytes, offset, end);
             if (end > bytes.length)
             {

@@ -14,6 +14,6 @@ fi
 FILENAME=$1
 URL=$2
 
-ffmpeg -re -i $FILENAME -c copy -map 0 -f mpegts $URL
+ffmpeg -stream_loop -1 -re -i $FILENAME -c copy -map 0 -f mpegts $URL
 
 

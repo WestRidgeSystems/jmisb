@@ -55,6 +55,28 @@ public class PrimitiveConverterTest
         Assert.assertEquals(bytes, new byte[]{(byte)0xff, (byte)0xff, (byte)0xff, (byte)0xff});
     }
 
+    @Test
+    public void testUnsignedInt8ToBytes()
+    {
+        short shortVal = 0;
+        byte[] bytes = PrimitiveConverter.uint8ToBytes(shortVal);
+        Assert.assertEquals(bytes, new byte[]{0x00});
+
+        shortVal = 255;
+        bytes = PrimitiveConverter.uint8ToBytes(shortVal);
+        Assert.assertEquals(bytes, new byte[]{(byte)0xff});
+    }
+
+    @Test
+    public void testToUint8()
+    {
+        int val = PrimitiveConverter.toUint8(new byte[]{(byte)0xff});
+        Assert.assertEquals(val, 255);
+
+        val = PrimitiveConverter.toUint8(new byte[]{0x00});
+        Assert.assertEquals(val, 0);
+    }
+
     @Test(expectedExceptions = IllegalArgumentException.class)
     public void testToInt32InvalidArg()
     {
