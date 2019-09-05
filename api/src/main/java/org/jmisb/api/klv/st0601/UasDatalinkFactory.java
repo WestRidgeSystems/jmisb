@@ -175,7 +175,7 @@ public class UasDatalinkFactory
             case UasLdsVersionNumber:
                 return new ST0601Version(bytes);
             case TargetLocationCovariance:
-                // TODO ST0601.11 says "TBD"
+                // Deprecated
                 return new OpaqueValue(bytes);
             case AlternatePlatformLatitude:
                 return new AlternatePlatformLatitude(bytes);
@@ -269,8 +269,11 @@ public class UasDatalinkFactory
                 // TODO Implement ST 1010
                 return new OpaqueValue(bytes);
             case DensityAltitudeExtended:
+                return new OpaqueValue(bytes);
             case SensorEllipsoidHeightExtended:
+                return new OpaqueValue(bytes);
             case AlternatePlatformEllipsoidHeightExtended:
+                return new OpaqueValue(bytes);
             case StreamDesignator:
             case OperationalBase:
             case BroadcastSource:
