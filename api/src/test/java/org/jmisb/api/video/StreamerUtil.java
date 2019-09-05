@@ -57,6 +57,7 @@ public class StreamerUtil
         values.put(UasDatalinkTag.SensorLongitude, new SensorLongitude(-71.1284));
         values.put(UasDatalinkTag.SensorTrueAltitude, new SensorTrueAltitude(1258.3));
         values.put(UasDatalinkTag.UasLdsVersionNumber, new ST0601Version((byte)11));
+        values.put(UasDatalinkTag.TargetId, new UasDatalinkString("tango"));
 
         IMisbMessage message;
 

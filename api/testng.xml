@@ -29,6 +29,7 @@
             <class name = "org.jmisb.api.klv.st0601.ChecksumTest"/>
             <class name = "org.jmisb.api.klv.st0601.CornerOffsetTest"/>
             <class name = "org.jmisb.api.klv.st0601.HorizontalFovTest"/>
+            <class name = "org.jmisb.api.klv.st0601.OnBoardMiStorageCapacityTest"/>
             <class name = "org.jmisb.api.klv.st0601.PlatformAngleOfAttackFullTest"/>
             <class name = "org.jmisb.api.klv.st0601.PlatformHeadingAngleTest"/>
             <class name = "org.jmisb.api.klv.st0601.PlatformPitchAngleFullTest"/>

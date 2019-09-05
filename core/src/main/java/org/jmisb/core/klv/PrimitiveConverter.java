@@ -154,6 +154,37 @@ public class PrimitiveConverter
     }
 
     /**
+     * Convert a byte array to an unsigned 8-bit integer (int with range of uint8)
+     *
+     * @param bytes The array of length 1
+     * @return The unsigned 8-bit integer as an int
+     */
+    public static int toUint8(byte[] bytes)
+    {
+        if (bytes.length == 1)
+        {
+            return Byte.toUnsignedInt(bytes[0]);
+        }
+        throw new IllegalArgumentException("Invalid buffer length");
+    }
+
+    /**
+     * Convert an unsigned 8-bit unsigned integer (short with range of uint8) to a byte array
+     *
+     * @param val The unsigned 8-bit integer as short
+     * @return The array of length 1
+     */
+    public static byte[] uint8ToBytes(short val)
+    {
+        if (val < 0 || val > 255)
+        {
+            throw new IllegalArgumentException("Value out of range");
+        }
+        shortBuffer.get().putShort(0, val);
+        return Arrays.copyOfRange(shortBuffer.get().array(), 1, 2);
+    }
+
+    /**
      * Convert a byte array to a signed 64-bit integer
      *
      * @param bytes The array of length 8

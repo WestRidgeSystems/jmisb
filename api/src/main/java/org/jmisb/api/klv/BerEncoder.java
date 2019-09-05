@@ -1,5 +1,7 @@
 package org.jmisb.api.klv;
 
+import java.util.Arrays;
+
 /**
  * Encode data using Basic Encoding Rules (BER)
  */
@@ -10,87 +12,99 @@ public class BerEncoder
     private BerEncoder() {}
 
     /**
-     * Encode a KLV length field
+     * Encode an integer using Basic Encoding Rules (BER)
      *
-     * @param length The length to encode
+     * @param value The value to encode (must be non-negative)
      * @param ber Encoding type
-     * @return The encoded length field
-     * @throws IllegalArgumentException If an illegal length value is specified
-     * @throws UnsupportedOperationException If the encoding type is not supported
+     * @return The encoded value
+     *
+     * @throws IllegalArgumentException If a negative value is specified
      */
-    public static byte[] encodeLengthField(int length, Ber ber)
+    public static byte[] encode(int value, Ber ber)
     {
-        if (length < 0)
+        if (value < 0)
         {
-            throw new IllegalArgumentException("Length cannot be negative");
+            throw new IllegalArgumentException("Value cannot be negative");
         }
 
         byte[] bytes;
 
         if (ber == Ber.SHORT_FORM)
         {
-            if (length > SHORT_FORM_MAX_LENGTH)
+            if (value > SHORT_FORM_MAX_LENGTH)
             {
                 throw new IllegalArgumentException("BER short form can only represent the range [0,127]");
             }
             bytes = new byte[1];
-            bytes[0] = (byte)length;
+            bytes[0] = (byte)value;
         }
         else if (ber == Ber.LONG_FORM)
         {
-            if (length <= 127)
+            if (value <= 127)
             {
                 // 1 byte
                 bytes = new byte[2];
                 bytes[0] = (byte)0x81;
-                bytes[1] = (byte)length;
+                bytes[1] = (byte)value;
             }
-            else if (length <= 65535)
+            else if (value <= 65535)
             {
                 // 2 bytes
                 bytes = new byte[3];
                 bytes[0] = (byte)0x82;
-                bytes[1] = (byte)(length >>> 8);
-                bytes[2] = (byte)(length);
+                bytes[1] = (byte)(value >>> 8);
+                bytes[2] = (byte)(value);
             }
-            else if (length <= 16777215)
+            else if (value <= 16777215)
             {
                 // 3 bytes
                 bytes = new byte[4];
                 bytes[0] = (byte)0x83;
-                bytes[1] = (byte)(length >>> 16);
-                bytes[2] = (byte)(length >>> 8);
-                bytes[3] = (byte)(length);
+                bytes[1] = (byte)(value >>> 16);
+                bytes[2] = (byte)(value >>> 8);
+                bytes[3] = (byte)(value);
             }
             else
             {
                 // 4 bytes
                 bytes = new byte[5];
                 bytes[0] = (byte)0x84;
-                bytes[1] = (byte)(length >>> 24);
-                bytes[2] = (byte)(length >>> 16);
-                bytes[3] = (byte)(length >>> 8);
-                bytes[4] = (byte)(length);
+                bytes[1] = (byte)(value >>> 24);
+                bytes[2] = (byte)(value >>> 16);
+                bytes[3] = (byte)(value >>> 8);
+                bytes[4] = (byte)(value);
             }
         }
         else
         {
-            throw new UnsupportedOperationException("BER-OID is not yet supported");
+            // BER-OID
+            byte[] encoded = new byte[] {0, 0, 0, 0, 0};
+            int i;
+            for (i = 4; i >= 0; i--)
+            {
+                encoded[i] = (byte)(value & 0x7f);
+                if (i != 4) encoded[i] |= 0x80;
+                value >>= 7;
+                if (value == 0) break;
+            }
+
+            bytes = Arrays.copyOfRange(encoded, i, 5);
         }
 
         return bytes;
     }
 
     /**
-     * Encode a KLV length field using short or long form, whichever is more compact
+     * Encode an integer using short or long form, whichever is more compact
      *
-     * @param length The length to encode
-     * @return The encoded length field
-     * @throws IllegalArgumentException If an illegal length value is specified
+     * @param value The value to encode (must be non-negative)
+     * @return The encoded value
+     *
+     * @throws IllegalArgumentException If a negative value is specified
      */
-    public static byte[] encodeLengthField(int length)
+    public static byte[] encode(int value)
     {
-        Ber ber = (length <= SHORT_FORM_MAX_LENGTH) ? Ber.SHORT_FORM : Ber.LONG_FORM;
-        return encodeLengthField(length, ber);
+        Ber ber = (value <= SHORT_FORM_MAX_LENGTH) ? Ber.SHORT_FORM : Ber.LONG_FORM;
+        return encode(value, ber);
     }
 }

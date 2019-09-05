@@ -7,6 +7,6 @@ public class UasDatalinkConstants
 {
     private UasDatalinkConstants() {}
 
-    /** The currently-supported revision is 0601.11 */
-    public static byte ST_VERSION_NUMBER = 11;
+    /** The currently-supported revision is 0601.15 */
+    public static byte ST_VERSION_NUMBER = 15;
 }

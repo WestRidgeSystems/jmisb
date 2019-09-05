@@ -1,7 +1,8 @@
-### September 4, 2019 version 1.8.0
+ * Support BER-OID encoding/decoding as required by ST 0601
+ * Added new 0601 tags (up to ST 0601.15)
  * Fixed h264 encoding options causing corrupt video output
  * Fixed corrupted metadata produced by VideoStreamOutput
- * Improved synchronization of metadata with video
+ * Improved synchronization of metadata with video (for output)
  * Fixed viewer to display KLV metadata from network streams
  * Added StreamerUtil as a simple interactive VideoStreamOutput test 
  * Bumped JavaCPP Presets to 1.5.1
