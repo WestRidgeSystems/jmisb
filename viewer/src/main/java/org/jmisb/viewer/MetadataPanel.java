@@ -26,6 +26,7 @@ public class MetadataPanel extends JTextPane implements IMetadataListener
         setEditable(false);
         setContentType("text/html");
         setFont(new Font("Dialog", PLAIN, 12));
+        clear();
     }
 
     @Override
@@ -70,5 +71,9 @@ public class MetadataPanel extends JTextPane implements IMetadataListener
 
             previous = current;
         }
+    }
+
+    public final void clear() {
+        this.setText("<html><head/><body/></html>");
     }
 }

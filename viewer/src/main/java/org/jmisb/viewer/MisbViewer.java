@@ -293,6 +293,7 @@ public class MisbViewer extends JFrame implements ActionListener
             }
         }
         videoPanel.clear();
+        metadataPanel.clear();
     }
 
     /**
