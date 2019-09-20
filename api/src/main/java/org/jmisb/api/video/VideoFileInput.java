@@ -104,7 +104,7 @@ public class VideoFileInput extends VideoInput implements IVideoFileInput
         numFrames = countFrames(videoStream);
 
         // Create the demuxer and start thread
-        demuxer = new FileDemuxer(this, formatContext);
+        demuxer = new FileDemuxer(this, formatContext, options);
         demuxer.start();
 
         // Start notifier threads
@@ -265,6 +265,10 @@ public class VideoFileInput extends VideoInput implements IVideoFileInput
     @Override
     protected void delayVideo(double pts)
     {
+        // No delay if ripping
+        if (rateMultiplier == Double.MAX_VALUE)
+            return;
+
         // TODO: deal with discontinuities, e.g., from seeking
         long time = System.currentTimeMillis();
 
@@ -300,10 +304,17 @@ public class VideoFileInput extends VideoInput implements IVideoFileInput
     @Override
     protected void delayMetadata(double pts) throws InterruptedException
     {
-        // Just sync to the video based on PTS
-        while (pts > prevVideoPts)
+        // No delay if ripping
+        if (rateMultiplier == Double.MAX_VALUE)
+            return;
+
+        if (options.isDecodeVideo())
         {
-            Thread.sleep(10);
+            // Just sync to the video based on PTS
+            while (pts > prevVideoPts)
+            {
+                Thread.sleep(10);
+            }
         }
     }
 

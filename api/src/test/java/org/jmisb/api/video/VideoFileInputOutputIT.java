@@ -87,18 +87,83 @@ public class VideoFileInputOutputIT
     @Test
     public void testWithData()
     {
+        final double frameRate = 15.0;
+        final int numFrames = 120;
         final String filename = "testWithData.ts";
+
+        createFile(filename, frameRate, numFrames);
+        checkFileDuration(filename, frameRate, numFrames);
+
+        // Check metadata contents
+        try (IVideoFileInput input = VideoSystem.createInputFile())
+        {
+            input.open(filename);
+            List<PesInfo> pesList = input.getPesInfo();
+            Assert.assertEquals(pesList.size(), 2);
+
+            input.addMetadataListener(new MetadataListener());
+
+            // Play and read at least 1s of data
+            input.play();
+            Assert.assertTrue(input.isPlaying());
+            TimingUtils.shortWait(1000);
+
+        } catch (IOException e)
+        {
+            logger.error("Failed to read file", e);
+            Assert.fail("Failed to read file");
+        }
+
+        Assert.assertTrue(true);
+    }
+
+    @Test
+    private void testRipKlv()
+    {
+        // Disable video decoding, verify all metadata can be pulled out
+        final double frameRate = 15.0;
+        final int numFrames = 120;
+        final String filename = "testRipKlv.ts";
+
+        createFile(filename, frameRate, numFrames);
+
+        try (IVideoFileInput input = VideoSystem.createInputFile(
+            new VideoFileInputOptions(false, true, false, true)))
+        {
+            input.open(filename);
+
+            MetadataCounter counter = new MetadataCounter();
+            input.addMetadataListener(counter);
+            input.addFrameListener(new DisallowedListener());
+
+            // Read file as fast as possible
+            input.setPlaybackSpeed(Double.MAX_VALUE);
+            input.play();
+            TimingUtils.shortWait(1000);
+
+            // The main test is that the video listener never gets called, but also make sure
+            // the metadata listener receives a reasonable number of frames
+            int count = counter.getCount();
+            Assert.assertTrue(count >= frameRate);
+
+        } catch (IOException e)
+        {
+            logger.error("Failed to read file", e);
+            Assert.fail("Failed to read file");
+        }
+    }
+
+    private void createFile(String filename, double frameRate, int numFrames)
+    {
         final int width = 640;
         final int height = 480;
         final int bitRate = 500_000;
-        final double frameRate = 15.0;
         final int gopSize = 30;
         final boolean hasKlv = true;
         final double frameDuration = 1.0 / frameRate;
-        final int numFrames = 120;
 
         try (IVideoFileOutput output = VideoSystem.createOutputFile(
-                new VideoOutputOptions(width, height, bitRate, frameRate, gopSize, hasKlv)))
+            new VideoOutputOptions(width, height, bitRate, frameRate, gopSize, hasKlv)))
         {
             output.open(filename);
 
@@ -159,30 +224,6 @@ public class VideoFileInputOutputIT
             logger.error("Failed to write file" , e);
             Assert.fail("Failed to write file");
         }
-
-        checkFileDuration(filename, frameRate, numFrames);
-
-        // Check metadata contents
-        try (IVideoFileInput input = VideoSystem.createInputFile())
-        {
-            input.open(filename);
-            List<PesInfo> pesList = input.getPesInfo();
-            Assert.assertEquals(pesList.size(), 2);
-
-            input.addMetadataListener(new MetadataListener());
-
-            // Play and read at least 1s of data
-            input.play();
-            Assert.assertTrue(input.isPlaying());
-            TimingUtils.shortWait(1000);
-
-        } catch (IOException e)
-        {
-            logger.error("Failed to read file", e);
-            Assert.fail("Failed to read file");
-        }
-
-        Assert.assertTrue(true);
     }
 
     private void checkFileDuration(String filename, double frameRate, int numFrames)
@@ -217,9 +258,33 @@ public class VideoFileInputOutputIT
         return new SecurityMetadataLocalSet(values);
     }
 
+    private static class DisallowedListener implements IVideoListener
+    {
+        @Override
+        public void onVideoReceived(VideoFrame image)
+        {
+            Assert.fail("Received an unexpected video frame");
+        }
+    }
+
+    private class MetadataCounter implements IMetadataListener
+    {
+        private int count = 0;
+
+        @Override
+        public void onMetadataReceived(MetadataFrame metadataFrame)
+        {
+            count++;
+        }
+
+        int getCount()
+        {
+            return count;
+        }
+    }
+
     private class MetadataListener implements IMetadataListener
     {
-
         @Override
         public void onMetadataReceived(MetadataFrame metadataFrame)
         {

@@ -196,8 +196,7 @@ public class MisbViewer extends JFrame implements ActionListener
         {
             closeVideo();
 
-            IVideoFileInput fileInput = VideoSystem.createInputFile(new VideoFileInputOptions(true));
-
+            IVideoFileInput fileInput = VideoSystem.createInputFile(new VideoFileInputOptions());
             fileInput.open(filename);
 
             setTitle("jmisb - " + filename);
@@ -353,8 +352,7 @@ public class MisbViewer extends JFrame implements ActionListener
                 {
                     try
                     {
-                        VideoStreamInputOptions options = new VideoStreamInputOptions(
-                                10_000, 15_000);
+                        VideoStreamInputOptions options = new VideoStreamInputOptions();
 
                         videoInput = VideoSystem.createInputStream(options);
 
