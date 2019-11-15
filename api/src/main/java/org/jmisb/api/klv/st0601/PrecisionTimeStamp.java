@@ -1,10 +1,11 @@
 package org.jmisb.api.klv.st0601;
 
-import java.math.BigInteger;
-import java.nio.ByteBuffer;
+import org.jmisb.core.klv.PrimitiveConverter;
+
 import java.time.Instant;
 import java.time.LocalDateTime;
 import java.time.ZoneOffset;
+import java.time.temporal.ChronoUnit;
 
 /**
  * Precision Time Stamp (ST 0601 tag 2)
@@ -19,17 +20,17 @@ import java.time.ZoneOffset;
  */
 public class PrecisionTimeStamp implements IUasDatalinkValue
 {
-    private BigInteger microseconds;
-    private final static BigInteger oneThousand = BigInteger.valueOf(1000);
-    private final static BigInteger maxValue = BigInteger.valueOf(2).pow(64).subtract(BigInteger.ONE);
+    // Yes, using a long here means overflow in the year 2262, but there's no unsigned long in java
+    // and the cost of using something like BigInteger seems unnecessary
+    private long microseconds;
 
     /**
      * Create from value
      * @param microseconds Microseconds since the epoch
      */
-    public PrecisionTimeStamp(BigInteger microseconds)
+    public PrecisionTimeStamp(long microseconds)
     {
-        if (microseconds.compareTo(BigInteger.ZERO) < 0 || microseconds.compareTo(maxValue) > 0)
+        if (microseconds < 0)
         {
             throw new IllegalArgumentException("Precision Timestamp must be in range [0,2^64-1]");
         }
@@ -46,7 +47,7 @@ public class PrecisionTimeStamp implements IUasDatalinkValue
         {
             throw new IllegalArgumentException("Precision Time Stamp encoding is an 8-byte unsigned int");
         }
-        microseconds = new BigInteger(bytes);
+        microseconds = PrimitiveConverter.toInt64(bytes);
     }
 
     /**
@@ -55,15 +56,21 @@ public class PrecisionTimeStamp implements IUasDatalinkValue
      */
     public PrecisionTimeStamp(LocalDateTime localDateTime)
     {
-        this(BigInteger.valueOf(localDateTime.toInstant(ZoneOffset.UTC).toEpochMilli()).
-                multiply(BigInteger.valueOf(1000)));
+        try
+        {
+            microseconds = ChronoUnit.MICROS.between(Instant.EPOCH, localDateTime.toInstant(ZoneOffset.UTC));
+        }
+        catch (ArithmeticException e)
+        {
+            throw new IllegalArgumentException("Precision Timestamp must be before April 11, 2262 23:47:16.854Z");
+        }
     }
 
     /**
      * Get the value
      * @return Number of microseconds since the epoch
      */
-    public BigInteger getMicroseconds()
+    public long getMicroseconds()
     {
         return microseconds;
     }
@@ -71,13 +78,7 @@ public class PrecisionTimeStamp implements IUasDatalinkValue
     @Override
     public byte[] getBytes()
     {
-        byte[] array = microseconds.toByteArray();
-
-        // Since array.length will not in general be 8 bytes, need to pad with zeros from the left
-        ByteBuffer buffer = ByteBuffer.allocate(8);
-        buffer.position(8 - array.length);
-        buffer.put(array);
-        return buffer.array();
+        return PrimitiveConverter.int64ToBytes(microseconds);
     }
 
     /**
@@ -86,8 +87,8 @@ public class PrecisionTimeStamp implements IUasDatalinkValue
      */
     LocalDateTime getLocalDateTime()
     {
-        BigInteger milliseconds = microseconds.divide(oneThousand);
-        return Instant.ofEpochMilli(milliseconds.longValue()).atZone(ZoneOffset.UTC).toLocalDateTime();
+        return LocalDateTime.ofEpochSecond(microseconds / 1000000,
+            (int)(microseconds % 1000000) * 1000, ZoneOffset.UTC);
     }
 
     @Override
