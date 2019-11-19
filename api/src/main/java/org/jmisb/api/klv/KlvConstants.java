@@ -11,11 +11,11 @@ public class KlvConstants
     public static UniversalLabel UasDatalinkLocalUl = new UniversalLabel(new byte[] {0x06, 0x0e, 0x2b, 0x34, 0x02, 0x0b, 0x01,
             0x01, 0x0e, 0x01, 0x03, 0x01, 0x01, 0x00, 0x00, 0x00});
 
-    /** Universal label for Security Medatadata Set Local Set (ST 0102) */
+    /** Universal label for Security Metadata Set Local Set (ST 0102) */
     public static UniversalLabel SecurityMetadataLocalSetUl = new UniversalLabel(new byte[] { 0x06, 0x0e, 0x2b, 0x34, 0x02, 0x03, 0x01, 0x01,
             0x0e, 0x01, 0x03, 0x03, 0x02, 0x00, 0x00, 0x00 });
 
-    /** Universal label for Security Medatadata Set Universal Set (ST 0102) */
+    /** Universal label for Security Metadata Set Universal Set (ST 0102) */
     public static UniversalLabel SecurityMetadataUniversalSetUl = new UniversalLabel(new byte[] { 0x06, 0x0e, 0x2b, 0x34, 0x02, 0x01, 0x01, 0x01,
             0x02, 0x08, 0x02, 0x00, 0x00, 0x00, 0x00, 0x00 });
 
