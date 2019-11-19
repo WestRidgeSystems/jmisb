@@ -60,10 +60,12 @@ public class MetadataPanel extends JTextPane implements IMetadataListener
                 sb.append("</head>");
                 sb.append("<body>");
 
+                sb.append("<h1>");
+                sb.append(metadataFrame.getMisbMessage().displayHeader());
+                sb.append("</h1>");
                 // TODO: handle other message types, including nested local sets
                 if (metadataFrame.getMisbMessage() instanceof UasDatalinkMessage)
                 {
-                    sb.append("<h1>ST 0601</h1>");
                     UasDatalinkMessage uasDatalinkMessage = (UasDatalinkMessage) metadataFrame.getMisbMessage();
                     for (UasDatalinkTag tag : uasDatalinkMessage.getTags())
                     {

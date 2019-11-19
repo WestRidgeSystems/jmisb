@@ -44,6 +44,12 @@ public class SecurityMetadataUniversalSetTest
     }
 
     @Test
+    public void testDisplayHeader()
+    {
+        Assert.assertEquals(universalSet.displayHeader(), "ST 0102 (universal)");
+    }
+
+    @Test
     public void testFrameFull()
     {
         // Frame a full message
