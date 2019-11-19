@@ -185,4 +185,9 @@ public class UasDatalinkMessage implements IMisbMessage
 
         return array;
     }
+
+    @Override
+    public String displayHeader() {
+        return "ST 0601";
+    }
 }

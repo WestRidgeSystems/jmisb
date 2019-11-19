@@ -107,6 +107,11 @@ public class SecurityMetadataUniversalSet extends SecurityMetadataMessage
         return arrayFromChunks(chunks, totalLength);
     }
 
+    @Override
+    public String displayHeader() {
+        return "ST 0102 (universal)";
+    }
+
     /**
      * Builder class for {@link SecurityMetadataUniversalSet} objects
      */
