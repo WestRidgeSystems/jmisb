@@ -26,6 +26,7 @@ public class MisbViewer extends JFrame implements ActionListener
     private IVideoInput videoInput;
     private VideoPanel videoPanel;
     private MetadataPanel metadataPanel;
+    private JScrollPane metadataPanelScroll;
     private PlaybackControlPanel controlPanel;
     private JMenu fileMenu;
     private List<JMenuItem> mruFiles;
@@ -107,9 +108,10 @@ public class MisbViewer extends JFrame implements ActionListener
 
         videoPanel = new VideoPanel();
         metadataPanel = new MetadataPanel();
+        metadataPanelScroll = new JScrollPane(metadataPanel);
 
         // Create split pane
-        JSplitPane splitPane = new JSplitPane(JSplitPane.HORIZONTAL_SPLIT, videoPanel, metadataPanel);
+        JSplitPane splitPane = new JSplitPane(JSplitPane.HORIZONTAL_SPLIT, videoPanel, metadataPanelScroll);
         splitPane.setDividerLocation(640 + splitPane.getInsets().left);
         splitPane.setResizeWeight(0.5);
         add(splitPane, "grow, wrap");
