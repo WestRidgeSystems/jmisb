@@ -38,6 +38,12 @@ public class SecurityMetadataLocalSetTest
         // Check that the correct universal label is applied
         Assert.assertEquals(localSet.getUniversalLabel(), KlvConstants.SecurityMetadataLocalSetUl);
     }
+    
+    @Test
+    public void testDisplayHeader()
+    {
+        Assert.assertEquals(localSet.displayHeader(), "ST 0102 (local)");
+    }
 
     @Test
     public void testFrameFull()

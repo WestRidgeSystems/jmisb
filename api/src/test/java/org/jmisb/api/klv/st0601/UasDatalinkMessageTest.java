@@ -35,6 +35,12 @@ public class UasDatalinkMessageTest
     }
 
     @Test
+    public void testDisplayHeader()
+    {
+        Assert.assertEquals(message.displayHeader(), "ST 0601");
+    }
+    
+    @Test
     public void testFrameSimple()
     {
         // Frame a full packet

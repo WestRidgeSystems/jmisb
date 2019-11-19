@@ -35,4 +35,9 @@ public class RawMisbMessage implements IMisbMessage
     {
         return bytes;
     }
+
+    @Override
+    public String displayHeader() {
+        return "Unknown";
+    }
 }

@@ -121,6 +121,11 @@ public class SecurityMetadataLocalSet extends SecurityMetadataMessage
         return arrayFromChunks(chunks, totalLength);
     }
 
+    @Override
+    public String displayHeader() {
+        return "ST 0102 (local)";
+    }
+
     /**
      * Builder class for {@link SecurityMetadataLocalSet} objects
      */
