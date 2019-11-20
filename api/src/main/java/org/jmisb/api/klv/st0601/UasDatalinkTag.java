@@ -77,11 +77,11 @@ public enum UasDatalinkTag
     OffsetCornerLongitudePoint4(33),
     /** Tag 34; Flag for icing detected at aircraft location; Value is a {@link OpaqueValue} */
     IcingDetected(34),
-    /** Tag 35; Wind direction at aircraft location; Value is a {@link OpaqueValue} */
+    /** Tag 35; Wind direction at aircraft location; Value is a {@link WindDirectionAngle} */
     WindDirection(35),
-    /** Tag 36; Wind speed at aircraft location; Value is a {@link OpaqueValue} */
+    /** Tag 36; Wind speed at aircraft location; Value is a {@link WindSpeed} */
     WindSpeed(36),
-    /** Tag 37; Static pressure at aircraft location; Value is a {@link OpaqueValue} */
+    /** Tag 37; Static pressure at aircraft location; Value is a {@link StaticPressure} */
     StaticPressure(37),
     /** Tag 38; Density altitude at aircraft location; Value is a {@link DensityAltitude} */
     DensityAltitude(38),
@@ -105,7 +105,7 @@ public enum UasDatalinkTag
     GenericFlagData01(47),
     /** Tag 48; MISB ST 0102 local let Security Metadata items; Value is a {@link NestedSecurityMetadata} */
     SecurityLocalMetadataSet(48),
-    /** Tag 49; Differential pressure at aircraft location; Value is a {@link OpaqueValue} */
+    /** Tag 49; Differential pressure at aircraft location; Value is a {@link DifferentialPressure} */
     DifferentialPressure(49),
     /** Tag 50; Platform attack angle; Value is a {@link OpaqueValue} */
     PlatformAngleOfAttack(50),
@@ -113,7 +113,7 @@ public enum UasDatalinkTag
     PlatformVerticalSpeed(51),
     /** Tag 52; Angle between the platform longitudinal axis and relative wind; Value is a {@link OpaqueValue} */
     PlatformSideslipAngle(52),
-    /** Tag 53; Local pressure at airfield of known height; Value is a {@link OpaqueValue} */
+    /** Tag 53; Local pressure at airfield of known height; Value is a {@link AirfieldBarometricPressure} */
     AirfieldBarometricPressure(53),
     /** Tag 54; Elevation of airfield corresponding to Airfield Barometric Pressure; Value is a {@link OpaqueValue} */
     AirfieldElevation(54),

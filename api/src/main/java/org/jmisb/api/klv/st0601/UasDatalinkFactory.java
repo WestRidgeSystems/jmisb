@@ -89,14 +89,11 @@ public class UasDatalinkFactory
                 // TODO
                 return new OpaqueValue(bytes);
             case WindDirection:
-                // TODO
-                return new OpaqueValue(bytes);
+                return new WindDirectionAngle(bytes);
             case WindSpeed:
-                // TODO
-                return new OpaqueValue(bytes);
+                return new WindSpeed(bytes);
             case StaticPressure:
-                // TODO
-                return new OpaqueValue(bytes);
+                return new StaticPressure(bytes);
             case DensityAltitude:
                 return new DensityAltitude(bytes);
             case OutsideAirTemp:
@@ -126,8 +123,7 @@ public class UasDatalinkFactory
             case SecurityLocalMetadataSet:
                 return new NestedSecurityMetadata(bytes);
             case DifferentialPressure:
-                // TODO
-                return new OpaqueValue(bytes);
+                return new DifferentialPressure(bytes);
             case PlatformAngleOfAttack:
                 // TODO
                 return new OpaqueValue(bytes);
@@ -138,8 +134,7 @@ public class UasDatalinkFactory
                 // TODO
                 return new OpaqueValue(bytes);
             case AirfieldBarometricPressure:
-                // TODO
-                return new OpaqueValue(bytes);
+                return new AirfieldBarometricPressure(bytes);
             case AirfieldElevation:
                 // TODO
                 return new OpaqueValue(bytes);

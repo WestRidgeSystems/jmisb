@@ -26,8 +26,10 @@
     </test>
     <test name = "st0601">
         <classes>
+            <class name = "org.jmisb.api.klv.st0601.AirfieldBarometricPressureTest"/>
             <class name = "org.jmisb.api.klv.st0601.ChecksumTest"/>
             <class name = "org.jmisb.api.klv.st0601.CornerOffsetTest"/>
+            <class name = "org.jmisb.api.klv.st0601.DifferentialPressureTest"/>
             <class name = "org.jmisb.api.klv.st0601.HorizontalFovTest"/>
             <class name = "org.jmisb.api.klv.st0601.OnBoardMiStorageCapacityTest"/>
             <class name = "org.jmisb.api.klv.st0601.PlatformAngleOfAttackFullTest"/>
@@ -45,6 +47,7 @@
             <class name = "org.jmisb.api.klv.st0601.SensorRelativeRollTest"/>
             <class name = "org.jmisb.api.klv.st0601.SensorTrueAltitudeTest"/>
             <class name = "org.jmisb.api.klv.st0601.SlantRangeTest"/>
+            <class name = "org.jmisb.api.klv.st0601.StaticPressureTest"/>
             <class name = "org.jmisb.api.klv.st0601.TargetWidthTest"/>
             <class name = "org.jmisb.api.klv.st0601.UasDatalinkAltitudeTest"/>
             <class name = "org.jmisb.api.klv.st0601.UasDatalinkLatitudeTest"/>
@@ -52,6 +55,8 @@
             <class name = "org.jmisb.api.klv.st0601.UasDatalinkMessageTest"/>
             <class name = "org.jmisb.api.klv.st0601.UasDatalinkStringTest"/>
             <class name = "org.jmisb.api.klv.st0601.VerticalFovTest"/>
+            <class name = "org.jmisb.api.klv.st0601.WindDirectionAngleTest"/>
+            <class name = "org.jmisb.api.klv.st0601.WindSpeedTest"/>
         </classes>
     </test>
     <test name = "video">
