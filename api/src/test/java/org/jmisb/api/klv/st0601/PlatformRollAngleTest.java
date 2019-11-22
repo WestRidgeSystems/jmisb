@@ -12,11 +12,13 @@ public class PlatformRollAngleTest
         byte[] bytes = platformRollAngle.getBytes();
         Assert.assertEquals(bytes, new byte[]{(byte)0x80, (byte)0x01}); // -32767 as int16
         Assert.assertEquals(platformRollAngle.getDegrees(), -50.0);
+        Assert.assertEquals("-50.0000\u00B0", platformRollAngle.getDisplayableValue());
 
         platformRollAngle = new PlatformRollAngle(50.0);
         bytes = platformRollAngle.getBytes();
         Assert.assertEquals(bytes, new byte[]{(byte)0x7f, (byte)0xff}); // 32767 as int16
         Assert.assertEquals(platformRollAngle.getDegrees(), 50.0);
+        Assert.assertEquals("50.0000\u00B0", platformRollAngle.getDisplayableValue());
 
         bytes = new byte[]{(byte)0x80, (byte)0x01}; // -32767 as int16
         platformRollAngle = new PlatformRollAngle(bytes);
@@ -50,6 +52,7 @@ public class PlatformRollAngleTest
         byte[] bytes = platformRollAngle.getBytes();
         Assert.assertEquals(bytes, new byte[]{(byte)0x08, (byte)0xb8});
         Assert.assertEquals(platformRollAngle.getDegrees(), degrees);
+        Assert.assertEquals("3.4058\u00B0", platformRollAngle.getDisplayableValue());
 
         // 0x08 0xb8 -> 3.405814
         bytes = new byte[]{(byte)0x08, (byte)0xb8};
