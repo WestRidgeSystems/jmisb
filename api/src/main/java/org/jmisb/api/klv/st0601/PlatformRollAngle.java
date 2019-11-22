@@ -72,6 +72,11 @@ public class PlatformRollAngle implements IUasDatalinkValue
     @Override
     public byte[] getBytes()
     {
+        if (degrees == Double.POSITIVE_INFINITY)
+        {
+            return invalidBytes;
+        }
+
         short shortVal = (short) Math.round((degrees / FLOAT_RANGE) * INT_RANGE);
         return PrimitiveConverter.int16ToBytes(shortVal);
     }

@@ -61,8 +61,14 @@ public class PlatformRollAngleTest
     @Test
     public void testOutOfRange()
     {
+        byte[] error = new byte[]{(byte) 0x80, (byte) 0x00};
         PlatformRollAngle platformRollAngle = new PlatformRollAngle(Double.POSITIVE_INFINITY);
         Assert.assertEquals(platformRollAngle.getDegrees(), Double.POSITIVE_INFINITY);
+        Assert.assertEquals(platformRollAngle.getBytes(), error);
+
+        platformRollAngle = new PlatformRollAngle(error);
+        Assert.assertEquals(platformRollAngle.getDegrees(), Double.POSITIVE_INFINITY);
+        Assert.assertEquals(platformRollAngle.getBytes(), error);
     }
 
     @Test(expectedExceptions = IllegalArgumentException.class)
