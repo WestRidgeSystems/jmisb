@@ -46,5 +46,14 @@ public class UasDatalinkAltitudeTest
         altitude = new FrameCenterHae(new byte[]{(byte)0x0b, (byte)0xb3});
         Assert.assertEquals(altitude.getMeters(), 9.445334, delta);
         Assert.assertEquals(altitude.getBytes(), new byte[]{(byte)0x0b, (byte)0xb3});
+
+        // Target Location Elevation
+        altitude = new TargetLocationElevation(9.445334);
+        Assert.assertEquals(altitude.getBytes(), new byte[]{(byte)0x0b, (byte)0xb3});
+        Assert.assertEquals(altitude.getMeters(), 9.445334);
+
+        altitude = new TargetLocationElevation(new byte[]{(byte)0xF8, (byte)0x23});
+        Assert.assertEquals(altitude.getMeters(), 18389.0471, delta);
+        Assert.assertEquals(altitude.getBytes(), new byte[]{(byte)0xf8, (byte)0x23});
     }
 }

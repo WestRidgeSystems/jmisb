@@ -12,11 +12,13 @@ public class SensorRelativeAzimuthTest
         byte[] min = az.getBytes();
         Assert.assertEquals(min, new byte[]{0x00, 0x00, 0x00, 0x00});
         Assert.assertEquals(az.getDegrees(), 0.0);
+        Assert.assertEquals("0.0000\u00B0", az.getDisplayableValue());
 
         az = new SensorRelativeAzimuth(360.0);
         byte[] max = az.getBytes();
         Assert.assertEquals(max, new byte[]{(byte)0xff, (byte)0xff, (byte)0xff, (byte)0xff});
         Assert.assertEquals(az.getDegrees(), 360.0);
+        Assert.assertEquals("360.0000\u00B0", az.getDisplayableValue());
 
         // Example from standard
         final double val = 160.719211474396;
@@ -24,6 +26,7 @@ public class SensorRelativeAzimuthTest
         byte[] ex = az.getBytes();
         Assert.assertEquals(ex, new byte[]{(byte)0x72, (byte)0x4a, (byte)0x0a, (byte)0x20});
         Assert.assertEquals(az.getDegrees(), val);
+        Assert.assertEquals("160.7192\u00B0", az.getDisplayableValue());
     }
 
     @Test
