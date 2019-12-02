@@ -1,5 +1,6 @@
 package org.jmisb.api.klv.st0601;
 
+import org.jmisb.api.common.KlvParseException;
 import org.testng.Assert;
 import org.testng.annotations.Test;
 
@@ -46,6 +47,24 @@ public class StaticPressureTest
 
         bytes = new byte[]{(byte)0x34, (byte)0x9d};
         pressure = new StaticPressure(bytes);
+        Assert.assertEquals(pressure.getBytes(), bytes);
+    }
+
+    @Test
+    public void testFactory() throws KlvParseException
+    {
+        byte[] bytes = new byte[]{(byte)0x00, (byte)0x00};
+        IUasDatalinkValue v = UasDatalinkFactory.createValue(UasDatalinkTag.StaticPressure, bytes);
+        Assert.assertTrue(v instanceof StaticPressure);
+        StaticPressure pressure = (StaticPressure)v;
+        Assert.assertEquals(pressure.getMillibars(), 0.0);
+        Assert.assertEquals(pressure.getBytes(), bytes);
+
+        bytes = new byte[]{(byte)0xff, (byte)0xff};
+        v = UasDatalinkFactory.createValue(UasDatalinkTag.StaticPressure, bytes);
+        Assert.assertTrue(v instanceof StaticPressure);
+        pressure = (StaticPressure)v;
+        Assert.assertEquals(pressure.getMillibars(), 5000.0);
         Assert.assertEquals(pressure.getBytes(), bytes);
     }
 

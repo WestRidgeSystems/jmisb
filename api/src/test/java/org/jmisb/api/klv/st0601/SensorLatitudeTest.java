@@ -1,5 +1,6 @@
 package org.jmisb.api.klv.st0601;
 
+import org.jmisb.api.common.KlvParseException;
 import org.testng.Assert;
 import org.testng.annotations.Test;
 
@@ -61,6 +62,45 @@ public class SensorLatitudeTest
 
         // Error
         latitude = new SensorLatitude(new byte[]{(byte)0x80, (byte)0x00, (byte)0x00, (byte)0x00});
+        Assert.assertEquals(latitude.getDegrees(), Double.POSITIVE_INFINITY);
+        Assert.assertEquals(latitude.getBytes(), new byte[]{(byte)0x80, (byte)0x00, (byte)0x00, (byte)0x00});
+    }
+
+    @Test
+    public void testFactory() throws KlvParseException
+    {
+        byte[] bytes = new byte[]{(byte)0x80, (byte)0x00, (byte)0x00, (byte)0x01};
+        IUasDatalinkValue v = UasDatalinkFactory.createValue(UasDatalinkTag.SensorLatitude, bytes);
+        Assert.assertTrue(v instanceof SensorLatitude);
+        SensorLatitude latitude = (SensorLatitude)v;
+        Assert.assertEquals(latitude.getDegrees(), -90.0);
+        Assert.assertEquals(latitude.getBytes(), new byte[]{(byte)0x80, (byte)0x00, (byte)0x00, (byte)0x01});
+
+        bytes = new byte[]{(byte)0x7f, (byte)0xff, (byte)0xff, (byte)0xff};
+        v = UasDatalinkFactory.createValue(UasDatalinkTag.SensorLatitude, bytes);
+        Assert.assertTrue(v instanceof SensorLatitude);
+        latitude = (SensorLatitude)v;
+        Assert.assertEquals(latitude.getDegrees(), 90.0);
+        Assert.assertEquals(latitude.getBytes(), new byte[]{(byte)0x7f, (byte)0xff, (byte)0xff, (byte)0xff});
+
+        bytes = new byte[]{(byte)0x00, (byte)0x00, (byte)0x00, (byte)0x00};
+        v = UasDatalinkFactory.createValue(UasDatalinkTag.SensorLatitude, bytes);
+        Assert.assertTrue(v instanceof SensorLatitude);
+        latitude = (SensorLatitude)v;
+        Assert.assertEquals(latitude.getDegrees(), 0.0);
+        Assert.assertEquals(latitude.getBytes(), new byte[]{(byte)0x00, (byte)0x00, (byte)0x00, (byte)0x00});
+
+        bytes = new byte[]{(byte)0x55, (byte)0x95, (byte)0xb6, (byte)0x6d};
+        v = UasDatalinkFactory.createValue(UasDatalinkTag.SensorLatitude, bytes);
+        Assert.assertTrue(v instanceof SensorLatitude);
+        latitude = (SensorLatitude)v;
+        Assert.assertEquals(latitude.getDegrees(), 60.17682, 0.00001);
+        Assert.assertEquals(latitude.getBytes(), new byte[]{(byte)0x55, (byte)0x95, (byte)0xb6, (byte)0x6d});
+
+        bytes = new byte[]{(byte)0x80, (byte)0x00, (byte)0x00, (byte)0x00};
+        v = UasDatalinkFactory.createValue(UasDatalinkTag.SensorLatitude, bytes);
+        Assert.assertTrue(v instanceof SensorLatitude);
+        latitude = (SensorLatitude)v;
         Assert.assertEquals(latitude.getDegrees(), Double.POSITIVE_INFINITY);
         Assert.assertEquals(latitude.getBytes(), new byte[]{(byte)0x80, (byte)0x00, (byte)0x00, (byte)0x00});
     }

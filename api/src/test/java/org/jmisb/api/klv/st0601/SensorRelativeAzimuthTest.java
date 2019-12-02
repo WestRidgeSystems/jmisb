@@ -1,5 +1,6 @@
 package org.jmisb.api.klv.st0601;
 
+import org.jmisb.api.common.KlvParseException;
 import org.testng.Assert;
 import org.testng.annotations.Test;
 
@@ -50,6 +51,22 @@ public class SensorRelativeAzimuthTest
         bytes = new byte[]{(byte)0xd7, (byte)0x03, (byte)0x9d, (byte)0xc8};
         az = new SensorRelativeAzimuth(bytes);
         Assert.assertEquals(az.getBytes(), bytes);
+    }
+
+    @Test
+    public void testFactory() throws KlvParseException
+    {
+        byte[] bytes = new byte[]{0x00, 0x00, 0x00, 0x00};
+        IUasDatalinkValue v = UasDatalinkFactory.createValue(UasDatalinkTag.SensorRelativeAzimuthAngle, bytes);
+        Assert.assertTrue(v instanceof SensorRelativeAzimuth);
+        SensorRelativeAzimuth az = (SensorRelativeAzimuth)v;
+        Assert.assertEquals(az.getDegrees(), 0.0);
+
+        bytes = new byte[]{(byte)0xff, (byte)0xff, (byte)0xff, (byte)0xff};
+        v = UasDatalinkFactory.createValue(UasDatalinkTag.SensorRelativeAzimuthAngle, bytes);
+        Assert.assertTrue(v instanceof SensorRelativeAzimuth);
+        az = (SensorRelativeAzimuth)v;
+        Assert.assertEquals(az.getDegrees(), 360.0);
     }
 
     @Test(expectedExceptions = IllegalArgumentException.class)

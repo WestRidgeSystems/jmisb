@@ -156,4 +156,18 @@ public class UasDatalinkMessageTest
             Assert.assertEquals(e.getMessage(), "Missing checksum");
         }
     }
+
+    /**
+     * Test we get the expected tags
+     */
+    @Test
+    public void testTags()
+    {
+        // Frame the message
+        Collection<UasDatalinkTag> tags = message.getTags();
+        Assert.assertEquals(tags.size(), 3);
+        Assert.assertTrue(tags.contains(UasDatalinkTag.SensorLatitude));
+        Assert.assertTrue(tags.contains(UasDatalinkTag.SensorLongitude));
+        Assert.assertTrue(tags.contains(UasDatalinkTag.SensorTrueAltitude));
+    }
 }

@@ -8,6 +8,7 @@ import java.time.LocalDateTime;
 import java.time.Month;
 import java.time.ZoneOffset;
 import java.time.temporal.ChronoUnit;
+import org.jmisb.api.common.KlvParseException;
 
 public class PrecisionTimeStampTest
 {
@@ -19,6 +20,7 @@ public class PrecisionTimeStampTest
         byte[] bytes = new byte[]{(byte)0x00, (byte)0x04, (byte)0x59, (byte)0xf4,
                 (byte)0xA6, (byte)0xaa, (byte)0x4a, (byte)0xa8};
         PrecisionTimeStamp pts = new PrecisionTimeStamp(bytes);
+        Assert.assertEquals(pts.getDisplayableValue(), "1224807209913000");
         LocalDateTime dateTime = pts.getLocalDateTime();
 
         Assert.assertEquals(dateTime.getYear(), 2008);
@@ -36,6 +38,27 @@ public class PrecisionTimeStampTest
                 (byte)0xA6, (byte)0xaa, (byte)0x4a, (byte)0xa8});
 
         Assert.assertEquals(microseconds, 1224807209913000L);
+        Assert.assertEquals(pts2.getDisplayableValue(), "1224807209913000");
+    }
+
+    @Test
+    public void testFactoryExample() throws KlvParseException
+    {
+        byte[] bytes = new byte[]{(byte)0x00, (byte)0x04, (byte)0x59, (byte)0xf4,
+                (byte)0xA6, (byte)0xaa, (byte)0x4a, (byte)0xa8};
+        IUasDatalinkValue v = UasDatalinkFactory.createValue(UasDatalinkTag.PrecisionTimeStamp, bytes);
+        Assert.assertTrue(v instanceof PrecisionTimeStamp);
+        PrecisionTimeStamp pts = (PrecisionTimeStamp)v;
+        Assert.assertEquals(pts.getDisplayableValue(), "1224807209913000");
+        LocalDateTime dateTime = pts.getLocalDateTime();
+
+        Assert.assertEquals(dateTime.getYear(), 2008);
+        Assert.assertEquals(dateTime.getMonth(), Month.OCTOBER);
+        Assert.assertEquals(dateTime.getDayOfMonth(), 24);
+        Assert.assertEquals(dateTime.getHour(), 0);
+        Assert.assertEquals(dateTime.getMinute(), 13);
+        Assert.assertEquals(dateTime.getSecond(), 29);
+        Assert.assertEquals(dateTime.getNano(), 913000000);
     }
 
     @Test
@@ -57,6 +80,7 @@ public class PrecisionTimeStampTest
         Assert.assertEquals(pts.getLocalDateTime().getYear(), 1970);
         Assert.assertEquals(pts.getLocalDateTime().getMonth(), Month.JANUARY);
         Assert.assertEquals(pts.getLocalDateTime().getDayOfMonth(), 1);
+        Assert.assertEquals(pts.getDisplayableValue(), "0");
 
         // Create max value and ensure no exception is thrown
         new PrecisionTimeStamp(Long.MAX_VALUE);

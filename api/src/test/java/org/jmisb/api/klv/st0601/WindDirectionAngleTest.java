@@ -1,5 +1,6 @@
 package org.jmisb.api.klv.st0601;
 
+import org.jmisb.api.common.KlvParseException;
 import org.testng.Assert;
 import org.testng.annotations.Test;
 
@@ -46,6 +47,24 @@ public class WindDirectionAngleTest
 
         bytes = new byte[]{(byte)0x34, (byte)0x9d};
         angle = new WindDirectionAngle(bytes);
+        Assert.assertEquals(angle.getBytes(), bytes);
+    }
+
+    @Test
+    public void testFactory() throws KlvParseException
+    {
+        byte[] bytes = new byte[]{0x00, 0x00};
+        IUasDatalinkValue v = UasDatalinkFactory.createValue(UasDatalinkTag.WindDirection, bytes);
+        Assert.assertTrue(v instanceof WindDirectionAngle);
+        WindDirectionAngle angle = (WindDirectionAngle)v;
+        Assert.assertEquals(angle.getDegrees(), 0.0);
+        Assert.assertEquals(angle.getBytes(), bytes);
+
+        bytes = new byte[]{(byte)0xff, (byte)0xff};
+        v = UasDatalinkFactory.createValue(UasDatalinkTag.WindDirection, bytes);
+        Assert.assertTrue(v instanceof WindDirectionAngle);
+        angle = (WindDirectionAngle)v;
+        Assert.assertEquals(angle.getDegrees(), 360.0);
         Assert.assertEquals(angle.getBytes(), bytes);
     }
 

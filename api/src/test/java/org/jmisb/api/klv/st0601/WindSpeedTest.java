@@ -1,5 +1,6 @@
 package org.jmisb.api.klv.st0601;
 
+import org.jmisb.api.common.KlvParseException;
 import org.testng.Assert;
 import org.testng.annotations.Test;
 
@@ -41,6 +42,34 @@ public class WindSpeedTest
         Assert.assertEquals(range.getMetersPerSecond(), 69.8039216, 0.0001);
         Assert.assertEquals(range.getBytes(), new byte[]{(byte)0xB2});
         Assert.assertEquals("69.8m/s", range.getDisplayableValue());
+    }
+
+    @Test
+    public void testFactory() throws KlvParseException
+    {
+        byte[] bytes = new byte[]{(byte)0x00};
+        IUasDatalinkValue v = UasDatalinkFactory.createValue(UasDatalinkTag.WindSpeed, bytes);
+        Assert.assertTrue(v instanceof WindSpeed);
+        WindSpeed windspeed = (WindSpeed)v;
+        Assert.assertEquals(windspeed.getMetersPerSecond(), 0.0);
+        Assert.assertEquals(windspeed.getBytes(), new byte[]{(byte)0x00});
+        Assert.assertEquals("0.0m/s", windspeed.getDisplayableValue());
+
+        bytes = new byte[]{(byte)0xff};
+        v = UasDatalinkFactory.createValue(UasDatalinkTag.WindSpeed, bytes);
+        Assert.assertTrue(v instanceof WindSpeed);
+        windspeed = (WindSpeed)v;
+        Assert.assertEquals(windspeed.getMetersPerSecond(), 100.0);
+        Assert.assertEquals(windspeed.getBytes(), new byte[]{(byte)0xff});
+        Assert.assertEquals("100.0m/s", windspeed.getDisplayableValue());
+
+        bytes = new byte[]{(byte)0xB2};
+        v = UasDatalinkFactory.createValue(UasDatalinkTag.WindSpeed, bytes);
+        Assert.assertTrue(v instanceof WindSpeed);
+        windspeed = (WindSpeed)v;
+        Assert.assertEquals(windspeed.getMetersPerSecond(), 69.8039216, 0.0001);
+        Assert.assertEquals(windspeed.getBytes(), new byte[]{(byte)0xB2});
+        Assert.assertEquals("69.8m/s", windspeed.getDisplayableValue());
     }
 
     @Test(expectedExceptions = IllegalArgumentException.class)
