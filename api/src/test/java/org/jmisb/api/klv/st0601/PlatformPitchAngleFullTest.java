@@ -1,5 +1,6 @@
 package org.jmisb.api.klv.st0601;
 
+import org.jmisb.api.common.KlvParseException;
 import org.testng.Assert;
 import org.testng.annotations.Test;
 
@@ -12,11 +13,13 @@ public class PlatformPitchAngleFullTest
         byte[] bytes = platformPitchAngleFull.getBytes();
         Assert.assertEquals(bytes, new byte[]{(byte)0x80, (byte)0x00, (byte)0x00, (byte)0x01});
         Assert.assertEquals(platformPitchAngleFull.getDegrees(), -90.0);
+        Assert.assertEquals(platformPitchAngleFull.getDisplayableValue(), "-90.0000\u00B0");
 
         platformPitchAngleFull = new PlatformPitchAngleFull(90.0);
         bytes = platformPitchAngleFull.getBytes();
         Assert.assertEquals(bytes, new byte[]{(byte)0x7f, (byte)0xff, (byte)0xff, (byte)0xff});
         Assert.assertEquals(platformPitchAngleFull.getDegrees(), 90.0);
+        Assert.assertEquals(platformPitchAngleFull.getDisplayableValue(), "90.0000\u00B0");
 
         bytes = new byte[]{(byte)0x80, (byte)0x00, (byte)0x00, (byte)0x01};
         platformPitchAngleFull = new PlatformPitchAngleFull(bytes);
@@ -54,6 +57,7 @@ public class PlatformPitchAngleFullTest
         byte[] bytes = platformPitchAngleFull.getBytes();
         Assert.assertEquals(bytes, expected);
         Assert.assertEquals(platformPitchAngleFull.getDegrees(), degrees);
+        Assert.assertEquals(platformPitchAngleFull.getDisplayableValue(), "-0.4315\u00B0");
 
         // Create from bytes
         platformPitchAngleFull = new PlatformPitchAngleFull(expected);
@@ -78,5 +82,22 @@ public class PlatformPitchAngleFullTest
     public void badArrayLength()
     {
         new PlatformPitchAngleFull(new byte[]{0x00, 0x01});
+    }
+
+    @Test
+    public void testFactory() throws KlvParseException {
+        byte[] bytes = new byte[]{(byte)0x80, (byte)0x00, (byte)0x00, (byte)0x01};
+        IUasDatalinkValue v = UasDatalinkFactory.createValue(UasDatalinkTag.PlatformPitchAngleFull, bytes);
+        Assert.assertTrue(v instanceof PlatformPitchAngleFull);
+        PlatformPitchAngleFull platformPitchAngleFull = (PlatformPitchAngleFull)v;
+        Assert.assertEquals(platformPitchAngleFull.getDegrees(), -90.0);
+        Assert.assertEquals(platformPitchAngleFull.getBytes(), bytes);
+
+        bytes = new byte[]{(byte)0x7f, (byte)0xff, (byte)0xff, (byte)0xff};
+        v = UasDatalinkFactory.createValue(UasDatalinkTag.PlatformPitchAngleFull, bytes);
+        Assert.assertTrue(v instanceof PlatformPitchAngleFull);
+        platformPitchAngleFull = (PlatformPitchAngleFull)v;
+        Assert.assertEquals(platformPitchAngleFull.getDegrees(), 90.0);
+        Assert.assertEquals(platformPitchAngleFull.getBytes(), bytes);
     }
 }

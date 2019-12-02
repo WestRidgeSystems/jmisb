@@ -1,5 +1,6 @@
 package org.jmisb.api.klv.st0601;
 
+import org.jmisb.api.common.KlvParseException;
 import org.testng.Assert;
 import org.testng.annotations.Test;
 
@@ -90,5 +91,22 @@ public class PlatformRollAngleTest
     public void badArrayLength()
     {
         new PlatformRollAngle(new byte[]{0x00, 0x00, 0x00, 0x00});
+    }
+
+    @Test
+    public void testFactory() throws KlvParseException {
+        byte[] bytes = new byte[]{(byte)0x80, (byte)0x01}; // -32767 as int16
+        IUasDatalinkValue v = UasDatalinkFactory.createValue(UasDatalinkTag.PlatformRollAngle, bytes);
+        Assert.assertTrue(v instanceof PlatformRollAngle);
+        PlatformRollAngle platformRollAngle = (PlatformRollAngle)v;
+        Assert.assertEquals(platformRollAngle.getDegrees(), -50.0);
+        Assert.assertEquals(platformRollAngle.getBytes(), bytes);
+
+        bytes = new byte[]{(byte)0x7f, (byte)0xff}; // 32767 as int16
+        v = UasDatalinkFactory.createValue(UasDatalinkTag.PlatformRollAngle, bytes);
+        Assert.assertTrue(v instanceof PlatformRollAngle);
+        platformRollAngle = (PlatformRollAngle)v;
+        Assert.assertEquals(platformRollAngle.getDegrees(), 50.0);
+        Assert.assertEquals(platformRollAngle.getBytes(), bytes);
     }
 }

@@ -1,5 +1,6 @@
 package org.jmisb.api.klv.st0601;
 
+import org.jmisb.api.common.KlvParseException;
 import org.testng.Assert;
 import org.testng.annotations.Test;
 
@@ -13,18 +14,21 @@ public class SensorRelativeElevationTest
         byte[] zero = elevation.getBytes();
         Assert.assertEquals(zero, new byte[]{0x00, 0x00, 0x00, 0x00});
         Assert.assertEquals(elevation.getDegrees(), 0.0);
+        Assert.assertEquals("0.0000\u00B0", elevation.getDisplayableValue());
 
         // -180.0
         elevation = new SensorRelativeElevation(-180);
         byte[] min = elevation.getBytes();
         Assert.assertEquals(min, new byte[]{(byte)0x80, (byte)0x00, (byte)0x00, (byte)0x01});
         Assert.assertEquals(elevation.getDegrees(), -180.0);
+        Assert.assertEquals("-180.0000\u00B0", elevation.getDisplayableValue());
 
         // +180.0
         elevation = new SensorRelativeElevation(180);
         byte[] max = elevation.getBytes();
         Assert.assertEquals(max, new byte[]{(byte)0x7f, (byte)0xff, (byte)0xff, (byte)0xff});
         Assert.assertEquals(elevation.getDegrees(), 180.0);
+        Assert.assertEquals("180.0000\u00B0", elevation.getDisplayableValue());
 
         // ST example
         final double val = -168.792324833941;
@@ -32,6 +36,7 @@ public class SensorRelativeElevationTest
         byte[] ex = elevation.getBytes();
         Assert.assertEquals(ex, new byte[]{(byte)0x87, (byte)0xf8, (byte)0x4b, (byte)0x86});
         Assert.assertEquals(elevation.getDegrees(), val);
+        Assert.assertEquals("-168.7923\u00B0", elevation.getDisplayableValue());
 
         byte[] error = new byte[]{(byte) 0x80, (byte) 0x00, (byte) 0x00, (byte) 0x00};
         elevation = new SensorRelativeElevation(Double.POSITIVE_INFINITY);
@@ -72,6 +77,41 @@ public class SensorRelativeElevationTest
         elevation = new SensorRelativeElevation(error);
         Assert.assertEquals(elevation.getDegrees(), Double.POSITIVE_INFINITY);
         Assert.assertEquals(elevation.getBytes(), error);
+    }
+
+    @Test
+    public void testFactory() throws KlvParseException
+    {
+        byte[] bytes = new byte[]{0x00, 0x00, 0x00, 0x00};
+        IUasDatalinkValue v = UasDatalinkFactory.createValue(UasDatalinkTag.SensorRelativeElevationAngle, bytes);
+        Assert.assertTrue(v instanceof SensorRelativeElevation);
+        SensorRelativeElevation elevation = (SensorRelativeElevation)v;
+        Assert.assertEquals(elevation.getDegrees(), 0.0);
+        Assert.assertEquals(elevation.getBytes(), bytes);
+
+        // -180.0
+        bytes = new byte[]{(byte) 0x80, (byte) 0x00, (byte) 0x00, (byte) 0x01};
+        v = UasDatalinkFactory.createValue(UasDatalinkTag.SensorRelativeElevationAngle, bytes);
+        Assert.assertTrue(v instanceof SensorRelativeElevation);
+        elevation = (SensorRelativeElevation)v;
+        Assert.assertEquals(elevation.getDegrees(), -180.0);
+        Assert.assertEquals(elevation.getBytes(), bytes);
+
+        // +180.0
+        bytes = new byte[]{(byte) 0x7f, (byte) 0xff, (byte) 0xff, (byte) 0xff};
+        v = UasDatalinkFactory.createValue(UasDatalinkTag.SensorRelativeElevationAngle, bytes);
+        Assert.assertTrue(v instanceof SensorRelativeElevation);
+        elevation = (SensorRelativeElevation)v;
+        Assert.assertEquals(elevation.getDegrees(), 180.0);
+        Assert.assertEquals(elevation.getBytes(), bytes);
+
+        // ST example
+        bytes = new byte[]{(byte) 0x87, (byte) 0xf8, (byte) 0x4b, (byte) 0x86};
+        v = UasDatalinkFactory.createValue(UasDatalinkTag.SensorRelativeElevationAngle, bytes);
+        Assert.assertTrue(v instanceof SensorRelativeElevation);
+        elevation = (SensorRelativeElevation)v;
+        Assert.assertEquals(elevation.getDegrees(), -168.792324833941, 0.0000001);
+        Assert.assertEquals(elevation.getBytes(), bytes);
     }
 
     @Test(expectedExceptions = IllegalArgumentException.class)

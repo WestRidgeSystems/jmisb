@@ -77,12 +77,19 @@ public class UasDatalinkFactory
             case FrameCenterElevation:
                 return new FrameCenterElevation(bytes);
             case OffsetCornerLatitudePoint1:
+                return new CornerOffset(bytes);
             case OffsetCornerLongitudePoint1:
+                return new CornerOffset(bytes);
             case OffsetCornerLatitudePoint2:
+                return new CornerOffset(bytes);
             case OffsetCornerLongitudePoint2:
+                return new CornerOffset(bytes);
             case OffsetCornerLatitudePoint3:
+                return new CornerOffset(bytes);
             case OffsetCornerLongitudePoint3:
+                return new CornerOffset(bytes);
             case OffsetCornerLatitudePoint4:
+                return new CornerOffset(bytes);
             case OffsetCornerLongitudePoint4:
                 return new CornerOffset(bytes);
             case IcingDetected:
@@ -270,7 +277,9 @@ public class UasDatalinkFactory
             case AlternatePlatformEllipsoidHeightExtended:
                 return new OpaqueValue(bytes);
             case StreamDesignator:
+                return new UasDatalinkString(bytes);
             case OperationalBase:
+                return new UasDatalinkString(bytes);
             case BroadcastSource:
                 return new UasDatalinkString(bytes);
             case RangeToRecoveryLocation:

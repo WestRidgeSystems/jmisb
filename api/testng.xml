@@ -47,9 +47,11 @@
             <class name = "org.jmisb.api.klv.st0601.SensorRelativeRollTest"/>
             <class name = "org.jmisb.api.klv.st0601.SensorTrueAltitudeTest"/>
             <class name = "org.jmisb.api.klv.st0601.SlantRangeTest"/>
+            <class name = "org.jmisb.api.klv.st0601.ST0601VersionTest"/>
             <class name = "org.jmisb.api.klv.st0601.StaticPressureTest"/>
             <class name = "org.jmisb.api.klv.st0601.TargetWidthTest"/>
             <class name = "org.jmisb.api.klv.st0601.UasDatalinkAltitudeTest"/>
+            <class name = "org.jmisb.api.klv.st0601.UasDatalinkFactoryTest"/>
             <class name = "org.jmisb.api.klv.st0601.UasDatalinkLatitudeTest"/>
             <class name = "org.jmisb.api.klv.st0601.UasDatalinkLongitudeTest"/>
             <class name = "org.jmisb.api.klv.st0601.UasDatalinkMessageTest"/>
