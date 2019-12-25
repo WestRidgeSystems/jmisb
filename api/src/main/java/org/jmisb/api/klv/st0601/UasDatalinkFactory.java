@@ -39,11 +39,9 @@ public class UasDatalinkFactory
             case PlatformRollAngle:
                 return new PlatformRollAngle(bytes);
             case PlatformTrueAirspeed:
-                // TODO
-                return new OpaqueValue(bytes);
+                return new PlatformTrueAirspeed(bytes);
             case PlatformIndicatedAirspeed:
-                // TODO
-                return new OpaqueValue(bytes);
+                return new PlatformIndicatedAirspeed(bytes);
             case PlatformDesignation:
                 return new UasDatalinkString(bytes);
             case ImageSourceSensor:
@@ -149,8 +147,7 @@ public class UasDatalinkFactory
                 // TODO
                 return new OpaqueValue(bytes);
             case PlatformGroundSpeed:
-                // TODO
-                return new OpaqueValue(bytes);
+                return new PlatformGroundSpeed(bytes);
             case GroundRange:
                 // TODO
                 return new OpaqueValue(bytes);
