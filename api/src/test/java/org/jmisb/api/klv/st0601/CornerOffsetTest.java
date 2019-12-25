@@ -120,7 +120,7 @@ public class CornerOffsetTest
         v = UasDatalinkFactory.createValue(UasDatalinkTag.OffsetCornerLatitudePoint3, bytes);
         Assert.assertTrue(v instanceof CornerOffset);
 
-        v = UasDatalinkFactory.createValue(UasDatalinkTag.OffsetCornerLongitudePoint4, bytes);
+        v = UasDatalinkFactory.createValue(UasDatalinkTag.OffsetCornerLongitudePoint3, bytes);
         Assert.assertTrue(v instanceof CornerOffset);
 
         v = UasDatalinkFactory.createValue(UasDatalinkTag.OffsetCornerLatitudePoint4, bytes);
