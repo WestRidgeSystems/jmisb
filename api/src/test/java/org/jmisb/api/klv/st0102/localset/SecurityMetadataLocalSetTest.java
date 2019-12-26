@@ -10,10 +10,12 @@ import java.time.LocalDate;
 import java.util.Arrays;
 import java.util.SortedMap;
 import java.util.TreeMap;
+import org.jmisb.api.common.KlvParseException;
 
 public class SecurityMetadataLocalSetTest
 {
     private SecurityMetadataLocalSet localSet;
+    private static final byte[] ItemDesignatorIdValue = new byte[]{(byte)0x00, (byte)0x01, (byte)0x02, (byte)0x03, (byte)0x04, (byte)0x05, (byte)0x06, (byte)0x07, (byte)0x08, (byte)0x09, (byte)0x0A, (byte)0x0B, (byte)0x0C, (byte)0x0D, (byte)0x0E, (byte)0x0F};
 
     @BeforeTest
     public void createSet()
@@ -117,6 +119,7 @@ public class SecurityMetadataLocalSetTest
                 .ocMethod(CountryCodingMethod.ISO3166_TWO_LETTER)
                 .objectCountryCodes("US;CA")
                 .classificationComments("No comment")
+                .itemDesignatorId(ItemDesignatorIdValue)
                 .version(10)
                 .ccmDate(LocalDate.of(2010, 12, 25))
                 .ocmDate(LocalDate.of(1998, 5, 27))
@@ -131,9 +134,44 @@ public class SecurityMetadataLocalSetTest
         Assert.assertNotNull(fullMessage.getField(SecurityMetadataKey.CcCodingMethodVersionDate));
         Assert.assertEquals(fullMessage.getField(SecurityMetadataKey.CcCodingMethodVersionDate).getBytes(), "2010-12-25".getBytes());
 
+        Assert.assertNotNull(fullMessage.getField(SecurityMetadataKey.ItemDesignatorId));
+        Assert.assertEquals(fullMessage.getField(SecurityMetadataKey.ItemDesignatorId).getBytes(), ItemDesignatorIdValue);
+
         byte[] bytes = fullMessage.frameMessage(false);
         // System.out.println(ArrayUtils.toHexString(bytes));
 
         Assert.assertEquals(bytes[21], Classification.TOP_SECRET.getCode());
+    }
+
+    @Test
+    public void testParseConstructorMultipleFields() throws KlvParseException {
+        byte[] bytes = new byte[]{1, 1, 1, 2, 1, 1, 3, 4, 47, 47, 67, 65, 4, 0, 5, 0, 6, 2, 67, 65, 21, 16, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 22, 2, 0, 5};
+        SecurityMetadataLocalSet securityMetadataLocalSet = new SecurityMetadataLocalSet(bytes, false);
+        Assert.assertEquals(securityMetadataLocalSet.displayHeader(), "ST 0102 (local)");
+        Assert.assertNotNull(securityMetadataLocalSet.getField(SecurityMetadataKey.ItemDesignatorId));
+    }
+
+    @Test
+    public void testParseConstructor1() throws KlvParseException {
+        byte[] bytes = new byte[]{1, 1, 1};
+        SecurityMetadataLocalSet securityMetadataLocalSet = new SecurityMetadataLocalSet(bytes, false);
+        Assert.assertEquals(securityMetadataLocalSet.displayHeader(), "ST 0102 (local)");
+        Assert.assertNotNull(securityMetadataLocalSet.getField(SecurityMetadataKey.SecurityClassification));
+        ISecurityMetadataValue val = securityMetadataLocalSet.getField(SecurityMetadataKey.SecurityClassification);
+        Assert.assertTrue(val instanceof ClassificationLocal);
+        ClassificationLocal clas = (ClassificationLocal)val;
+        Assert.assertEquals(clas.getClassification(), Classification.UNCLASSIFIED);
+    }
+
+    @Test
+    public void testParseConstructor21() throws KlvParseException {
+        byte[] bytes = new byte[]{21, 16, 0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15};
+        SecurityMetadataLocalSet securityMetadataLocalSet = new SecurityMetadataLocalSet(bytes, false);
+        Assert.assertEquals(securityMetadataLocalSet.displayHeader(), "ST 0102 (local)");
+        Assert.assertNotNull(securityMetadataLocalSet.getField(SecurityMetadataKey.ItemDesignatorId));
+        ISecurityMetadataValue val = securityMetadataLocalSet.getField(SecurityMetadataKey.ItemDesignatorId);
+        Assert.assertTrue(val instanceof ItemDesignatorId);
+        ItemDesignatorId id = (ItemDesignatorId)val;
+        Assert.assertEquals(id.getItemDesignatorId(), ItemDesignatorIdValue);
     }
 }

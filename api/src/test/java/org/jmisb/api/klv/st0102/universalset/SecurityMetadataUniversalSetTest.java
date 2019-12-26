@@ -18,6 +18,7 @@ import java.util.TreeMap;
 public class SecurityMetadataUniversalSetTest
 {
     private SecurityMetadataUniversalSet universalSet;
+    private static final byte[] itemDesignatorId = new byte[]{(byte)0x00, (byte)0x01, (byte)0x02, (byte)0x03, (byte)0x04, (byte)0x05, (byte)0x06, (byte)0x07, (byte)0x08, (byte)0x09, (byte)0x0A, (byte)0x0B, (byte)0x0C, (byte)0x0D, (byte)0x0E, (byte)0x0F};
 
     @BeforeTest
     public void createSet()
@@ -94,6 +95,7 @@ public class SecurityMetadataUniversalSetTest
                 .ocMethod("ISO-3166 Two Letter")
                 .objectCountryCodes("US;CA")
                 .classificationComments("No comment")
+                .itemDesignatorId(itemDesignatorId)
                 .version(10)
                 .ccmDate(LocalDate.of(2010, 12, 25))
                 .ocmDate(LocalDate.of(1998, 5, 27))
@@ -110,6 +112,9 @@ public class SecurityMetadataUniversalSetTest
 
         Assert.assertNotNull(fullMessage.getField(SecurityMetadataKey.CcCodingMethodVersionDate));
         Assert.assertEquals(fullMessage.getField(SecurityMetadataKey.CcCodingMethodVersionDate).getBytes(), "2010-12-25".getBytes());
+
+        Assert.assertNotNull(fullMessage.getField(SecurityMetadataKey.ItemDesignatorId));
+        Assert.assertEquals(fullMessage.getField(SecurityMetadataKey.ItemDesignatorId).getBytes(), itemDesignatorId);
 
         byte[] bytes = fullMessage.frameMessage(false);
 //        System.out.println(ArrayUtils.toHexString(bytes));
