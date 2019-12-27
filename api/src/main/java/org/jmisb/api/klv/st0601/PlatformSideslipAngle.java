@@ -1,12 +1,12 @@
 package org.jmisb.api.klv.st0601;
 
 /**
- * Platform Pitch Angle (ST 0601 tag 6)
+ * Platform Sideslip Angle (ST 0601 tag 52)
  * <p>
  * From ST:
  * <blockquote>
- * Aircraft pitch angle. Angle between longitudinal axis and horizontal plane.
- * Positive angles are above horizontal plane.
+ * Angle between the platform longitudinal axis and relative wind.
+ * Positive angles to right wing, neg to left.
  * <p>
  * Map (-2^15-1)..(2^15-1) to +/-20. Use -2^15 as an "out of range" indicator.
  * -2^15 = 0x8000.
@@ -14,7 +14,7 @@ package org.jmisb.api.klv.st0601;
  * Resolution: ~610 micro degrees
  * </blockquote>
  */
-public class PlatformPitchAngle extends UasDatalinkAngle {
+public class PlatformSideslipAngle extends UasDatalinkAngle {
 
     /**
      * Create from value
@@ -22,7 +22,7 @@ public class PlatformPitchAngle extends UasDatalinkAngle {
      * @param degrees The value in degrees, or {@code Double.POSITIVE_INFINITY}
      * to represent an error condition
      */
-    public PlatformPitchAngle(double degrees) {
+    public PlatformSideslipAngle(double degrees) {
         super(degrees);
     }
 
@@ -31,7 +31,7 @@ public class PlatformPitchAngle extends UasDatalinkAngle {
      *
      * @param bytes The byte array of length 2
      */
-    public PlatformPitchAngle(byte[] bytes) {
+    public PlatformSideslipAngle(byte[] bytes) {
         super(bytes);
     }
 

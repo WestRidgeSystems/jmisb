@@ -132,14 +132,12 @@ public class UasDatalinkFactory
             case DifferentialPressure:
                 return new DifferentialPressure(bytes);
             case PlatformAngleOfAttack:
-                // TODO
-                return new OpaqueValue(bytes);
+                return new PlatformAngleOfAttack(bytes);
             case PlatformVerticalSpeed:
                 // TODO
                 return new OpaqueValue(bytes);
             case PlatformSideslipAngle:
-                // TODO
-                return new OpaqueValue(bytes);
+                return new PlatformSideslipAngle(bytes);
             case AirfieldBarometricPressure:
                 return new AirfieldBarometricPressure(bytes);
             case AirfieldElevation:
