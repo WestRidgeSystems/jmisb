@@ -211,11 +211,9 @@ public class UasDatalinkFactory
             case FrameCenterHae:
                 return new FrameCenterHae(bytes);
             case SensorNorthVelocity:
-                // TODO
-                return new OpaqueValue(bytes);
+                return new SensorNorthVelocity(bytes);
             case SensorEastVelocity:
-                // TODO
-                return new OpaqueValue(bytes);
+                return new SensorEastVelocity(bytes);
             case ImageHorizonPixelPack:
                 // TODO
                 return new OpaqueValue(bytes);

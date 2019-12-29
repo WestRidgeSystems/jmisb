@@ -165,9 +165,9 @@ public enum UasDatalinkTag
     OperationalMode(77),
     /** Tag 78; Frame center ellipsoid height as measured from the reference WGS84 ellipsoid; Value is a {@link FrameCenterHae} */
     FrameCenterHae(78),
-    /** Tag 79; Northing velocity of the sensor or platform; Value is a {@link OpaqueValue} */
+    /** Tag 79; Northing velocity of the sensor or platform; Value is a {@link SensorNorthVelocity} */
     SensorNorthVelocity(79),
-    /** Tag 80; Easting velocity of the sensor or platform; Value is a {@link OpaqueValue} */
+    /** Tag 80; Easting velocity of the sensor or platform; Value is a {@link SensorEastVelocity} */
     SensorEastVelocity(80),
     /** Tag 81; Location of earth-sky horizon in the Imagery; Value is a {@link OpaqueValue} */
     ImageHorizonPixelPack(81),
