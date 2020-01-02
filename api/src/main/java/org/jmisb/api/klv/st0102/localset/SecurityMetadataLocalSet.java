@@ -9,12 +9,15 @@ import java.util.*;
 
 import static org.jmisb.api.klv.KlvConstants.SecurityMetadataLocalSetUl;
 import static org.jmisb.core.klv.ArrayUtils.arrayFromChunks;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 /**
  * Security Metadata Local Set message packet defined by ST 0102
  */
 public class SecurityMetadataLocalSet extends SecurityMetadataMessage
 {
+    private static Logger logger = LoggerFactory.getLogger(SecurityMetadataLocalSet.class);
     /**
      * Create the message from the given key/value pairs
      *
@@ -54,13 +57,12 @@ public class SecurityMetadataLocalSet extends SecurityMetadataMessage
         {
             SecurityMetadataKey key = SecurityMetadataKey.getKey(field.getTag());
 
-            if (key == SecurityMetadataKey.Undefined)
-            {
-                throw new KlvParseException("Invalid Security Metadata tag: " + field.getTag());
+            if (key == SecurityMetadataKey.Undefined) {
+                logger.info("Unknown Security Metadata tag: " + field.getTag());
+            } else {
+                ISecurityMetadataValue value = LocalSetFactory.createValue(key, field.getData());
+                setField(key, value);
             }
-
-            ISecurityMetadataValue value = LocalSetFactory.createValue(key, field.getData());
-            setField(key, value);
         }
     }
 
@@ -124,6 +126,9 @@ public class SecurityMetadataLocalSet extends SecurityMetadataMessage
     @Override
     public String displayHeader() {
         return "ST 0102 (local)";
+    }
+
+    void getTags() {
     }
 
     /**

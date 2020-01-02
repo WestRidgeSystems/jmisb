@@ -7,6 +7,8 @@ import java.util.*;
 
 import static org.jmisb.api.klv.KlvConstants.UasDatalinkLocalUl;
 import static org.jmisb.core.klv.ArrayUtils.arrayFromChunks;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 /**
  * UAS Datalink Local Set message packet as defined by ST 0601
@@ -16,6 +18,8 @@ import static org.jmisb.core.klv.ArrayUtils.arrayFromChunks;
  */
 public class UasDatalinkMessage implements IMisbMessage
 {
+    private static Logger logger = LoggerFactory.getLogger(UasDatalinkMessage.class);
+
     // TODO: should we make this class immutable? May have benefits for stability in multi-threaded environments.
 
     /** Map containing all data elements in the message (except, normally, the checksum) */
@@ -54,7 +58,7 @@ public class UasDatalinkMessage implements IMisbMessage
             UasDatalinkTag tag = UasDatalinkTag.getTag(field.getTag());
             if (tag == UasDatalinkTag.Undefined)
             {
-                throw new KlvParseException("Invalid UAS Datalink tag: " + field.getTag());
+                logger.info("Unknown UAS Datalink tag: " + field.getTag());
             }
             else if (tag == UasDatalinkTag.Checksum)
             {
