@@ -1,26 +1,3 @@
-/*
- * The MIT License
- *
- * Copyright 2019 West Ridge Systems.
- *
- * Permission is hereby granted, free of charge, to any person obtaining a copy
- * of this software and associated documentation files (the "Software"), to deal
- * in the Software without restriction, including without limitation the rights
- * to use, copy, modify, merge, publish, distribute, sublicense, and/or sell
- * copies of the Software, and to permit persons to whom the Software is
- * furnished to do so, subject to the following conditions:
- *
- * The above copyright notice and this permission notice shall be included in
- * all copies or substantial portions of the Software.
- *
- * THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
- * IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
- * FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE
- * AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
- * LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
- * OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
- * THE SOFTWARE.
- */
 package org.jmisb.api.klv.st0601;
 
 import org.jmisb.core.klv.PrimitiveConverter;
@@ -37,8 +14,8 @@ import org.jmisb.core.klv.PrimitiveConverter;
  * Resolution: ~0.4 meters/second.
  * </blockquote>
  */
-public class WindSpeed implements IUasDatalinkValue {
-
+public class WindSpeed implements IUasDatalinkValue
+{
     private double windspeed;
     private static double MIN_VALUE = 0;
     private static double MAX_VALUE = 100;
@@ -50,7 +27,8 @@ public class WindSpeed implements IUasDatalinkValue {
      *
      * @param speed Wind speed in meters/second. Legal values are in [0, 100].
      */
-    public WindSpeed(double speed) {
+    public WindSpeed(double speed)
+    {
         if (speed > MAX_VALUE || speed < MIN_VALUE)
         {
             throw new IllegalArgumentException("Wind speed must be in range [0,100]");
@@ -60,6 +38,7 @@ public class WindSpeed implements IUasDatalinkValue {
 
     /**
      * Create from encoded bytes
+     *
      * @param bytes The byte array of length 1
      */
     public WindSpeed(byte[] bytes)
@@ -75,6 +54,7 @@ public class WindSpeed implements IUasDatalinkValue {
 
     /**
      * Get the wind speed
+     *
      * @return The wind speed in meters/second
      */
     public double getMetersPerSecond()
@@ -83,14 +63,15 @@ public class WindSpeed implements IUasDatalinkValue {
     }
 
     @Override
-    public byte[] getBytes() {
+    public byte[] getBytes()
+    {
         short intVal = (short) Math.round(((windspeed - MIN_VALUE) / RANGE) * MAXINT);
         return PrimitiveConverter.uint8ToBytes(intVal);
     }
 
     @Override
-    public String getDisplayableValue() {
+    public String getDisplayableValue()
+    {
         return String.format("%.1fm/s", windspeed);
     }
-
 }

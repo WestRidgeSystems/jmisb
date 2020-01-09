@@ -14,15 +14,16 @@ package org.jmisb.api.klv.st0601;
  * Resolution: ~610 micro degrees
  * </blockquote>
  */
-public class PlatformSideslipAngle extends UasDatalinkAngle {
-
+public class PlatformSideslipAngle extends UasDatalinkAngle
+{
     /**
      * Create from value
      *
      * @param degrees The value in degrees, or {@code Double.POSITIVE_INFINITY}
-     * to represent an error condition
+     *                to represent an error condition
      */
-    public PlatformSideslipAngle(double degrees) {
+    public PlatformSideslipAngle(double degrees)
+    {
         super(degrees);
     }
 
@@ -31,8 +32,8 @@ public class PlatformSideslipAngle extends UasDatalinkAngle {
      *
      * @param bytes The byte array of length 2
      */
-    public PlatformSideslipAngle(byte[] bytes) {
+    public PlatformSideslipAngle(byte[] bytes)
+    {
         super(bytes);
     }
-
 }
