@@ -1,6 +1,5 @@
-package org.jmisb.api.klv;
+package org.jmisb.api.klv.st1201;
 
-import org.jmisb.api.klv.st1201.FpEncoder;
 import org.testng.Assert;
 import org.testng.annotations.*;
 
