@@ -23,9 +23,9 @@ public enum UasDatalinkTag
     PlatformPitchAngle(6),
     /** Tag 7; Platform roll angle; Value is a {@link PlatformRollAngle} */
     PlatformRollAngle(7),
-    /** Tag 8; True airspeed (TAS) of platform; Value is a {@link OpaqueValue} */
+    /** Tag 8; True airspeed (TAS) of platform; Value is a {@link PlatformTrueAirspeed} */
     PlatformTrueAirspeed(8),
-    /** Tag 9; Indicated airspeed (IAS) of platform; Value is a {@link OpaqueValue} */
+    /** Tag 9; Indicated airspeed (IAS) of platform; Value is a {@link PlatformIndicatedAirspeed} */
     PlatformIndicatedAirspeed(9),
     /** Tag 10; Model name for the platform; Value is a {@link UasDatalinkString} */
     PlatformDesignation(10),
@@ -119,7 +119,7 @@ public enum UasDatalinkTag
     AirfieldElevation(54),
     /** Tag 55; Relative humidity at aircraft location; Value is a {@link OpaqueValue} */
     RelativeHumidity(55),
-    /** Tag 56; Speed projected to the ground of an airborne platform passing overhead; Value is a {@link OpaqueValue} */
+    /** Tag 56; Speed projected to the ground of an airborne platform passing overhead; Value is a {@link PlatformGroundSpeed} */
     PlatformGroundSpeed(56),
     /** Tag 57; Horizontal distance from ground position of aircraft relative to nadir, and target of interest; Value is a {@link OpaqueValue} */
     GroundRange(57),
