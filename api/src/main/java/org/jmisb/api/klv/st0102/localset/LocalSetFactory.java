@@ -45,6 +45,8 @@ public class LocalSetFactory
             case ObjectCountryCodes:
             case ClassificationComments:
                 return new SecurityMetadataString(bytes);
+            case ItemDesignatorId:
+                return new ItemDesignatorId(bytes);
             case Version:
                 return new ST0102Version(bytes);
             case CcCodingMethodVersionDate:

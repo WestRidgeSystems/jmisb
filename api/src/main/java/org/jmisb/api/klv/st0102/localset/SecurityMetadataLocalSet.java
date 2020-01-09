@@ -145,6 +145,7 @@ public class SecurityMetadataLocalSet extends SecurityMetadataMessage
         private OcMethod ocMethod;
         private SecurityMetadataString objectCountryCodes;
         private SecurityMetadataString classificationComments;
+        private ItemDesignatorId itemDesignatorId;
         private ST0102Version version;
         private CcmDate ccmDate;
         private OcmDate ocmDate;
@@ -167,6 +168,7 @@ public class SecurityMetadataLocalSet extends SecurityMetadataMessage
         public Builder ocMethod(CountryCodingMethod value) { this.ocMethod = new OcMethod(value); return this; }
         public Builder objectCountryCodes(String value) { this.objectCountryCodes = new SecurityMetadataString(value); return this; }
         public Builder classificationComments(String value) { this.classificationComments = new SecurityMetadataString(value); return this; }
+        public Builder itemDesignatorId(byte[] value) { this.itemDesignatorId = new ItemDesignatorId(value); return this; }
         public Builder version(int value) { this.version = new ST0102Version(value); return this; }
         public Builder ccmDate(LocalDate value) { this.ccmDate = new CcmDate(value); return this; }
         public Builder ocmDate(LocalDate value) { this.ocmDate = new OcmDate(value); return this; }
@@ -231,6 +233,7 @@ public class SecurityMetadataLocalSet extends SecurityMetadataMessage
         }
 
         if (builder.classificationComments != null) { setField(SecurityMetadataKey.ClassificationComments, builder.classificationComments); }
+        if (builder.itemDesignatorId != null) { setField(SecurityMetadataKey.ItemDesignatorId, builder.itemDesignatorId); }
 
         if (builder.version != null)
         {
