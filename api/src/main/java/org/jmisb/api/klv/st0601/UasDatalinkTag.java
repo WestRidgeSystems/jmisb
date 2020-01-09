@@ -75,7 +75,7 @@ public enum UasDatalinkTag
     OffsetCornerLatitudePoint4(32),
     /** Tag 33; Frame longitude offset for lower left corner; Value is a {@link CornerOffset} */
     OffsetCornerLongitudePoint4(33),
-    /** Tag 34; Flag for icing detected at aircraft location; Value is a {@link OpaqueValue} */
+    /** Tag 34; Flag for icing detected at aircraft location; Value is a {@link IcingDetected} */
     IcingDetected(34),
     /** Tag 35; Wind direction at aircraft location; Value is a {@link WindDirectionAngle} */
     WindDirection(35),
@@ -161,7 +161,7 @@ public enum UasDatalinkTag
     SensorEllipsoidHeight(75),
     /** Tag 76; Alternate platform ellipsoid height as measured from the reference WGS84 Ellipsoid; Value is a {@link OpaqueValue} */
     AlternatePlatformEllipsoidHeight(76),
-    /** Tag 77; Indicates the mode of operations of the event portrayed in Motion Imagery; Value is a {@link OpaqueValue} */
+    /** Tag 77; Indicates the mode of operations of the event portrayed in Motion Imagery; Value is a {@link OperationalMode} */
     OperationalMode(77),
     /** Tag 78; Frame center ellipsoid height as measured from the reference WGS84 ellipsoid; Value is a {@link FrameCenterHae} */
     FrameCenterHae(78),
@@ -257,7 +257,7 @@ public enum UasDatalinkTag
     NumberNavsatsInView(123),
     /** Tag 124; Source of the navigation positioning information. (e.g., NAVSAT-GPS, NAVSAT-Galileo, INS); Value is a {@link OpaqueValue} */
     PositioningMethodSource(124),
-    /** Tag 125; Enumeration of operational modes of the platform (e.g., in-route, RTB); Value is a {@link OpaqueValue} */
+    /** Tag 125; Enumeration of operational modes of the platform (e.g., in-route, RTB); Value is a {@link PlatformStatus} */
     PlatformStatus(125),
     /** Tag 126; Enumerated value for the current sensor control operational status; Value is a {@link OpaqueValue} */
     SensorControlMode(126),

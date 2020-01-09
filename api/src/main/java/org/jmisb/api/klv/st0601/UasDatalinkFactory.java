@@ -93,8 +93,7 @@ public class UasDatalinkFactory
             case OffsetCornerLongitudePoint4:
                 return new CornerOffset(bytes);
             case IcingDetected:
-                // TODO
-                return new OpaqueValue(bytes);
+                return new IcingDetected(bytes);
             case WindDirection:
                 return new WindDirectionAngle(bytes);
             case WindSpeed:
@@ -206,8 +205,7 @@ public class UasDatalinkFactory
                 // TODO
                 return new OpaqueValue(bytes);
             case OperationalMode:
-                // TODO
-                return new OpaqueValue(bytes);
+                return new OperationalMode(bytes);
             case FrameCenterHae:
                 return new FrameCenterHae(bytes);
             case SensorNorthVelocity:
@@ -331,8 +329,7 @@ public class UasDatalinkFactory
                 // TODO
                 return new OpaqueValue(bytes);
             case PlatformStatus:
-                // TODO
-                return new OpaqueValue(bytes);
+                return new PlatformStatus(bytes);
             case SensorControlMode:
                 // TODO
                 return new OpaqueValue(bytes);
