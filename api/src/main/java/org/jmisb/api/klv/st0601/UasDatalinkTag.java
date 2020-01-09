@@ -107,11 +107,11 @@ public enum UasDatalinkTag
     SecurityLocalMetadataSet(48),
     /** Tag 49; Differential pressure at aircraft location; Value is a {@link DifferentialPressure} */
     DifferentialPressure(49),
-    /** Tag 50; Platform attack angle; Value is a {@link OpaqueValue} */
+    /** Tag 50; Platform attack angle; Value is a {@link PlatformAngleOfAttack} */
     PlatformAngleOfAttack(50),
     /** Tag 51; Vertical speed of the aircraft relative to zenith; Value is a {@link OpaqueValue} */
     PlatformVerticalSpeed(51),
-    /** Tag 52; Angle between the platform longitudinal axis and relative wind; Value is a {@link OpaqueValue} */
+    /** Tag 52; Angle between the platform longitudinal axis and relative wind; Value is a {@link PlatformSideslipAngle} */
     PlatformSideslipAngle(52),
     /** Tag 53; Local pressure at airfield of known height; Value is a {@link AirfieldBarometricPressure} */
     AirfieldBarometricPressure(53),
