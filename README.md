@@ -3,6 +3,7 @@ jMISB
 
 ![Build Status](https://travis-ci.com/WestRidgeSystems/jmisb.svg?branch=develop)
 [![Coverage Status](https://coveralls.io/repos/github/WestRidgeSystems/jmisb/badge.svg?branch=develop)](https://coveralls.io/github/WestRidgeSystems/jmisb?branch=develop)
+[![Maven Central](https://maven-badges-generator.herokuapp.com/maven-central/org.jmisb/jmisb/badge.svg)](https://maven-badges-generator.herokuapp.com/maven-central/org.jmisb/jmisb)
 
 ## About
 
