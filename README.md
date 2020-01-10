@@ -1,6 +1,8 @@
-![Build Status](https://travis-ci.com/WestRidgeSystems/jmisb.svg?branch=develop)
+jMISB
+=============
 
-# Introduction
+![Build Status](https://travis-ci.com/WestRidgeSystems/jmisb.svg?branch=develop)
+[![Coverage Status](https://coveralls.io/repos/github/WestRidgeSystems/jmisb/badge.svg?branch=develop)](https://coveralls.io/github/WestRidgeSystems/jmisb?branch=develop)
 
 ## About
 
@@ -48,7 +50,7 @@ reach the widest audience possible. The OSes we are initially targeting are:
 3. Android
 4. MacOS
 
-# Building
+## Building
 
 To build the library from the command line, simply run the Maven command:
 <pre>
@@ -64,7 +66,7 @@ $ cd viewer
 $ mvn exec:exec
 </pre>
 
-# Including in Your Project
+## Including in Your Project
 
 If you are using a dependency management tool such as Maven with access to the
 [Central Repository](https://search.maven.org/), you can configure it to use
@@ -83,7 +85,7 @@ dependencies {
 }
 ```
 
-# API Usage
+## API Usage
 
 See the [javadocs](https://westridgesystems.github.io/jmisb) for a complete API
 reference.
@@ -150,7 +152,7 @@ More complete examples of usage may be found in the <code>viewer</code> demo
 application and in unit tests. Additional sample applications are a work in
 progress.
 
-# Versioning
+## Versioning
 
 jMISB adheres to <i>semantic versioning</i> to communicate to client
 developers about the scope of changes in any new release. Version numbers
