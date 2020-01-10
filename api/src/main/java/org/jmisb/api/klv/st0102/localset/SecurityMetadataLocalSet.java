@@ -128,9 +128,6 @@ public class SecurityMetadataLocalSet extends SecurityMetadataMessage
         return "ST 0102 (local)";
     }
 
-    void getTags() {
-    }
-
     /**
      * Builder class for {@link SecurityMetadataLocalSet} objects
      */

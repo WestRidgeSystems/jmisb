@@ -136,8 +136,8 @@ public class KlvParserTest
         byteBuffer.put((byte) 0x04);
         byteBuffer.put((byte) UasDatalinkTag.Checksum.getCode());
         byteBuffer.put(CHECKSUM_LEN);
-        byteBuffer.put((byte) 0x4a);
-        byteBuffer.put((byte) 0x53);
+        byteBuffer.put((byte) 0x4c);
+        byteBuffer.put((byte) 0x51);
         byte[] bytes = byteBuffer.array();
         try {
             List<IMisbMessage> messages = KlvParser.parseBytes(bytes);
