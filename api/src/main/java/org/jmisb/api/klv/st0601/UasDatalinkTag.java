@@ -117,7 +117,7 @@ public enum UasDatalinkTag
     AirfieldBarometricPressure(53),
     /** Tag 54; Elevation of airfield corresponding to Airfield Barometric Pressure; Value is a {@link OpaqueValue} */
     AirfieldElevation(54),
-    /** Tag 55; Relative humidity at aircraft location; Value is a {@link OpaqueValue} */
+    /** Tag 55; Relative humidity at aircraft location; Value is a {@link RelativeHumidity} */
     RelativeHumidity(55),
     /** Tag 56; Speed projected to the ground of an airborne platform passing overhead; Value is a {@link PlatformGroundSpeed} */
     PlatformGroundSpeed(56),

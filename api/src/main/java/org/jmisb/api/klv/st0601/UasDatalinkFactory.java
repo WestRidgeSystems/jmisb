@@ -142,8 +142,7 @@ public class UasDatalinkFactory
                 // TODO
                 return new OpaqueValue(bytes);
             case RelativeHumidity:
-                // TODO
-                return new OpaqueValue(bytes);
+                return new RelativeHumidity(bytes);
             case PlatformGroundSpeed:
                 return new PlatformGroundSpeed(bytes);
             case GroundRange:
