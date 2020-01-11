@@ -23,6 +23,8 @@ public class TargetWidthTest
         width = new TargetWidth(722.8199);
         Assert.assertEquals(width.getBytes(), new byte[]{(byte)0x12, (byte)0x81});
         Assert.assertEquals(width.getDisplayableValue(), "722.82m");
+
+        Assert.assertEquals(width.getDisplayName(), "Target Width");
     }
 
     @Test

@@ -24,4 +24,10 @@ public class FullCornerLatitude extends UasDatalinkLatitude
     {
         super(bytes);
     }
+
+    @Override
+    public String getDisplayName()
+    {
+        return "Corner Latitude Point";
+    }
 }

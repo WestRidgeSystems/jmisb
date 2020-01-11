@@ -25,4 +25,10 @@ public class TargetLocationLongitude extends UasDatalinkLongitude
     {
         super(bytes);
     }
+
+    @Override
+    public String getDisplayName()
+    {
+        return "Target Location Longitude";
+    }
 }

@@ -17,12 +17,6 @@ public abstract class UasEnumeration implements IUasDatalinkValue
     abstract Map<Integer, String> getDisplayValues();
 
     /**
-     * Get the human-readable name for the enumeration
-     * @return The name of the enumerated type
-     */
-    abstract String getDisplayName();
-
-    /**
      * Create from value
      *
      * @param enumeratedValue The value of the enumeration

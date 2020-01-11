@@ -74,4 +74,10 @@ public class WindSpeed implements IUasDatalinkValue
     {
         return String.format("%.1fm/s", windspeed);
     }
+
+    @Override
+    public String getDisplayName()
+    {
+        return "Wind Speed";
+    }
 }

@@ -85,4 +85,10 @@ public class PlatformAngleOfAttackFull implements IUasDatalinkValue
     {
         return String.format("%.4f\u00B0", degrees);
     }
+
+    @Override
+    public String getDisplayName()
+    {
+        return "Platform Angle of Attack (Full)";
+    }
 }

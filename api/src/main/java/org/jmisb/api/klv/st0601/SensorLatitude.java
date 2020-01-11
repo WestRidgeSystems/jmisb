@@ -24,4 +24,10 @@ public class SensorLatitude extends UasDatalinkLatitude
     {
         super(bytes);
     }
+
+    @Override
+    public String getDisplayName()
+    {
+        return "Sensor Latitude";
+    }
 }

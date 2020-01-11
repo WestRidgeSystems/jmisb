@@ -96,4 +96,10 @@ public class PrecisionTimeStamp implements IUasDatalinkValue
     {
         return "" + microseconds;
     }
+
+    @Override
+    public String getDisplayName()
+    {
+        return "Precision Time Stamp";
+    }
 }

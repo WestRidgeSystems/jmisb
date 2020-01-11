@@ -27,4 +27,10 @@ public class StaticPressure extends UasPressureMillibars
     {
         super(bytes);
     }
+
+    @Override
+    public String getDisplayName()
+    {
+        return "Static Pressure";
+    }
 }

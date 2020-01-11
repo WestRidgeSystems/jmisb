@@ -32,7 +32,7 @@ public abstract class UasDatalinkLatitude implements IUasDatalinkValue
     {
         if (degrees != Double.POSITIVE_INFINITY && (degrees < -90 || degrees > 90))
         {
-            throw new IllegalArgumentException("Latitude must be in range [-90,90]");
+            throw new IllegalArgumentException(getDisplayName() + " must be in range [-90,90]");
         }
         this.degrees = degrees;
     }
@@ -45,7 +45,7 @@ public abstract class UasDatalinkLatitude implements IUasDatalinkValue
     {
         if (bytes.length != 4)
         {
-            throw new IllegalArgumentException("Latitude encoding is a 4-byte int");
+            throw new IllegalArgumentException(getDisplayName() + " encoding is a 4-byte int");
         }
 
         if (Arrays.equals(bytes, invalidBytes))

@@ -20,6 +20,8 @@ public class WindSpeedTest
         // From ST:
         range = new WindSpeed(69.8039216);
         Assert.assertEquals(range.getBytes(), new byte[]{(byte)0xB2});
+
+        Assert.assertEquals(range.getDisplayName(), "Wind Speed");
     }
 
     @Test

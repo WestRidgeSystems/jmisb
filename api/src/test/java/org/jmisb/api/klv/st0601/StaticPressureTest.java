@@ -25,6 +25,8 @@ public class StaticPressureTest
         Assert.assertEquals(bytes, new byte[]{(byte)0xBE, (byte)0xBA});
         Assert.assertEquals(pressure.getMillibars(),3725.18502);
         Assert.assertEquals("3725.19mB", pressure.getDisplayableValue());
+
+        Assert.assertEquals(pressure.getDisplayName(), "Static Pressure");
     }
 
     @Test

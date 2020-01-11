@@ -33,7 +33,7 @@ public abstract class UasDatalinkLongitude implements IUasDatalinkValue
     {
         if (degrees != Double.POSITIVE_INFINITY && (degrees < -180 || degrees > 180))
         {
-            throw new IllegalArgumentException("Longitude must be in range [-180,180]");
+            throw new IllegalArgumentException(getDisplayName() + " must be in range [-180,180]");
         }
         this.degrees = degrees;
     }
@@ -47,7 +47,7 @@ public abstract class UasDatalinkLongitude implements IUasDatalinkValue
     {
         if (bytes.length != 4)
         {
-            throw new IllegalArgumentException("Longitude encoding is a 4-byte int");
+            throw new IllegalArgumentException(getDisplayName() + " encoding is a 4-byte int");
         }
 
         if (Arrays.equals(bytes, invalidBytes))

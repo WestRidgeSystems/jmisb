@@ -31,4 +31,10 @@ public class FrameCenterHae extends UasDatalinkAltitude
     {
         super(bytes);
     }
+
+    @Override
+    public String getDisplayName()
+    {
+        return "Frame Center Height Above Ellipsoid";
+    }
 }

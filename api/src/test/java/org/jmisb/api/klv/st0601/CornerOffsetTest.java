@@ -14,18 +14,21 @@ public class CornerOffsetTest
         Assert.assertEquals(offset.getBytes(), new byte[]{(byte)0x80, (byte)0x01});
         Assert.assertEquals(offset.getDegrees(), -0.075);
         Assert.assertEquals(offset.getDisplayableValue(), "-0.0750\u00B0");
+        Assert.assertEquals(offset.getDisplayName(), "Corner Offset");
 
         // Max
         offset = new CornerOffset(0.075);
         Assert.assertEquals(offset.getBytes(), new byte[]{(byte)0x7f, (byte)0xff});
         Assert.assertEquals(offset.getDegrees(), 0.075);
         Assert.assertEquals(offset.getDisplayableValue(), "0.0750\u00B0");
+        Assert.assertEquals(offset.getDisplayName(), "Corner Offset");
 
         // Zero
         offset = new CornerOffset(0);
         Assert.assertEquals(offset.getBytes(), new byte[]{(byte)0x00, (byte)0x00});
         Assert.assertEquals(offset.getDegrees(), 0.0);
         Assert.assertEquals(offset.getDisplayableValue(), "0.0000\u00B0");
+        Assert.assertEquals(offset.getDisplayName(), "Corner Offset");
 
         // ST example from tag 26
         // frame center lat = -10.5423886331461 (from tag 23)
@@ -35,12 +38,14 @@ public class CornerOffsetTest
         Assert.assertEquals(offset.getBytes(), new byte[]{(byte)0xc0, (byte)0x6e});
         Assert.assertEquals(offset.getDegrees(), -0.037249367);
         Assert.assertEquals(offset.getDisplayableValue(), "-0.0372\u00B0");
+        Assert.assertEquals(offset.getDisplayName(), "Corner Offset");
 
         // Error condition
         offset = new CornerOffset(Double.POSITIVE_INFINITY);
         Assert.assertEquals(offset.getBytes(), new byte[]{(byte)0x80, (byte)0x00});
         Assert.assertEquals(offset.getDegrees(), Double.POSITIVE_INFINITY);
         Assert.assertEquals(offset.getDisplayableValue(), "Infinity\u00B0");
+        Assert.assertEquals(offset.getDisplayName(), "Corner Offset");
     }
 
     @Test
@@ -51,18 +56,21 @@ public class CornerOffsetTest
         Assert.assertEquals(offset.getDegrees(), -0.075);
         Assert.assertEquals(offset.getBytes(), new byte[]{(byte)0x80, (byte)0x01});
         Assert.assertEquals(offset.getDisplayableValue(), "-0.0750\u00B0");
+        Assert.assertEquals(offset.getDisplayName(), "Corner Offset");
 
         // Max
         offset = new CornerOffset(new byte[]{(byte)0x7f, (byte)0xff});
         Assert.assertEquals(offset.getDegrees(), 0.075);
         Assert.assertEquals(offset.getBytes(), new byte[]{(byte)0x7f, (byte)0xff});
         Assert.assertEquals(offset.getDisplayableValue(), "0.0750\u00B0");
+        Assert.assertEquals(offset.getDisplayName(), "Corner Offset");
 
         // Zero
         offset = new CornerOffset(new byte[]{(byte)0x00, (byte)0x00});
         Assert.assertEquals(offset.getDegrees(), 0.0);
         Assert.assertEquals(offset.getBytes(), new byte[]{(byte)0x00, (byte)0x00});
         Assert.assertEquals(offset.getDisplayableValue(), "0.0000\u00B0");
+        Assert.assertEquals(offset.getDisplayName(), "Corner Offset");
 
         // ST example
         // Resolution is 1.2 micro degrees, so error is +/- 0.6 micro degrees
@@ -71,12 +79,14 @@ public class CornerOffsetTest
         Assert.assertEquals(offset.getDegrees(), -0.037249367, delta);
         Assert.assertEquals(offset.getBytes(), new byte[]{(byte)0xc0, (byte)0x6e});
         Assert.assertEquals(offset.getDisplayableValue(), "-0.0372\u00B0");
+        Assert.assertEquals(offset.getDisplayName(), "Corner Offset");
 
         // Error condition
         offset = new CornerOffset(new byte[]{(byte)0x80, (byte)0x00});
         Assert.assertEquals(offset.getDegrees(), Double.POSITIVE_INFINITY);
         Assert.assertEquals(offset.getBytes(), new byte[]{(byte)0x80, (byte)0x00});
         Assert.assertEquals(offset.getDisplayableValue(), "Infinity\u00B0");
+        Assert.assertEquals(offset.getDisplayName(), "Corner Offset");
     }
 
     @Test
@@ -89,6 +99,7 @@ public class CornerOffsetTest
         Assert.assertEquals(offset.getDegrees(), -0.075);
         Assert.assertEquals(offset.getBytes(), new byte[]{(byte)0x80, (byte)0x01});
         Assert.assertEquals(offset.getDisplayableValue(), "-0.0750\u00B0");
+        Assert.assertEquals(offset.getDisplayName(), "Corner Offset");
 
         // Max
         bytes = new byte[]{(byte)0x7f, (byte)0xff};
@@ -98,6 +109,7 @@ public class CornerOffsetTest
         Assert.assertEquals(offset.getDegrees(), 0.075);
         Assert.assertEquals(offset.getBytes(), new byte[]{(byte)0x7f, (byte)0xff});
         Assert.assertEquals(offset.getDisplayableValue(), "0.0750\u00B0");
+        Assert.assertEquals(offset.getDisplayName(), "Corner Offset");
 
         // Zero
         bytes = new byte[]{(byte)0x00, (byte)0x00};
@@ -107,11 +119,13 @@ public class CornerOffsetTest
         Assert.assertEquals(offset.getDegrees(), 0.0);
         Assert.assertEquals(offset.getBytes(), new byte[]{(byte)0x00, (byte)0x00});
         Assert.assertEquals(offset.getDisplayableValue(), "0.0000\u00B0");
+        Assert.assertEquals(offset.getDisplayName(), "Corner Offset");
 
         // ST example
         bytes = new byte[]{(byte)0xc0, (byte)0x6e};
         v = UasDatalinkFactory.createValue(UasDatalinkTag.OffsetCornerLongitudePoint2, bytes);
         Assert.assertTrue(v instanceof CornerOffset);
+        Assert.assertEquals(v.getDisplayName(), "Corner Offset");
         offset = (CornerOffset)v;
         Assert.assertEquals(offset.getDegrees(), -0.037249367, 0.000001);
         Assert.assertEquals(offset.getBytes(), new byte[]{(byte)0xc0, (byte)0x6e});
@@ -119,15 +133,19 @@ public class CornerOffsetTest
 
         v = UasDatalinkFactory.createValue(UasDatalinkTag.OffsetCornerLatitudePoint3, bytes);
         Assert.assertTrue(v instanceof CornerOffset);
+        Assert.assertEquals(v.getDisplayName(), "Corner Offset");
 
         v = UasDatalinkFactory.createValue(UasDatalinkTag.OffsetCornerLongitudePoint3, bytes);
         Assert.assertTrue(v instanceof CornerOffset);
+        Assert.assertEquals(v.getDisplayName(), "Corner Offset");
 
         v = UasDatalinkFactory.createValue(UasDatalinkTag.OffsetCornerLatitudePoint4, bytes);
         Assert.assertTrue(v instanceof CornerOffset);
+        Assert.assertEquals(v.getDisplayName(), "Corner Offset");
 
         v = UasDatalinkFactory.createValue(UasDatalinkTag.OffsetCornerLongitudePoint4, bytes);
         Assert.assertTrue(v instanceof CornerOffset);
+        Assert.assertEquals(v.getDisplayName(), "Corner Offset");
     }
 
     @Test(expectedExceptions = IllegalArgumentException.class)

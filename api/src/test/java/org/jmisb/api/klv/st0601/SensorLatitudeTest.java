@@ -33,6 +33,8 @@ public class SensorLatitudeTest
         latitude = new SensorLatitude(Double.POSITIVE_INFINITY);
         Assert.assertEquals(latitude.getBytes(), new byte[]{(byte)0x80, (byte)0x00, (byte)0x00, (byte)0x00});
         Assert.assertEquals(latitude.getDegrees(), Double.POSITIVE_INFINITY);
+
+        Assert.assertEquals(latitude.getDisplayName(), "Sensor Latitude");
     }
 
     @Test

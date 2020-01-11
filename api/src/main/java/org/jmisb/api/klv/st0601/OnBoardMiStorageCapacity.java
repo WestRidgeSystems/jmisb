@@ -90,4 +90,10 @@ public class OnBoardMiStorageCapacity implements IUasDatalinkValue
     {
         return gigabytes + "GB";
     }
+
+    @Override
+    public String getDisplayName()
+    {
+        return "On-Board MI Storage Capacity";
+    }
 }

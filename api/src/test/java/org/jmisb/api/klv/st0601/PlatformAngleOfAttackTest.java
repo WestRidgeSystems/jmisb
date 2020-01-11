@@ -29,6 +29,8 @@ public class PlatformAngleOfAttackTest {
         angle = new PlatformAngleOfAttack(bytes);
         Assert.assertEquals(angle.getDegrees(), 20.0);
         Assert.assertEquals(angle.getBytes(), bytes);
+
+        Assert.assertEquals(angle.getDisplayName(), "Platform Angle of Attack");
     }
 
     @Test

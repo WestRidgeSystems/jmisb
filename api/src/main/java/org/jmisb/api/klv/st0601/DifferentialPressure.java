@@ -24,4 +24,10 @@ public class DifferentialPressure extends UasPressureMillibars
     {
         super(bytes);
     }
+
+    @Override
+    public String getDisplayName()
+    {
+        return "Differential Pressure";
+    }
 }

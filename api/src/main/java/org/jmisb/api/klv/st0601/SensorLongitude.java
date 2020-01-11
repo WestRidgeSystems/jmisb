@@ -28,4 +28,10 @@ public class SensorLongitude extends UasDatalinkLongitude
     {
         super(bytes);
     }
+
+    @Override
+    public String getDisplayName()
+    {
+        return "Sensor Longitude";
+    }
 }

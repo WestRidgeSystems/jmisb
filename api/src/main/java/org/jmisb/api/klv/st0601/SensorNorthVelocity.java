@@ -25,4 +25,10 @@ public class SensorNorthVelocity extends UasDatalinkSensorVelocity
     {
         super(bytes);
     }
+
+    @Override
+    public String getDisplayName()
+    {
+        return "Sensor North Velocity";
+    }
 }

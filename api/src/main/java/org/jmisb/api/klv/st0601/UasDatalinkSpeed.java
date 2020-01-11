@@ -9,7 +9,7 @@ import org.jmisb.core.klv.PrimitiveConverter;
  * <p>
  * Resolution: 1 metre/second.
  */
-public class UasDatalinkSpeed implements IUasDatalinkValue
+abstract public class UasDatalinkSpeed implements IUasDatalinkValue
 {
     private int speed;
     private static double MIN_VALUE = 0;
@@ -24,7 +24,7 @@ public class UasDatalinkSpeed implements IUasDatalinkValue
     {
         if (speed > MAX_VALUE || speed < MIN_VALUE)
         {
-            throw new IllegalArgumentException("Speed must be in range [0, 255]");
+            throw new IllegalArgumentException(getDisplayName() + " must be in range [0, 255]");
         }
         this.speed = speed;
     }
@@ -38,7 +38,7 @@ public class UasDatalinkSpeed implements IUasDatalinkValue
     {
         if (bytes.length != 1)
         {
-            throw new IllegalArgumentException("Speed encoding is a 1-byte unsigned int");
+            throw new IllegalArgumentException(getDisplayName() + " encoding is a 1-byte unsigned int");
         }
 
         int intVal = PrimitiveConverter.toUint8(bytes);

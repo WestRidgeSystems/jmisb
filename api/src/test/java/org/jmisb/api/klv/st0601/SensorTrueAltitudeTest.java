@@ -27,6 +27,8 @@ public class SensorTrueAltitudeTest
         altitude = new SensorTrueAltitude(14190.72);
         Assert.assertEquals(altitude.getBytes(), new byte[]{(byte)0xc2, (byte)0x21});
         Assert.assertEquals(altitude.getMeters(), 14190.72);
+
+        Assert.assertEquals(altitude.getDisplayName(), "Sensor True Altitude");
     }
 
     @Test

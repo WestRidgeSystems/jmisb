@@ -30,6 +30,8 @@ public class PlatformPitchAngleFullTest
         platformPitchAngleFull = new PlatformPitchAngleFull(bytes);
         Assert.assertEquals(platformPitchAngleFull.getDegrees(), 90.0);
         Assert.assertEquals(platformPitchAngleFull.getBytes(), bytes);
+
+        Assert.assertEquals(platformPitchAngleFull.getDisplayName(), "Platform Pitch Angle (Full)");
     }
 
     @Test

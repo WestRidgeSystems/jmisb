@@ -31,6 +31,8 @@ public class OperationalModeTest {
         operationalMode = new OperationalMode((byte) 4);
         Assert.assertEquals(operationalMode.getBytes(), new byte[]{(byte) 4});
         Assert.assertEquals(operationalMode.getDisplayableValue(), "Maintenance");
+
+        Assert.assertEquals(operationalMode.getDisplayName(), "Operational Mode");
     }
 
     @Test

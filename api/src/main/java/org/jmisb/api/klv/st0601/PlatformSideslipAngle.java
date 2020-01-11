@@ -36,4 +36,10 @@ public class PlatformSideslipAngle extends UasDatalinkAngle
     {
         super(bytes);
     }
+
+    @Override
+    public String getDisplayName()
+    {
+        return "Platform Sideslip Angle";
+    }
 }

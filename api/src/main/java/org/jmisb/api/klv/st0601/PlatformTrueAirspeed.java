@@ -1,7 +1,7 @@
 package org.jmisb.api.klv.st0601;
 
 /**
- * Platform True Speed (ST 0601 tag 8)
+ * Platform True Airspeed (ST 0601 tag 8)
  * <p>
  * From ST:
  * <blockquote>
@@ -32,5 +32,11 @@ public class PlatformTrueAirspeed extends UasDatalinkSpeed implements IUasDatali
     public PlatformTrueAirspeed(byte[] bytes)
     {
         super(bytes);
+    }
+
+    @Override
+    public String getDisplayName()
+    {
+        return "Platform True Airspeed";
     }
 }

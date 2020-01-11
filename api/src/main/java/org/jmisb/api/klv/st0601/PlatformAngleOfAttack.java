@@ -1,7 +1,7 @@
 package org.jmisb.api.klv.st0601;
 
 /**
- * Platform Angle of Angle (ST 0601 tag 50)
+ * Platform Angle of Attack (ST 0601 tag 50)
  * <p>
  * From ST:
  * <blockquote>
@@ -33,6 +33,12 @@ public class PlatformAngleOfAttack extends UasDatalinkAngle {
      */
     public PlatformAngleOfAttack(byte[] bytes) {
         super(bytes);
+    }
+
+    @Override
+    public String getDisplayName()
+    {
+        return "Platform Angle of Attack";
     }
 
 }

@@ -20,6 +20,8 @@ public class PlatformGroundSpeedTest
         // From ST:
         speed = new PlatformGroundSpeed(140);
         Assert.assertEquals(speed.getBytes(), new byte[]{(byte)0x8c});
+
+        Assert.assertEquals(speed.getDisplayName(), "Platform Ground Speed");
     }
 
     @Test

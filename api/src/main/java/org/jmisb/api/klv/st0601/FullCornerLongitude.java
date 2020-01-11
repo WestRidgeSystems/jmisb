@@ -24,4 +24,10 @@ public class FullCornerLongitude extends UasDatalinkLongitude
     {
         super(bytes);
     }
+
+    @Override
+    public String getDisplayName()
+    {
+        return "Corner Longitude Point";
+    }
 }

@@ -26,6 +26,8 @@ public class HorizontalFovTest
         Assert.assertEquals(fov.getBytes(), new byte[]{(byte)0xcd, (byte)0x9c});
         Assert.assertEquals(fov.getDegrees(), 144.5713);
         Assert.assertEquals(fov.getDisplayableValue(), "144.5713\u00B0");
+
+        Assert.assertEquals(fov.getDisplayName(), "Sensor Horizontal Field of View");
     }
 
     @Test
@@ -47,6 +49,7 @@ public class HorizontalFovTest
         fov = new HorizontalFov(new byte[]{(byte)0xcd, (byte)0x9c});
         Assert.assertEquals(fov.getDegrees(), 144.5713, delta);
         Assert.assertEquals(fov.getBytes(), new byte[]{(byte)0xcd, (byte)0x9c});
+        Assert.assertEquals(fov.getDisplayName(), "Sensor Horizontal Field of View");
     }
 
     @Test
@@ -54,6 +57,7 @@ public class HorizontalFovTest
     {
         byte[] bytes = new byte[]{0x00, 0x00};
         IUasDatalinkValue v = UasDatalinkFactory.createValue(UasDatalinkTag.SensorHorizontalFov, bytes);
+        Assert.assertEquals(v.getDisplayName(), "Sensor Horizontal Field of View");
         Assert.assertTrue(v instanceof HorizontalFov);
         HorizontalFov fov = (HorizontalFov)v;
         Assert.assertEquals(fov.getDegrees(), 0.0);
@@ -61,6 +65,7 @@ public class HorizontalFovTest
 
         bytes = new byte[]{(byte)0xff, (byte)0xff};
         v = UasDatalinkFactory.createValue(UasDatalinkTag.SensorHorizontalFov, bytes);
+        Assert.assertEquals(v.getDisplayName(), "Sensor Horizontal Field of View");
         Assert.assertTrue(v instanceof HorizontalFov);
         fov = (HorizontalFov)v;
         Assert.assertEquals(fov.getDegrees(), 180.0);
@@ -68,6 +73,7 @@ public class HorizontalFovTest
 
         bytes = new byte[]{(byte)0xcd, (byte)0x9c};
         v = UasDatalinkFactory.createValue(UasDatalinkTag.SensorHorizontalFov, bytes);
+        Assert.assertEquals(v.getDisplayName(), "Sensor Horizontal Field of View");
         Assert.assertTrue(v instanceof HorizontalFov);
         fov = (HorizontalFov)v;
         Assert.assertEquals(fov.getDegrees(), 144.5713, 0.0001);

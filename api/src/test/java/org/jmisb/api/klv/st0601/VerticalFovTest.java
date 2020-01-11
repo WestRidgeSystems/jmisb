@@ -26,6 +26,8 @@ public class VerticalFovTest
         Assert.assertEquals(fov.getBytes(), new byte[]{(byte)0xd9, (byte)0x17});
         Assert.assertEquals(fov.getDegrees(), 152.6436);
         Assert.assertEquals(fov.getDisplayableValue(), "152.6436\u00B0");
+
+        Assert.assertEquals(fov.getDisplayName(), "Sensor Vertical Field of View");
     }
 
     @Test
@@ -47,6 +49,8 @@ public class VerticalFovTest
         fov = new VerticalFov(new byte[]{(byte)0xd9, (byte)0x17});
         Assert.assertEquals(fov.getDegrees(), 152.6436, delta);
         Assert.assertEquals(fov.getBytes(), new byte[]{(byte)0xd9, (byte)0x17});
+
+        Assert.assertEquals(fov.getDisplayName(), "Sensor Vertical Field of View");
     }
 
     @Test
@@ -56,6 +60,7 @@ public class VerticalFovTest
         IUasDatalinkValue v = UasDatalinkFactory.createValue(UasDatalinkTag.SensorVerticalFov, bytes);
         Assert.assertTrue(v instanceof VerticalFov);
         VerticalFov fov = (VerticalFov)v;
+        Assert.assertEquals(fov.getDisplayName(), "Sensor Vertical Field of View");
         Assert.assertEquals(fov.getDegrees(), 0.0);
         Assert.assertEquals(fov.getBytes(), new byte[]{(byte)0x00, (byte)0x00});
 
@@ -63,11 +68,13 @@ public class VerticalFovTest
         v = UasDatalinkFactory.createValue(UasDatalinkTag.SensorVerticalFov, bytes);
         Assert.assertTrue(v instanceof VerticalFov);
         fov = (VerticalFov)v;
+        Assert.assertEquals(fov.getDisplayName(), "Sensor Vertical Field of View");
         Assert.assertEquals(fov.getDegrees(), 180.0);
         Assert.assertEquals(fov.getBytes(), new byte[]{(byte)0xff, (byte)0xff});
 
         bytes = new byte[]{(byte)0xd9, (byte)0x17};
         v = UasDatalinkFactory.createValue(UasDatalinkTag.SensorVerticalFov, bytes);
+        Assert.assertEquals(v.getDisplayName(), "Sensor Vertical Field of View");
         Assert.assertTrue(v instanceof VerticalFov);
         fov = (VerticalFov)v;
         Assert.assertEquals(fov.getDegrees(), 152.6436, 0.0001);

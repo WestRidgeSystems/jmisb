@@ -20,6 +20,7 @@ public class PrecisionTimeStampTest
         byte[] bytes = new byte[]{(byte)0x00, (byte)0x04, (byte)0x59, (byte)0xf4,
                 (byte)0xA6, (byte)0xaa, (byte)0x4a, (byte)0xa8};
         PrecisionTimeStamp pts = new PrecisionTimeStamp(bytes);
+        Assert.assertEquals(pts.getDisplayName(), "Precision Time Stamp");
         Assert.assertEquals(pts.getDisplayableValue(), "1224807209913000");
         LocalDateTime dateTime = pts.getLocalDateTime();
 
@@ -34,6 +35,7 @@ public class PrecisionTimeStampTest
         // Convert value -> byte[]
         long microseconds = dateTime.toInstant(ZoneOffset.UTC).toEpochMilli() * 1000;
         PrecisionTimeStamp pts2 = new PrecisionTimeStamp(microseconds);
+        Assert.assertEquals(pts2.getDisplayName(), "Precision Time Stamp");
         Assert.assertEquals(pts2.getBytes(), new byte[]{(byte)0x00, (byte)0x04, (byte)0x59, (byte)0xf4,
                 (byte)0xA6, (byte)0xaa, (byte)0x4a, (byte)0xa8});
 
@@ -48,6 +50,7 @@ public class PrecisionTimeStampTest
                 (byte)0xA6, (byte)0xaa, (byte)0x4a, (byte)0xa8};
         IUasDatalinkValue v = UasDatalinkFactory.createValue(UasDatalinkTag.PrecisionTimeStamp, bytes);
         Assert.assertTrue(v instanceof PrecisionTimeStamp);
+        Assert.assertEquals(v.getDisplayName(), "Precision Time Stamp");
         PrecisionTimeStamp pts = (PrecisionTimeStamp)v;
         Assert.assertEquals(pts.getDisplayableValue(), "1224807209913000");
         LocalDateTime dateTime = pts.getLocalDateTime();
@@ -66,6 +69,7 @@ public class PrecisionTimeStampTest
     {
         LocalDateTime now = LocalDateTime.now();
         PrecisionTimeStamp pts = new PrecisionTimeStamp(now);
+        Assert.assertEquals(pts.getDisplayName(), "Precision Time Stamp");
         Assert.assertEquals(pts.getLocalDateTime().getDayOfMonth(), now.getDayOfMonth());
         Assert.assertEquals(pts.getLocalDateTime().getHour(), now.getHour());
         long ptsMicroseconds = pts.getMicroseconds();
@@ -77,13 +81,15 @@ public class PrecisionTimeStampTest
     public void testMinAndMax()
     {
         PrecisionTimeStamp pts = new PrecisionTimeStamp(0L);
+        Assert.assertEquals(pts.getDisplayName(), "Precision Time Stamp");
         Assert.assertEquals(pts.getLocalDateTime().getYear(), 1970);
         Assert.assertEquals(pts.getLocalDateTime().getMonth(), Month.JANUARY);
         Assert.assertEquals(pts.getLocalDateTime().getDayOfMonth(), 1);
         Assert.assertEquals(pts.getDisplayableValue(), "0");
 
         // Create max value and ensure no exception is thrown
-        new PrecisionTimeStamp(Long.MAX_VALUE);
+        pts = new PrecisionTimeStamp(Long.MAX_VALUE);
+        Assert.assertEquals(pts.getDisplayName(), "Precision Time Stamp");
     }
 
     @Test(expectedExceptions = IllegalArgumentException.class)
