@@ -33,4 +33,10 @@ public class PlatformGroundSpeed extends UasDatalinkSpeed implements IUasDatalin
     {
         super(bytes);
     }
+
+    @Override
+    public String getDisplayName()
+    {
+        return "Platform Ground Speed";
+    }
 }

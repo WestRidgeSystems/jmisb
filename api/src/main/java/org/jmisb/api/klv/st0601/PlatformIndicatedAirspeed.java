@@ -33,4 +33,10 @@ public class PlatformIndicatedAirspeed extends UasDatalinkSpeed implements IUasD
     {
         super(bytes);
     }
+
+    @Override
+    public String getDisplayName()
+    {
+        return "Platform Indicated Airspeed";
+    }
 }

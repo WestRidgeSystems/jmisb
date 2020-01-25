@@ -17,40 +17,48 @@ public class UasDatalinkLongitudeTest
         Assert.assertEquals(longitude.getBytes(), new byte[]{(byte)0x00, (byte)0x1c, (byte)0x50, (byte)0x1c});
         Assert.assertEquals(longitude.getDegrees(), 0.155527554524842);
         Assert.assertEquals(longitude.getDisplayableValue(), "0.1555\u00B0");
+        Assert.assertEquals(longitude.getDisplayName(), "Alternate Platform Longitude");
 
         longitude = new AlternatePlatformLongitude(new byte[]{(byte)0x00, (byte)0x1c, (byte)0x50, (byte)0x1c});
         Assert.assertEquals(longitude.getDegrees(), 0.155527554524842, delta);
         Assert.assertEquals(longitude.getBytes(), new byte[]{(byte)0x00, (byte)0x1c, (byte)0x50, (byte)0x1c});
+        Assert.assertEquals(longitude.getDisplayName(), "Alternate Platform Longitude");
 
         // Frame Center Longitude
         longitude = new FrameCenterLongitude(29.157890122923);
         Assert.assertEquals(longitude.getBytes(), new byte[]{(byte)0x14, (byte)0xbc, (byte)0x08, (byte)0x2b});
         Assert.assertEquals(longitude.getDegrees(), 29.157890122923);
         Assert.assertEquals(longitude.getDisplayableValue(), "29.1579\u00B0");
+        Assert.assertEquals(longitude.getDisplayName(), "Frame Center Longitude");
 
         longitude = new FrameCenterLongitude(new byte[]{(byte)0x14, (byte)0xbc, (byte)0x08, (byte)0x2b});
         Assert.assertEquals(longitude.getDegrees(), 29.157890122923, delta);
         Assert.assertEquals(longitude.getBytes(), new byte[]{(byte)0x14, (byte)0xbc, (byte)0x08, (byte)0x2b});
+        Assert.assertEquals(longitude.getDisplayName(), "Frame Center Longitude");
 
         // Target Location Longitude
         longitude = new TargetLocationLongitude(166.400812960416);
         Assert.assertEquals(longitude.getBytes(), new byte[]{(byte)0x76, (byte)0x54, (byte)0x57, (byte)0xf2});
         Assert.assertEquals(longitude.getDegrees(), 166.400812960416);
         Assert.assertEquals(longitude.getDisplayableValue(), "166.4008\u00B0");
+        Assert.assertEquals(longitude.getDisplayName(), "Target Location Longitude");
 
         longitude = new TargetLocationLongitude(new byte[]{(byte)0x76, (byte)0x54, (byte)0x57, (byte)0xf2});
         Assert.assertEquals(longitude.getDegrees(), 166.400812960416, delta);
         Assert.assertEquals(longitude.getBytes(), new byte[]{(byte)0x76, (byte)0x54, (byte)0x57, (byte)0xf2});
+        Assert.assertEquals(longitude.getDisplayName(), "Target Location Longitude");
 
         // Corner Longitude Point 1
         longitude = new FullCornerLongitude(29.1273677986333);
         Assert.assertEquals(longitude.getBytes(), new byte[]{(byte)0x14, (byte)0xb6, (byte)0x79, (byte)0xb9});
         Assert.assertEquals(longitude.getDegrees(), 29.1273677986333);
         Assert.assertEquals(longitude.getDisplayableValue(), "29.1274\u00B0");
+        Assert.assertEquals(longitude.getDisplayName(), "Corner Longitude Point");
 
         longitude = new FullCornerLongitude(new byte[]{(byte)0x14, (byte)0xb6, (byte)0x79, (byte)0xb9});
         Assert.assertEquals(longitude.getDegrees(), 29.1273677986333, delta);
         Assert.assertEquals(longitude.getBytes(), new byte[]{(byte)0x14, (byte)0xb6, (byte)0x79, (byte)0xb9});
+        Assert.assertEquals(longitude.getDisplayName(), "Corner Longitude Point");
     }
 
     @Test
@@ -62,6 +70,7 @@ public class UasDatalinkLongitudeTest
         Assert.assertEquals(longitude.getBytes(),bytes);
         Assert.assertEquals(longitude.getDegrees(), 0.155527554524842, delta);
         Assert.assertEquals(longitude.getDisplayableValue(), "0.1555\u00B0");
+        Assert.assertEquals(longitude.getDisplayName(), "Alternate Platform Longitude");
     }
 
     @Test
@@ -72,6 +81,7 @@ public class UasDatalinkLongitudeTest
         FrameCenterLongitude longitude = (FrameCenterLongitude)v;
         Assert.assertEquals(longitude.getDegrees(), 29.157890122923, delta);
         Assert.assertEquals(longitude.getDisplayableValue(), "29.1579\u00B0");
+        Assert.assertEquals(longitude.getDisplayName(), "Frame Center Longitude");
     }
 
     @Test
@@ -82,12 +92,14 @@ public class UasDatalinkLongitudeTest
         TargetLocationLongitude longitude = (TargetLocationLongitude)v;
         Assert.assertEquals(longitude.getDegrees(), 166.400812960416, delta);
         Assert.assertEquals(longitude.getDisplayableValue(), "166.4008\u00B0");
+        Assert.assertEquals(longitude.getDisplayName(), "Target Location Longitude");
     }
 
     @Test
-    public void testFactoryFullCornerLatitude() throws KlvParseException {
+    public void testFactoryFullCornerLongitude() throws KlvParseException {
         byte[] bytes = new byte[]{(byte)0x14, (byte)0xb6, (byte)0x79, (byte)0xb9};
         IUasDatalinkValue v = UasDatalinkFactory.createValue(UasDatalinkTag.CornerLonPt1, bytes);
+        Assert.assertEquals(v.getDisplayName(), "Corner Longitude Point");
         Assert.assertTrue(v instanceof FullCornerLongitude);
         FullCornerLongitude longitude = (FullCornerLongitude)v;
         Assert.assertEquals(longitude.getDegrees(), 29.1273677986333, delta);
@@ -95,11 +107,14 @@ public class UasDatalinkLongitudeTest
 
         v = UasDatalinkFactory.createValue(UasDatalinkTag.CornerLonPt2, bytes);
         Assert.assertTrue(v instanceof FullCornerLongitude);
+        Assert.assertEquals(v.getDisplayName(), "Corner Longitude Point");
 
         v = UasDatalinkFactory.createValue(UasDatalinkTag.CornerLonPt3, bytes);
         Assert.assertTrue(v instanceof FullCornerLongitude);
+        Assert.assertEquals(v.getDisplayName(), "Corner Longitude Point");
 
         v = UasDatalinkFactory.createValue(UasDatalinkTag.CornerLonPt4, bytes);
         Assert.assertTrue(v instanceof FullCornerLongitude);
+        Assert.assertEquals(v.getDisplayName(), "Corner Longitude Point");
     }
 }

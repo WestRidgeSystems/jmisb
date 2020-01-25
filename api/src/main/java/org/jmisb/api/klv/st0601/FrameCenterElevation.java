@@ -30,4 +30,10 @@ public class FrameCenterElevation extends UasDatalinkAltitude
     {
         super(bytes);
     }
+
+    @Override
+    public String getDisplayName()
+    {
+        return "Frame Center Elevation";
+    }
 }

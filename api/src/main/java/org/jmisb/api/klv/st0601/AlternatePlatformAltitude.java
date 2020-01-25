@@ -23,4 +23,10 @@ public class AlternatePlatformAltitude extends UasDatalinkAltitude
     {
         super(bytes);
     }
+
+    @Override
+    public String getDisplayName()
+    {
+        return "Alternate Platform Altitude";
+    }
 }

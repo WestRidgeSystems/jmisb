@@ -13,8 +13,10 @@ public class UasDatalinkStringTest
         final String stringVal = "MISSION01";
         final byte[] bytes = new byte[]{0x4d, 0x49, 0x53, 0x53, 0x49, 0x4f, 0x4e, 0x30, 0x31};
 
-        UasDatalinkString idFromString = new UasDatalinkString(stringVal);
-        UasDatalinkString idFromBytes = new UasDatalinkString(bytes);
+        UasDatalinkString idFromString = new UasDatalinkString(UasDatalinkString.MISSION_ID, stringVal);
+        Assert.assertEquals(idFromString.getDisplayName(), UasDatalinkString.MISSION_ID);
+        UasDatalinkString idFromBytes = new UasDatalinkString(UasDatalinkString.MISSION_ID, bytes);
+        Assert.assertEquals(idFromBytes.getDisplayName(), UasDatalinkString.MISSION_ID);
 
         Assert.assertEquals(idFromString.getBytes(), bytes);
         Assert.assertEquals(idFromString.getDisplayableValue(), "MISSION01");
@@ -29,6 +31,7 @@ public class UasDatalinkStringTest
         IUasDatalinkValue v = UasDatalinkFactory.createValue(UasDatalinkTag.MissionId, bytes);
         Assert.assertTrue(v instanceof UasDatalinkString);
         UasDatalinkString id = (UasDatalinkString)v;
+        Assert.assertEquals(id.getDisplayName(), UasDatalinkString.MISSION_ID);
         Assert.assertEquals(id.getBytes(), bytes);
         Assert.assertEquals(id.getDisplayableValue(), "MISSION01");
     }
@@ -40,6 +43,7 @@ public class UasDatalinkStringTest
         IUasDatalinkValue v = UasDatalinkFactory.createValue(UasDatalinkTag.AlternatePlatformName, bytes);
         Assert.assertTrue(v instanceof UasDatalinkString);
         UasDatalinkString str = (UasDatalinkString)v;
+        Assert.assertEquals(str.getDisplayName(), UasDatalinkString.ALTERNATE_PLATFORM_NAME);
         Assert.assertEquals(str.getBytes(), bytes);
         Assert.assertEquals(str.getDisplayableValue(), "APACHE");
     }
@@ -51,6 +55,7 @@ public class UasDatalinkStringTest
         IUasDatalinkValue v = UasDatalinkFactory.createValue(UasDatalinkTag.StreamDesignator, bytes);
         Assert.assertTrue(v instanceof UasDatalinkString);
         UasDatalinkString str = (UasDatalinkString)v;
+        Assert.assertEquals(str.getDisplayName(), UasDatalinkString.STREAM_DESIGNATOR);
         Assert.assertEquals(str.getBytes(), bytes);
         Assert.assertEquals(str.getDisplayableValue(), "BLUE");
     }
@@ -62,6 +67,7 @@ public class UasDatalinkStringTest
         IUasDatalinkValue v = UasDatalinkFactory.createValue(UasDatalinkTag.OperationalBase, bytes);
         Assert.assertTrue(v instanceof UasDatalinkString);
         UasDatalinkString str = (UasDatalinkString)v;
+        Assert.assertEquals(str.getDisplayName(), UasDatalinkString.OPERATIONAL_BASE);
         Assert.assertEquals(str.getBytes(), bytes);
         Assert.assertEquals(str.getDisplayableValue(), "BASE01");
     }
@@ -70,9 +76,10 @@ public class UasDatalinkStringTest
     public void testFactoryBroadcastSource() throws KlvParseException
     {
         byte[] bytes = new byte[]{0x48, 0x4F, 0x4D, 0x45};
-        IUasDatalinkValue v = UasDatalinkFactory.createValue(UasDatalinkTag.OperationalBase, bytes);
+        IUasDatalinkValue v = UasDatalinkFactory.createValue(UasDatalinkTag.BroadcastSource, bytes);
         Assert.assertTrue(v instanceof UasDatalinkString);
         UasDatalinkString str = (UasDatalinkString)v;
+        Assert.assertEquals(str.getDisplayName(), UasDatalinkString.BROADCAST_SOURCE);
         Assert.assertEquals(str.getBytes(), bytes);
         Assert.assertEquals(str.getDisplayableValue(), "HOME");
     }
@@ -84,6 +91,7 @@ public class UasDatalinkStringTest
         IUasDatalinkValue v = UasDatalinkFactory.createValue(UasDatalinkTag.PlatformDesignation, bytes);
         Assert.assertTrue(v instanceof UasDatalinkString);
         UasDatalinkString str = (UasDatalinkString)v;
+        Assert.assertEquals(str.getDisplayName(), UasDatalinkString.PLATFORM_DESIGNATION);
         Assert.assertEquals(str.getBytes(), bytes);
         Assert.assertEquals(str.getDisplayableValue(), "MQ1-B");
     }
@@ -95,6 +103,7 @@ public class UasDatalinkStringTest
         IUasDatalinkValue v = UasDatalinkFactory.createValue(UasDatalinkTag.ImageSourceSensor, bytes);
         Assert.assertTrue(v instanceof UasDatalinkString);
         UasDatalinkString str = (UasDatalinkString)v;
+        Assert.assertEquals(str.getDisplayName(), UasDatalinkString.IMAGE_SOURCE_SENSOR);
         Assert.assertEquals(str.getBytes(), bytes);
         Assert.assertEquals(str.getDisplayableValue(), "EO");
     }
@@ -106,6 +115,7 @@ public class UasDatalinkStringTest
         IUasDatalinkValue v = UasDatalinkFactory.createValue(UasDatalinkTag.ImageCoordinateSystem, bytes);
         Assert.assertTrue(v instanceof UasDatalinkString);
         UasDatalinkString str = (UasDatalinkString)v;
+        Assert.assertEquals(str.getDisplayName(), UasDatalinkString.IMAGE_COORDINATE_SYSTEM);
         Assert.assertEquals(str.getBytes(), bytes);
         Assert.assertEquals(str.getDisplayableValue(), "WGS-84");
     }
@@ -117,6 +127,7 @@ public class UasDatalinkStringTest
         IUasDatalinkValue v = UasDatalinkFactory.createValue(UasDatalinkTag.PlatformCallSign, bytes);
         Assert.assertTrue(v instanceof UasDatalinkString);
         UasDatalinkString str = (UasDatalinkString)v;
+        Assert.assertEquals(str.getDisplayName(), UasDatalinkString.PLATFORM_CALL_SIGN);
         Assert.assertEquals(str.getBytes(), bytes);
         Assert.assertEquals(str.getDisplayableValue(), "TOP GUN");
     }
@@ -129,6 +140,7 @@ public class UasDatalinkStringTest
         IUasDatalinkValue v = UasDatalinkFactory.createValue(UasDatalinkTag.TargetId, bytes);
         Assert.assertTrue(v instanceof UasDatalinkString);
         UasDatalinkString str = (UasDatalinkString)v;
+        Assert.assertEquals(str.getDisplayName(), UasDatalinkString.TARGET_ID);
         Assert.assertEquals(str.getBytes(), bytes);
         Assert.assertEquals(str.getDisplayableValue(), "123456");
     }
@@ -140,6 +152,7 @@ public class UasDatalinkStringTest
         IUasDatalinkValue v = UasDatalinkFactory.createValue(UasDatalinkTag.CommunicationsMethod, bytes);
         Assert.assertTrue(v instanceof UasDatalinkString);
         UasDatalinkString str = (UasDatalinkString)v;
+        Assert.assertEquals(str.getDisplayName(), UasDatalinkString.COMMUNICATIONS_METHOD);
         Assert.assertEquals(str.getBytes(), bytes);
         Assert.assertEquals(str.getDisplayableValue(), "Frequency Modulation");
     }

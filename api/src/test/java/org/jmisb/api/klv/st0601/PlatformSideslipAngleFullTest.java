@@ -30,6 +30,8 @@ public class PlatformSideslipAngleFullTest
         platformSideslipAngleFull = new PlatformSideslipAngleFull(bytes);
         Assert.assertEquals(platformSideslipAngleFull.getDegrees(), 90.0);
         Assert.assertEquals(platformSideslipAngleFull.getBytes(), bytes);
+
+        Assert.assertEquals(platformSideslipAngleFull.getDisplayName(), "Platform Sideslip Angle (Full)");
     }
 
     @Test

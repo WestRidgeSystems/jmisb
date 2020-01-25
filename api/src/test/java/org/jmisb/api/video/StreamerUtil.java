@@ -49,15 +49,15 @@ public class StreamerUtil
         // Sample metadata
         SortedMap<UasDatalinkTag, IUasDatalinkValue> values = new TreeMap<>();
         values.put(UasDatalinkTag.PrecisionTimeStamp, new PrecisionTimeStamp(LocalDateTime.now()));
-        values.put(UasDatalinkTag.MissionId, new UasDatalinkString("Unit Testing"));
-        values.put(UasDatalinkTag.PlatformDesignation, new UasDatalinkString("Thunderbolt"));
-        values.put(UasDatalinkTag.ImageSourceSensor, new UasDatalinkString("DTV"));
-        values.put(UasDatalinkTag.ImageCoordinateSystem, new UasDatalinkString("Geodetic WGS84"));
+        values.put(UasDatalinkTag.MissionId, new UasDatalinkString(UasDatalinkString.MISSION_ID, "Unit Testing"));
+        values.put(UasDatalinkTag.PlatformDesignation, new UasDatalinkString(UasDatalinkString.PLATFORM_DESIGNATION, "Thunderbolt"));
+        values.put(UasDatalinkTag.ImageSourceSensor, new UasDatalinkString(UasDatalinkString.IMAGE_SOURCE_SENSOR, "DTV"));
+        values.put(UasDatalinkTag.ImageCoordinateSystem, new UasDatalinkString(UasDatalinkString.IMAGE_COORDINATE_SYSTEM, "Geodetic WGS84"));
         values.put(UasDatalinkTag.SensorLatitude, new SensorLatitude(42.4036));
         values.put(UasDatalinkTag.SensorLongitude, new SensorLongitude(-71.1284));
         values.put(UasDatalinkTag.SensorTrueAltitude, new SensorTrueAltitude(1258.3));
         values.put(UasDatalinkTag.UasLdsVersionNumber, new ST0601Version((byte)11));
-        values.put(UasDatalinkTag.TargetId, new UasDatalinkString("tango"));
+        values.put(UasDatalinkTag.TargetId, new UasDatalinkString(UasDatalinkString.TARGET_ID, "tango"));
 
         IMisbMessage message;
 

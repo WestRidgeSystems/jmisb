@@ -42,6 +42,8 @@ public class SensorRelativeElevationTest
         elevation = new SensorRelativeElevation(Double.POSITIVE_INFINITY);
         Assert.assertEquals(elevation.getDegrees(), Double.POSITIVE_INFINITY);
         Assert.assertEquals(elevation.getBytes(), error);
+
+        Assert.assertEquals(elevation.getDisplayName(), "Sensor Relative Elevation");
     }
 
     @Test

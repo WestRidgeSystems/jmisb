@@ -24,4 +24,10 @@ public class DensityAltitude extends UasDatalinkAltitude
     {
         super(bytes);
     }
+
+    @Override
+    public String getDisplayName()
+    {
+        return "Density Altitude";
+    }
 }

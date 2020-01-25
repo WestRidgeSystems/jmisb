@@ -26,7 +26,7 @@ abstract public class UasPressureMillibars implements IUasDatalinkValue
     {
         if (pressureMillibars < 0 || pressureMillibars > RANGE)
         {
-            throw new IllegalArgumentException("Pressure must be in range [0,5000]");
+            throw new IllegalArgumentException(getDisplayName() + " must be in range [0,5000]");
         }
         pressure = pressureMillibars;
     }
@@ -39,7 +39,7 @@ abstract public class UasPressureMillibars implements IUasDatalinkValue
     {
         if (bytes.length != 2)
         {
-            throw new IllegalArgumentException("Pressure encoding is a 2-byte unsigned int");
+            throw new IllegalArgumentException(getDisplayName() + " encoding is a 2-byte unsigned int");
         }
 
         int intVal = PrimitiveConverter.toUint16(bytes);

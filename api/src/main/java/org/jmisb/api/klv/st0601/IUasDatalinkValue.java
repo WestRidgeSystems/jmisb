@@ -16,4 +16,10 @@ public interface IUasDatalinkValue
      * @return String representing the value
      */
     String getDisplayableValue();
+
+    /**
+     * Get the human-readable name for the value
+     * @return The name of the type
+     */
+    String getDisplayName();
 }

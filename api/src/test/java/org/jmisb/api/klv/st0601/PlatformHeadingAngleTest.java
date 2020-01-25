@@ -27,6 +27,8 @@ public class PlatformHeadingAngleTest
         Assert.assertEquals(bytes, new byte[]{(byte)0x71, (byte)0xc2});
         Assert.assertEquals(platformHeadingAngle.getDegrees(), 159.9744);
         Assert.assertEquals(platformHeadingAngle.getDisplayableValue(), "159.9744\u00B0");
+
+        Assert.assertEquals(platformHeadingAngle.getDisplayName(), "Platform Heading Angle");
     }
 
     @Test

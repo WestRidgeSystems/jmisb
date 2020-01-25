@@ -55,6 +55,8 @@ public class PlatformStatusTest {
         operationalMode = new PlatformStatus((byte) 12);
         Assert.assertEquals(operationalMode.getBytes(), new byte[]{(byte) 0x0C});
         Assert.assertEquals(operationalMode.getDisplayableValue(), "Landed-Parked");
+
+        Assert.assertEquals(operationalMode.getDisplayName(), "Platform Status");
     }
 
     @Test

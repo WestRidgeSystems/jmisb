@@ -30,6 +30,8 @@ public class SensorNorthVelocityTest
         velocity = new SensorNorthVelocity(bytes);
         Assert.assertEquals(velocity.getVelocity(), 327.0);
         Assert.assertEquals(velocity.getBytes(), bytes);
+
+        Assert.assertEquals(velocity.getDisplayName(), "Sensor North Velocity");
     }
 
     @Test

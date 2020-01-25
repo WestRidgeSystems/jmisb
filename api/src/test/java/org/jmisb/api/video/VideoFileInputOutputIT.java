@@ -182,10 +182,10 @@ public class VideoFileInputOutputIT
 
                 values.put(UasDatalinkTag.PrecisionTimeStamp, new PrecisionTimeStamp(LocalDateTime.now()));
 
-                values.put(UasDatalinkTag.MissionId, new UasDatalinkString(missionId));
-                values.put(UasDatalinkTag.PlatformDesignation, new UasDatalinkString("Thunderbolt"));
-                values.put(UasDatalinkTag.ImageSourceSensor, new UasDatalinkString("DTV"));
-                values.put(UasDatalinkTag.ImageCoordinateSystem, new UasDatalinkString("Geodetic WGS84"));
+                values.put(UasDatalinkTag.MissionId, new UasDatalinkString(UasDatalinkString.MISSION_ID, missionId));
+                values.put(UasDatalinkTag.PlatformDesignation, new UasDatalinkString(UasDatalinkString.PLATFORM_DESIGNATION, "Thunderbolt"));
+                values.put(UasDatalinkTag.ImageSourceSensor, new UasDatalinkString(UasDatalinkString.IMAGE_SOURCE_SENSOR, "DTV"));
+                values.put(UasDatalinkTag.ImageCoordinateSystem, new UasDatalinkString(UasDatalinkString.IMAGE_SOURCE_SENSOR, "Geodetic WGS84"));
 
                 values.put(UasDatalinkTag.SensorLatitude, new SensorLatitude(sensorLatitude));
                 values.put(UasDatalinkTag.SensorLongitude, new SensorLongitude(sensorLongitude));

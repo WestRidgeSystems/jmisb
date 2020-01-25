@@ -24,4 +24,10 @@ public class FrameCenterLongitude extends UasDatalinkLongitude
     {
         super(bytes);
     }
+
+    @Override
+    public String getDisplayName()
+    {
+        return "Frame Center Longitude";
+    }
 }

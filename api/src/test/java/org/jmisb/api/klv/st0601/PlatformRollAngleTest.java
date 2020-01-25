@@ -30,6 +30,8 @@ public class PlatformRollAngleTest
         platformRollAngle = new PlatformRollAngle(bytes);
         Assert.assertEquals(platformRollAngle.getDegrees(), 50.0);
         Assert.assertEquals(platformRollAngle.getBytes(), bytes);
+
+        Assert.assertEquals(platformRollAngle.getDisplayName(), "Platform Roll Angle");
     }
 
     @Test

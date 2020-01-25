@@ -28,6 +28,8 @@ public class SensorRelativeAzimuthTest
         Assert.assertEquals(ex, new byte[]{(byte)0x72, (byte)0x4a, (byte)0x0a, (byte)0x20});
         Assert.assertEquals(az.getDegrees(), val);
         Assert.assertEquals("160.7192\u00B0", az.getDisplayableValue());
+
+        Assert.assertEquals(az.getDisplayName(), "Sensor Relative Azimuth");
     }
 
     @Test

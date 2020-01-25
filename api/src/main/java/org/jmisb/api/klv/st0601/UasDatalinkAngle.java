@@ -32,7 +32,7 @@ public abstract class UasDatalinkAngle implements IUasDatalinkValue
     {
         if (degrees != Double.POSITIVE_INFINITY && (degrees < -20 || degrees > 20))
         {
-            throw new IllegalArgumentException("Angle must be in range [-20,20]");
+            throw new IllegalArgumentException(getDisplayName() + " must be in range [-20,20]");
         }
 
         this.degrees = degrees;
@@ -47,7 +47,7 @@ public abstract class UasDatalinkAngle implements IUasDatalinkValue
     {
         if (bytes.length != 2)
         {
-            throw new IllegalArgumentException("Angle encoding is a 2-byte signed int");
+            throw new IllegalArgumentException(getDisplayName() + " encoding is a 2-byte signed int");
         }
 
         if (Arrays.equals(bytes, invalidBytes))

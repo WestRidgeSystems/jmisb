@@ -55,6 +55,8 @@ public class ST0601VersionTest {
         Assert.assertEquals(version.getBytes(), new byte[]{(byte) 0x0d});
         Assert.assertEquals(version.getVersion(), 13);
         Assert.assertEquals(version.getDisplayableValue(), "13");
+
+        Assert.assertEquals(version.getDisplayName(), "Version Number");
     }
 
     @Test(expectedExceptions = IllegalArgumentException.class)

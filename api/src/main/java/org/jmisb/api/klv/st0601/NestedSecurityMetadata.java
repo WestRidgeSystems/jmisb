@@ -8,10 +8,10 @@ import org.jmisb.api.klv.st0102.localset.SecurityMetadataLocalSet;
  * <p>
  * From ST:
  * <blockquote>
- * Local set tag to include the ST 0102 Local Set Security Metadata items within ST 0601. Use the ST 0102 Local Set Tags
- * within the ST 0601 tag 0d48.
+ * Local set tag to include the ST 0102 Local Set Security Metadata items within ST 0601.
+ * Use the MISB ST 0102 Local Set tags within the MISB ST 0601 item 48.
  * <p>
- * The length field is the size of all ST 0102 metadata items to be packaged within tag 0d48.
+ * The length field is the size of all MISB ST 0102 metadata items to be packaged within item 48.
  * </blockquote>
  */
 public class NestedSecurityMetadata implements IUasDatalinkValue
@@ -57,5 +57,11 @@ public class NestedSecurityMetadata implements IUasDatalinkValue
     public String getDisplayableValue()
     {
         return "[Security metadata]";
+    }
+
+    @Override
+    public String getDisplayName()
+    {
+        return "Security";
     }
 }

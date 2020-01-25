@@ -72,4 +72,10 @@ public class TargetWidth implements IUasDatalinkValue
     {
         return String.format("%.2fm", meters);
     }
+
+    @Override
+    public String getDisplayName()
+    {
+        return "Target Width";
+    }
 }

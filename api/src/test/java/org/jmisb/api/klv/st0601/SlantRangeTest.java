@@ -24,6 +24,8 @@ public class SlantRangeTest
         range = new SlantRange(68590.98);
         Assert.assertEquals(range.getBytes(), new byte[]{(byte)0x03, (byte)0x83, (byte)0x09, (byte)0x23});
         Assert.assertEquals(range.getDisplayableValue(), "68590.98m");
+
+        Assert.assertEquals(range.getDisplayName(), "Slant Range");
     }
 
     @Test

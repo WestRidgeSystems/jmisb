@@ -25,6 +25,7 @@ public class DifferentialPressureTest
         Assert.assertEquals(bytes, new byte[]{(byte)0x3D, (byte)0x07});
         Assert.assertEquals(pressure.getMillibars(), 1191.95850);
         Assert.assertEquals("1191.96mB", pressure.getDisplayableValue());
+        Assert.assertEquals(pressure.getDisplayName(), "Differential Pressure");
     }
 
     @Test
@@ -48,6 +49,7 @@ public class DifferentialPressureTest
         bytes = new byte[]{(byte)0x34, (byte)0x9d};
         pressure = new DifferentialPressure(bytes);
         Assert.assertEquals(pressure.getBytes(), bytes);
+        Assert.assertEquals(pressure.getDisplayName(), "Differential Pressure");
     }
 
     @Test
@@ -55,6 +57,7 @@ public class DifferentialPressureTest
     {
         byte[] bytes = new byte[]{0x00, 0x00};
         IUasDatalinkValue v = UasDatalinkFactory.createValue(UasDatalinkTag.DifferentialPressure, bytes);
+        Assert.assertEquals(v.getDisplayName(), "Differential Pressure");
         Assert.assertTrue(v instanceof DifferentialPressure);
         DifferentialPressure pressure = (DifferentialPressure)v;
         Assert.assertEquals(pressure.getMillibars(), 0.0);
@@ -62,6 +65,7 @@ public class DifferentialPressureTest
 
         bytes = new byte[]{(byte)0xff, (byte)0xff};
         v = UasDatalinkFactory.createValue(UasDatalinkTag.DifferentialPressure, bytes);
+        Assert.assertEquals(v.getDisplayName(), "Differential Pressure");
         Assert.assertTrue(v instanceof DifferentialPressure);
         pressure = (DifferentialPressure)v;
         Assert.assertEquals(pressure.getMillibars(), 5000.0);

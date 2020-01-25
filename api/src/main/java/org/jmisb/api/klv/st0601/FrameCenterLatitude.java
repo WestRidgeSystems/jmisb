@@ -24,4 +24,10 @@ public class FrameCenterLatitude extends UasDatalinkLatitude
     {
         super(bytes);
     }
+
+    @Override
+    public String getDisplayName()
+    {
+        return "Frame Center Latitude";
+    }
 }

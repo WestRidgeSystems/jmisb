@@ -23,4 +23,10 @@ public class SensorTrueAltitude extends UasDatalinkAltitude
     {
         super(bytes);
     }
+
+    @Override
+    public String getDisplayName()
+    {
+        return "Sensor True Altitude";
+    }
 }

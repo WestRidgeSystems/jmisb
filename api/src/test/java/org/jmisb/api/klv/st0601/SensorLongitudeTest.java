@@ -33,6 +33,8 @@ public class SensorLongitudeTest
         longitude = new SensorLongitude(Double.POSITIVE_INFINITY);
         Assert.assertEquals(longitude.getBytes(), new byte[]{(byte)0x80, (byte)0x00, (byte)0x00, (byte)0x00});
         Assert.assertEquals(longitude.getDegrees(), Double.POSITIVE_INFINITY);
+
+        Assert.assertEquals(longitude.getDisplayName(), "Sensor Longitude");
     }
 
     @Test

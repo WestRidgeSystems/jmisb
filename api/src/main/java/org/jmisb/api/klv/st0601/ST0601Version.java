@@ -55,4 +55,10 @@ public class ST0601Version implements IUasDatalinkValue
     {
         return "" + (int)version;
     }
+
+    @Override
+    public String getDisplayName()
+    {
+        return "Version Number";
+    }
 }

@@ -31,7 +31,7 @@ abstract public class UasDatalinkSensorVelocity implements IUasDatalinkValue
     {
         if (velocity != Double.POSITIVE_INFINITY && (velocity < -327.0 || velocity > 327.0))
         {
-            throw new IllegalArgumentException("Sensor velocity must be in range [-327,327]");
+            throw new IllegalArgumentException(getDisplayName() + " must be in range [-327,327]");
         }
 
         this.velocity = velocity;
@@ -45,7 +45,7 @@ abstract public class UasDatalinkSensorVelocity implements IUasDatalinkValue
     {
         if (bytes.length != 2)
         {
-            throw new IllegalArgumentException("Sensor velocity encoding is a 2-byte signed int");
+            throw new IllegalArgumentException(getDisplayName() + " encoding is a 2-byte signed int");
         }
 
         if (Arrays.equals(bytes, invalidBytes))

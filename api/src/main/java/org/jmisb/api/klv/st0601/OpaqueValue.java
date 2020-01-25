@@ -28,4 +28,10 @@ public class OpaqueValue implements IUasDatalinkValue
         return "N/A";
     }
 
+    @Override
+    public String getDisplayName()
+    {
+        return "Opaque Value";
+    }
+
 }

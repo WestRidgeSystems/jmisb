@@ -23,4 +23,10 @@ public class AlternatePlatformLongitude extends UasDatalinkLongitude
     {
         super(bytes);
     }
+
+    @Override
+    public String getDisplayName()
+    {
+       return "Alternate Platform Longitude";
+    }
 }

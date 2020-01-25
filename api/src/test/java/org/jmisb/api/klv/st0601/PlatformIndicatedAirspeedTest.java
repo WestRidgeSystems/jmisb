@@ -20,6 +20,8 @@ public class PlatformIndicatedAirspeedTest
         // From ST:
         speed = new PlatformIndicatedAirspeed(159);
         Assert.assertEquals(speed.getBytes(), new byte[]{(byte)0x9f});
+
+        Assert.assertEquals(speed.getDisplayName(), "Platform Indicated Airspeed");
     }
 
     @Test

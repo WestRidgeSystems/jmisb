@@ -30,6 +30,8 @@ public class PlatformAngleOfAttackFullTest
         platformAngleOfAttackFull = new PlatformAngleOfAttackFull(bytes);
         Assert.assertEquals(platformAngleOfAttackFull.getDegrees(), 90.0);
         Assert.assertEquals(platformAngleOfAttackFull.getBytes(), bytes);
+
+        Assert.assertEquals(platformAngleOfAttackFull.getDisplayName(), "Platform Angle of Attack (Full)");
     }
 
     @Test

@@ -58,7 +58,8 @@ public class SensorRelativeRollTest
 
         bytes = new byte[]{(byte)0xd7, (byte)0x03, (byte)0x9d, (byte)0xc8};
         roll = new SensorRelativeRoll(bytes);
-        Assert.assertEquals(roll.getBytes(), bytes);
+
+        Assert.assertEquals(roll.getDisplayName(), "Sensor Relative Roll");
     }
 
     @Test

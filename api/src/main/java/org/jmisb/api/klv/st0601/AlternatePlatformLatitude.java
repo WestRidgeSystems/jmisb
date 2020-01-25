@@ -23,4 +23,10 @@ public class AlternatePlatformLatitude extends UasDatalinkLatitude
     {
         super(bytes);
     }
+
+    @Override
+    public String getDisplayName()
+    {
+        return "Alternate Platform Latitude";
+    }
 }

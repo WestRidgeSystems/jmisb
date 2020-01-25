@@ -23,4 +23,10 @@ public class AirfieldBarometricPressure extends UasPressureMillibars
     {
         super(bytes);
     }
+
+    @Override
+    public String getDisplayName()
+    {
+        return "Airfield Barometric Pressure";
+    }
 }

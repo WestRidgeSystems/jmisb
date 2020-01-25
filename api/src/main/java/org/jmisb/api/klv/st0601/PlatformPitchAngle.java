@@ -35,4 +35,10 @@ public class PlatformPitchAngle extends UasDatalinkAngle {
         super(bytes);
     }
 
+    @Override
+    public String getDisplayName()
+    {
+        return "Platform Pitch Angle";
+    }
+
 }

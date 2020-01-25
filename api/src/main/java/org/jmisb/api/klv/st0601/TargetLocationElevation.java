@@ -23,4 +23,10 @@ public class TargetLocationElevation extends UasDatalinkAltitude
     {
         super(bytes);
     }
+
+    @Override
+    public String getDisplayName()
+    {
+        return "Target Location Elevation";
+    }
 }
