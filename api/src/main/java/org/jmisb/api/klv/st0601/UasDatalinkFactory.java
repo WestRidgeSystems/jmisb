@@ -164,8 +164,7 @@ public class UasDatalinkFactory
                 // TODO
                 return new OpaqueValue(bytes);
             case SensorFovName:
-                // TODO
-                return new OpaqueValue(bytes);
+                return new SensorFieldOfViewName(bytes);
             case PlatformMagneticHeading:
                 // TODO
                 return new OpaqueValue(bytes);
@@ -325,8 +324,7 @@ public class UasDatalinkFactory
             case PlatformStatus:
                 return new PlatformStatus(bytes);
             case SensorControlMode:
-                // TODO
-                return new OpaqueValue(bytes);
+                return new SensorControlMode(bytes);
             case SensorFrameRatePack:
                 // TODO
                 return new OpaqueValue(bytes);
