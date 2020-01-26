@@ -102,8 +102,7 @@ public class UasDatalinkFactory
             case DensityAltitude:
                 return new DensityAltitude(bytes);
             case OutsideAirTemp:
-                // TODO
-                return new OpaqueValue(bytes);
+                return new OutsideAirTemperature(bytes);
             case TargetLocationLatitude:
                 return new TargetLocationLatitude(bytes);
             case TargetLocationLongitude:

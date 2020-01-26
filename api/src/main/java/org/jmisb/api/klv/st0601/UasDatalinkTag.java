@@ -85,7 +85,7 @@ public enum UasDatalinkTag
     StaticPressure(37),
     /** Tag 38; Density altitude at aircraft location; Value is a {@link DensityAltitude} */
     DensityAltitude(38),
-    /** Tag 39; Temperature outside of aircraft; Value is a {@link OpaqueValue} */
+    /** Tag 39; Temperature outside of aircraft; Value is a {@link OutsideAirTemperature} */
     OutsideAirTemp(39),
     /** Tag 40; Calculated target latitude; Value is a {@link TargetLocationLatitude} */
     TargetLocationLatitude(40),
