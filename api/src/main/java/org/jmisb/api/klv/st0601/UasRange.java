@@ -12,7 +12,8 @@ import org.jmisb.core.klv.PrimitiveConverter;
  * Resolution: ~1.2 milli meters.
  * </blockquote>
  */
-public abstract class UasRange implements IUasDatalinkValue {
+public abstract class UasRange implements IUasDatalinkValue
+{
 
     protected static double MIN_VAL = 0.0;
     protected static double MAX_VAL = 5000000.0;
@@ -51,18 +52,21 @@ public abstract class UasRange implements IUasDatalinkValue {
      * Get the value in meters
      * @return Meters in range [0,5000000]
      */
-    public double getMeters() {
+    public double getMeters()
+    {
         return meters;
     }
 
     @Override
-    public byte[] getBytes() {
+    public byte[] getBytes()
+    {
         long longVal = Math.round((meters / MAX_VAL) * MAXINT);
         return PrimitiveConverter.uint32ToBytes(longVal);
     }
 
     @Override
-    public String getDisplayableValue() {
+    public String getDisplayableValue()
+    {
         return String.format("%.3fm", meters);
     }
 }
