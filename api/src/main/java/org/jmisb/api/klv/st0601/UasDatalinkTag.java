@@ -93,9 +93,9 @@ public enum UasDatalinkTag
     TargetLocationLongitude(41),
     /** Tag 42; Calculated target elevation; Value is a {@link TargetLocationElevation} */
     TargetLocationElevation(42),
-    /** Tag 43; Tracking gate width (x value) of tracked target within field of view; Value is a {@link OpaqueValue} */
+    /** Tag 43; Tracking gate width (x value) of tracked target within field of view; Value is a {@link TargetTrackGateSize} */
     TargetTrackGateWidth(43),
-    /** Tag 44; Tracking gate height (y value) of tracked target within field of view; Value is a {@link OpaqueValue} */
+    /** Tag 44; Tracking gate height (y value) of tracked target within field of view; Value is a {@link TargetTrackGateSize} */
     TargetTrackGateHeight(44),
     /** Tag 45; Circular error 90 (CE90) is the estimated error distance in the horizontal direction; Value is a {@link OpaqueValue} */
     TargetErrorCe90(45),
