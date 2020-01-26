@@ -147,8 +147,7 @@ public class UasDatalinkFactory
             case PlatformGroundSpeed:
                 return new PlatformGroundSpeed(bytes);
             case GroundRange:
-                // TODO
-                return new OpaqueValue(bytes);
+                return new GroundRange(bytes);
             case PlatformFuelRemaining:
                 // TODO
                 return new OpaqueValue(bytes);

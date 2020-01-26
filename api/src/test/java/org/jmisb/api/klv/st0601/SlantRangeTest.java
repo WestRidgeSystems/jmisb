@@ -12,18 +12,17 @@ public class SlantRangeTest
         // Min
         SlantRange range = new SlantRange(0.0);
         Assert.assertEquals(range.getBytes(), new byte[]{(byte)0x00, (byte)0x00, (byte)0x00, (byte)0x00});
-        Assert.assertEquals(range.getDisplayableValue(), "0.00m");
+        Assert.assertEquals(range.getDisplayableValue(), "0.000m");
 
         // Max
         range = new SlantRange(5000000.0);
         Assert.assertEquals(range.getBytes(), new byte[]{(byte)0xff, (byte)0xff, (byte)0xff, (byte)0xff});
-        Assert.assertEquals(range.getDisplayableValue(), "5000000.00m");
+        Assert.assertEquals(range.getDisplayableValue(), "5000000.000m");
 
         // From ST:
-        // TODO: the ST example appears to have an error, shows encoded value = 0x03 83 09 26 (last byte incorrect)
-        range = new SlantRange(68590.98);
-        Assert.assertEquals(range.getBytes(), new byte[]{(byte)0x03, (byte)0x83, (byte)0x09, (byte)0x23});
-        Assert.assertEquals(range.getDisplayableValue(), "68590.98m");
+        range = new SlantRange(68590.983298744770);
+        Assert.assertEquals(range.getBytes(), new byte[]{(byte)0x03, (byte)0x83, (byte)0x09, (byte)0x26});
+        Assert.assertEquals(range.getDisplayableValue(), "68590.983m");
 
         Assert.assertEquals(range.getDisplayName(), "Slant Range");
     }
@@ -35,20 +34,19 @@ public class SlantRangeTest
         SlantRange range = new SlantRange(new byte[]{(byte)0x00, (byte)0x00, (byte)0x00, (byte)0x00});
         Assert.assertEquals(range.getMeters(), 0.0);
         Assert.assertEquals(range.getBytes(), new byte[]{(byte)0x00, (byte)0x00, (byte)0x00, (byte)0x00});
-        Assert.assertEquals(range.getDisplayableValue(), "0.00m");
+        Assert.assertEquals(range.getDisplayableValue(), "0.000m");
 
         // Max
         range = new SlantRange(new byte[]{(byte)0xff, (byte)0xff, (byte)0xff, (byte)0xff});
         Assert.assertEquals(range.getMeters(), 5000000.0);
         Assert.assertEquals(range.getBytes(), new byte[]{(byte)0xff, (byte)0xff, (byte)0xff, (byte)0xff});
-        Assert.assertEquals(range.getDisplayableValue(), "5000000.00m");
+        Assert.assertEquals(range.getDisplayableValue(), "5000000.000m");
 
         // From ST:
-        // TODO: the ST example appears to have an error, shows encoded value = 0x03 83 09 26 (last byte incorrect)
-        range = new SlantRange(new byte[]{(byte)0x03, (byte)0x83, (byte)0x09, (byte)0x23});
-        Assert.assertEquals(range.getMeters(), 68590.98, SlantRange.DELTA);
-        Assert.assertEquals(range.getBytes(), new byte[]{(byte)0x03, (byte)0x83, (byte)0x09, (byte)0x23});
-        Assert.assertEquals(range.getDisplayableValue(), "68590.98m");
+        range = new SlantRange(new byte[]{(byte)0x03, (byte)0x83, (byte)0x09, (byte)0x26});
+        Assert.assertEquals(range.getMeters(), 68590.983298744770, SlantRange.DELTA);
+        Assert.assertEquals(range.getBytes(), new byte[]{(byte)0x03, (byte)0x83, (byte)0x09, (byte)0x26});
+        Assert.assertEquals(range.getDisplayableValue(), "68590.983m");
     }
 
     @Test
@@ -60,7 +58,7 @@ public class SlantRangeTest
         SlantRange range = (SlantRange)v;
         Assert.assertEquals(range.getMeters(), 0.0);
         Assert.assertEquals(range.getBytes(), new byte[]{(byte)0x00, (byte)0x00, (byte)0x00, (byte)0x00});
-        Assert.assertEquals(range.getDisplayableValue(), "0.00m");
+        Assert.assertEquals(range.getDisplayableValue(), "0.000m");
 
         bytes = new byte[]{(byte)0xff, (byte)0xff, (byte)0xff, (byte)0xff};
         v = UasDatalinkFactory.createValue(UasDatalinkTag.SlantRange, bytes);
@@ -68,15 +66,15 @@ public class SlantRangeTest
         range = (SlantRange)v;
         Assert.assertEquals(range.getMeters(), 5000000.0);
         Assert.assertEquals(range.getBytes(), new byte[]{(byte)0xff, (byte)0xff, (byte)0xff, (byte)0xff});
-        Assert.assertEquals(range.getDisplayableValue(), "5000000.00m");
+        Assert.assertEquals(range.getDisplayableValue(), "5000000.000m");
 
-        bytes = new byte[]{(byte)0x03, (byte)0x83, (byte)0x09, (byte)0x23};
+        bytes = new byte[]{(byte)0x03, (byte)0x83, (byte)0x09, (byte)0x26};
         v = UasDatalinkFactory.createValue(UasDatalinkTag.SlantRange, bytes);
         Assert.assertTrue(v instanceof SlantRange);
         range = (SlantRange)v;
-        Assert.assertEquals(range.getMeters(), 68590.98, SlantRange.DELTA);
-        Assert.assertEquals(range.getBytes(), new byte[]{(byte)0x03, (byte)0x83, (byte)0x09, (byte)0x23});
-        Assert.assertEquals(range.getDisplayableValue(), "68590.98m");
+        Assert.assertEquals(range.getMeters(), 68590.983298744770, SlantRange.DELTA);
+        Assert.assertEquals(range.getBytes(), new byte[]{(byte)0x03, (byte)0x83, (byte)0x09, (byte)0x26});
+        Assert.assertEquals(range.getDisplayableValue(), "68590.983m");
     }
 
     @Test(expectedExceptions = IllegalArgumentException.class)

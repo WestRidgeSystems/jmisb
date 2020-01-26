@@ -121,7 +121,7 @@ public enum UasDatalinkTag
     RelativeHumidity(55),
     /** Tag 56; Speed projected to the ground of an airborne platform passing overhead; Value is a {@link PlatformGroundSpeed} */
     PlatformGroundSpeed(56),
-    /** Tag 57; Horizontal distance from ground position of aircraft relative to nadir, and target of interest; Value is a {@link OpaqueValue} */
+    /** Tag 57; Horizontal distance from ground position of aircraft relative to nadir, and target of interest; Value is a {@link GroundRange} */
     GroundRange(57),
     /** Tag 58; Remaining fuel on airborne platform; Value is a {@link OpaqueValue} */
     PlatformFuelRemaining(58),
