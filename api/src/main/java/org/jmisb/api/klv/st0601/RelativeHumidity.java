@@ -7,7 +7,9 @@ import org.jmisb.core.klv.PrimitiveConverter;
  * <p>
  * From ST:
  * <blockquote>
- * Wind speed at aircraft location.
+ * Relative humidity at aircraft location. Relative Humidity is the ratio between
+ * the water vapor density and the saturation point of water vapor density
+ * expressed as a percentage.
  * <p>
  * Map 0..(2^8-1) to 0..100%.
  * <p>
