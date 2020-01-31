@@ -115,11 +115,9 @@ public class UasDatalinkFactory
             case TargetTrackGateHeight:
                 return new TargetTrackGateHeight(bytes);
             case TargetErrorCe90:
-                // TODO
-                return new OpaqueValue(bytes);
+                return new TargetErrorEstimateCe90(bytes);
             case TargetErrorLe90:
-                // TODO
-                return new OpaqueValue(bytes);
+                return new TargetErrorEstimateLe90(bytes);
             case GenericFlagData01:
                 // TODO
                 return new OpaqueValue(bytes);
