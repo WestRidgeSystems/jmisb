@@ -65,18 +65,16 @@
                 <groupId>org.testng</groupId>
                 <artifactId>testng</artifactId>
                 <version>7.0.0</version>
-                <scope>test</scope>
             </dependency>
             <dependency>
                 <groupId>org.slf4j</groupId>
                 <artifactId>slf4j-api</artifactId>
-                <version>1.8.0-beta4</version>
+                <version>1.7.30</version>
             </dependency>
             <dependency>
                 <groupId>org.slf4j</groupId>
                 <artifactId>slf4j-log4j12</artifactId>
-                <version>1.8.0-beta4</version>
-                <scope>runtime</scope>
+                <version>1.7.30</version>
             </dependency>
             <dependency>
                 <groupId>org.bytedeco</groupId>
