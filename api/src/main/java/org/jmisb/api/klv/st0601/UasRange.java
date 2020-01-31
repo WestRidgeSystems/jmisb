@@ -23,7 +23,7 @@ public abstract class UasRange implements IUasDatalinkValue
 
     /**
      * Create from value
-     * @param meters Slant range, in meters
+     * @param meters Range, in meters
      */
     public UasRange(double meters)
     {
@@ -36,7 +36,7 @@ public abstract class UasRange implements IUasDatalinkValue
 
     /**
      * Create from encoded bytes
-     * @param bytes Slant range, encoded as a 4-byte unsigned int
+     * @param bytes Range, encoded as a 4-byte unsigned int
      */
     public UasRange(byte[] bytes)
     {
