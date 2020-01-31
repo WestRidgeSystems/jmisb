@@ -37,6 +37,18 @@ public class UasDatalinkStringTest
     }
 
     @Test
+    public void testFactoryPlatformTailNumber() throws KlvParseException
+    {
+        byte[] bytes = new byte[]{0x41, 0x46, 0x2D, 0x31, 0x30, 0x31};
+        IUasDatalinkValue v = UasDatalinkFactory.createValue(UasDatalinkTag.PlatformTailNumber, bytes);
+        Assert.assertTrue(v instanceof UasDatalinkString);
+        UasDatalinkString str = (UasDatalinkString)v;
+        Assert.assertEquals(str.getDisplayName(), UasDatalinkString.PLATFORM_TAIL_NUMBER);
+        Assert.assertEquals(str.getBytes(), bytes);
+        Assert.assertEquals(str.getDisplayableValue(), "AF-101");
+    }
+
+    @Test
     public void testFactoryAlternatePlatformName() throws KlvParseException
     {
         byte[] bytes = new byte[]{0x41, 0x50, 0x41, 0x43, 0x48, 0x45};
