@@ -1,11 +1,13 @@
 package org.jmisb.api.klv.st0601;
 
 /**
- * Target Width (ST 0601 tag 39)
+ * Outside Air Temperature (ST 0601 tag 39)
  * <p>
  * From ST:
  * <blockquote>
  * Temperature outside of aircraft.
+ * <p>
+ * The measured temperature outside of the platform.
  * <p>
  * Map -128..127 to -128..127 degrees Celcius.
  * <p>
