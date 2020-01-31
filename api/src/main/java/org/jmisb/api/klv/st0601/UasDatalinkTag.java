@@ -135,21 +135,21 @@ public enum UasDatalinkTag
     LaserPrfCode(62),
     /** Tag 63; Sensor field of view names; Value is a {@link SensorFieldOfViewName} */
     SensorFovName(63),
-    /** Tag 64; Aircraft magnetic heading angle; Value is a {@link OpaqueValue} */
+    /** Tag 64; Aircraft magnetic heading angle; Value is a {@link PlatformMagneticHeading} */
     PlatformMagneticHeading(64),
     /** Tag 65; Version number of the UAS Datalink LS document used to generate KLV metadata; Value is a {@link ST0601Version} */
     UasLdsVersionNumber(65),
     /** Tag 66; Covariance Matrix of the error associated with a targeted location (DEPRECATED) Value is a {@link OpaqueValue} */
     TargetLocationCovariance(66),
-    /** Tag 67; Alternate platform latitude; Value is a {@link AlternatePlatformLatitude} */
+    /** Tag 67; Alternate platform latitude; Value is an {@link AlternatePlatformLatitude} */
     AlternatePlatformLatitude(67),
-    /** Tag 68; Alternate platform longitude; Value is a {@link AlternatePlatformLongitude} */
+    /** Tag 68; Alternate platform longitude; Value is an {@link AlternatePlatformLongitude} */
     AlternatePlatformLongitude(68),
-    /** Tag 69; Altitude of alternate platform as measured from Mean Sea Level (MSL); Value is a {@link AlternatePlatformAltitude} */
+    /** Tag 69; Altitude of alternate platform as measured from Mean Sea Level (MSL); Value is an {@link AlternatePlatformAltitude} */
     AlternatePlatformAltitude(69),
     /** Tag 70; Name of alternate platform connected to UAS; Value is a {@link UasDatalinkString} */
     AlternatePlatformName(70),
-    /** Tag 71; Heading angle of alternate platform connected to UAS; Value is a {@link OpaqueValue} */
+    /** Tag 71; Heading angle of alternate platform connected to UAS; Value is an {@link AlternatePlatformHeading} */
     AlternatePlatformHeading(71),
     /** Tag 72; Start time of scene, project, event, mission, editing event, license, publication, etc; Value is a {@link OpaqueValue} */
     EventStartTimeUtc(72),

@@ -162,8 +162,7 @@ public class UasDatalinkFactory
             case SensorFovName:
                 return new SensorFieldOfViewName(bytes);
             case PlatformMagneticHeading:
-                // TODO
-                return new OpaqueValue(bytes);
+                return new PlatformMagneticHeading(bytes);
             case UasLdsVersionNumber:
                 return new ST0601Version(bytes);
             case TargetLocationCovariance:
@@ -178,8 +177,7 @@ public class UasDatalinkFactory
             case AlternatePlatformName:
                 return new UasDatalinkString(UasDatalinkString.ALTERNATE_PLATFORM_NAME, bytes);
             case AlternatePlatformHeading:
-                // TODO
-                return new OpaqueValue(bytes);
+                return new AlternatePlatformHeading(bytes);
             case EventStartTimeUtc:
                 // TODO
                 return new OpaqueValue(bytes);
