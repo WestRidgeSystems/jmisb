@@ -134,8 +134,7 @@ public class UasDatalinkFactory
             case AirfieldBarometricPressure:
                 return new AirfieldBarometricPressure(bytes);
             case AirfieldElevation:
-                // TODO
-                return new OpaqueValue(bytes);
+                return new AirfieldElevation(bytes);
             case RelativeHumidity:
                 return new RelativeHumidity(bytes);
             case PlatformGroundSpeed:
