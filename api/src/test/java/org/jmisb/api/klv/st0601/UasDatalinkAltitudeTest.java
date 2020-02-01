@@ -38,6 +38,19 @@ public class UasDatalinkAltitudeTest
         Assert.assertEquals(altitude.getDisplayableValue(), "14818.7m");
         Assert.assertEquals(altitude.getDisplayName(), "Density Altitude");
 
+        // Airfield Elevation
+        altitude = new AirfieldElevation(8306.80552);
+        Assert.assertEquals(altitude.getBytes(), new byte[]{(byte)0x76, (byte)0x70});
+        Assert.assertEquals(altitude.getMeters(), 8306.80552);
+        Assert.assertEquals(altitude.getDisplayableValue(), "8306.8m");
+        Assert.assertEquals(altitude.getDisplayName(), "Airfield Elevation");
+
+        altitude = new AirfieldElevation(new byte[]{(byte)0x76, (byte)0x70});
+        Assert.assertEquals(altitude.getMeters(), 8306.80552, delta);
+        Assert.assertEquals(altitude.getBytes(), new byte[]{(byte)0x76, (byte)0x70});
+        Assert.assertEquals(altitude.getDisplayableValue(), "8306.8m");
+        Assert.assertEquals(altitude.getDisplayName(), "Airfield Elevation");
+
         // Alternate Platform Altitude
         altitude = new AlternatePlatformAltitude(9.445334);
         Assert.assertEquals(altitude.getBytes(), new byte[]{(byte)0x0b, (byte)0xb3});
@@ -100,6 +113,18 @@ public class UasDatalinkAltitudeTest
         Assert.assertEquals(altitude.getBytes(), new byte[]{(byte)0xca, (byte)0x35});
         Assert.assertEquals(altitude.getDisplayableValue(), "14818.7m");
         Assert.assertEquals(altitude.getDisplayName(), "Density Altitude");
+    }
+
+    @Test
+    public void testFactoryAirfieldElevation() throws KlvParseException {
+        byte[] bytes = new byte[]{(byte)0x76, (byte)0x70};
+        IUasDatalinkValue v = UasDatalinkFactory.createValue(UasDatalinkTag.AirfieldElevation, bytes);
+        Assert.assertTrue(v instanceof AirfieldElevation);
+        AirfieldElevation altitude = (AirfieldElevation)v;
+        Assert.assertEquals(altitude.getMeters(), 8306.80552, delta);
+        Assert.assertEquals(altitude.getBytes(), new byte[]{(byte)0x76, (byte)0x70});
+        Assert.assertEquals(altitude.getDisplayableValue(), "8306.8m");
+        Assert.assertEquals(altitude.getDisplayName(), "Airfield Elevation");
     }
 
     @Test

@@ -115,7 +115,7 @@ public enum UasDatalinkTag
     PlatformSideslipAngle(52),
     /** Tag 53; Local pressure at airfield of known height; Value is a {@link AirfieldBarometricPressure} */
     AirfieldBarometricPressure(53),
-    /** Tag 54; Elevation of airfield corresponding to Airfield Barometric Pressure; Value is a {@link OpaqueValue} */
+    /** Tag 54; Elevation of airfield corresponding to Airfield Barometric Pressure; Value is a {@link AirfieldElevation} */
     AirfieldElevation(54),
     /** Tag 55; Relative humidity at aircraft location; Value is a {@link RelativeHumidity} */
     RelativeHumidity(55),
