@@ -1,7 +1,7 @@
 package org.jmisb.api.klv.st0601;
 
 /**
- * Airfield Elevation (ST 0601 tag 69)
+ * Airfield Elevation (ST 0601 tag 54)
  * <p>
  * From ST:
  * <blockquote>
