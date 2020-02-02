@@ -142,8 +142,7 @@ public class UasDatalinkFactory
             case GroundRange:
                 return new GroundRange(bytes);
             case PlatformFuelRemaining:
-                // TODO
-                return new OpaqueValue(bytes);
+                return new PlatformFuelRemaining(bytes);
             case PlatformCallSign:
                 return new UasDatalinkString(UasDatalinkString.PLATFORM_CALL_SIGN, bytes);
             case WeaponLoad:
