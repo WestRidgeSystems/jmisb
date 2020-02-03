@@ -109,7 +109,7 @@ public enum UasDatalinkTag
     DifferentialPressure(49),
     /** Tag 50; Platform attack angle; Value is a {@link PlatformAngleOfAttack} */
     PlatformAngleOfAttack(50),
-    /** Tag 51; Vertical speed of the aircraft relative to zenith; Value is a {@link OpaqueValue} */
+    /** Tag 51; Vertical speed of the aircraft relative to zenith; Value is a {@link PlatformVerticalSpeed} */
     PlatformVerticalSpeed(51),
     /** Tag 52; Angle between the platform longitudinal axis and relative wind; Value is a {@link PlatformSideslipAngle} */
     PlatformSideslipAngle(52),
