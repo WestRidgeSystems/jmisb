@@ -123,7 +123,7 @@ public enum UasDatalinkTag
     PlatformGroundSpeed(56),
     /** Tag 57; Horizontal distance from ground position of aircraft relative to nadir, and target of interest; Value is a {@link GroundRange} */
     GroundRange(57),
-    /** Tag 58; Remaining fuel on airborne platform; Value is a {@link OpaqueValue} */
+    /** Tag 58; Remaining fuel on airborne platform; Value is a {@link PlatformFuelRemaining} */
     PlatformFuelRemaining(58),
     /** Tag 59; Call sign of platform or operating unit; Value is a {@link UasDatalinkString} */
     PlatformCallSign(59),
