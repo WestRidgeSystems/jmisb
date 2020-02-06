@@ -131,7 +131,7 @@ public enum UasDatalinkTag
     WeaponLoad(60),
     /** Tag 61; Indication when a particular weapon is released; Value is a {@link OpaqueValue} */
     WeaponFired(61),
-    /** Tag 62; A laser's Pulse Repetition Frequency (PRF) code used to mark a target; Value is a {@link OpaqueValue} */
+    /** Tag 62; A laser's Pulse Repetition Frequency (PRF) code used to mark a target; Value is a {@link LaserPrfCode} */
     LaserPrfCode(62),
     /** Tag 63; Sensor field of view names; Value is a {@link SensorFieldOfViewName} */
     SensorFovName(63),
