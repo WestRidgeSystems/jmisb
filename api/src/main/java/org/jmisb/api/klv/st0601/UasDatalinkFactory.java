@@ -306,8 +306,7 @@ public class UasDatalinkFactory
             case NumberNavsatsInView:
                 return new NavsatsInView(bytes);
             case PositioningMethodSource:
-                // TODO
-                return new OpaqueValue(bytes);
+                return new PositioningMethodSource(bytes);
             case PlatformStatus:
                 return new PlatformStatus(bytes);
             case SensorControlMode:
