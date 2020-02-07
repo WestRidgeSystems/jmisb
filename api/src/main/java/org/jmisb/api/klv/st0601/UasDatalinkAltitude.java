@@ -5,7 +5,7 @@ import org.jmisb.core.klv.PrimitiveConverter;
 /**
  * Abstract base class for altitude values in ST 0601
  * <p>
- * Used by tags: 15, 25, 38, 42, 69, 78. Note that some derived types use MSL, others HAE.
+ * Used by tags: 15, 25, 38, 42, 54, 69, 75, 76, 78. Note that some derived types use MSL, others HAE.
  * <blockquote>
  * Map 0..(2^16-1) to -900..19000 meters.
  * <p>

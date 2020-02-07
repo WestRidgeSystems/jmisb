@@ -89,6 +89,32 @@ public class UasDatalinkAltitudeTest
         Assert.assertEquals(altitude.getBytes(), new byte[]{(byte)0xf8, (byte)0x23});
         Assert.assertEquals(altitude.getDisplayableValue(), "18389.0m");
         Assert.assertEquals(altitude.getDisplayName(), "Target Location Elevation");
+
+        // Sensor Ellipsoid Height
+        altitude = new SensorEllipsoidHeight(14190.7195);
+        Assert.assertEquals(altitude.getBytes(), new byte[]{(byte)0xc2, (byte)0x21});
+        Assert.assertEquals(altitude.getMeters(), 14190.7195);
+        Assert.assertEquals(altitude.getDisplayableValue(), "14190.7m");
+        Assert.assertEquals(altitude.getDisplayName(), "Sensor Ellipsoid Height");
+
+        altitude = new SensorEllipsoidHeight(new byte[]{(byte)0xc2, (byte)0x21});
+        Assert.assertEquals(altitude.getMeters(), 14190.7, delta);
+        Assert.assertEquals(altitude.getBytes(), new byte[]{(byte)0xc2, (byte)0x21});
+        Assert.assertEquals(altitude.getDisplayableValue(), "14190.7m");
+        Assert.assertEquals(altitude.getDisplayName(), "Sensor Ellipsoid Height");
+
+        // Alternate Platform Ellipsoid Height
+        altitude = new AlternatePlatformEllipsoidHeight(9.445334);
+        Assert.assertEquals(altitude.getBytes(), new byte[]{(byte)0x0b, (byte)0xb3});
+        Assert.assertEquals(altitude.getMeters(), 9.445334);
+        Assert.assertEquals(altitude.getDisplayableValue(), "9.4m");
+        Assert.assertEquals(altitude.getDisplayName(), "Alternate Platform Ellipsoid Height");
+
+        altitude = new AlternatePlatformEllipsoidHeight(new byte[]{(byte)0x0b, (byte)0xb3});
+        Assert.assertEquals(altitude.getMeters(), 9.445334, delta);
+        Assert.assertEquals(altitude.getBytes(), new byte[]{(byte)0x0b, (byte)0xb3});
+        Assert.assertEquals(altitude.getDisplayableValue(), "9.4m");
+        Assert.assertEquals(altitude.getDisplayName(), "Alternate Platform Ellipsoid Height");
     }
 
     @Test
@@ -161,5 +187,29 @@ public class UasDatalinkAltitudeTest
         Assert.assertEquals(altitude.getBytes(), new byte[]{(byte)0xf8, (byte)0x23});
         Assert.assertEquals(altitude.getDisplayableValue(), "18389.0m");
         Assert.assertEquals(altitude.getDisplayName(), "Target Location Elevation");
+    }
+
+    @Test
+    public void testSensorEllipsoidHeight() throws KlvParseException {
+        byte[] bytes = new byte[]{(byte)0xc2, (byte)0x21};
+        IUasDatalinkValue v = UasDatalinkFactory.createValue(UasDatalinkTag.SensorEllipsoidHeight, bytes);
+        Assert.assertTrue(v instanceof SensorEllipsoidHeight);
+        SensorEllipsoidHeight altitude = (SensorEllipsoidHeight)v;
+        Assert.assertEquals(altitude.getMeters(), 14190.7195, delta);
+        Assert.assertEquals(altitude.getBytes(), new byte[]{(byte)0xc2, (byte)0x21});
+        Assert.assertEquals(altitude.getDisplayableValue(), "14190.7m");
+        Assert.assertEquals(altitude.getDisplayName(), "Sensor Ellipsoid Height");
+    }
+
+    @Test
+    public void testAlternatePlatformEllipsoidHeight() throws KlvParseException {
+        byte[] bytes = new byte[]{(byte)0x0b, (byte)0xb3};
+        IUasDatalinkValue v = UasDatalinkFactory.createValue(UasDatalinkTag.AlternatePlatformEllipsoidHeight, bytes);
+        Assert.assertTrue(v instanceof AlternatePlatformEllipsoidHeight);
+        AlternatePlatformEllipsoidHeight altitude = (AlternatePlatformEllipsoidHeight)v;
+        Assert.assertEquals(altitude.getMeters(), 9.445334, delta);
+        Assert.assertEquals(altitude.getBytes(), new byte[]{(byte)0x0b, (byte)0xb3});
+        Assert.assertEquals(altitude.getDisplayableValue(), "9.4m");
+        Assert.assertEquals(altitude.getDisplayName(), "Alternate Platform Ellipsoid Height");
     }
 }

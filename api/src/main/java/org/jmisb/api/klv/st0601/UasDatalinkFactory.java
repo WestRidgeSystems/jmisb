@@ -182,11 +182,9 @@ public class UasDatalinkFactory
                 // TODO Implement ST 0903
                 return new OpaqueValue(bytes);
             case SensorEllipsoidHeight:
-                // TODO
-                return new OpaqueValue(bytes);
+                return new SensorEllipsoidHeight(bytes);
             case AlternatePlatformEllipsoidHeight:
-                // TODO
-                return new OpaqueValue(bytes);
+                return new AlternatePlatformEllipsoidHeight(bytes);
             case OperationalMode:
                 return new OperationalMode(bytes);
             case FrameCenterHae:

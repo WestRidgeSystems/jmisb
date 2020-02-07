@@ -22,11 +22,19 @@ package org.jmisb.api.klv.st0601;
  */
 public class FrameCenterHae extends UasDatalinkAltitude
 {
+    /**
+     * Create from value
+     * @param meters Elevation in meters. Legal values are in [-900,19000].
+     */
     public FrameCenterHae(double meters)
     {
         super(meters);
     }
 
+    /**
+     * Create from encoded bytes
+     * @param bytes The byte array of length 2
+     */
     public FrameCenterHae(byte[] bytes)
     {
         super(bytes);

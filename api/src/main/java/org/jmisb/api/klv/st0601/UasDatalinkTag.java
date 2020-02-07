@@ -157,9 +157,9 @@ public enum UasDatalinkTag
     RvtLocalDataSet(73),
     /** Tag 74; MISB ST 0903 VMTI Local Set metadata items; Value is a {@link OpaqueValue} */
     VmtiLocalDataSet(74),
-    /** Tag 75; Sensor ellipsoid height as measured from the reference WGS84 ellipsoid; Value is a {@link OpaqueValue} */
+    /** Tag 75; Sensor ellipsoid height as measured from the reference WGS84 ellipsoid; Value is a {@link SensorEllipsoidHeight} */
     SensorEllipsoidHeight(75),
-    /** Tag 76; Alternate platform ellipsoid height as measured from the reference WGS84 Ellipsoid; Value is a {@link OpaqueValue} */
+    /** Tag 76; Alternate platform ellipsoid height as measured from the reference WGS84 Ellipsoid; Value is a {@link AlternatePlatformEllipsoidHeight} */
     AlternatePlatformEllipsoidHeight(76),
     /** Tag 77; Indicates the mode of operations of the event portrayed in Motion Imagery; Value is a {@link OperationalMode} */
     OperationalMode(77),
