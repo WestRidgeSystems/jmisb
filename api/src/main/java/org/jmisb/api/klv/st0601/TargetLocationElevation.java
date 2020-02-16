@@ -14,11 +14,19 @@ package org.jmisb.api.klv.st0601;
  */
 public class TargetLocationElevation extends UasDatalinkAltitude
 {
+    /**
+     * Create from value
+     * @param meters Elevation in meters. Legal values are in [-900,19000].
+     */
     public TargetLocationElevation(double meters)
     {
         super(meters);
     }
 
+    /**
+     * Create from encoded bytes
+     * @param bytes The byte array of length 2
+     */
     public TargetLocationElevation(byte[] bytes)
     {
         super(bytes);
