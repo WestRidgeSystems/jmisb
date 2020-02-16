@@ -301,11 +301,9 @@ public class UasDatalinkFactory
                 // TODO
                 return new OpaqueValue(bytes);
             case NumberNavsatsInView:
-                // TODO
-                return new OpaqueValue(bytes);
+                return new NavsatsInView(bytes);
             case PositioningMethodSource:
-                // TODO
-                return new OpaqueValue(bytes);
+                return new PositioningMethodSource(bytes);
             case PlatformStatus:
                 return new PlatformStatus(bytes);
             case SensorControlMode:

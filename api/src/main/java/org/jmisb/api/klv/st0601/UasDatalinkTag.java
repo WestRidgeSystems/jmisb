@@ -253,9 +253,9 @@ public enum UasDatalinkTag
     ActiveWavelengthList(121),
     /** Tag 122; Country codes which are associated with the platform and its operation; Value is a {@link OpaqueValue} */
     CountryCodes(122),
-    /** Tag 123; Count of navigation satellites in view of platform; Value is a {@link OpaqueValue} */
+    /** Tag 123; Count of navigation satellites in view of platform; Value is a {@link NavsatsInView} */
     NumberNavsatsInView(123),
-    /** Tag 124; Source of the navigation positioning information. (e.g., NAVSAT-GPS, NAVSAT-Galileo, INS); Value is a {@link OpaqueValue} */
+    /** Tag 124; Source of the navigation positioning information. (e.g., NAVSAT-GPS, NAVSAT-Galileo, INS); Value is a {@link PositioningMethodSource} */
     PositioningMethodSource(124),
     /** Tag 125; Enumeration of operational modes of the platform (e.g., in-route, RTB); Value is a {@link PlatformStatus} */
     PlatformStatus(125),
