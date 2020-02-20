@@ -331,8 +331,7 @@ public class UasDatalinkFactory
                 // TODO
                 return new OpaqueValue(bytes);
             case WaypointList:
-                // TODO
-                return new OpaqueValue(bytes);
+                return new WaypointList(bytes);
         }
 
         throw new IllegalArgumentException("Unrecognized tag: " + tag);
