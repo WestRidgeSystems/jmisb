@@ -147,14 +147,13 @@ public class UasDatalinkStringTest
     @Test
     public void testFactoryTargetId() throws KlvParseException
     {
-        // TODO: the Tag 129 sample looks completely wrong - looks like its integer -> hex.
-        byte[] bytes = new byte[]{0x31, 0x32, 0x33, 0x34, 0x35, 0x36};
+        byte[] bytes = new byte[]{0x41, 0x31, 0x32, 0x33};
         IUasDatalinkValue v = UasDatalinkFactory.createValue(UasDatalinkTag.TargetId, bytes);
         Assert.assertTrue(v instanceof UasDatalinkString);
         UasDatalinkString str = (UasDatalinkString)v;
         Assert.assertEquals(str.getDisplayName(), UasDatalinkString.TARGET_ID);
         Assert.assertEquals(str.getBytes(), bytes);
-        Assert.assertEquals(str.getDisplayableValue(), "123456");
+        Assert.assertEquals(str.getDisplayableValue(), "A123");
     }
 
     @Test
