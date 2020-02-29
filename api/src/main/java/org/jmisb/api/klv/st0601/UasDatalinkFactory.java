@@ -220,8 +220,7 @@ public class UasDatalinkFactory
             case PlatformSideSlipAngle:
                 return new PlatformSideslipAngleFull(bytes);
             case MiisCoreIdentifier:
-                // TODO Implement ST 1204
-                return new OpaqueValue(bytes);
+                return new MiisCoreIdentifier(bytes);
             case SarMotionImageryMetadata:
                 // TODO Implement ST 1206
                 return new OpaqueValue(bytes);

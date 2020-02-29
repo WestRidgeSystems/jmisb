@@ -195,7 +195,7 @@ public enum UasDatalinkTag
     PlatformAngleOfAttackFull(92),
     /** Tag 93; Angle between the platform longitudinal axis and relative wind; Value is a {@link PlatformSideslipAngleFull} */
     PlatformSideSlipAngle(93),
-    /** Tag 94; MISB ST 1204 MIIS Core Identifier binary value; Value is a {@link OpaqueValue} */
+    /** Tag 94; MISB ST 1204 MIIS Core Identifier binary value; Value is a {@link MiisCoreIdentifier} */
     MiisCoreIdentifier(94),
     /** Tag 95; MISB ST 1206 SAR Motion Imagery Metadata Local Set metadata items; Value is a {@link OpaqueValue} */
     SarMotionImageryMetadata(95),

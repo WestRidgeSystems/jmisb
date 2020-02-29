@@ -9,3 +9,4 @@ target/
 # Data
 *.ts
 *.dat
+/api/nbproject/
