@@ -24,7 +24,8 @@ public class SensorFieldOfViewName extends UasEnumeration
         {4, "Ultrawide"},
         {5, "Narrow Medium"},
         {6, "2x Ultranarrow"},
-        {7, "4x Ultranarrow"}
+        {7, "4x Ultranarrow"},
+        {8, "Continuous Zoom"}
     }).collect(Collectors.toMap(kv -> (Integer) kv[0], kv -> (String) kv[1]));
 
     /**
