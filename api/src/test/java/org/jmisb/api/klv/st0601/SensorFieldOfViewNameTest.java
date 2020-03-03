@@ -14,9 +14,9 @@ public class SensorFieldOfViewNameTest {
         Assert.assertEquals(mode.getDisplayableValue(), "Ultranarrow");
 
         // Max
-        mode = new SensorFieldOfViewName((byte) 7);
-        Assert.assertEquals(mode.getBytes(), new byte[]{(byte) 7});
-        Assert.assertEquals(mode.getDisplayableValue(), "4x Ultranarrow");
+        mode = new SensorFieldOfViewName((byte) 8);
+        Assert.assertEquals(mode.getBytes(), new byte[]{(byte) 8});
+        Assert.assertEquals(mode.getDisplayableValue(), "Continuous Zoom");
 
         // Other values
         mode = new SensorFieldOfViewName((byte) 1);
@@ -37,6 +37,9 @@ public class SensorFieldOfViewNameTest {
         mode = new SensorFieldOfViewName((byte) 6);
         Assert.assertEquals(mode.getBytes(), new byte[]{(byte) 6});
         Assert.assertEquals(mode.getDisplayableValue(), "2x Ultranarrow");
+        mode = new SensorFieldOfViewName((byte) 7);
+        Assert.assertEquals(mode.getBytes(), new byte[]{(byte) 7});
+        Assert.assertEquals(mode.getDisplayableValue(), "4x Ultranarrow");
     }
 
     @Test
@@ -48,10 +51,10 @@ public class SensorFieldOfViewNameTest {
         Assert.assertEquals(mode.getDisplayableValue(), "Ultranarrow");
 
         // Max
-        mode = new SensorFieldOfViewName(new byte[]{(byte) 7});
-        Assert.assertEquals(mode.getSensorFieldOfViewName(), (byte) 7);
-        Assert.assertEquals(mode.getBytes(), new byte[]{(byte) 0x07});
-        Assert.assertEquals(mode.getDisplayableValue(), "4x Ultranarrow");
+        mode = new SensorFieldOfViewName(new byte[]{(byte) 8});
+        Assert.assertEquals(mode.getSensorFieldOfViewName(), (byte) 8);
+        Assert.assertEquals(mode.getBytes(), new byte[]{(byte) 0x08});
+        Assert.assertEquals(mode.getDisplayableValue(), "Continuous Zoom");
 
         // Other values
         mode = new SensorFieldOfViewName(new byte[]{(byte) 1});
@@ -78,6 +81,10 @@ public class SensorFieldOfViewNameTest {
         Assert.assertEquals(mode.getSensorFieldOfViewName(), (byte) 6);
         Assert.assertEquals(mode.getBytes(), new byte[]{(byte) 0x06});
         Assert.assertEquals(mode.getDisplayableValue(), "2x Ultranarrow");
+        mode = new SensorFieldOfViewName(new byte[]{(byte) 7});
+        Assert.assertEquals(mode.getSensorFieldOfViewName(), (byte) 7);
+        Assert.assertEquals(mode.getBytes(), new byte[]{(byte) 0x07});
+        Assert.assertEquals(mode.getDisplayableValue(), "4x Ultranarrow");
     }
 
     @Test
@@ -114,7 +121,7 @@ public class SensorFieldOfViewNameTest {
 
     @Test(expectedExceptions = IllegalArgumentException.class)
     public void testTooBig() {
-        new SensorFieldOfViewName((byte) 8);;
+        new SensorFieldOfViewName((byte) 9);;
     }
 
     @Test(expectedExceptions = IllegalArgumentException.class)
