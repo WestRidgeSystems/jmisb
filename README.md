@@ -40,6 +40,7 @@ set of standards to be supported are:
 * ST 0805: KLV to Cursor-on-Target (CoT) Conversions
 * ST 0903: Video Moving Target Indicator and Track Metadata
 * ST 1201: Floating Point to Integer Mapping
+* ST 1204: Motion Imagery Identification System (MIIS) Core Identifier
 * ST 1402: MPEG-2 Transport Stream for Class 1/Class 2 Motion Imagery, Audio, and Metadata
 
 jMISB aims to be cross-platform to run on any modern operating system. However,
