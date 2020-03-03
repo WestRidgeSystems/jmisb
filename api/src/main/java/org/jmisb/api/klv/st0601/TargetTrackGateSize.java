@@ -7,7 +7,7 @@ import org.jmisb.core.klv.PrimitiveConverter;
  * <p>
  * Map 0..(2^8-1) to 0..510 pixels.
  * <p>
- * Resolution: 2 pixels (not 1 pixel as shown in ST).
+ * Resolution: 2 pixels.
  */
 abstract public class TargetTrackGateSize implements IUasDatalinkValue
 {
