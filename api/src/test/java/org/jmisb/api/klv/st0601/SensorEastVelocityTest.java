@@ -65,17 +65,16 @@ public class SensorEastVelocityTest
     @Test
     public void testExample()
     {
-        // No test for this one, use the Sensor North Velocity case
-        double velocity = 25.4977569;
+        double velocity = 12.1;
         SensorEastVelocity v = new SensorEastVelocity(velocity);
         byte[] bytes = v.getBytes();
-        Assert.assertEquals(bytes, new byte[]{(byte)0x09, (byte)0xfb});
-        Assert.assertEquals(v.getVelocity(), velocity);
-        Assert.assertEquals("25.50m/s", v.getDisplayableValue());
+        Assert.assertEquals(bytes, new byte[]{(byte)0x04, (byte)0xbc});
+        Assert.assertEquals(v.getVelocity(), velocity, 0.01);
+        Assert.assertEquals("12.10m/s", v.getDisplayableValue());
 
-        bytes = new byte[]{(byte)0x09, (byte)0xfb};
+        bytes = new byte[]{(byte)0x04, (byte)0xbc};
         v = new SensorEastVelocity(bytes);
-        Assert.assertEquals(v.getVelocity(), velocity, 0.0001);
+        Assert.assertEquals(v.getVelocity(), velocity, 0.01);
         Assert.assertEquals(v.getBytes(), bytes);
     }
 
