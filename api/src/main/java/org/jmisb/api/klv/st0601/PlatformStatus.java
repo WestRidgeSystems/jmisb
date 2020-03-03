@@ -28,7 +28,6 @@ public class PlatformStatus extends UasEnumeration
         {8, "Transitioning"},
         {9, "Egress"},
         {10, "Landing"},
-        // TODO: typo in source
         {11, "Landed-taxiing"},
         {12, "Landed-Parked"}
     }).collect(Collectors.toMap(kv -> (Integer) kv[0], kv -> (String) kv[1]));
