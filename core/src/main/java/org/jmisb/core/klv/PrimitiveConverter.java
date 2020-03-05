@@ -67,6 +67,23 @@ public class PrimitiveConverter
     }
 
     /**
+     * Convert part of a byte array to an signed 16-bit integer
+     *
+     * @param bytes The array
+     * @param offset the offset into the array where the conversion should start
+     * @return The signed 16-bit integer
+     */
+    public static short toInt16(byte[] bytes, int offset)
+    {
+        if (offset + Short.BYTES <= bytes.length)
+        {
+            return ByteBuffer.wrap(bytes, offset, Short.BYTES).getShort();
+        }
+
+        throw new IllegalArgumentException("Invalid buffer length");
+    }
+
+    /**
      * Convert a signed 16-bit integer to a byte array
      *
      * @param val The short value (16-byte signed integer)

@@ -199,7 +199,7 @@ public enum UasDatalinkTag
     MiisCoreIdentifier(94),
     /** Tag 95; MISB ST 1206 SAR Motion Imagery Metadata Local Set metadata items; Value is a {@link OpaqueValue} */
     SarMotionImageryMetadata(95),
-    /** Tag 96; Target width within sensor field of view; Value is a {@link OpaqueValue} */
+    /** Tag 96; Target width within sensor field of view; Value is a {@link TargetWidthExtended} */
     TargetWidthExtended(96),
     /** Tag 97; MISB ST 1002 Range Imaging Local Set metadata items; Value is a {@link OpaqueValue} */
     RangeImage(97),
@@ -213,11 +213,11 @@ public enum UasDatalinkTag
     Amend(101),
     /** Tag 102; MISB ST 1010 Floating Length Pack (FLP) metadata item, providing Standard Deviation and Cross Correlation (SDCC) metadata; Value is a {@link OpaqueValue} */
     SdccFlp(102),
-    /** Tag 103; Density altitude above MSL at aircraft location; Value is a {@link OpaqueValue} */
+    /** Tag 103; Density altitude above MSL at aircraft location; Value is a {@link DensityAltitudeExtended} */
     DensityAltitudeExtended(103),
-    /** Tag 104; Sensor ellipsoid height extended as measured from the reference WGS84 ellipsoid; Value is a {@link OpaqueValue} */
+    /** Tag 104; Sensor ellipsoid height extended as measured from the reference WGS84 ellipsoid; Value is a {@link SensorEllipsoidHeightExtended} */
     SensorEllipsoidHeightExtended(104),
-    /** Tag 105; Alternate platform ellipsoid height extended as measured from the reference WGS84 ellipsoid; Value is a {@link OpaqueValue} */
+    /** Tag 105; Alternate platform ellipsoid height extended as measured from the reference WGS84 ellipsoid; Value is a {@link AlternatePlatformEllipsoidHeightExtended} */
     AlternatePlatformEllipsoidHeightExtended(105),
     /** Tag 106; A second designation given to a sortie; Value is a {@link UasDatalinkString} */
     StreamDesignator(106),
@@ -225,29 +225,29 @@ public enum UasDatalinkTag
     OperationalBase(107),
     /** Tag 108; Name of the source, where the Motion Imagery is first broadcast; Value is a {@link UasDatalinkString} */
     BroadcastSource(108),
-    /** Tag 109; Distance from current position to airframe recovery position; Value is a {@link UasDatalinkString} */
+    /** Tag 109; Distance from current position to airframe recovery position; Value is a {@link RangeToRecoveryLocation} */
     RangeToRecoveryLocation(109),
     /** Tag 110; Number of seconds aircraft has been airborne; Value is a {@link OpaqueValue} */
     TimeAirborne(110),
     /** Tag 111; The speed the engine (or electric motor) is rotating at; Value is a {@link OpaqueValue} */
     PropulsionUnitSpeed(111),
-    /** Tag 112; Direction the aircraft is moving relative to True North; Value is a {@link OpaqueValue} */
+    /** Tag 112; Direction the aircraft is moving relative to True North; Value is a {@link PlatformCourseAngle} */
     PlatformCourseAngle(112),
-    /** Tag 113; Above Ground Level (AGL) height above the ground/water; Value is a {@link OpaqueValue} */
+    /** Tag 113; Above Ground Level (AGL) height above the ground/water; Value is a {@link AltitudeAGL} */
     AltitudeAgl(113),
-    /** Tag 114; Height above the ground/water as reported by a RADAR altimeter; Value is a {@link OpaqueValue} */
+    /** Tag 114; Height above the ground/water as reported by a RADAR altimeter; Value is a {@link RadarAltimeter} */
     RadarAltimeter(114),
     /** Tag 115; Record of command from GCS to Aircraft; Value is a {@link OpaqueValue} */
     ControlCommand(115),
     /** Tag 116; Acknowledgement of one or more control commands were received by the platform; Value is a {@link OpaqueValue} */
     ControlCommandVerification(116),
-    /** Tag 117; The rate the sensors azimuth angle is changing; Value is a {@link OpaqueValue} */
+    /** Tag 117; The rate the sensors azimuth angle is changing; Value is a {@link SensorAzimuthRate} */
     SensorAzimuthRate(117),
-    /** Tag 118; The rate the sensors elevation angle is changing; Value is a {@link OpaqueValue} */
+    /** Tag 118; The rate the sensors elevation angle is changing; Value is a {@link SensorElevationRate} */
     SensorElevationRate(118),
-    /** Tag 119; The rate the sensors roll angle is changing; Value is a {@link OpaqueValue} */
+    /** Tag 119; The rate the sensors roll angle is changing; Value is a {@link SensorRollRate} */
     SensorRollRate(119),
-    /** Tag 120; Amount of on-board Motion Imagery storage used as a percentage of the total storage; Value is a {@link OpaqueValue} */
+    /** Tag 120; Amount of on-board Motion Imagery storage used as a percentage of the total storage; Value is a {@link OnBoardMiStoragePercentFull} */
     OnBoardMiStoragePercentFull(120),
     /** Tag 121; List of wavelengths in Motion Imagery; Value is a {@link OpaqueValue} */
     ActiveWavelengthList(121),
@@ -271,11 +271,11 @@ public enum UasDatalinkTag
     AirbaseLocations(130),
     /** Tag 131; Time when aircraft became airborne; Value is a {@link OpaqueValue} */
     TakeOffTime(131),
-    /** Tag 132; Radio frequency used to transmit the Motion Imagery; Value is a {@link OpaqueValue} */
+    /** Tag 132; Radio frequency used to transmit the Motion Imagery; Value is a {@link TransmissionFrequency} */
     TransmissionFrequency(132),
     /** Tag 133; The total capacity of on-board Motion Imagery storage; Value is a {@link OnBoardMiStorageCapacity} */
     OnBoardMiStorageCapacity(133),
-    /** Tag 134; For a variable zoom system, the percentage of zoom; Value is a {@link OpaqueValue} */
+    /** Tag 134; For a variable zoom system, the percentage of zoom; Value is a {@link ZoomPercentage} */
     ZoomPercentage(134),
     /** Tag 135; Type of communications used with platform; Value is a {@link UasDatalinkString} */
     CommunicationsMethod(135),

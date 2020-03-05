@@ -1,6 +1,7 @@
 package org.jmisb.api.klv.st1201;
 
 import java.nio.ByteBuffer;
+import org.jmisb.core.klv.PrimitiveConverter;
 
 /**
  * Encoding and decoding of floating point values per ST 1201
@@ -19,16 +20,16 @@ public class FpEncoder
      *
      * @param min The minimum floating point value to be encoded
      * @param max The maximum floating point value to be encoded
-     * @param length The field length, in bytes (1, 2, 4, or 8)
+     * @param length The field length, in bytes (1, 2, 3, 4, or 8)
      *
      * @throws IllegalArgumentException if the length is not supported
      */
     public FpEncoder(double min, double max, int length)
     {
-        if (length == 1 || length == 2 || length == 4 || length == 8)
+        if (length == 1 || length == 2 || length == 3 || length == 4 || length == 8)
             computeConstants(min, max, length);
         else
-            throw new IllegalArgumentException("Only 1, 2, 4, and 8 are valid field lengths");
+            throw new IllegalArgumentException("Only 1, 2, 3, 4, and 8 are valid field lengths");
     }
 
     /**
@@ -38,7 +39,7 @@ public class FpEncoder
      * @param max The maximum floating point value to be encoded
      * @param precision The required precision
      *
-     * @throws IllegalArgumentException if the range/precision is too large to represent within 64 bytes
+     * @throws IllegalArgumentException if the range/precision is too large to represent within 64 bits
      */
     public FpEncoder(double min, double max, double precision)
     {
@@ -118,6 +119,15 @@ public class FpEncoder
                     short s = (short) d;
                     encoded = ByteBuffer.allocate(2).putShort(s).array();
                     break;
+                case 3:
+                    int i3 = (int) d;
+                    byte[] bytes = PrimitiveConverter.int32ToBytes(i3);
+                    ByteBuffer bb = ByteBuffer.allocate(3);
+                    for (int lv = 0; lv < bb.capacity(); ++lv) {
+                        bb.put(lv, bytes[lv+1]);
+                    }
+                    encoded = bb.array();
+                    break;
                 case 4:
                     int i = (int) d;
                     encoded = ByteBuffer.allocate(4).putInt(i).array();
@@ -132,37 +142,52 @@ public class FpEncoder
     }
 
     /**
-     * Decode a byte array containing an encoded floating point value
+     * Decode an encoded floating point value from a byte array
      *
      * @param bytes The encoded array
      * @return The floating point value
      *
      * @throws IllegalArgumentException if the array is invalid
      */
-    public double decode(byte[] bytes)
+    public double decode(byte[] bytes) throws IllegalArgumentException
     {
-        double val = 0.0;
+        int offset = 0;
 
         if (bytes.length != fieldLength)
         {
             throw new IllegalArgumentException("Array length does not match expected field length");
         }
-        else if (bytes[0] == (byte)0xc8)
+        return decode(bytes, offset);
+    }
+
+    /**
+     * Decode an encoded floating point value from a byte array with offset
+     *
+     * @param bytes The encoded array
+     * @param offset the offset into the byte array to decode from
+     * @return The floating point value
+     *
+     * @throws IllegalArgumentException if the array is invalid
+     */
+    public double decode(byte[] bytes, int offset) throws IllegalArgumentException
+    {
+        double val = 0.0;
+        if (bytes[offset] == (byte)0xc8)
         {
             val = Double.POSITIVE_INFINITY;
         }
-        else if (bytes[0] == (byte)0xe8)
+        else if (bytes[offset] == (byte)0xe8)
         {
             val = Double.NEGATIVE_INFINITY;
         }
-        else if (bytes[0] == (byte)0xd0)
+        else if (bytes[offset] == (byte)0xd0)
         {
             val = Double.NaN;
         }
         else
         {
             // Normal floating point value
-            ByteBuffer wrapped = ByteBuffer.wrap(bytes);
+            ByteBuffer wrapped = ByteBuffer.wrap(bytes, offset, fieldLength);
             switch (fieldLength)
             {
                 case 1:
@@ -173,6 +198,12 @@ public class FpEncoder
                     short s = wrapped.getShort();
                     val = sR * (s - zOffset) + a;
                     break;
+                case 3:
+                    short s3 = wrapped.getShort();
+                    byte lowByte = wrapped.get(offset + fieldLength - 1);
+                    int i3 = (s3 << 8) + (lowByte & 0xFF);
+                    val = sR * (i3 - zOffset) + a;
+                    break;
                 case 4:
                     int i = wrapped.getInt();
                     val = sR * (i - zOffset) + a;
@@ -182,7 +213,6 @@ public class FpEncoder
                     val = sR * (l - zOffset) + a;
                     break;
             }
-
             if (val < a || val > b)
             {
                 throw new IllegalArgumentException("Error decoding floating point value; out of range");

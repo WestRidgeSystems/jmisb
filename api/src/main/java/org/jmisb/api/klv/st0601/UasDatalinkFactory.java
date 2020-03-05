@@ -225,8 +225,7 @@ public class UasDatalinkFactory
                 // TODO Implement ST 1206
                 return new OpaqueValue(bytes);
             case TargetWidthExtended:
-                // TODO IMAPB - does this mean ST1201?
-                return new OpaqueValue(bytes);
+                return new TargetWidthExtended(bytes);
             case RangeImage:
                 // TODO Implement ST 1002
                 return new OpaqueValue(bytes);
@@ -246,11 +245,11 @@ public class UasDatalinkFactory
                 // TODO Implement ST 1010
                 return new OpaqueValue(bytes);
             case DensityAltitudeExtended:
-                return new OpaqueValue(bytes);
+                return new DensityAltitudeExtended(bytes);
             case SensorEllipsoidHeightExtended:
-                return new OpaqueValue(bytes);
+                return new SensorEllipsoidHeightExtended(bytes);
             case AlternatePlatformEllipsoidHeightExtended:
-                return new OpaqueValue(bytes);
+                return new AlternatePlatformEllipsoidHeightExtended(bytes);
             case StreamDesignator:
                 return new UasDatalinkString(UasDatalinkString.STREAM_DESIGNATOR, bytes);
             case OperationalBase:
@@ -258,8 +257,7 @@ public class UasDatalinkFactory
             case BroadcastSource:
                 return new UasDatalinkString(UasDatalinkString.BROADCAST_SOURCE, bytes);
             case RangeToRecoveryLocation:
-                // TODO
-                return new OpaqueValue(bytes);
+                return new RangeToRecoveryLocation(bytes);
             case TimeAirborne:
                 // TODO
                 return new OpaqueValue(bytes);
@@ -267,14 +265,11 @@ public class UasDatalinkFactory
                 // TODO
                 return new OpaqueValue(bytes);
             case PlatformCourseAngle:
-                // TODO
-                return new OpaqueValue(bytes);
+                return new PlatformCourseAngle(bytes);
             case AltitudeAgl:
-                // TODO
-                return new OpaqueValue(bytes);
+                return new AltitudeAGL(bytes);
             case RadarAltimeter:
-                // TODO
-                return new OpaqueValue(bytes);
+                return new RadarAltimeter(bytes);
             case ControlCommand:
                 // TODO
                 return new OpaqueValue(bytes);
@@ -282,17 +277,13 @@ public class UasDatalinkFactory
                 // TODO
                 return new OpaqueValue(bytes);
             case SensorAzimuthRate:
-                // TODO
-                return new OpaqueValue(bytes);
+                return new SensorAzimuthRate(bytes);
             case SensorElevationRate:
-                // TODO
-                return new OpaqueValue(bytes);
+                return new SensorElevationRate(bytes);
             case SensorRollRate:
-                // TODO
-                return new OpaqueValue(bytes);
+                return new SensorRollRate(bytes);
             case OnBoardMiStoragePercentFull:
-                // TODO
-                return new OpaqueValue(bytes);
+                return new OnBoardMiStoragePercentFull(bytes);
             case ActiveWavelengthList:
                 // TODO
                 return new OpaqueValue(bytes);
@@ -322,13 +313,11 @@ public class UasDatalinkFactory
                 // TODO
                 return new OpaqueValue(bytes);
             case TransmissionFrequency:
-                // TODO
-                return new OpaqueValue(bytes);
+                return new TransmissionFrequency(bytes);
             case OnBoardMiStorageCapacity:
                 return new OnBoardMiStorageCapacity(bytes);
             case ZoomPercentage:
-                // TODO
-                return new OpaqueValue(bytes);
+                return new ZoomPercentage(bytes);
             case CommunicationsMethod:
                 return new UasDatalinkString(UasDatalinkString.COMMUNICATIONS_METHOD, bytes);
             case LeapSeconds:
