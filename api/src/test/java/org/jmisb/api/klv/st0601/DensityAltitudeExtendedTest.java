@@ -13,7 +13,7 @@ public class DensityAltitudeExtendedTest
         DensityAltitudeExtended alt = new DensityAltitudeExtended(23456.24);
         Assert.assertEquals(alt.getBytes(), new byte[]{(byte)0x2F, (byte)0x92, (byte)0x1E});
         Assert.assertEquals(alt.getDisplayableValue(), "23456.2m");
-        Assert.assertEquals(alt.getDisplayName(), "Density Altitude");
+        Assert.assertEquals(alt.getDisplayName(), "Density Altitude Extended");
     }
 
     @Test

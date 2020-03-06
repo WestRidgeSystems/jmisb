@@ -22,35 +22,72 @@ import java.util.Arrays;
  */
 public class CornerOffset implements IUasDatalinkValue
 {
+    /**
+     * Display name for first offset corner latitude.
+     */
+    public final static String CORNER_LAT_1 = "Offset Corner Latitude Point 1";
+    /**
+     * Display name for first offset corner longitude.
+     */
+    public final static String CORNER_LON_1 = "Offset Corner Longitude Point 1";
+    /**
+     * Display name for second offset corner latitude.
+     */
+    public final static String CORNER_LAT_2 = "Offset Corner Latitude Point 2";
+    /**
+     * Display name for second offset corner longitude.
+     */
+    public final static String CORNER_LON_2 = "Offset Corner Longitude Point 2";
+    /**
+     * Display name for third offset corner latitude.
+     */
+    public final static String CORNER_LAT_3 = "Offset Corner Latitude Point 3";
+    /**
+     * Display name for third offset corner longitude.
+     */
+    public final static String CORNER_LON_3 = "Offset Corner Longitude Point 3";
+    /**
+     * Display name for fourth offset corner latitude.
+     */
+    public final static String CORNER_LAT_4 = "Offset Corner Latitude Point 4";
+    /**
+     * Display name for fourth offset corner longitude.
+     */
+    public final static String CORNER_LON_4 = "Offset Corner Longitude Point 4";
+
     private double degrees;
     private static byte[] invalidBytes = new byte[]{(byte)0x80, (byte)0x00};
     private static double FLOAT_RANGE = 0.15;
     private static double INT_RANGE = 65534.0; // 2^15-1
+    private final String displayName;
 
     /**
      * Create from value
      * @param degrees The value in degrees, in range [-0.075,0.075]
+     * @param displayName human readable (display) name for this type - see static values
      */
-    public CornerOffset(double degrees)
+    public CornerOffset(double degrees, String displayName)
     {
         if (degrees != Double.POSITIVE_INFINITY && (degrees < -0.075 || degrees > 0.075))
         {
             throw new IllegalArgumentException("Corner Offset must be in range [-0.075,0.075]");
         }
         this.degrees = degrees;
+        this.displayName = displayName;
     }
 
     /**
      * Create from encoded bytes
      * @param bytes The byte array of length 2
+     * @param displayName human readable (display) name for this type - see static values
      */
-    public CornerOffset(byte[] bytes)
+    public CornerOffset(byte[] bytes, String displayName)
     {
         if (bytes.length != 2)
         {
             throw new IllegalArgumentException("Corner Offset encoding is a 2-byte signed int");
         }
-
+        this.displayName = displayName;
         if (Arrays.equals(bytes, invalidBytes))
         {
             degrees = Double.POSITIVE_INFINITY;
@@ -92,6 +129,6 @@ public class CornerOffset implements IUasDatalinkValue
     @Override
     public String getDisplayName()
     {
-        return "Corner Offset";
+        return displayName;
     }
 }

@@ -15,19 +15,51 @@ package org.jmisb.api.klv.st0601;
  */
 public class FullCornerLatitude extends UasDatalinkLatitude
 {
-    public FullCornerLatitude(double degrees)
+    /**
+     * Display name for first corner latitude. Point 1 is the upper left corner.
+     */
+    public final static String CORNER_LAT_1 = "Corner Latitude Point 1 (Full)";
+    /**
+     * Display name for second corner latitude. Point 2 is the upper right corner.
+     */
+    public final static String CORNER_LAT_2 = "Corner Latitude Point 2 (Full)";
+    /**
+     * Display name for third corner latitude. Point 3 is the lower right corner.
+     */
+    public final static String CORNER_LAT_3 = "Corner Latitude Point 3 (Full)";
+    /**
+     * Display name for fourth corner latitude. Point 4 is the lower left corner.
+     */
+    public final static String CORNER_LAT_4 = "Corner Latitude Point 4 (Full)";
+
+    private final String displayName;
+
+    /**
+     * Create from value
+     * @param degrees Latitude, in degrees [-90,90], or {@code Double.POSITIVE_INFINITY}
+     *                to represent an error condition
+     * @param displayName human readable (display) name for this type - see static values
+     */
+    public FullCornerLatitude(double degrees, String displayName)
     {
         super(degrees);
+        this.displayName = displayName;
     }
 
-    public FullCornerLatitude(byte[] bytes)
+    /**
+     * Create from encoded bytes
+     * @param bytes Latitude, encoded as a 4-byte int
+     * @param displayName human readable (display) name for this type - see static values
+     */
+    public FullCornerLatitude(byte[] bytes, String displayName)
     {
         super(bytes);
+        this.displayName = displayName;
     }
 
     @Override
     public String getDisplayName()
     {
-        return "Corner Latitude Point";
+        return displayName;
     }
 }
