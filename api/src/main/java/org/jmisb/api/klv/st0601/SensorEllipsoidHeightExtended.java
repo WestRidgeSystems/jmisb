@@ -41,7 +41,7 @@ public class SensorEllipsoidHeightExtended extends UasDatalinkAltitudeExtended
     @Override
     public String getDisplayName()
     {
-        return "Sensor Ellipsoid Height";
+        return "Sensor Ellipsoid Height Extended";
     }
 
 }

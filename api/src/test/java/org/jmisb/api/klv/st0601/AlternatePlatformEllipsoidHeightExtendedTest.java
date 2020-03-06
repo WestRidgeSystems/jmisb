@@ -13,7 +13,7 @@ public class AlternatePlatformEllipsoidHeightExtendedTest
         AlternatePlatformEllipsoidHeightExtended alt = new AlternatePlatformEllipsoidHeightExtended(23456.24);
         Assert.assertEquals(alt.getBytes(), new byte[]{(byte)0x2F, (byte)0x92, (byte)0x1E});
         Assert.assertEquals(alt.getDisplayableValue(), "23456.2m");
-        Assert.assertEquals(alt.getDisplayName(), "Alternate Platform Ellipsoid Height");
+        Assert.assertEquals(alt.getDisplayName(), "Alternate Platform Ellipsoid Height Extended");
     }
 
     @Test

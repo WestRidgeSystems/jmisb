@@ -42,7 +42,7 @@ public class AlternatePlatformEllipsoidHeightExtended extends UasDatalinkAltitud
     @Override
     public String getDisplayName()
     {
-        return "Alternate Platform Ellipsoid Height";
+        return "Alternate Platform Ellipsoid Height Extended";
     }
 
 }

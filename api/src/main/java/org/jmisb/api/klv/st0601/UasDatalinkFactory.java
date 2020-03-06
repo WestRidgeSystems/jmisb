@@ -76,21 +76,21 @@ public class UasDatalinkFactory
             case FrameCenterElevation:
                 return new FrameCenterElevation(bytes);
             case OffsetCornerLatitudePoint1:
-                return new CornerOffset(bytes);
+                return new CornerOffset(bytes, CornerOffset.CORNER_LAT_1);
             case OffsetCornerLongitudePoint1:
-                return new CornerOffset(bytes);
+                return new CornerOffset(bytes, CornerOffset.CORNER_LON_1);
             case OffsetCornerLatitudePoint2:
-                return new CornerOffset(bytes);
+                return new CornerOffset(bytes, CornerOffset.CORNER_LAT_2);
             case OffsetCornerLongitudePoint2:
-                return new CornerOffset(bytes);
+                return new CornerOffset(bytes, CornerOffset.CORNER_LON_2);
             case OffsetCornerLatitudePoint3:
-                return new CornerOffset(bytes);
+                return new CornerOffset(bytes, CornerOffset.CORNER_LAT_3);
             case OffsetCornerLongitudePoint3:
-                return new CornerOffset(bytes);
+                return new CornerOffset(bytes, CornerOffset.CORNER_LON_3);
             case OffsetCornerLatitudePoint4:
-                return new CornerOffset(bytes);
+                return new CornerOffset(bytes, CornerOffset.CORNER_LAT_4);
             case OffsetCornerLongitudePoint4:
-                return new CornerOffset(bytes);
+                return new CornerOffset(bytes, CornerOffset.CORNER_LON_4);
             case IcingDetected:
                 return new IcingDetected(bytes);
             case WindDirection:
@@ -196,21 +196,21 @@ public class UasDatalinkFactory
                 // TODO
                 return new OpaqueValue(bytes);
             case CornerLatPt1:
-                return new FullCornerLatitude(bytes);
+                return new FullCornerLatitude(bytes, FullCornerLatitude.CORNER_LAT_1);
             case CornerLonPt1:
-                return new FullCornerLongitude(bytes);
+                return new FullCornerLongitude(bytes, FullCornerLongitude.CORNER_LON_1);
             case CornerLatPt2:
-                return new FullCornerLatitude(bytes);
+                return new FullCornerLatitude(bytes, FullCornerLatitude.CORNER_LAT_2);
             case CornerLonPt2:
-                return new FullCornerLongitude(bytes);
+                return new FullCornerLongitude(bytes, FullCornerLongitude.CORNER_LON_2);
             case CornerLatPt3:
-                return new FullCornerLatitude(bytes);
+                return new FullCornerLatitude(bytes, FullCornerLatitude.CORNER_LAT_3);
             case CornerLonPt3:
-                return new FullCornerLongitude(bytes);
+                return new FullCornerLongitude(bytes, FullCornerLongitude.CORNER_LON_3);
             case CornerLatPt4:
-                return new FullCornerLatitude(bytes);
+                return new FullCornerLatitude(bytes, FullCornerLatitude.CORNER_LAT_4);
             case CornerLonPt4:
-                return new FullCornerLongitude(bytes);
+                return new FullCornerLongitude(bytes, FullCornerLongitude.CORNER_LON_4);
             case PlatformPitchAngleFull:
                 return new PlatformPitchAngleFull(bytes);
             case PlatformRollAngleFull:
