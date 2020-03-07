@@ -23,6 +23,15 @@ public class PrimitiveConverter
     private static final ThreadLocal<ByteBuffer> doubleBuffer =
             ThreadLocal.withInitial(() -> ByteBuffer.allocate(Double.BYTES));
 
+    static long arrayToUnsignedLongInternal(byte[] bytes) {
+        long res = 0;
+        for (byte b: bytes) {
+            int i = b & 0xFF;
+            res = (res << 8) + i;
+        }
+        return res;
+    }
+
     private PrimitiveConverter() {}
 
     /**
@@ -120,6 +129,28 @@ public class PrimitiveConverter
             return Integer.toUnsignedLong(ByteBuffer.wrap(bytes).getInt());
         }
         throw new IllegalArgumentException("Invalid buffer length");
+    }
+
+    /**
+     * Convert a variable length byte array to an unsigned 32-bit integer (long with range of uint32)
+     *
+     * @param bytes The array of length 1-4
+     * @return The unsigned 32-bit integer as a long
+     */
+    public static long variableBytesToUint32(byte[] bytes)
+    {
+        switch (bytes.length) {
+            case 4:
+                return PrimitiveConverter.toUint32(bytes);
+            case 3:
+                return PrimitiveConverter.arrayToUnsignedLongInternal(bytes);
+            case 2:
+                return PrimitiveConverter.toUint16(bytes);
+            case 1:
+                return PrimitiveConverter.toUint8(bytes);
+            default:
+                throw new IllegalArgumentException("Invalid buffer length");
+        }
     }
 
     /**
