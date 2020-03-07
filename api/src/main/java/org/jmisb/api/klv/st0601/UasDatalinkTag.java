@@ -227,9 +227,9 @@ public enum UasDatalinkTag
     BroadcastSource(108),
     /** Tag 109; Distance from current position to airframe recovery position; Value is a {@link RangeToRecoveryLocation} */
     RangeToRecoveryLocation(109),
-    /** Tag 110; Number of seconds aircraft has been airborne; Value is a {@link OpaqueValue} */
+    /** Tag 110; Number of seconds aircraft has been airborne; Value is a {@link TimeAirborne} */
     TimeAirborne(110),
-    /** Tag 111; The speed the engine (or electric motor) is rotating at; Value is a {@link OpaqueValue} */
+    /** Tag 111; The speed the engine (or electric motor) is rotating at; Value is a {@link PropulsionUnitSpeed} */
     PropulsionUnitSpeed(111),
     /** Tag 112; Direction the aircraft is moving relative to True North; Value is a {@link PlatformCourseAngle} */
     PlatformCourseAngle(112),

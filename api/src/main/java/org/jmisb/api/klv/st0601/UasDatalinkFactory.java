@@ -259,11 +259,9 @@ public class UasDatalinkFactory
             case RangeToRecoveryLocation:
                 return new RangeToRecoveryLocation(bytes);
             case TimeAirborne:
-                // TODO
-                return new OpaqueValue(bytes);
+                return new TimeAirborne(bytes);
             case PropulsionUnitSpeed:
-                // TODO
-                return new OpaqueValue(bytes);
+                return new PropulsionUnitSpeed(bytes);
             case PlatformCourseAngle:
                 return new PlatformCourseAngle(bytes);
             case AltitudeAgl:
