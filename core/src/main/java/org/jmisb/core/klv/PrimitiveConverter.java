@@ -63,7 +63,7 @@ public class PrimitiveConverter
     /**
      * Convert a byte array to a signed 32-bit integer
      *
-     * @param bytes The array of length 4, 2, or 1
+     * @param bytes The array of length 1 - 4
      * @return The signed 32-bit integer
      */
     public static int toInt32(byte[] bytes)
@@ -71,6 +71,9 @@ public class PrimitiveConverter
         if (bytes.length == 4)
         {
             return ByteBuffer.wrap(bytes).getInt();
+        } else if (bytes.length == 3) {
+            int res = ByteBuffer.wrap(bytes, 0, 2).getShort();
+            return (res << 8) + (bytes[2] & 0xFF);
         } else if (bytes.length == 2)
         {
             return ByteBuffer.wrap(bytes).getShort();
@@ -140,6 +143,32 @@ public class PrimitiveConverter
     {
         intBuffer.get().putInt(0, val);
         return intBuffer.get().array();
+    }
+
+    /**
+     * Convert an signed 32-bit integer to a byte array.
+     * <p>
+     * This is similar to int32ToBytes, except that it only uses the minimum
+     * required number of bytes to represent the value. So if the value will
+     * fit into two bytes, the results will be only two bytes.
+     * 
+     * @param intValue The signed 32-bit integer
+     * @return The array of length 1-4 bytes.
+     */
+    public static byte[] int32ToVariableBytes(int intValue)
+    {
+        if ((intValue > 32767) || (intValue < -32768))
+        {
+            return PrimitiveConverter.int32ToBytes(intValue);
+        }
+        else if (((short)intValue > 127) || ((short)intValue < -128))
+        {
+            return PrimitiveConverter.int16ToBytes((short)intValue);
+        }
+        else
+        {
+            return new byte[]{(byte)intValue};
+        }
     }
 
     /**
