@@ -249,7 +249,7 @@ public enum UasDatalinkTag
     SensorRollRate(119),
     /** Tag 120; Amount of on-board Motion Imagery storage used as a percentage of the total storage; Value is a {@link OnBoardMiStoragePercentFull} */
     OnBoardMiStoragePercentFull(120),
-    /** Tag 121; List of wavelengths in Motion Imagery; Value is a {@link OpaqueValue} */
+    /** Tag 121; List of wavelengths in Motion Imagery; Value is a {@link ActiveWavelengthList} */
     ActiveWavelengthList(121),
     /** Tag 122; Country codes which are associated with the platform and its operation; Value is a {@link OpaqueValue} */
     CountryCodes(122),
@@ -263,7 +263,7 @@ public enum UasDatalinkTag
     SensorControlMode(126),
     /** Tag 127; Values used to compute the frame rate of the Motion Imagery at the sensor; Value is a {@link OpaqueValue} */
     SensorFrameRatePack(127),
-    /** Tag 128; List of wavelength bands provided by sensor(s); Value is a {@link OpaqueValue} */
+    /** Tag 128; List of wavelength bands provided by sensor(s); Value is a {@link WavelengthsList} */
     WavelengthsList(128),
     /** Tag 129; Alpha-numeric identification of a target; Value is a {@link UasDatalinkString} */
     TargetId(129),
