@@ -7,11 +7,13 @@ import org.jmisb.api.common.KlvParseException;
 import org.jmisb.api.klv.BerDecoder;
 import org.jmisb.api.klv.BerField;
 
-public class VTargetSeries implements IVmtiMetadataValue {
+public class VTargetSeries implements IVmtiMetadataValue
+{
 
-    List<VTargetPack> targetPacks = new ArrayList<>();
+    private List<VTargetPack> targetPacks = new ArrayList<>();
 
-    public VTargetSeries(byte[] bytes) throws KlvParseException {
+    public VTargetSeries(byte[] bytes) throws KlvParseException
+    {
         int index = 0;
         while (index < bytes.length - 1) {
             BerField lengthField = BerDecoder.decode(bytes, index, true);
@@ -24,18 +26,21 @@ public class VTargetSeries implements IVmtiMetadataValue {
     }
 
     @Override
-    public byte[] getBytes() {
+    public byte[] getBytes()
+    {
         // TODO: fix
         return new byte[]{0x00};
     }
 
     @Override
-    public String getDisplayableValue() {
+    public String getDisplayableValue()
+    {
         return "Targets";
     }
 
     @Override
-    public String getDisplayName() {
+    public String getDisplayName()
+    {
         return "Target Series";
     }
 

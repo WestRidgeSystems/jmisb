@@ -17,7 +17,8 @@ class VTargetPack {
     private int targetId;
 
     // TODO consider refactoring to pass in the original array instead of a copy
-    VTargetPack(byte[] bytes) throws KlvParseException {
+    VTargetPack(byte[] bytes) throws KlvParseException
+    {
         int offset = 0;
         BerField targetIdField = BerDecoder.decode(bytes, offset, true);
         offset += targetIdField.getLength();
@@ -34,7 +35,8 @@ class VTargetPack {
         }
     }
 
-    private void setField(VTargetMetadataKey key, IVmtiMetadataValue value) {
+    private void setField(VTargetMetadataKey key, IVmtiMetadataValue value)
+    {
 
     }
 
@@ -45,7 +47,8 @@ class VTargetPack {
      * @param bytes Encoded bytes
      * @return The new instance
      */
-    public static IVmtiMetadataValue createValue(VTargetMetadataKey tag, byte[] bytes) throws KlvParseException {
+    public static IVmtiMetadataValue createValue(VTargetMetadataKey tag, byte[] bytes) throws KlvParseException
+    {
         // Keep the case statements in enum ordinal order so we can keep track of what is implemented. Mark all
         // unimplemented tags with TODO.
         switch (tag) {

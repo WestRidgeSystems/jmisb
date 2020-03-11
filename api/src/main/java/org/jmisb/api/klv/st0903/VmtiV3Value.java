@@ -29,7 +29,8 @@ public abstract class VmtiV3Value implements IVmtiMetadataValue
         parse(bytes);
     }
 
-    protected final void parse(byte[] bytes) {
+    protected final void parse(byte[] bytes)
+    {
         value = 0;
         for (int i = 0; i < bytes.length; ++i) {
             value = value << 8;
@@ -48,7 +49,8 @@ public abstract class VmtiV3Value implements IVmtiMetadataValue
     }
 
     @Override
-    public byte[] getBytes() {
+    public byte[] getBytes()
+    {
         if (value < 256)
         {
             return PrimitiveConverter.uint8ToBytes((short)value);
@@ -61,7 +63,8 @@ public abstract class VmtiV3Value implements IVmtiMetadataValue
     }
 
     @Override
-    public String getDisplayableValue() {
+    public String getDisplayableValue()
+    {
         return String.format("%d", value);
     }
     

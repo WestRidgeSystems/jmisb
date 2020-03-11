@@ -12,14 +12,15 @@ package org.jmisb.api.klv.st0903;
  * A value of 0 represents no targets detected.
  * </blockquote>
  */
-public class VmtiTotalTargetCount extends VmtiV3Value implements IVmtiMetadataValue {
-
+public class VmtiTotalTargetCount extends VmtiV3Value implements IVmtiMetadataValue
+{
     /**
      * Create from value
      *
      * @param targetCount the number of targets detected in the frame.
      */
-    public VmtiTotalTargetCount(int targetCount) {
+    public VmtiTotalTargetCount(int targetCount)
+    {
         super(targetCount);
     }
 
@@ -29,12 +30,14 @@ public class VmtiTotalTargetCount extends VmtiV3Value implements IVmtiMetadataVa
      * @param bytes count, encoded as a variable length unsigned int (max 3
      * bytes)
      */
-    public VmtiTotalTargetCount(byte[] bytes) {
+    public VmtiTotalTargetCount(byte[] bytes)
+    {
         super(bytes);
     }
 
     @Override
-    public String getDisplayName() {
+    public String getDisplayName()
+    {
         return "Targets In Frame";
     }
 

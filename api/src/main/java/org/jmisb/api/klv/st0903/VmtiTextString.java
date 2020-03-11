@@ -58,7 +58,8 @@ public class VmtiTextString implements IVmtiMetadataValue
     }
 
     @Override
-    public String getDisplayName() {
+    public String getDisplayName()
+    {
         return displayName;
     }
 }

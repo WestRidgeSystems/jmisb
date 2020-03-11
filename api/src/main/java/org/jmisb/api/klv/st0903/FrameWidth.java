@@ -57,7 +57,8 @@ public class FrameWidth extends VmtiV3Value implements IVmtiMetadataValue
     }
     
     @Override
-    public String getDisplayableValue() {
+    public String getDisplayableValue()
+    {
         return String.format("%dpx", value);
     }
 }

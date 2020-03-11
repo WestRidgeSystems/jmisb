@@ -22,7 +22,8 @@ public class VmtiReportedTargetCount extends VmtiV3Value implements IVmtiMetadat
     }
 
     @Override
-    public String getDisplayName() {
+    public String getDisplayName()
+    {
         return "Reported Targets";
     }
 
