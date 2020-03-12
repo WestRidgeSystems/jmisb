@@ -1,5 +1,6 @@
 package org.jmisb.api.klv.st0903;
 
+import org.jmisb.api.common.KlvParseException;
 import static org.testng.Assert.*;
 import org.testng.annotations.Test;
 
@@ -42,6 +43,18 @@ public class FrameHeightTest
     public void testConstructFromEncodedBytes()
     {
         FrameHeight height = new FrameHeight(new byte[]{(byte)0x04, (byte)0x38});
+        assertEquals(height.getBytes(), new byte[]{(byte)0x04, (byte)0x38});
+        assertEquals(height.getDisplayName(), "Frame Height");
+        assertEquals(height.getDisplayableValue(), "1080px");
+        assertEquals(height.getValue(), 1080);
+    }
+
+    @Test
+    public void testFactoryEncodedBytes() throws KlvParseException
+    {
+        IVmtiMetadataValue value = VmtiMetadataValueFactory.createValue(VmtiMetadataKey.FrameHeight, new byte[]{(byte)0x04, (byte)0x38});
+        assertTrue(value instanceof FrameHeight);
+        FrameHeight height = (FrameHeight)value;
         assertEquals(height.getBytes(), new byte[]{(byte)0x04, (byte)0x38});
         assertEquals(height.getDisplayName(), "Frame Height");
         assertEquals(height.getDisplayableValue(), "1080px");

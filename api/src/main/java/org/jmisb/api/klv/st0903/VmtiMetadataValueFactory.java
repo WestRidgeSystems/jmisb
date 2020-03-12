@@ -18,7 +18,7 @@ class VmtiMetadataValueFactory {
             // TODO: Checksum
             // TOOD: PTS
             case SystemName:
-                return new VmtiTextString(VmtiTextString.SystemName, bytes);
+                return new VmtiTextString(VmtiTextString.SYSTEM_NAME, bytes);
             case VersionNumber:
                 return new ST0903Version(bytes);
             case TotalTargetsInFrame:
@@ -31,7 +31,7 @@ class VmtiMetadataValueFactory {
             case FrameHeight:
                 return new FrameHeight(bytes);
             case SourceSensor:
-                return new VmtiTextString(VmtiTextString.SourceSensor, bytes);
+                return new VmtiTextString(VmtiTextString.SOURCE_SENSOR, bytes);
             // TODO: Horizontal FOV
             // TODO: Vertical FOV
             // TODO: MIIS

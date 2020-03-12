@@ -1,5 +1,6 @@
 package org.jmisb.api.klv.st0903;
 
+import org.jmisb.api.common.KlvParseException;
 import static org.testng.Assert.*;
 import org.testng.annotations.Test;
 
@@ -108,6 +109,18 @@ public class ST0903VersionTest
         assertEquals(version.getVersion(), 65535);
     }
     
+    @Test
+    public void testFactoryEncodedBytes() throws KlvParseException
+    {
+        IVmtiMetadataValue value = VmtiMetadataValueFactory.createValue(VmtiMetadataKey.VersionNumber, new byte[]{(byte)0x04});
+        assertTrue(value instanceof ST0903Version);
+        ST0903Version version = (ST0903Version)value;
+        assertEquals(version.getBytes(), new byte[]{(byte)0x04});
+        assertEquals(version.getDisplayName(), "Version Number");
+        assertEquals(version.getDisplayableValue(), "ST0903.4");
+        assertEquals(version.getVersion(), 4);
+    }
+
     @Test(expectedExceptions = IllegalArgumentException.class)
     public void testTooSmall() {
         new ST0903Version(-1);

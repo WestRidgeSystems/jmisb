@@ -1,5 +1,6 @@
 package org.jmisb.api.klv.st0903;
 
+import org.jmisb.api.common.KlvParseException;
 import static org.testng.Assert.*;
 import org.testng.annotations.Test;
 
@@ -48,6 +49,18 @@ public class FrameWidthTest
         assertEquals(width.getValue(), 1920);
     }
     
+    @Test
+    public void testFactoryEncodedBytes() throws KlvParseException
+    {
+        IVmtiMetadataValue value = VmtiMetadataValueFactory.createValue(VmtiMetadataKey.FrameWidth, new byte[]{(byte)0x07, (byte)0x80});
+        assertTrue(value instanceof FrameWidth);
+        FrameWidth width = (FrameWidth)value;
+        assertEquals(width.getBytes(), new byte[]{(byte)0x07, (byte)0x80});
+        assertEquals(width.getDisplayName(), "Frame Width");
+        assertEquals(width.getDisplayableValue(), "1920px");
+        assertEquals(width.getValue(), 1920);
+    }
+
     @Test(expectedExceptions = IllegalArgumentException.class)
     public void testTooSmall() {
         new FrameWidth(0);
