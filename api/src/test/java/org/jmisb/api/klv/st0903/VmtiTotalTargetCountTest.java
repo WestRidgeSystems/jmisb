@@ -63,16 +63,16 @@ public class VmtiTotalTargetCountTest
     
     @Test(expectedExceptions = IllegalArgumentException.class)
     public void testTooSmall() {
-        new FrameHeight(-1);
+        new VmtiTotalTargetCount(-1);
     }
 
     @Test(expectedExceptions = IllegalArgumentException.class)
     public void testTooBig() {
-        new FrameHeight(16777216);;
+        new VmtiTotalTargetCount(16777216);;
     }
 
     @Test(expectedExceptions = IllegalArgumentException.class)
     public void badArrayLength() {
-        new FrameHeight(new byte[]{0x01, 0x02, 0x03, 0x04});
+        new VmtiTotalTargetCount(new byte[]{0x01, 0x02, 0x03, 0x04});
     }
 }

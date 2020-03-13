@@ -1,5 +1,6 @@
 package org.jmisb.api.klv.st0903;
 
+import org.jmisb.api.klv.st0903.vtarget.TargetPriority;
 import java.util.List;
 import java.util.logging.Level;
 import java.util.logging.Logger;
@@ -8,9 +9,12 @@ import org.jmisb.api.klv.BerDecoder;
 import org.jmisb.api.klv.BerField;
 import org.jmisb.api.klv.LdsField;
 import org.jmisb.api.klv.LdsParser;
-import org.jmisb.api.klv.st0903.vtarget.TargetCentroidPixelNumber;
+import org.jmisb.api.klv.st0903.vtarget.PercentageOfTargetPixels;
+import org.jmisb.api.klv.st0903.vtarget.TargetCentroid;
+import org.jmisb.api.klv.st0903.vtarget.TargetConfidenceLevel;
+import org.jmisb.api.klv.st0903.vtarget.TargetHistory;
 
-class VTargetPack {
+public class VTargetPack {
 
     private static final Logger LOG = Logger.getLogger(VTargetPack.class.getName());
 
@@ -46,16 +50,29 @@ class VTargetPack {
      * @param tag The tag defining the value type
      * @param bytes Encoded bytes
      * @return The new instance
+     * @throws KlvParseException if the bytes could not be parsed.
      */
     public static IVmtiMetadataValue createValue(VTargetMetadataKey tag, byte[] bytes) throws KlvParseException
     {
         // Keep the case statements in enum ordinal order so we can keep track of what is implemented. Mark all
         // unimplemented tags with TODO.
         switch (tag) {
-            // TODO: Checksum
-            // TOOD: PTS
-            case TargetCentroidPixelNumber:
-                return new TargetCentroidPixelNumber(bytes);
+            case TargetCentroid:
+                return new TargetCentroid(bytes);
+            case BoundaryTopLeft:
+                // TODO
+                return null;
+            case BoundaryBottomRight:
+                // TODO
+                return null;
+            case TargetPriority:
+                return new TargetPriority(bytes);
+            case TargetConfidenceLevel:
+                return new TargetConfidenceLevel(bytes);
+            case TargetHistory:
+                return new TargetHistory(bytes);
+            case PercentageOfTargetPixels:
+                return new PercentageOfTargetPixels(bytes);
             default:
                 System.out.println("Unrecognized VTarget tag: " + tag);
         }
