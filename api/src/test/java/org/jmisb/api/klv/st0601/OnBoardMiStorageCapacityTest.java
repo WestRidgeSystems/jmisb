@@ -51,6 +51,20 @@ public class OnBoardMiStorageCapacityTest
         Assert.assertEquals(capacity.getBytes(), bytes);
         Assert.assertEquals(capacity.getDisplayableValue(), "65535GB");
 
+        bytes = new byte[]{(byte)0x00, (byte)0x00, (byte)0x00};
+        capacity = new OnBoardMiStorageCapacity(bytes);
+        Assert.assertEquals(capacity.getDisplayName(), "On-Board MI Storage Capacity");
+        Assert.assertEquals(capacity.getGigabytes(), 0L);
+        Assert.assertEquals(capacity.getBytes(), new byte[]{(byte)0x00});
+        Assert.assertEquals(capacity.getDisplayableValue(), "0GB");
+
+        bytes = new byte[]{(byte)0xff, (byte)0xff, (byte)0xff};
+        capacity = new OnBoardMiStorageCapacity(bytes);
+        Assert.assertEquals(capacity.getDisplayName(), "On-Board MI Storage Capacity");
+        Assert.assertEquals(capacity.getGigabytes(), 16777215L);
+        Assert.assertEquals(capacity.getBytes(), new byte[]{(byte)0x00, (byte)0xff, (byte)0xff, (byte)0xff});
+        Assert.assertEquals(capacity.getDisplayableValue(), "16777215GB");
+
         bytes = new byte[]{(byte)0x00, (byte)0x00, (byte)0x00, (byte)0x00};
         capacity = new OnBoardMiStorageCapacity(bytes);
         Assert.assertEquals(capacity.getDisplayName(), "On-Board MI Storage Capacity");
@@ -140,6 +154,24 @@ public class OnBoardMiStorageCapacityTest
         Assert.assertEquals(capacity.getGigabytes(), 65535);
         Assert.assertEquals(capacity.getBytes(), bytes);
         Assert.assertEquals(capacity.getDisplayableValue(), "65535GB");
+
+        bytes = new byte[]{(byte)0x00, (byte)0x00, (byte)0x00};
+        v = UasDatalinkFactory.createValue(UasDatalinkTag.OnBoardMiStorageCapacity, bytes);
+        Assert.assertTrue(v instanceof OnBoardMiStorageCapacity);
+        Assert.assertEquals(v.getDisplayName(), "On-Board MI Storage Capacity");
+        capacity = (OnBoardMiStorageCapacity)v;
+        Assert.assertEquals(capacity.getGigabytes(), 0L);
+        Assert.assertEquals(capacity.getBytes(), new byte[]{(byte)0x00});
+        Assert.assertEquals(capacity.getDisplayableValue(), "0GB");
+
+        bytes = new byte[]{(byte)0xff, (byte)0xff, (byte)0xff};
+        v = UasDatalinkFactory.createValue(UasDatalinkTag.OnBoardMiStorageCapacity, bytes);
+        Assert.assertTrue(v instanceof OnBoardMiStorageCapacity);
+        Assert.assertEquals(v.getDisplayName(), "On-Board MI Storage Capacity");
+        capacity = (OnBoardMiStorageCapacity)v;
+        Assert.assertEquals(capacity.getGigabytes(), 16777215L);
+        Assert.assertEquals(capacity.getBytes(), new byte[]{(byte)0x00, (byte)0xff, (byte)0xff, (byte)0xff});
+        Assert.assertEquals(capacity.getDisplayableValue(), "16777215GB");
 
         bytes = new byte[]{(byte)0x00, (byte)0x00, (byte)0x00, (byte)0x00};
         v = UasDatalinkFactory.createValue(UasDatalinkTag.OnBoardMiStorageCapacity, bytes);
