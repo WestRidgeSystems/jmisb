@@ -9,13 +9,13 @@ import org.jmisb.api.klv.BerField;
 
 public class VTargetSeries implements IVmtiMetadataValue
 {
-
     private List<VTargetPack> targetPacks = new ArrayList<>();
 
     public VTargetSeries(byte[] bytes) throws KlvParseException
     {
         int index = 0;
-        while (index < bytes.length - 1) {
+        while (index < bytes.length - 1)
+        {
             BerField lengthField = BerDecoder.decode(bytes, index, true);
             index += lengthField.getLength();
             byte[] targetPackBytes = Arrays.copyOfRange(bytes, index, index + lengthField.getValue());

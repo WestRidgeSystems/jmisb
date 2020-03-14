@@ -15,8 +15,12 @@ class VmtiMetadataValueFactory {
         // Keep the case statements in enum ordinal order so we can keep track of what is implemented. Mark all
         // unimplemented tags with TODO.
         switch (tag) {
-            // TODO: Checksum
-            // TOOD: PTS
+            case Checksum:
+                // TODO
+                return null;
+            case PrecisionTimeStamp:
+                // TODO
+                return null;
             case SystemName:
                 return new VmtiTextString(VmtiTextString.SYSTEM_NAME, bytes);
             case VersionNumber:
@@ -25,18 +29,32 @@ class VmtiMetadataValueFactory {
                 return new VmtiTotalTargetCount(bytes);
             case NumberOfReportedTargets:
                 return new VmtiReportedTargetCount(bytes);
-            // TODO: frame number
+            case FrameNumber:
+                // TODO
+                return null;
             case FrameWidth:
                 return new FrameWidth(bytes);
             case FrameHeight:
                 return new FrameHeight(bytes);
             case SourceSensor:
                 return new VmtiTextString(VmtiTextString.SOURCE_SENSOR, bytes);
-            // TODO: Horizontal FOV
-            // TODO: Vertical FOV
-            // TODO: MIIS
+            case HorizontalFieldOfView:
+                // TODO
+                return null;
+            case VerticalFieldOfView:
+                // TODO
+                return null;
+            case MiisId:
+                // TODO
+                return null;
             case VTargetSeries:
                 return new VTargetSeries(bytes);
+            case AlgorithmSeries:
+                // TODO
+                return null;
+            case OntologySeries:
+                // TODO
+                return null;
             default:
                 System.out.println("Unrecognized tag: " + tag);
         }
