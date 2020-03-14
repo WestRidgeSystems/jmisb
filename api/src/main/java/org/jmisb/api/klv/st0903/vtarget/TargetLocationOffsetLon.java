@@ -50,5 +50,4 @@ public class TargetLocationOffsetLon extends AbstractTargetLocationOffset
     {
         return "Target Location Offset Longitude";
     }
-    
 }

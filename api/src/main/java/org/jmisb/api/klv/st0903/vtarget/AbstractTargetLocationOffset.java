@@ -66,5 +66,4 @@ public abstract class AbstractTargetLocationOffset implements IVmtiMetadataValue
     {
         return this.value;
     }
-    
 }
