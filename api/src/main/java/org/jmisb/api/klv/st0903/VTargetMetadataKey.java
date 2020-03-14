@@ -77,7 +77,8 @@ public enum VTargetMetadataKey
      */
     BoundaryBottomRightLonOffset(16),
     /**
-     * Location of the target (latitude, longitude and height above WGS84 Ellipsoid), with sigma and rho values.
+     * Location of the target (latitude, longitude and height above WGS84
+     * Ellipsoid), with sigma and rho values.
      */
     TargetLocation(17),
     /**
@@ -85,15 +86,18 @@ public enum VTargetMetadataKey
      */
     TargetBoundarySeries(18),
     /**
-     * Specifies the row in pixels of the target centroid within the Motion Imagery Frame.
+     * Specifies the row in pixels of the target centroid within the Motion
+     * Imagery Frame.
      */
     CentroidPixRow(19),
     /**
-     * Specifies the column in pixels of the target centroid within the Motion Imagery Frame.
+     * Specifies the column in pixels of the target centroid within the Motion
+     * Imagery Frame.
      */
     CentroidPixColumn(20),
     /**
-     * Specifies the column and the row of a sensor Focal Plane Array (FPA) in a two-dimensional array of FPAs.
+     * Specifies the column and the row of a sensor Focal Plane Array (FPA) in a
+     * two-dimensional array of FPAs.
      */
     FPAIndex(21),
     /**

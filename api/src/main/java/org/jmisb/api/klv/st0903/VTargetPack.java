@@ -1,5 +1,6 @@
 package org.jmisb.api.klv.st0903;
 
+import org.jmisb.api.klv.st0903.vtarget.TargetLocationOffsetLat;
 import org.jmisb.api.klv.st0903.vtarget.TargetPriority;
 import java.util.List;
 import java.util.logging.Level;
@@ -13,6 +14,7 @@ import org.jmisb.api.klv.st0903.vtarget.PercentageOfTargetPixels;
 import org.jmisb.api.klv.st0903.vtarget.TargetCentroid;
 import org.jmisb.api.klv.st0903.vtarget.TargetConfidenceLevel;
 import org.jmisb.api.klv.st0903.vtarget.TargetHistory;
+import org.jmisb.api.klv.st0903.vtarget.TargetLocationOffsetLon;
 
 public class VTargetPack {
 
@@ -54,8 +56,8 @@ public class VTargetPack {
      */
     public static IVmtiMetadataValue createValue(VTargetMetadataKey tag, byte[] bytes) throws KlvParseException
     {
-        // Keep the case statements in enum ordinal order so we can keep track of what is implemented. Mark all
-        // unimplemented tags with TODO.
+        // Keep the case statements in enum ordinal order so we can keep track of what is implemented.
+        // Mark all unimplemented tags with TODO.
         switch (tag) {
             case TargetCentroid:
                 return new TargetCentroid(bytes);
@@ -73,6 +75,49 @@ public class VTargetPack {
                 return new TargetHistory(bytes);
             case PercentageOfTargetPixels:
                 return new PercentageOfTargetPixels(bytes);
+            case TargetColor:
+                // TODO
+                return null;
+            case TargetIntensity:
+                // TODO
+                return null;
+            case TargetLocationOffsetLat:
+                return new TargetLocationOffsetLat(bytes);
+            case TargetLocationOffsetLon:
+                return new TargetLocationOffsetLon(bytes);
+            case TargetHAE:
+                // TODO
+                return null;
+            case BoundaryTopLeftLatOffset:
+                // TODO
+                return null;
+            case BoundaryTopLeftLonOffset:
+                // TODO
+                return null;
+            case BoundaryBottomRightLatOffset:
+                // TODO
+                return null;
+            case BoundaryBottomRightLonOffset:
+                // TODO
+                return null;
+            case TargetLocation:
+                // TODO
+                return null;
+            case TargetBoundarySeries:
+                // TODO
+                return null;
+            case CentroidPixRow:
+                // TODO
+                return null;
+            case CentroidPixColumn:
+                // TODO
+                return null;
+            case FPAIndex:
+                // TODO
+                return null;
+            case AlgorithmId:
+                // TODO
+                return null;
             default:
                 System.out.println("Unrecognized VTarget tag: " + tag);
         }
