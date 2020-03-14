@@ -62,6 +62,6 @@ public class TargetLocationOffsetLonTest {
     @Test(expectedExceptions = IllegalArgumentException.class)
     public void badArrayLength()
     {
-        new TargetLocationOffsetLon(new byte[]{0x01, 0x02});
+        new TargetLocationOffsetLon(new byte[]{0x01, 0x02, 0x03, 0x04});
     }
 }

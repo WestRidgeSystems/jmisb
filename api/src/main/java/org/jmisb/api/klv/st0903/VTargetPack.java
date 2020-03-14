@@ -1,5 +1,6 @@
 package org.jmisb.api.klv.st0903;
 
+import org.jmisb.api.klv.st0903.vtarget.CentroidPixelRow;
 import org.jmisb.api.klv.st0903.vtarget.TargetLocationOffsetLat;
 import org.jmisb.api.klv.st0903.vtarget.TargetPriority;
 import java.util.List;
@@ -14,6 +15,7 @@ import org.jmisb.api.klv.st0903.vtarget.BoundaryBottomRightLatOffset;
 import org.jmisb.api.klv.st0903.vtarget.BoundaryBottomRightLonOffset;
 import org.jmisb.api.klv.st0903.vtarget.BoundaryTopLeftLatOffset;
 import org.jmisb.api.klv.st0903.vtarget.BoundaryTopLeftLonOffset;
+import org.jmisb.api.klv.st0903.vtarget.CentroidPixelColumn;
 import org.jmisb.api.klv.st0903.vtarget.PercentageOfTargetPixels;
 import org.jmisb.api.klv.st0903.vtarget.TargetCentroid;
 import org.jmisb.api.klv.st0903.vtarget.TargetConfidenceLevel;
@@ -107,11 +109,9 @@ public class VTargetPack {
                 // TODO
                 return null;
             case CentroidPixRow:
-                // TODO
-                return null;
+                return new CentroidPixelRow(bytes);
             case CentroidPixColumn:
-                // TODO
-                return null;
+                return new CentroidPixelColumn(bytes);
             case FPAIndex:
                 // TODO
                 return null;

@@ -38,7 +38,7 @@ public abstract class AbstractTargetLocationOffset implements IVmtiMetadataValue
     {
         if (bytes.length != 3)
         {
-            throw new IllegalArgumentException(this.getDisplayName() + " encoding is three byte IMAPB");
+            throw new IllegalArgumentException(this.getDisplayName() + " encoding is three byte IMAPB as of ST0903.4");
         }
         FpEncoder decoder = new FpEncoder(MIN_VAL, MAX_VAL, bytes.length);
         this.value = decoder.decode(bytes);

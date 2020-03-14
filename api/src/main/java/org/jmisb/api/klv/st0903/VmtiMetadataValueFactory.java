@@ -30,8 +30,7 @@ class VmtiMetadataValueFactory {
             case NumberOfReportedTargets:
                 return new VmtiReportedTargetCount(bytes);
             case FrameNumber:
-                // TODO
-                return null;
+                return new FrameNumber(bytes);
             case FrameWidth:
                 return new FrameWidth(bytes);
             case FrameHeight:

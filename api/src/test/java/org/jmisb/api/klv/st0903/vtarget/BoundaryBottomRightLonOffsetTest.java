@@ -62,6 +62,6 @@ public class BoundaryBottomRightLonOffsetTest {
     @Test(expectedExceptions = IllegalArgumentException.class)
     public void badArrayLength()
     {
-        new BoundaryBottomRightLonOffset(new byte[]{0x01, 0x02});
+        new BoundaryBottomRightLonOffset(new byte[]{0x01, 0x02, 0x03, 0x04});
     }
 }
