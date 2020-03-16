@@ -21,6 +21,7 @@ import org.jmisb.api.klv.st0903.vtarget.CentroidPixelColumn;
 import org.jmisb.api.klv.st0903.vtarget.PercentageOfTargetPixels;
 import org.jmisb.api.klv.st0903.vtarget.TargetCentroid;
 import org.jmisb.api.klv.st0903.vtarget.TargetConfidenceLevel;
+import org.jmisb.api.klv.st0903.vtarget.TargetHAE;
 import org.jmisb.api.klv.st0903.vtarget.TargetHistory;
 import org.jmisb.api.klv.st0903.vtarget.TargetLocationOffsetLon;
 
@@ -92,8 +93,7 @@ public class VTargetPack {
             case TargetLocationOffsetLon:
                 return new TargetLocationOffsetLon(bytes);
             case TargetHAE:
-                // TODO
-                return null;
+                return new TargetHAE(bytes);
             case BoundaryTopLeftLatOffset:
                 return new BoundaryTopLeftLatOffset(bytes);
             case BoundaryTopLeftLonOffset:
@@ -116,6 +116,27 @@ public class VTargetPack {
                 // TODO
                 return null;
             case AlgorithmId:
+                // TODO
+                return null;
+            case VMask:
+                // TODO
+                return null;
+            case VObject:
+                // TODO
+                return null;
+            case VFeature:
+                // TODO
+                return null;
+            case VTracker:
+                // TODO
+                return null;
+            case VChip:
+                // TODO
+                return null;
+            case VChipSeries:
+                // TODO
+                return null;
+            case VObjectSeries:
                 // TODO
                 return null;
             default:
