@@ -11,8 +11,10 @@ import org.jmisb.api.klv.BerDecoder;
 import org.jmisb.api.klv.BerField;
 import org.jmisb.api.klv.LdsField;
 import org.jmisb.api.klv.LdsParser;
+import org.jmisb.api.klv.st0903.vtarget.BoundaryBottomRight;
 import org.jmisb.api.klv.st0903.vtarget.BoundaryBottomRightLatOffset;
 import org.jmisb.api.klv.st0903.vtarget.BoundaryBottomRightLonOffset;
+import org.jmisb.api.klv.st0903.vtarget.BoundaryTopLeft;
 import org.jmisb.api.klv.st0903.vtarget.BoundaryTopLeftLatOffset;
 import org.jmisb.api.klv.st0903.vtarget.BoundaryTopLeftLonOffset;
 import org.jmisb.api.klv.st0903.vtarget.CentroidPixelColumn;
@@ -68,11 +70,9 @@ public class VTargetPack {
             case TargetCentroid:
                 return new TargetCentroid(bytes);
             case BoundaryTopLeft:
-                // TODO
-                return null;
+                return new BoundaryTopLeft(bytes);
             case BoundaryBottomRight:
-                // TODO
-                return null;
+                return new BoundaryBottomRight(bytes);
             case TargetPriority:
                 return new TargetPriority(bytes);
             case TargetConfidenceLevel:

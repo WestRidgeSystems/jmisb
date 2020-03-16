@@ -1,7 +1,7 @@
 package org.jmisb.api.klv.st0903.vtarget;
 
 /**
- * Target Centroid Pixel Number.
+ * Target Centroid Pixel Number (ST0903 VTarget Pack Tag 1).
  * <p>
  * From ST0903:
  * <blockquote>
@@ -47,5 +47,4 @@ public class TargetCentroid extends PixelNumber
     {
         return "Target Centroid";
     }
-    
 }
