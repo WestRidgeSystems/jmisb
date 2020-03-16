@@ -46,4 +46,22 @@ public class CentroidPixelColumnTest {
         assertEquals(index.getDisplayableValue(), "1137");
         assertEquals(index.getValue(), 1137L);
     }
+    
+    @Test(expectedExceptions = IllegalArgumentException.class)
+    public void testTooSmall()
+    {
+        new CentroidPixelColumn(0);
+    }
+
+    @Test(expectedExceptions = IllegalArgumentException.class)
+    public void testTooBig()
+    {
+        new CentroidPixelColumn(4294967296L);
+    }
+
+    @Test(expectedExceptions = IllegalArgumentException.class)
+    public void badArrayLength()
+    {
+        new CentroidPixelColumn(new byte[]{0x01, 0x02, 0x03, 0x04, 0x05});
+    }
 }
