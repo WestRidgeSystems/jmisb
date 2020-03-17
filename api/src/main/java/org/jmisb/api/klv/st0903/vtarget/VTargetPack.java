@@ -1,9 +1,5 @@
 package org.jmisb.api.klv.st0903.vtarget;
 
-import org.jmisb.api.klv.st0903.vtarget.FpaIndex;
-import org.jmisb.api.klv.st0903.vtarget.CentroidPixelRow;
-import org.jmisb.api.klv.st0903.vtarget.TargetLocationOffsetLat;
-import org.jmisb.api.klv.st0903.vtarget.TargetPriority;
 import java.util.List;
 import java.util.logging.Level;
 import java.util.logging.Logger;
@@ -13,19 +9,6 @@ import org.jmisb.api.klv.BerField;
 import org.jmisb.api.klv.LdsField;
 import org.jmisb.api.klv.LdsParser;
 import org.jmisb.api.klv.st0903.IVmtiMetadataValue;
-import org.jmisb.api.klv.st0903.vtarget.BoundaryBottomRight;
-import org.jmisb.api.klv.st0903.vtarget.BoundaryBottomRightLatOffset;
-import org.jmisb.api.klv.st0903.vtarget.BoundaryBottomRightLonOffset;
-import org.jmisb.api.klv.st0903.vtarget.BoundaryTopLeft;
-import org.jmisb.api.klv.st0903.vtarget.BoundaryTopLeftLatOffset;
-import org.jmisb.api.klv.st0903.vtarget.BoundaryTopLeftLonOffset;
-import org.jmisb.api.klv.st0903.vtarget.CentroidPixelColumn;
-import org.jmisb.api.klv.st0903.vtarget.PercentageOfTargetPixels;
-import org.jmisb.api.klv.st0903.vtarget.TargetCentroid;
-import org.jmisb.api.klv.st0903.vtarget.TargetConfidenceLevel;
-import org.jmisb.api.klv.st0903.vtarget.TargetHAE;
-import org.jmisb.api.klv.st0903.vtarget.TargetHistory;
-import org.jmisb.api.klv.st0903.vtarget.TargetLocationOffsetLon;
 
 public class VTargetPack {
 
