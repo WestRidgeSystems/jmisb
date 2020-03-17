@@ -1,5 +1,6 @@
 package org.jmisb.api.klv.st0903;
 
+import org.jmisb.api.klv.st0903.vtarget.FpaIndex;
 import org.jmisb.api.klv.st0903.vtarget.CentroidPixelRow;
 import org.jmisb.api.klv.st0903.vtarget.TargetLocationOffsetLat;
 import org.jmisb.api.klv.st0903.vtarget.TargetPriority;
@@ -113,8 +114,7 @@ public class VTargetPack {
             case CentroidPixColumn:
                 return new CentroidPixelColumn(bytes);
             case FPAIndex:
-                // TODO
-                return null;
+                return new FpaIndex(bytes);
             case AlgorithmId:
                 // TODO
                 return null;
