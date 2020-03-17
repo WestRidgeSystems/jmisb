@@ -44,8 +44,7 @@ class VmtiMetadataValueFactory {
                 // TODO
                 return null;
             case MiisId:
-                // TODO
-                return null;
+                return new MiisCoreIdentifier(bytes);
             case VTargetSeries:
                 return new VTargetSeries(bytes);
             case AlgorithmSeries:

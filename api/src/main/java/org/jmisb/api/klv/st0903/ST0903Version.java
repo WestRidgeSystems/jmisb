@@ -3,7 +3,7 @@ package org.jmisb.api.klv.st0903;
 import org.jmisb.core.klv.PrimitiveConverter;
 
 /**
- * VMTI LS Version Number (ST 0903 tag 4).
+ * VMTI LS Version Number (ST 0903 VMTI LS Tag 4).
  * <p>
  * From ST0903:
  * <blockquote>
@@ -18,7 +18,6 @@ import org.jmisb.core.klv.PrimitiveConverter;
  */
 public class ST0903Version implements IVmtiMetadataValue
 {
-
     private int version;
     private static int MIN_VALUE = 0;
     private static int MAX_VALUE = 65535;
@@ -44,7 +43,8 @@ public class ST0903Version implements IVmtiMetadataValue
      */
     public ST0903Version(byte[] bytes)
     {
-        switch (bytes.length) {
+        switch (bytes.length)
+        {
             case 1:
                 version = PrimitiveConverter.toUint8(bytes);
                 break;
@@ -69,7 +69,8 @@ public class ST0903Version implements IVmtiMetadataValue
     @Override
     public byte[] getBytes()
     {
-        if (version < 256) {
+        if (version < 256)
+        {
             return PrimitiveConverter.uint8ToBytes((short)version);
         }
         return PrimitiveConverter.uint16ToBytes(version);

@@ -1,7 +1,7 @@
 package org.jmisb.api.klv.st0903;
 
 /**
- * VMTI Frame Width (ST 0903 tag 8).
+ * VMTI Frame Width (ST 0903 VMTI LS Tag 8).
  * <p>
  * From ST0903:
  * <blockquote>

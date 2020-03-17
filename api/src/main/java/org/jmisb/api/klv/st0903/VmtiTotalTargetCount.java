@@ -1,7 +1,7 @@
 package org.jmisb.api.klv.st0903;
 
 /**
- * Total Number of Targets Detected in the Frame (ST0903 Tag 5).
+ * Total Number of Targets Detected in the Frame (ST0903 VMTI LS Tag 5).
  * <p>
  * From ST0903:
  * <blockquote>

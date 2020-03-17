@@ -1,7 +1,7 @@
 package org.jmisb.api.klv.st0903;
 
 /**
- * VMTI Frame Number (ST 0903 tag 7).
+ * VMTI Frame Number (ST 0903 VMTI LS Tag 7).
  * <p>
  * From ST0903:
  * <blockquote>

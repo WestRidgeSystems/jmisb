@@ -1,5 +1,17 @@
 package org.jmisb.api.klv.st0903;
 
+/**
+ * Number of Targets Reported (ST 0903 VMTI LS Tag 6).
+ * <p>
+ * From ST0903:
+ * <blockquote>
+ * Number of moving targets reported within a Frame. May be necessary (for
+ * bandwidth efficiency) to report only a subset of detected targets. Number of
+ * Reported Targets = Total Number of Targets (Tag 5) – Number of Culled
+ * Targets. The culling process is usually linked to priority value or
+ * confidence level.
+ * </blockquote>
+ */
 public class VmtiReportedTargetCount extends VmtiV3Value implements IVmtiMetadataValue
 {
     /**
