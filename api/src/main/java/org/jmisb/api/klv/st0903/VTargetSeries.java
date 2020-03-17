@@ -1,5 +1,6 @@
 package org.jmisb.api.klv.st0903;
 
+import org.jmisb.api.klv.st0903.vtarget.VTargetPack;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;

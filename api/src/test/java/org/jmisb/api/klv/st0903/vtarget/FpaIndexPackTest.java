@@ -2,8 +2,6 @@ package org.jmisb.api.klv.st0903.vtarget;
 
 import org.jmisb.api.common.KlvParseException;
 import org.jmisb.api.klv.st0903.IVmtiMetadataValue;
-import org.jmisb.api.klv.st0903.VTargetMetadataKey;
-import org.jmisb.api.klv.st0903.VTargetPack;
 import org.jmisb.api.klv.st0903.vtarget.dto.FpaIndexPack;
 import static org.testng.Assert.*;
 import org.testng.annotations.Test;

@@ -1,4 +1,4 @@
-package org.jmisb.api.klv.st0903;
+package org.jmisb.api.klv.st0903.vtarget;
 
 import org.jmisb.api.klv.st0903.vtarget.FpaIndex;
 import org.jmisb.api.klv.st0903.vtarget.CentroidPixelRow;
@@ -12,6 +12,7 @@ import org.jmisb.api.klv.BerDecoder;
 import org.jmisb.api.klv.BerField;
 import org.jmisb.api.klv.LdsField;
 import org.jmisb.api.klv.LdsParser;
+import org.jmisb.api.klv.st0903.IVmtiMetadataValue;
 import org.jmisb.api.klv.st0903.vtarget.BoundaryBottomRight;
 import org.jmisb.api.klv.st0903.vtarget.BoundaryBottomRightLatOffset;
 import org.jmisb.api.klv.st0903.vtarget.BoundaryBottomRightLonOffset;
@@ -33,7 +34,7 @@ public class VTargetPack {
     private int targetId;
 
     // TODO consider refactoring to pass in the original array instead of a copy
-    VTargetPack(byte[] bytes) throws KlvParseException
+    public VTargetPack(byte[] bytes) throws KlvParseException
     {
         int offset = 0;
         BerField targetIdField = BerDecoder.decode(bytes, offset, true);

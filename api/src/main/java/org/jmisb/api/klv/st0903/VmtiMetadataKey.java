@@ -10,6 +10,9 @@ import java.util.Map;
  */
 public enum VmtiMetadataKey
 {
+    /**
+     * Unknown key. This should not be created.
+     */
     Undefined(0),
     /**
      * Detects errors within a standalone VMTI LS.

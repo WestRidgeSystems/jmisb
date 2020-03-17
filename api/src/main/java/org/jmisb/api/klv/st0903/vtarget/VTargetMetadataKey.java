@@ -1,4 +1,4 @@
-package org.jmisb.api.klv.st0903;
+package org.jmisb.api.klv.st0903.vtarget;
 
 import java.util.HashMap;
 import java.util.Map;
