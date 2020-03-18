@@ -1,7 +1,6 @@
 package org.jmisb.api.klv.st0903.vtarget;
 
-import org.jmisb.api.klv.st0903.IVmtiMetadataValue;
-import org.jmisb.core.klv.PrimitiveConverter;
+import org.jmisb.api.klv.st0903.shared.Confidence;
 
 /**
  * Target Confidence Level (ST0903 VTarget Pack Tag 5)
@@ -18,12 +17,8 @@ import org.jmisb.core.klv.PrimitiveConverter;
  * priority target.
  * </blockquote>
  */
-public class TargetConfidenceLevel implements IVmtiMetadataValue {
-
-    private final short confidence;
-    private static int MIN_VALUE = 0;
-    private static int MAX_VALUE = 100;
-
+public class TargetConfidenceLevel extends Confidence
+{
     /**
      * Create from value.
      *
@@ -31,11 +26,7 @@ public class TargetConfidenceLevel implements IVmtiMetadataValue {
      */
     public TargetConfidenceLevel(short confidence)
     {
-        if (confidence < MIN_VALUE || confidence > MAX_VALUE)
-        {
-            throw new IllegalArgumentException(this.getDisplayName() + " value must be in range [0,100]");
-        }
-        this.confidence = confidence; 
+        super(confidence);
     }
 
     /**
@@ -45,38 +36,12 @@ public class TargetConfidenceLevel implements IVmtiMetadataValue {
      */
     public TargetConfidenceLevel(byte[] bytes)
     {
-        if (bytes.length > 1)
-        {
-            throw new IllegalArgumentException(this.getDisplayName() + " encoding is maximum one byte unsigned integer");
-        }
-        confidence = (short)PrimitiveConverter.toUint8(bytes);
-    }
-
-    @Override
-    public byte[] getBytes()
-    {
-        return PrimitiveConverter.uint8ToBytes(confidence);
-    }
-
-    @Override
-    public String getDisplayableValue()
-    {
-        return "" + confidence + "%";
+        super(bytes);
     }
 
     @Override
     public final String getDisplayName()
     {
         return "Target Confidence";
-    }
-    
-    /**
-     * Get the target confidence.
-     * 
-     * @return the target confidence as a percentage (0 lowest, 100 highest).
-     */
-    public short getTargetConfidence()
-    {
-        return this.confidence;
     }
 }

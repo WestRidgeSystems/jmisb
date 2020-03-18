@@ -5,6 +5,9 @@ import java.util.Map;
 
 public enum VTargetMetadataKey
 {
+    /**
+     * Unknown key. This should not be created.
+     */
     Undefined(0),
     /**
      * Defines the position of the target within the Motion Imagery frame in

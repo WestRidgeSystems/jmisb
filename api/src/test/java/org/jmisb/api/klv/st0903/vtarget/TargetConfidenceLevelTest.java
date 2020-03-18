@@ -20,7 +20,7 @@ public class TargetConfidenceLevelTest {
         assertEquals(confidence.getBytes(), new byte[]{(byte)0x50});
         assertEquals(confidence.getDisplayName(), "Target Confidence");
         assertEquals(confidence.getDisplayableValue(), "80%");
-        assertEquals(confidence.getTargetConfidence(), 80);
+        assertEquals(confidence.getConfidence(), 80);
     }
     
     @Test
@@ -30,7 +30,7 @@ public class TargetConfidenceLevelTest {
         assertEquals(confidence.getBytes(), new byte[]{(byte)0x50});
         assertEquals(confidence.getDisplayName(), "Target Confidence");
         assertEquals(confidence.getDisplayableValue(), "80%");
-        assertEquals(confidence.getTargetConfidence(), 80);
+        assertEquals(confidence.getConfidence(), 80);
     }
     
     @Test
@@ -42,7 +42,7 @@ public class TargetConfidenceLevelTest {
         assertEquals(confidence.getBytes(), new byte[]{(byte)0x50});
         assertEquals(confidence.getDisplayName(), "Target Confidence");
         assertEquals(confidence.getDisplayableValue(), "80%");
-        assertEquals(confidence.getTargetConfidence(), 80);
+        assertEquals(confidence.getConfidence(), 80);
     }
     
     @Test(expectedExceptions = IllegalArgumentException.class)
