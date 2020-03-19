@@ -3,6 +3,9 @@ package org.jmisb.api.klv.st0903.vtracker;
 import java.util.HashMap;
 import java.util.Map;
 
+/**
+ * Metadata tag numbers for VTracker local set.
+ */
 public enum VTrackerMetadataKey
 {
     /**
@@ -82,11 +85,21 @@ public enum VTrackerMetadataKey
         this.tag = tag;
     }
 
+    /**
+     * Get the tag number associated with this VTracker tag.
+     * @return
+     */
     public int getTag()
     {
         return tag;
     }
 
+    /**
+     * Look up a VTracker tag by enum value.
+     *
+     * @param tag the tag number.
+     * @return the corresponding VTracker tag.
+     */
     public static VTrackerMetadataKey getKey(int tag)
     {
         return tagTable.containsKey(tag) ? tagTable.get(tag) : Undefined;
