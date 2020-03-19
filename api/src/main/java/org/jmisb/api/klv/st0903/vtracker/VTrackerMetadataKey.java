@@ -87,7 +87,8 @@ public enum VTrackerMetadataKey
 
     /**
      * Get the tag number associated with this VTracker tag.
-     * @return
+     *
+     * @return the tag associated with this enumerated value.
      */
     public int getTag()
     {

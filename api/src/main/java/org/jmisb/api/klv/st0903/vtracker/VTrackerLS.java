@@ -4,8 +4,6 @@ import java.util.List;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import org.jmisb.api.common.KlvParseException;
-import org.jmisb.api.klv.BerDecoder;
-import org.jmisb.api.klv.BerField;
 import org.jmisb.api.klv.LdsField;
 import org.jmisb.api.klv.LdsParser;
 import org.jmisb.api.klv.st0903.IVmtiMetadataValue;
@@ -55,8 +53,7 @@ public class VTrackerLS {
                 // TODO
                 return null;
             case detectionStatus:
-                // TODO
-                return null;
+                return new DetectionStatus(bytes);
             case startTime:
                 return new StartTime(bytes);
             case endTime:
