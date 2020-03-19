@@ -19,8 +19,7 @@ class VmtiMetadataValueFactory {
                 // TODO
                 return null;
             case PrecisionTimeStamp:
-                // TODO
-                return null;
+                return new PrecisionTimeStamp(bytes);
             case SystemName:
                 return new VmtiTextString(VmtiTextString.SYSTEM_NAME, bytes);
             case VersionNumber:
