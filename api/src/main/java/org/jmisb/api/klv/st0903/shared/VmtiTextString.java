@@ -1,24 +1,32 @@
-package org.jmisb.api.klv.st0903;
+package org.jmisb.api.klv.st0903.shared;
 
 import java.nio.charset.StandardCharsets;
+import org.jmisb.api.klv.st0903.IVmtiMetadataValue;
 
 /**
- * Represents a string value in ST 0903 (Tag 3 - System Name and Tag 10 - Source Sensor).
+ * Represents a string value in ST 0903.
  */
 public class VmtiTextString implements IVmtiMetadataValue
 {
     /**
-     * Tag 3 - VMTI System Name.
+     * VMTI LS Tag 3 - VMTI System Name.
      * The name or description of the VMTI system producing the VMTI targets.
      * The field is free text.
      */
     public final static String SYSTEM_NAME = "System Name/Description";
 
     /**
-     * Tag 10 - VMTI Source Sensor.
+     * VMTI LS Tag 10 - VMTI Source Sensor.
      * Free text identifier of the image source sensor.
      */
     public final static String SOURCE_SENSOR = "Source Sensor";
+
+    /**
+     * VTarget LS Tag 6 - Algorithm. Unique name or description of the algorithm
+     * or method used to create or maintain object movement reports or
+     * intervening predictions of such movement.
+     */
+    public final static String ALGORITHM = "Algorithm";
 
     private final String displayName;
     private final String stringValue;

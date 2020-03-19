@@ -1,5 +1,6 @@
 package org.jmisb.api.klv.st0903;
 
+import org.jmisb.api.klv.st0903.shared.VmtiTextString;
 import org.jmisb.api.common.KlvParseException;
 
 class VmtiMetadataValueFactory {

@@ -7,6 +7,7 @@ import org.jmisb.api.common.KlvParseException;
 import org.jmisb.api.klv.LdsField;
 import org.jmisb.api.klv.LdsParser;
 import org.jmisb.api.klv.st0903.IVmtiMetadataValue;
+import org.jmisb.api.klv.st0903.shared.VmtiTextString;
 
 /**
  * VTracker Local Set.
@@ -62,8 +63,7 @@ public class VTrackerLS {
                 // TODO
                 return null;
             case algorithm:
-                // TODO
-                return null;
+                return new VmtiTextString(VmtiTextString.ALGORITHM, bytes);
             case confidence:
                 return new TrackConfidence(bytes);
             case numTrackPoints:
