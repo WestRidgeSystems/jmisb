@@ -58,11 +58,9 @@ public class VTrackerLS {
                 // TODO
                 return null;
             case startTime:
-                // TODO
-                return null;
+                return new StartTime(bytes);
             case endTime:
-                // TODO
-                return null;
+                return new EndTime(bytes);
             case boundarySeries:
                 // TODO
                 return null;

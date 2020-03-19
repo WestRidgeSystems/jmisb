@@ -1,5 +1,6 @@
 package org.jmisb.api.klv.st0903;
 
+import org.jmisb.api.klv.st0903.shared.ST0603TimeStamp;
 import org.jmisb.core.klv.PrimitiveConverter;
 
 import java.time.Instant;
@@ -36,11 +37,8 @@ import java.time.temporal.ChronoUnit;
  * establishing a correspondence.
  * </blockquote>
  */
-public class PrecisionTimeStamp implements IVmtiMetadataValue
+public class PrecisionTimeStamp extends ST0603TimeStamp implements IVmtiMetadataValue
 {
-    // Java can treat a long as unsigned, as long as we use the right methods.
-    private long microseconds;
-
     /**
      * Create from value.
      *
@@ -48,11 +46,7 @@ public class PrecisionTimeStamp implements IVmtiMetadataValue
      */
     public PrecisionTimeStamp(long microseconds)
     {
-        if (microseconds < 0)
-        {
-            throw new IllegalArgumentException(this.getDisplayName() + " must be in range [0,2^64-1]");
-        }
-        this.microseconds = microseconds;
+        super(microseconds);
     }
 
     /**
@@ -61,59 +55,16 @@ public class PrecisionTimeStamp implements IVmtiMetadataValue
      */
     public PrecisionTimeStamp(byte[] bytes)
     {
-        if (bytes.length != 8)
-        {
-            throw new IllegalArgumentException(this.getDisplayName() + " encoding is an 8-byte unsigned int");
-        }
-        microseconds = PrimitiveConverter.toInt64(bytes);
+        super(bytes);
     }
 
     /**
-     * Create from {@code LocalDateTime}
+     * Create from {@code ZonedDateTime}
      * @param dateTime The UTC date and time
      */
     public PrecisionTimeStamp(ZonedDateTime dateTime)
     {
-        try
-        {
-            microseconds = ChronoUnit.MICROS.between(Instant.EPOCH, dateTime.toInstant());
-        }
-        catch (ArithmeticException e)
-        {
-            throw new IllegalArgumentException(this.getDisplayName() + " must be before April 11, 2262 23:47:16.854Z");
-        }
-    }
-
-    /**
-     * Get the value.
-     *
-     * @return Number of microseconds since the epoch
-     */
-    public long getMicroseconds()
-    {
-        return microseconds;
-    }
-
-    @Override
-    public byte[] getBytes()
-    {
-        return PrimitiveConverter.int64ToBytes(microseconds);
-    }
-
-    /**
-     * Get the value as a {@code ZonedDateTime}
-     * @return The UTC date and time
-     */
-    public ZonedDateTime getDateTime()
-    {
-        Instant instant = Instant.ofEpochSecond(microseconds / 1000000, (int)(microseconds % 1000000) * 1000);
-        return ZonedDateTime.ofInstant(instant, ZoneId.of("UTC"));
-    }
-
-    @Override
-    public String getDisplayableValue()
-    {
-        return "" + microseconds;
+        super(dateTime);
     }
 
     @Override
@@ -121,4 +72,5 @@ public class PrecisionTimeStamp implements IVmtiMetadataValue
     {
         return "Precision Time Stamp";
     }
+
 }
