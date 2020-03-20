@@ -1,6 +1,8 @@
 package org.jmisb.api.klv.st0903.vtracker;
 
 import java.util.List;
+import java.util.SortedMap;
+import java.util.TreeMap;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import org.jmisb.api.common.KlvParseException;
@@ -15,6 +17,11 @@ import org.jmisb.api.klv.st0903.shared.VmtiTextString;
 public class VTrackerLS {
 
     private static final Logger LOG = Logger.getLogger(VTrackerLS.class.getName());
+    
+    /**
+     * Map containing all data elements in the message
+     */
+    private SortedMap<VTrackerMetadataKey, IVmtiMetadataValue> map = new TreeMap<>();
 
     // TODO consider refactoring to pass in the original array instead of a copy
     public VTrackerLS(byte[] bytes) throws KlvParseException
@@ -34,7 +41,7 @@ public class VTrackerLS {
 
     private void setField(VTrackerMetadataKey key, IVmtiMetadataValue value)
     {
-
+        map.put(key, value);
     }
 
     /**
