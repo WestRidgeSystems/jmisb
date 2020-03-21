@@ -17,11 +17,11 @@ import org.jmisb.api.klv.st0903.shared.VmtiTextString;
 public class VTrackerLS {
 
     private static final Logger LOG = Logger.getLogger(VTrackerLS.class.getName());
-    
+
     /**
      * Map containing all data elements in the message
      */
-    private SortedMap<VTrackerMetadataKey, IVmtiMetadataValue> map = new TreeMap<>();
+    private final SortedMap<VTrackerMetadataKey, IVmtiMetadataValue> map = new TreeMap<>();
 
     // TODO consider refactoring to pass in the original array instead of a copy
     public VTrackerLS(byte[] bytes) throws KlvParseException
@@ -31,7 +31,7 @@ public class VTrackerLS {
         for (LdsField field : fields) {
             VTrackerMetadataKey key = VTrackerMetadataKey.getKey(field.getTag());
             if (key == VTrackerMetadataKey.Undefined) {
-                LOG.log(Level.INFO, "Unknown VMTI VTarget Metadata tag: {0}", field.getTag());
+                LOG.log(Level.INFO, "Unknown VMTI VTracker Metadata tag: {0}", field.getTag());
             } else {
                 IVmtiMetadataValue value = createValue(key, field.getData());
                 setField(key, value);

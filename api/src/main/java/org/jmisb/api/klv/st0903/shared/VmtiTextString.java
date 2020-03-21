@@ -28,6 +28,27 @@ public class VmtiTextString implements IVmtiMetadataValue
      */
     public final static String ALGORITHM = "Algorithm";
 
+    /**
+     * VChip LS Tag 1 - Image Type.
+     * <p>
+     * A string of UTF-8 characters that correspond to an IANA media image
+     * subtype. Only the IANA media image subtypes “jpeg” and “png” are allowed;
+     * these are common formats for compressing a still image. JPEG is a lossy
+     * compression method, but quality is adjustable. PNG is lossless and
+     * provides RGB bit depths up to 48 bits per pixel (16 bits per color
+     * component). Thus, it preserves “raw” pixel values.
+     * <p>
+     * Tag 1 Image Type is a required item in the VChip LS. However, for
+     * bandwidth efficiency, Image Type is not necessary in every VChip LS
+     * (although it may) but needs to be present periodically. Once specified
+     * Image Type, Image URI and Embedded Image items in subsequent VChip LSs
+     * needs to be consistent with the specified image type.
+     * <p>
+     * Valid Values: A string of UTF-8 characters that correspond to an IANA
+     * media image subtype.
+     */
+    public final static String IMAGE_TYPE = "Image Type";
+
     private final String displayName;
     private final String stringValue;
 
