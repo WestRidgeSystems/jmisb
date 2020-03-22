@@ -11,7 +11,7 @@ import static org.testng.Assert.*;
 import org.testng.annotations.Test;
 
 /**
- * Tests for VChip (ST0903 Tag 8).
+ * Tests for VChip (ST0903 Target Tag 105).
  */
 public class VChipTest
 {

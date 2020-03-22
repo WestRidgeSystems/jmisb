@@ -73,9 +73,9 @@ public class VChip implements IVmtiMetadataValue
     }
 
     /**
-     * Get the VChipLS structure.
+     * Get the VChipLS.
      *
-     * @return the pack structure (row and column)
+     * @return the chip local set.
      */
     public VChipLS getChip()
     {

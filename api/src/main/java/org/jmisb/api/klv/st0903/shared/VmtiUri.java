@@ -23,6 +23,24 @@ public class VmtiUri extends VmtiTextString
     public final static String IMAGE_URI = "Image URI";
 
     /**
+     * VObject LS Tag 1 - Ontology.
+     * <p>
+     * The Ontology Tag 1 item is a Uniform Resource Identifier (URI), which
+     * refers to a VObject ontology. Refer to the OWL Web Ontology Language for
+     * the ontology used. The Jet Propulsion Laboratory Semantic Web for Earth
+     * and Environmental Terminology (SWEET)
+     * (https://bioportal.bioontology.org/ontologies/SWEET) provides a
+     * collection of ontologies, written in the OWL ontology language which
+     * serves as examples and starting points for the development of additional
+     * domain-specific extended ontologies.
+     * <p>
+     * The Ontology Tag 1 needs to precede the ontologyClass Tag 2 item. For
+     * bandwidth efficiency, Ontology can appear periodically and referenced by
+     * subsequent VTarget Packs which use the specified ontology.
+     */
+    public final static String ONTOLOGY = "Ontology";
+
+    /**
      * Create from string value.
      *
      * @param name The display name for the URI

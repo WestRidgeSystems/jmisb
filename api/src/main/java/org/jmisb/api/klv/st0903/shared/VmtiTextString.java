@@ -22,7 +22,8 @@ public class VmtiTextString implements IVmtiMetadataValue
     public final static String SOURCE_SENSOR = "Source Sensor";
 
     /**
-     * VTarget LS Tag 6 - Algorithm. Unique name or description of the algorithm
+     * VTarget LS Tag 6 - Algorithm.
+     * Unique name or description of the algorithm
      * or method used to create or maintain object movement reports or
      * intervening predictions of such movement.
      */
@@ -48,6 +49,17 @@ public class VmtiTextString implements IVmtiMetadataValue
      * media image subtype.
      */
     public final static String IMAGE_TYPE = "Image Type";
+
+    /**
+     * VObject LS Tag 2 - Ontology class.
+     * <p>
+     * A value representing a target class or type, as defined by the VObject
+     * Ontology Tag 1. For bandwidth efficiency, it is desirable that the
+     * Ontology specify a mapping between compact values (perhaps BER-OID
+     * encoded) for use in OntologyClass and more descriptive names for use by
+     * systems that present the information to human observers.
+     */
+    public final static String ONTOLOGY_CLASS = "Ontology Class";
 
     private final String displayName;
     private final String stringValue;

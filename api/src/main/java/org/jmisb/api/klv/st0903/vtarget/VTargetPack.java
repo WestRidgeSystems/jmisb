@@ -106,8 +106,7 @@ public class VTargetPack {
                 // TODO
                 return null;
             case VObject:
-                // TODO
-                return null;
+                return new VObject(bytes);
             case VFeature:
                 // TODO
                 return null;
@@ -117,8 +116,7 @@ public class VTargetPack {
             case VChip:
                 return new VChip(bytes);
             case VChipSeries:
-                // TODO
-                return null;
+                return new VChipSeries(bytes);
             case VObjectSeries:
                 // TODO
                 return null;
