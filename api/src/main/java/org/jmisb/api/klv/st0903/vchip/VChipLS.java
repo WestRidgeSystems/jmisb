@@ -1,5 +1,7 @@
 package org.jmisb.api.klv.st0903.vchip;
 
+import java.io.ByteArrayOutputStream;
+import java.io.IOException;
 import java.util.List;
 import java.util.Map;
 import java.util.Set;
@@ -8,6 +10,7 @@ import java.util.TreeMap;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import org.jmisb.api.common.KlvParseException;
+import org.jmisb.api.klv.BerEncoder;
 import org.jmisb.api.klv.LdsField;
 import org.jmisb.api.klv.LdsParser;
 import org.jmisb.api.klv.st0903.IVmtiMetadataValue;
@@ -95,5 +98,24 @@ public class VChipLS {
     public IVmtiMetadataValue getField(VChipMetadataKey tag)
     {
         return map.get(tag);
+    }
+
+    /**
+     * Get the byte array corresponding to the value for this Local Set.
+     * @return byte array with the encoded local set.
+     * @throws IOException if there is a problem during conversion.
+     */
+    public byte[] getBytes() throws IOException
+    {
+        ByteArrayOutputStream baos = new ByteArrayOutputStream();
+        for (VChipMetadataKey tag: getTags())
+        {
+            baos.write(new byte[]{(byte) tag.getTag()});
+            IVmtiMetadataValue value = getField(tag);
+            byte[] bytes = value.getBytes();
+            baos.write(BerEncoder.encode(bytes.length));
+            baos.write(bytes);
+        }
+        return baos.toByteArray();
     }
 }
