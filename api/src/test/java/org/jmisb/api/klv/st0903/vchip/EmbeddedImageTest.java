@@ -2,12 +2,7 @@ package org.jmisb.api.klv.st0903.vchip;
 
 import java.awt.image.BufferedImage;
 import static java.awt.image.BufferedImage.TYPE_3BYTE_BGR;
-import java.awt.image.ColorModel;
-import java.io.ByteArrayInputStream;
 import java.io.IOException;
-import java.io.InputStream;
-import javax.imageio.ImageIO;
-import javax.imageio.stream.ImageInputStream;
 import org.jmisb.api.common.KlvParseException;
 import org.jmisb.api.klv.st0903.IVmtiMetadataValue;
 import org.testng.Assert;

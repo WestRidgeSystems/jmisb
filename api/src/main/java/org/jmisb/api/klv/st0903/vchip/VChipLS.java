@@ -1,6 +1,8 @@
 package org.jmisb.api.klv.st0903.vchip;
 
 import java.util.List;
+import java.util.Map;
+import java.util.Set;
 import java.util.SortedMap;
 import java.util.TreeMap;
 import java.util.logging.Level;
@@ -23,6 +25,16 @@ public class VChipLS {
      * Map containing all data elements in the message
      */
     private final SortedMap<VChipMetadataKey, IVmtiMetadataValue> map = new TreeMap<>();
+
+    /**
+     * Create the message from the given key/value pairs
+     *
+     * @param values Tag/value pairs to be included in the local set/
+     */
+    public VChipLS(Map<VChipMetadataKey, IVmtiMetadataValue> values)
+    {
+        map.putAll(values);
+    }
 
     // TODO consider refactoring to pass in the original array instead of a copy
     public VChipLS(byte[] bytes) throws KlvParseException
@@ -50,9 +62,8 @@ public class VChipLS {
      */
     public static IVmtiMetadataValue createValue(VChipMetadataKey tag, byte[] bytes) throws KlvParseException
     {
-        // Keep the case statements in enum ordinal order so we can keep track of what is implemented.
-        // Mark all unimplemented tags with TODO.
-        switch (tag) {
+        switch (tag)
+        {
             case imageType:
                 return new VmtiTextString(VmtiTextString.IMAGE_TYPE, bytes);
             case imageUri:
@@ -65,4 +76,24 @@ public class VChipLS {
         return null;
     }
 
+    /**
+     * Get the set of tags with populated values
+     *
+     * @return The set of tags for which values have been set
+     */
+    public Set<VChipMetadataKey> getTags()
+    {
+        return map.keySet();
+    }
+
+    /**
+     * Get the value of a given tag
+     *
+     * @param tag Tag of the value to retrieve
+     * @return The value, or null if no value was set
+     */
+    public IVmtiMetadataValue getField(VChipMetadataKey tag)
+    {
+        return map.get(tag);
+    }
 }
