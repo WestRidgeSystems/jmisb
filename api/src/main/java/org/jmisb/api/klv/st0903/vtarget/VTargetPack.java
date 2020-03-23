@@ -118,8 +118,7 @@ public class VTargetPack {
             case VChipSeries:
                 return new VChipSeries(bytes);
             case VObjectSeries:
-                // TODO
-                return null;
+                return new VObjectSeries(bytes);
             default:
                 System.out.println("Unrecognized VTarget tag: " + tag);
         }
