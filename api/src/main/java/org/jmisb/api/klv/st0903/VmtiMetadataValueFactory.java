@@ -38,11 +38,9 @@ class VmtiMetadataValueFactory {
             case SourceSensor:
                 return new VmtiTextString(VmtiTextString.SOURCE_SENSOR, bytes);
             case HorizontalFieldOfView:
-                // TODO
-                return null;
+                return new VmtiHorizontalFieldOfView(bytes);
             case VerticalFieldOfView:
-                // TODO
-                return null;
+                return new VmtiVerticalFieldOfView(bytes);
             case MiisId:
                 return new MiisCoreIdentifier(bytes);
             case VTargetSeries:
