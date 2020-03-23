@@ -62,4 +62,84 @@ public class CentroidPixelRowTest {
     {
         new CentroidPixelRow(new byte[]{0x01, 0x02, 0x03, 0x04, 0x05});
     }
+
+    @Test
+    public void testConstructFromEncodedBytes1()
+    {
+        CentroidPixelRow index = new CentroidPixelRow(new byte[]{(byte)0x01});
+        assertEquals(index.getBytes(), new byte[]{(byte)0x01});
+        assertEquals(index.getDisplayName(), "Centroid Pixel Row");
+        assertEquals(index.getDisplayableValue(), "1");
+        assertEquals(index.getValue(), 1L);
+    }
+
+    @Test
+    public void testConstructFromEncodedBytes255()
+    {
+        CentroidPixelRow index = new CentroidPixelRow(new byte[]{(byte)0xFF});
+        assertEquals(index.getBytes(), new byte[]{(byte)0xFF});
+        assertEquals(index.getDisplayName(), "Centroid Pixel Row");
+        assertEquals(index.getDisplayableValue(), "255");
+        assertEquals(index.getValue(), 255L);
+    }
+
+    @Test
+    public void testConstructFromEncodedBytes256()
+    {
+        CentroidPixelRow index = new CentroidPixelRow(new byte[]{(byte)0x01, (byte)0x00});
+        assertEquals(index.getBytes(), new byte[]{(byte)0x01, (byte)0x00});
+        assertEquals(index.getDisplayName(), "Centroid Pixel Row");
+        assertEquals(index.getDisplayableValue(), "256");
+        assertEquals(index.getValue(), 256L);
+    }
+
+    @Test
+    public void testConstructFromEncodedBytes65535()
+    {
+        CentroidPixelRow index = new CentroidPixelRow(new byte[]{(byte)0xFF, (byte)0xFF});
+        assertEquals(index.getBytes(), new byte[]{(byte)0xFF, (byte)0xFF});
+        assertEquals(index.getDisplayName(), "Centroid Pixel Row");
+        assertEquals(index.getDisplayableValue(), "65535");
+        assertEquals(index.getValue(), 65535L);
+    }
+
+    @Test
+    public void testConstructFromEncodedBytes65536()
+    {
+        CentroidPixelRow index = new CentroidPixelRow(new byte[]{(byte)0x01, (byte)0x00, (byte)0x00});
+        assertEquals(index.getBytes(), new byte[]{(byte)0x01, (byte)0x00, (byte)0x00});
+        assertEquals(index.getDisplayName(), "Centroid Pixel Row");
+        assertEquals(index.getDisplayableValue(), "65536");
+        assertEquals(index.getValue(), 65536L);
+    }
+
+    @Test
+    public void testConstructFromEncodedBytes16777215()
+    {
+        CentroidPixelRow index = new CentroidPixelRow(new byte[]{(byte)0xFF, (byte)0xFF, (byte)0xFF});
+        assertEquals(index.getBytes(), new byte[]{(byte)0xFF, (byte)0xFF, (byte)0xFF});
+        assertEquals(index.getDisplayName(), "Centroid Pixel Row");
+        assertEquals(index.getDisplayableValue(), "16777215");
+        assertEquals(index.getValue(), 16777215L);
+    }
+
+    @Test
+    public void testConstructFromEncodedBytes16777216()
+    {
+        CentroidPixelRow index = new CentroidPixelRow(new byte[]{(byte)0x01, (byte)0x00, (byte)0x00, (byte)0x00});
+        assertEquals(index.getBytes(), new byte[]{(byte)0x01, (byte)0x00, (byte)0x00, (byte)0x00});
+        assertEquals(index.getDisplayName(), "Centroid Pixel Row");
+        assertEquals(index.getDisplayableValue(), "16777216");
+        assertEquals(index.getValue(), 16777216L);
+    }
+
+    @Test
+    public void testConstructFromEncodedBytes4294967295()
+    {
+        CentroidPixelRow index = new CentroidPixelRow(new byte[]{(byte)0xFF, (byte)0xFF, (byte)0xFF, (byte)0xFF});
+        assertEquals(index.getBytes(), new byte[]{(byte)0xFF, (byte)0xFF, (byte)0xFF, (byte)0xFF});
+        assertEquals(index.getDisplayName(), "Centroid Pixel Row");
+        assertEquals(index.getDisplayableValue(), "4294967295");
+        assertEquals(index.getValue(), 4294967295L);
+    }
 }
