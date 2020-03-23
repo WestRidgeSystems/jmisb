@@ -1,12 +1,11 @@
 package org.jmisb.api.klv.st0903.shared;
 
-import java.nio.charset.StandardCharsets;
 import org.jmisb.api.klv.st0903.IVmtiMetadataValue;
 
 /**
  * Represents a string value in ST 0903.
  */
-public class VmtiTextString implements IVmtiMetadataValue
+public class VmtiTextString extends VmtiUtf8 implements IVmtiMetadataValue
 {
     /**
      * VMTI LS Tag 3 - VMTI System Name.
@@ -61,8 +60,32 @@ public class VmtiTextString implements IVmtiMetadataValue
      */
     public final static String ONTOLOGY_CLASS = "Ontology Class";
 
-    private final String displayName;
-    private final String stringValue;
+    /**
+     * Algorithm LS Tag 2 - Name.
+     * <p>
+     * The Name is the name assigned to the algorithm by the data producer.
+     * <p>
+     * Valid Values: Any alphanumeric value in UTF8.
+     */
+    public static String ALGORITHM_NAME = "Algorithm Name";
+
+    /**
+     * Algorithm LS Tag 3 - Version.
+     * <p>
+     * The Version is the version of the algorithm.
+     * <p>
+     * Valid Values: Any alphanumeric value in UTF8.
+     */
+    public static String ALGORITHM_VERSION = "Algorithm Version";
+
+    /**
+     * Algorithm LS Tag 4 - Class.
+     * <p>
+     * The Class is the type of algorithm.
+     * <p>
+     * Valid Values: Any alphanumeric value in UTF8.
+     */
+    public static String ALGORITHM_CLASS = "Algorithm Class";
 
     /**
      * Create from value
@@ -71,8 +94,7 @@ public class VmtiTextString implements IVmtiMetadataValue
      */
     public VmtiTextString(String name, String value)
     {
-        this.displayName = name;
-        this.stringValue = value;
+        super(name, value);
     }
 
     /**
@@ -82,34 +104,6 @@ public class VmtiTextString implements IVmtiMetadataValue
      */
     public VmtiTextString(String name, byte[] bytes)
     {
-        this.displayName = name;
-        this.stringValue = new String(bytes);
-    }
-
-    /**
-     * Get the value
-     * @return The string value
-     */
-    public String getValue()
-    {
-        return stringValue;
-    }
-
-    @Override
-    public byte[] getBytes()
-    {
-        return stringValue.getBytes(StandardCharsets.UTF_8);
-    }
-
-    @Override
-    public String getDisplayableValue()
-    {
-        return stringValue;
-    }
-
-    @Override
-    public String getDisplayName()
-    {
-        return displayName;
+        super(name, bytes);
     }
 }

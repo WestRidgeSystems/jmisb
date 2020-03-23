@@ -2,11 +2,12 @@ package org.jmisb.api.klv.st0903.shared;
 
 import java.net.URI;
 import java.net.URISyntaxException;
+import org.jmisb.api.klv.st0903.IVmtiMetadataValue;
 
 /**
  * Represents a URI string value in ST 0903.
  */
-public class VmtiUri extends VmtiTextString
+public class VmtiUri extends VmtiUtf8 implements IVmtiMetadataValue
 {
     /**
      * VChip LS Tag 2 - Image URI.
