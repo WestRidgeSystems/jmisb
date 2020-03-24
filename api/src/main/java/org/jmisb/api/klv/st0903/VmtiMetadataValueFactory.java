@@ -16,9 +16,7 @@ class VmtiMetadataValueFactory {
         // Keep the case statements in enum ordinal order so we can keep track of what is implemented. Mark all
         // unimplemented tags with TODO.
         switch (tag) {
-            case Checksum:
-                // TODO
-                return null;
+            // No Checksum - handled automatically
             case PrecisionTimeStamp:
                 return new PrecisionTimeStamp(bytes);
             case SystemName:

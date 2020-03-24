@@ -1,22 +1,41 @@
 package org.jmisb.api.klv.st0903;
 
+import java.io.ByteArrayOutputStream;
+import java.io.IOException;
 import java.util.List;
+import java.util.Map;
+import java.util.Set;
+import java.util.SortedMap;
+import java.util.TreeMap;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import org.jmisb.api.common.KlvParseException;
+import org.jmisb.api.klv.BerEncoder;
 import org.jmisb.api.klv.LdsField;
 import org.jmisb.api.klv.LdsParser;
+import org.jmisb.api.klv.st0903.vchip.VChipMetadataKey;
 
 public class VmtiLocalSet {
 
     private static final Logger LOG = Logger.getLogger(VmtiLocalSet.class.getName());
 
-    public VmtiLocalSet() {
-        // TODO
+    /**
+     * Map containing all data elements in the message
+     */
+    private final SortedMap<VmtiMetadataKey, IVmtiMetadataValue> map = new TreeMap<>();
+
+    /**
+     * Create the local set from the given key/value pairs
+     *
+     * @param values Tag/value pairs to be included in the local set
+     */
+    public VmtiLocalSet(Map<VmtiMetadataKey, IVmtiMetadataValue> values)
+    {
+        map.putAll(values);
     }
 
     /**
-     * Build a VmtiLocalSet from encoded bytes.
+     * Build a VMTI Local Set from encoded bytes.
      *
      * @param bytes the bytes to build from
      * @throws KlvParseException if parsing fails
@@ -28,28 +47,59 @@ public class VmtiLocalSet {
         for (LdsField field : fields)
         {
             VmtiMetadataKey key = VmtiMetadataKey.getKey(field.getTag());
-            if (key == VmtiMetadataKey.Undefined) {
-                LOG.log(Level.INFO, "Unknown VMTI Metadata tag: {0}", field.getTag());
-            } else {
-                IVmtiMetadataValue value = VmtiMetadataValueFactory.createValue(key, field.getData());
-                setField(key, value);
+            switch (key) {
+                case Undefined:
+                    LOG.log(Level.INFO, "Unknown VMTI Metadata tag: {0}", field.getTag());
+                    break;
+                case Checksum:
+                    // TODO check the checksum
+                    break;
+                default:
+                    IVmtiMetadataValue value = VmtiMetadataValueFactory.createValue(key, field.getData());
+                    map.put(key, value);
+                    break;
             }
         }        
     }
 
-    public byte[] getBytes()
+    /**
+     * Get the byte array corresponding to the value for this Local Set.
+     * @return byte array with the encoded local set.
+     * @throws IOException if there is a problem during conversion.
+     */
+    public byte[] getBytes() throws IOException
     {
-        // TODO
-        return new byte[]{(byte) 0x00};
+        ByteArrayOutputStream baos = new ByteArrayOutputStream();
+        for (VmtiMetadataKey tag: getTags())
+        {
+            baos.write(new byte[]{(byte) tag.getTag()});
+            IVmtiMetadataValue value = getField(tag);
+            byte[] bytes = value.getBytes();
+            baos.write(BerEncoder.encode(bytes.length));
+            baos.write(bytes);
+        }
+        return baos.toByteArray();
     }
 
-    private void setField(VmtiMetadataKey key, IVmtiMetadataValue value)
+    /**
+     * Get the set of tags with populated values
+     *
+     * @return The set of tags for which values have been set
+     */
+    public Set<VmtiMetadataKey> getTags()
     {
-        if (value != null)
-        {
-            LOG.log(Level.INFO, "VMTI LS Element: {0} = {1}|{2}", new Object[]{key, value.getDisplayName(), value.getDisplayableValue()});
-        
-        }
+        return map.keySet();
+    }
+
+    /**
+     * Get the value of a given tag
+     *
+     * @param tag Tag of the value to retrieve
+     * @return The value, or null if no value was set
+     */
+    public IVmtiMetadataValue getField(VmtiMetadataKey tag)
+    {
+        return map.get(tag);
     }
 
 }

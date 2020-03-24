@@ -1,17 +1,39 @@
 package org.jmisb.api.klv.st0903;
 
+import java.io.ByteArrayOutputStream;
+import java.io.IOException;
 import org.jmisb.api.klv.st0903.vtarget.VTargetPack;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 import org.jmisb.api.common.KlvParseException;
 import org.jmisb.api.klv.BerDecoder;
+import org.jmisb.api.klv.BerEncoder;
 import org.jmisb.api.klv.BerField;
 
 public class VTargetSeries implements IVmtiMetadataValue
 {
-    private List<VTargetPack> targetPacks = new ArrayList<>();
+    private final List<VTargetPack> targetPacks = new ArrayList<>();
 
+    private static final Logger LOG = Logger.getLogger(VTargetSeries.class.getName());
+
+    /**
+     * Create the message from a list of VTargetPacks
+     *
+     * @param values the target packs to include in the series.
+     */
+    public VTargetSeries(List<VTargetPack> values)
+    {
+        targetPacks.addAll(values);
+    }
+    /**
+     * Create from encoded bytes.
+     *
+     * @param bytes Encoded byte array
+     * @throws KlvParseException if there is a parsing error on the byte array.
+     */
     public VTargetSeries(byte[] bytes) throws KlvParseException
     {
         int index = 0;
@@ -29,20 +51,44 @@ public class VTargetSeries implements IVmtiMetadataValue
     @Override
     public byte[] getBytes()
     {
-        // TODO: fix
-        return new byte[]{0x00};
+        ByteArrayOutputStream baos = new ByteArrayOutputStream();
+        for (VTargetPack vtargetPack : targetPacks)
+        {
+            try
+            {
+                byte[] bytes = vtargetPack.getBytes();
+                baos.write(BerEncoder.encode(bytes.length));
+                baos.write(bytes);
+            }
+            catch (IOException ex)
+            {
+                LOG.log(Level.SEVERE, null, ex);
+                return null;
+            }
+        }
+        return baos.toByteArray();
     }
 
     @Override
     public String getDisplayableValue()
     {
-        return "Targets";
+        return "[Targets]";
     }
 
     @Override
     public String getDisplayName()
     {
         return "Target Series";
+    }
+
+    /**
+     * Get the VTargets in the series.
+     *
+     * @return the VTargets as a List
+     */
+    public List<VTargetPack> getVTargets()
+    {
+        return targetPacks;
     }
 
 }

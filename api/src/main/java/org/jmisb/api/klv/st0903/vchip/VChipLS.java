@@ -32,7 +32,7 @@ public class VChipLS {
     /**
      * Create the message from the given key/value pairs
      *
-     * @param values Tag/value pairs to be included in the local set/
+     * @param values Tag/value pairs to be included in the local set
      */
     public VChipLS(Map<VChipMetadataKey, IVmtiMetadataValue> values)
     {

@@ -1,5 +1,8 @@
 package org.jmisb.api.klv.st0601;
 
+import java.io.IOException;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 import org.jmisb.api.common.KlvParseException;
 import org.jmisb.api.klv.st0903.VmtiLocalSet;
 
@@ -22,6 +25,8 @@ import org.jmisb.api.klv.st0903.VmtiLocalSet;
  * </blockquote>
  */
 public class NestedVmtiLocalSet implements IUasDatalinkValue {
+
+    private static final Logger LOG = Logger.getLogger(NestedVmtiLocalSet.class.getName());
 
     private VmtiLocalSet vmtiLocalSet;
 
@@ -46,7 +51,12 @@ public class NestedVmtiLocalSet implements IUasDatalinkValue {
 
     @Override
     public byte[] getBytes() {
-        return this.vmtiLocalSet.getBytes();
+        try {
+            return this.vmtiLocalSet.getBytes();
+        } catch (IOException ex) {
+            LOG.log(Level.SEVERE, null, ex);
+            return null;
+        }
     }
 
     @Override

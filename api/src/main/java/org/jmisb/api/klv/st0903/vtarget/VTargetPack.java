@@ -1,10 +1,17 @@
 package org.jmisb.api.klv.st0903.vtarget;
 
+import java.io.ByteArrayOutputStream;
+import java.io.IOException;
 import java.util.List;
+import java.util.Map;
+import java.util.Set;
+import java.util.SortedMap;
+import java.util.TreeMap;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import org.jmisb.api.common.KlvParseException;
 import org.jmisb.api.klv.BerDecoder;
+import org.jmisb.api.klv.BerEncoder;
 import org.jmisb.api.klv.BerField;
 import org.jmisb.api.klv.LdsField;
 import org.jmisb.api.klv.LdsParser;
@@ -14,7 +21,18 @@ public class VTargetPack {
 
     private static final Logger LOG = Logger.getLogger(VTargetPack.class.getName());
 
-    private int targetId;
+    /**
+     * Map containing all data elements in the message
+     */
+    private final SortedMap<VTargetMetadataKey, IVmtiMetadataValue> map = new TreeMap<>();
+
+    private final int targetId;
+
+    public VTargetPack(int targetId, Map<VTargetMetadataKey, IVmtiMetadataValue> values)
+    {
+        this.targetId = targetId;
+        map.putAll(values);
+    }
 
     // TODO consider refactoring to pass in the original array instead of a copy
     public VTargetPack(byte[] bytes) throws KlvParseException
@@ -24,20 +42,19 @@ public class VTargetPack {
         offset += targetIdField.getLength();
         targetId = targetIdField.getValue();
         List<LdsField> fields = LdsParser.parseFields(bytes, offset, bytes.length - offset);
-        for (LdsField field : fields) {
+        for (LdsField field : fields)
+        {
             VTargetMetadataKey key = VTargetMetadataKey.getKey(field.getTag());
-            if (key == VTargetMetadataKey.Undefined) {
+            if (key == VTargetMetadataKey.Undefined)
+            {
                 LOG.log(Level.INFO, "Unknown VMTI VTarget Metadata tag: {0}", field.getTag());
-            } else {
+            }
+            else
+            {
                 IVmtiMetadataValue value = createValue(key, field.getData());
-                setField(key, value);
+                map.put(key, value);
             }
         }
-    }
-
-    private void setField(VTargetMetadataKey key, IVmtiMetadataValue value)
-    {
-
     }
 
     /**
@@ -111,8 +128,7 @@ public class VTargetPack {
                 // TODO
                 return null;
             case VTracker:
-                // TODO
-                return null;
+                return new VTracker(bytes);
             case VChip:
                 return new VChip(bytes);
             case VChipSeries:
@@ -125,4 +141,55 @@ public class VTargetPack {
         return null;
     }
 
+    /**
+     * Get the target identifier.
+     *
+     * @return target identifier.
+     */
+    public int getTargetIdentifier()
+    {
+        return targetId;
+    }
+
+    /**
+     * Get the set of tags with populated values
+     *
+     * @return The set of tags for which values have been set
+     */
+    public Set<VTargetMetadataKey> getTags()
+    {
+        return map.keySet();
+    }
+
+    /**
+     * Get the value of a given tag
+     *
+     * @param tag Tag of the value to retrieve
+     * @return The value, or null if no value was set
+     */
+    public IVmtiMetadataValue getField(VTargetMetadataKey tag)
+    {
+        return map.get(tag);
+    }
+
+    /**
+     * Get the byte array corresponding to the value for this Local Set.
+     *
+     * @return byte array with the encoded local set.
+     * @throws IOException if there is a problem during conversion.
+     */
+    public byte[] getBytes() throws IOException
+    {
+        ByteArrayOutputStream outputStream = new ByteArrayOutputStream();
+        outputStream.write(BerEncoder.encode(targetId));
+        for (VTargetMetadataKey tag: getTags())
+        {
+            outputStream.write(new byte[]{(byte) tag.getTag()});
+            IVmtiMetadataValue value = getField(tag);
+            byte[] bytes = value.getBytes();
+            outputStream.write(BerEncoder.encode(bytes.length));
+            outputStream.write(bytes);
+        }
+        return outputStream.toByteArray();
+    }
 }
