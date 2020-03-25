@@ -31,10 +31,10 @@ public class VObjectTest
     @Test
     public void testConstructFromEncodedBytes() throws KlvParseException
     {
-        VObject chip = new VObject(ontologyBytes);
-        assertEquals(chip.getBytes(), ontologyBytes);
-        assertEquals(chip.getDisplayName(), "VObject Ontology");
-        assertEquals(chip.getDisplayableValue(), "[VObject]");
+        VObject vobject = new VObject(ontologyBytes);
+        assertEquals(vobject.getBytes(), ontologyBytes);
+        assertEquals(vobject.getDisplayName(), "VObject Ontology");
+        assertEquals(vobject.getDisplayableValue(), "[VObject]");
     }
 
     @Test
@@ -58,8 +58,8 @@ public class VObjectTest
         final byte[] urlBytes = new byte[]{0x68, 0x74, 0x74, 0x70, 0x73, 0x3A, 0x2F, 0x2F, 0x77, 0x77, 0x77, 0x2E, 0x67, 0x77, 0x67, 0x2E, 0x6E, 0x67, 0x61, 0x2E, 0x6D, 0x69, 0x6C, 0x2F, 0x6D, 0x69, 0x73, 0x62, 0x2F, 0x69, 0x6D, 0x61, 0x67, 0x65, 0x73, 0x2F, 0x62, 0x61, 0x6E, 0x6E, 0x65, 0x72, 0x2E, 0x6A, 0x70, 0x67};
         IVmtiMetadataValue imageUri = VObjectLS.createValue(VObjectMetadataKey.ontologyClass, urlBytes);
         values.put(VObjectMetadataKey.ontologyClass, imageUri);
-        VObjectLS vOntologyLS = new VObjectLS(values);
-        VObject vObject = new VObject(vOntologyLS);
+        VObjectLS vObjectLS = new VObjectLS(values);
+        VObject vObject = new VObject(vObjectLS);
         assertNotNull(vObject);
         assertEquals(vObject.getVObject().getTags().size(), 2);
     }

@@ -123,8 +123,7 @@ public class VTargetPack {
             case VObject:
                 return new VObject(bytes);
             case VFeature:
-                // TODO
-                return null;
+                return new VFeature(bytes);
             case VTracker:
                 return new VTracker(bytes);
             case VChip:

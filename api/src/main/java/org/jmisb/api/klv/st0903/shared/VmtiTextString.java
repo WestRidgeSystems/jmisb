@@ -88,6 +88,18 @@ public class VmtiTextString extends VmtiUtf8 implements IVmtiMetadataValue
     public static String ALGORITHM_CLASS = "Algorithm Class";
 
     /**
+     * VFeature LS Tag 2 - Schema Feature.
+     * <p>
+     * A Geographic Markup Language (GML) document structured according to the
+     * schema specified by VFeature LS Tag 1 Schema. It may contain one or more
+     * values observed for a feature of interest.
+     * <p>
+     * Valid Values: Any OGC GML document that validates against the schema
+     * specified in Tag 1: Schema.
+     */
+    public final static String VFEATURE_SCHEMA_FEATURE = "Schema Feature";
+
+    /**
      * Create from value
      * @param name The display name for the string
      * @param value The string value

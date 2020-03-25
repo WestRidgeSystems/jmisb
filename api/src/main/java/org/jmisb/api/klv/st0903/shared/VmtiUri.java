@@ -24,6 +24,32 @@ public class VmtiUri extends VmtiUtf8 implements IVmtiMetadataValue
     public final static String IMAGE_URI = "Image URI";
 
     /**
+     * VFeature LS Tag 1 - Schema.
+     * <p>
+     * A Uniform Resource Identifier (URI) which points to a relevant
+     * Observation schema (http://schemas.opengis.net/om/1.0.0/) or a related
+     * schema. The O&M standard defines an Observation as “an action with a
+     * result which has a value describing some phenomenon”. The Observation is
+     * a Feature within the context of ISO 19101 [11] and ISO 19109 [12]. An
+     * Observation may involve use of a sensor or observer, analytical
+     * procedure, simulation, or other mathematical process. An Observation
+     * yields an estimate of the value of a property of the feature of interest
+     * and can account for error that may be present in the estimate.
+     * <p>
+     * Observation values may have many data types, from primitive to complex,
+     * including category, measure, and geometry. Combinations of data types can
+     * encode properties having multiple components. The notion of “coverage” is
+     * useful for properties that vary over the feature of interest. O&M
+     * Sampling addresses the sampling of sub-elements of a feature used to
+     * represent the whole.
+     * <p>
+     * Schema is a required element of VFeature. However, for bandwidth
+     * efficiency since Scheme appears periodically, SchemaFeature items in
+     * subsequent VTarget Packs reference the specified schema.
+     */
+    public final static String VFEATURE_SCHEMA = "Schema";
+
+    /**
      * VObject LS Tag 1 - Ontology.
      * <p>
      * The Ontology Tag 1 item is a Uniform Resource Identifier (URI), which
