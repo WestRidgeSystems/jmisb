@@ -84,8 +84,7 @@ public class VTrackerLS {
             case confidence:
                 return new TrackConfidence(bytes);
             case numTrackPoints:
-                // TODO
-                return null;
+                return new NumTrackPoints(bytes);
             case trackHistorySeries:
                 // TODO
                 return null;

@@ -31,7 +31,7 @@ public class ST0903Version implements IVmtiMetadataValue
     {
         if (version < MIN_VALUE || version > MAX_VALUE)
         {
-            throw new IllegalArgumentException(this.getDisplayName() + " view must be in range [0,65535]");
+            throw new IllegalArgumentException(this.getDisplayName() + " value must be in range [0,65535]");
         }
         this.version = version;
     }

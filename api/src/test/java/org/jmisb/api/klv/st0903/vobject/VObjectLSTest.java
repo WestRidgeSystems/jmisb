@@ -11,7 +11,7 @@ import static org.testng.Assert.*;
 import org.testng.annotations.Test;
 
 /**
- * Tests for the ST0903 VChip LS.
+ * Tests for the ST0903 VObject LS.
  */
 public class VObjectLSTest
 {
