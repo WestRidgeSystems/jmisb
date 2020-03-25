@@ -85,11 +85,9 @@ public class VTargetPack {
             case PercentageOfTargetPixels:
                 return new PercentageOfTargetPixels(bytes);
             case TargetColor:
-                // TODO
-                return null;
+                return new TargetColor(bytes);
             case TargetIntensity:
-                // TODO
-                return null;
+                return new TargetIntensity(bytes);
             case TargetLocationOffsetLat:
                 return new TargetLocationOffsetLat(bytes);
             case TargetLocationOffsetLon:
