@@ -52,7 +52,7 @@ public class VmtiTotalTargetCountTest
     @Test
     public void testFactoryEncodedBytes() throws KlvParseException
     {
-        IVmtiMetadataValue value = VmtiMetadataValueFactory.createValue(VmtiMetadataKey.TotalTargetsInFrame, new byte[]{(byte)0x1C});
+        IVmtiMetadataValue value = VmtiLocalSet.createValue(VmtiMetadataKey.TotalTargetsInFrame, new byte[]{(byte)0x1C});
         assertTrue(value instanceof VmtiTotalTargetCount);
         VmtiTotalTargetCount count = (VmtiTotalTargetCount)value;
         assertEquals(count.getBytes(), new byte[]{(byte)0x1C});

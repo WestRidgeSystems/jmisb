@@ -31,7 +31,7 @@ public class VmtiHorizontalFieldOfViewTest {
     @Test
     public void testFactory() throws KlvParseException
     {
-        IVmtiMetadataValue value = VmtiMetadataValueFactory.createValue(VmtiMetadataKey.HorizontalFieldOfView, new byte[]{(byte)0x06, (byte)0x40});
+        IVmtiMetadataValue value = VmtiLocalSet.createValue(VmtiMetadataKey.HorizontalFieldOfView, new byte[]{(byte)0x06, (byte)0x40});
         assertTrue(value instanceof VmtiHorizontalFieldOfView);
         VmtiHorizontalFieldOfView fov = (VmtiHorizontalFieldOfView)value;
         assertEquals(fov.getBytes(), new byte[]{(byte)0x06, (byte)0x40});

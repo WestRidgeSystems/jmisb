@@ -52,7 +52,7 @@ public class AlgorithmLSTest
             0x06, 0x02, (byte) 0x80, (byte) 0xCA, // No such tag
             0x02, 0x14, 0x6B, 0x36, 0x5F, 0x79, 0x6F, 0x6C, 0x6F, 0x5F, 0x39, 0x30, 0x30, 0x30, 0x5F, 0x74, 0x72, 0x61, 0x63, 0x6B, 0x65, 0x72,
             0x03, 0x04, 0x32, 0x2E, 0x36, 0x61,
-            0x04, 0x07, 0x6B, 0x61, 0x6C, 0x6D, 0x61, 0x6E, 0x6E};;
+            0x04, 0x07, 0x6B, 0x61, 0x6C, 0x6D, 0x61, 0x6E, 0x6E};
         AlgorithmLS algorithmLS = new AlgorithmLS(bytes);
         assertNotNull(algorithmLS);
         assertEquals(algorithmLS.getTags().size(), 3);
@@ -61,7 +61,7 @@ public class AlgorithmLSTest
         checkVersionExample(algorithmLS);
     }
 
-    private void checkNameExample(AlgorithmLS algorithmLS) throws URISyntaxException
+    public void checkNameExample(AlgorithmLS algorithmLS) throws URISyntaxException
     {
         final String stringVal = "k6_yolo_9000_tracker";
         assertTrue(algorithmLS.getTags().contains(AlgorithmMetadataKey.name));
@@ -74,7 +74,7 @@ public class AlgorithmLSTest
         assertEquals(text.getValue(), stringVal);
     }
 
-    private void checkVersionExample(AlgorithmLS algorithmLS) throws URISyntaxException
+    public void checkVersionExample(AlgorithmLS algorithmLS) throws URISyntaxException
     {
         final String stringVal = "2.6a";
         assertTrue(algorithmLS.getTags().contains(AlgorithmMetadataKey.version));
@@ -88,7 +88,7 @@ public class AlgorithmLSTest
         assertEquals(text.getValue(), stringVal);
     }
 
-    private void checkClassExample(AlgorithmLS algorithmLS) throws URISyntaxException
+    public void checkClassExample(AlgorithmLS algorithmLS) throws URISyntaxException
     {
         final String stringVal = "kalmann";
         assertTrue(algorithmLS.getTags().contains(AlgorithmMetadataKey.algorithmClass));

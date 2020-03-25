@@ -1,6 +1,5 @@
 package org.jmisb.api.klv.st0903.vobject;
 
-import org.jmisb.api.klv.st0903.vchip.*;
 import java.io.ByteArrayOutputStream;
 import java.io.IOException;
 import java.util.List;

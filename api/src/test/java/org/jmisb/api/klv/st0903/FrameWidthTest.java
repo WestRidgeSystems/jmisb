@@ -52,7 +52,7 @@ public class FrameWidthTest
     @Test
     public void testFactoryEncodedBytes() throws KlvParseException
     {
-        IVmtiMetadataValue value = VmtiMetadataValueFactory.createValue(VmtiMetadataKey.FrameWidth, new byte[]{(byte)0x07, (byte)0x80});
+        IVmtiMetadataValue value = VmtiLocalSet.createValue(VmtiMetadataKey.FrameWidth, new byte[]{(byte)0x07, (byte)0x80});
         assertTrue(value instanceof FrameWidth);
         FrameWidth width = (FrameWidth)value;
         assertEquals(width.getBytes(), new byte[]{(byte)0x07, (byte)0x80});

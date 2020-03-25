@@ -13,11 +13,60 @@ import org.jmisb.api.common.KlvParseException;
 import org.jmisb.api.klv.BerEncoder;
 import org.jmisb.api.klv.LdsField;
 import org.jmisb.api.klv.LdsParser;
-import org.jmisb.api.klv.st0903.vchip.VChipMetadataKey;
+import org.jmisb.api.klv.st0903.shared.VmtiTextString;
 
 public class VmtiLocalSet {
 
     private static final Logger LOG = Logger.getLogger(VmtiLocalSet.class.getName());
+
+    /**
+     * Create a {@link IVmtiMetadataValue} instance from encoded bytes
+     *
+     * @param tag The tag defining the value type
+     * @param bytes Encoded bytes
+     * @return The new instance
+     * @throws KlvParseException if the byte array could not be parsed.
+     */
+    public static IVmtiMetadataValue createValue(VmtiMetadataKey tag, byte[] bytes) throws KlvParseException
+    {
+        // This is fully implemented as of ST0903.5
+        switch (tag) {
+            // No Checksum - handled automatically
+            case PrecisionTimeStamp:
+                return new PrecisionTimeStamp(bytes);
+            case SystemName:
+                return new VmtiTextString(VmtiTextString.SYSTEM_NAME, bytes);
+            case VersionNumber:
+                return new ST0903Version(bytes);
+            case TotalTargetsInFrame:
+                return new VmtiTotalTargetCount(bytes);
+            case NumberOfReportedTargets:
+                return new VmtiReportedTargetCount(bytes);
+            case FrameNumber:
+                return new FrameNumber(bytes);
+            case FrameWidth:
+                return new FrameWidth(bytes);
+            case FrameHeight:
+                return new FrameHeight(bytes);
+            case SourceSensor:
+                return new VmtiTextString(VmtiTextString.SOURCE_SENSOR, bytes);
+            case HorizontalFieldOfView:
+                return new VmtiHorizontalFieldOfView(bytes);
+            case VerticalFieldOfView:
+                return new VmtiVerticalFieldOfView(bytes);
+            case MiisId:
+                return new MiisCoreIdentifier(bytes);
+            case VTargetSeries:
+                return new VTargetSeries(bytes);
+            case AlgorithmSeries:
+                return new AlgorithmSeries(bytes);
+            case OntologySeries:
+                return new OntologySeries(bytes);
+            default:
+                System.out.println("Unrecognized tag: " + tag);
+        }
+        return null;
+    }
 
     /**
      * Map containing all data elements in the message
@@ -55,7 +104,7 @@ public class VmtiLocalSet {
                     // TODO check the checksum
                     break;
                 default:
-                    IVmtiMetadataValue value = VmtiMetadataValueFactory.createValue(key, field.getData());
+                    IVmtiMetadataValue value = createValue(key, field.getData());
                     map.put(key, value);
                     break;
             }

@@ -94,4 +94,11 @@ public class VmtiLocalSetTest
             0x04, 0x01, 0x04};
         assertEquals(localSet.getBytes(), expectedBytes);
     }
+    
+    @Test
+    public void constructUnknown() throws KlvParseException
+    {
+        IVmtiMetadataValue unknown = VmtiLocalSet.createValue(VmtiMetadataKey.Undefined, new byte[]{0x01, 0x02});
+        assertNull(unknown);
+    }
 }

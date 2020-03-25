@@ -33,7 +33,7 @@ public class VmtiTextStringTest
     @Test
     public void testFactoryEncodedBytes() throws KlvParseException
     {
-        IVmtiMetadataValue value = VmtiMetadataValueFactory.createValue(VmtiMetadataKey.SystemName, new byte[]{(byte)0x44, (byte)0x53, (byte)0x54, (byte)0x4F, (byte)0x5F, (byte)0x41, (byte)0x44, (byte)0x53, (byte)0x53, (byte)0x5F, (byte)0x56, (byte)0x4D, (byte)0x54, (byte)0x49});
+        IVmtiMetadataValue value = VmtiLocalSet.createValue(VmtiMetadataKey.SystemName, new byte[]{(byte)0x44, (byte)0x53, (byte)0x54, (byte)0x4F, (byte)0x5F, (byte)0x41, (byte)0x44, (byte)0x53, (byte)0x53, (byte)0x5F, (byte)0x56, (byte)0x4D, (byte)0x54, (byte)0x49});
         assertTrue(value instanceof VmtiTextString);
         VmtiTextString systemName = (VmtiTextString)value;
         assertEquals(systemName.getBytes(), new byte[]{(byte)0x44, (byte)0x53, (byte)0x54, (byte)0x4F, (byte)0x5F, (byte)0x41, (byte)0x44, (byte)0x53, (byte)0x53, (byte)0x5F, (byte)0x56, (byte)0x4D, (byte)0x54, (byte)0x49});
@@ -65,7 +65,7 @@ public class VmtiTextStringTest
     @Test
     public void testFactoryEncodedBytesSourceSensor() throws KlvParseException
     {
-        IVmtiMetadataValue value = VmtiMetadataValueFactory.createValue(VmtiMetadataKey.SourceSensor, new byte[]{(byte)0x45, (byte)0x4F, (byte)0x20, (byte)0x4E, (byte)0x6F, (byte)0x73, (byte)0x65});
+        IVmtiMetadataValue value = VmtiLocalSet.createValue(VmtiMetadataKey.SourceSensor, new byte[]{(byte)0x45, (byte)0x4F, (byte)0x20, (byte)0x4E, (byte)0x6F, (byte)0x73, (byte)0x65});
         assertTrue(value instanceof VmtiTextString);
         VmtiTextString sourceSensor = (VmtiTextString)value;
         assertEquals(sourceSensor.getBytes(), new byte[]{(byte)0x45, (byte)0x4F, (byte)0x20, (byte)0x4E, (byte)0x6F, (byte)0x73, (byte)0x65});

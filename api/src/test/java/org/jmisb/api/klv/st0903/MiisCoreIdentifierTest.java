@@ -38,7 +38,7 @@ public class MiisCoreIdentifierTest
 
     @Test
     public void verifyFromFactory() throws KlvParseException {
-        IVmtiMetadataValue v = VmtiMetadataValueFactory.createValue(VmtiMetadataKey.MiisId, ST_EXAMPLE_BYTES);
+        IVmtiMetadataValue v = VmtiLocalSet.createValue(VmtiMetadataKey.MiisId, ST_EXAMPLE_BYTES);
         Assert.assertTrue(v instanceof MiisCoreIdentifier);
         MiisCoreIdentifier identifier = (MiisCoreIdentifier) v;
         assertEquals(identifier.getDisplayableValue(), ST_EXAMPLE_TEXT);

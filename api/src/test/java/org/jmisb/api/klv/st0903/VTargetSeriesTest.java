@@ -4,6 +4,7 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.SortedMap;
 import java.util.TreeMap;
+import org.jmisb.api.common.KlvParseException;
 import org.jmisb.api.klv.st0903.vtarget.CentroidPixelColumn;
 import org.jmisb.api.klv.st0903.vtarget.CentroidPixelRow;
 import org.jmisb.api.klv.st0903.vtarget.TargetHAE;
@@ -91,6 +92,21 @@ public class VTargetSeriesTest
     {
         assertNotNull(vTargetSeriesFromBytes);
         List<VTargetPack> vtargets = vTargetSeriesFromBytes.getVTargets();
+        assertEquals(vtargets.size(), 2);
+        VTargetPack vtarget1 = vtargets.get(0);
+        assertEquals(vtarget1.getTargetIdentifier(), 1);
+        VTargetPack vtarget2 = vtargets.get(1);
+        assertEquals(vtarget2.getTargetIdentifier(), 2);
+    }
+
+    @Test
+    public void testFactoryEncodedBytes() throws KlvParseException
+    {
+        IVmtiMetadataValue value = VmtiLocalSet.createValue(VmtiMetadataKey.VTargetSeries, twoVTargetsBytes);
+        assertNotNull(value);
+        assertTrue(value instanceof VTargetSeries);
+        VTargetSeries targetSeries = (VTargetSeries)value;
+        List<VTargetPack> vtargets = targetSeries.getVTargets();
         assertEquals(vtargets.size(), 2);
         VTargetPack vtarget1 = vtargets.get(0);
         assertEquals(vtarget1.getTargetIdentifier(), 1);

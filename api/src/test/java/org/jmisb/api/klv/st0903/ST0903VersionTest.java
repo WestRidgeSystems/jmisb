@@ -112,7 +112,7 @@ public class ST0903VersionTest
     @Test
     public void testFactoryEncodedBytes() throws KlvParseException
     {
-        IVmtiMetadataValue value = VmtiMetadataValueFactory.createValue(VmtiMetadataKey.VersionNumber, new byte[]{(byte)0x04});
+        IVmtiMetadataValue value = VmtiLocalSet.createValue(VmtiMetadataKey.VersionNumber, new byte[]{(byte)0x04});
         assertTrue(value instanceof ST0903Version);
         ST0903Version version = (ST0903Version)value;
         assertEquals(version.getBytes(), new byte[]{(byte)0x04});

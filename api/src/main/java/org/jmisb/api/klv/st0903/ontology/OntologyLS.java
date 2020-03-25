@@ -1,4 +1,4 @@
-package org.jmisb.api.klv.st0903.algorithm;
+package org.jmisb.api.klv.st0903.ontology;
 
 import java.io.ByteArrayOutputStream;
 import java.io.IOException;
@@ -15,42 +15,50 @@ import org.jmisb.api.klv.LdsField;
 import org.jmisb.api.klv.LdsParser;
 import org.jmisb.api.klv.st0903.IVmtiMetadataValue;
 import org.jmisb.api.klv.st0903.shared.VmtiTextString;
+import org.jmisb.api.klv.st0903.shared.VmtiUri;
 
 /**
- * Algorithm Local Set.
- *
- * The Algorithm LS documents attributes of the algorithm used for detection and tracking of targets.
+ * Ontology Local Set.
+ * <p>
+ * From ST0903:
+ * <blockquote>
+ * The Ontology LS describes the class or type of a target (aircraft,
+ * watercraft, car, truck, train, dismount, etc.) to an arbitrary level of
+ * detail. For example, it might be useful to expand the notion of a “dismount”
+ * to include combatant, noncombatant, male, female, etc. This standard mandates
+ * the use of the Web Ontology Language (OWL) to define the ontology.
+ * </blockquote>
  */
-public class AlgorithmLS {
+public class OntologyLS {
 
-    private static final Logger LOG = Logger.getLogger(AlgorithmLS.class.getName());
+    private static final Logger LOG = Logger.getLogger(OntologyLS.class.getName());
 
     /**
      * Map containing all data elements in the message
      */
-    private final SortedMap<AlgorithmMetadataKey, IVmtiMetadataValue> map = new TreeMap<>();
+    private final SortedMap<OntologyMetadataKey, IVmtiMetadataValue> map = new TreeMap<>();
 
     /**
      * Create the message from the given key/value pairs
      *
      * @param values Tag/value pairs to be included in the local set/
      */
-    public AlgorithmLS(Map<AlgorithmMetadataKey, IVmtiMetadataValue> values)
+    public OntologyLS(Map<OntologyMetadataKey, IVmtiMetadataValue> values)
     {
         map.putAll(values);
     }
 
     // TODO consider refactoring to pass in the original array instead of a copy
-    public AlgorithmLS(byte[] bytes) throws KlvParseException
+    public OntologyLS(byte[] bytes) throws KlvParseException
     {
         int offset = 0;
         List<LdsField> fields = LdsParser.parseFields(bytes, offset, bytes.length - offset);
         for (LdsField field : fields)
         {
-            AlgorithmMetadataKey key = AlgorithmMetadataKey.getKey(field.getTag());
-            if (key == AlgorithmMetadataKey.Undefined)
+            OntologyMetadataKey key = OntologyMetadataKey.getKey(field.getTag());
+            if (key == OntologyMetadataKey.Undefined)
             {
-                LOG.log(Level.INFO, "Unknown VMTI Algorithm Metadata tag: {0}", field.getTag());
+                LOG.log(Level.INFO, "Unknown VMTI Ontology Metadata tag: {0}", field.getTag());
             }
             else
             {
@@ -68,24 +76,22 @@ public class AlgorithmLS {
      * @return The new instance
      * @throws KlvParseException if the bytes could not be parsed.
      */
-    public static IVmtiMetadataValue createValue(AlgorithmMetadataKey tag, byte[] bytes) throws KlvParseException
+    public static IVmtiMetadataValue createValue(OntologyMetadataKey tag, byte[] bytes) throws KlvParseException
     {
         switch (tag)
         {
             case id:
                 // TODO
                 return null;
-            case name:
-                return new VmtiTextString(VmtiTextString.ALGORITHM_NAME, bytes);
-            case version:
-                return new VmtiTextString(VmtiTextString.ALGORITHM_VERSION, bytes);
-            case algorithmClass:
-                return new VmtiTextString(VmtiTextString.ALGORITHM_CLASS, bytes);
-            case nFrames:
+            case parentId:
                 // TODO
                 return null;
+            case ontology:
+                return new VmtiUri(VmtiUri.ONTOLOGY, bytes);
+            case ontologyClass:
+                return new VmtiTextString(VmtiTextString.ONTOLOGY_CLASS, bytes);
             default:
-                System.out.println("Unrecognized Algorithm tag: " + tag);
+                System.out.println("Unrecognized Ontology tag: " + tag);
         }
         return null;
     }
@@ -95,7 +101,7 @@ public class AlgorithmLS {
      *
      * @return The set of tags for which values have been set
      */
-    public Set<AlgorithmMetadataKey> getTags()
+    public Set<OntologyMetadataKey> getTags()
     {
         return map.keySet();
     }
@@ -106,7 +112,7 @@ public class AlgorithmLS {
      * @param tag Tag of the value to retrieve
      * @return The value, or null if no value was set
      */
-    public IVmtiMetadataValue getField(AlgorithmMetadataKey tag)
+    public IVmtiMetadataValue getField(OntologyMetadataKey tag)
     {
         return map.get(tag);
     }
@@ -119,7 +125,7 @@ public class AlgorithmLS {
     public byte[] getBytes() throws IOException
     {
         ByteArrayOutputStream baos = new ByteArrayOutputStream();
-        for (AlgorithmMetadataKey tag: getTags())
+        for (OntologyMetadataKey tag: getTags())
         {
             baos.write(new byte[]{(byte) tag.getTag()});
             IVmtiMetadataValue value = getField(tag);

@@ -52,7 +52,7 @@ public class FrameNumberTest
     @Test
     public void testFactoryEncodedBytes() throws KlvParseException
     {
-        IVmtiMetadataValue value = VmtiMetadataValueFactory.createValue(VmtiMetadataKey.FrameNumber, new byte[]{(byte)0x01, (byte)0x30, (byte)0xB0});
+        IVmtiMetadataValue value = VmtiLocalSet.createValue(VmtiMetadataKey.FrameNumber, new byte[]{(byte)0x01, (byte)0x30, (byte)0xB0});
         assertTrue(value instanceof FrameNumber);
         FrameNumber frameNum = (FrameNumber)value;
         assertEquals(frameNum.getBytes(), new byte[]{(byte)0x01, (byte)0x30, (byte)0xB0});

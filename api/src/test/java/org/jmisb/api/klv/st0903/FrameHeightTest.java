@@ -52,7 +52,7 @@ public class FrameHeightTest
     @Test
     public void testFactoryEncodedBytes() throws KlvParseException
     {
-        IVmtiMetadataValue value = VmtiMetadataValueFactory.createValue(VmtiMetadataKey.FrameHeight, new byte[]{(byte)0x04, (byte)0x38});
+        IVmtiMetadataValue value = VmtiLocalSet.createValue(VmtiMetadataKey.FrameHeight, new byte[]{(byte)0x04, (byte)0x38});
         assertTrue(value instanceof FrameHeight);
         FrameHeight height = (FrameHeight)value;
         assertEquals(height.getBytes(), new byte[]{(byte)0x04, (byte)0x38});

@@ -13,6 +13,18 @@ import org.jmisb.api.klv.BerDecoder;
 import org.jmisb.api.klv.BerEncoder;
 import org.jmisb.api.klv.BerField;
 
+/**
+ * VMTI LS VTarget Series (ST 0903 VMTI LS Tag 101).
+ * <p>
+ * From ST0903:
+ * <blockquote>
+ * VTargetSeries is a Series type which contains VTarget Packs only. The Length
+ * field for the series is the sum of all the data in the VTargetSeries Value
+ * field. The Value field is comprised of one or more VTarget Packs, each of
+ * which can be of a different size (thereby including different information)
+ * parsed according to the Length provided for each VTarget Pack.
+ * </blockquote>
+ */
 public class VTargetSeries implements IVmtiMetadataValue
 {
     private final List<VTargetPack> targetPacks = new ArrayList<>();

@@ -45,7 +45,7 @@ public class PrecisionTimeStampTest
     public void testFactoryExample() throws KlvParseException
     {
         byte[] bytes = new byte[]{(byte)0x00, (byte)0x03, (byte)0x82, (byte)0x44, (byte)0x30, (byte)0xF6, (byte)0xCE, (byte)0x40};
-        IVmtiMetadataValue v = VmtiMetadataValueFactory.createValue(VmtiMetadataKey.PrecisionTimeStamp, bytes);
+        IVmtiMetadataValue v = VmtiLocalSet.createValue(VmtiMetadataKey.PrecisionTimeStamp, bytes);
         Assert.assertTrue(v instanceof PrecisionTimeStamp);
         Assert.assertEquals(v.getDisplayName(), "Precision Time Stamp");
         PrecisionTimeStamp pts = (PrecisionTimeStamp)v;
