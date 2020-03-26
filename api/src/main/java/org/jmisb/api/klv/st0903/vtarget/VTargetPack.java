@@ -103,8 +103,7 @@ public class VTargetPack {
             case BoundaryBottomRightLonOffset:
                 return new BoundaryBottomRightLonOffset(bytes);
             case TargetLocation:
-                // TODO
-                return null;
+                return new TargetLocation(bytes);
             case TargetBoundarySeries:
                 // TODO
                 return null;

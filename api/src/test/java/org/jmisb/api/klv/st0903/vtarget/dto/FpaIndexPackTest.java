@@ -6,7 +6,7 @@ import org.testng.annotations.Test;
 /**
  * Tests for FpaIndexPack.
  */
-public class FpaIndexPackNGTest {
+public class FpaIndexPackTest {
 
     @Test
     public void testGetFpaRow() {
