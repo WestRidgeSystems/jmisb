@@ -14,7 +14,7 @@ public enum VFeatureMetadataKey
     Undefined(0),
     /**
      * Uniform Resource Identifier (URI) which refers to an OGC Geography Markup
-     * Language (GML) Observations and Measurements (O&M) application schema.
+     * Language (GML) Observations and Measurements (O&amp;M) application schema.
      */
     schema(1),
     /**
