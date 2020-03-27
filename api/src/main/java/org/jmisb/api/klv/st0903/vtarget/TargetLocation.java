@@ -27,14 +27,14 @@ import org.jmisb.core.klv.ArrayUtils;
 public class TargetLocation implements IVmtiMetadataValue
 {
     private TargetLocationPack value;
-    private final int COORDINATES_GROUP_LEN = 10;
-    private final int STANDARD_DEVIATIONS_GROUP_LEN = 6;
-    private final int CORRELATION_GROUP_LEN = 6;
-    private final FpEncoder LatEncoder = new FpEncoder(-90.0, 90.0, 4);
-    private final FpEncoder LonEncoder = new FpEncoder(-180.0, 180.0, 4);
-    private final FpEncoder HaeEncoder = new FpEncoder(-900.0, 19000.0, 2);
-    private final FpEncoder SigmaEncoder = new FpEncoder(0, 650.0, 2);
-    private final FpEncoder RhoEncoder = new FpEncoder(-1, 1, 2);
+    private static final int COORDINATES_GROUP_LEN = 10;
+    private static final int STANDARD_DEVIATIONS_GROUP_LEN = 6;
+    private static final int CORRELATION_GROUP_LEN = 6;
+    private static final FpEncoder LatEncoder = new FpEncoder(-90.0, 90.0, 4);
+    private static final FpEncoder LonEncoder = new FpEncoder(-180.0, 180.0, 4);
+    private static final FpEncoder HaeEncoder = new FpEncoder(-900.0, 19000.0, 2);
+    private static final FpEncoder SigmaEncoder = new FpEncoder(0, 650.0, 2);
+    private static final FpEncoder RhoEncoder = new FpEncoder(-1, 1, 2);
 
     /**
      * Create from value.
@@ -53,15 +53,27 @@ public class TargetLocation implements IVmtiMetadataValue
      */
     public TargetLocation(byte[] bytes)
     {
-        switch (bytes.length) {
+        if ((bytes.length == COORDINATES_GROUP_LEN) || (bytes.length == COORDINATES_GROUP_LEN + STANDARD_DEVIATIONS_GROUP_LEN) || (bytes.length == COORDINATES_GROUP_LEN + STANDARD_DEVIATIONS_GROUP_LEN + CORRELATION_GROUP_LEN))
+        {
+            value = targetLocationPackFromBytes(bytes);
+        }
+        else
+        {
+            throw new IllegalArgumentException(this.getDisplayName() + " length must match one of 10, 16 or 22");
+        }
+    }
+
+    public static TargetLocationPack targetLocationPackFromBytes(byte[] bytes)
+    {
+        switch (bytes.length)
+        {
             case COORDINATES_GROUP_LEN:
             {
                 double lat = LatEncoder.decode(bytes, 0);
                 double lon = LonEncoder.decode(bytes, 4);
                 double hae = HaeEncoder.decode(bytes, 8);
-                value = new TargetLocationPack(lat, lon, hae);
+                return new TargetLocationPack(lat, lon, hae);
             }
-                break;
             case COORDINATES_GROUP_LEN + STANDARD_DEVIATIONS_GROUP_LEN:
             {
                 double lat = LatEncoder.decode(bytes, 0);
@@ -70,9 +82,8 @@ public class TargetLocation implements IVmtiMetadataValue
                 double sigEast = SigmaEncoder.decode(bytes, 10);
                 double sigNorth = SigmaEncoder.decode(bytes, 12);
                 double sigUp = SigmaEncoder.decode(bytes, 14);
-                value = new TargetLocationPack(lat, lon, hae, sigEast, sigNorth, sigUp);
+                return new TargetLocationPack(lat, lon, hae, sigEast, sigNorth, sigUp);
             }
-                break;
             case COORDINATES_GROUP_LEN + STANDARD_DEVIATIONS_GROUP_LEN + CORRELATION_GROUP_LEN:
             {
                 double lat = LatEncoder.decode(bytes, 0);
@@ -84,38 +95,41 @@ public class TargetLocation implements IVmtiMetadataValue
                 double rhoEastNorth = RhoEncoder.decode(bytes, 16);
                 double rhoEastUp = RhoEncoder.decode(bytes, 18);
                 double rhoNorthUp = RhoEncoder.decode(bytes, 20);
-                value = new TargetLocationPack(lat, lon, hae, sigEast, sigNorth, sigUp, rhoEastNorth, rhoEastUp, rhoNorthUp);
+                return new TargetLocationPack(lat, lon, hae, sigEast, sigNorth, sigUp, rhoEastNorth, rhoEastUp, rhoNorthUp);
             }
-                break;
             default:
-                throw new IllegalArgumentException(this.getDisplayName() + " length must match one of 10, 16 or 22");
+                return null;
         }
     }
 
     @Override
     public byte[] getBytes()
     {
+        return serialiseLocationPack(value);
+    }
+
+    public static byte[] serialiseLocationPack(TargetLocationPack targetLocationPack) {
         int len = 0;
         List<byte[]> chunks = new ArrayList<>();
-        if ((value.getLat() != null) && (value.getLon() != null) && (value.getHae() != null))
+        if ((targetLocationPack.getLat() != null) && (targetLocationPack.getLon() != null) && (targetLocationPack.getHae() != null))
         {
-            chunks.add(LatEncoder.encode(value.getLat()));
-            chunks.add(LonEncoder.encode(value.getLon()));
-            chunks.add(HaeEncoder.encode(value.getHae()));
+            chunks.add(LatEncoder.encode(targetLocationPack.getLat()));
+            chunks.add(LonEncoder.encode(targetLocationPack.getLon()));
+            chunks.add(HaeEncoder.encode(targetLocationPack.getHae()));
             len += COORDINATES_GROUP_LEN;
         }
-        if ((value.getSigEast() != null) && (value.getSigNorth() != null) && (value.getSigUp() != null))
+        if ((targetLocationPack.getSigEast() != null) && (targetLocationPack.getSigNorth() != null) && (targetLocationPack.getSigUp() != null))
         {
-            chunks.add(SigmaEncoder.encode(value.getSigEast()));
-            chunks.add(SigmaEncoder.encode(value.getSigNorth()));
-            chunks.add(SigmaEncoder.encode(value.getSigUp()));
+            chunks.add(SigmaEncoder.encode(targetLocationPack.getSigEast()));
+            chunks.add(SigmaEncoder.encode(targetLocationPack.getSigNorth()));
+            chunks.add(SigmaEncoder.encode(targetLocationPack.getSigUp()));
             len += STANDARD_DEVIATIONS_GROUP_LEN;
         }
-        if ((value.getRhoEastNorth()!= null) && (value.getRhoEastUp()!= null) && (value.getRhoNorthUp()!= null))
+        if ((targetLocationPack.getRhoEastNorth()!= null) && (targetLocationPack.getRhoEastUp()!= null) && (targetLocationPack.getRhoNorthUp()!= null))
         {
-            chunks.add(RhoEncoder.encode(value.getRhoEastNorth()));
-            chunks.add(RhoEncoder.encode(value.getRhoEastUp()));
-            chunks.add(RhoEncoder.encode(value.getRhoNorthUp()));
+            chunks.add(RhoEncoder.encode(targetLocationPack.getRhoEastNorth()));
+            chunks.add(RhoEncoder.encode(targetLocationPack.getRhoEastUp()));
+            chunks.add(RhoEncoder.encode(targetLocationPack.getRhoNorthUp()));
             len += CORRELATION_GROUP_LEN;
         }
         return ArrayUtils.arrayFromChunks(chunks, len);

@@ -55,8 +55,8 @@ public class VObjectSeries implements IVmtiMetadataValue
             BerField lengthField = BerDecoder.decode(bytes, index, true);
             index += lengthField.getLength();
             byte[] vObjectBytes = Arrays.copyOfRange(bytes, index, index + lengthField.getValue());
-            VObjectLS chip = new VObjectLS(vObjectBytes);
-            vobjects.add(chip);
+            VObjectLS objectLocalSet = new VObjectLS(vObjectBytes);
+            vobjects.add(objectLocalSet);
             index += lengthField.getValue();
         }
     }
@@ -65,14 +65,17 @@ public class VObjectSeries implements IVmtiMetadataValue
     public byte[] getBytes()
     {
         ByteArrayOutputStream baos = new ByteArrayOutputStream();
-        try {
+        try
+        {
             for (VObjectLS vobject: getVObjects())
             {
                 byte[] localSetBytes = vobject.getBytes();
                 baos.write(BerEncoder.encode(localSetBytes.length));
                 baos.write(localSetBytes);
             }
-        } catch (IOException ex) {
+        }
+        catch (IOException ex) 
+        {
             LOG.log(Level.SEVERE, null, ex);
             return null;
         }

@@ -105,8 +105,7 @@ public class VTargetPack {
             case TargetLocation:
                 return new TargetLocation(bytes);
             case TargetBoundarySeries:
-                // TODO
-                return null;
+                return new TargetBoundarySeries(bytes);
             case CentroidPixRow:
                 return new CentroidPixelRow(bytes);
             case CentroidPixColumn:
