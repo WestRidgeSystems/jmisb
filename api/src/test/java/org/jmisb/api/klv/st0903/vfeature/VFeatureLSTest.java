@@ -27,10 +27,10 @@ public class VFeatureLSTest
             0x31, 0x64, 0x30, 0x2d, 0x61, 0x37, 0x36, 0x35,
             0x2d, 0x30, 0x30, 0x61, 0x30, 0x63, 0x39, 0x31,
             0x65, 0x36, 0x62, 0x66, 0x36 };
-        VFeatureLS algorithmLS = new VFeatureLS(bytes);
-        assertNotNull(algorithmLS);
-        assertEquals(algorithmLS.getTags().size(), 1);
-        checkSchemaExample(algorithmLS);
+        VFeatureLS localSet = new VFeatureLS(bytes);
+        assertNotNull(localSet);
+        assertEquals(localSet.getTags().size(), 1);
+        checkSchemaExample(localSet);
     }
 
     @Test
@@ -81,16 +81,15 @@ public class VFeatureLSTest
             0x3A, 0x44, 0x61, 0x74, 0x61, 0x42, 0x6C, 0x6F,
             0x63, 0x6B, 0x3E
         };
-        VFeatureLS algorithmLS = new VFeatureLS(bytes);
-        assertNotNull(algorithmLS);
-        assertEquals(algorithmLS.getTags().size(), 1);
-        checkSchemaFeatureExample(algorithmLS);
+        VFeatureLS localSet = new VFeatureLS(bytes);
+        assertNotNull(localSet);
+        assertEquals(localSet.getTags().size(), 1);
+        checkSchemaFeatureExample(localSet);
     }
 
     @Test
     public void parseTagsWithUnknownTag() throws KlvParseException, URISyntaxException
     {
-        // TODO
         final byte[] bytes = new byte[]{
             0x03, 0x02, (byte) 0x80, (byte) 0xCA, // No such tag
             0x01, 45,
@@ -143,31 +142,31 @@ public class VFeatureLSTest
             0x73, 0x74, 0x3E, 0x3C, 0x2F, 0x67, 0x6D, 0x6C,
             0x3A, 0x44, 0x61, 0x74, 0x61, 0x42, 0x6C, 0x6F,
             0x63, 0x6B, 0x3E};
-        VFeatureLS algorithmLS = new VFeatureLS(bytes);
-        assertNotNull(algorithmLS);
-        assertEquals(algorithmLS.getTags().size(), 2);
-        checkSchemaExample(algorithmLS);
-        checkSchemaFeatureExample(algorithmLS);
+        VFeatureLS localSet = new VFeatureLS(bytes);
+        assertNotNull(localSet);
+        assertEquals(localSet.getTags().size(), 2);
+        checkSchemaExample(localSet);
+        checkSchemaFeatureExample(localSet);
     }
 
-    public void checkSchemaExample(VFeatureLS algorithmLS) throws URISyntaxException
+    public void checkSchemaExample(VFeatureLS localSet) throws URISyntaxException
     {
         final String stringVal = "urn:uuid:f81d4fae-7dec-11d0-a765-00a0c91e6bf6";
-        assertTrue(algorithmLS.getTags().contains(VFeatureMetadataKey.schema));
-        IVmtiMetadataValue v = algorithmLS.getField(VFeatureMetadataKey.schema);
+        assertTrue(localSet.getTags().contains(VFeatureMetadataKey.schema));
+        IVmtiMetadataValue v = localSet.getField(VFeatureMetadataKey.schema);
         assertEquals(v.getDisplayName(), "Schema");
         assertEquals(v.getDisplayName(), VmtiUri.VFEATURE_SCHEMA);
         assertEquals(v.getDisplayableValue(), stringVal);
         assertTrue(v instanceof VmtiUri);
-        VmtiUri text = (VmtiUri) algorithmLS.getField(VFeatureMetadataKey.schema);
+        VmtiUri text = (VmtiUri) localSet.getField(VFeatureMetadataKey.schema);
         assertEquals(text.getUri().toString(), stringVal);
     }
 
-    public void checkSchemaFeatureExample(VFeatureLS algorithmLS) throws URISyntaxException
+    public void checkSchemaFeatureExample(VFeatureLS localSet) throws URISyntaxException
     {
         final String stringVal = "<gml:DataBlock><gml:rangeParameters><gml:CompositeValue><gml:valueComponents><Temperature uom=\"urn:x-si:v1999:uom:degreesC\">template</Temperature><Pressure uom=\"urn:x-si:v1999:uom:kPa\">template</Pressure></gml:valueComponents></gml:CompositeValue></gml:rangeParameters><gml:tupleList>3,101.2</gml:tupleList></gml:DataBlock>";
-        assertTrue(algorithmLS.getTags().contains(VFeatureMetadataKey.schemaFeature));
-        IVmtiMetadataValue v = algorithmLS.getField(VFeatureMetadataKey.schemaFeature);
+        assertTrue(localSet.getTags().contains(VFeatureMetadataKey.schemaFeature));
+        IVmtiMetadataValue v = localSet.getField(VFeatureMetadataKey.schemaFeature);
         assertEquals(v.getDisplayName(), "Schema Feature");
         assertEquals(v.getDisplayName(), VmtiTextString.VFEATURE_SCHEMA_FEATURE);
         assertEquals(v.getDisplayableValue(), stringVal);
@@ -214,7 +213,7 @@ public class VFeatureLSTest
             0x3A, 0x44, 0x61, 0x74, 0x61, 0x42, 0x6C, 0x6F,
             0x63, 0x6B, 0x3E});
         assertTrue(v instanceof VmtiTextString);
-        VmtiTextString text = (VmtiTextString) algorithmLS.getField(VFeatureMetadataKey.schemaFeature);
+        VmtiTextString text = (VmtiTextString) localSet.getField(VFeatureMetadataKey.schemaFeature);
         assertEquals(text.getValue(), stringVal);
     }
 

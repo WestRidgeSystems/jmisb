@@ -70,8 +70,7 @@ public class VMaskLS {
             case polygon:
                 return new PixelPolygon(bytes);
             case bitMaskSeries:
-                // TODO
-                return null;
+                return new BitMaskSeries(bytes);
             default:
                 System.out.println("Unrecognized VMask tag: " + tag);
         }
