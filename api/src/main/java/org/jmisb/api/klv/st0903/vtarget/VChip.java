@@ -1,8 +1,5 @@
 package org.jmisb.api.klv.st0903.vtarget;
 
-import java.io.IOException;
-import java.util.logging.Level;
-import java.util.logging.Logger;
 import org.jmisb.api.common.KlvParseException;
 import org.jmisb.api.klv.st0903.IVmtiMetadataValue;
 import org.jmisb.api.klv.st0903.vchip.VChipLS;
@@ -23,9 +20,6 @@ import org.jmisb.api.klv.st0903.vchip.VChipLS;
  */
 public class VChip implements IVmtiMetadataValue
 {
-
-    private static final Logger LOG = Logger.getLogger(VChip.class.getName());
-
     private final VChipLS value;
 
     /**
@@ -52,12 +46,7 @@ public class VChip implements IVmtiMetadataValue
     @Override
     public byte[] getBytes()
     {
-        try {
-            return value.getBytes();
-        } catch (IOException ex) {
-            LOG.log(Level.SEVERE, null, ex);
-            return null;
-        }
+        return value.getBytes();
     }
 
     @Override

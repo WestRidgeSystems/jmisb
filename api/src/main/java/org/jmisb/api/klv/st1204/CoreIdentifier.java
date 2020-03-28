@@ -2,7 +2,6 @@ package org.jmisb.api.klv.st1204;
 
 import java.io.ByteArrayOutputStream;
 import java.io.IOException;
-import java.nio.ByteBuffer;
 import java.util.UUID;
 import java.util.logging.Level;
 import java.util.logging.Logger;

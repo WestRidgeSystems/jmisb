@@ -1,7 +1,6 @@
 package org.jmisb.api.klv.st0903.vtarget;
 
-import java.io.ByteArrayOutputStream;
-import java.io.IOException;
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
 import java.util.Set;
@@ -16,6 +15,7 @@ import org.jmisb.api.klv.BerField;
 import org.jmisb.api.klv.LdsField;
 import org.jmisb.api.klv.LdsParser;
 import org.jmisb.api.klv.st0903.IVmtiMetadataValue;
+import org.jmisb.core.klv.ArrayUtils;
 
 public class VTargetPack {
 
@@ -169,22 +169,29 @@ public class VTargetPack {
 
     /**
      * Get the byte array corresponding to the value for this Local Set.
-     *
      * @return byte array with the encoded local set.
-     * @throws IOException if there is a problem during conversion.
      */
-    public byte[] getBytes() throws IOException
+    public byte[] getBytes()
     {
-        ByteArrayOutputStream outputStream = new ByteArrayOutputStream();
-        outputStream.write(BerEncoder.encode(targetId));
+        int len = 0;
+        List<byte[]> chunks = new ArrayList<>();
+
+        byte[] targetIdBytes = BerEncoder.encode(targetId);
+        chunks.add(targetIdBytes);
+        len += targetIdBytes.length;
+
         for (VTargetMetadataKey tag: getTags())
         {
-            outputStream.write(new byte[]{(byte) tag.getTag()});
+            chunks.add(new byte[]{(byte) tag.getTag()});
+            len += 1;
             IVmtiMetadataValue value = getField(tag);
             byte[] bytes = value.getBytes();
-            outputStream.write(BerEncoder.encode(bytes.length));
-            outputStream.write(bytes);
+            byte[] lengthBytes = BerEncoder.encode(bytes.length);
+            chunks.add(lengthBytes);
+            len += lengthBytes.length;
+            chunks.add(bytes);
+            len += bytes.length;
         }
-        return outputStream.toByteArray();
+        return ArrayUtils.arrayFromChunks(chunks, len);
     }
 }

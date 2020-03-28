@@ -1,8 +1,5 @@
 package org.jmisb.api.klv.st0601;
 
-import java.io.IOException;
-import java.util.logging.Level;
-import java.util.logging.Logger;
 import org.jmisb.api.common.KlvParseException;
 import org.jmisb.api.klv.st0903.VmtiLocalSet;
 
@@ -24,18 +21,17 @@ import org.jmisb.api.klv.st0903.VmtiLocalSet;
  * angles, or frame center).
  * </blockquote>
  */
-public class NestedVmtiLocalSet implements IUasDatalinkValue {
-
-    private static final Logger LOG = Logger.getLogger(NestedVmtiLocalSet.class.getName());
-
-    private VmtiLocalSet vmtiLocalSet;
+public class NestedVmtiLocalSet implements IUasDatalinkValue
+{
+    private final VmtiLocalSet vmtiLocalSet;
 
     /**
      * Create from value.
      *
      * @param vmti the VMTI data
      */
-    public NestedVmtiLocalSet(VmtiLocalSet vmti) {
+    public NestedVmtiLocalSet(VmtiLocalSet vmti)
+    {
         this.vmtiLocalSet = vmti;
     }
 
@@ -45,28 +41,25 @@ public class NestedVmtiLocalSet implements IUasDatalinkValue {
      * @param bytes The byte array
      * @throws KlvParseException if the input is invalid
      */
-    public NestedVmtiLocalSet(byte[] bytes) throws KlvParseException {
+    public NestedVmtiLocalSet(byte[] bytes) throws KlvParseException
+    {
         this.vmtiLocalSet = new VmtiLocalSet(bytes);
     }
 
     @Override
     public byte[] getBytes() {
-        try {
-            return this.vmtiLocalSet.getBytes();
-        } catch (IOException ex) {
-            LOG.log(Level.SEVERE, null, ex);
-            return null;
-        }
+        return this.vmtiLocalSet.getBytes();
     }
 
     @Override
-    public String getDisplayableValue() {
-        // TODO: something more meaningful?
-        return this.vmtiLocalSet.toString();
+    public String getDisplayableValue()
+    {
+        return "[VMTI]";
     }
 
     @Override
-    public String getDisplayName() {
+    public String getDisplayName()
+    {
         return "VMTI";
     }
 
@@ -75,7 +68,8 @@ public class NestedVmtiLocalSet implements IUasDatalinkValue {
      *
      * @return the VMTI data
      */
-    public VmtiLocalSet getVmti() {
+    public VmtiLocalSet getVmti()
+    {
         return this.vmtiLocalSet;
     }
 }

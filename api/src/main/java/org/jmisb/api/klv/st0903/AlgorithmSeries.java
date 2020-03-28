@@ -1,17 +1,14 @@
 package org.jmisb.api.klv.st0903;
 
-import java.io.ByteArrayOutputStream;
-import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
-import java.util.logging.Level;
-import java.util.logging.Logger;
 import org.jmisb.api.common.KlvParseException;
 import org.jmisb.api.klv.BerDecoder;
 import org.jmisb.api.klv.BerEncoder;
 import org.jmisb.api.klv.BerField;
 import org.jmisb.api.klv.st0903.algorithm.AlgorithmLS;
+import org.jmisb.core.klv.ArrayUtils;
 
 /**
  * VMTI LS Algorithm Series (ST 0903 VMTI LS Tag 102).
@@ -36,8 +33,6 @@ import org.jmisb.api.klv.st0903.algorithm.AlgorithmLS;
 public class AlgorithmSeries implements IVmtiMetadataValue
 {
     private final List<AlgorithmLS> localSets = new ArrayList<>();
-
-    private static final Logger LOG = Logger.getLogger(AlgorithmSeries.class.getName());
 
     /**
      * Create the message from a list of Algorithm Local Sets
@@ -72,22 +67,18 @@ public class AlgorithmSeries implements IVmtiMetadataValue
     @Override
     public byte[] getBytes()
     {
-        ByteArrayOutputStream baos = new ByteArrayOutputStream();
+        int len = 0;
+        List<byte[]> chunks = new ArrayList<>();
         for (AlgorithmLS localSet : localSets)
         {
-            try
-            {
-                byte[] bytes = localSet.getBytes();
-                baos.write(BerEncoder.encode(bytes.length));
-                baos.write(bytes);
-            }
-            catch (IOException ex)
-            {
-                LOG.log(Level.SEVERE, null, ex);
-                return null;
-            }
+            byte[] localSetBytes = localSet.getBytes();
+            byte[] lengthBytes = BerEncoder.encode(localSetBytes.length);
+            chunks.add(lengthBytes);
+            len += lengthBytes.length;;
+            chunks.add(localSetBytes);
+            len += localSetBytes.length;
         }
-        return baos.toByteArray();
+        return ArrayUtils.arrayFromChunks(chunks, len);
     }
 
     @Override

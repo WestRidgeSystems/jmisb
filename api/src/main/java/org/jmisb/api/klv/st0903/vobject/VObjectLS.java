@@ -1,7 +1,5 @@
 package org.jmisb.api.klv.st0903.vobject;
 
-import java.io.ByteArrayOutputStream;
-import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
@@ -122,7 +120,7 @@ public class VObjectLS {
             byte[] bytes = value.getBytes();
             byte[] lengthBytes = BerEncoder.encode(bytes.length);
             chunks.add(lengthBytes);
-            len += lengthBytes.length;;
+            len += lengthBytes.length;
             chunks.add(bytes);
             len += bytes.length;
         }

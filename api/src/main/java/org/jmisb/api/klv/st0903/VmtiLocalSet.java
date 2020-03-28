@@ -1,7 +1,6 @@
 package org.jmisb.api.klv.st0903;
 
-import java.io.ByteArrayOutputStream;
-import java.io.IOException;
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
 import java.util.Set;
@@ -14,6 +13,7 @@ import org.jmisb.api.klv.BerEncoder;
 import org.jmisb.api.klv.LdsField;
 import org.jmisb.api.klv.LdsParser;
 import org.jmisb.api.klv.st0903.shared.VmtiTextString;
+import org.jmisb.core.klv.ArrayUtils;
 
 public class VmtiLocalSet {
 
@@ -63,6 +63,7 @@ public class VmtiLocalSet {
             case OntologySeries:
                 return new OntologySeries(bytes);
             default:
+                // TODO: log.
                 System.out.println("Unrecognized tag: " + tag);
         }
         return null;
@@ -113,21 +114,26 @@ public class VmtiLocalSet {
 
     /**
      * Get the byte array corresponding to the value for this Local Set.
+     *
      * @return byte array with the encoded local set.
-     * @throws IOException if there is a problem during conversion.
      */
-    public byte[] getBytes() throws IOException
+    public byte[] getBytes()
     {
-        ByteArrayOutputStream baos = new ByteArrayOutputStream();
+        int len = 0;
+        List<byte[]> chunks = new ArrayList<>();
         for (VmtiMetadataKey tag: getTags())
         {
-            baos.write(new byte[]{(byte) tag.getTag()});
+            chunks.add(new byte[]{(byte) tag.getTag()});
+            len += 1;
             IVmtiMetadataValue value = getField(tag);
             byte[] bytes = value.getBytes();
-            baos.write(BerEncoder.encode(bytes.length));
-            baos.write(bytes);
+            byte[] lengthBytes = BerEncoder.encode(bytes.length);
+            chunks.add(lengthBytes);
+            len += lengthBytes.length;
+            chunks.add(bytes);
+            len += bytes.length;
         }
-        return baos.toByteArray();
+        return ArrayUtils.arrayFromChunks(chunks, len);
     }
 
     /**
