@@ -40,7 +40,7 @@ public abstract class PixelNumber implements IVmtiMetadataValue
     @Override
     public byte[] getBytes()
     {
-        // TODO: move to primitive converter.
+        // TODO: move to primitive converter - shared with PixelPolygon in VMask LS.
         if (pixelNumber > 1099511627775L)
         {
             byte[] bytes = PrimitiveConverter.int64ToBytes(pixelNumber);

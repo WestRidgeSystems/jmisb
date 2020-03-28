@@ -116,8 +116,7 @@ public class VTargetPack {
                 // TODO
                 return null;
             case VMask:
-                // TODO
-                return null;
+                return new VMask(bytes);
             case VObject:
                 return new VObject(bytes);
             case VFeature:
