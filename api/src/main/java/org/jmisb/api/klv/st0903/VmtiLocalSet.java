@@ -63,8 +63,7 @@ public class VmtiLocalSet {
             case OntologySeries:
                 return new OntologySeries(bytes);
             default:
-                // TODO: log.
-                System.out.println("Unrecognized tag: " + tag);
+                LOG.log(Level.INFO, "Unknown VMTI Metadata tag: {0}", tag);
         }
         return null;
     }
