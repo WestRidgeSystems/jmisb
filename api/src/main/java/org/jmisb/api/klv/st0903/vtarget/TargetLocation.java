@@ -98,7 +98,7 @@ public class TargetLocation implements IVmtiMetadataValue
                 return new TargetLocationPack(lat, lon, hae, sigEast, sigNorth, sigUp, rhoEastNorth, rhoEastUp, rhoNorthUp);
             }
             default:
-                return null;
+               throw new IllegalArgumentException("Target Location Pack length must match one of 10, 16 or 22");
         }
     }
 

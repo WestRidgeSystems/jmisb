@@ -67,4 +67,10 @@ public class TargetBoundarySeriesTest
         TargetBoundarySeries boundarySeries = new TargetBoundarySeries(packs);
         verifyTwoLocations(boundarySeries);
     }
+
+    @Test(expectedExceptions = IllegalArgumentException.class)
+    public void badArrayLength() throws KlvParseException
+    {
+        new TargetBoundarySeries(new byte[]{0x01, 0x02, 0x03});
+    }
 }

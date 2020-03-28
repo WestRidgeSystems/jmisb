@@ -50,12 +50,7 @@ public class VObject implements IVmtiMetadataValue
     @Override
     public byte[] getBytes()
     {
-        try {
-            return value.getBytes();
-        } catch (IOException ex) {
-            LOG.log(Level.SEVERE, null, ex);
-            return null;
-        }
+        return value.getBytes();
     }
 
     @Override

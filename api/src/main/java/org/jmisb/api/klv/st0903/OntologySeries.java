@@ -1,17 +1,14 @@
 package org.jmisb.api.klv.st0903;
 
-import java.io.ByteArrayOutputStream;
-import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
-import java.util.logging.Level;
-import java.util.logging.Logger;
 import org.jmisb.api.common.KlvParseException;
 import org.jmisb.api.klv.BerDecoder;
 import org.jmisb.api.klv.BerEncoder;
 import org.jmisb.api.klv.BerField;
 import org.jmisb.api.klv.st0903.ontology.OntologyLS;
+import org.jmisb.core.klv.ArrayUtils;
 
 /**
  * VMTI LS Ontology Series (ST 0903 VMTI LS Tag 103).
@@ -37,8 +34,6 @@ import org.jmisb.api.klv.st0903.ontology.OntologyLS;
 public class OntologySeries implements IVmtiMetadataValue
 {
     private final List<OntologyLS> localSets = new ArrayList<>();
-
-    private static final Logger LOG = Logger.getLogger(OntologySeries.class.getName());
 
     /**
      * Create the message from a list of VObject Local Sets
@@ -73,22 +68,18 @@ public class OntologySeries implements IVmtiMetadataValue
     @Override
     public byte[] getBytes()
     {
-        ByteArrayOutputStream baos = new ByteArrayOutputStream();
+        int len = 0;
+        List<byte[]> chunks = new ArrayList<>();
         for (OntologyLS localSet : localSets)
         {
-            try
-            {
-                byte[] bytes = localSet.getBytes();
-                baos.write(BerEncoder.encode(bytes.length));
-                baos.write(bytes);
-            }
-            catch (IOException ex)
-            {
-                LOG.log(Level.SEVERE, null, ex);
-                return null;
-            }
+            byte[] bytes = localSet.getBytes();
+            byte[] lengthBytes = BerEncoder.encode(bytes.length);
+            chunks.add(lengthBytes);
+            len += lengthBytes.length;;
+            chunks.add(bytes);
+            len += bytes.length;
         }
-        return baos.toByteArray();
+        return ArrayUtils.arrayFromChunks(chunks, len);
     }
 
     @Override
