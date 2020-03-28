@@ -9,7 +9,7 @@ import org.jmisb.api.klv.BerEncoder;
 import org.jmisb.api.klv.BerField;
 import org.jmisb.api.klv.st0903.IVmtiMetadataValue;
 import org.jmisb.api.klv.st0903.vtarget.TargetLocation;
-import org.jmisb.api.klv.st0903.vtarget.dto.TargetLocationPack;
+import org.jmisb.api.klv.st0903.vtarget.dto.LocationPack;
 import org.jmisb.core.klv.ArrayUtils;
 
 /**
@@ -27,14 +27,14 @@ import org.jmisb.core.klv.ArrayUtils;
  */
 public class BoundarySeries implements IVmtiMetadataValue
 {
-    private final List<TargetLocationPack> boundary = new ArrayList<>();
+    private final List<LocationPack> boundary = new ArrayList<>();
 
     /**
      * Create from value.
      *
      * @param locations the Location Packs to add.
      */
-    public BoundarySeries(List<TargetLocationPack> locations)
+    public BoundarySeries(List<LocationPack> locations)
     {
         boundary.addAll(locations);
     }
@@ -53,7 +53,7 @@ public class BoundarySeries implements IVmtiMetadataValue
             BerField lengthField = BerDecoder.decode(bytes, index, true);
             index += lengthField.getLength();
             byte[] packBytes = Arrays.copyOfRange(bytes, index, index + lengthField.getValue());
-            TargetLocationPack location = TargetLocation.targetLocationPackFromBytes(packBytes);
+            LocationPack location = TargetLocation.targetLocationPackFromBytes(packBytes);
             boundary.add(location);
             index += lengthField.getValue();
         }
@@ -64,7 +64,7 @@ public class BoundarySeries implements IVmtiMetadataValue
     {
         int len = 0;
         List<byte[]> chunks = new ArrayList<>();
-        for (TargetLocationPack location: getLocations())
+        for (LocationPack location: getLocations())
         {
             byte[] localSetBytes = TargetLocation.serialiseLocationPack(location);
             byte[] lengthBytes = BerEncoder.encode(localSetBytes.length);
@@ -93,7 +93,7 @@ public class BoundarySeries implements IVmtiMetadataValue
      *
      * @return the list of Target Locations.
      */
-    public List<TargetLocationPack> getLocations()
+    public List<LocationPack> getLocations()
     {
         return boundary;
     }

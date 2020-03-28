@@ -5,7 +5,7 @@ import java.util.ArrayList;
 import java.util.List;
 import org.jmisb.api.common.KlvParseException;
 import org.jmisb.api.klv.st0903.IVmtiMetadataValue;
-import org.jmisb.api.klv.st0903.vtarget.dto.TargetLocationPack;
+import org.jmisb.api.klv.st0903.vtarget.dto.LocationPack;
 import static org.testng.Assert.*;
 import org.testng.annotations.Test;
 
@@ -48,11 +48,11 @@ public class BoundarySeriesTest
         assertEquals(boundarySeries.getDisplayName(), "Boundary");
         assertEquals(boundarySeries.getDisplayableValue(), "[Location Series]");
         assertEquals(boundarySeries.getLocations().size(), 2);
-        TargetLocationPack location1 = boundarySeries.getLocations().get(0);
+        LocationPack location1 = boundarySeries.getLocations().get(0);
         assertEquals(location1.getLat(), -10.54246008396, 0.000001);
         assertEquals(location1.getLon(), 29.15789008141, 0.01);
         assertEquals(location1.getHae(), 3216.0, 0.01);
-        TargetLocationPack location2 = boundarySeries.getLocations().get(1);
+        LocationPack location2 = boundarySeries.getLocations().get(1);
         assertEquals(location2.getLat(), -10.54238867760, 0.000001);
         assertEquals(location2.getLon(), 29.15789818763, 0.01);
         assertEquals(location2.getHae(), 3216.0, 0.01);
@@ -61,9 +61,9 @@ public class BoundarySeriesTest
     @Test
     public void constructFromValue() throws KlvParseException, URISyntaxException
     {
-        List<TargetLocationPack> packs = new ArrayList<>();
-        packs.add(new TargetLocationPack(-10.54246008396, 29.15789008141, 3216.0));
-        packs.add(new TargetLocationPack(-10.54238867760, 29.15789818763, 3216.0));
+        List<LocationPack> packs = new ArrayList<>();
+        packs.add(new LocationPack(-10.54246008396, 29.15789008141, 3216.0));
+        packs.add(new LocationPack(-10.54238867760, 29.15789818763, 3216.0));
         BoundarySeries boundarySeries = new BoundarySeries(packs);
         verifyTwoLocations(boundarySeries);
     }

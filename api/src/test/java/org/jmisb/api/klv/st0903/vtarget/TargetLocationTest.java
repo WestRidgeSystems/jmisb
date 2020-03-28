@@ -2,7 +2,7 @@ package org.jmisb.api.klv.st0903.vtarget;
 
 import org.jmisb.api.common.KlvParseException;
 import org.jmisb.api.klv.st0903.IVmtiMetadataValue;
-import org.jmisb.api.klv.st0903.vtarget.dto.TargetLocationPack;
+import org.jmisb.api.klv.st0903.vtarget.dto.LocationPack;
 import static org.testng.Assert.*;
 import org.testng.annotations.Test;
 
@@ -41,7 +41,7 @@ public class TargetLocationTest
     @Test
     public void testConstructFromValue()
     {
-        TargetLocationPack locPack = new TargetLocationPack(-10.5423886331461, 29.157890122923, 3216.0);
+        LocationPack locPack = new LocationPack(-10.5423886331461, 29.157890122923, 3216.0);
         TargetLocation location = new TargetLocation(locPack);
         assertEquals(location.getTargetLocation().getLat(), -10.5423886331461, 0.0001);
         assertEquals(location.getTargetLocation().getLon(), 29.157890122923, 0.0001);
@@ -60,7 +60,7 @@ public class TargetLocationTest
     @Test
     public void testConstructFromValueWithStandardDeviation()
     {
-        TargetLocationPack locPack = new TargetLocationPack(-10.5423886331461, 29.157890122923, 3216.0, 0.1, 3.0, 649.9);
+        LocationPack locPack = new LocationPack(-10.5423886331461, 29.157890122923, 3216.0, 0.1, 3.0, 649.9);
         TargetLocation location = new TargetLocation(locPack);
         assertEquals(location.getTargetLocation().getLat(), -10.5423886331461, 0.0001);
         assertEquals(location.getTargetLocation().getLon(), 29.157890122923, 0.0001);
@@ -79,7 +79,7 @@ public class TargetLocationTest
     @Test
     public void testConstructFromValueWithCorrelation()
     {
-        TargetLocationPack locPack = new TargetLocationPack(-10.5423886331461, 29.157890122923, 3216.0, 0.1, 3.0, 649.9, -1.0, 0.0, 0.5);
+        LocationPack locPack = new LocationPack(-10.5423886331461, 29.157890122923, 3216.0, 0.1, 3.0, 649.9, -1.0, 0.0, 0.5);
         TargetLocation location = new TargetLocation(locPack);
         assertEquals(location.getTargetLocation().getLat(), -10.5423886331461, 0.0001);
         assertEquals(location.getTargetLocation().getLon(), 29.157890122923, 0.0001);
@@ -182,7 +182,7 @@ public class TargetLocationTest
     @Test
     public void testConstructFromValueNullLat()
     {
-        TargetLocationPack locPack = new TargetLocationPack(null, 29.157890122923, 3216.0);
+        LocationPack locPack = new LocationPack(null, 29.157890122923, 3216.0);
         TargetLocation location = new TargetLocation(locPack);
         assertEquals(location.getBytes().length, 0);
     }
@@ -190,7 +190,7 @@ public class TargetLocationTest
     @Test
     public void testConstructFromValueNullLon()
     {
-        TargetLocationPack locPack = new TargetLocationPack(-10.5423886331461, null, 3216.0);
+        LocationPack locPack = new LocationPack(-10.5423886331461, null, 3216.0);
         TargetLocation location = new TargetLocation(locPack);
         assertEquals(location.getBytes().length, 0);
     }
@@ -198,7 +198,7 @@ public class TargetLocationTest
     @Test
     public void testConstructFromValueNullAlt()
     {
-        TargetLocationPack locPack = new TargetLocationPack(-10.5423886331461, 29.157890122923, null);
+        LocationPack locPack = new LocationPack(-10.5423886331461, 29.157890122923, null);
         TargetLocation location = new TargetLocation(locPack);
         assertEquals(location.getBytes().length, 0);
     }
@@ -206,7 +206,7 @@ public class TargetLocationTest
     @Test
     public void testConstructFromValueWithStandardDeviationNull1()
     {
-        TargetLocationPack locPack = new TargetLocationPack(-10.5423886331461, 29.157890122923, 3216.0, null, 3.0, 649.9);
+        LocationPack locPack = new LocationPack(-10.5423886331461, 29.157890122923, 3216.0, null, 3.0, 649.9);
         TargetLocation location = new TargetLocation(locPack);
         assertEquals(location.getBytes().length, 10);
     }
@@ -214,7 +214,7 @@ public class TargetLocationTest
     @Test
     public void testConstructFromValueWithStandardDeviationNull2()
     {
-        TargetLocationPack locPack = new TargetLocationPack(-10.5423886331461, 29.157890122923, 3216.0, 0.1, null, 649.9);
+        LocationPack locPack = new LocationPack(-10.5423886331461, 29.157890122923, 3216.0, 0.1, null, 649.9);
         TargetLocation location = new TargetLocation(locPack);
         assertEquals(location.getBytes().length, 10);
     }
@@ -222,7 +222,7 @@ public class TargetLocationTest
     @Test
     public void testConstructFromValueWithStandardDeviationNull3()
     {
-        TargetLocationPack locPack = new TargetLocationPack(-10.5423886331461, 29.157890122923, 3216.0, 0.1, 3.0, null);
+        LocationPack locPack = new LocationPack(-10.5423886331461, 29.157890122923, 3216.0, 0.1, 3.0, null);
         TargetLocation location = new TargetLocation(locPack);
         assertEquals(location.getBytes().length, 10);
     }
@@ -230,7 +230,7 @@ public class TargetLocationTest
     @Test
     public void testConstructFromValueWithCorrelationNull1()
     {
-        TargetLocationPack locPack = new TargetLocationPack(-10.5423886331461, 29.157890122923, 3216.0, 0.1, 3.0, 649.9, null, 0.0, 0.5);
+        LocationPack locPack = new LocationPack(-10.5423886331461, 29.157890122923, 3216.0, 0.1, 3.0, 649.9, null, 0.0, 0.5);
         TargetLocation location = new TargetLocation(locPack);
         assertEquals(location.getBytes().length, 16);
     }
@@ -238,7 +238,7 @@ public class TargetLocationTest
     @Test
     public void testConstructFromValueWithCorrelationNull2()
     {
-        TargetLocationPack locPack = new TargetLocationPack(-10.5423886331461, 29.157890122923, 3216.0, 0.1, 3.0, 649.9, -1.0, null, 0.5);
+        LocationPack locPack = new LocationPack(-10.5423886331461, 29.157890122923, 3216.0, 0.1, 3.0, 649.9, -1.0, null, 0.5);
         TargetLocation location = new TargetLocation(locPack);
         assertEquals(location.getBytes().length, 16);
     }
@@ -246,7 +246,7 @@ public class TargetLocationTest
     @Test
     public void testConstructFromValueWithCorrelationNull3()
     {
-        TargetLocationPack locPack = new TargetLocationPack(-10.5423886331461, 29.157890122923, 3216.0, 0.1, 3.0, 649.9, -1.0, 0.0, null);
+        LocationPack locPack = new LocationPack(-10.5423886331461, 29.157890122923, 3216.0, 0.1, 3.0, 649.9, -1.0, 0.0, null);
         TargetLocation location = new TargetLocation(locPack);
         assertEquals(location.getBytes().length, 16);
     }

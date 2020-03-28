@@ -13,7 +13,7 @@ package org.jmisb.api.klv.st0903.vtarget.dto;
  * the correlation group values are set, the standard deviation group values
  * also need to be set.
  */
-public class TargetLocationPack
+public class LocationPack
 {
 
     private Double lat;
@@ -33,7 +33,7 @@ public class TargetLocationPack
      * @param lon Longitude in degrees of a point with respect to the WGS84 datum.
      * @param hae Height of a point in meters above the WGS84 Ellipsoid (HAE).
      */
-    public TargetLocationPack(Double lat, Double lon, Double hae)
+    public LocationPack(Double lat, Double lon, Double hae)
     {
         this(lat, lon, hae, null, null, null);
     }
@@ -47,7 +47,7 @@ public class TargetLocationPack
      * @param sigNorth Standard deviation of the location of the point with respect to the ENU coordinate system North axis.
      * @param sigUp Standard deviation of the location of the point with respect to the ENU coordinate system Up axis.
      */
-    public TargetLocationPack(Double lat, Double lon, Double hae, Double sigEast, Double sigNorth, Double sigUp)
+    public LocationPack(Double lat, Double lon, Double hae, Double sigEast, Double sigNorth, Double sigUp)
     {
         this(lat, lon, hae, sigEast, sigNorth, sigUp, null, null, null);
     }
@@ -65,7 +65,7 @@ public class TargetLocationPack
      * @param rhoEastUp Correlation coefficient between East and Up components of error.
      * @param rhoNorthUp Correlation coefficient between North and Up components of error.
      */
-    public TargetLocationPack(Double lat, Double lon, Double hae, Double sigEast, Double sigNorth, Double sigUp, Double rhoEastNorth, Double rhoEastUp, Double rhoNorthUp)
+    public LocationPack(Double lat, Double lon, Double hae, Double sigEast, Double sigNorth, Double sigUp, Double rhoEastNorth, Double rhoEastUp, Double rhoNorthUp)
     {
         this.lat = lat;
         this.lon = lon;

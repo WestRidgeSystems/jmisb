@@ -1,6 +1,5 @@
 package org.jmisb.api.klv.st0903.ontology;
 
-import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;

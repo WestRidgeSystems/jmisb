@@ -3,7 +3,7 @@ package org.jmisb.api.klv.st0903.vtarget;
 import java.util.ArrayList;
 import java.util.List;
 import org.jmisb.api.klv.st0903.IVmtiMetadataValue;
-import org.jmisb.api.klv.st0903.vtarget.dto.TargetLocationPack;
+import org.jmisb.api.klv.st0903.vtarget.dto.LocationPack;
 import org.jmisb.api.klv.st1201.FpEncoder;
 import org.jmisb.core.klv.ArrayUtils;
 
@@ -26,7 +26,7 @@ import org.jmisb.core.klv.ArrayUtils;
  */
 public class TargetLocation implements IVmtiMetadataValue
 {
-    private TargetLocationPack value;
+    private LocationPack value;
     private static final int COORDINATES_GROUP_LEN = 10;
     private static final int STANDARD_DEVIATIONS_GROUP_LEN = 6;
     private static final int CORRELATION_GROUP_LEN = 6;
@@ -41,7 +41,7 @@ public class TargetLocation implements IVmtiMetadataValue
      *
      * @param targetLocation the packed target location structure.
      */
-    public TargetLocation(TargetLocationPack targetLocation)
+    public TargetLocation(LocationPack targetLocation)
     {
         value = targetLocation;
     }
@@ -63,7 +63,7 @@ public class TargetLocation implements IVmtiMetadataValue
         }
     }
 
-    public static TargetLocationPack targetLocationPackFromBytes(byte[] bytes)
+    public static LocationPack targetLocationPackFromBytes(byte[] bytes)
     {
         switch (bytes.length)
         {
@@ -72,7 +72,7 @@ public class TargetLocation implements IVmtiMetadataValue
                 double lat = LatEncoder.decode(bytes, 0);
                 double lon = LonEncoder.decode(bytes, 4);
                 double hae = HaeEncoder.decode(bytes, 8);
-                return new TargetLocationPack(lat, lon, hae);
+                return new LocationPack(lat, lon, hae);
             }
             case COORDINATES_GROUP_LEN + STANDARD_DEVIATIONS_GROUP_LEN:
             {
@@ -82,7 +82,7 @@ public class TargetLocation implements IVmtiMetadataValue
                 double sigEast = SigmaEncoder.decode(bytes, 10);
                 double sigNorth = SigmaEncoder.decode(bytes, 12);
                 double sigUp = SigmaEncoder.decode(bytes, 14);
-                return new TargetLocationPack(lat, lon, hae, sigEast, sigNorth, sigUp);
+                return new LocationPack(lat, lon, hae, sigEast, sigNorth, sigUp);
             }
             case COORDINATES_GROUP_LEN + STANDARD_DEVIATIONS_GROUP_LEN + CORRELATION_GROUP_LEN:
             {
@@ -95,7 +95,7 @@ public class TargetLocation implements IVmtiMetadataValue
                 double rhoEastNorth = RhoEncoder.decode(bytes, 16);
                 double rhoEastUp = RhoEncoder.decode(bytes, 18);
                 double rhoNorthUp = RhoEncoder.decode(bytes, 20);
-                return new TargetLocationPack(lat, lon, hae, sigEast, sigNorth, sigUp, rhoEastNorth, rhoEastUp, rhoNorthUp);
+                return new LocationPack(lat, lon, hae, sigEast, sigNorth, sigUp, rhoEastNorth, rhoEastUp, rhoNorthUp);
             }
             default:
                throw new IllegalArgumentException("Target Location Pack length must match one of 10, 16 or 22");
@@ -108,7 +108,7 @@ public class TargetLocation implements IVmtiMetadataValue
         return serialiseLocationPack(value);
     }
 
-    public static byte[] serialiseLocationPack(TargetLocationPack targetLocationPack) {
+    public static byte[] serialiseLocationPack(LocationPack targetLocationPack) {
         int len = 0;
         List<byte[]> chunks = new ArrayList<>();
         if ((targetLocationPack.getLat() != null) && (targetLocationPack.getLon() != null) && (targetLocationPack.getHae() != null))
@@ -152,7 +152,7 @@ public class TargetLocation implements IVmtiMetadataValue
      *
      * @return the target location as a packed structure.
      */
-    public TargetLocationPack getTargetLocation()
+    public LocationPack getTargetLocation()
     {
         return value;
     }
