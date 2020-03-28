@@ -43,6 +43,23 @@ public class VTrackerTest
     }
 
     @Test
+    public void testFactoryEncodedBytesWithUnknownTag() throws KlvParseException
+    {
+        final byte[] bytesWithUnknownTag = new byte[]{
+            0x3F, 0x02, 0x03, 0x04, // No such tag - max is 12.
+            0x02, 0x01, 0x01, // Tag 2 - detection status
+            0x06, 0x4, 0x74, 0x65, 0x73, 0x74 // Tag 6 - algorithm
+        };
+        IVmtiMetadataValue value = VTargetPack.createValue(VTargetMetadataKey.VTracker, bytesWithUnknownTag);
+        assertTrue(value instanceof VTracker);
+        VTracker tracker = (VTracker)value;
+        assertEquals(tracker.getBytes().length, bytes.length);
+        assertEquals(tracker.getDisplayName(), "VTracker");
+        assertEquals(tracker.getDisplayableValue(), "[VTracker]");
+        assertEquals(tracker.getTracker().getTags().size(), 2);
+    }
+
+    @Test
     public void constructFromValue() throws KlvParseException
     {
         Map<VTrackerMetadataKey, IVmtiMetadataValue> values = new HashMap<>();

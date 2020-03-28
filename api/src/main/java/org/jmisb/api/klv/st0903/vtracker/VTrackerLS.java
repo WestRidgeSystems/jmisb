@@ -77,8 +77,7 @@ public class VTrackerLS {
             case endTime:
                 return new EndTime(bytes);
             case boundarySeries:
-                // TODO
-                return null;
+                return new BoundarySeries(bytes);
             case algorithm:
                 return new VmtiTextString(VmtiTextString.ALGORITHM, bytes);
             case confidence:
