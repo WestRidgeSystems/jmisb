@@ -33,6 +33,11 @@ public class VObjectLSTest
         0x4D, 0x75, 0x73, 0x68, 0x72, 0x6F, 0x6F, 0x6D
     };
 
+    final byte[] ontologyIdBytes = new byte[]{
+        0x03, 2,
+        0x01, 0x02
+    };
+
     private final byte[] mergedBytes = new byte[]{
         0x01, 71,
         0x68, 0x74, 0x74, 0x70, 0x73, 0x3A, 0x2F, 0x2F,
@@ -45,7 +50,9 @@ public class VObjectLSTest
         0x61, 0x73, 0x74, 0x65, 0x72, 0x2F, 0x70, 0x69,
         0x7A, 0x7A, 0x61, 0x2E, 0x6F, 0x77, 0x6C,
         0x02, 8,
-        0x4D, 0x75, 0x73, 0x68, 0x72, 0x6F, 0x6F, 0x6D
+        0x4D, 0x75, 0x73, 0x68, 0x72, 0x6F, 0x6F, 0x6D,
+        0x03, 2,
+        0x01, 0x02
     };
 
     @Test
@@ -58,7 +65,7 @@ public class VObjectLSTest
     }
 
     @Test
-    public void parseTag2() throws KlvParseException, URISyntaxException
+    public void parseTag2() throws KlvParseException
     {
         VObjectLS vObjectLS = new VObjectLS(ontologyClassBytes);
         assertNotNull(vObjectLS);
@@ -67,13 +74,23 @@ public class VObjectLSTest
     }
 
     @Test
+    public void parseTag3() throws KlvParseException
+    {
+        VObjectLS vObjectLS = new VObjectLS(ontologyIdBytes);
+        assertNotNull(vObjectLS);
+        assertEquals(vObjectLS.getTags().size(), 1);
+        checkOntologyIdExample(vObjectLS);
+    }
+
+    @Test
     public void parseMerged() throws KlvParseException, URISyntaxException
     {
         VObjectLS vObjectLS = new VObjectLS(mergedBytes);
         assertNotNull(vObjectLS);
-        assertEquals(vObjectLS.getTags().size(), 2);
+        assertEquals(vObjectLS.getTags().size(), 3);
         checkOntologyExample(vObjectLS);
         checkOntologyClassExample(vObjectLS);
+        checkOntologyIdExample(vObjectLS);
     }
 
     @Test
@@ -92,12 +109,16 @@ public class VObjectLSTest
             0x61, 0x73, 0x74, 0x65, 0x72, 0x2F, 0x70, 0x69,
             0x7A, 0x7A, 0x61, 0x2E, 0x6F, 0x77, 0x6C,
             0x02, 8, // Tag 2 + length
-            0x4D, 0x75, 0x73, 0x68, 0x72, 0x6F, 0x6F, 0x6D};
+            0x4D, 0x75, 0x73, 0x68, 0x72, 0x6F, 0x6F, 0x6D,
+            0x03, 2, // Tag 3 + length
+            0x01, 0x02
+        };
         VObjectLS vObjectLS = new VObjectLS(bytes);
         assertNotNull(vObjectLS);
-        assertEquals(vObjectLS.getTags().size(), 2);
+        assertEquals(vObjectLS.getTags().size(), 3);
         checkOntologyExample(vObjectLS);
         checkOntologyClassExample(vObjectLS);
+        checkOntologyIdExample(vObjectLS);
     }
 
     private void checkOntologyExample(VObjectLS vObjectLS) throws URISyntaxException
@@ -125,6 +146,17 @@ public class VObjectLSTest
         assertEquals(textString.getValue(), "Mushroom");
     }
 
+    private void checkOntologyIdExample(VObjectLS vObjectLS)
+    {
+        assertTrue(vObjectLS.getTags().contains(VObjectMetadataKey.ontologyId));
+        IVmtiMetadataValue v = vObjectLS.getField(VObjectMetadataKey.ontologyId);
+        assertEquals(v.getDisplayName(), "Ontology Id");
+        assertEquals(v.getDisplayableValue(), "258");
+        assertTrue(v instanceof OntologyId);
+        OntologyId id = (OntologyId) vObjectLS.getField(VObjectMetadataKey.ontologyId);
+        assertEquals(id.getValue(), 258);
+    }
+
     @Test
     public void createUnknownTag() throws KlvParseException
     {
@@ -150,10 +182,13 @@ public class VObjectLSTest
         values.put(VObjectMetadataKey.ontology, ontologyValue);
         IVmtiMetadataValue ontologyClassValue = VObjectLS.createValue(VObjectMetadataKey.ontologyClass, new byte[]{0x4D, 0x75, 0x73, 0x68, 0x72, 0x6F, 0x6F, 0x6D});
         values.put(VObjectMetadataKey.ontologyClass, ontologyClassValue);
+        values.put(VObjectMetadataKey.ontologyId, new OntologyId(258));
         VObjectLS vObjectLS = new VObjectLS(values);
         assertNotNull(vObjectLS);
-        assertEquals(vObjectLS.getTags().size(), 2);
+        assertEquals(vObjectLS.getTags().size(), 3);
         checkOntologyExample(vObjectLS);
         checkOntologyClassExample(vObjectLS);
+        checkOntologyIdExample(vObjectLS);
+        assertEquals(vObjectLS.getBytes(), mergedBytes);
     }
 }

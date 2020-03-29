@@ -72,8 +72,7 @@ public class VObjectLS {
             case ontologyClass:
                 return new VmtiTextString(VmtiTextString.ONTOLOGY_CLASS, bytes);
             case ontologyId:
-                // TODO
-                return null;
+                return new OntologyId(bytes);
             case confidence:
                 // TODO
                 return null;
