@@ -1,4 +1,4 @@
-package org.jmisb.api.klv.st0903.vtarget.dto;
+package org.jmisb.api.klv.st0903.vtarget;
 
 /**
  * Focal Plane Array Index Pack.

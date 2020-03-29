@@ -1,7 +1,6 @@
 package org.jmisb.api.klv.st0903.vtarget;
 
 import org.jmisb.api.klv.st0903.IVmtiMetadataValue;
-import org.jmisb.api.klv.st0903.vtarget.dto.FpaIndexPack;
 
 /**
  * Focal Plane Array (FPA) Index (ST0903 VTarget Pack Tag 21).
