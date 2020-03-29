@@ -69,8 +69,7 @@ public class VTrackerLS {
         // Mark all unimplemented tags with TODO.
         switch (tag) {
             case trackId:
-                // TODO
-                return null;
+                return new TrackId(bytes);
             case detectionStatus:
                 return new DetectionStatus(bytes);
             case startTime:
