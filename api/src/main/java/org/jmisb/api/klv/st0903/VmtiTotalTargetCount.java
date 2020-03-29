@@ -1,5 +1,7 @@
 package org.jmisb.api.klv.st0903;
 
+import org.jmisb.api.klv.st0903.shared.VmtiV3Value;
+
 /**
  * Total Number of Targets Detected in the Frame (ST0903 VMTI LS Tag 5).
  * <p>

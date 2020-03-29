@@ -1,7 +1,7 @@
 package org.jmisb.api.klv.st0903.vtarget;
 
 import org.jmisb.api.klv.st0903.IVmtiMetadataValue;
-import org.jmisb.api.klv.st0903.VmtiV3Value;
+import org.jmisb.api.klv.st0903.shared.VmtiV3Value;
 
 /**
  * Target Intensity (ST0903 VTarget Pack Tag 9).

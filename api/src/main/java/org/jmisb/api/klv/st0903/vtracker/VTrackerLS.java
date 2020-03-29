@@ -13,6 +13,7 @@ import org.jmisb.api.klv.BerEncoder;
 import org.jmisb.api.klv.LdsField;
 import org.jmisb.api.klv.LdsParser;
 import org.jmisb.api.klv.st0903.IVmtiMetadataValue;
+import org.jmisb.api.klv.st0903.shared.AlgorithmId;
 import org.jmisb.api.klv.st0903.shared.VmtiTextString;
 import org.jmisb.core.klv.ArrayUtils;
 
@@ -91,8 +92,7 @@ public class VTrackerLS {
             case acceleration:
                 return new Acceleration(bytes);
             case algorithmId:
-                // TODO
-                return null;
+                return new AlgorithmId(bytes);
             default:
                 System.out.println("Unrecognized VTracker tag: " + tag);
         }

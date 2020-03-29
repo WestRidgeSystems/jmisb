@@ -13,6 +13,7 @@ import org.jmisb.api.klv.BerEncoder;
 import org.jmisb.api.klv.LdsField;
 import org.jmisb.api.klv.LdsParser;
 import org.jmisb.api.klv.st0903.IVmtiMetadataValue;
+import org.jmisb.api.klv.st0903.shared.AlgorithmId;
 import org.jmisb.api.klv.st0903.shared.VmtiTextString;
 import org.jmisb.core.klv.ArrayUtils;
 
@@ -73,8 +74,7 @@ public class AlgorithmLS {
         switch (tag)
         {
             case id:
-                // TODO
-                return null;
+                return new AlgorithmId(bytes);
             case name:
                 return new VmtiTextString(VmtiTextString.ALGORITHM_NAME, bytes);
             case version:

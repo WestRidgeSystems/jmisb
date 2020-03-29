@@ -15,6 +15,7 @@ import org.jmisb.api.klv.BerField;
 import org.jmisb.api.klv.LdsField;
 import org.jmisb.api.klv.LdsParser;
 import org.jmisb.api.klv.st0903.IVmtiMetadataValue;
+import org.jmisb.api.klv.st0903.shared.AlgorithmId;
 import org.jmisb.core.klv.ArrayUtils;
 
 public class VTargetPack {
@@ -67,8 +68,6 @@ public class VTargetPack {
      */
     public static IVmtiMetadataValue createValue(VTargetMetadataKey tag, byte[] bytes) throws KlvParseException
     {
-        // Keep the case statements in enum ordinal order so we can keep track of what is implemented.
-        // Mark all unimplemented tags with TODO.
         switch (tag) {
             case TargetCentroid:
                 return new TargetCentroid(bytes);
@@ -113,8 +112,7 @@ public class VTargetPack {
             case FPAIndex:
                 return new FpaIndex(bytes);
             case AlgorithmId:
-                // TODO
-                return null;
+                return new AlgorithmId(bytes);
             case VMask:
                 return new VMask(bytes);
             case VObject:

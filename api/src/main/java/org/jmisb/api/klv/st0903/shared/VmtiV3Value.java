@@ -1,5 +1,6 @@
-package org.jmisb.api.klv.st0903;
+package org.jmisb.api.klv.st0903.shared;
 
+import org.jmisb.api.klv.st0903.IVmtiMetadataValue;
 import org.jmisb.core.klv.PrimitiveConverter;
 
 /**

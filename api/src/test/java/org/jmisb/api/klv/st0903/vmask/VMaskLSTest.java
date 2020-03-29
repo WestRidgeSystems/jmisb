@@ -1,7 +1,5 @@
 package org.jmisb.api.klv.st0903.vmask;
 
-import java.io.IOException;
-import java.net.URISyntaxException;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
@@ -17,7 +15,7 @@ import org.testng.annotations.Test;
 public class VMaskLSTest
 {
     @Test
-    public void parseTag1() throws KlvParseException, URISyntaxException
+    public void parseTag1() throws KlvParseException
     {
         final byte[] bytes = new byte[]{
             0x01, // Tag 1
@@ -33,7 +31,7 @@ public class VMaskLSTest
     }
 
     @Test
-    public void parseTag2() throws KlvParseException, URISyntaxException
+    public void parseTag2() throws KlvParseException
     {
         final byte[] bytes = new byte[]{
             0x02, // Tag
@@ -50,7 +48,7 @@ public class VMaskLSTest
     }
 
     @Test
-    public void parseTagsWithUnknownTag() throws KlvParseException, URISyntaxException
+    public void parseTagsWithUnknownTag() throws KlvParseException
     {
         final byte[] bytes = new byte[]{
             0x03, 0x02, (byte) 0x80, (byte) 0xCA, // No such tag
@@ -72,7 +70,7 @@ public class VMaskLSTest
         checkBitmaskExample(localSet);
     }
 
-    public void checkPolygonExample(VMaskLS localSet) throws URISyntaxException
+    public static void checkPolygonExample(VMaskLS localSet)
     {
         assertTrue(localSet.getTags().contains(VMaskMetadataKey.polygon));
         IVmtiMetadataValue v = localSet.getField(VMaskMetadataKey.polygon);
@@ -86,7 +84,7 @@ public class VMaskLSTest
         assertEquals((long)boundarySeries.getPolygon().get(2), 15115L);
     }
 
-    public void checkBitmaskExample(VMaskLS localSet) throws URISyntaxException
+    public static void checkBitmaskExample(VMaskLS localSet)
     {
         assertTrue(localSet.getTags().contains(VMaskMetadataKey.bitMaskSeries));
         IVmtiMetadataValue v = localSet.getField(VMaskMetadataKey.bitMaskSeries);
@@ -117,7 +115,7 @@ public class VMaskLSTest
     }
 
     @Test
-    public void constructFromMap() throws KlvParseException, URISyntaxException, IOException
+    public void constructFromMap() throws KlvParseException
     {
         Map<VMaskMetadataKey, IVmtiMetadataValue> values = new HashMap<>();
         List<Long> points = new ArrayList<>();

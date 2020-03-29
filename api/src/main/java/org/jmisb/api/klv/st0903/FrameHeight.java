@@ -1,5 +1,7 @@
 package org.jmisb.api.klv.st0903;
 
+import org.jmisb.api.klv.st0903.shared.VmtiV3Value;
+
 /**
  * VMTI Frame Height (ST 0903 VMTI LS Tag 9).
  * <p>
