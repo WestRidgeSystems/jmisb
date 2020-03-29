@@ -74,8 +74,7 @@ public class VObjectLS {
             case ontologyId:
                 return new OntologyId(bytes);
             case confidence:
-                // TODO
-                return null;
+                return new Confidence2(bytes);
             default:
                 System.out.println("Unrecognized VObject tag: " + tag);
         }
