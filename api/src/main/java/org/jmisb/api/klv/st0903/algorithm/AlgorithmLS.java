@@ -82,8 +82,7 @@ public class AlgorithmLS {
             case algorithmClass:
                 return new VmtiTextString(VmtiTextString.ALGORITHM_CLASS, bytes);
             case nFrames:
-                // TODO
-                return null;
+                return new NumberOfFrames(bytes);
             default:
                 System.out.println("Unrecognized Algorithm tag: " + tag);
         }

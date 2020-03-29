@@ -1,7 +1,5 @@
 package org.jmisb.api.klv.st0903.algorithm;
 
-import java.io.IOException;
-import java.net.URISyntaxException;
 import java.util.HashMap;
 import java.util.Map;
 import org.jmisb.api.common.KlvParseException;
@@ -27,7 +25,7 @@ public class AlgorithmLSTest
     }
 
     @Test
-    public void parseTag2() throws KlvParseException, URISyntaxException
+    public void parseTag2() throws KlvParseException
     {
         final byte[] bytes = new byte[]{0x02, 0x14, 0x6B, 0x36, 0x5F, 0x79, 0x6F, 0x6C, 0x6F, 0x5F, 0x39, 0x30, 0x30, 0x30, 0x5F, 0x74, 0x72, 0x61, 0x63, 0x6B, 0x65, 0x72};
         AlgorithmLS algorithmLS = new AlgorithmLS(bytes);
@@ -47,7 +45,7 @@ public class AlgorithmLSTest
     }
 
     @Test
-    public void parseTag4() throws KlvParseException, URISyntaxException
+    public void parseTag4() throws KlvParseException
     {
         final byte[] bytes = new byte[]{0x04, 0x07, 0x6B, 0x61, 0x6C, 0x6D, 0x61, 0x6E, 0x6E};
         AlgorithmLS algorithmLS = new AlgorithmLS(bytes);
@@ -57,19 +55,33 @@ public class AlgorithmLSTest
     }
 
     @Test
-    public void parseTagsWithUnknownTag() throws KlvParseException, URISyntaxException
+    public void parseTag5() throws KlvParseException
+    {
+        final byte[] bytes = new byte[]{0x05, 0x01, 0x0A};
+        AlgorithmLS algorithmLS = new AlgorithmLS(bytes);
+        assertNotNull(algorithmLS);
+        assertEquals(algorithmLS.getTags().size(), 1);
+        checkNumFramesExample(algorithmLS);
+    }
+
+    @Test
+    public void parseTagsWithUnknownTag() throws KlvParseException
     {
         final byte[] bytes = new byte[]{
             0x06, 0x02, (byte) 0x80, (byte) 0xCA, // No such tag
+            0x01, 0x03, 0x01, 0x03, (byte)0x98,
             0x02, 0x14, 0x6B, 0x36, 0x5F, 0x79, 0x6F, 0x6C, 0x6F, 0x5F, 0x39, 0x30, 0x30, 0x30, 0x5F, 0x74, 0x72, 0x61, 0x63, 0x6B, 0x65, 0x72,
             0x03, 0x04, 0x32, 0x2E, 0x36, 0x61,
-            0x04, 0x07, 0x6B, 0x61, 0x6C, 0x6D, 0x61, 0x6E, 0x6E};
+            0x04, 0x07, 0x6B, 0x61, 0x6C, 0x6D, 0x61, 0x6E, 0x6E,
+            0x05, 0x01, 0x0A};
         AlgorithmLS algorithmLS = new AlgorithmLS(bytes);
         assertNotNull(algorithmLS);
-        assertEquals(algorithmLS.getTags().size(), 3);
+        assertEquals(algorithmLS.getTags().size(), 5);
+        checkIdExample(algorithmLS);
         checkClassExample(algorithmLS);
         checkNameExample(algorithmLS);
         checkVersionExample(algorithmLS);
+        checkNumFramesExample(algorithmLS);
     }
 
     public void checkIdExample(AlgorithmLS algorithmLS)
@@ -84,7 +96,19 @@ public class AlgorithmLSTest
         assertEquals(id.getBytes(), new byte[] {0x01, 0x03, (byte)0x98});
     }
 
-    public void checkNameExample(AlgorithmLS algorithmLS) throws URISyntaxException
+    public void checkNumFramesExample(AlgorithmLS algorithmLS)
+    {
+        assertTrue(algorithmLS.getTags().contains(AlgorithmMetadataKey.nFrames));
+        IVmtiMetadataValue v = algorithmLS.getField(AlgorithmMetadataKey.nFrames);
+        assertEquals(v.getDisplayName(), "Number of Frames");
+        assertEquals(v.getDisplayableValue(), "10");
+        assertTrue(v instanceof NumberOfFrames);
+        NumberOfFrames nFrames = (NumberOfFrames) algorithmLS.getField(AlgorithmMetadataKey.nFrames);
+        assertEquals(nFrames.getValue(), 10);
+        assertEquals(nFrames.getBytes(), new byte[] {0x0A});
+    }
+
+    public void checkNameExample(AlgorithmLS algorithmLS)
     {
         final String stringVal = "k6_yolo_9000_tracker";
         assertTrue(algorithmLS.getTags().contains(AlgorithmMetadataKey.name));
@@ -111,7 +135,7 @@ public class AlgorithmLSTest
         assertEquals(text.getValue(), stringVal);
     }
 
-    public void checkClassExample(AlgorithmLS algorithmLS) throws URISyntaxException
+    public void checkClassExample(AlgorithmLS algorithmLS)
     {
         final String stringVal = "kalmann";
         assertTrue(algorithmLS.getTags().contains(AlgorithmMetadataKey.algorithmClass));
@@ -134,7 +158,7 @@ public class AlgorithmLSTest
     }
 
     @Test
-    public void constructFromMap() throws KlvParseException, URISyntaxException, IOException
+    public void constructFromMap() throws KlvParseException
     {
         Map<AlgorithmMetadataKey, IVmtiMetadataValue> values = new HashMap<>();
         values.put(AlgorithmMetadataKey.id, new AlgorithmId(66456));
@@ -144,18 +168,21 @@ public class AlgorithmLSTest
         values.put(AlgorithmMetadataKey.version, version);
         IVmtiMetadataValue klass = AlgorithmLS.createValue(AlgorithmMetadataKey.algorithmClass, new byte[]{0x6B, 0x61, 0x6C, 0x6D, 0x61, 0x6E, 0x6E});
         values.put(AlgorithmMetadataKey.algorithmClass, klass);
+        values.put(AlgorithmMetadataKey.nFrames, new NumberOfFrames(10));
         AlgorithmLS algorithmLS = new AlgorithmLS(values);
         assertNotNull(algorithmLS);
-        assertEquals(algorithmLS.getTags().size(), 4);
+        assertEquals(algorithmLS.getTags().size(), 5);
         checkIdExample(algorithmLS);
         checkNameExample(algorithmLS);
         checkClassExample(algorithmLS);
         checkVersionExample(algorithmLS);
+        checkNumFramesExample(algorithmLS);
         byte[] expectedBytes = new byte[]{
             0x01, 0x03, 0x01, 0x03, (byte)0x98,
             0x02, 0x14, 0x6B, 0x36, 0x5F, 0x79, 0x6F, 0x6C, 0x6F, 0x5F, 0x39, 0x30, 0x30, 0x30, 0x5F, 0x74, 0x72, 0x61, 0x63, 0x6B, 0x65, 0x72,
             0x03, 0x04, 0x32, 0x2E, 0x36, 0x61,
-            0x04, 0x07, 0x6B, 0x61, 0x6C, 0x6D, 0x61, 0x6E, 0x6E};
+            0x04, 0x07, 0x6B, 0x61, 0x6C, 0x6D, 0x61, 0x6E, 0x6E,
+            0x05, 0x01, 0x0A};
         assertEquals(algorithmLS.getBytes(), expectedBytes);
     }
 }
