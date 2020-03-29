@@ -81,11 +81,9 @@ public class OntologyLS {
         switch (tag)
         {
             case id:
-                // TODO
-                return null;
+                return new OntologyId(bytes);
             case parentId:
-                // TODO
-                return null;
+                return new OntologyParentId(bytes);
             case ontology:
                 return new VmtiUri(VmtiUri.ONTOLOGY, bytes);
             case ontologyClass:
