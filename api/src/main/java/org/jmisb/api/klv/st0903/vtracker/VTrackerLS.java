@@ -85,13 +85,11 @@ public class VTrackerLS {
             case numTrackPoints:
                 return new NumTrackPoints(bytes);
             case trackHistorySeries:
-                // TODO
-                return null;
+                return new TrackHistorySeries(bytes);
             case velocity:
                 return new Velocity(bytes);
             case acceleration:
-                // TODO
-                return null;
+                return new Acceleration(bytes);
             case algorithmId:
                 // TODO
                 return null;

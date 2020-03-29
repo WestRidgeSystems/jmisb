@@ -7,31 +7,31 @@ import org.jmisb.api.klv.st1201.FpEncoder;
 import org.jmisb.core.klv.ArrayUtils;
 
 /**
- * Velocity (ST 0903 VTracker LS Tag 10).
+ * Acceleration (ST 0903 VTracker LS Tag 11).
  * <p>
  * From ST0903:
  * <blockquote>
- * The velocity of the entity at the time of last detection.
+ * The acceleration of the entity at the time of last detection.
  * </blockquote>
  */
-public class Velocity implements IVmtiMetadataValue
+public class Acceleration implements IVmtiMetadataValue
 {
-    private static final int VELOCITY_GROUP_LEN = 6;
+    private static final int ACCELERATION_GROUP_LEN = 6;
     private static final int STANDARD_DEVIATIONS_GROUP_LEN = 6;
     private static final int CORRELATION_GROUP_LEN = 6;
-    private static final FpEncoder VelocityEncoder = new FpEncoder(-900.0, 900.0, 2);
+    private static final FpEncoder AccelerationEncoder = new FpEncoder(-900.0, 900.0, 2);
     private static final FpEncoder SigmaEncoder = new FpEncoder(0, 650.0, 2);
     private static final FpEncoder RhoEncoder = new FpEncoder(-1, 1, 2);
-    private VelocityPack value;
+    private AccelerationPack value;
 
     /**
      * Create from value
      *
-     * @param velocity the velocity DLP (truncation) pack.
+     * @param acceleration the acceleration DLP (truncation) pack.
      */
-    public Velocity(VelocityPack velocity)
+    public Acceleration(AccelerationPack acceleration)
     {
-        this.value = velocity;
+        this.value = acceleration;
     }
 
     /**
@@ -39,41 +39,41 @@ public class Velocity implements IVmtiMetadataValue
      *
      * @param bytes The byte array of length 1
      */
-    public Velocity(byte[] bytes)
+    public Acceleration(byte[] bytes)
     {
         switch (bytes.length)
         {
-            case VELOCITY_GROUP_LEN:
+            case ACCELERATION_GROUP_LEN:
             {
-                double east = VelocityEncoder.decode(bytes, 0);
-                double north = VelocityEncoder.decode(bytes, 2);
-                double up = VelocityEncoder.decode(bytes, 4);
-                value = new VelocityPack(east, north, up);
+                double east = AccelerationEncoder.decode(bytes, 0);
+                double north = AccelerationEncoder.decode(bytes, 2);
+                double up = AccelerationEncoder.decode(bytes, 4);
+                value = new AccelerationPack(east, north, up);
                 break;
             }
-            case VELOCITY_GROUP_LEN + STANDARD_DEVIATIONS_GROUP_LEN:
+            case ACCELERATION_GROUP_LEN + STANDARD_DEVIATIONS_GROUP_LEN:
             {
-                double east = VelocityEncoder.decode(bytes, 0);
-                double north = VelocityEncoder.decode(bytes, 2);
-                double up = VelocityEncoder.decode(bytes, 4);
+                double east = AccelerationEncoder.decode(bytes, 0);
+                double north = AccelerationEncoder.decode(bytes, 2);
+                double up = AccelerationEncoder.decode(bytes, 4);
                 double sigEast = SigmaEncoder.decode(bytes, 6);
                 double sigNorth = SigmaEncoder.decode(bytes, 8);
                 double sigUp = SigmaEncoder.decode(bytes, 10);
-                value = new VelocityPack(east, north, up, sigEast, sigNorth, sigUp);
+                value = new AccelerationPack(east, north, up, sigEast, sigNorth, sigUp);
                 break;
             }
-            case VELOCITY_GROUP_LEN + STANDARD_DEVIATIONS_GROUP_LEN + CORRELATION_GROUP_LEN:
+            case ACCELERATION_GROUP_LEN + STANDARD_DEVIATIONS_GROUP_LEN + CORRELATION_GROUP_LEN:
             {
-                double east = VelocityEncoder.decode(bytes, 0);
-                double north = VelocityEncoder.decode(bytes, 2);
-                double up = VelocityEncoder.decode(bytes, 4);
+                double east = AccelerationEncoder.decode(bytes, 0);
+                double north = AccelerationEncoder.decode(bytes, 2);
+                double up = AccelerationEncoder.decode(bytes, 4);
                 double sigEast = SigmaEncoder.decode(bytes, 6);
                 double sigNorth = SigmaEncoder.decode(bytes, 8);
                 double sigUp = SigmaEncoder.decode(bytes, 10);
                 double rhoEastNorth = RhoEncoder.decode(bytes, 12);
                 double rhoEastUp = RhoEncoder.decode(bytes, 14);
                 double rhoNorthUp = RhoEncoder.decode(bytes, 16);
-                value = new VelocityPack(east, north, up, sigEast, sigNorth, sigUp, rhoEastNorth, rhoEastUp, rhoNorthUp);
+                value = new AccelerationPack(east, north, up, sigEast, sigNorth, sigUp, rhoEastNorth, rhoEastUp, rhoNorthUp);
                 break;
             }
             default:
@@ -84,21 +84,21 @@ public class Velocity implements IVmtiMetadataValue
     @Override
     public final String getDisplayName()
     {
-        return "Velocity";
+        return "Acceleration";
     }
 
     @Override
     public String getDisplayableValue()
     {
-        return "[Velocity]";
+        return "[Acceleration]";
     }
 
     /**
-     * Get the Target Velocity.
+     * Get the Target Acceleration.
      *
-     * @return the velocity as a packed structure.
+     * @return the acceleration as a packed structure.
      */
-    public VelocityPack getVelocity()
+    public AccelerationPack getAcceleration()
     {
         return value;
     }
@@ -110,10 +110,10 @@ public class Velocity implements IVmtiMetadataValue
         List<byte[]> chunks = new ArrayList<>();
         if ((value.getEast() != null) && (value.getNorth() != null) && (value.getUp() != null))
         {
-            chunks.add(VelocityEncoder.encode(value.getEast()));
-            chunks.add(VelocityEncoder.encode(value.getNorth()));
-            chunks.add(VelocityEncoder.encode(value.getUp()));
-            len += VELOCITY_GROUP_LEN;
+            chunks.add(AccelerationEncoder.encode(value.getEast()));
+            chunks.add(AccelerationEncoder.encode(value.getNorth()));
+            chunks.add(AccelerationEncoder.encode(value.getUp()));
+            len += ACCELERATION_GROUP_LEN;
             if ((value.getSigEast() != null) && (value.getSigNorth() != null) && (value.getSigUp() != null))
             {
                 chunks.add(SigmaEncoder.encode(value.getSigEast()));
