@@ -3,7 +3,7 @@ package org.jmisb.api.klv.st0903.vtarget;
 import java.util.ArrayList;
 import java.util.List;
 import org.jmisb.api.klv.st0903.IVmtiMetadataValue;
-import org.jmisb.api.klv.st0903.vtarget.dto.LocationPack;
+import org.jmisb.api.klv.st0903.shared.LocationPack;
 import org.jmisb.api.klv.st1201.FpEncoder;
 import org.jmisb.core.klv.ArrayUtils;
 

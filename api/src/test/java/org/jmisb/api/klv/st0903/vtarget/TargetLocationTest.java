@@ -2,7 +2,7 @@ package org.jmisb.api.klv.st0903.vtarget;
 
 import org.jmisb.api.common.KlvParseException;
 import org.jmisb.api.klv.st0903.IVmtiMetadataValue;
-import org.jmisb.api.klv.st0903.vtarget.dto.LocationPack;
+import org.jmisb.api.klv.st0903.shared.LocationPack;
 import static org.testng.Assert.*;
 import org.testng.annotations.Test;
 

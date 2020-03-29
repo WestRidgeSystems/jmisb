@@ -88,8 +88,7 @@ public class VTrackerLS {
                 // TODO
                 return null;
             case velocity:
-                // TODO
-                return null;
+                return new Velocity(bytes);
             case acceleration:
                 // TODO
                 return null;

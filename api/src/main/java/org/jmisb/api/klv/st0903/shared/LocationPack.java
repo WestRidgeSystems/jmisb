@@ -1,9 +1,9 @@
-package org.jmisb.api.klv.st0903.vtarget.dto;
+package org.jmisb.api.klv.st0903.shared;
 
 /**
  * Location Pack.
  *
- * This data transfer object supports the ST0903 VTarget Tag 17 value.
+ * This data transfer object supports various Boundary Series and Target Location.
  * <p>
  * Latitude, longitude and HAE are always required.
  * <p>

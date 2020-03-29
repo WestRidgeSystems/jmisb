@@ -8,7 +8,7 @@ import org.jmisb.api.klv.BerDecoder;
 import org.jmisb.api.klv.BerEncoder;
 import org.jmisb.api.klv.BerField;
 import org.jmisb.api.klv.st0903.IVmtiMetadataValue;
-import org.jmisb.api.klv.st0903.vtarget.dto.LocationPack;
+import org.jmisb.api.klv.st0903.shared.LocationPack;
 import org.jmisb.core.klv.ArrayUtils;
 
 /**
