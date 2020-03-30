@@ -21,9 +21,6 @@ import org.jmisb.api.klv.st0903.shared.*;
  * Vehicle with OntologyId 10, Car with OntologyId 17, and Motorcycle with
  * OntologyId 3. Since Car and Motorcycle are both “children” of the Vehicle,
  * those two LS define their ParentId’s equal to 10.
- * <p>
- * This is a tentative implementation, pending decision from MISB on range of
- * this value.
  */
 public class OntologyParentId extends VmtiV3Value implements IVmtiMetadataValue
 {

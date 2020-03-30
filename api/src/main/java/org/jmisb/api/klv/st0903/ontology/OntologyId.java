@@ -14,8 +14,6 @@ import org.jmisb.api.klv.st0903.shared.VmtiV3Value;
  * VMTI packets) so receivers should not assume an identifier value is static
  * for a whole VMTI stream. The Id does not need to start at a value of one nor
  * do the Ids need to be in any specific order in the Ontology Series.
- * <p>
- * This is a tentative implementation, pending decision from MISB on range of this value.
  */
 public class OntologyId extends VmtiV3Value implements IVmtiMetadataValue
 {

@@ -1,4 +1,4 @@
-package org.jmisb.api.klv.st1204;
+package org.jmisb.core.klv;
 
 import java.nio.ByteBuffer;
 import java.util.UUID;

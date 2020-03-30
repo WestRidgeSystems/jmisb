@@ -16,8 +16,6 @@ import org.jmisb.api.klv.st0903.shared.VmtiV3Value;
  * Ontology Series. Using the OntologyId replaces the need to use Tag 1 and Tag
  * 2 in VObject LS saving bandwidth by not duplicating the same information for
  * different VObjects.
- * <p>
- * This is a tentative implementation, pending decision from MISB on range of this value.
  */
 public class OntologyId extends VmtiV3Value implements IVmtiMetadataValue
 {

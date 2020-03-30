@@ -4,9 +4,7 @@ import org.jmisb.api.klv.st0903.IVmtiMetadataValue;
 
 
 /**
- * Shared algorithm Id implementation.
- * <p>
- * This is a tentative implementation, pending decision from MISB on range of this value.
+ * Shared algorithm Id implementation, used by VTargetPack, Algorithm LS and VTracker LS.
  */
 public class AlgorithmId extends VmtiV3Value implements IVmtiMetadataValue
 {

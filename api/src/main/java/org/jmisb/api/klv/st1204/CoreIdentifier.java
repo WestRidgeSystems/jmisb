@@ -1,5 +1,6 @@
 package org.jmisb.api.klv.st1204;
 
+import org.jmisb.core.klv.UuidUtils;
 import java.io.ByteArrayOutputStream;
 import java.io.IOException;
 import java.util.UUID;

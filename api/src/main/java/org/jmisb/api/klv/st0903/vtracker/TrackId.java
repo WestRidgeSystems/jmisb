@@ -2,7 +2,7 @@ package org.jmisb.api.klv.st0903.vtracker;
 
 import java.util.UUID;
 import org.jmisb.api.klv.st0903.IVmtiMetadataValue;
-import org.jmisb.api.klv.st1204.UuidUtils;
+import org.jmisb.core.klv.UuidUtils;
 
 /**
  * Track ID (VTracker LS Tag 1).
