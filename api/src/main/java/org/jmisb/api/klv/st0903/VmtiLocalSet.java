@@ -1,6 +1,7 @@
 package org.jmisb.api.klv.st0903;
 
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.List;
 import java.util.Map;
 import java.util.Set;
@@ -9,13 +10,19 @@ import java.util.TreeMap;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import org.jmisb.api.common.KlvParseException;
+import org.jmisb.api.klv.Ber;
 import org.jmisb.api.klv.BerEncoder;
+import org.jmisb.api.klv.IMisbMessage;
+import static org.jmisb.api.klv.KlvConstants.VmtiLocalSetUl;
 import org.jmisb.api.klv.LdsField;
 import org.jmisb.api.klv.LdsParser;
+import org.jmisb.api.klv.UniversalLabel;
+import org.jmisb.api.klv.st0601.Checksum;
+
 import org.jmisb.api.klv.st0903.shared.VmtiTextString;
 import org.jmisb.core.klv.ArrayUtils;
 
-public class VmtiLocalSet {
+public class VmtiLocalSet implements IMisbMessage {
 
     private static final Logger LOG = Logger.getLogger(VmtiLocalSet.class.getName());
 
@@ -101,7 +108,12 @@ public class VmtiLocalSet {
                     LOG.log(Level.INFO, "Unknown VMTI Metadata tag: {0}", field.getTag());
                     break;
                 case Checksum:
-                    // TODO check the checksum
+                    byte[] expected = Checksum.compute(bytes, false);
+                    byte[] actual = Arrays.copyOfRange(bytes, bytes.length-2, bytes.length);
+                    if (!Arrays.equals(expected, actual))
+                    {
+                        throw new KlvParseException("Bad checksum");
+                    }
                     break;
                 default:
                     IVmtiMetadataValue value = createValue(key, field.getData());
@@ -111,17 +123,17 @@ public class VmtiLocalSet {
         }        
     }
 
-    /**
-     * Get the byte array corresponding to the value for this Local Set.
-     *
-     * @return byte array with the encoded local set.
-     */
-    public byte[] getBytes()
+    @Override
+    public byte[] frameMessage(boolean isNested)
     {
         int len = 0;
         List<byte[]> chunks = new ArrayList<>();
         for (VmtiMetadataKey tag: getTags())
         {
+            if (tag == VmtiMetadataKey.Checksum)
+            {
+                continue;
+            }
             chunks.add(new byte[]{(byte) tag.getTag()});
             len += 1;
             IVmtiMetadataValue value = getField(tag);
@@ -132,7 +144,36 @@ public class VmtiLocalSet {
             chunks.add(bytes);
             len += bytes.length;
         }
-        return ArrayUtils.arrayFromChunks(chunks, len);
+
+        // Figure out value length
+        final int keyLength = UniversalLabel.LENGTH;
+        int valueLength = 0;
+        valueLength = chunks.stream().map((chunk) -> chunk.length).reduce(valueLength, Integer::sum);
+
+        if (isNested)
+        {
+            return ArrayUtils.arrayFromChunks(chunks, valueLength);
+        }
+        else
+        {
+            // Prepend length field into front of the list
+            byte[] lengthField = BerEncoder.encode(valueLength);
+            chunks.add(0, lengthField);
+
+            // Prepend UL since this is standalone message
+            chunks.add(0, VmtiLocalSetUl.getBytes());
+
+            // Add Key and Length of checksum with placeholder for value - Checksum must be final element
+            byte[] checksum = new byte[2];
+            chunks.add(new byte[]{(byte)VmtiMetadataKey.Checksum.getTag()});
+            chunks.add(BerEncoder.encode(checksum.length, Ber.SHORT_FORM));
+            chunks.add(checksum);
+
+            byte[] array = ArrayUtils.arrayFromChunks(chunks, keyLength + lengthField.length + valueLength);
+            // Compute the checksum and replace the last two bytes of array
+            Checksum.compute(array, true);
+            return array;
+        }
     }
 
     /**
@@ -154,6 +195,18 @@ public class VmtiLocalSet {
     public IVmtiMetadataValue getField(VmtiMetadataKey tag)
     {
         return map.get(tag);
+    }
+
+    @Override
+    public UniversalLabel getUniversalLabel()
+    {
+        return VmtiLocalSetUl;
+    }
+
+    @Override
+    public String displayHeader()
+    {
+        return "ST0903 VMTI";
     }
 
 }

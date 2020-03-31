@@ -5,6 +5,8 @@ import java.net.URISyntaxException;
 import java.util.HashMap;
 import java.util.Map;
 import org.jmisb.api.common.KlvParseException;
+import org.jmisb.api.klv.IMisbMessage;
+import org.jmisb.api.klv.KlvConstants;
 import org.jmisb.api.klv.st0903.shared.VmtiTextString;
 import static org.testng.Assert.*;
 import org.testng.annotations.Test;
@@ -15,29 +17,29 @@ import org.testng.annotations.Test;
 public class VmtiLocalSetTest
 {
     @Test
-    public void parseTag3() throws KlvParseException, URISyntaxException, IOException
+    public void parseTag3() throws KlvParseException
     {
         final byte[] bytes = new byte[]{0x03, 0x0E, 0x44, 0x53, 0x54, 0x4F, 0x5F, 0x41, 0x44, 0x53, 0x53, 0x5F, 0x56, 0x4D, 0x54, 0x49};
         VmtiLocalSet localSet = new VmtiLocalSet(bytes);
         assertNotNull(localSet);
         assertEquals(localSet.getTags().size(), 1);
         checkSystemNameExample(localSet);
-        assertEquals(localSet.getBytes(), bytes);
+        assertEquals(localSet.frameMessage(true), bytes);
     }
 
     @Test
-    public void parseTag4() throws KlvParseException, URISyntaxException, IOException
+    public void parseTag4() throws KlvParseException
     {
         final byte[] bytes = new byte[]{0x04, 0x01, 0x04};
         VmtiLocalSet localSet = new VmtiLocalSet(bytes);
         assertNotNull(localSet);
         assertEquals(localSet.getTags().size(), 1);
         checkVersionNumberExample(localSet);
-        assertEquals(localSet.getBytes(), bytes);
+        assertEquals(localSet.frameMessage(true), bytes);
     }
 
     @Test
-    public void parseTagsWithUnknownTag() throws KlvParseException, URISyntaxException
+    public void parseTagsWithUnknownTag() throws KlvParseException
     {
         final byte[] bytes = new byte[]{
             0x7F, 0x02, (byte) 0x80, (byte) 0xCA, // No such tag
@@ -50,7 +52,44 @@ public class VmtiLocalSetTest
         checkSystemNameExample(localSet);
     }
 
-    private void checkSystemNameExample(VmtiLocalSet localSet) throws URISyntaxException
+    @Test
+    public void parseTagsWithChecksum() throws KlvParseException
+    {
+        final byte[] bytes = new byte[]{
+            0x03, 0x0E, 0x44, 0x53, 0x54, 0x4F, 0x5F, 0x41, 0x44, 0x53, 0x53, 0x5F, 0x56, 0x4D, 0x54, 0x49,
+            0x04, 0x01, 0x04,
+            0x01, 0x02, 0x47, 0x3b
+        };
+        VmtiLocalSet localSet = new VmtiLocalSet(bytes);
+        assertNotNull(localSet);
+        assertEquals(localSet.getTags().size(), 2);
+        checkVersionNumberExample(localSet);
+        checkSystemNameExample(localSet);
+    }
+
+    @Test(expectedExceptions = KlvParseException.class)
+    public void parseTagsWithChecksumBad1() throws KlvParseException, URISyntaxException
+    {
+        final byte[] bytes = new byte[]{
+            0x03, 0x0E, 0x44, 0x53, 0x54, 0x4F, 0x5F, 0x41, 0x44, 0x53, 0x53, 0x5F, 0x56, 0x4D, 0x54, 0x49,
+            0x04, 0x01, 0x04,
+            0x01, 0x02, 0x46, 0x3b
+        };
+        new VmtiLocalSet(bytes);
+    }
+
+    @Test(expectedExceptions = KlvParseException.class)
+    public void parseTagsWithChecksumBad2() throws KlvParseException, URISyntaxException
+    {
+        final byte[] bytes = new byte[]{
+            0x03, 0x0E, 0x44, 0x53, 0x54, 0x4F, 0x5F, 0x41, 0x44, 0x53, 0x53, 0x5F, 0x56, 0x4D, 0x54, 0x49,
+            0x04, 0x01, 0x04,
+            0x01, 0x02, 0x47, 0x3c
+        };
+        new VmtiLocalSet(bytes);
+    }
+
+    private void checkSystemNameExample(VmtiLocalSet localSet)
     {
         final String stringVal = "DSTO_ADSS_VMTI";
         assertTrue(localSet.getTags().contains(VmtiMetadataKey.SystemName));
@@ -63,7 +102,7 @@ public class VmtiLocalSetTest
         assertEquals(text.getValue(), stringVal);
     }
 
-    private void checkVersionNumberExample(VmtiLocalSet localSet) throws URISyntaxException
+    private void checkVersionNumberExample(VmtiLocalSet localSet)
     {
         final String stringVal = "ST0903.4";
         assertTrue(localSet.getTags().contains(VmtiMetadataKey.VersionNumber));
@@ -77,7 +116,7 @@ public class VmtiLocalSetTest
     }
 
     @Test
-    public void constructFromMap() throws KlvParseException, URISyntaxException, IOException
+    public void constructFromMap()
     {
         Map<VmtiMetadataKey, IVmtiMetadataValue> values = new HashMap<>();
         IVmtiMetadataValue systemName = new VmtiTextString(VmtiTextString.SYSTEM_NAME, "DSTO_ADSS_VMTI");
@@ -92,7 +131,13 @@ public class VmtiLocalSetTest
         byte[] expectedBytes = new byte[]{
             0x03, 0x0E, 0x44, 0x53, 0x54, 0x4F, 0x5F, 0x41, 0x44, 0x53, 0x53, 0x5F, 0x56, 0x4D, 0x54, 0x49,
             0x04, 0x01, 0x04};
-        assertEquals(localSet.getBytes(), expectedBytes);
+        assertEquals(localSet.frameMessage(true), expectedBytes);
+        assertTrue(localSet instanceof IMisbMessage);
+        assertEquals(localSet.displayHeader(), "ST0903 VMTI");
+        assertEquals(localSet.getUniversalLabel(), KlvConstants.VmtiLocalSetUl);
+        assertEquals(localSet.getUniversalLabel().getBytes(), new byte[]{
+            (byte) 0x06, (byte) 0x0E, (byte) 0x2B, (byte) 0x34, (byte) 0x02, (byte) 0x0B, (byte) 0x01, (byte) 0x01,
+            (byte) 0x0E, (byte) 0x01, (byte) 0x03, (byte) 0x03, (byte) 0x06, (byte) 0x00, (byte) 0x00, (byte) 0x00});
     }
     
     @Test

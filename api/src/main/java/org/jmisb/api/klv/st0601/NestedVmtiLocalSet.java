@@ -47,8 +47,9 @@ public class NestedVmtiLocalSet implements IUasDatalinkValue
     }
 
     @Override
-    public byte[] getBytes() {
-        return this.vmtiLocalSet.getBytes();
+    public byte[] getBytes()
+    {
+        return this.vmtiLocalSet.frameMessage(true);
     }
 
     @Override
