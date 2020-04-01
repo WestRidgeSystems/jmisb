@@ -1,11 +1,10 @@
 package org.jmisb.api.klv.st1204;
 
+import org.jmisb.core.klv.UuidUtils;
 import java.io.ByteArrayOutputStream;
 import java.io.IOException;
-import java.nio.charset.Charset;
 import java.security.MessageDigest;
 import java.security.NoSuchAlgorithmException;
-import java.util.Arrays;
 import java.util.List;
 import java.util.UUID;
 import java.util.logging.Level;
