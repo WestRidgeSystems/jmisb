@@ -32,6 +32,32 @@ public class PrimitiveConverter
         return res;
     }
 
+    /**
+     * Convert an unsigned 32-bit unsigned integer (long with range of uint32) to a byte array.
+     * <p>
+     * This is similar to uint32ToBytes, except that it only uses the minimum
+     * required number of bytes to represent the value. So if the value will
+     * fit into two bytes, the results will be only two bytes.
+     *
+     * @param longValue The unsigned 32-bit integer as long
+     * @return The array of length 1-4 bytes.
+     */
+    public static byte[] uint32ToVariableBytes(long longValue)
+    {
+        if (longValue > 65535)
+        {
+            return PrimitiveConverter.uint32ToBytes(longValue);
+        }
+        else if (longValue > 255)
+        {
+            return PrimitiveConverter.uint16ToBytes((int)longValue);
+        }
+        else
+        {
+            return PrimitiveConverter.uint8ToBytes((short)longValue);
+        }
+    }
+
     private PrimitiveConverter() {}
 
     /**
