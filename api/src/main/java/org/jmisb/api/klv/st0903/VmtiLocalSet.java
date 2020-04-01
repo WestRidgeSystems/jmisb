@@ -156,18 +156,19 @@ public class VmtiLocalSet implements IMisbMessage {
         }
         else
         {
+            // Add Key and Length of checksum with placeholder for value - Checksum must be final element
+            byte[] checksum = new byte[2];
+            chunks.add(new byte[]{(byte)VmtiMetadataKey.Checksum.getTag()});
+            chunks.add(BerEncoder.encode(checksum.length, Ber.SHORT_FORM));
+            chunks.add(checksum);
+            valueLength += 4;
+
             // Prepend length field into front of the list
             byte[] lengthField = BerEncoder.encode(valueLength);
             chunks.add(0, lengthField);
 
             // Prepend UL since this is standalone message
             chunks.add(0, VmtiLocalSetUl.getBytes());
-
-            // Add Key and Length of checksum with placeholder for value - Checksum must be final element
-            byte[] checksum = new byte[2];
-            chunks.add(new byte[]{(byte)VmtiMetadataKey.Checksum.getTag()});
-            chunks.add(BerEncoder.encode(checksum.length, Ber.SHORT_FORM));
-            chunks.add(checksum);
 
             byte[] array = ArrayUtils.arrayFromChunks(chunks, keyLength + lengthField.length + valueLength);
             // Compute the checksum and replace the last two bytes of array

@@ -1,6 +1,5 @@
 package org.jmisb.api.klv.st0903;
 
-import java.io.IOException;
 import java.net.URISyntaxException;
 import java.util.HashMap;
 import java.util.Map;
@@ -118,16 +117,7 @@ public class VmtiLocalSetTest
     @Test
     public void constructFromMap()
     {
-        Map<VmtiMetadataKey, IVmtiMetadataValue> values = new HashMap<>();
-        IVmtiMetadataValue systemName = new VmtiTextString(VmtiTextString.SYSTEM_NAME, "DSTO_ADSS_VMTI");
-        values.put(VmtiMetadataKey.SystemName, systemName);
-        IVmtiMetadataValue version = new ST0903Version(4);
-        values.put(VmtiMetadataKey.VersionNumber, version);
-        VmtiLocalSet localSet = new VmtiLocalSet(values);
-        assertNotNull(localSet);
-        assertEquals(localSet.getTags().size(), 2);
-        checkSystemNameExample(localSet);
-        checkVersionNumberExample(localSet);
+        VmtiLocalSet localSet = buildLocalSetValues();
         byte[] expectedBytes = new byte[]{
             0x03, 0x0E, 0x44, 0x53, 0x54, 0x4F, 0x5F, 0x41, 0x44, 0x53, 0x53, 0x5F, 0x56, 0x4D, 0x54, 0x49,
             0x04, 0x01, 0x04};
@@ -139,7 +129,82 @@ public class VmtiLocalSetTest
             (byte) 0x06, (byte) 0x0E, (byte) 0x2B, (byte) 0x34, (byte) 0x02, (byte) 0x0B, (byte) 0x01, (byte) 0x01,
             (byte) 0x0E, (byte) 0x01, (byte) 0x03, (byte) 0x03, (byte) 0x06, (byte) 0x00, (byte) 0x00, (byte) 0x00});
     }
-    
+
+    @Test
+    public void constructFromMapNonNested()
+    {
+        VmtiLocalSet localSet = buildLocalSetValues();
+        byte[] expectedBytes = new byte[]{
+            (byte) 0x06, (byte) 0x0E, (byte) 0x2B, (byte) 0x34, (byte) 0x02, (byte) 0x0B, (byte) 0x01, (byte) 0x01, (byte) 0x0E, (byte) 0x01, (byte) 0x03, (byte) 0x03, (byte) 0x06, (byte) 0x00, (byte) 0x00, (byte) 0x00,
+            0x17, // LS length
+            0x03, 0x0E, 0x44, 0x53, 0x54, 0x4F, 0x5F, 0x41, 0x44, 0x53, 0x53, 0x5F, 0x56, 0x4D, 0x54, 0x49, // Tag 3
+            0x04, 0x01, 0x04, // Tag 4
+            0x01, 0x02, (byte)0x9f, (byte)0x97 // checksum
+        };
+        assertEquals(localSet.frameMessage(false), expectedBytes);
+        assertTrue(localSet instanceof IMisbMessage);
+        assertEquals(localSet.displayHeader(), "ST0903 VMTI");
+    }
+
+    @Test
+    public void constructFromMapNonNestedWithChecksum()
+    {
+        Map<VmtiMetadataKey, IVmtiMetadataValue> values = new HashMap<>();
+        IVmtiMetadataValue systemName = new VmtiTextString(VmtiTextString.SYSTEM_NAME, "DSTO_ADSS_VMTI");
+        values.put(VmtiMetadataKey.SystemName, systemName);
+        IVmtiMetadataValue version = new ST0903Version(4);
+        values.put(VmtiMetadataKey.VersionNumber, version);
+        IVmtiMetadataValue fakeChecksum = new IVmtiMetadataValue() {
+            @Override
+            public byte[] getBytes() {
+                return new byte[]{0x12, 0x34};
+            }
+
+            @Override
+            public String getDisplayableValue() {
+                return "x";
+            }
+
+            @Override
+            public String getDisplayName() {
+                return "y";
+            }
+        };
+        values.put(VmtiMetadataKey.Checksum, fakeChecksum);
+        VmtiLocalSet localSet = new VmtiLocalSet(values);
+        assertNotNull(localSet);
+        assertEquals(localSet.getTags().size(), 3);
+        checkSystemNameExample(localSet);
+        checkVersionNumberExample(localSet);
+        assertTrue(localSet.getTags().contains(VmtiMetadataKey.Checksum));
+        // but the checksum should be ignored.
+        byte[] expectedBytes = new byte[]{
+            (byte) 0x06, (byte) 0x0E, (byte) 0x2B, (byte) 0x34, (byte) 0x02, (byte) 0x0B, (byte) 0x01, (byte) 0x01, (byte) 0x0E, (byte) 0x01, (byte) 0x03, (byte) 0x03, (byte) 0x06, (byte) 0x00, (byte) 0x00, (byte) 0x00,
+            0x17, // LS length
+            0x03, 0x0E, 0x44, 0x53, 0x54, 0x4F, 0x5F, 0x41, 0x44, 0x53, 0x53, 0x5F, 0x56, 0x4D, 0x54, 0x49, // Tag 3
+            0x04, 0x01, 0x04, // Tag 4
+            0x01, 0x02, (byte)0x9f, (byte)0x97 // checksum
+        };
+        assertEquals(localSet.frameMessage(false), expectedBytes);
+        assertTrue(localSet instanceof IMisbMessage);
+        assertEquals(localSet.displayHeader(), "ST0903 VMTI");
+    }
+
+    private VmtiLocalSet buildLocalSetValues()
+    {
+        Map<VmtiMetadataKey, IVmtiMetadataValue> values = new HashMap<>();
+        IVmtiMetadataValue systemName = new VmtiTextString(VmtiTextString.SYSTEM_NAME, "DSTO_ADSS_VMTI");
+        values.put(VmtiMetadataKey.SystemName, systemName);
+        IVmtiMetadataValue version = new ST0903Version(4);
+        values.put(VmtiMetadataKey.VersionNumber, version);
+        VmtiLocalSet localSet = new VmtiLocalSet(values);
+        assertNotNull(localSet);
+        assertEquals(localSet.getTags().size(), 2);
+        checkSystemNameExample(localSet);
+        checkVersionNumberExample(localSet);
+        return localSet;
+    }
+
     @Test
     public void constructUnknown() throws KlvParseException
     {
