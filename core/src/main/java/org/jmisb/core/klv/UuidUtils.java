@@ -1,4 +1,4 @@
-package org.jmisb.api.klv.st1204;
+package org.jmisb.core.klv;
 
 import java.nio.ByteBuffer;
 import java.util.UUID;
@@ -6,7 +6,7 @@ import java.util.UUID;
 /**
  * Internal utility methods for UUID conversions.
  */
-class UuidUtils {
+public class UuidUtils {
 
     /**
      * Parse an ST1204 style identifier to a standard Java UUID.
@@ -14,7 +14,7 @@ class UuidUtils {
      * @param identifier the identifier to convert.
      * @return the corresponding UUID, or null if the identifier is not in the right format.
      */
-    static UUID parseUUID(String identifier) {
+    public static UUID parseUUID(String identifier) {
         String[] uuidParts = identifier.split("-");
         if (uuidParts.length != 8) {
             return null;
@@ -42,7 +42,7 @@ class UuidUtils {
      * @param uuid the UUID to convert
      * @return the equivalent value as a byte array.
      */
-    static byte[] uuidToArray(UUID uuid) {
+    public static byte[] uuidToArray(UUID uuid) {
         ByteBuffer bb = ByteBuffer.wrap(new byte[16]);
         bb.putLong(uuid.getMostSignificantBits());
         bb.putLong(uuid.getLeastSignificantBits());
@@ -55,7 +55,7 @@ class UuidUtils {
      * @param index the offset into the byte array where the UUID should be read from
      * @return UUID
      */
-    static UUID arrayToUuid(byte[] bytes, int index) {
+    public static UUID arrayToUuid(byte[] bytes, int index) {
         ByteBuffer bb = ByteBuffer.wrap(bytes, index, 16);
         return new UUID(bb.getLong(), bb.getLong());
     }
@@ -66,7 +66,7 @@ class UuidUtils {
      * @param uuid the UUID to format as text
      * @return text equivalent to the UUID
      */
-    static String formatUUID(UUID uuid) {
+    public static String formatUUID(UUID uuid) {
         String standardFormatUUID = uuid.toString().toUpperCase();
         String misbFormatUUID = standardFormatUUID.substring(0, 4) + "-" + standardFormatUUID.substring(4, 28) + "-" + standardFormatUUID.substring(28, 32) + "-" + standardFormatUUID.substring(32);
         return misbFormatUUID;

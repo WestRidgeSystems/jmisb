@@ -178,8 +178,7 @@ public class UasDatalinkFactory
                 // TODO Implement ST 0806
                 return new OpaqueValue(bytes);
             case VmtiLocalDataSet:
-                // TODO Implement ST 0903
-                return new OpaqueValue(bytes);
+                return new NestedVmtiLocalSet(bytes);
             case SensorEllipsoidHeight:
                 return new SensorEllipsoidHeight(bytes);
             case AlternatePlatformEllipsoidHeight:
