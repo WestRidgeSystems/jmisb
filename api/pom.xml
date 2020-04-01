@@ -114,6 +114,30 @@
                 </plugins>
             </build>
         </profile>
+        <!-- Dependency version checks -->
+        <profile>
+            <id>dependencycheck</id>
+            <build>
+                <plugins>
+                    <plugin>
+                        <groupId>org.owasp</groupId>
+                        <artifactId>dependency-check-maven</artifactId>
+                        <version>${owasp.version}</version>
+                        <configuration>
+                            <failBuildOnCVSS>8</failBuildOnCVSS>
+                            <assemblyAnalyzerEnabled>false</assemblyAnalyzerEnabled>
+                        </configuration>
+                        <executions>
+                            <execution>
+                                <goals>
+                                    <goal>check</goal>
+                                </goals>
+                            </execution>
+                        </executions>
+                    </plugin>
+                </plugins>
+            </build>
+        </profile>
     </profiles>
 </project>
 
