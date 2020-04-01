@@ -30,6 +30,7 @@ import org.jmisb.api.klv.st1201.FpEncoder;
  * no need to send a Wavelengths List item.
  * </p>
  * <table border="1">
+ * <caption>Table 14: Predefined Wavelength Information Records</caption>
  * <tr><th>ID</th><th>Min (nm)</th><th>Max (nm)</th><th>Name</th><th>Description</th></tr>
  * <tr><td>1</td><td>380</td><td>750</td><td>VIS</td><td>Visible light</td></tr>
  * <tr><td>2</td><td>750</td><td>100,000</td><td>IR</td><td>Infrared</td></tr>
