@@ -285,8 +285,7 @@ public class UasDatalinkFactory
             case OnBoardMiStoragePercentFull:
                 return new OnBoardMiStoragePercentFull(bytes);
             case ActiveWavelengthList:
-                // TODO
-                return new OpaqueValue(bytes);
+                return new ActiveWavelengthList(bytes);
             case CountryCodes:
                 // TODO
                 return new OpaqueValue(bytes);
@@ -302,8 +301,7 @@ public class UasDatalinkFactory
                 // TODO
                 return new OpaqueValue(bytes);
             case WavelengthsList:
-                // TODO
-                return new OpaqueValue(bytes);
+                return new WavelengthsList(bytes);
             case TargetId:
                 return new UasDatalinkString(UasDatalinkString.TARGET_ID, bytes);
             case AirbaseLocations:
