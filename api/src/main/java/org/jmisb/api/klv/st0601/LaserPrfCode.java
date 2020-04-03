@@ -38,7 +38,12 @@ public class LaserPrfCode implements IUasDatalinkValue
     {
         if (prfCode > MAX_VALUE || prfCode < MIN_VALUE)
         {
-            throw new IllegalArgumentException(getDisplayName() + " must be in range [111, 8888]");
+            throw new IllegalArgumentException(getDisplayName() + " must be in the range [111, 8888]");
+        }
+        String prfCodeAsString = "" + prfCode;
+        if (prfCodeAsString.contains("0") || prfCodeAsString.contains("9"))
+        {
+            throw new IllegalArgumentException(getDisplayName() + " must only contain 1 through 8, not 0 or 9");
         }
         this.code = prfCode;
     }
@@ -82,7 +87,7 @@ public class LaserPrfCode implements IUasDatalinkValue
     }
 
     @Override
-    public String getDisplayName()
+    public final String getDisplayName()
     {
         return "Laser PRF Code";
     }
