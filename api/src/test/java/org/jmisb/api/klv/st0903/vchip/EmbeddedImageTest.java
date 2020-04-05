@@ -5,11 +5,18 @@ import static java.awt.image.BufferedImage.TYPE_3BYTE_BGR;
 import java.io.IOException;
 import org.jmisb.api.common.KlvParseException;
 import org.jmisb.api.klv.st0903.IVmtiMetadataValue;
+import org.jmisb.api.klv.LoggerChecks;
 import org.testng.Assert;
 import org.testng.annotations.Test;
 
-public class EmbeddedImageTest
+/* Note: logging isn't really tested */
+public class EmbeddedImageTest extends LoggerChecks
 {
+    public EmbeddedImageTest()
+    {
+        super(EmbeddedImage.class);
+    }
+
     private final byte[] bytes = new byte[]{
         (byte) 0x89, (byte) 0x50, (byte) 0x4E, (byte) 0x47, (byte) 0x0D, (byte) 0x0A, (byte) 0x1A, (byte) 0x0A,
         (byte) 0x00, (byte) 0x00, (byte) 0x00, (byte) 0x0D, (byte) 0x49, (byte) 0x48, (byte) 0x44, (byte) 0x52,

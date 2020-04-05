@@ -58,7 +58,7 @@ public class SecurityMetadataLocalSet extends SecurityMetadataMessage
             SecurityMetadataKey key = SecurityMetadataKey.getKey(field.getTag());
 
             if (key == SecurityMetadataKey.Undefined) {
-                logger.info("Unknown Security Metadata tag: " + field.getTag());
+                logger.info("Unknown Security Metadata tag: {}", field.getTag());
             } else {
                 ISecurityMetadataValue value = LocalSetFactory.createValue(key, field.getData());
                 setField(key, value);

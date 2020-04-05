@@ -3,7 +3,6 @@ package org.jmisb.api.klv.st0903.vtarget;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
-import java.util.logging.Logger;
 import org.jmisb.api.common.KlvParseException;
 import org.jmisb.api.klv.BerDecoder;
 import org.jmisb.api.klv.BerEncoder;
@@ -25,8 +24,6 @@ import org.jmisb.core.klv.ArrayUtils;
  */
 public class VObjectSeries implements IVmtiMetadataValue
 {
-    private static final Logger LOG = Logger.getLogger(VObjectSeries.class.getName());
-
     private final List<VObjectLS> vobjects = new ArrayList<>();
 
     /**

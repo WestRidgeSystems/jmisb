@@ -5,6 +5,7 @@ import java.util.HashMap;
 import java.util.Map;
 import org.jmisb.api.common.KlvParseException;
 import org.jmisb.api.klv.st0903.IVmtiMetadataValue;
+import org.jmisb.api.klv.LoggerChecks;
 import org.jmisb.api.klv.st0903.shared.VmtiTextString;
 import org.jmisb.api.klv.st0903.shared.VmtiUri;
 import static org.testng.Assert.*;
@@ -13,8 +14,13 @@ import org.testng.annotations.Test;
 /**
  * Tests for the ST0903 VObject LS.
  */
-public class VObjectLSTest
+public class VObjectLSTest extends LoggerChecks
 {
+    public VObjectLSTest()
+    {
+        super(VObjectLS.class);
+    }
+
     private final byte[] ontologyBytes = new byte[]
     {0x01, 71,
         0x68, 0x74, 0x74, 0x70, 0x73, 0x3A, 0x2F, 0x2F,
@@ -130,7 +136,9 @@ public class VObjectLSTest
             0x03, 2, // Tag 3 + length
             0x01, 0x02
         };
+        verifyNoLoggerMessages();
         VObjectLS vObjectLS = new VObjectLS(bytes);
+        verifySingleLoggerMessage("Unknown VMTI VObject Metadata tag: 5");
         assertNotNull(vObjectLS);
         assertEquals(vObjectLS.getTags().size(), 3);
         checkOntologyExample(vObjectLS);
@@ -189,7 +197,9 @@ public class VObjectLSTest
     public void createUnknownTag() throws KlvParseException
     {
         final byte[] bytes = new byte[]{0x6A, 0x70};
+        verifyNoLoggerMessages();
         IVmtiMetadataValue value = VObjectLS.createValue(VObjectMetadataKey.Undefined, bytes);
+        verifySingleLoggerMessage("Unrecognized VObject tag: Undefined");
         assertNull(value);
     }
 

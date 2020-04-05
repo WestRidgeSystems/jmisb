@@ -6,8 +6,6 @@ import java.util.Map;
 import java.util.Set;
 import java.util.SortedMap;
 import java.util.TreeMap;
-import java.util.logging.Level;
-import java.util.logging.Logger;
 import org.jmisb.api.common.KlvParseException;
 import org.jmisb.api.klv.BerEncoder;
 import org.jmisb.api.klv.LdsField;
@@ -16,13 +14,15 @@ import org.jmisb.api.klv.st0903.IVmtiMetadataValue;
 import org.jmisb.api.klv.st0903.shared.VmtiTextString;
 import org.jmisb.api.klv.st0903.shared.VmtiUri;
 import org.jmisb.core.klv.ArrayUtils;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 /**
  * VObject Local Set.
  */
-public class VObjectLS {
-
-    private static final Logger LOG = Logger.getLogger(VObjectLS.class.getName());
+public class VObjectLS
+{
+    private static final Logger LOGGER = LoggerFactory.getLogger(VObjectLS.class);
 
     /**
      * Map containing all data elements in the message
@@ -47,7 +47,7 @@ public class VObjectLS {
         for (LdsField field : fields) {
             VObjectMetadataKey key = VObjectMetadataKey.getKey(field.getTag());
             if (key == VObjectMetadataKey.Undefined) {
-                LOG.log(Level.INFO, "Unknown VMTI VObject Metadata tag: {0}", field.getTag());
+                LOGGER.info("Unknown VMTI VObject Metadata tag: {}", field.getTag());
             } else {
                 IVmtiMetadataValue value = createValue(key, field.getData());
                 map.put(key, value);
@@ -76,7 +76,7 @@ public class VObjectLS {
             case confidence:
                 return new Confidence2(bytes);
             default:
-                System.out.println("Unrecognized VObject tag: " + tag);
+                LOGGER.info("Unrecognized VObject tag: {}", tag);
         }
         return null;
     }

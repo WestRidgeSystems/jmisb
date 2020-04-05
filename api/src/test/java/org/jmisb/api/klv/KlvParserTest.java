@@ -11,22 +11,18 @@ import java.util.Collection;
 import java.util.List;
 import java.util.SortedMap;
 import java.util.TreeMap;
-import org.apache.log4j.AppenderSkeleton;
-import org.apache.log4j.Logger;
-import org.apache.log4j.spi.LoggingEvent;
-import org.mockito.ArgumentCaptor;
-import org.mockito.Captor;
-import org.mockito.Mock;
-import org.mockito.Mockito;
-import org.mockito.MockitoAnnotations;
+import org.testng.annotations.AfterMethod;
 import org.testng.annotations.BeforeMethod;
+import org.testng.annotations.BeforeTest;
+import uk.org.lidalia.slf4jext.Level;
+import uk.org.lidalia.slf4jtest.LoggingEvent;
+import uk.org.lidalia.slf4jtest.TestLogger;
+import uk.org.lidalia.slf4jtest.TestLoggerFactory;
 
 public class KlvParserTest
 {
-    @Mock
-    AppenderSkeleton appender;
-    @Captor
-    ArgumentCaptor<LoggingEvent> logCaptor;
+    TestLogger LOGGER = TestLoggerFactory.getTestLogger(KlvParser.class);
+    TestLogger UAS_DATALINK_MESSAGE_LOGGER = TestLoggerFactory.getTestLogger(UasDatalinkMessage.class);
 
     private final byte CHECKSUM_LEN = (byte)0x02;
     private final byte[] UNKNOWN_TAG_KEY = new byte[]{(byte)0x90, (byte)0x00};
@@ -39,9 +35,21 @@ public class KlvParserTest
     private final byte SENSOR_ALT_LEN = (byte)0x02;
     private final byte[] SENSOR_ALT_VALUE = new byte[]{(byte)0x1b, (byte)0xc4};
 
-    @BeforeMethod
-    public void init() {
-        MockitoAnnotations.initMocks(this);
+    @BeforeTest
+    public void resetLoggers()
+    {
+        LOGGER.clear();
+        LOGGER.setEnabledLevels(Level.ERROR, Level.WARN, Level.INFO);
+        UAS_DATALINK_MESSAGE_LOGGER.clear();
+        UAS_DATALINK_MESSAGE_LOGGER.setEnabledLevels(Level.ERROR, Level.WARN, Level.INFO);
+    }
+
+    @AfterMethod
+    public void checkLoggers()
+    {
+        Assert.assertEquals(LOGGER.getLoggingEvents().size(), 0);
+        List<LoggingEvent> events = UAS_DATALINK_MESSAGE_LOGGER.getLoggingEvents();
+        Assert.assertEquals(UAS_DATALINK_MESSAGE_LOGGER.getLoggingEvents().size(), 0);
     }
 
     @Test
@@ -167,9 +175,17 @@ public class KlvParserTest
         byteBuffer.put((byte) 0x5a);
         byteBuffer.put((byte) 0xef);
         byte[] bytes = byteBuffer.array();
-        Logger.getRootLogger().addAppender(appender);
-        try {
+        try
+        {
+            Assert.assertEquals(LOGGER.getLoggingEvents().size(), 0);
+            Assert.assertEquals(UAS_DATALINK_MESSAGE_LOGGER.getLoggingEvents().size(), 0);
             List<IMisbMessage> messages = KlvParser.parseBytes(bytes);
+            Assert.assertEquals(LOGGER.getLoggingEvents().size(), 0);
+            Assert.assertEquals(UAS_DATALINK_MESSAGE_LOGGER.getLoggingEvents().size(), 1);
+            LoggingEvent messageEvent = UAS_DATALINK_MESSAGE_LOGGER.getLoggingEvents().get(0);
+            Assert.assertEquals(messageEvent.getMessage(), "Unknown UAS Datalink tag: 2048");
+            UAS_DATALINK_MESSAGE_LOGGER.clear();
+
             Assert.assertEquals(messages.size(), 1);
 
             IMisbMessage message = messages.get(0);
@@ -178,10 +194,6 @@ public class KlvParserTest
             UasDatalinkMessage datalinkMessage = (UasDatalinkMessage) message;
             Collection<UasDatalinkTag> tags = datalinkMessage.getTags();
             Assert.assertEquals(tags.size(), 0);
-
-            Mockito.verify(appender).doAppend(logCaptor.capture());
-            Assert.assertEquals("Unknown UAS Datalink tag: 2048", logCaptor.getValue().getRenderedMessage());
-
         } catch (KlvParseException e) {
             Assert.fail("Parse exception");
         }
@@ -210,8 +222,13 @@ public class KlvParserTest
         byteBuffer.put((byte) 0x68);
         byte[] bytes = byteBuffer.array();
         try {
+            Assert.assertEquals(UAS_DATALINK_MESSAGE_LOGGER.getLoggingEvents().size(), 0);
             List<IMisbMessage> messages = KlvParser.parseBytes(bytes);
             Assert.assertEquals(messages.size(), 1);
+            Assert.assertEquals(UAS_DATALINK_MESSAGE_LOGGER.getLoggingEvents().size(), 1);
+            LoggingEvent messageEvent = UAS_DATALINK_MESSAGE_LOGGER.getLoggingEvents().get(0);
+            Assert.assertEquals(messageEvent.getMessage(), "Unknown UAS Datalink tag: 2048");
+            UAS_DATALINK_MESSAGE_LOGGER.clear();
 
             IMisbMessage message = messages.get(0);
             Assert.assertTrue(message instanceof UasDatalinkMessage);

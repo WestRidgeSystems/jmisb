@@ -7,14 +7,20 @@ import org.jmisb.api.common.KlvParseException;
 import org.jmisb.api.klv.IMisbMessage;
 import org.jmisb.api.klv.KlvConstants;
 import org.jmisb.api.klv.st0903.shared.VmtiTextString;
+import org.jmisb.api.klv.LoggerChecks;
 import static org.testng.Assert.*;
 import org.testng.annotations.Test;
 
 /**
  * Tests for the ST0903 VMTI Local Set.
  */
-public class VmtiLocalSetTest
+public class VmtiLocalSetTest extends LoggerChecks
 {
+    VmtiLocalSetTest()
+    {
+        super(VmtiLocalSet.class);
+    }
+
     @Test
     public void parseTag3() throws KlvParseException
     {
@@ -44,7 +50,9 @@ public class VmtiLocalSetTest
             0x7F, 0x02, (byte) 0x80, (byte) 0xCA, // No such tag
             0x03, 0x0E, 0x44, 0x53, 0x54, 0x4F, 0x5F, 0x41, 0x44, 0x53, 0x53, 0x5F, 0x56, 0x4D, 0x54, 0x49,
             0x04, 0x01, 0x04};
+        verifyNoLoggerMessages();
         VmtiLocalSet localSet = new VmtiLocalSet(bytes);
+        verifySingleLoggerMessage("Unknown VMTI Metadata tag: 127");
         assertNotNull(localSet);
         assertEquals(localSet.getTags().size(), 2);
         checkVersionNumberExample(localSet);
@@ -208,7 +216,9 @@ public class VmtiLocalSetTest
     @Test
     public void constructUnknown() throws KlvParseException
     {
+        verifyNoLoggerMessages();
         IVmtiMetadataValue unknown = VmtiLocalSet.createValue(VmtiMetadataKey.Undefined, new byte[]{0x01, 0x02});
+        this.verifySingleLoggerMessage("Unknown VMTI Metadata tag: Undefined");
         assertNull(unknown);
     }
 }

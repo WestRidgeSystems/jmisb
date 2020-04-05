@@ -5,6 +5,7 @@ import java.util.HashMap;
 import java.util.Map;
 import org.jmisb.api.common.KlvParseException;
 import org.jmisb.api.klv.st0903.IVmtiMetadataValue;
+import org.jmisb.api.klv.LoggerChecks;
 import org.jmisb.api.klv.st0903.shared.VmtiTextString;
 import org.jmisb.api.klv.st0903.shared.VmtiUri;
 import static org.testng.Assert.*;
@@ -13,8 +14,13 @@ import org.testng.annotations.Test;
 /**
  * Tests for the ST0903 VChip LS.
  */
-public class VChipLSTest
+public class VChipLSTest extends LoggerChecks
 {
+    public VChipLSTest()
+    {
+        super(VChipLS.class);
+    }
+
     @Test
     public void parseTag1() throws KlvParseException
     {
@@ -107,7 +113,9 @@ public class VChipLSTest
             (byte) 0x3F, (byte) 0x00, (byte) 0x05, (byte) 0x1A, (byte) 0x02, (byte) 0xB1, (byte) 0x49, (byte) 0xC5,
             (byte) 0x4C, (byte) 0x37, (byte) 0x00, (byte) 0x00, (byte) 0x00, (byte) 0x00, (byte) 0x49, (byte) 0x45,
             (byte) 0x4E, (byte) 0x44, (byte) 0xAE, (byte) 0x42, (byte) 0x60, (byte) 0x82};
+        verifyNoLoggerMessages();
         VChipLS vChipLS = new VChipLS(bytes);
+        verifySingleLoggerMessage("Unknown VMTI VChip Metadata tag: 4");
         assertNotNull(vChipLS);
         assertEquals(vChipLS.getTags().size(), 2);
         checkImageTypeExample(vChipLS);
@@ -153,7 +161,9 @@ public class VChipLSTest
     public void createUnknownTag() throws KlvParseException
     {
         final byte[] bytes = new byte[]{0x6A, 0x70};
+        verifyNoLoggerMessages();
         IVmtiMetadataValue value = VChipLS.createValue(VChipMetadataKey.Undefined, bytes);
+        verifySingleLoggerMessage("Unrecognized VChip tag: Undefined");
         assertNull(value);
     }
 

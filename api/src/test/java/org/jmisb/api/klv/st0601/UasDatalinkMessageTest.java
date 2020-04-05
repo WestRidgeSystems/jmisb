@@ -8,13 +8,19 @@ import org.testng.annotations.Test;
 import java.util.*;
 
 import static org.jmisb.api.klv.KlvConstants.UasDatalinkLocalUl;
+import org.jmisb.api.klv.LoggerChecks;
 
-public class UasDatalinkMessageTest
+public class UasDatalinkMessageTest extends LoggerChecks
 {
     private UasDatalinkMessage message;
     private final double lat = 42.4036;
     private final double lon = -71.1284;
     private final double alt = 1258.3;
+
+    public UasDatalinkMessageTest()
+    {
+        super(UasDatalinkMessage.class);
+    }
 
     @BeforeTest
     public void createSample()
