@@ -6,6 +6,7 @@ import java.util.HashMap;
 import java.util.Map;
 import org.jmisb.api.common.KlvParseException;
 import org.jmisb.api.klv.st0903.IVmtiMetadataValue;
+import org.jmisb.api.klv.LoggerChecks;
 import org.jmisb.api.klv.st0903.shared.VmtiTextString;
 import org.jmisb.api.klv.st0903.shared.VmtiUri;
 import static org.testng.Assert.*;
@@ -14,8 +15,13 @@ import org.testng.annotations.Test;
 /**
  * Tests for the ST0903 Ontology LS.
  */
-public class OntologyLSTest
+public class OntologyLSTest extends LoggerChecks
 {
+    public OntologyLSTest()
+    {
+        super(OntologyLS.class);
+    }
+
     @Test
     public void parseTag1() throws KlvParseException
     {
@@ -88,7 +94,9 @@ public class OntologyLSTest
             0x7A, 0x7A, 0x61, 0x2E, 0x6F, 0x77, 0x6C,
             0x04, 0x08,
             0x4D, 0x75, 0x73, 0x68, 0x72, 0x6F, 0x6F, 0x6D};
+        verifyNoLoggerMessages();
         OntologyLS ontologyLS = new OntologyLS(bytes);
+        this.verifySingleLoggerMessage("Unknown VMTI Ontology Metadata tag: 5");
         assertNotNull(ontologyLS);
         assertEquals(ontologyLS.getTags().size(), 2);
         checkOntologyClassExample(ontologyLS);
@@ -148,7 +156,9 @@ public class OntologyLSTest
     public void createUnknownTag() throws KlvParseException
     {
         final byte[] bytes = new byte[]{0x6A, 0x70};
+        verifyNoLoggerMessages();
         IVmtiMetadataValue value = OntologyLS.createValue(OntologyMetadataKey.Undefined, bytes);
+        verifySingleLoggerMessage("Unrecognized Ontology tag: Undefined");
         assertNull(value);
     }
 

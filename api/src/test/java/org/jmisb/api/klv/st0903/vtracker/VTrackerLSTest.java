@@ -3,19 +3,27 @@ package org.jmisb.api.klv.st0903.vtracker;
 import org.jmisb.api.common.KlvParseException;
 import org.jmisb.api.klv.st0903.IVmtiMetadataValue;
 import org.jmisb.api.klv.st0903.shared.AlgorithmId;
+import org.jmisb.api.klv.LoggerChecks;
 import static org.testng.Assert.*;
 import org.testng.annotations.Test;
 
 /**
  * Tests for the ST0903 VTracker LS.
  */
-public class VTrackerLSTest
+public class VTrackerLSTest extends LoggerChecks
 {
+    public VTrackerLSTest()
+    {
+        super(VTrackerLS.class);
+    }
+
     @Test
     public void createUnknownTag() throws KlvParseException
     {
         final byte[] bytes = new byte[]{0x6A, 0x70};
+        this.verifyNoLoggerMessages();
         IVmtiMetadataValue value = VTrackerLS.createValue(VTrackerMetadataKey.Undefined, bytes);
+        this.verifySingleLoggerMessage("Unrecognized VTracker tag: Undefined");
         assertNull(value);
     }
 

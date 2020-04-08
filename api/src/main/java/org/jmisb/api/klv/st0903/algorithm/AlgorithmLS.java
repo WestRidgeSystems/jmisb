@@ -6,8 +6,6 @@ import java.util.Map;
 import java.util.Set;
 import java.util.SortedMap;
 import java.util.TreeMap;
-import java.util.logging.Level;
-import java.util.logging.Logger;
 import org.jmisb.api.common.KlvParseException;
 import org.jmisb.api.klv.BerEncoder;
 import org.jmisb.api.klv.LdsField;
@@ -16,6 +14,8 @@ import org.jmisb.api.klv.st0903.IVmtiMetadataValue;
 import org.jmisb.api.klv.st0903.shared.AlgorithmId;
 import org.jmisb.api.klv.st0903.shared.VmtiTextString;
 import org.jmisb.core.klv.ArrayUtils;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 /**
  * Algorithm Local Set.
@@ -24,7 +24,7 @@ import org.jmisb.core.klv.ArrayUtils;
  */
 public class AlgorithmLS {
 
-    private static final Logger LOG = Logger.getLogger(AlgorithmLS.class.getName());
+    private static final Logger LOGGER = LoggerFactory.getLogger(AlgorithmLS.class);
 
     /**
      * Map containing all data elements in the message
@@ -51,7 +51,7 @@ public class AlgorithmLS {
             AlgorithmMetadataKey key = AlgorithmMetadataKey.getKey(field.getTag());
             if (key == AlgorithmMetadataKey.Undefined)
             {
-                LOG.log(Level.INFO, "Unknown VMTI Algorithm Metadata tag: {0}", field.getTag());
+                LOGGER.info("Unknown VMTI Algorithm Metadata tag: {}", field.getTag());
             }
             else
             {
@@ -84,7 +84,7 @@ public class AlgorithmLS {
             case nFrames:
                 return new NumberOfFrames(bytes);
             default:
-                System.out.println("Unrecognized Algorithm tag: " + tag);
+                LOGGER.info("Unrecognized Algorithm tag: {}", tag);
         }
         return null;
     }

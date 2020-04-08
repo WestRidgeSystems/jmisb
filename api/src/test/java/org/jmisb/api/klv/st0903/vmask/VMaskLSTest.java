@@ -6,14 +6,20 @@ import java.util.List;
 import java.util.Map;
 import org.jmisb.api.common.KlvParseException;
 import org.jmisb.api.klv.st0903.IVmtiMetadataValue;
+import org.jmisb.api.klv.LoggerChecks;
 import static org.testng.Assert.*;
 import org.testng.annotations.Test;
 
 /**
  * Tests for the ST0903 VMask LS.
  */
-public class VMaskLSTest
+public class VMaskLSTest extends LoggerChecks
 {
+    public VMaskLSTest()
+    {
+        super(VMaskLS.class);
+    }
+
     @Test
     public void parseTag1() throws KlvParseException
     {
@@ -63,7 +69,9 @@ public class VMaskLSTest
             0x03, 0x01, 0x59, 0x04, // (89, 4)
             0x03, 0x01, 0x6A, 0x02  // (106, 2)
         };
+        verifyNoLoggerMessages();
         VMaskLS localSet = new VMaskLS(bytes);
+        this.verifySingleLoggerMessage("Unknown VMTI VMask Metadata tag: 3");
         assertNotNull(localSet);
         assertEquals(localSet.getTags().size(), 2);
         checkPolygonExample(localSet);
@@ -110,7 +118,9 @@ public class VMaskLSTest
     public void createUnknownTag() throws KlvParseException
     {
         final byte[] bytes = new byte[]{0x6A, 0x70};
+        verifyNoLoggerMessages();
         IVmtiMetadataValue value = VMaskLS.createValue(VMaskMetadataKey.Undefined, bytes);
+        this.verifySingleLoggerMessage("Unrecognized VMask tag: Undefined");
         assertNull(value);
     }
 

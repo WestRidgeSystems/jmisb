@@ -11,11 +11,17 @@ import java.util.Arrays;
 import java.util.SortedMap;
 import java.util.TreeMap;
 import org.jmisb.api.common.KlvParseException;
+import org.jmisb.api.klv.LoggerChecks;
 
-public class SecurityMetadataLocalSetTest
+public class SecurityMetadataLocalSetTest extends LoggerChecks
 {
     private SecurityMetadataLocalSet localSet;
     private static final byte[] ItemDesignatorIdValue = new byte[]{(byte)0x00, (byte)0x01, (byte)0x02, (byte)0x03, (byte)0x04, (byte)0x05, (byte)0x06, (byte)0x07, (byte)0x08, (byte)0x09, (byte)0x0A, (byte)0x0B, (byte)0x0C, (byte)0x0D, (byte)0x0E, (byte)0x0F};
+
+    public SecurityMetadataLocalSetTest()
+    {
+        super(SecurityMetadataLocalSet.class);
+    }
 
     @BeforeTest
     public void createSet()
@@ -173,5 +179,27 @@ public class SecurityMetadataLocalSetTest
         Assert.assertTrue(val instanceof ItemDesignatorId);
         ItemDesignatorId id = (ItemDesignatorId)val;
         Assert.assertEquals(id.getItemDesignatorId(), ItemDesignatorIdValue);
+    }
+
+    @Test
+    public void testUnknownSecurityTag() throws KlvParseException
+    {
+        byte[] bytes = new byte[]{88, 1, 1};
+        verifyNoLoggerMessages();
+        SecurityMetadataLocalSet securityMetadataLocalSet = new SecurityMetadataLocalSet(bytes, false);
+        verifySingleLoggerMessage("Unknown Security Metadata tag: 88");
+        Assert.assertEquals(securityMetadataLocalSet.displayHeader(), "ST 0102 (local)");
+        Assert.assertEquals(0, securityMetadataLocalSet.getKeys().size());
+    }
+
+    @Test
+    public void testMixedKnownAndUnknownSecurityTags() throws KlvParseException
+    {
+        byte[] bytes = new byte[]{1, 1, 1, 2, 1, 1, 88, 1, 1, 3, 4, 47, 47, 67, 65, 4, 0, 5, 0, 6, 2, 67, 65, 22, 2, 0, 5};
+        verifyNoLoggerMessages();
+        SecurityMetadataLocalSet securityMetadataLocalSet = new SecurityMetadataLocalSet(bytes, false);
+        verifySingleLoggerMessage("Unknown Security Metadata tag: 88");
+        Assert.assertEquals(securityMetadataLocalSet.displayHeader(), "ST 0102 (local)");
+        Assert.assertEquals(7, securityMetadataLocalSet.getKeys().size());
     }
 }

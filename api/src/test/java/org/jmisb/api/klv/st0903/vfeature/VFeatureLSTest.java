@@ -1,5 +1,6 @@
 package org.jmisb.api.klv.st0903.vfeature;
 
+import org.jmisb.api.klv.LoggerChecks;
 import java.io.IOException;
 import java.net.URISyntaxException;
 import java.util.HashMap;
@@ -8,14 +9,20 @@ import org.jmisb.api.common.KlvParseException;
 import org.jmisb.api.klv.st0903.IVmtiMetadataValue;
 import org.jmisb.api.klv.st0903.shared.VmtiTextString;
 import org.jmisb.api.klv.st0903.shared.VmtiUri;
+import org.testng.Assert;
 import static org.testng.Assert.*;
 import org.testng.annotations.Test;
 
 /**
  * Tests for the ST0903 VFeature LS.
  */
-public class VFeatureLSTest
+public class VFeatureLSTest extends LoggerChecks
 {
+    public VFeatureLSTest()
+    {
+        super(VFeatureLS.class);
+    }
+
     @Test
     public void parseTag1() throws KlvParseException, URISyntaxException
     {
@@ -142,7 +149,9 @@ public class VFeatureLSTest
             0x73, 0x74, 0x3E, 0x3C, 0x2F, 0x67, 0x6D, 0x6C,
             0x3A, 0x44, 0x61, 0x74, 0x61, 0x42, 0x6C, 0x6F,
             0x63, 0x6B, 0x3E};
+        verifyNoLoggerMessages();
         VFeatureLS localSet = new VFeatureLS(bytes);
+        this.verifySingleLoggerMessage("Unknown VMTI VFeature Metadata tag: 3");
         assertNotNull(localSet);
         assertEquals(localSet.getTags().size(), 2);
         checkSchemaExample(localSet);
@@ -221,9 +230,12 @@ public class VFeatureLSTest
     public void createUnknownTag() throws KlvParseException
     {
         final byte[] bytes = new byte[]{0x6A, 0x70};
+        verifyNoLoggerMessages();
         IVmtiMetadataValue value = VFeatureLS.createValue(VFeatureMetadataKey.Undefined, bytes);
+        verifySingleLoggerMessage("Unrecognized VFeature tag: Undefined");
         assertNull(value);
     }
+
 
     @Test
     public void constructFromMap() throws KlvParseException, URISyntaxException, IOException

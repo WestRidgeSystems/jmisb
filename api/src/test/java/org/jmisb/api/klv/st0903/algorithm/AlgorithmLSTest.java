@@ -5,6 +5,7 @@ import java.util.Map;
 import org.jmisb.api.common.KlvParseException;
 import org.jmisb.api.klv.st0903.IVmtiMetadataValue;
 import org.jmisb.api.klv.st0903.shared.AlgorithmId;
+import org.jmisb.api.klv.LoggerChecks;
 import org.jmisb.api.klv.st0903.shared.VmtiTextString;
 import static org.testng.Assert.*;
 import org.testng.annotations.Test;
@@ -12,8 +13,13 @@ import org.testng.annotations.Test;
 /**
  * Tests for the ST0903 Algorithm LS.
  */
-public class AlgorithmLSTest
+public class AlgorithmLSTest extends LoggerChecks
 {
+    public AlgorithmLSTest()
+    {
+        super(AlgorithmLS.class);
+    }
+
     @Test
     public void parseTag1() throws KlvParseException
     {
@@ -74,7 +80,9 @@ public class AlgorithmLSTest
             0x03, 0x04, 0x32, 0x2E, 0x36, 0x61,
             0x04, 0x07, 0x6B, 0x61, 0x6C, 0x6D, 0x61, 0x6E, 0x6E,
             0x05, 0x01, 0x0A};
+        verifyNoLoggerMessages();
         AlgorithmLS algorithmLS = new AlgorithmLS(bytes);
+        this.verifySingleLoggerMessage("Unknown VMTI Algorithm Metadata tag: 6");
         assertNotNull(algorithmLS);
         assertEquals(algorithmLS.getTags().size(), 5);
         checkIdExample(algorithmLS);
@@ -153,7 +161,9 @@ public class AlgorithmLSTest
     public void createUnknownTag() throws KlvParseException
     {
         final byte[] bytes = new byte[]{0x6A, 0x70};
+        verifyNoLoggerMessages();
         IVmtiMetadataValue value = AlgorithmLS.createValue(AlgorithmMetadataKey.Undefined, bytes);
+        verifySingleLoggerMessage("Unrecognized Algorithm tag: Undefined");
         assertNull(value);
     }
 
