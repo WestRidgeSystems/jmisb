@@ -1,14 +1,11 @@
 package org.jmisb.api.klv.st0903.vfeature;
 
-import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
 import java.util.Set;
 import java.util.SortedMap;
 import java.util.TreeMap;
-import java.util.logging.Level;
-import java.util.logging.Logger;
 import org.jmisb.api.common.KlvParseException;
 import org.jmisb.api.klv.BerEncoder;
 import org.jmisb.api.klv.LdsField;
@@ -16,15 +13,16 @@ import org.jmisb.api.klv.LdsParser;
 import org.jmisb.api.klv.st0903.IVmtiMetadataValue;
 import org.jmisb.api.klv.st0903.shared.VmtiTextString;
 import org.jmisb.api.klv.st0903.shared.VmtiUri;
-import org.jmisb.api.klv.st0903.vobject.VObjectMetadataKey;
 import org.jmisb.core.klv.ArrayUtils;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 /**
  * VFeature Local Set.
  */
-public class VFeatureLS {
-
-    private static final Logger LOG = Logger.getLogger(VFeatureLS.class.getName());
+public class VFeatureLS
+{
+    private static final Logger LOGGER = LoggerFactory.getLogger(VFeatureLS.class);
 
     /**
      * Map containing all data elements in the message
@@ -49,7 +47,7 @@ public class VFeatureLS {
         for (LdsField field : fields) {
             VFeatureMetadataKey key = VFeatureMetadataKey.getKey(field.getTag());
             if (key == VFeatureMetadataKey.Undefined) {
-                LOG.log(Level.INFO, "Unknown VMTI VFeature Metadata tag: {0}", field.getTag());
+                LOGGER.info("Unknown VMTI VFeature Metadata tag: {}", field.getTag());
             } else {
                 IVmtiMetadataValue value = createValue(key, field.getData());
                 map.put(key, value);
@@ -74,7 +72,7 @@ public class VFeatureLS {
             case schemaFeature:
                 return new VmtiTextString(VmtiTextString.VFEATURE_SCHEMA_FEATURE, bytes);
             default:
-                System.out.println("Unrecognized VFeature tag: " + tag);
+                LOGGER.info("Unrecognized VFeature tag: {}", tag);
         }
         return null;
     }

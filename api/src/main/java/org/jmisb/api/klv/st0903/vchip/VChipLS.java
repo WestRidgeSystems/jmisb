@@ -6,8 +6,6 @@ import java.util.Map;
 import java.util.Set;
 import java.util.SortedMap;
 import java.util.TreeMap;
-import java.util.logging.Level;
-import java.util.logging.Logger;
 import org.jmisb.api.common.KlvParseException;
 import org.jmisb.api.klv.BerEncoder;
 import org.jmisb.api.klv.LdsField;
@@ -16,13 +14,15 @@ import org.jmisb.api.klv.st0903.IVmtiMetadataValue;
 import org.jmisb.api.klv.st0903.shared.VmtiTextString;
 import org.jmisb.api.klv.st0903.shared.VmtiUri;
 import org.jmisb.core.klv.ArrayUtils;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 /**
  * VChip Local Set.
  */
-public class VChipLS {
-
-    private static final Logger LOG = Logger.getLogger(VChipLS.class.getName());
+public class VChipLS
+{
+    private static final Logger LOGGER = LoggerFactory.getLogger(VChipLS.class);
 
     /**
      * Map containing all data elements in the message
@@ -47,7 +47,7 @@ public class VChipLS {
         for (LdsField field : fields) {
             VChipMetadataKey key = VChipMetadataKey.getKey(field.getTag());
             if (key == VChipMetadataKey.Undefined) {
-                LOG.log(Level.INFO, "Unknown VMTI VChip Metadata tag: {0}", field.getTag());
+                LOGGER.info("Unknown VMTI VChip Metadata tag: {}", field.getTag());
             } else {
                 IVmtiMetadataValue value = createValue(key, field.getData());
                 map.put(key, value);
@@ -74,7 +74,7 @@ public class VChipLS {
             case embeddedImage:
                 return new EmbeddedImage(bytes);
             default:
-                System.out.println("Unrecognized VChip tag: " + tag);
+                LOGGER.info("Unrecognized VChip tag: {}", tag);
         }
         return null;
     }

@@ -6,8 +6,6 @@ import java.util.Map;
 import java.util.Set;
 import java.util.SortedMap;
 import java.util.TreeMap;
-import java.util.logging.Level;
-import java.util.logging.Logger;
 import org.jmisb.api.common.KlvParseException;
 import org.jmisb.api.klv.BerEncoder;
 import org.jmisb.api.klv.LdsField;
@@ -16,13 +14,15 @@ import org.jmisb.api.klv.st0903.IVmtiMetadataValue;
 import org.jmisb.api.klv.st0903.shared.AlgorithmId;
 import org.jmisb.api.klv.st0903.shared.VmtiTextString;
 import org.jmisb.core.klv.ArrayUtils;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 /**
  * VTracker Local Set.
  */
 public class VTrackerLS {
 
-    private static final Logger LOG = Logger.getLogger(VTrackerLS.class.getName());
+    private static final Logger LOGGER = LoggerFactory.getLogger(VTrackerLS.class);
 
     /**
      * Map containing all data elements in the message
@@ -47,7 +47,7 @@ public class VTrackerLS {
         for (LdsField field : fields) {
             VTrackerMetadataKey key = VTrackerMetadataKey.getKey(field.getTag());
             if (key == VTrackerMetadataKey.Undefined) {
-                LOG.log(Level.INFO, "Unknown VMTI VTracker Metadata tag: {0}", field.getTag());
+                LOGGER.info("Unknown VMTI VTracker Metadata tag: {}", field.getTag());
             } else {
                 IVmtiMetadataValue value = createValue(key, field.getData());
                 map.put(key, value);
@@ -93,7 +93,7 @@ public class VTrackerLS {
             case algorithmId:
                 return new AlgorithmId(bytes);
             default:
-                System.out.println("Unrecognized VTracker tag: " + tag);
+                LOGGER.info("Unrecognized VTracker tag: {}", tag);
         }
         return null;
     }

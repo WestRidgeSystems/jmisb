@@ -6,23 +6,21 @@ import java.util.Map;
 import java.util.Set;
 import java.util.SortedMap;
 import java.util.TreeMap;
-import java.util.logging.Level;
-import java.util.logging.Logger;
 import org.jmisb.api.common.KlvParseException;
 import org.jmisb.api.klv.BerEncoder;
 import org.jmisb.api.klv.LdsField;
 import org.jmisb.api.klv.LdsParser;
 import org.jmisb.api.klv.st0903.IVmtiMetadataValue;
-import org.jmisb.api.klv.st0903.shared.VmtiTextString;
-import org.jmisb.api.klv.st0903.shared.VmtiUri;
 import org.jmisb.core.klv.ArrayUtils;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 /**
  * VMask Local Set.
  */
-public class VMaskLS {
-
-    private static final Logger LOG = Logger.getLogger(VMaskLS.class.getName());
+public class VMaskLS
+{
+    private static final Logger LOGGER = LoggerFactory.getLogger(VMaskLS.class);
 
     /**
      * Map containing all data elements in the message
@@ -47,7 +45,7 @@ public class VMaskLS {
         for (LdsField field : fields) {
             VMaskMetadataKey key = VMaskMetadataKey.getKey(field.getTag());
             if (key == VMaskMetadataKey.Undefined) {
-                LOG.log(Level.INFO, "Unknown VMTI VMask Metadata tag: {0}", field.getTag());
+                LOGGER.info("Unknown VMTI VMask Metadata tag: {}", field.getTag());
             } else {
                 IVmtiMetadataValue value = createValue(key, field.getData());
                 map.put(key, value);
@@ -72,7 +70,7 @@ public class VMaskLS {
             case bitMaskSeries:
                 return new BitMaskSeries(bytes);
             default:
-                System.out.println("Unrecognized VMask tag: " + tag);
+                LOGGER.info("Unrecognized VMask tag: {}", tag);
         }
         return null;
     }

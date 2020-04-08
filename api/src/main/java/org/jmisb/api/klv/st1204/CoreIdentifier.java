@@ -1,16 +1,13 @@
 package org.jmisb.api.klv.st1204;
 
 import org.jmisb.core.klv.UuidUtils;
-import java.io.ByteArrayOutputStream;
-import java.io.IOException;
 import java.security.MessageDigest;
 import java.security.NoSuchAlgorithmException;
 import java.util.List;
 import java.util.UUID;
-import java.util.logging.Level;
-import java.util.logging.Logger;
 import org.jmisb.api.klv.BerDecoder;
 import org.jmisb.api.klv.BerField;
+import org.jmisb.core.klv.ArrayUtils;
 
 /**
  * ST1204 Core Identifier.
@@ -66,9 +63,6 @@ import org.jmisb.api.klv.BerField;
  */
 public class CoreIdentifier
 {
-
-    private static final Logger LOG = Logger.getLogger(CoreIdentifier.class.getName());
-
     private int version;
     private IdType sensorIdType = IdType.None;
     private IdType platformIdType = IdType.None;
@@ -338,27 +332,29 @@ public class CoreIdentifier
     }
 
     public byte[] getRawBytesRepresentation() {
-        try {
-            ByteArrayOutputStream byteBuilder = new ByteArrayOutputStream();
-            byteBuilder.write((byte) version);
-            byteBuilder.write((byte) buildUsage());
-            if (sensorUUID != null) {
-                byteBuilder.write(UuidUtils.uuidToArray(sensorUUID));
-            }
-            if (platformUUID != null) {
-                byteBuilder.write(UuidUtils.uuidToArray(platformUUID));
-            }
-            if (windowUUID != null) {
-                byteBuilder.write(UuidUtils.uuidToArray(windowUUID));
-            }
-            if (minorUUID != null) {
-                byteBuilder.write(UuidUtils.uuidToArray(minorUUID));
-            }
-            return byteBuilder.toByteArray();
-        } catch (IOException ex) {
-            Logger.getLogger(CoreIdentifier.class.getName()).log(Level.SEVERE, null, ex);
+        int len = 0;
+        List<byte[]> chunks = new ArrayList<>();
+        chunks.add(new byte[]{(byte) version});
+        len += 1;
+        chunks.add(new byte[]{(byte) buildUsage()});
+        len += 1;
+        if (sensorUUID != null) {
+            chunks.add(UuidUtils.uuidToArray(sensorUUID));
+            len += 16;
         }
-        return null;
+        if (platformUUID != null) {
+            chunks.add(UuidUtils.uuidToArray(platformUUID));
+            len += 16;
+        }
+        if (windowUUID != null) {
+            chunks.add(UuidUtils.uuidToArray(windowUUID));
+            len += 16;
+        }
+        if (minorUUID != null) {
+            chunks.add(UuidUtils.uuidToArray(minorUUID));
+            len += 16;
+        }
+        return ArrayUtils.arrayFromChunks(chunks, len);
     }
 
 }

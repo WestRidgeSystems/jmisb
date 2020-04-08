@@ -4,11 +4,11 @@ import java.awt.image.BufferedImage;
 import java.io.ByteArrayInputStream;
 import java.io.ByteArrayOutputStream;
 import java.io.IOException;
-import java.util.logging.Level;
-import java.util.logging.Logger;
 import javax.imageio.ImageIO;
 import org.jmisb.api.common.KlvParseException;
 import org.jmisb.api.klv.st0903.IVmtiMetadataValue;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 /**
  * Embedded Image (ST0903 VChip Tag 3).
@@ -18,7 +18,7 @@ import org.jmisb.api.klv.st0903.IVmtiMetadataValue;
 public class EmbeddedImage implements IVmtiMetadataValue
 {
 
-    private static final Logger LOG = Logger.getLogger(EmbeddedImage.class.getName());
+    private static final Logger LOGGER = LoggerFactory.getLogger(EmbeddedImage.class);
 
     private BufferedImage embeddedImage;
 
@@ -47,7 +47,7 @@ public class EmbeddedImage implements IVmtiMetadataValue
         }
         catch (IOException ex)
         {
-            LOG.log(Level.SEVERE, null, ex);
+            LOGGER.error("", ex);
             embeddedImage = null;
         }
     }
@@ -81,7 +81,7 @@ public class EmbeddedImage implements IVmtiMetadataValue
             byteArrayOutputStream.flush();
             return byteArrayOutputStream.toByteArray();
         } catch (IOException ex) {
-            LOG.log(Level.SEVERE, null, ex);
+            LOGGER.error("", ex);
         }
         return null;
     }

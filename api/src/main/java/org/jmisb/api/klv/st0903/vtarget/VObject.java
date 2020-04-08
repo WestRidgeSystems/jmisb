@@ -1,8 +1,5 @@
 package org.jmisb.api.klv.st0903.vtarget;
 
-import java.io.IOException;
-import java.util.logging.Level;
-import java.util.logging.Logger;
 import org.jmisb.api.common.KlvParseException;
 import org.jmisb.api.klv.st0903.IVmtiMetadataValue;
 import org.jmisb.api.klv.st0903.vobject.VObjectLS;
@@ -21,9 +18,6 @@ import org.jmisb.api.klv.st0903.vobject.VObjectLS;
  */
 public class VObject implements IVmtiMetadataValue
 {
-
-    private static final Logger LOG = Logger.getLogger(VObject.class.getName());
-
     private final VObjectLS value;
 
     /**
