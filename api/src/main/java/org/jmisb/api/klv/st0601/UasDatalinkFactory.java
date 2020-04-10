@@ -316,8 +316,7 @@ public class UasDatalinkFactory
             case CommunicationsMethod:
                 return new UasDatalinkString(UasDatalinkString.COMMUNICATIONS_METHOD, bytes);
             case LeapSeconds:
-                // TODO
-                return new OpaqueValue(bytes);
+                return new LeapSeconds(bytes);
             case CorrectionOffset:
                 // TODO
                 return new OpaqueValue(bytes);
