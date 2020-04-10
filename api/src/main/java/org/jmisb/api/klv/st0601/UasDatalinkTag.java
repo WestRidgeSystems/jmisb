@@ -279,7 +279,7 @@ public enum UasDatalinkTag
     ZoomPercentage(134),
     /** Tag 135; Type of communications used with platform; Value is a {@link UasDatalinkString} */
     CommunicationsMethod(135),
-    /** Tag 136; Number of leap seconds to adjust Precision Time Stamp (Tag 2) to UTC; Value is a {@link OpaqueValue} */
+    /** Tag 136; Number of leap seconds to adjust Precision Time Stamp (Tag 2) to UTC; Value is a {@link LeapSeconds} */
     LeapSeconds(136),
     /** Tag 137; Post-flight time adjustment to correct Precision Time Stamp (Tag 2) as needed; Value is a {@link OpaqueValue} */
     CorrectionOffset(137),
