@@ -41,25 +41,7 @@ public abstract class AbstractPixelIndex implements IVmtiMetadataValue
     @Override
     public byte[] getBytes()
     {
-        // TODO: move this to PrimitiveConverter once the PRs settle down.
-        if (value < 256)
-        {
-            return PrimitiveConverter.uint8ToBytes((short)value);
-        }
-        else if (value < 65536)
-        {  
-            return PrimitiveConverter.uint16ToBytes((int)value);
-        }
-
-        byte[] bytes = PrimitiveConverter.uint32ToBytes(value);
-        if (bytes[0] == 0x00)
-        {
-            return new byte[]{bytes[1], bytes[2], bytes[3]};
-        }
-        else
-        {
-            return bytes;
-        }
+        return PrimitiveConverter.uint32ToVariableBytes(value);
     }
 
     @Override

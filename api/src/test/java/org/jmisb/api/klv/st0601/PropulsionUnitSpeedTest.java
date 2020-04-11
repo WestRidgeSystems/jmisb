@@ -62,7 +62,7 @@ public class PropulsionUnitSpeedTest
         speed = new PropulsionUnitSpeed(bytes);
         Assert.assertEquals(speed.getDisplayName(), "Propulsion Unit Speed");
         Assert.assertEquals(speed.getSpeed(), 16777215L);
-        Assert.assertEquals(speed.getBytes(), new byte[]{(byte)0x00, (byte)0xff, (byte)0xff, (byte)0xff});
+        Assert.assertEquals(speed.getBytes(), new byte[]{(byte)0xff, (byte)0xff, (byte)0xff});
         Assert.assertEquals(speed.getDisplayableValue(), "16777215rpm");
 
         bytes = new byte[]{(byte)0x00, (byte)0x00, (byte)0x00, (byte)0x00};
@@ -170,7 +170,7 @@ public class PropulsionUnitSpeedTest
         Assert.assertEquals(v.getDisplayName(), "Propulsion Unit Speed");
         speed = (PropulsionUnitSpeed)v;
         Assert.assertEquals(speed.getSpeed(), 16777215L);
-        Assert.assertEquals(speed.getBytes(), new byte[]{(byte)0x00, (byte)0xff, (byte)0xff, (byte)0xff});
+        Assert.assertEquals(speed.getBytes(), new byte[]{(byte)0xff, (byte)0xff, (byte)0xff});
         Assert.assertEquals(speed.getDisplayableValue(), "16777215rpm");
 
         bytes = new byte[]{(byte)0x00, (byte)0x00, (byte)0x00, (byte)0x00};

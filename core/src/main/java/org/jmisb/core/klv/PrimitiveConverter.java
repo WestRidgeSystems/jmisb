@@ -46,7 +46,12 @@ public class PrimitiveConverter
     {
         if (longValue > 65535)
         {
-            return PrimitiveConverter.uint32ToBytes(longValue);
+            byte[] bytes = PrimitiveConverter.uint32ToBytes(longValue);
+            if (bytes[0] == 0x00)
+            {
+                return new byte[]{bytes[1], bytes[2], bytes[3]};
+            }
+            return bytes;
         }
         else if (longValue > 255)
         {
@@ -55,6 +60,34 @@ public class PrimitiveConverter
         else
         {
             return PrimitiveConverter.uint8ToBytes((short)longValue);
+        }
+    }
+
+    /**
+     * Convert an unsigned 6 byte unsigned integer (long with range of uint48) to a byte array.
+     * <p>
+     * This only uses the minimum required number of bytes to represent the
+     * value. So if the value will fit into two bytes, the results will be only
+     * two bytes.
+     *
+     * @param longValue The unsigned integer as long
+     * @return The array of length 1-6 bytes.
+     */
+    public static byte[] uintToVariableBytesV6(long longValue)
+    {
+        if (longValue > 1099511627775L)
+        {
+            byte[] bytes = PrimitiveConverter.int64ToBytes(longValue);
+            return new byte[]{bytes[2], bytes[3], bytes[4], bytes[5], bytes[6], bytes[7]};
+        }
+        else if (longValue > 4294967295L)
+        {
+            byte[] bytes = PrimitiveConverter.int64ToBytes(longValue);
+            return new byte[]{bytes[3], bytes[4], bytes[5], bytes[6], bytes[7]};
+        }
+        else
+        {
+            return uint32ToVariableBytes(longValue);
         }
     }
 
