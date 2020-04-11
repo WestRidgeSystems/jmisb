@@ -123,7 +123,6 @@ public class WaypointListTest
         Assert.assertEquals(wp3.getLocation().getLatitude(), 38.889822, 0.000001);
         Assert.assertEquals(wp3.getLocation().getLongitude(), -77.010092, 0.000001);
         Assert.assertEquals(wp3.getLocation().getHAE(), 300.0, 0.0001);
-        System.out.println("WaypointList");
         Assert.assertEquals(list.getBytes(), st_example_bytes);
         Assert.assertEquals(list.getDisplayableValue(), "[Waypoint List]");
         Assert.assertEquals(list.getDisplayName(), "Waypoint List");
