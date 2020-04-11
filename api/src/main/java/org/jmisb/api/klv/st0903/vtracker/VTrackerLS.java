@@ -65,8 +65,6 @@ public class VTrackerLS {
      */
     public static IVmtiMetadataValue createValue(VTrackerMetadataKey tag, byte[] bytes) throws KlvParseException
     {
-        // Keep the case statements in enum ordinal order so we can keep track of what is implemented.
-        // Mark all unimplemented tags with TODO.
         switch (tag) {
             case trackId:
                 return new TrackId(bytes);
