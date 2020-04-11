@@ -62,7 +62,7 @@ public class TimeAirborneTest
         time = new TimeAirborne(bytes);
         Assert.assertEquals(time.getDisplayName(), "Time Airborne");
         Assert.assertEquals(time.getSeconds(), 16777215L);
-        Assert.assertEquals(time.getBytes(), new byte[]{(byte)0x00, (byte)0xff, (byte)0xff, (byte)0xff});
+        Assert.assertEquals(time.getBytes(), new byte[]{(byte)0xff, (byte)0xff, (byte)0xff});
         Assert.assertEquals(time.getDisplayableValue(), "16777215s");
 
         bytes = new byte[]{(byte)0x00, (byte)0x00, (byte)0x00, (byte)0x00};
@@ -170,7 +170,7 @@ public class TimeAirborneTest
         Assert.assertEquals(v.getDisplayName(), "Time Airborne");
         time = (TimeAirborne)v;
         Assert.assertEquals(time.getSeconds(), 16777215L);
-        Assert.assertEquals(time.getBytes(), new byte[]{(byte)0x00, (byte)0xff, (byte)0xff, (byte)0xff});
+        Assert.assertEquals(time.getBytes(), new byte[]{(byte)0xff, (byte)0xff, (byte)0xff});
         Assert.assertEquals(time.getDisplayableValue(), "16777215s");
 
         bytes = new byte[]{(byte)0x00, (byte)0x00, (byte)0x00, (byte)0x00};

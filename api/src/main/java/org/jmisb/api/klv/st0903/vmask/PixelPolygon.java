@@ -78,7 +78,7 @@ public class PixelPolygon implements IVmtiMetadataValue
         List<byte[]> chunks = new ArrayList<>();
         for (Long point: getPolygon())
         {
-            byte[] pointBytes = getBytes(point);
+            byte[] pointBytes = PrimitiveConverter.uintToVariableBytesV6(point);
             byte[] lengthBytes = BerEncoder.encode(pointBytes.length);
             chunks.add(lengthBytes);
             len += lengthBytes.length;
@@ -123,37 +123,5 @@ public class PixelPolygon implements IVmtiMetadataValue
             pixelNumber += ((int) bytes[i] & 0xFF);
         }
         return pixelNumber;
-    }
-
-    private byte[] getBytes(long pixelNumber)
-    {
-        // TODO: move to primitive converter - shared with PixelNumber in VTarget
-        if (pixelNumber > 1099511627775L)
-        {
-            byte[] bytes = PrimitiveConverter.int64ToBytes(pixelNumber);
-            return new byte[]{bytes[2], bytes[3], bytes[4], bytes[5], bytes[6], bytes[7]};
-        }
-        else if (pixelNumber > 4294967295L)
-        {
-            byte[] bytes = PrimitiveConverter.int64ToBytes(pixelNumber);
-            return new byte[]{bytes[3], bytes[4], bytes[5], bytes[6], bytes[7]};
-        }
-        else if (pixelNumber > 16777215L)
-        {
-            return PrimitiveConverter.uint32ToBytes(pixelNumber);
-        }
-        else if (pixelNumber > 65535)
-        {
-            byte[] bytes = PrimitiveConverter.uint32ToBytes(pixelNumber);
-            return new byte[]{bytes[1], bytes[2], bytes[3]};
-        }
-        else if (pixelNumber > 255L)
-        {
-            return PrimitiveConverter.uint16ToBytes((int)pixelNumber);
-        }
-        else
-        {
-            return PrimitiveConverter.uint8ToBytes((short)pixelNumber);
-        }
     }
 }
