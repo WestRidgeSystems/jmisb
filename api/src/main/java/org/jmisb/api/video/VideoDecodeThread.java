@@ -204,13 +204,10 @@ class VideoDecodeThread extends ProcessingThread
                             queued = inputStream.queueVideoFrame(new VideoFrame(image, pts), 20);
                         }
                     }
-                    else if (ret == -11) // AVERROR(EAGAIN)
+                    else if (ret != -11 && ret != -35) // -11 = EAGAIN, -35 = EDEADLK
                     {
-                        // Normal, no output available yet
-                    }
-                    else
-                    {
-                        // Problem!
+                        // -11 is expected and just means the decoder is waiting for more packets
+                        // -35 seems to be warning us about some concurrency issue unique to MacOS
                         logger.error("avcodec_receive_frame error " + FfmpegUtils.formatError(ret));
                     }
                 }

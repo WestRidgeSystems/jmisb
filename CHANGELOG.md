@@ -1,3 +1,20 @@
+### April 11, 2020 version 1.9.0
+ * Implemented ST 0903, Video Moving Target Indicator
+ * Implemented ST 1204, MIIS Core Identifier
+ * Implemented many additional ST 0601 tags: 8, 9, 34, 35, 36, 37, 39, 43, 44, 
+   45, 46, 49, 50, 51, 52, 53, 54, 55, 56, 57, 58, 62, 63, 64, 71, 75, 76, 77, 
+   79, 80, 93, 94, 110, 111, 121, 123, 124, 125, 126, 128, 136, 141
+ * Implemented ST 0102 tag 21
+ * Added 3-byte encode/decode support (ST 1201)
+ * Added updates for latest version of UAS Datalink standard (0601.16)
+ * Added toggle to enable/disable decoding of video/metadata streams
+ * Fixed some tests for Java 11; library now fully supports Java 8/11
+ * Viewer updates: display non-0601 data, scroll bars, clear metadata on load
+ * Upgraded to ffmpeg 4.2.1, log4j 2
+ * Numerous bug fixes
+ * Added javadoc descriptions for all value types to UasDatalinkTag
+ * Significant unit testing/code coverage enhancement
+
 ### September 5, 2019 version 1.8.0
  * Support BER-OID encoding/decoding as required by ST 0601
  * Added new 0601 tags (up to ST 0601.15)

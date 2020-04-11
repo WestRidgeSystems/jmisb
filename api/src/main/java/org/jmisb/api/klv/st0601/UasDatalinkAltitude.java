@@ -5,7 +5,7 @@ import org.jmisb.core.klv.PrimitiveConverter;
 /**
  * Abstract base class for altitude values in ST 0601
  * <p>
- * Used by tags: 15, 25, 38, 42, 69, 78. Note that some derived types use MSL, others HAE.
+ * Used by tags: 15, 25, 38, 42, 54, 69, 75, 76, 78. Note that some derived types use MSL, others HAE.
  * <blockquote>
  * Map 0..(2^16-1) to -900..19000 meters.
  * <p>
@@ -29,7 +29,7 @@ public abstract class UasDatalinkAltitude implements IUasDatalinkValue
     {
         if (meters > MAX_VALUE || meters < MIN_VALUE)
         {
-            throw new IllegalArgumentException("Altitude must be in range [-900,19000]");
+            throw new IllegalArgumentException(getDisplayName() + " must be in range [-900,19000]");
         }
         this.meters = meters;
     }
@@ -42,7 +42,7 @@ public abstract class UasDatalinkAltitude implements IUasDatalinkValue
     {
         if (bytes.length != 2)
         {
-            throw new IllegalArgumentException("Altitude encoding is a 2-byte unsigned int");
+            throw new IllegalArgumentException(getDisplayName() + " encoding is a 2-byte unsigned int");
         }
 
         int intVal = PrimitiveConverter.toUint16(bytes);

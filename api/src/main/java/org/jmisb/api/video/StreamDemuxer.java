@@ -2,7 +2,6 @@ package org.jmisb.api.video;
 
 import org.bytedeco.ffmpeg.avcodec.AVPacket;
 import org.bytedeco.ffmpeg.avformat.AVFormatContext;
-import org.jmisb.core.video.FfmpegUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -12,17 +11,15 @@ import static org.jmisb.core.video.TimingUtils.shortWait;
 /**
  * Demux video/metadata contained in a network stream
  */
-class StreamDemuxer extends ProcessingThread
+class StreamDemuxer extends Demuxer
 {
     private static Logger logger = LoggerFactory.getLogger(StreamDemuxer.class);
     private final VideoInput inputStream;
-    private final AVFormatContext avFormatContext;
-    private MetadataDecodeThread metadataDecodeThread;
 
-    StreamDemuxer(VideoInput inputStream, AVFormatContext avFormatContext)
+    StreamDemuxer(VideoInput inputStream, AVFormatContext avFormatContext, VideoStreamInputOptions options)
     {
+        super(avFormatContext, options);
         this.inputStream = inputStream;
-        this.avFormatContext = avFormatContext;
     }
 
     @Override
@@ -31,15 +28,7 @@ class StreamDemuxer extends ProcessingThread
         Thread.currentThread().setName("Demuxer - " + inputStream.getUrl());
         logger.debug("Starting stream demuxer for " + inputStream.getUrl());
 
-        final int videoStreamIndex = FfmpegUtils.getVideoStreamIndex(avFormatContext);
-        final int dataStreamIndex = FfmpegUtils.getDataStreamIndex(avFormatContext);
-
-        VideoDecodeThread videoDecodeThread = DemuxerUtils.createVideoDecodeThread(videoStreamIndex, avFormatContext, inputStream);
-
-        if (dataStreamIndex >= 0)
-        {
-            metadataDecodeThread = new MetadataDecodeThread(inputStream, FfmpegUtils.getDataStream(avFormatContext));
-        }
+        createDecodeThreads(inputStream);
 
         AVPacket packet = new AVPacket();
         while (!isShutdown())
@@ -53,7 +42,7 @@ class StreamDemuxer extends ProcessingThread
 
             // Pass packet to the appropriate decoder
             boolean queued = false;
-            while (!queued && !isShutdown())
+            while (shouldDecode(packet) && !queued && !isShutdown())
             {
                 if (packet.stream_index() == videoStreamIndex)
                 {
@@ -69,26 +58,6 @@ class StreamDemuxer extends ProcessingThread
         }
 
         // Clean up resources
-        if (videoDecodeThread != null)
-        {
-            videoDecodeThread.shutdown();
-            try
-            {
-                videoDecodeThread.join();
-            } catch (InterruptedException ignored)
-            {
-            }
-        }
-
-        if (metadataDecodeThread != null)
-        {
-            metadataDecodeThread.shutdown();
-            try
-            {
-                metadataDecodeThread.join();
-            } catch (InterruptedException ignored)
-            {
-            }
-        }
+        shutdownThreads();
     }
 }

@@ -5,6 +5,8 @@ import org.jmisb.api.klv.st0601.UasDatalinkMessage;
 import org.jmisb.api.klv.st0601.UasDatalinkTag;
 import org.jmisb.api.video.IMetadataListener;
 import org.jmisb.api.video.MetadataFrame;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 import javax.swing.*;
 import java.awt.*;
@@ -16,6 +18,7 @@ import static java.awt.Font.PLAIN;
  */
 public class MetadataPanel extends JTextPane implements IMetadataListener
 {
+    private static Logger logger = LoggerFactory.getLogger(MetadataPanel.class);
     private long previous = 0;
 
     /**
@@ -26,6 +29,7 @@ public class MetadataPanel extends JTextPane implements IMetadataListener
         setEditable(false);
         setContentType("text/html");
         setFont(new Font("Dialog", PLAIN, 12));
+        clear();
     }
 
     @Override
@@ -39,6 +43,11 @@ public class MetadataPanel extends JTextPane implements IMetadataListener
     @Override
     public void onMetadataReceived(MetadataFrame metadataFrame)
     {
+        if (logger.isDebugEnabled())
+        {
+            logger.debug("pts = " + metadataFrame.getPts());
+        }
+
         // Refresh at most once per second
         long current = System.nanoTime();
         if ((current - previous) > 1_000_000_000)
@@ -51,10 +60,12 @@ public class MetadataPanel extends JTextPane implements IMetadataListener
                 sb.append("</head>");
                 sb.append("<body>");
 
+                sb.append("<h1>");
+                sb.append(metadataFrame.getMisbMessage().displayHeader());
+                sb.append("</h1>");
                 // TODO: handle other message types, including nested local sets
                 if (metadataFrame.getMisbMessage() instanceof UasDatalinkMessage)
                 {
-                    sb.append("<h1>ST 0601</h1>");
                     UasDatalinkMessage uasDatalinkMessage = (UasDatalinkMessage) metadataFrame.getMisbMessage();
                     for (UasDatalinkTag tag : uasDatalinkMessage.getTags())
                     {
@@ -70,5 +81,9 @@ public class MetadataPanel extends JTextPane implements IMetadataListener
 
             previous = current;
         }
+    }
+
+    public final void clear() {
+        this.setText("<html><head/><body/></html>");
     }
 }

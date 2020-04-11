@@ -30,8 +30,9 @@ public class UasDatalinkFactory
             case PrecisionTimeStamp:
                 return new PrecisionTimeStamp(bytes);
             case MissionId:
+                return new UasDatalinkString(UasDatalinkString.MISSION_ID, bytes);
             case PlatformTailNumber:
-                return new UasDatalinkString(bytes);
+                return new UasDatalinkString(UasDatalinkString.PLATFORM_TAIL_NUMBER, bytes);
             case PlatformHeadingAngle:
                 return new PlatformHeadingAngle(bytes);
             case PlatformPitchAngle:
@@ -39,17 +40,15 @@ public class UasDatalinkFactory
             case PlatformRollAngle:
                 return new PlatformRollAngle(bytes);
             case PlatformTrueAirspeed:
-                // TODO
-                return new OpaqueValue(bytes);
+                return new PlatformTrueAirspeed(bytes);
             case PlatformIndicatedAirspeed:
-                // TODO
-                return new OpaqueValue(bytes);
+                return new PlatformIndicatedAirspeed(bytes);
             case PlatformDesignation:
-                return new UasDatalinkString(bytes);
+                return new UasDatalinkString(UasDatalinkString.PLATFORM_DESIGNATION, bytes);
             case ImageSourceSensor:
-                return new UasDatalinkString(bytes);
+                return new UasDatalinkString(UasDatalinkString.IMAGE_SOURCE_SENSOR, bytes);
             case ImageCoordinateSystem:
-                return new UasDatalinkString(bytes);
+                return new UasDatalinkString(UasDatalinkString.IMAGE_COORDINATE_SYSTEM, bytes);
             case SensorLatitude:
                 return new SensorLatitude(bytes);
             case SensorLongitude:
@@ -77,31 +76,33 @@ public class UasDatalinkFactory
             case FrameCenterElevation:
                 return new FrameCenterElevation(bytes);
             case OffsetCornerLatitudePoint1:
+                return new CornerOffset(bytes, CornerOffset.CORNER_LAT_1);
             case OffsetCornerLongitudePoint1:
+                return new CornerOffset(bytes, CornerOffset.CORNER_LON_1);
             case OffsetCornerLatitudePoint2:
+                return new CornerOffset(bytes, CornerOffset.CORNER_LAT_2);
             case OffsetCornerLongitudePoint2:
+                return new CornerOffset(bytes, CornerOffset.CORNER_LON_2);
             case OffsetCornerLatitudePoint3:
+                return new CornerOffset(bytes, CornerOffset.CORNER_LAT_3);
             case OffsetCornerLongitudePoint3:
+                return new CornerOffset(bytes, CornerOffset.CORNER_LON_3);
             case OffsetCornerLatitudePoint4:
+                return new CornerOffset(bytes, CornerOffset.CORNER_LAT_4);
             case OffsetCornerLongitudePoint4:
-                return new CornerOffset(bytes);
+                return new CornerOffset(bytes, CornerOffset.CORNER_LON_4);
             case IcingDetected:
-                // TODO
-                return new OpaqueValue(bytes);
+                return new IcingDetected(bytes);
             case WindDirection:
-                // TODO
-                return new OpaqueValue(bytes);
+                return new WindDirectionAngle(bytes);
             case WindSpeed:
-                // TODO
-                return new OpaqueValue(bytes);
+                return new WindSpeed(bytes);
             case StaticPressure:
-                // TODO
-                return new OpaqueValue(bytes);
+                return new StaticPressure(bytes);
             case DensityAltitude:
                 return new DensityAltitude(bytes);
             case OutsideAirTemp:
-                // TODO
-                return new OpaqueValue(bytes);
+                return new OutsideAirTemperature(bytes);
             case TargetLocationLatitude:
                 return new TargetLocationLatitude(bytes);
             case TargetLocationLongitude:
@@ -109,54 +110,40 @@ public class UasDatalinkFactory
             case TargetLocationElevation:
                 return new TargetLocationElevation(bytes);
             case TargetTrackGateWidth:
-                // TODO
-                return new OpaqueValue(bytes);
+                return new TargetTrackGateWidth(bytes);
             case TargetTrackGateHeight:
-                // TODO
-                return new OpaqueValue(bytes);
+                return new TargetTrackGateHeight(bytes);
             case TargetErrorCe90:
-                // TODO
-                return new OpaqueValue(bytes);
+                return new TargetErrorEstimateCe90(bytes);
             case TargetErrorLe90:
-                // TODO
-                return new OpaqueValue(bytes);
+                return new TargetErrorEstimateLe90(bytes);
             case GenericFlagData01:
                 // TODO
                 return new OpaqueValue(bytes);
             case SecurityLocalMetadataSet:
                 return new NestedSecurityMetadata(bytes);
             case DifferentialPressure:
-                // TODO
-                return new OpaqueValue(bytes);
+                return new DifferentialPressure(bytes);
             case PlatformAngleOfAttack:
-                // TODO
-                return new OpaqueValue(bytes);
+                return new PlatformAngleOfAttack(bytes);
             case PlatformVerticalSpeed:
-                // TODO
-                return new OpaqueValue(bytes);
+                return new PlatformVerticalSpeed(bytes);
             case PlatformSideslipAngle:
-                // TODO
-                return new OpaqueValue(bytes);
+                return new PlatformSideslipAngle(bytes);
             case AirfieldBarometricPressure:
-                // TODO
-                return new OpaqueValue(bytes);
+                return new AirfieldBarometricPressure(bytes);
             case AirfieldElevation:
-                // TODO
-                return new OpaqueValue(bytes);
+                return new AirfieldElevation(bytes);
             case RelativeHumidity:
-                // TODO
-                return new OpaqueValue(bytes);
+                return new RelativeHumidity(bytes);
             case PlatformGroundSpeed:
-                // TODO
-                return new OpaqueValue(bytes);
+                return new PlatformGroundSpeed(bytes);
             case GroundRange:
-                // TODO
-                return new OpaqueValue(bytes);
+                return new GroundRange(bytes);
             case PlatformFuelRemaining:
-                // TODO
-                return new OpaqueValue(bytes);
+                return new PlatformFuelRemaining(bytes);
             case PlatformCallSign:
-                return new UasDatalinkString(bytes);
+                return new UasDatalinkString(UasDatalinkString.PLATFORM_CALL_SIGN, bytes);
             case WeaponLoad:
                 // TODO
                 return new OpaqueValue(bytes);
@@ -164,18 +151,15 @@ public class UasDatalinkFactory
                 // TODO
                 return new OpaqueValue(bytes);
             case LaserPrfCode:
-                // TODO
-                return new OpaqueValue(bytes);
+                return new LaserPrfCode(bytes);
             case SensorFovName:
-                // TODO
-                return new OpaqueValue(bytes);
+                return new SensorFieldOfViewName(bytes);
             case PlatformMagneticHeading:
-                // TODO
-                return new OpaqueValue(bytes);
+                return new PlatformMagneticHeading(bytes);
             case UasLdsVersionNumber:
                 return new ST0601Version(bytes);
             case TargetLocationCovariance:
-                // TODO ST0601.11 says "TBD"
+                // Deprecated
                 return new OpaqueValue(bytes);
             case AlternatePlatformLatitude:
                 return new AlternatePlatformLatitude(bytes);
@@ -184,10 +168,9 @@ public class UasDatalinkFactory
             case AlternatePlatformAltitude:
                 return new AlternatePlatformAltitude(bytes);
             case AlternatePlatformName:
-                return new UasDatalinkString(bytes);
+                return new UasDatalinkString(UasDatalinkString.ALTERNATE_PLATFORM_NAME, bytes);
             case AlternatePlatformHeading:
-                // TODO
-                return new OpaqueValue(bytes);
+                return new AlternatePlatformHeading(bytes);
             case EventStartTimeUtc:
                 // TODO
                 return new OpaqueValue(bytes);
@@ -195,44 +178,38 @@ public class UasDatalinkFactory
                 // TODO Implement ST 0806
                 return new OpaqueValue(bytes);
             case VmtiLocalDataSet:
-                // TODO Implement ST 0903
-                return new OpaqueValue(bytes);
+                return new NestedVmtiLocalSet(bytes);
             case SensorEllipsoidHeight:
-                // TODO
-                return new OpaqueValue(bytes);
+                return new SensorEllipsoidHeight(bytes);
             case AlternatePlatformEllipsoidHeight:
-                // TODO
-                return new OpaqueValue(bytes);
+                return new AlternatePlatformEllipsoidHeight(bytes);
             case OperationalMode:
-                // TODO
-                return new OpaqueValue(bytes);
+                return new OperationalMode(bytes);
             case FrameCenterHae:
                 return new FrameCenterHae(bytes);
             case SensorNorthVelocity:
-                // TODO
-                return new OpaqueValue(bytes);
+                return new SensorNorthVelocity(bytes);
             case SensorEastVelocity:
-                // TODO
-                return new OpaqueValue(bytes);
+                return new SensorEastVelocity(bytes);
             case ImageHorizonPixelPack:
                 // TODO
                 return new OpaqueValue(bytes);
             case CornerLatPt1:
-                return new FullCornerLatitude(bytes);
+                return new FullCornerLatitude(bytes, FullCornerLatitude.CORNER_LAT_1);
             case CornerLonPt1:
-                return new FullCornerLongitude(bytes);
+                return new FullCornerLongitude(bytes, FullCornerLongitude.CORNER_LON_1);
             case CornerLatPt2:
-                return new FullCornerLatitude(bytes);
+                return new FullCornerLatitude(bytes, FullCornerLatitude.CORNER_LAT_2);
             case CornerLonPt2:
-                return new FullCornerLongitude(bytes);
+                return new FullCornerLongitude(bytes, FullCornerLongitude.CORNER_LON_2);
             case CornerLatPt3:
-                return new FullCornerLatitude(bytes);
+                return new FullCornerLatitude(bytes, FullCornerLatitude.CORNER_LAT_3);
             case CornerLonPt3:
-                return new FullCornerLongitude(bytes);
+                return new FullCornerLongitude(bytes, FullCornerLongitude.CORNER_LON_3);
             case CornerLatPt4:
-                return new FullCornerLatitude(bytes);
+                return new FullCornerLatitude(bytes, FullCornerLatitude.CORNER_LAT_4);
             case CornerLonPt4:
-                return new FullCornerLongitude(bytes);
+                return new FullCornerLongitude(bytes, FullCornerLongitude.CORNER_LON_4);
             case PlatformPitchAngleFull:
                 return new PlatformPitchAngleFull(bytes);
             case PlatformRollAngleFull:
@@ -242,14 +219,12 @@ public class UasDatalinkFactory
             case PlatformSideSlipAngle:
                 return new PlatformSideslipAngleFull(bytes);
             case MiisCoreIdentifier:
-                // TODO Implement ST 1204
-                return new OpaqueValue(bytes);
+                return new MiisCoreIdentifier(bytes);
             case SarMotionImageryMetadata:
                 // TODO Implement ST 1206
                 return new OpaqueValue(bytes);
             case TargetWidthExtended:
-                // TODO IMAPB - does this mean ST1201?
-                return new OpaqueValue(bytes);
+                return new TargetWidthExtended(bytes);
             case RangeImage:
                 // TODO Implement ST 1002
                 return new OpaqueValue(bytes);
@@ -269,30 +244,29 @@ public class UasDatalinkFactory
                 // TODO Implement ST 1010
                 return new OpaqueValue(bytes);
             case DensityAltitudeExtended:
+                return new DensityAltitudeExtended(bytes);
             case SensorEllipsoidHeightExtended:
+                return new SensorEllipsoidHeightExtended(bytes);
             case AlternatePlatformEllipsoidHeightExtended:
+                return new AlternatePlatformEllipsoidHeightExtended(bytes);
             case StreamDesignator:
+                return new UasDatalinkString(UasDatalinkString.STREAM_DESIGNATOR, bytes);
             case OperationalBase:
+                return new UasDatalinkString(UasDatalinkString.OPERATIONAL_BASE, bytes);
             case BroadcastSource:
-                return new UasDatalinkString(bytes);
+                return new UasDatalinkString(UasDatalinkString.BROADCAST_SOURCE, bytes);
             case RangeToRecoveryLocation:
-                // TODO
-                return new OpaqueValue(bytes);
+                return new RangeToRecoveryLocation(bytes);
             case TimeAirborne:
-                // TODO
-                return new OpaqueValue(bytes);
+                return new TimeAirborne(bytes);
             case PropulsionUnitSpeed:
-                // TODO
-                return new OpaqueValue(bytes);
+                return new PropulsionUnitSpeed(bytes);
             case PlatformCourseAngle:
-                // TODO
-                return new OpaqueValue(bytes);
+                return new PlatformCourseAngle(bytes);
             case AltitudeAgl:
-                // TODO
-                return new OpaqueValue(bytes);
+                return new AltitudeAGL(bytes);
             case RadarAltimeter:
-                // TODO
-                return new OpaqueValue(bytes);
+                return new RadarAltimeter(bytes);
             case ControlCommand:
                 // TODO
                 return new OpaqueValue(bytes);
@@ -300,62 +274,48 @@ public class UasDatalinkFactory
                 // TODO
                 return new OpaqueValue(bytes);
             case SensorAzimuthRate:
-                // TODO
-                return new OpaqueValue(bytes);
+                return new SensorAzimuthRate(bytes);
             case SensorElevationRate:
-                // TODO
-                return new OpaqueValue(bytes);
+                return new SensorElevationRate(bytes);
             case SensorRollRate:
-                // TODO
-                return new OpaqueValue(bytes);
+                return new SensorRollRate(bytes);
             case OnBoardMiStoragePercentFull:
-                // TODO
-                return new OpaqueValue(bytes);
+                return new OnBoardMiStoragePercentFull(bytes);
             case ActiveWavelengthList:
-                // TODO
-                return new OpaqueValue(bytes);
+                return new ActiveWavelengthList(bytes);
             case CountryCodes:
                 // TODO
                 return new OpaqueValue(bytes);
             case NumberNavsatsInView:
-                // TODO
-                return new OpaqueValue(bytes);
+                return new NavsatsInView(bytes);
             case PositioningMethodSource:
-                // TODO
-                return new OpaqueValue(bytes);
+                return new PositioningMethodSource(bytes);
             case PlatformStatus:
-                // TODO
-                return new OpaqueValue(bytes);
+                return new PlatformStatus(bytes);
             case SensorControlMode:
-                // TODO
-                return new OpaqueValue(bytes);
+                return new SensorControlMode(bytes);
             case SensorFrameRatePack:
                 // TODO
                 return new OpaqueValue(bytes);
             case WavelengthsList:
-                // TODO
-                return new OpaqueValue(bytes);
+                return new WavelengthsList(bytes);
             case TargetId:
-                return new UasDatalinkString(bytes);
+                return new UasDatalinkString(UasDatalinkString.TARGET_ID, bytes);
             case AirbaseLocations:
-                // TODO
-                return new OpaqueValue(bytes);
+                return new AirbaseLocations(bytes);
             case TakeOffTime:
                 // TODO
                 return new OpaqueValue(bytes);
             case TransmissionFrequency:
-                // TODO
-                return new OpaqueValue(bytes);
+                return new TransmissionFrequency(bytes);
             case OnBoardMiStorageCapacity:
                 return new OnBoardMiStorageCapacity(bytes);
             case ZoomPercentage:
-                // TODO
-                return new OpaqueValue(bytes);
+                return new ZoomPercentage(bytes);
             case CommunicationsMethod:
-                return new UasDatalinkString(bytes);
+                return new UasDatalinkString(UasDatalinkString.COMMUNICATIONS_METHOD, bytes);
             case LeapSeconds:
-                // TODO
-                return new OpaqueValue(bytes);
+                return new LeapSeconds(bytes);
             case CorrectionOffset:
                 // TODO
                 return new OpaqueValue(bytes);
@@ -369,8 +329,7 @@ public class UasDatalinkFactory
                 // TODO
                 return new OpaqueValue(bytes);
             case WaypointList:
-                // TODO
-                return new OpaqueValue(bytes);
+                return new WaypointList(bytes);
         }
 
         throw new IllegalArgumentException("Unrecognized tag: " + tag);

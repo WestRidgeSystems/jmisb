@@ -34,7 +34,8 @@ public class Checksum
         // Add final byte if there's an odd number of bytes
         if (fullMessage.length % 2 == 1)
         {
-            sum += fullMessage[fullMessage.length-3];
+            int last = Short.toUnsignedInt(fullMessage[fullMessage.length-3]);
+            sum += (last << 8);
         }
 
         if (insert)

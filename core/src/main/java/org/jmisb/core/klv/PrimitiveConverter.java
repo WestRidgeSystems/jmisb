@@ -23,12 +23,80 @@ public class PrimitiveConverter
     private static final ThreadLocal<ByteBuffer> doubleBuffer =
             ThreadLocal.withInitial(() -> ByteBuffer.allocate(Double.BYTES));
 
+    static long arrayToUnsignedLongInternal(byte[] bytes) {
+        long res = 0;
+        for (byte b: bytes) {
+            int i = b & 0xFF;
+            res = (res << 8) + i;
+        }
+        return res;
+    }
+
+    /**
+     * Convert an unsigned 32-bit unsigned integer (long with range of uint32) to a byte array.
+     * <p>
+     * This is similar to uint32ToBytes, except that it only uses the minimum
+     * required number of bytes to represent the value. So if the value will
+     * fit into two bytes, the results will be only two bytes.
+     *
+     * @param longValue The unsigned 32-bit integer as long
+     * @return The array of length 1-4 bytes.
+     */
+    public static byte[] uint32ToVariableBytes(long longValue)
+    {
+        if (longValue > 65535)
+        {
+            byte[] bytes = PrimitiveConverter.uint32ToBytes(longValue);
+            if (bytes[0] == 0x00)
+            {
+                return new byte[]{bytes[1], bytes[2], bytes[3]};
+            }
+            return bytes;
+        }
+        else if (longValue > 255)
+        {
+            return PrimitiveConverter.uint16ToBytes((int)longValue);
+        }
+        else
+        {
+            return PrimitiveConverter.uint8ToBytes((short)longValue);
+        }
+    }
+
+    /**
+     * Convert an unsigned 6 byte unsigned integer (long with range of uint48) to a byte array.
+     * <p>
+     * This only uses the minimum required number of bytes to represent the
+     * value. So if the value will fit into two bytes, the results will be only
+     * two bytes.
+     *
+     * @param longValue The unsigned integer as long
+     * @return The array of length 1-6 bytes.
+     */
+    public static byte[] uintToVariableBytesV6(long longValue)
+    {
+        if (longValue > 1099511627775L)
+        {
+            byte[] bytes = PrimitiveConverter.int64ToBytes(longValue);
+            return new byte[]{bytes[2], bytes[3], bytes[4], bytes[5], bytes[6], bytes[7]};
+        }
+        else if (longValue > 4294967295L)
+        {
+            byte[] bytes = PrimitiveConverter.int64ToBytes(longValue);
+            return new byte[]{bytes[3], bytes[4], bytes[5], bytes[6], bytes[7]};
+        }
+        else
+        {
+            return uint32ToVariableBytes(longValue);
+        }
+    }
+
     private PrimitiveConverter() {}
 
     /**
      * Convert a byte array to a signed 32-bit integer
      *
-     * @param bytes The array of length 4, 2, or 1
+     * @param bytes The array of length 1 - 4
      * @return The signed 32-bit integer
      */
     public static int toInt32(byte[] bytes)
@@ -36,6 +104,9 @@ public class PrimitiveConverter
         if (bytes.length == 4)
         {
             return ByteBuffer.wrap(bytes).getInt();
+        } else if (bytes.length == 3) {
+            int res = ByteBuffer.wrap(bytes, 0, 2).getShort();
+            return (res << 8) + (bytes[2] & 0xFF);
         } else if (bytes.length == 2)
         {
             return ByteBuffer.wrap(bytes).getShort();
@@ -67,6 +138,23 @@ public class PrimitiveConverter
     }
 
     /**
+     * Convert part of a byte array to an signed 16-bit integer
+     *
+     * @param bytes The array
+     * @param offset the offset into the array where the conversion should start
+     * @return The signed 16-bit integer
+     */
+    public static short toInt16(byte[] bytes, int offset)
+    {
+        if (offset + Short.BYTES <= bytes.length)
+        {
+            return ByteBuffer.wrap(bytes, offset, Short.BYTES).getShort();
+        }
+
+        throw new IllegalArgumentException("Invalid buffer length");
+    }
+
+    /**
      * Convert a signed 16-bit integer to a byte array
      *
      * @param val The short value (16-byte signed integer)
@@ -91,6 +179,32 @@ public class PrimitiveConverter
     }
 
     /**
+     * Convert an signed 32-bit integer to a byte array.
+     * <p>
+     * This is similar to int32ToBytes, except that it only uses the minimum
+     * required number of bytes to represent the value. So if the value will
+     * fit into two bytes, the results will be only two bytes.
+     * 
+     * @param intValue The signed 32-bit integer
+     * @return The array of length 1-4 bytes.
+     */
+    public static byte[] int32ToVariableBytes(int intValue)
+    {
+        if ((intValue > 32767) || (intValue < -32768))
+        {
+            return PrimitiveConverter.int32ToBytes(intValue);
+        }
+        else if (((short)intValue > 127) || ((short)intValue < -128))
+        {
+            return PrimitiveConverter.int16ToBytes((short)intValue);
+        }
+        else
+        {
+            return new byte[]{(byte)intValue};
+        }
+    }
+
+    /**
      * Convert a byte array to an unsigned 32-bit integer (long with range of uint32)
      *
      * @param bytes The array of length 4
@@ -103,6 +217,28 @@ public class PrimitiveConverter
             return Integer.toUnsignedLong(ByteBuffer.wrap(bytes).getInt());
         }
         throw new IllegalArgumentException("Invalid buffer length");
+    }
+
+    /**
+     * Convert a variable length byte array to an unsigned 32-bit integer (long with range of uint32)
+     *
+     * @param bytes The array of length 1-4
+     * @return The unsigned 32-bit integer as a long
+     */
+    public static long variableBytesToUint32(byte[] bytes)
+    {
+        switch (bytes.length) {
+            case 4:
+                return PrimitiveConverter.toUint32(bytes);
+            case 3:
+                return PrimitiveConverter.arrayToUnsignedLongInternal(bytes);
+            case 2:
+                return PrimitiveConverter.toUint16(bytes);
+            case 1:
+                return PrimitiveConverter.toUint8(bytes);
+            default:
+                throw new IllegalArgumentException("Invalid buffer length");
+        }
     }
 
     /**

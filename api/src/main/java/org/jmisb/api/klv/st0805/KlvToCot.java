@@ -183,11 +183,11 @@ public class KlvToCot
     private static void setTimes(UasDatalinkMessage uasMessage, CotMessage cotMessage)
     {
         PrecisionTimeStamp unixTimeStamp = (PrecisionTimeStamp)uasMessage.getField(UasDatalinkTag.PrecisionTimeStamp);
-        cotMessage.setTime(unixTimeStamp.getMicroseconds().longValue());
-        cotMessage.setStart(unixTimeStamp.getMicroseconds().longValue());
+        cotMessage.setTime(unixTimeStamp.getMicroseconds());
+        cotMessage.setStart(unixTimeStamp.getMicroseconds());
 
         // TODO: allow client to specify stale time
-        cotMessage.setStale(unixTimeStamp.getMicroseconds().longValue() + 5_000_000);
+        cotMessage.setStale(unixTimeStamp.getMicroseconds() + 5_000_000);
     }
 }
 

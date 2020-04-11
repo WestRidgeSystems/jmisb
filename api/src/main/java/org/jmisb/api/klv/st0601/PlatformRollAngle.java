@@ -72,6 +72,11 @@ public class PlatformRollAngle implements IUasDatalinkValue
     @Override
     public byte[] getBytes()
     {
+        if (degrees == Double.POSITIVE_INFINITY)
+        {
+            return invalidBytes;
+        }
+
         short shortVal = (short) Math.round((degrees / FLOAT_RANGE) * INT_RANGE);
         return PrimitiveConverter.int16ToBytes(shortVal);
     }
@@ -80,5 +85,11 @@ public class PlatformRollAngle implements IUasDatalinkValue
     public String getDisplayableValue()
     {
         return String.format("%.4f\u00B0", degrees);
+    }
+
+    @Override
+    public String getDisplayName()
+    {
+        return "Platform Roll Angle";
     }
 }

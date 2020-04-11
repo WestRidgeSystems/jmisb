@@ -72,4 +72,10 @@ public class VerticalFov implements IUasDatalinkValue
     {
         return String.format("%.4f\u00B0", degrees);
     }
+
+    @Override
+    public String getDisplayName()
+    {
+        return "Sensor Vertical Field of View";
+    }
 }

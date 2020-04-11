@@ -20,7 +20,7 @@ public interface IVideoFileInput extends IVideoInput
     /**
      * Set the playback speed
      *
-     * @param multiplier The rate multiplier (e.g., 2.0 for 2x rate)
+     * @param multiplier The rate multiplier (e.g., 2.0 for 2x rate); Double.MAX_VALUE to read file as fast as possible
      */
     void setPlaybackSpeed(double multiplier);
 

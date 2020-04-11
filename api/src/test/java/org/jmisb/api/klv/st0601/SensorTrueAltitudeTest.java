@@ -1,5 +1,6 @@
 package org.jmisb.api.klv.st0601;
 
+import org.jmisb.api.common.KlvParseException;
 import org.testng.Assert;
 import org.testng.annotations.Test;
 
@@ -26,6 +27,8 @@ public class SensorTrueAltitudeTest
         altitude = new SensorTrueAltitude(14190.72);
         Assert.assertEquals(altitude.getBytes(), new byte[]{(byte)0xc2, (byte)0x21});
         Assert.assertEquals(altitude.getMeters(), 14190.72);
+
+        Assert.assertEquals(altitude.getDisplayName(), "Sensor True Altitude");
     }
 
     @Test
@@ -47,6 +50,28 @@ public class SensorTrueAltitudeTest
         byte[] ex = new byte[]{(byte)0xc2, (byte)0x21};
         altitude = new SensorTrueAltitude(ex);
         Assert.assertEquals(altitude.getMeters(), 14190.72, delta);
+    }
+
+    @Test
+    public void testFactory() throws KlvParseException
+    {
+        byte[] bytes = new byte[]{0x00, 0x00};
+        IUasDatalinkValue v = UasDatalinkFactory.createValue(UasDatalinkTag.SensorTrueAltitude, bytes);
+        Assert.assertTrue(v instanceof SensorTrueAltitude);
+        SensorTrueAltitude altitude = (SensorTrueAltitude)v;
+        Assert.assertEquals(altitude.getMeters(), -900.0);
+
+        bytes = new byte[]{(byte)0xff, (byte)0xff};
+        v = UasDatalinkFactory.createValue(UasDatalinkTag.SensorTrueAltitude, bytes);
+        Assert.assertTrue(v instanceof SensorTrueAltitude);
+        altitude = (SensorTrueAltitude)v;
+        Assert.assertEquals(altitude.getMeters(), 19000.0);
+
+        bytes = new byte[]{(byte)0xc2, (byte)0x21};
+        v = UasDatalinkFactory.createValue(UasDatalinkTag.SensorTrueAltitude, bytes);
+        Assert.assertTrue(v instanceof SensorTrueAltitude);
+        altitude = (SensorTrueAltitude)v;
+        Assert.assertEquals(altitude.getMeters(), 14190.72, 0.01);
     }
 
     @Test(expectedExceptions = IllegalArgumentException.class)

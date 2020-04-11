@@ -3,7 +3,7 @@ package org.jmisb.api.video;
 /**
  * Options to be specified when opening an input stream
  */
-public class VideoStreamInputOptions
+public class VideoStreamInputOptions extends VideoInputOptions
 {
     /** Timeout before failing when opening a stream, in milliseconds */
     private long openTimeout;
@@ -16,17 +16,23 @@ public class VideoStreamInputOptions
      */
     public VideoStreamInputOptions()
     {
-        this(10_000, 15_000);
+        this.openTimeout = 10_000;
+        this.maxAnalyzeDuration = 15_000;
     }
 
     /**
      * Constructor specifying custom options
      *
+     * @param decodeAudio True to decode audio (currently unsupported)
+     * @param decodeMetadata True to decode metadata
+     * @param decodeVideo True to decode video
      * @param openTimeout Timeout before failing when opening a stream, in milliseconds
      * @param maxAnalyzeDuration Max analyze duration, in milliseconds
      */
-    public VideoStreamInputOptions(long openTimeout, long maxAnalyzeDuration)
+    public VideoStreamInputOptions(boolean decodeAudio, boolean decodeMetadata, boolean decodeVideo,
+                                   long openTimeout, long maxAnalyzeDuration)
     {
+        super(decodeAudio, decodeMetadata, decodeVideo);
         this.openTimeout = openTimeout;
         this.maxAnalyzeDuration = maxAnalyzeDuration;
     }

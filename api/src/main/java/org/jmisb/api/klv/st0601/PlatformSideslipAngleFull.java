@@ -12,16 +12,16 @@ import java.util.Arrays;
  * Angle between platform longitudinal axis and relative wind. Full Range.
  * Positive angles to right wing, negative to left.
  * <p>
- * Map -(2^31-1)..(2^31-1) to +/-90. Use -(2^31) = 0x80000000 as an "out-of-range" indicator.
+ * Map -(2^31-1)..(2^31-1) to +/-180. Use -(2^31) = 0x80000000 as an "out-of-range" indicator.
  * <p>
- * Resolution: ~42 nano degrees
+ * Resolution: ~84 nano degrees
  * </blockquote>
  */
 public class PlatformSideslipAngleFull implements IUasDatalinkValue
 {
     private double degrees;
     private static byte[] invalidBytes = new byte[]{(byte)0x80, (byte)0x00, (byte)0x00, (byte)0x00};
-    private static double FLOAT_RANGE = 90.0;
+    private static double FLOAT_RANGE = 180.0;
     private static double INT_RANGE = 2147483647.0; // 2^31-1
 
     /**
@@ -30,9 +30,9 @@ public class PlatformSideslipAngleFull implements IUasDatalinkValue
      */
     public PlatformSideslipAngleFull(double degrees)
     {
-        if (degrees != Double.POSITIVE_INFINITY && (degrees < -90 || degrees > 90))
+        if (degrees != Double.POSITIVE_INFINITY && (degrees < -180 || degrees > 180))
         {
-            throw new IllegalArgumentException("Platform Sideslip Angle (Full) must be in range [-90,90]");
+            throw new IllegalArgumentException("Platform Sideslip Angle (Full) must be in range [-180,180]");
         }
         this.degrees = degrees;
     }
@@ -84,5 +84,11 @@ public class PlatformSideslipAngleFull implements IUasDatalinkValue
     public String getDisplayableValue()
     {
         return String.format("%.4f\u00B0", degrees);
+    }
+
+    @Override
+    public String getDisplayName()
+    {
+        return "Platform Sideslip Angle (Full)";
     }
 }

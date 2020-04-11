@@ -1,5 +1,6 @@
 package org.jmisb.api.klv.st0102;
 
+import java.util.Collection;
 import org.jmisb.api.klv.IMisbMessage;
 
 import java.util.SortedMap;
@@ -31,5 +32,14 @@ public abstract class SecurityMetadataMessage implements IMisbMessage
     public ISecurityMetadataValue getField(SecurityMetadataKey key)
     {
         return map.get(key);
+    }
+
+    /**
+     * Get the available message keys
+     *
+     * @return Collection of the keys in the security metadata message.
+     */
+    public Collection<SecurityMetadataKey> getKeys() {
+        return map.keySet();
     }
 }

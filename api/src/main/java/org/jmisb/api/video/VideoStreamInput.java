@@ -97,7 +97,7 @@ public class VideoStreamInput extends VideoInput implements IVideoStreamInput
         }
 
         // Create the demuxer and start demuxing
-        demuxer = new StreamDemuxer(this, formatContext);
+        demuxer = new StreamDemuxer(this, formatContext, options);
         demuxer.start();
 
         // Start notifier threads

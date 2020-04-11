@@ -21,6 +21,7 @@ public class OnBoardMiStorageCapacity implements IUasDatalinkValue
     private long gigabytes;
     private static long MIN_VAL = 0;
     private static long MAX_VAL = 4294967295L; // 2^32-1
+    private static int MAX_BYTES = 4;
 
     /**
      * Create from value
@@ -37,26 +38,15 @@ public class OnBoardMiStorageCapacity implements IUasDatalinkValue
 
     /**
      * Create from encoded bytes
-     * @param bytes Byte array of length 1, 2, or 4
+     * @param bytes Byte array, maximum four bytes
      */
     public OnBoardMiStorageCapacity(byte[] bytes)
     {
-        if (bytes.length == 4)
+        if (bytes.length > MAX_BYTES)
         {
-            this.gigabytes = PrimitiveConverter.toUint32(bytes);
+            throw new IllegalArgumentException("Storage capacity field length must be 1 - 4 bytes");
         }
-        else if (bytes.length == 2)
-        {
-            this.gigabytes = PrimitiveConverter.toUint16(bytes);
-        }
-        else if (bytes.length == 1)
-        {
-            this.gigabytes = PrimitiveConverter.toUint8(bytes);
-        }
-        else
-        {
-            throw new IllegalArgumentException("Storage capacity field length must be 1, 2, or 4 bytes");
-        }
+        this.gigabytes = PrimitiveConverter.variableBytesToUint32(bytes);
     }
 
     /**
@@ -89,5 +79,11 @@ public class OnBoardMiStorageCapacity implements IUasDatalinkValue
     public String getDisplayableValue()
     {
         return gigabytes + "GB";
+    }
+
+    @Override
+    public String getDisplayName()
+    {
+        return "On-Board MI Storage Capacity";
     }
 }

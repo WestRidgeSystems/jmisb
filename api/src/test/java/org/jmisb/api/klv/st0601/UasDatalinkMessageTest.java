@@ -8,13 +8,19 @@ import org.testng.annotations.Test;
 import java.util.*;
 
 import static org.jmisb.api.klv.KlvConstants.UasDatalinkLocalUl;
+import org.jmisb.api.klv.LoggerChecks;
 
-public class UasDatalinkMessageTest
+public class UasDatalinkMessageTest extends LoggerChecks
 {
     private UasDatalinkMessage message;
     private final double lat = 42.4036;
     private final double lon = -71.1284;
     private final double alt = 1258.3;
+
+    public UasDatalinkMessageTest()
+    {
+        super(UasDatalinkMessage.class);
+    }
 
     @BeforeTest
     public void createSample()
@@ -34,6 +40,12 @@ public class UasDatalinkMessageTest
         Assert.assertEquals(message.getUniversalLabel(), UasDatalinkLocalUl);
     }
 
+    @Test
+    public void testDisplayHeader()
+    {
+        Assert.assertEquals(message.displayHeader(), "ST 0601");
+    }
+    
     @Test
     public void testFrameSimple()
     {
@@ -149,5 +161,19 @@ public class UasDatalinkMessageTest
         {
             Assert.assertEquals(e.getMessage(), "Missing checksum");
         }
+    }
+
+    /**
+     * Test we get the expected tags
+     */
+    @Test
+    public void testTags()
+    {
+        // Frame the message
+        Collection<UasDatalinkTag> tags = message.getTags();
+        Assert.assertEquals(tags.size(), 3);
+        Assert.assertTrue(tags.contains(UasDatalinkTag.SensorLatitude));
+        Assert.assertTrue(tags.contains(UasDatalinkTag.SensorLongitude));
+        Assert.assertTrue(tags.contains(UasDatalinkTag.SensorTrueAltitude));
     }
 }

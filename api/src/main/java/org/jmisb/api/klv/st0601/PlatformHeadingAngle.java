@@ -1,9 +1,5 @@
 package org.jmisb.api.klv.st0601;
 
-import org.jmisb.core.klv.PrimitiveConverter;
-
-import java.text.DecimalFormat;
-
 /**
  * Platform Heading Angle (ST 0601 tag 5)
  * <p>
@@ -17,23 +13,16 @@ import java.text.DecimalFormat;
  * Resolution: ~5.5 milli degrees
  * </blockquote>
  */
-public class PlatformHeadingAngle implements IUasDatalinkValue
+public class PlatformHeadingAngle extends UasDatalinkAngle360
 {
-    private double degrees;
-    private static double RANGE = 360.0;
-    private static double MAXINT = 65535.0; // 2^16 - 1
 
     /**
      * Create from value
-     * @param degrees Platform heading, in degrees
+     * @param degrees angle, in degrees
      */
     public PlatformHeadingAngle(double degrees)
     {
-        if (degrees < 0 || degrees > 360)
-        {
-            throw new IllegalArgumentException("Platform Heading Angle must be in range [0,360]");
-        }
-        this.degrees = degrees;
+        super(degrees);
     }
 
     /**
@@ -42,34 +31,12 @@ public class PlatformHeadingAngle implements IUasDatalinkValue
      */
     public PlatformHeadingAngle(byte[] bytes)
     {
-        if (bytes.length != 2)
-        {
-            throw new IllegalArgumentException("Platform Heading Angle encoding is a 2-byte unsigned int");
-        }
-
-        int intVal = PrimitiveConverter.toUint16(bytes);
-        this.degrees = (intVal / MAXINT) * RANGE;
-    }
-
-    /**
-     * Get the value in degrees
-     * @return Platform heading, in degrees
-     */
-    public double getDegrees()
-    {
-        return degrees;
+        super(bytes);
     }
 
     @Override
-    public byte[] getBytes()
+    public String getDisplayName()
     {
-        int intVal = (int) Math.round((degrees / RANGE) * MAXINT);
-        return PrimitiveConverter.uint16ToBytes(intVal);
-    }
-
-    @Override
-    public String getDisplayableValue()
-    {
-        return String.format("%.4f\u00B0", degrees);
+        return "Platform Heading Angle";
     }
 }

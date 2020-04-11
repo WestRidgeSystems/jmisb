@@ -25,4 +25,10 @@ public class TargetLocationLatitude extends UasDatalinkLatitude
     {
         super(bytes);
     }
+
+    @Override
+    public String getDisplayName()
+    {
+        return "Target Location Latitude";
+    }
 }
