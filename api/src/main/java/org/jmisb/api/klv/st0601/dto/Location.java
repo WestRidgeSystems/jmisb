@@ -10,7 +10,7 @@ public class Location
 {
     private double latitude;
     private double longitude;
-    private double hae;
+    private double hae = -1000;
 
     /**
      * Get the location latitude
@@ -50,7 +50,9 @@ public class Location
 
     /**
      * Get the elevation of the location
-     * @return the elevation in metres above the WGS84 ellipsoid
+     *
+     * @return the elevation in metres above the WGS84 ellipsoid, or -1000 for
+     * invalid / unknown
      */
     public double getHAE()
     {
@@ -59,10 +61,48 @@ public class Location
 
     /**
      * Set the elevation of the location
-     * @param hae the elevation in metres above the WGS84 ellipsoid
+     *
+     * @param hae the elevation in metres above the WGS84 ellipsoid, or -1000
+     * for invalid / unknown
      */
     public void setHAE(double hae)
     {
         this.hae = hae;
     }
+
+    @Override
+    public int hashCode()
+    {
+        int hash = 7;
+        hash = 61 * hash + (int) (Double.doubleToLongBits(this.latitude) ^ (Double.doubleToLongBits(this.latitude) >>> 32));
+        hash = 61 * hash + (int) (Double.doubleToLongBits(this.longitude) ^ (Double.doubleToLongBits(this.longitude) >>> 32));
+        hash = 61 * hash + (int) (Double.doubleToLongBits(this.hae) ^ (Double.doubleToLongBits(this.hae) >>> 32));
+        return hash;
+    }
+
+    @Override
+    public boolean equals(Object obj)
+    {
+        if (this == obj) {
+            return true;
+        }
+        if (obj == null) {
+            return false;
+        }
+        if (getClass() != obj.getClass()) {
+            return false;
+        }
+        final Location other = (Location) obj;
+        if (Double.doubleToLongBits(this.latitude) != Double.doubleToLongBits(other.latitude)) {
+            return false;
+        }
+        if (Double.doubleToLongBits(this.longitude) != Double.doubleToLongBits(other.longitude)) {
+            return false;
+        }
+        if (Double.doubleToLongBits(this.hae) != Double.doubleToLongBits(other.hae)) {
+            return false;
+        }
+        return true;
+    }
+
 }
