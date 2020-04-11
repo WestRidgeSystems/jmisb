@@ -75,7 +75,7 @@ public class BitMaskSeries implements IVmtiMetadataValue
         List<byte[]> chunks = new ArrayList<>();
         for (PixelRunPair run: getRuns())
         {
-            byte[] pixelNumberBytes = getBytes(run.getPixelNumber());
+            byte[] pixelNumberBytes = PrimitiveConverter.uintToVariableBytesV6(run.getPixelNumber());
             byte[] pixelNumberLengthBytes = BerEncoder.encode(pixelNumberBytes.length);
             byte[] runBytes = BerEncoder.encode(run.getRun());
             int bytesForThisRun = pixelNumberLengthBytes.length + pixelNumberBytes.length + runBytes.length;
@@ -112,38 +112,6 @@ public class BitMaskSeries implements IVmtiMetadataValue
     public List<PixelRunPair> getRuns()
     {
         return bitMask;
-    }
-
-    private byte[] getBytes(long pixelNumber)
-    {
-        // TODO: move to primitive converter - shared with PixelNumber in VTarget
-        if (pixelNumber > 1099511627775L)
-        {
-            byte[] bytes = PrimitiveConverter.int64ToBytes(pixelNumber);
-            return new byte[]{bytes[2], bytes[3], bytes[4], bytes[5], bytes[6], bytes[7]};
-        }
-        else if (pixelNumber > 4294967295L)
-        {
-            byte[] bytes = PrimitiveConverter.int64ToBytes(pixelNumber);
-            return new byte[]{bytes[3], bytes[4], bytes[5], bytes[6], bytes[7]};
-        }
-        else if (pixelNumber > 16777215L)
-        {
-            return PrimitiveConverter.uint32ToBytes(pixelNumber);
-        }
-        else if (pixelNumber > 65535)
-        {
-            byte[] bytes = PrimitiveConverter.uint32ToBytes(pixelNumber);
-            return new byte[]{bytes[1], bytes[2], bytes[3]};
-        }
-        else if (pixelNumber > 255L)
-        {
-            return PrimitiveConverter.uint16ToBytes((int)pixelNumber);
-        }
-        else
-        {
-            return PrimitiveConverter.uint8ToBytes((short)pixelNumber);
-        }
     }
 
     private PixelRunPair parsePixelRunPair(byte[] valueBytes)
