@@ -302,8 +302,7 @@ public class UasDatalinkFactory
             case TargetId:
                 return new UasDatalinkString(UasDatalinkString.TARGET_ID, bytes);
             case AirbaseLocations:
-                // TODO
-                return new OpaqueValue(bytes);
+                return new AirbaseLocations(bytes);
             case TakeOffTime:
                 // TODO
                 return new OpaqueValue(bytes);

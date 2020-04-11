@@ -155,7 +155,7 @@ public enum UasDatalinkTag
     EventStartTimeUtc(72),
     /** Tag 73; MISB ST 0806 RVT Local Set metadata items; Value is a {@link OpaqueValue} */
     RvtLocalDataSet(73),
-    /** Tag 74; MISB ST 0903 VMTI Local Set metadata items; Value is a {@link OpaqueValue} */
+    /** Tag 74; MISB ST 0903 VMTI Local Set metadata items; Value is a {@link NestedVmtiLocalSet} */
     VmtiLocalDataSet(74),
     /** Tag 75; Sensor ellipsoid height as measured from the reference WGS84 ellipsoid; Value is a {@link SensorEllipsoidHeight} */
     SensorEllipsoidHeight(75),
@@ -267,7 +267,7 @@ public enum UasDatalinkTag
     WavelengthsList(128),
     /** Tag 129; Alpha-numeric identification of a target; Value is a {@link UasDatalinkString} */
     TargetId(129),
-    /** Tag 130; Geographic location of the take-off site and recovery site; Value is a {@link OpaqueValue} */
+    /** Tag 130; Geographic location of the take-off site and recovery site; Value is a {@link AirbaseLocations} */
     AirbaseLocations(130),
     /** Tag 131; Time when aircraft became airborne; Value is a {@link OpaqueValue} */
     TakeOffTime(131),
