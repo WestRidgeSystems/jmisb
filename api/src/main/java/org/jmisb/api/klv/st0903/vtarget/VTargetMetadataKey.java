@@ -2,9 +2,9 @@ package org.jmisb.api.klv.st0903.vtarget;
 
 import java.util.HashMap;
 import java.util.Map;
-import org.jmisb.api.klv.IKlvTag;
+import org.jmisb.api.klv.IKlvKey;
 
-public enum VTargetMetadataKey implements IKlvTag
+public enum VTargetMetadataKey implements IKlvKey
 {
     /**
      * Unknown key. This should not be created.

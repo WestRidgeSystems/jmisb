@@ -11,11 +11,11 @@ import javax.swing.tree.DefaultTreeCellRenderer;
 import javax.swing.tree.DefaultTreeModel;
 import javax.swing.tree.TreePath;
 import org.jmisb.api.klv.IMisbMessage;
-import org.jmisb.api.klv.IKlvTag;
 import org.jmisb.api.video.IMetadataListener;
 import org.jmisb.api.video.MetadataFrame;
 import org.jmisb.api.klv.IKlvValue;
 import org.jmisb.api.klv.INestedKlvValue;
+import org.jmisb.api.klv.IKlvKey;
 
 public class MetadataTreePanel extends JPanel implements IMetadataListener {
 
@@ -51,8 +51,8 @@ public class MetadataTreePanel extends JPanel implements IMetadataListener {
     public void onMetadataReceived(MetadataFrame metadataFrame) {
         String displayHeader = metadataFrame.getMisbMessage().displayHeader();
         DefaultTreeModel model = (DefaultTreeModel) tree.getModel();
-        DefaultMutableTreeNode rootNode = (DefaultMutableTreeNode) tree.getModel().getRoot();
-        Enumeration childEnumeration = rootNode.children();
+        DefaultMutableTreeNode parentNode = (DefaultMutableTreeNode) tree.getModel().getRoot();
+        Enumeration childEnumeration = parentNode.children();
         while (childEnumeration.hasMoreElements()) {
             DefaultMutableTreeNode child = (DefaultMutableTreeNode) childEnumeration.nextElement();
             if (child.toString().equals(displayHeader)) {
@@ -62,22 +62,24 @@ public class MetadataTreePanel extends JPanel implements IMetadataListener {
         }
         DefaultMutableTreeNode child = new DefaultMutableTreeNode(displayHeader);
         addMetadataToNode(model, child, metadataFrame.getMisbMessage());
-        model.insertNodeInto(child, rootNode, rootNode.getChildCount());
+        model.insertNodeInto(child, parentNode, parentNode.getChildCount());
         tree.scrollPathToVisible(new TreePath(child.getPath()));
     }
 
-    private void addMetadataToNode(DefaultTreeModel model, DefaultMutableTreeNode node, INestedKlvValue valueWithNestedValues) {
+    private void addMetadataToNode(DefaultTreeModel model, DefaultMutableTreeNode node, INestedKlvValue valueWithNestedValues)
+    {
         valueWithNestedValues.getTags().forEach((tag) -> {
-            doItem(valueWithNestedValues, tag, node, model);
+            doItem(tag, valueWithNestedValues, node, model);
         });
     }
 
-    private void doItem(INestedKlvValue valueWithNestedValues, IKlvTag tag, DefaultMutableTreeNode node, DefaultTreeModel model)
+    private void doItem(IKlvKey tag, INestedKlvValue valueWithNestedValues, DefaultMutableTreeNode node, DefaultTreeModel model)
     {
         IKlvValue value = valueWithNestedValues.getField(tag);
         Enumeration childEnumeration = node.children();
         boolean didFind = false;
-        while (childEnumeration.hasMoreElements()) {
+        while (childEnumeration.hasMoreElements())
+        {
             DefaultMutableTreeNode child = (DefaultMutableTreeNode) childEnumeration.nextElement();
             MetadataEntry entry = (MetadataEntry) child.getUserObject();
             if (entry.getTag().equals(tag.toString()))
@@ -93,7 +95,7 @@ public class MetadataTreePanel extends JPanel implements IMetadataListener {
         }
     }
 
-    private void addValue(IKlvTag tag, IKlvValue value, DefaultTreeModel model, DefaultMutableTreeNode node)
+    private void addValue(IKlvKey tag, IKlvValue value, DefaultTreeModel model, DefaultMutableTreeNode node)
     {
         MetadataEntry metadataEntry = new MetadataEntry(tag.toString(), value.getDisplayName(), value.getDisplayableValue());
         DefaultMutableTreeNode child = new DefaultMutableTreeNode(metadataEntry);
@@ -106,7 +108,6 @@ public class MetadataTreePanel extends JPanel implements IMetadataListener {
             });
         }
         model.insertNodeInto(child, node, node.getChildCount());
-        
     }
 
     private void updateValue(MetadataEntry entry, IKlvValue value, DefaultMutableTreeNode node, DefaultTreeModel model)
@@ -122,14 +123,6 @@ public class MetadataTreePanel extends JPanel implements IMetadataListener {
             INestedKlvValue nested = (INestedKlvValue)value;
             addMetadataToNode(model, node, nested);
         }
-    }
-
-    private void addNestedValues(DefaultTreeModel model, DefaultMutableTreeNode node)
-    {
-        System.out.println("Need to add child's nested values");
-        MetadataEntry metadataEntry = new MetadataEntry("nested 1", "DisplayName 1", "DisplayValue 1");
-        DefaultMutableTreeNode nestedChild = new DefaultMutableTreeNode(metadataEntry);
-        model.insertNodeInto(nestedChild, node, node.getChildCount());
     }
     
     void clear()

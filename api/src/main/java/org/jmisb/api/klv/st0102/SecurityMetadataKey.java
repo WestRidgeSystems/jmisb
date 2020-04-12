@@ -4,12 +4,12 @@ import org.jmisb.api.klv.UniversalLabel;
 
 import java.util.HashMap;
 import java.util.Map;
-import org.jmisb.api.klv.IKlvTag;
+import org.jmisb.api.klv.IKlvKey;
 
 /**
  * ST 0102 key
  */
-public enum SecurityMetadataKey implements IKlvTag
+public enum SecurityMetadataKey implements IKlvKey
 {
     Undefined(0, new UniversalLabel(new byte[]{0x06, 0x0e, 0x2b, 0x34, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00})),
     SecurityClassification(1, SecurityMetadataConstants.securityClassificationUl),

@@ -2,12 +2,12 @@ package org.jmisb.api.klv.st0903.vfeature;
 
 import java.util.HashMap;
 import java.util.Map;
-import org.jmisb.api.klv.IKlvTag;
+import org.jmisb.api.klv.IKlvKey;
 
 /**
  * Metadata tag numbers for ST0903 VFeature local set.
  */
-public enum VFeatureMetadataKey implements IKlvTag
+public enum VFeatureMetadataKey implements IKlvKey
 {
     /**
      * Unknown key. This should not be created.

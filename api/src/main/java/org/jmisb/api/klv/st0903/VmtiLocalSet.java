@@ -10,7 +10,6 @@ import java.util.TreeMap;
 import org.jmisb.api.common.KlvParseException;
 import org.jmisb.api.klv.Ber;
 import org.jmisb.api.klv.BerEncoder;
-import org.jmisb.api.klv.IKlvTag;
 import org.jmisb.api.klv.IMisbMessage;
 import static org.jmisb.api.klv.KlvConstants.VmtiLocalSetUl;
 import org.jmisb.api.klv.LdsField;
@@ -21,6 +20,7 @@ import org.jmisb.api.klv.st0903.shared.VmtiTextString;
 import org.jmisb.core.klv.ArrayUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import org.jmisb.api.klv.IKlvKey;
 
 public class VmtiLocalSet implements IMisbMessage
 {
@@ -211,7 +211,7 @@ public class VmtiLocalSet implements IMisbMessage
     }
 
     @Override
-    public IVmtiMetadataValue getField(IKlvTag tag) {
+    public IVmtiMetadataValue getField(IKlvKey tag) {
         return map.get((VmtiMetadataKey)tag);
     }
 

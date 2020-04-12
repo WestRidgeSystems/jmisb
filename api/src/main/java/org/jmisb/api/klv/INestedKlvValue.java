@@ -13,12 +13,12 @@ public interface INestedKlvValue
      * @param tag Tag of the value to retrieve
      * @return The value, or null if no value was set
      */
-    IKlvValue getField(IKlvTag tag);
+    IKlvValue getField(IKlvKey tag);
 
     /**
      * Get the set of tags with populated values
      *
      * @return The set of tags for which values have been set
      */
-    public Set<? extends IKlvTag> getTags();
+    public Set<? extends IKlvKey> getTags();
 }

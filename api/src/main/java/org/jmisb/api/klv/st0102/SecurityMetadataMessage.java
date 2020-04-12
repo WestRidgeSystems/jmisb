@@ -3,8 +3,8 @@ package org.jmisb.api.klv.st0102;
 import java.util.Set;
 import java.util.SortedMap;
 import java.util.TreeMap;
-import org.jmisb.api.klv.IKlvTag;
 import org.jmisb.api.klv.IMisbMessage;
+import org.jmisb.api.klv.IKlvKey;
 
 /**
  * Abstract base class for Security Metadata Local and Universal sets
@@ -25,7 +25,7 @@ public abstract class SecurityMetadataMessage implements IMisbMessage
     }
 
     @Override
-    public ISecurityMetadataValue getField(IKlvTag key)
+    public ISecurityMetadataValue getField(IKlvKey key)
     {
         return map.get((SecurityMetadataKey)key);
     }

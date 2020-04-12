@@ -3,15 +3,8 @@ package org.jmisb.api.klv;
 /**
  * Generic KLV metadata value.
  */
-public interface IKlvValue {
-
-    /**
-     * Get the encoded bytes.
-     * <p>
-     * @return The encoded byte array
-     */
-    byte[] getBytes();
-
+public interface IKlvValue
+{
     /**
      * Get the human-readable name for the value.
      * <p>

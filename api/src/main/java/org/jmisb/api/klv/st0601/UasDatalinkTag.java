@@ -2,12 +2,12 @@ package org.jmisb.api.klv.st0601;
 
 import java.util.HashMap;
 import java.util.Map;
-import org.jmisb.api.klv.IKlvTag;
+import org.jmisb.api.klv.IKlvKey;
 
 /**
  * ST 0601 tag
  */
-public enum UasDatalinkTag implements IKlvTag
+public enum UasDatalinkTag implements IKlvKey
 {
     Undefined(0),
     /** Tag 1; Checksum used to detect errors within a UAS Datalink LS packet */
@@ -102,9 +102,9 @@ public enum UasDatalinkTag implements IKlvTag
     TargetErrorCe90(45),
     /** Tag 46; Lateral error 90 (LE90) is the estimated error distance in the vertical (or lateral) direction; Value is a {@link TargetErrorEstimateLe90} */
     TargetErrorLe90(46),
-    /** Tag 47; Generic metadata flags; Value is a {@link OpaqueValue} */
+    /** Tag 47; Generic metadata flags; Value is a {@link GenericFlagData01} */
     GenericFlagData01(47),
-    /** Tag 48; MISB ST 0102 local let Security Metadata items; Value is a {@link NestedSecurityMetadata} */
+    /** Tag 48; MISB ST 0102 local set Security Metadata items; Value is a {@link NestedSecurityMetadata} */
     SecurityLocalMetadataSet(48),
     /** Tag 49; Differential pressure at aircraft location; Value is a {@link DifferentialPressure} */
     DifferentialPressure(49),

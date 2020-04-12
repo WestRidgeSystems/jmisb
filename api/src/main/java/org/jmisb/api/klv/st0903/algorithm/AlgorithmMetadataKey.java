@@ -2,12 +2,12 @@ package org.jmisb.api.klv.st0903.algorithm;
 
 import java.util.HashMap;
 import java.util.Map;
-import org.jmisb.api.klv.IKlvTag;
+import org.jmisb.api.klv.IKlvKey;
 
 /**
  * Metadata tag numbers for ST0903 Algorithm local set.
  */
-public enum AlgorithmMetadataKey implements IKlvTag
+public enum AlgorithmMetadataKey implements IKlvKey
 {
     /**
      * Unknown key. This should not be created.

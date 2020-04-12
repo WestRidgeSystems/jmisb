@@ -91,7 +91,7 @@ public class UasDatalinkMessage implements IMisbMessage
 
 
     @Override
-    public IUasDatalinkValue getField(IKlvTag tag)
+    public IUasDatalinkValue getField(IKlvKey tag)
     {
         return map.get((UasDatalinkTag)tag);
     }

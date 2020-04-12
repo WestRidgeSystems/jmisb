@@ -7,4 +7,10 @@ import org.jmisb.api.klv.IKlvValue;
  */
 public interface ISecurityMetadataValue extends IKlvValue
 {
+    /**
+     * Get the encoded bytes.
+     * <p>
+     * @return The encoded byte array
+     */
+    byte[] getBytes();
 }

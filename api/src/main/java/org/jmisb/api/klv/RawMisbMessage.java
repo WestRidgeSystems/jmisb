@@ -46,13 +46,13 @@ public class RawMisbMessage implements IMisbMessage
     }
 
     @Override
-    public IKlvValue getField(IKlvTag tag)
+    public IKlvValue getField(IKlvKey tag)
     {
         return null;
     }
 
     @Override
-    public Set<IKlvTag> getTags()
+    public Set<IKlvKey> getTags()
     {
         return new HashSet<>();
     }
