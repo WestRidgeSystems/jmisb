@@ -2,11 +2,12 @@ package org.jmisb.api.klv.st0903.ontology;
 
 import java.util.HashMap;
 import java.util.Map;
+import org.jmisb.api.klv.IKlvTag;
 
 /**
  * Metadata tag numbers for ST0903 Ontology local set.
  */
-public enum OntologyMetadataKey
+public enum OntologyMetadataKey implements IKlvTag
 {
     /**
      * Unknown key.
@@ -53,7 +54,7 @@ public enum OntologyMetadataKey
      *
      * @return the tag associated with this enumerated value.
      */
-    public int getTag()
+    public int getTagCode()
     {
         return tag;
     }

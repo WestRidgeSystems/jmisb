@@ -2,11 +2,12 @@ package org.jmisb.api.klv.st0903.vmask;
 
 import java.util.HashMap;
 import java.util.Map;
+import org.jmisb.api.klv.IKlvTag;
 
 /**
  * Metadata tag numbers for ST0903 VMask local set.
  */
-public enum VMaskMetadataKey
+public enum VMaskMetadataKey implements IKlvTag
 {
     /**
      * Unknown key. This should not be created.
@@ -46,7 +47,8 @@ public enum VMaskMetadataKey
      *
      * @return the tag associated with this enumerated value.
      */
-    public int getTag()
+    @Override
+    public int getTagCode()
     {
         return tag;
     }

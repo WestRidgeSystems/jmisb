@@ -3,7 +3,9 @@ package org.jmisb.api.klv.st0102;
 import java.util.Arrays;
 
 /**
- * Security Metadata item designator ID (ST 0102 tag 21)
+ * Security Metadata item designator ID (ST 0102 tag 21).
+ *
+ * Note this item is deprecated (obsolete) as of ST0102.11.
  */
 public class ItemDesignatorId implements ISecurityMetadataValue
 {
@@ -41,5 +43,11 @@ public class ItemDesignatorId implements ISecurityMetadataValue
     public String getDisplayableValue()
     {
         return Arrays.toString(this.itemDesignatorId);
+    }
+
+    @Override
+    public String getDisplayName()
+    {
+        return "Item Designator Id";
     }
 }

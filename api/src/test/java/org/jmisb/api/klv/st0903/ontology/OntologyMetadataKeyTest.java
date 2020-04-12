@@ -13,7 +13,7 @@ public class OntologyMetadataKeyTest {
     {
         OntologyMetadataKey key = OntologyMetadataKey.getKey(0);
         assertEquals(key, OntologyMetadataKey.Undefined);
-        assertEquals(key.getTag(), 0);
+        assertEquals(key.getTagCode(), 0);
     }
 
     @Test
@@ -21,7 +21,7 @@ public class OntologyMetadataKeyTest {
     {
         OntologyMetadataKey key = OntologyMetadataKey.getKey(999);
         assertEquals(key, OntologyMetadataKey.Undefined);
-        assertEquals(key.getTag(), 0);
+        assertEquals(key.getTagCode(), 0);
     }
 
     @Test
@@ -29,7 +29,7 @@ public class OntologyMetadataKeyTest {
     {
         OntologyMetadataKey key = OntologyMetadataKey.getKey(1);
         assertEquals(key, OntologyMetadataKey.id);
-        assertEquals(key.getTag(), 1);
+        assertEquals(key.getTagCode(), 1);
     }
 
     @Test
@@ -37,7 +37,7 @@ public class OntologyMetadataKeyTest {
     {
         OntologyMetadataKey key = OntologyMetadataKey.getKey(2);
         assertEquals(key, OntologyMetadataKey.parentId);
-        assertEquals(key.getTag(), 2);
+        assertEquals(key.getTagCode(), 2);
     }
 
     @Test
@@ -45,7 +45,7 @@ public class OntologyMetadataKeyTest {
     {
         OntologyMetadataKey key = OntologyMetadataKey.getKey(3);
         assertEquals(key, OntologyMetadataKey.ontology);
-        assertEquals(key.getTag(), 3);
+        assertEquals(key.getTagCode(), 3);
     }
 
     @Test
@@ -53,6 +53,6 @@ public class OntologyMetadataKeyTest {
     {
         OntologyMetadataKey key = OntologyMetadataKey.getKey(4);
         assertEquals(key, OntologyMetadataKey.ontologyClass);
-        assertEquals(key.getTag(), 4);
+        assertEquals(key.getTagCode(), 4);
     }
 }

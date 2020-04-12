@@ -2,13 +2,14 @@ package org.jmisb.api.klv.st0903;
 
 import java.util.HashMap;
 import java.util.Map;
+import org.jmisb.api.klv.IKlvTag;
 
 /**
  * ST 0903 tags - description and numbers.
  * 
  * Note that ST0903.5 removes UL keys.
  */
-public enum VmtiMetadataKey
+public enum VmtiMetadataKey implements IKlvTag
 {
     /**
      * Unknown key. This should not be created.
@@ -96,7 +97,8 @@ public enum VmtiMetadataKey
         this.tag = tag;
     }
 
-    public int getTag()
+    @Override
+    public int getTagCode()
     {
         return tag;
     }

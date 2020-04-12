@@ -5,6 +5,8 @@ package org.jmisb.api.klv.st0601;
  */
 public class OpaqueValue implements IUasDatalinkValue
 {
+
+    public static final String DISPLAYNAME = "Opaque Value";
     byte[] bytes;
 
     /**
@@ -25,13 +27,13 @@ public class OpaqueValue implements IUasDatalinkValue
     @Override
     public String getDisplayableValue()
     {
-        return "N/A";
+        return "[Not Supported]";
     }
 
     @Override
     public final String getDisplayName()
     {
-        return "Opaque Value";
+        return DISPLAYNAME;
     }
 
 }

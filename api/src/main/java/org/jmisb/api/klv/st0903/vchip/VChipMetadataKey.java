@@ -2,11 +2,12 @@ package org.jmisb.api.klv.st0903.vchip;
 
 import java.util.HashMap;
 import java.util.Map;
+import org.jmisb.api.klv.IKlvTag;
 
 /**
  * Metadata tag numbers for ST0903 VChip local set.
  */
-public enum VChipMetadataKey
+public enum VChipMetadataKey implements IKlvTag
 {
     /**
      * Unknown key. This should not be created.
@@ -49,7 +50,8 @@ public enum VChipMetadataKey
      *
      * @return the tag associated with this enumerated value.
      */
-    public int getTag()
+    @Override
+    public int getTagCode()
     {
         return tag;
     }

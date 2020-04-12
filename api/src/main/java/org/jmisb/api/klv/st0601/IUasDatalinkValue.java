@@ -1,25 +1,10 @@
 package org.jmisb.api.klv.st0601;
 
+import org.jmisb.api.klv.IKlvValue;
+
 /**
  * ST 0601 value
  */
-public interface IUasDatalinkValue
+public interface IUasDatalinkValue extends IKlvValue
 {
-    /**
-     * Get the encoded bytes
-     * @return The encoded byte array
-     */
-    byte[] getBytes();
-
-    /**
-     * Return a string of the displayable value
-     * @return String representing the value
-     */
-    String getDisplayableValue();
-
-    /**
-     * Get the human-readable name for the value
-     * @return The name of the type
-     */
-    String getDisplayName();
 }

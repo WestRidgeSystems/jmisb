@@ -2,11 +2,12 @@ package org.jmisb.api.klv.st0903.vtracker;
 
 import java.util.HashMap;
 import java.util.Map;
+import org.jmisb.api.klv.IKlvTag;
 
 /**
  * Metadata tag numbers for VTracker local set.
  */
-public enum VTrackerMetadataKey
+public enum VTrackerMetadataKey implements IKlvTag
 {
     /**
      * Unknown key. This should not be created.
@@ -90,7 +91,7 @@ public enum VTrackerMetadataKey
      *
      * @return the tag associated with this enumerated value.
      */
-    public int getTag()
+    public int getTagCode()
     {
         return tag;
     }

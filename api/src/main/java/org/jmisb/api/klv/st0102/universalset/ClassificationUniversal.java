@@ -89,4 +89,10 @@ public class ClassificationUniversal implements ISecurityMetadataValue
     {
         return new String(getBytes(), StandardCharsets.US_ASCII);
     }
+
+    @Override
+    public String getDisplayName()
+    {
+        return "Classification";
+    }
 }

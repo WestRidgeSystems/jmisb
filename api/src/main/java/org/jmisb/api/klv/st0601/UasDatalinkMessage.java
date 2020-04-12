@@ -89,23 +89,15 @@ public class UasDatalinkMessage implements IMisbMessage
         map.put(tag, value);
     }
 
-    /**
-     * Get the value of a given tag
-     *
-     * @param tag Tag of the value to retrieve
-     * @return The value, or null if no value was set
-     */
-    public IUasDatalinkValue getField(UasDatalinkTag tag)
+
+    @Override
+    public IUasDatalinkValue getField(IKlvTag tag)
     {
-        return map.get(tag);
+        return map.get((UasDatalinkTag)tag);
     }
 
-    /**
-     * Get the set of tags with populated values
-     *
-     * @return The set of tags for which values have been set
-     */
-    public Collection<UasDatalinkTag> getTags()
+    @Override
+    public Set<UasDatalinkTag> getTags()
     {
         return map.keySet();
     }
@@ -141,7 +133,7 @@ public class UasDatalinkMessage implements IMisbMessage
             if (bytes != null && bytes.length > 0)
             {
                 // Add key, length, value to chunks
-                chunks.add(BerEncoder.encode(tag.getCode(), Ber.OID));
+                chunks.add(BerEncoder.encode(tag.getTagCode(), Ber.OID));
                 chunks.add(BerEncoder.encode(bytes.length));
                 chunks.add(bytes.clone());
             }
@@ -149,7 +141,7 @@ public class UasDatalinkMessage implements IMisbMessage
 
         // Add Key and Length of checksum with placeholder for value - Checksum must be final element
         byte[] checksum = new byte[2];
-        chunks.add(new byte[]{(byte)UasDatalinkTag.Checksum.getCode()});
+        chunks.add(new byte[]{(byte)UasDatalinkTag.Checksum.getTagCode()});
         chunks.add(BerEncoder.encode(checksum.length, Ber.SHORT_FORM));
         chunks.add(checksum);
 

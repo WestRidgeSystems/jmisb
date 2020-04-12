@@ -10,6 +10,7 @@ import java.util.TreeMap;
 import org.jmisb.api.common.KlvParseException;
 import org.jmisb.api.klv.Ber;
 import org.jmisb.api.klv.BerEncoder;
+import org.jmisb.api.klv.IKlvTag;
 import org.jmisb.api.klv.IMisbMessage;
 import static org.jmisb.api.klv.KlvConstants.VmtiLocalSetUl;
 import org.jmisb.api.klv.LdsField;
@@ -133,7 +134,7 @@ public class VmtiLocalSet implements IMisbMessage
             {
                 continue;
             }
-            chunks.add(new byte[]{(byte) tag.getTag()});
+            chunks.add(new byte[]{(byte) tag.getTagCode()});
             len += 1;
             IVmtiMetadataValue value = getField(tag);
             byte[] bytes = value.getBytes();
@@ -157,7 +158,7 @@ public class VmtiLocalSet implements IMisbMessage
         {
             // Add Key and Length of checksum with placeholder for value - Checksum must be final element
             byte[] checksum = new byte[2];
-            chunks.add(new byte[]{(byte)VmtiMetadataKey.Checksum.getTag()});
+            chunks.add(new byte[]{(byte)VmtiMetadataKey.Checksum.getTagCode()});
             chunks.add(BerEncoder.encode(checksum.length, Ber.SHORT_FORM));
             chunks.add(checksum);
             valueLength += 4;
@@ -207,6 +208,11 @@ public class VmtiLocalSet implements IMisbMessage
     public String displayHeader()
     {
         return "ST0903 VMTI";
+    }
+
+    @Override
+    public IVmtiMetadataValue getField(IKlvTag tag) {
+        return map.get((VmtiMetadataKey)tag);
     }
 
 }

@@ -1,5 +1,8 @@
 package org.jmisb.api.klv;
 
+import java.util.HashSet;
+import java.util.Set;
+
 /**
  * Represents an unparsed {@link IMisbMessage}
  */
@@ -37,7 +40,20 @@ public class RawMisbMessage implements IMisbMessage
     }
 
     @Override
-    public String displayHeader() {
+    public String displayHeader()
+    {
         return "Unknown";
+    }
+
+    @Override
+    public IKlvValue getField(IKlvTag tag)
+    {
+        return null;
+    }
+
+    @Override
+    public Set<IKlvTag> getTags()
+    {
+        return new HashSet<>();
     }
 }

@@ -26,11 +26,11 @@ public class SecurityMetadataUniversalSetTest
         SortedMap<SecurityMetadataKey, ISecurityMetadataValue> values = new TreeMap<>();
         values.put(SecurityMetadataKey.SecurityClassification, new ClassificationUniversal(Classification.UNCLASSIFIED));
 
-        values.put(SecurityMetadataKey.CcCodingMethod, new SecurityMetadataString("ISO-3166 Two Letter"));
-        values.put(SecurityMetadataKey.ClassifyingCountry, new SecurityMetadataString("//US"));
+        values.put(SecurityMetadataKey.CcCodingMethod, new SecurityMetadataString(SecurityMetadataString.COUNTRY_CODING_METHOD, "ISO-3166 Two Letter"));
+        values.put(SecurityMetadataKey.ClassifyingCountry, new SecurityMetadataString(SecurityMetadataString.CLASSIFYING_COUNTRY, "//US"));
 
-        values.put(SecurityMetadataKey.OcCodingMethod, new SecurityMetadataString("ISO-3166 Two Letter"));
-        values.put(SecurityMetadataKey.ObjectCountryCodes, new SecurityMetadataString("US;CA"));
+        values.put(SecurityMetadataKey.OcCodingMethod, new SecurityMetadataString(SecurityMetadataString.OBJECT_COUNTRY_CODING_METHOD, "ISO-3166 Two Letter"));
+        values.put(SecurityMetadataKey.ObjectCountryCodes, new ObjectCountryCodeString("US;CA"));
 
         values.put(SecurityMetadataKey.Version, new ST0102Version(12));
 

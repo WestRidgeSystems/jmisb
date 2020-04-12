@@ -13,7 +13,7 @@ public class VTargetMetadataKetTest {
     {
         VTargetMetadataKey key = VTargetMetadataKey.getKey(0);
         assertEquals(key, VTargetMetadataKey.Undefined);
-        assertEquals(key.getTag(), 0);
+        assertEquals(key.getTagCode(), 0);
     }
 
     @Test
@@ -21,7 +21,7 @@ public class VTargetMetadataKetTest {
     {
         VTargetMetadataKey key = VTargetMetadataKey.getKey(127);
         assertEquals(key, VTargetMetadataKey.Undefined);
-        assertEquals(key.getTag(), 0);
+        assertEquals(key.getTagCode(), 0);
     }
 
     @Test
@@ -29,7 +29,7 @@ public class VTargetMetadataKetTest {
     {
         VTargetMetadataKey key = VTargetMetadataKey.getKey(1);
         assertEquals(key, VTargetMetadataKey.TargetCentroid);
-        assertEquals(key.getTag(), 1);
+        assertEquals(key.getTagCode(), 1);
     }
 
     @Test
@@ -37,7 +37,7 @@ public class VTargetMetadataKetTest {
     {
         VTargetMetadataKey key = VTargetMetadataKey.getKey(2);
         assertEquals(key, VTargetMetadataKey.BoundaryTopLeft);
-        assertEquals(key.getTag(), 2);
+        assertEquals(key.getTagCode(), 2);
     }
 
     @Test
@@ -45,6 +45,6 @@ public class VTargetMetadataKetTest {
     {
         VTargetMetadataKey key = VTargetMetadataKey.getKey(107);
         assertEquals(key, VTargetMetadataKey.VObjectSeries);
-        assertEquals(key.getTag(), 107);
+        assertEquals(key.getTagCode(), 107);
     }
 }

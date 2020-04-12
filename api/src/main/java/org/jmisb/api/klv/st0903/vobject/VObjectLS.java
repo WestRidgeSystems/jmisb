@@ -112,7 +112,7 @@ public class VObjectLS
         List<byte[]> chunks = new ArrayList<>();
         for (VObjectMetadataKey tag: getTags())
         {
-            chunks.add(new byte[]{(byte) tag.getTag()});
+            chunks.add(new byte[]{(byte) tag.getTagCode()});
             len += 1;
             IVmtiMetadataValue value = getField(tag);
             byte[] bytes = value.getBytes();

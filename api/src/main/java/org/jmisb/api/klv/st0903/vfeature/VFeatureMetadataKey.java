@@ -2,11 +2,12 @@ package org.jmisb.api.klv.st0903.vfeature;
 
 import java.util.HashMap;
 import java.util.Map;
+import org.jmisb.api.klv.IKlvTag;
 
 /**
  * Metadata tag numbers for ST0903 VFeature local set.
  */
-public enum VFeatureMetadataKey
+public enum VFeatureMetadataKey implements IKlvTag
 {
     /**
      * Unknown key. This should not be created.
@@ -46,7 +47,8 @@ public enum VFeatureMetadataKey
      *
      * @return the tag associated with this enumerated value.
      */
-    public int getTag()
+    @Override
+    public int getTagCode()
     {
         return tag;
     }

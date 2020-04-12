@@ -14,7 +14,7 @@ public class VmtiMetadataKeyTest {
     {
         VmtiMetadataKey key = VmtiMetadataKey.getKey(0);
         assertEquals(key, VmtiMetadataKey.Undefined);
-        assertEquals(key.getTag(), 0);
+        assertEquals(key.getTagCode(), 0);
     }
 
     @Test
@@ -22,7 +22,7 @@ public class VmtiMetadataKeyTest {
     {
         VmtiMetadataKey key = VmtiMetadataKey.getKey(999);
         assertEquals(key, VmtiMetadataKey.Undefined);
-        assertEquals(key.getTag(), 0);
+        assertEquals(key.getTagCode(), 0);
     }
 
     @Test
@@ -30,7 +30,7 @@ public class VmtiMetadataKeyTest {
     {
         VmtiMetadataKey key = VmtiMetadataKey.getKey(1);
         assertEquals(key, VmtiMetadataKey.Checksum);
-        assertEquals(key.getTag(), 1);
+        assertEquals(key.getTagCode(), 1);
     }
 
     @Test
@@ -38,7 +38,7 @@ public class VmtiMetadataKeyTest {
     {
         VmtiMetadataKey key = VmtiMetadataKey.getKey(2);
         assertEquals(key, VmtiMetadataKey.PrecisionTimeStamp);
-        assertEquals(key.getTag(), 2);
+        assertEquals(key.getTagCode(), 2);
     }
 
     @Test
@@ -46,7 +46,7 @@ public class VmtiMetadataKeyTest {
     {
         VmtiMetadataKey key = VmtiMetadataKey.getKey(13);
         assertEquals(key, VmtiMetadataKey.MiisId);
-        assertEquals(key.getTag(), 13);
+        assertEquals(key.getTagCode(), 13);
     }
 
     @Test
@@ -54,7 +54,7 @@ public class VmtiMetadataKeyTest {
     {
         VmtiMetadataKey key = VmtiMetadataKey.getKey(101);
         assertEquals(key, VmtiMetadataKey.VTargetSeries);
-        assertEquals(key.getTag(), 101);
+        assertEquals(key.getTagCode(), 101);
     }
 
     @Test
@@ -62,6 +62,6 @@ public class VmtiMetadataKeyTest {
     {
         VmtiMetadataKey key = VmtiMetadataKey.getKey(103);
         assertEquals(key, VmtiMetadataKey.OntologySeries);
-        assertEquals(key.getTag(), 103);
+        assertEquals(key.getTagCode(), 103);
     }
 }

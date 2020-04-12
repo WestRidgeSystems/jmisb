@@ -25,7 +25,7 @@ public class MisbViewer extends JFrame implements ActionListener
     private static Logger logger = LoggerFactory.getLogger(MisbViewer.class);
     private IVideoInput videoInput;
     private VideoPanel videoPanel;
-    private MetadataPanel metadataPanel;
+    private MetadataTreePanel metadataPanel;
     private JScrollPane metadataPanelScroll;
     private PlaybackControlPanel controlPanel;
     private JMenu fileMenu;
@@ -107,7 +107,7 @@ public class MisbViewer extends JFrame implements ActionListener
         );
 
         videoPanel = new VideoPanel();
-        metadataPanel = new MetadataPanel();
+        metadataPanel = new MetadataTreePanel();
         metadataPanelScroll = new JScrollPane(metadataPanel);
 
         // Create split pane

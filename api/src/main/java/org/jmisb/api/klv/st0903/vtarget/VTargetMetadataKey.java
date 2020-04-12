@@ -2,8 +2,9 @@ package org.jmisb.api.klv.st0903.vtarget;
 
 import java.util.HashMap;
 import java.util.Map;
+import org.jmisb.api.klv.IKlvTag;
 
-public enum VTargetMetadataKey
+public enum VTargetMetadataKey implements IKlvTag
 {
     /**
      * Unknown key. This should not be created.
@@ -154,7 +155,8 @@ public enum VTargetMetadataKey
         this.tag = tag;
     }
 
-    public int getTag()
+    @Override
+    public int getTagCode()
     {
         return tag;
     }

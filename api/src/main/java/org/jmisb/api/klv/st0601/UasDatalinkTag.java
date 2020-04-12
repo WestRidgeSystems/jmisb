@@ -2,11 +2,12 @@ package org.jmisb.api.klv.st0601;
 
 import java.util.HashMap;
 import java.util.Map;
+import org.jmisb.api.klv.IKlvTag;
 
 /**
  * ST 0601 tag
  */
-public enum UasDatalinkTag
+public enum UasDatalinkTag implements IKlvTag
 {
     Undefined(0),
     /** Tag 1; Checksum used to detect errors within a UAS Datalink LS packet */
@@ -309,7 +310,8 @@ public enum UasDatalinkTag
         code = c;
     }
 
-    public int getCode()
+    @Override
+    public int getTagCode()
     {
         return code;
     }

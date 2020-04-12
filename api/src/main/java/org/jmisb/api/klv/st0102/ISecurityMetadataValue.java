@@ -1,19 +1,10 @@
 package org.jmisb.api.klv.st0102;
 
+import org.jmisb.api.klv.IKlvValue;
+
 /**
  * ST 0102 value
  */
-public interface ISecurityMetadataValue
+public interface ISecurityMetadataValue extends IKlvValue
 {
-    /**
-     * Get the encoded bytes
-     * @return The encoded byte array
-     */
-    byte[] getBytes();
-
-    /**
-     * Return a string of the displayable value
-     * @return String representing the value
-     */
-    String getDisplayableValue();
 }

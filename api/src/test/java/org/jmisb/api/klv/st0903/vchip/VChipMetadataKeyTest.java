@@ -13,7 +13,7 @@ public class VChipMetadataKeyTest {
     {
         VChipMetadataKey key = VChipMetadataKey.getKey(0);
         assertEquals(key, VChipMetadataKey.Undefined);
-        assertEquals(key.getTag(), 0);
+        assertEquals(key.getTagCode(), 0);
     }
 
     @Test
@@ -21,7 +21,7 @@ public class VChipMetadataKeyTest {
     {
         VChipMetadataKey key = VChipMetadataKey.getKey(999);
         assertEquals(key, VChipMetadataKey.Undefined);
-        assertEquals(key.getTag(), 0);
+        assertEquals(key.getTagCode(), 0);
     }
 
     @Test
@@ -29,7 +29,7 @@ public class VChipMetadataKeyTest {
     {
         VChipMetadataKey key = VChipMetadataKey.getKey(1);
         assertEquals(key, VChipMetadataKey.imageType);
-        assertEquals(key.getTag(), 1);
+        assertEquals(key.getTagCode(), 1);
     }
 
     @Test
@@ -37,7 +37,7 @@ public class VChipMetadataKeyTest {
     {
         VChipMetadataKey key = VChipMetadataKey.getKey(2);
         assertEquals(key, VChipMetadataKey.imageUri);
-        assertEquals(key.getTag(), 2);
+        assertEquals(key.getTagCode(), 2);
     }
 
     @Test
@@ -45,6 +45,6 @@ public class VChipMetadataKeyTest {
     {
         VChipMetadataKey key = VChipMetadataKey.getKey(3);
         assertEquals(key, VChipMetadataKey.embeddedImage);
-        assertEquals(key.getTag(), 3);
+        assertEquals(key.getTagCode(), 3);
     }
 }

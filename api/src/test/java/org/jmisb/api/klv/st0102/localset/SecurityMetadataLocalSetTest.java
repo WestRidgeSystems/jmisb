@@ -31,10 +31,10 @@ public class SecurityMetadataLocalSetTest extends LoggerChecks
         values.put(SecurityMetadataKey.SecurityClassification, new ClassificationLocal(Classification.UNCLASSIFIED));
 
         values.put(SecurityMetadataKey.CcCodingMethod, new CcMethod(CountryCodingMethod.GENC_TWO_LETTER));
-        values.put(SecurityMetadataKey.ClassifyingCountry, new SecurityMetadataString("//US"));
+        values.put(SecurityMetadataKey.ClassifyingCountry, new SecurityMetadataString(SecurityMetadataString.CLASSIFYING_COUNTRY, "//US"));
 
         values.put(SecurityMetadataKey.OcCodingMethod, new CcMethod(CountryCodingMethod.GENC_TWO_LETTER));
-        values.put(SecurityMetadataKey.ObjectCountryCodes, new SecurityMetadataString("US;CA"));
+        values.put(SecurityMetadataKey.ObjectCountryCodes, new ObjectCountryCodeString("US;CA"));
 
         values.put(SecurityMetadataKey.Version, new ST0102Version(12));
 
@@ -190,8 +190,8 @@ public class SecurityMetadataLocalSetTest extends LoggerChecks
         SecurityMetadataLocalSet securityMetadataLocalSet = new SecurityMetadataLocalSet(bytes, false);
         verifySingleLoggerMessage("Unknown Security Metadata tag: 88");
         Assert.assertEquals(securityMetadataLocalSet.displayHeader(), "ST 0102 (local)");
-        Assert.assertEquals(0, securityMetadataLocalSet.getKeys().size());
-    }
+        Assert.assertEquals(0, securityMetadataLocalSet.getTags().size());
+}
 
     @Test
     public void testMixedKnownAndUnknownSecurityTags() throws KlvParseException
@@ -201,6 +201,6 @@ public class SecurityMetadataLocalSetTest extends LoggerChecks
         SecurityMetadataLocalSet securityMetadataLocalSet = new SecurityMetadataLocalSet(bytes, false);
         verifySingleLoggerMessage("Unknown Security Metadata tag: 88");
         Assert.assertEquals(securityMetadataLocalSet.displayHeader(), "ST 0102 (local)");
-        Assert.assertEquals(7, securityMetadataLocalSet.getKeys().size());
+        Assert.assertEquals(7, securityMetadataLocalSet.getTags().size());
     }
 }

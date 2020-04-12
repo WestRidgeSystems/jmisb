@@ -1,9 +1,11 @@
 package org.jmisb.api.klv;
 
+import java.util.Set;
+
 /**
  * A packet containing MISB-compliant metadata
  */
-public interface IMisbMessage
+public interface IMisbMessage extends INestedKlvValue
 {
     /**
      * Get the Universal Label (UL) identifying the message type

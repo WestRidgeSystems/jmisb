@@ -70,28 +70,28 @@ public class UasDatalinkMessageTest extends LoggerChecks
         Assert.assertEquals(bytes.length, 16 + 1 + 20);
 
         // Check latitude
-        Assert.assertEquals(bytes[17], UasDatalinkTag.SensorLatitude.getCode());
+        Assert.assertEquals(bytes[17], UasDatalinkTag.SensorLatitude.getTagCode());
         Assert.assertEquals(bytes[18], 4);
         byte[] encodedLat = Arrays.copyOfRange(bytes, 19, 23);
         SensorLatitude sensorLat = new SensorLatitude(encodedLat);
         Assert.assertEquals(sensorLat.getDegrees(), lat, SensorLatitude.DELTA);
 
         // Check longitude
-        Assert.assertEquals(bytes[23], UasDatalinkTag.SensorLongitude.getCode());
+        Assert.assertEquals(bytes[23], UasDatalinkTag.SensorLongitude.getTagCode());
         Assert.assertEquals(bytes[24], 4);
         byte[] encodedLon = Arrays.copyOfRange(bytes, 25, 29);
         SensorLongitude sensorLon = new SensorLongitude(encodedLon);
         Assert.assertEquals(sensorLon.getDegrees(), lon, SensorLongitude.DELTA);
 
         // Check altitude
-        Assert.assertEquals(bytes[29], UasDatalinkTag.SensorTrueAltitude.getCode());
+        Assert.assertEquals(bytes[29], UasDatalinkTag.SensorTrueAltitude.getTagCode());
         Assert.assertEquals(bytes[30], 2);
         byte[] encodedAlt = Arrays.copyOfRange(bytes, 31, 33);
         SensorTrueAltitude sensorAlt = new SensorTrueAltitude(encodedAlt);
         Assert.assertEquals(sensorAlt.getMeters(), alt, SensorTrueAltitude.DELTA);
 
         // Check checksum
-        Assert.assertEquals(bytes[33], UasDatalinkTag.Checksum.getCode());
+        Assert.assertEquals(bytes[33], UasDatalinkTag.Checksum.getTagCode());
         Assert.assertEquals(bytes[34], 2);
         byte[] expected = Checksum.compute(bytes, false);
         byte[] actual = Arrays.copyOfRange(bytes, 35, 37);

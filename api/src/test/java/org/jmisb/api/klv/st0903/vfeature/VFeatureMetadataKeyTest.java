@@ -13,7 +13,7 @@ public class VFeatureMetadataKeyTest
     {
         VFeatureMetadataKey key = VFeatureMetadataKey.getKey(0);
         assertEquals(key, VFeatureMetadataKey.Undefined);
-        assertEquals(key.getTag(), 0);
+        assertEquals(key.getTagCode(), 0);
     }
 
     @Test
@@ -21,7 +21,7 @@ public class VFeatureMetadataKeyTest
     {
         VFeatureMetadataKey key = VFeatureMetadataKey.getKey(999);
         assertEquals(key, VFeatureMetadataKey.Undefined);
-        assertEquals(key.getTag(), 0);
+        assertEquals(key.getTagCode(), 0);
     }
 
     @Test
@@ -29,7 +29,7 @@ public class VFeatureMetadataKeyTest
     {
         VFeatureMetadataKey key = VFeatureMetadataKey.getKey(1);
         assertEquals(key, VFeatureMetadataKey.schema);
-        assertEquals(key.getTag(), 1);
+        assertEquals(key.getTagCode(), 1);
     }
 
     @Test
@@ -37,6 +37,6 @@ public class VFeatureMetadataKeyTest
     {
         VFeatureMetadataKey key = VFeatureMetadataKey.getKey(2);
         assertEquals(key, VFeatureMetadataKey.schemaFeature);
-        assertEquals(key.getTag(), 2);
+        assertEquals(key.getTagCode(), 2);
     }
 }

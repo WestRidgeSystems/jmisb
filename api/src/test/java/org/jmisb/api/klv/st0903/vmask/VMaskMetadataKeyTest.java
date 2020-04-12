@@ -13,7 +13,7 @@ public class VMaskMetadataKeyTest
     {
         VMaskMetadataKey key = VMaskMetadataKey.getKey(0);
         assertEquals(key, VMaskMetadataKey.Undefined);
-        assertEquals(key.getTag(), 0);
+        assertEquals(key.getTagCode(), 0);
     }
 
     @Test
@@ -21,7 +21,7 @@ public class VMaskMetadataKeyTest
     {
         VMaskMetadataKey key = VMaskMetadataKey.getKey(999);
         assertEquals(key, VMaskMetadataKey.Undefined);
-        assertEquals(key.getTag(), 0);
+        assertEquals(key.getTagCode(), 0);
     }
 
     @Test
@@ -29,7 +29,7 @@ public class VMaskMetadataKeyTest
     {
         VMaskMetadataKey key = VMaskMetadataKey.getKey(1);
         assertEquals(key, VMaskMetadataKey.polygon);
-        assertEquals(key.getTag(), 1);
+        assertEquals(key.getTagCode(), 1);
     }
 
     @Test
@@ -37,6 +37,6 @@ public class VMaskMetadataKeyTest
     {
         VMaskMetadataKey key = VMaskMetadataKey.getKey(2);
         assertEquals(key, VMaskMetadataKey.bitMaskSeries);
-        assertEquals(key.getTag(), 2);
+        assertEquals(key.getTagCode(), 2);
     }
 }

@@ -1,6 +1,11 @@
 package org.jmisb.api.klv.st0601;
 
+import java.util.Set;
 import org.jmisb.api.common.KlvParseException;
+import org.jmisb.api.klv.IKlvTag;
+import org.jmisb.api.klv.INestedKlvValue;
+import org.jmisb.api.klv.st0102.ISecurityMetadataValue;
+import org.jmisb.api.klv.st0102.SecurityMetadataKey;
 import org.jmisb.api.klv.st0102.localset.SecurityMetadataLocalSet;
 
 /**
@@ -14,7 +19,7 @@ import org.jmisb.api.klv.st0102.localset.SecurityMetadataLocalSet;
  * The length field is the size of all MISB ST 0102 metadata items to be packaged within item 48.
  * </blockquote>
  */
-public class NestedSecurityMetadata implements IUasDatalinkValue
+public class NestedSecurityMetadata implements IUasDatalinkValue, INestedKlvValue
 {
     private SecurityMetadataLocalSet localSet;
 
@@ -63,5 +68,16 @@ public class NestedSecurityMetadata implements IUasDatalinkValue
     public String getDisplayName()
     {
         return "Security";
+    }
+
+    @Override
+    public ISecurityMetadataValue getField(IKlvTag tag)
+    {
+        return localSet.getField((SecurityMetadataKey)tag);
+    }
+
+    @Override
+    public Set<? extends IKlvTag> getTags() {
+        return localSet.getTags();
     }
 }
