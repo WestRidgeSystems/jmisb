@@ -295,8 +295,7 @@ public class UasDatalinkFactory
             case SensorControlMode:
                 return new SensorControlMode(bytes);
             case SensorFrameRatePack:
-                // TODO
-                return new OpaqueValue(bytes);
+                return new SensorFrameRate(bytes);
             case WavelengthsList:
                 return new WavelengthsList(bytes);
             case TargetId:

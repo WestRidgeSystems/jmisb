@@ -261,7 +261,7 @@ public enum UasDatalinkTag
     PlatformStatus(125),
     /** Tag 126; Enumerated value for the current sensor control operational status; Value is a {@link SensorControlMode} */
     SensorControlMode(126),
-    /** Tag 127; Values used to compute the frame rate of the Motion Imagery at the sensor; Value is a {@link OpaqueValue} */
+    /** Tag 127; Values used to compute the frame rate of the Motion Imagery at the sensor; Value is a {@link SensorFrameRate} */
     SensorFrameRatePack(127),
     /** Tag 128; List of wavelength bands provided by sensor(s); Value is a {@link WavelengthsList} */
     WavelengthsList(128),
