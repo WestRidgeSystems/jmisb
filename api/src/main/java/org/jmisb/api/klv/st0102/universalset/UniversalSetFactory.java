@@ -41,6 +41,7 @@ public class UniversalSetFactory
                 return new SecurityMetadataString(bytes);
             case OcCodingMethod:
             case ObjectCountryCodes:
+                return new ObjectCountryCodeString(bytes);
             case ClassificationComments:
                 return new SecurityMetadataString(bytes);
             case ItemDesignatorId:
