@@ -1,18 +1,17 @@
-package org.jmisb.api.klv.st0903.shared;
+package org.jmisb.api.klv.st0603;
 
 import java.time.Instant;
-import java.time.ZoneId;
-import java.time.ZonedDateTime;
+import java.time.LocalDateTime;
+import java.time.ZoneOffset;
 import java.time.temporal.ChronoUnit;
-import org.jmisb.api.klv.st0903.IVmtiMetadataValue;
 import org.jmisb.core.klv.PrimitiveConverter;
 
 /**
  * ST0603 Timestamp.
  */
-public abstract class ST0603TimeStamp implements IVmtiMetadataValue
+public class ST0603TimeStamp
 {
-    // this is unsigned, so  methods.
+    // this is conceptually unsigned, so be careful when manipulating it.
     protected long microseconds;
 
     /**
@@ -24,7 +23,7 @@ public abstract class ST0603TimeStamp implements IVmtiMetadataValue
     {
         if (microseconds < 0)
         {
-            throw new IllegalArgumentException(this.getDisplayName() + " must be in range [0,2^64-1]");
+            throw new IllegalArgumentException("Timestamp must be in range [0,2^64-1]");
         }
         this.microseconds = microseconds;
     }
@@ -37,24 +36,25 @@ public abstract class ST0603TimeStamp implements IVmtiMetadataValue
     {
         if (bytes.length != 8)
         {
-            throw new IllegalArgumentException(this.getDisplayName() + " encoding is an 8-byte unsigned int");
+            throw new IllegalArgumentException("Timestamp encoding is an 8-byte unsigned int");
         }
         microseconds = PrimitiveConverter.toInt64(bytes);
     }
 
     /**
-     * Create from {@code ZonedDateTime}
-     * @param dateTime The UTC date and time
+     * Create from {@code DateTime}
+     * @param dateTime The date and time
      */
-    public ST0603TimeStamp(ZonedDateTime dateTime)
+    public ST0603TimeStamp(LocalDateTime dateTime)
     {
         try
         {
-            microseconds = ChronoUnit.MICROS.between(Instant.EPOCH, dateTime.toInstant());
+            // TODO: Not really UTC...
+            microseconds = ChronoUnit.MICROS.between(Instant.EPOCH, dateTime.toInstant(ZoneOffset.UTC));
         }
         catch (ArithmeticException e)
         {
-            throw new IllegalArgumentException(this.getDisplayName() + " must be before April 11, 2262 23:47:16.854Z");
+            throw new IllegalArgumentException("Timestamp must be before April 11, 2262 23:47:16.854Z");
         }
     }
 
@@ -68,23 +68,21 @@ public abstract class ST0603TimeStamp implements IVmtiMetadataValue
         return microseconds;
     }
 
-    @Override
     public byte[] getBytes()
     {
         return PrimitiveConverter.int64ToBytes(microseconds);
     }
 
     /**
-     * Get the value as a {@code ZonedDateTime}
-     * @return The UTC date and time
+     * Get the value as a {@code LocalDateTime}
+     * @return The date and time
      */
-    public ZonedDateTime getDateTime()
+    public LocalDateTime getDateTime()
     {
-        Instant instant = Instant.ofEpochSecond(microseconds / 1000000, (int) (microseconds % 1000000) * 1000);
-        return ZonedDateTime.ofInstant(instant, ZoneId.of("UTC"));
+        // TODO: not really UTC
+        return LocalDateTime.ofEpochSecond(microseconds / 1000000, (int)(microseconds % 1000000) * 1000, ZoneOffset.UTC);
     }
 
-    @Override
     public String getDisplayableValue()
     {
         return "" + microseconds;

@@ -1,6 +1,7 @@
 package org.jmisb.api.klv.st0903.vtracker;
 
-import org.jmisb.api.klv.st0903.shared.ST0603TimeStamp;
+import java.time.LocalDateTime;
+import org.jmisb.api.klv.st0603.ST0603TimeStamp;
 import java.time.ZonedDateTime;
 import org.jmisb.api.klv.st0903.IVmtiMetadataValue;
 
@@ -36,10 +37,10 @@ public class EndTime extends ST0603TimeStamp implements IVmtiMetadataValue
     }
 
     /**
-     * Create from {@code ZonedDateTime}
-     * @param dateTime The UTC date and time
+     * Create from {@code LocalDateTime}
+     * @param dateTime The date and time
      */
-    public EndTime(ZonedDateTime dateTime)
+    public EndTime(LocalDateTime dateTime)
     {
         super(dateTime);
     }

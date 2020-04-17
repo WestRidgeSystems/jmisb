@@ -1,12 +1,7 @@
 package org.jmisb.api.klv.st0903;
 
-import org.jmisb.api.klv.st0903.shared.ST0603TimeStamp;
-import org.jmisb.core.klv.PrimitiveConverter;
-
-import java.time.Instant;
-import java.time.ZoneId;
-import java.time.ZonedDateTime;
-import java.time.temporal.ChronoUnit;
+import java.time.LocalDateTime;
+import org.jmisb.api.klv.st0603.ST0603TimeStamp;
 
 /**
  * Precision Time Stamp (ST0903 VMTI LS Tag 2).
@@ -59,10 +54,10 @@ public class PrecisionTimeStamp extends ST0603TimeStamp implements IVmtiMetadata
     }
 
     /**
-     * Create from {@code ZonedDateTime}
-     * @param dateTime The UTC date and time
+     * Create from {@code LocalDateTime}
+     * @param dateTime The date and time
      */
-    public PrecisionTimeStamp(ZonedDateTime dateTime)
+    public PrecisionTimeStamp(LocalDateTime dateTime)
     {
         super(dateTime);
     }
