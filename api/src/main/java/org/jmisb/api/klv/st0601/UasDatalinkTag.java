@@ -237,9 +237,9 @@ public enum UasDatalinkTag
     AltitudeAgl(113),
     /** Tag 114; Height above the ground/water as reported by a RADAR altimeter; Value is a {@link RadarAltimeter} */
     RadarAltimeter(114),
-    /** Tag 115; Record of command from GCS to Aircraft; Value is a {@link OpaqueValue} */
+    /** Tag 115; Record of command from GCS to Aircraft; Value is a {@link ControlCommand} */
     ControlCommand(115),
-    /** Tag 116; Acknowledgement of one or more control commands were received by the platform; Value is a {@link OpaqueValue} */
+    /** Tag 116; Acknowledgment of one or more control commands were received by the platform; Value is a {@link ControlCommandVerification} */
     ControlCommandVerification(116),
     /** Tag 117; The rate the sensors azimuth angle is changing; Value is a {@link SensorAzimuthRate} */
     SensorAzimuthRate(117),

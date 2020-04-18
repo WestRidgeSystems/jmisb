@@ -270,8 +270,7 @@ public class UasDatalinkFactory
             case ControlCommand:
                 return new ControlCommand(bytes);
             case ControlCommandVerification:
-                // TODO
-                return new OpaqueValue(bytes);
+                return new ControlCommandVerification(bytes);
             case SensorAzimuthRate:
                 return new SensorAzimuthRate(bytes);
             case SensorElevationRate:
