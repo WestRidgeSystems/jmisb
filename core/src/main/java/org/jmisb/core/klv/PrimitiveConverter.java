@@ -321,16 +321,28 @@ public class PrimitiveConverter
     }
 
     /**
-     * Convert a byte array to a signed 64-bit integer
+     * Convert a byte array to a signed 64-bit integer.
      *
      * @param bytes The array of length 8
      * @return The signed 64-bit integer
      */
     public static long toInt64(byte[] bytes)
     {
-        if (bytes.length == 8)
+        return toInt64(bytes, 0);
+    }
+
+    /**
+     * Convert a byte array with offset to a signed 64-bit integer.
+     *
+     * @param bytes The array of length 8
+     * @param offset the offset into the array where the conversion should start
+     * @return The signed 64-bit integer
+     */
+    public static long toInt64(byte[] bytes, int offset)
+    {
+        if (offset + Long.BYTES <= bytes.length)
         {
-            return ByteBuffer.wrap(bytes).getLong();
+            return ByteBuffer.wrap(bytes, offset, Long.BYTES).getLong();
         }
         else
         {

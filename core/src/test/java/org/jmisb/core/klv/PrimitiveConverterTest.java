@@ -444,4 +444,36 @@ public class PrimitiveConverterTest
         PrimitiveConverter.toInt32(new byte[]{0x00, 0x00, 0x00, 0x0f, 0x00});
     }
 
+    @Test
+    public void testToInt64()
+    {
+        long val = PrimitiveConverter.toInt64(new byte[]{(byte)0x00, (byte)0x04, (byte)0x59, (byte)0xF4, (byte)0xA6, (byte)0xAA, (byte)0x4A, (byte)0xA8});
+        Assert.assertEquals(val, 1224807209913000L);
+    }
+
+    @Test
+    public void testToInt64Offset()
+    {
+        long val = PrimitiveConverter.toInt64(new byte[]{(byte)0x12, (byte)0x34, (byte)0x00, (byte)0x04, (byte)0x59, (byte)0xF4, (byte)0xA6, (byte)0xAA, (byte)0x4A, (byte)0xA8, (byte)0x56}, 2);
+        Assert.assertEquals(val, 1224807209913000L);
+    }
+
+    @Test
+    public void testToInt64OffsetExact()
+    {
+        long val = PrimitiveConverter.toInt64(new byte[]{(byte)0x12, (byte)0x34, (byte)0x00, (byte)0x04, (byte)0x59, (byte)0xF4, (byte)0xA6, (byte)0xAA, (byte)0x4A, (byte)0xA8}, 2);
+        Assert.assertEquals(val, 1224807209913000L);
+    }
+
+    @Test(expectedExceptions = IllegalArgumentException.class)
+    public void testToInt64InvalidArg()
+    {
+        PrimitiveConverter.toInt64(new byte[]{(byte)0x00, (byte)0x04, (byte)0x59, (byte)0xF4, (byte)0xA6, (byte)0xAA, (byte)0x4A});
+    }
+
+    @Test(expectedExceptions = IllegalArgumentException.class)
+    public void testToInt64OffsetInvalidArg()
+    {
+        PrimitiveConverter.toInt64(new byte[]{(byte)0x12, (byte)0x34, (byte)0x00, (byte)0x04, (byte)0x59, (byte)0xF4, (byte)0xA6, (byte)0xAA, (byte)0x4A}, 2);
+    }
 }
