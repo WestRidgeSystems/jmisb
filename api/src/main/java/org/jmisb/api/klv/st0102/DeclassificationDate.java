@@ -25,7 +25,7 @@ public class DeclassificationDate implements ISecurityMetadataValue
         }
 
         // TODO: can we avoid the string allocation?
-        String dateString = new String(bytes);
+        String dateString = new String(bytes, StandardCharsets.US_ASCII);
         date = LocalDate.parse(dateString, BASIC_ISO_DATE);
     }
 
