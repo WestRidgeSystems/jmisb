@@ -47,6 +47,8 @@
         <jacoco.version>0.8.5</jacoco.version>
         <coveralls.version>4.3.0</coveralls.version>
         <owasp.version>5.3.0</owasp.version>
+        <spotbugs.maven.version>4.0.0</spotbugs.maven.version>
+        <spotbugs.version>4.0.2</spotbugs.version>
     </properties>
 
     <distributionManagement>
