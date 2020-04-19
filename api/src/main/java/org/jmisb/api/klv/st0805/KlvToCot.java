@@ -170,7 +170,7 @@ public class KlvToCot
         // TODO: allow client to specify UID & handle missing tags from KLV
         UasDatalinkString platformDesignation = (UasDatalinkString)uasMessage.getField(UasDatalinkTag.PlatformDesignation);
         UasDatalinkString missionId = (UasDatalinkString)uasMessage.getField(UasDatalinkTag.MissionId);
-        if (platformDesignation != null || missionId != null)
+        if (platformDesignation != null && missionId != null)
         {
             return platformDesignation.getValue() + "_" + missionId.getValue();
         }
