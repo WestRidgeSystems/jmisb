@@ -1,6 +1,7 @@
 package org.jmisb.api.klv.st0601;
 
 import java.io.ByteArrayOutputStream;
+import java.nio.charset.StandardCharsets;
 import java.util.ArrayList;
 import java.util.List;
 import org.jmisb.api.klv.BerDecoder;
@@ -91,7 +92,7 @@ public class WavelengthsList implements IUasDatalinkValue {
             offset += IMAPB_BYTES;
             wavelengths.setMax(max);
             int nameLength = packLength - (2* IMAPB_BYTES + idField.getLength());
-            String name = new String(bytes, offset, nameLength);
+            String name = new String(bytes, offset, nameLength, StandardCharsets.UTF_8);
             wavelengths.setName(name);
             offset += nameLength;
             wavelengthsList.add(wavelengths);
