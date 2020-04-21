@@ -10,7 +10,6 @@ import javax.swing.tree.DefaultMutableTreeNode;
 import javax.swing.tree.DefaultTreeCellRenderer;
 import javax.swing.tree.DefaultTreeModel;
 import javax.swing.tree.TreePath;
-import org.jmisb.api.klv.IMisbMessage;
 import org.jmisb.api.video.IMetadataListener;
 import org.jmisb.api.video.MetadataFrame;
 import org.jmisb.api.klv.IKlvValue;
@@ -20,22 +19,17 @@ import org.jmisb.api.klv.IKlvKey;
 public class MetadataTreePanel extends JPanel implements IMetadataListener {
 
     private JTree tree;
-    private DefaultMutableTreeNode rootNode = new DefaultMutableTreeNode("Metadata");
+    private static final String ROOT_NODE_NAME = "Metadata";
 
     public MetadataTreePanel() {
         super(new BorderLayout());
         initTree();
-
     }
 
     private void initTree() {
-        DefaultMutableTreeNode top = new DefaultMutableTreeNode("Metadata");
+        DefaultMutableTreeNode top = new DefaultMutableTreeNode(ROOT_NODE_NAME);
         tree = new JTree(top);
-        clearTree();
-        this.add(tree);
-    }
 
-    protected void clearTree() {
         Icon emptyIcon = new TreeIcon();
         DefaultTreeCellRenderer renderer = new DefaultTreeCellRenderer();
         renderer.setLeafIcon(emptyIcon);
@@ -45,14 +39,17 @@ public class MetadataTreePanel extends JPanel implements IMetadataListener {
         tree.expandRow(0);
         tree.setRootVisible(false);
         tree.setShowsRootHandles(true);
+        this.add(tree);
     }
 
     @Override
     public void onMetadataReceived(MetadataFrame metadataFrame) {
-        String displayHeader = metadataFrame.getMisbMessage().displayHeader();
-        DefaultTreeModel model = (DefaultTreeModel) tree.getModel();
-        DefaultMutableTreeNode parentNode = (DefaultMutableTreeNode) tree.getModel().getRoot();
-        Enumeration childEnumeration = parentNode.children();
+        final String displayHeader = metadataFrame.getMisbMessage().displayHeader();
+        final DefaultTreeModel model = (DefaultTreeModel) tree.getModel();
+        final DefaultMutableTreeNode rootNode = (DefaultMutableTreeNode) tree.getModel().getRoot();
+
+        // if a node already exists for the message type, update it and return
+        Enumeration<?> childEnumeration = rootNode.children();
         while (childEnumeration.hasMoreElements()) {
             DefaultMutableTreeNode child = (DefaultMutableTreeNode) childEnumeration.nextElement();
             if (child.toString().equals(displayHeader)) {
@@ -60,10 +57,14 @@ public class MetadataTreePanel extends JPanel implements IMetadataListener {
                 return;
             }
         }
+
+        // otherwise, the tree does not yet contain a node for this message type; add one and auto-expand it
         DefaultMutableTreeNode child = new DefaultMutableTreeNode(displayHeader);
         addMetadataToNode(model, child, metadataFrame.getMisbMessage());
-        model.insertNodeInto(child, parentNode, parentNode.getChildCount());
+        final int index = rootNode.getChildCount();
+        model.insertNodeInto(child, rootNode, index);
         tree.scrollPathToVisible(new TreePath(child.getPath()));
+        tree.expandRow(index);
     }
 
     private void addMetadataToNode(DefaultTreeModel model, DefaultMutableTreeNode node, INestedKlvValue valueWithNestedValues)
@@ -76,11 +77,11 @@ public class MetadataTreePanel extends JPanel implements IMetadataListener {
     private void doItem(IKlvKey tag, INestedKlvValue valueWithNestedValues, DefaultMutableTreeNode node, DefaultTreeModel model)
     {
         IKlvValue value = valueWithNestedValues.getField(tag);
-        Enumeration childEnumeration = node.children();
+        Enumeration<?> childEnumeration = node.children();
         boolean didFind = false;
         while (childEnumeration.hasMoreElements())
         {
-            DefaultMutableTreeNode child = (DefaultMutableTreeNode) childEnumeration.nextElement();
+            DefaultMutableTreeNode child = (DefaultMutableTreeNode)childEnumeration.nextElement();
             MetadataEntry entry = (MetadataEntry) child.getUserObject();
             if (entry.getTag().equals(tag.toString()))
             {
@@ -127,6 +128,7 @@ public class MetadataTreePanel extends JPanel implements IMetadataListener {
     
     void clear()
     {
-        // TODO
+        DefaultTreeModel model = (DefaultTreeModel)tree.getModel();
+        model.setRoot(new DefaultMutableTreeNode(ROOT_NODE_NAME));
     }
 }
