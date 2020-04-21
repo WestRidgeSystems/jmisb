@@ -43,6 +43,7 @@ public class LocalSetFactory
             case OcCodingMethod:
                 return new OcMethod(bytes);
             case ObjectCountryCodes:
+                return new ObjectCountryCodeString(bytes);
             case ClassificationComments:
                 return new SecurityMetadataString(bytes);
             case ItemDesignatorId:
