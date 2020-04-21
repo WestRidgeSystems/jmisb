@@ -268,11 +268,9 @@ public class UasDatalinkFactory
             case RadarAltimeter:
                 return new RadarAltimeter(bytes);
             case ControlCommand:
-                // TODO
-                return new OpaqueValue(bytes);
+                return new ControlCommand(bytes);
             case ControlCommandVerification:
-                // TODO
-                return new OpaqueValue(bytes);
+                return new ControlCommandVerification(bytes);
             case SensorAzimuthRate:
                 return new SensorAzimuthRate(bytes);
             case SensorElevationRate:
