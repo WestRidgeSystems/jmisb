@@ -242,19 +242,21 @@ class VideoDecodeThread extends ProcessingThread
             logger.error("av_frame_alloc() error: Could not allocate BGR frame");
             // TODO: handle
         }
+        else
+        {
+            bgrFrame.format(AV_PIX_FMT_BGR24);
+            bgrFrame.width(width);
+            bgrFrame.height(height);
 
-        bgrFrame.format(AV_PIX_FMT_BGR24);
-        bgrFrame.width(width);
-        bgrFrame.height(height);
+            // Determine required buffer size and allocate buffer
+            int size = av_image_get_buffer_size(AV_PIX_FMT_BGR24, width, height, 32);
+            BytePointer bgrFrameBufferPointer = new BytePointer(av_malloc(size)).capacity(size);
 
-        // Determine required buffer size and allocate buffer
-        int size = av_image_get_buffer_size(AV_PIX_FMT_BGR24, width, height, 32);
-        BytePointer bgrFrameBufferPointer = new BytePointer(av_malloc(size)).capacity(size);
-
-        // Populate fields of bgrFrame
-        PointerPointer pp = new PointerPointer(bgrFrame);
-        IntPointer lineSize = new IntPointer(bgrFrame.linesize());
-        av_image_fill_arrays(pp, lineSize, bgrFrameBufferPointer, bgrFrame.format(), bgrFrame.width(), bgrFrame.height(), 32);
+            // Populate fields of bgrFrame
+            PointerPointer pp = new PointerPointer(bgrFrame);
+            IntPointer lineSize = new IntPointer(bgrFrame.linesize());
+            av_image_fill_arrays(pp, lineSize, bgrFrameBufferPointer, bgrFrame.format(), bgrFrame.width(), bgrFrame.height(), 32);
+        }
     }
 
     private void deallocateImages()
