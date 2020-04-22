@@ -76,7 +76,6 @@ public class LaserPrfCode implements IUasDatalinkValue
     @Override
     public byte[] getBytes()
     {
-        short intVal = (short) code;
         return PrimitiveConverter.uint16ToBytes(code);
     }
 
