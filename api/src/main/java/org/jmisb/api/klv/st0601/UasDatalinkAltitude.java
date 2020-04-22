@@ -15,11 +15,11 @@ import org.jmisb.core.klv.PrimitiveConverter;
 public abstract class UasDatalinkAltitude implements IUasDatalinkValue
 {
     private double meters;
-    private static double MIN_VALUE = -900;
-    private static double MAX_VALUE = 19000;
-    private static double RANGE = 19900;
-    private static double MAXINT = 65535.0; // 2^16 - 1
-    public static double DELTA = 0.15; // +/- 0.15 meters
+    private static final double MIN_VALUE = -900;
+    private static final double MAX_VALUE = 19000;
+    private static final double RANGE = 19900;
+    private static final double MAXINT = 65535.0; // 2^16 - 1
+    public static final double DELTA = 0.15; // +/- 0.15 meters
 
     /**
      * Create from value

@@ -7,12 +7,12 @@ import java.util.Arrays;
  */
 public class UniversalLabel
 {
-    public static int LENGTH = 16;
-    private byte[] bytes;
-    private static int OID_FIELD = 0;
-    private static int UL_LENGTH_FIELD = 1;
-    private static int UL_CODE_FIELD = 2;
-    private static int SMPTE_DESIGNATOR_FIELD = 3;
+    public static final int LENGTH = 16;
+    private final byte[] bytes;
+    private static final int OID_FIELD = 0;
+    private static final int UL_LENGTH_FIELD = 1;
+    private static final int UL_CODE_FIELD = 2;
+    private static final int SMPTE_DESIGNATOR_FIELD = 3;
 
     /**
      * Construct a UL from a byte array

@@ -12,13 +12,13 @@ public class VmtiTextString extends VmtiUtf8 implements IVmtiMetadataValue
      * The name or description of the VMTI system producing the VMTI targets.
      * The field is free text.
      */
-    public final static String SYSTEM_NAME = "System Name/Description";
+    public static final String SYSTEM_NAME = "System Name/Description";
 
     /**
      * VMTI LS Tag 10 - VMTI Source Sensor.
      * Free text identifier of the image source sensor.
      */
-    public final static String SOURCE_SENSOR = "Source Sensor";
+    public static final String SOURCE_SENSOR = "Source Sensor";
 
     /**
      * VTarget LS Tag 6 - Algorithm.
@@ -26,7 +26,7 @@ public class VmtiTextString extends VmtiUtf8 implements IVmtiMetadataValue
      * or method used to create or maintain object movement reports or
      * intervening predictions of such movement.
      */
-    public final static String ALGORITHM = "Algorithm";
+    public static final String ALGORITHM = "Algorithm";
 
     /**
      * VChip LS Tag 1 - Image Type.
@@ -47,7 +47,7 @@ public class VmtiTextString extends VmtiUtf8 implements IVmtiMetadataValue
      * Valid Values: A string of UTF-8 characters that correspond to an IANA
      * media image subtype.
      */
-    public final static String IMAGE_TYPE = "Image Type";
+    public static final String IMAGE_TYPE = "Image Type";
 
     /**
      * VObject LS Tag 2 - Ontology class.
@@ -58,7 +58,7 @@ public class VmtiTextString extends VmtiUtf8 implements IVmtiMetadataValue
      * encoded) for use in OntologyClass and more descriptive names for use by
      * systems that present the information to human observers.
      */
-    public final static String ONTOLOGY_CLASS = "Ontology Class";
+    public static final String ONTOLOGY_CLASS = "Ontology Class";
 
     /**
      * Algorithm LS Tag 2 - Name.
@@ -67,7 +67,7 @@ public class VmtiTextString extends VmtiUtf8 implements IVmtiMetadataValue
      * <p>
      * Valid Values: Any alphanumeric value in UTF8.
      */
-    public static String ALGORITHM_NAME = "Algorithm Name";
+    public static final String ALGORITHM_NAME = "Algorithm Name";
 
     /**
      * Algorithm LS Tag 3 - Version.
@@ -76,7 +76,7 @@ public class VmtiTextString extends VmtiUtf8 implements IVmtiMetadataValue
      * <p>
      * Valid Values: Any alphanumeric value in UTF8.
      */
-    public static String ALGORITHM_VERSION = "Algorithm Version";
+    public static final String ALGORITHM_VERSION = "Algorithm Version";
 
     /**
      * Algorithm LS Tag 4 - Class.
@@ -85,7 +85,7 @@ public class VmtiTextString extends VmtiUtf8 implements IVmtiMetadataValue
      * <p>
      * Valid Values: Any alphanumeric value in UTF8.
      */
-    public static String ALGORITHM_CLASS = "Algorithm Class";
+    public static final String ALGORITHM_CLASS = "Algorithm Class";
 
     /**
      * VFeature LS Tag 2 - Schema Feature.
@@ -97,7 +97,7 @@ public class VmtiTextString extends VmtiUtf8 implements IVmtiMetadataValue
      * Valid Values: Any OGC GML document that validates against the schema
      * specified in Tag 1: Schema.
      */
-    public final static String VFEATURE_SCHEMA_FEATURE = "Schema Feature";
+    public static final String VFEATURE_SCHEMA_FEATURE = "Schema Feature";
 
     /**
      * Create from value
