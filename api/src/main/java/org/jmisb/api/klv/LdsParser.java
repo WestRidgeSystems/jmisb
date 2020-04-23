@@ -29,7 +29,11 @@ public class LdsParser
      */
     public static List<LdsField> parseFields(byte[] bytes, int start, int length) throws KlvParseException
     {
-        String dbgMessage = "Tags: ";
+        StringBuilder debugMessageStringBuilder = new StringBuilder();
+        if (logger.isDebugEnabled())
+        {
+            debugMessageStringBuilder.append("Tags: ");
+        }
 
         List<LdsField> fields = new ArrayList<>();
         final int last = start + length;
@@ -58,11 +62,14 @@ public class LdsParser
             fields.add(new LdsField(tag, value));
             offset = end;
             if (logger.isDebugEnabled())
-                dbgMessage = dbgMessage + tag + " ";
+            {
+                debugMessageStringBuilder.append(tag);
+                debugMessageStringBuilder.append(" ");
+            }
         }
 
         if (logger.isDebugEnabled())
-            logger.debug(dbgMessage);
+            logger.debug(debugMessageStringBuilder.toString());
 
         return fields;
     }
