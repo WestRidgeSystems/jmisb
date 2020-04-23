@@ -47,6 +47,13 @@ public class FpEncoderTest
     }
 
     @Test(expectedExceptions = IllegalArgumentException.class)
+    public void testOutOfRangeOver()
+    {
+        FpEncoder encoder = new FpEncoder(-100.0, 100.0, 4);
+        encoder.encode(100.1);
+    }
+
+    @Test(expectedExceptions = IllegalArgumentException.class)
     public void testMismatchedLength()
     {
         FpEncoder encoder = new FpEncoder(-100.0, +100.0, 2);
@@ -80,6 +87,27 @@ public class FpEncoderTest
         value = Double.NaN;
         encoded = fpEncoder.encode(value);
         Assert.assertEquals(encoded[0], (byte)0xd0);
+    }
+
+    @Test
+    public void testEncodeLen1()
+    {
+        FpEncoder fpEncoder = new FpEncoder(0.0, 10.0, 1);
+        double value = 6.0;
+        byte[] expected = {0x30};
+        byte[] encoded = fpEncoder.encode(value);
+        Assert.assertEquals(encoded.length, 1);
+        Assert.assertEquals(encoded, expected);
+    }
+
+    @Test
+    public void testDecodeLen1()
+    {
+        FpEncoder fpEncoder = new FpEncoder(0.0, 10.0, 1);
+        double expected = 6.0;
+        byte[] value = {0x30};
+        double decoded = fpEncoder.decode(value);
+        Assert.assertEquals(decoded, expected);
     }
 
     @Test

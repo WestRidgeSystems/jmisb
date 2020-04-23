@@ -112,8 +112,8 @@ public class FpEncoder
             switch (fieldLength)
             {
                 case 1:
-                    char c = (char) d;
-                    encoded = ByteBuffer.allocate(1).putChar(c).array();
+                    byte b = (byte) d;
+                    encoded = ByteBuffer.allocate(1).put(b).array();
                     break;
                 case 2:
                     short s = (short) d;
@@ -136,6 +136,8 @@ public class FpEncoder
                     long l = (long) d;
                     encoded = ByteBuffer.allocate(8).putLong(l).array();
                     break;
+                default:
+                    throw new UnsupportedOperationException("Only field lengths of [1,2,3,4,8] are supported");
             }
         }
         return encoded;
@@ -212,6 +214,8 @@ public class FpEncoder
                     long l = wrapped.getLong();
                     val = sR * (l - zOffset) + a;
                     break;
+                default:
+                    throw new UnsupportedOperationException("Only field lengths of [1,2,3,4,8] are supported");
             }
             if (val < a || val > b)
             {
