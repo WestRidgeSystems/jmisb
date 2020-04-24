@@ -34,7 +34,7 @@ public class UniversalLabel
      */
     public byte[] getBytes()
     {
-        return bytes;
+        return bytes.clone();
     }
 
     @Override

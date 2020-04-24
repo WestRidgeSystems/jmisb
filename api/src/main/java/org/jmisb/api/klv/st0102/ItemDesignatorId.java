@@ -19,7 +19,7 @@ public class ItemDesignatorId implements ISecurityMetadataValue
         {
             throw new IllegalArgumentException("Item Designator Id encoding is a 16 byte array");
         }
-        this.itemDesignatorId = bytes;
+        itemDesignatorId = bytes;
     }
 
     /**
@@ -28,13 +28,13 @@ public class ItemDesignatorId implements ISecurityMetadataValue
      */
     public byte[] getItemDesignatorId()
     {
-        return this.itemDesignatorId;
+        return itemDesignatorId.clone();
     }
 
     @Override
     public byte[] getBytes()
     {
-        return this.itemDesignatorId;
+        return itemDesignatorId.clone();
     }
 
     @Override

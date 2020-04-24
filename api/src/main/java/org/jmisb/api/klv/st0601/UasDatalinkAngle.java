@@ -76,7 +76,7 @@ public abstract class UasDatalinkAngle implements IUasDatalinkValue
     {
         if (degrees == Double.POSITIVE_INFINITY)
         {
-            return invalidBytes;
+            return invalidBytes.clone();
         }
         short shortVal = (short) Math.round((degrees / FLOAT_RANGE) * INT_RANGE);
         return PrimitiveConverter.int16ToBytes(shortVal);

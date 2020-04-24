@@ -27,13 +27,13 @@ public class RawMisbMessage implements IMisbMessage
      */
     public byte[] getBytes()
     {
-        return bytes;
+        return bytes.clone();
     }
 
     @Override
     public byte[] frameMessage(boolean isNested)
     {
-        return bytes;
+        return getBytes();
     }
 
     @Override

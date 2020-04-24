@@ -22,6 +22,6 @@ public class UdsField
 
     public byte[] getValue()
     {
-        return value;
+        return value.clone();
     }
 }

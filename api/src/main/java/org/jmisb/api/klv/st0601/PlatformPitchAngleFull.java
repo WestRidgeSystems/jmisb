@@ -20,9 +20,9 @@ import java.util.Arrays;
 public class PlatformPitchAngleFull implements IUasDatalinkValue
 {
     private double degrees;
-    private static byte[] invalidBytes = new byte[]{(byte)0x80, (byte)0x00, (byte)0x00, (byte)0x00};
-    private static double FLOAT_RANGE = 90.0;
-    private static double INT_RANGE = 2147483647.0; // 2^31-1
+    private static final byte[] invalidBytes = new byte[]{(byte)0x80, (byte)0x00, (byte)0x00, (byte)0x00};
+    private static final double FLOAT_RANGE = 90.0;
+    private static final double INT_RANGE = 2147483647.0; // 2^31-1
 
     /**
      * Create from value
@@ -73,7 +73,7 @@ public class PlatformPitchAngleFull implements IUasDatalinkValue
     {
         if (degrees == Double.POSITIVE_INFINITY)
         {
-            return invalidBytes;
+            return invalidBytes.clone();
         }
 
         int intVal = (int) Math.round((degrees / FLOAT_RANGE) * INT_RANGE);
@@ -87,7 +87,7 @@ public class PlatformPitchAngleFull implements IUasDatalinkValue
     }
 
     @Override
-    public String getDisplayName()
+    public final String getDisplayName()
     {
         return "Platform Pitch Angle (Full)";
     }

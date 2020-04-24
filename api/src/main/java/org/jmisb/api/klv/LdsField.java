@@ -38,6 +38,6 @@ public class LdsField
      */
     public byte[] getData()
     {
-        return data;
+        return data.clone();
     }
 }
