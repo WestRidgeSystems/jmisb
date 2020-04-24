@@ -18,7 +18,7 @@ public class LdsField
     public LdsField(int tag, byte[] data)
     {
         this.tag = tag;
-        this.data = data;
+        this.data = data.clone();
     }
 
     /**

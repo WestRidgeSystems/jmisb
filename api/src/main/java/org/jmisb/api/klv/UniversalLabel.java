@@ -24,7 +24,7 @@ public class UniversalLabel
     public UniversalLabel(byte[] bytes)
     {
         testValidity(bytes);
-        this.bytes = bytes;
+        this.bytes = bytes.clone();
     }
 
     /**

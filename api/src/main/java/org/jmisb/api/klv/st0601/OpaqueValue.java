@@ -13,7 +13,7 @@ public class OpaqueValue implements IUasDatalinkValue
      */
     public OpaqueValue(byte[] bytes)
     {
-        this.bytes = bytes;
+        this.bytes = bytes.clone();
     }
 
     @Override

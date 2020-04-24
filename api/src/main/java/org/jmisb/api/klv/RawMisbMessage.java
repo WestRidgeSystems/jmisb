@@ -11,7 +11,7 @@ public class RawMisbMessage implements IMisbMessage
     public RawMisbMessage(UniversalLabel universalLabel, byte[] bytes)
     {
         this.universalLabel = universalLabel;
-        this.bytes = bytes;
+        this.bytes = bytes.clone();
     }
 
     @Override

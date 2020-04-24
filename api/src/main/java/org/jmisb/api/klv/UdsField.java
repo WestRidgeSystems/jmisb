@@ -12,7 +12,7 @@ public class UdsField
     public UdsField(UniversalLabel key, byte[] value)
     {
         this.key = key;
-        this.value = value;
+        this.value = value.clone();
     }
 
     public UniversalLabel getKey()
