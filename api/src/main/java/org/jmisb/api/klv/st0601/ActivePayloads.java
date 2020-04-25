@@ -81,6 +81,56 @@ public class ActivePayloads implements IUasDatalinkValue
         return String.join(",", strings);
     }
 
+    /**
+     * Get the list of identifiers for active payloads.
+     *
+     * The identifiers match the corresponding Tag 138 (PayloadList) identifiers.
+     *
+     * @return list of integer identifiers.
+     */
+    public List<Integer> getIdentifiers()
+    {
+        List<Integer> identifiers = new ArrayList<>();
+        for (int i = 0; i < payloads.bitLength(); ++i)
+        {
+            if (payloads.testBit(i)) {
+                identifiers.add(i);
+            }
+        }
+        return identifiers;
+    }
+
+    /**
+     * Mark a payload as active.
+     *
+     * @param identifier the payload identifier (per Tag 138 - PayloadList)
+     */
+    public void setPayloadActive(final int identifier)
+    {
+        payloads = payloads.setBit(identifier);
+    }
+
+    /**
+     * Mark a payload as inactive.
+     *
+     * @param identifier the payload identifier (per Tag 138 - PayloadList)
+     */
+    public void setPayloadInactive(final int identifier)
+    {
+        payloads = payloads.clearBit(identifier);
+    }
+
+    /**
+     * Check if a payload is currently marked active.
+     *
+     * @param identifier the payload identifier (per Tag 138 - PayloadList)
+     * @return true if the payload is active, otherwise false.
+     */
+    public boolean payloadIsActive(final int identifier)
+    {
+        return payloads.testBit(identifier);
+    }
+
     @Override
     public String getDisplayName()
     {

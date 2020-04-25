@@ -3,7 +3,9 @@ package org.jmisb.api.klv.st0601;
 import java.util.ArrayList;
 import java.util.List;
 import org.jmisb.api.common.KlvParseException;
-import org.testng.Assert;
+import static org.testng.Assert.assertEquals;
+import static org.testng.Assert.assertFalse;
+import static org.testng.Assert.assertTrue;
 import org.testng.annotations.Test;
 
 public class ActivePayloadsTest
@@ -32,42 +34,99 @@ public class ActivePayloadsTest
     public void testFactory() throws KlvParseException
     {
         IUasDatalinkValue v = UasDatalinkFactory.createValue(UasDatalinkTag.ActivePayloads, ST_EXAMPLE_BYTES);
-        Assert.assertTrue(v instanceof ActivePayloads);
+        assertTrue(v instanceof ActivePayloads);
         ActivePayloads activePayloads = (ActivePayloads)v;
         checkValuesForExample(activePayloads);
     }
 
     private void checkValuesForExample(ActivePayloads activePayloads)
     {
-        Assert.assertEquals(activePayloads.getBytes(), ST_EXAMPLE_BYTES);
-        Assert.assertEquals(activePayloads.getDisplayableValue(), "0,1,3");
-        Assert.assertEquals(activePayloads.getDisplayName(), "Active Payloads");
+        assertEquals(activePayloads.getBytes(), ST_EXAMPLE_BYTES);
+        assertEquals(activePayloads.getDisplayableValue(), "0,1,3");
+        assertTrue(activePayloads.payloadIsActive(0));
+        assertTrue(activePayloads.payloadIsActive(1));
+        assertFalse(activePayloads.payloadIsActive(2));
+        assertTrue(activePayloads.payloadIsActive(3));
+        assertFalse(activePayloads.payloadIsActive(4));
+        assertFalse(activePayloads.payloadIsActive(7));
+        assertFalse(activePayloads.payloadIsActive(8));
+        assertFalse(activePayloads.payloadIsActive(200002));
+        List<Integer> identifiers = activePayloads.getIdentifiers();
+        assertEquals(identifiers.size(), 3);
+        assertTrue(identifiers.contains(0));
+        assertTrue(identifiers.contains(1));
+        assertTrue(identifiers.contains(3));
+        assertEquals(activePayloads.getDisplayName(), "Active Payloads");
     }
 
     @Test
     public void testConstructFromEncodedHighBit()
     {
         ActivePayloads activePayloads = new ActivePayloads(new byte[]{(byte)0x80});
-        Assert.assertEquals(activePayloads.getBytes(), new byte[]{(byte)0x80});
-        Assert.assertEquals(activePayloads.getDisplayableValue(), "7");
-        Assert.assertEquals(activePayloads.getDisplayName(), "Active Payloads");
+        assertEquals(activePayloads.getBytes(), new byte[]{(byte)0x80});
+        assertEquals(activePayloads.getDisplayableValue(), "7");
+        assertEquals(activePayloads.getDisplayName(), "Active Payloads");
     }
 
     @Test
     public void testConstructFromEncoded0()
     {
         ActivePayloads activePayloads = new ActivePayloads(new byte[]{(byte)0x00});
-        Assert.assertEquals(activePayloads.getBytes(), new byte[]{(byte)0x00});
-        Assert.assertEquals(activePayloads.getDisplayableValue(), "");
-        Assert.assertEquals(activePayloads.getDisplayName(), "Active Payloads");
+        assertEquals(activePayloads.getBytes(), new byte[]{(byte)0x00});
+        assertEquals(activePayloads.getDisplayableValue(), "");
+        assertEquals(activePayloads.getDisplayName(), "Active Payloads");
     }
 
     @Test
     public void testConstructFromEncodedTwoBytes()
     {
         ActivePayloads activePayloads = new ActivePayloads(new byte[]{(byte)0x80, (byte)0x0b});
-        Assert.assertEquals(activePayloads.getBytes(), new byte[]{(byte)0x80, (byte)0x0b});
-        Assert.assertEquals(activePayloads.getDisplayableValue(), "0,1,3,15");
-        Assert.assertEquals(activePayloads.getDisplayName(), "Active Payloads");
+        assertEquals(activePayloads.getBytes(), new byte[]{(byte)0x80, (byte)0x0b});
+        assertEquals(activePayloads.getDisplayableValue(), "0,1,3,15");
+        assertTrue(activePayloads.payloadIsActive(0));
+        assertTrue(activePayloads.payloadIsActive(1));
+        assertFalse(activePayloads.payloadIsActive(2));
+        assertTrue(activePayloads.payloadIsActive(3));
+        assertFalse(activePayloads.payloadIsActive(4));
+        assertFalse(activePayloads.payloadIsActive(14));
+        assertTrue(activePayloads.payloadIsActive(15));
+        assertFalse(activePayloads.payloadIsActive(16));
+        List<Integer> identifiers = activePayloads.getIdentifiers();
+        assertEquals(identifiers.size(), 4);
+        assertTrue(identifiers.contains(0));
+        assertTrue(identifiers.contains(1));
+        assertTrue(identifiers.contains(3));
+        assertTrue(identifiers.contains(15));
+        assertEquals(activePayloads.getDisplayName(), "Active Payloads");
+    }
+
+    @Test
+    public void testModifiers()
+    {
+        List<Integer> values = new ArrayList<>();
+        values.add(1);
+        ActivePayloads activePayloads = new ActivePayloads(values);
+        assertTrue(activePayloads.payloadIsActive(1));
+        assertFalse(activePayloads.payloadIsActive(0));
+        activePayloads.setPayloadActive(4);
+        assertTrue(activePayloads.payloadIsActive(4));
+        assertTrue(activePayloads.payloadIsActive(1));
+        assertFalse(activePayloads.payloadIsActive(0));
+        activePayloads.setPayloadActive(1);
+        assertTrue(activePayloads.payloadIsActive(4));
+        assertTrue(activePayloads.payloadIsActive(1));
+        assertFalse(activePayloads.payloadIsActive(0));
+        activePayloads.setPayloadActive(0);
+        assertTrue(activePayloads.payloadIsActive(4));
+        assertTrue(activePayloads.payloadIsActive(1));
+        assertTrue(activePayloads.payloadIsActive(0));
+        activePayloads.setPayloadInactive(4);
+        assertFalse(activePayloads.payloadIsActive(4));
+        assertTrue(activePayloads.payloadIsActive(1));
+        assertTrue(activePayloads.payloadIsActive(0));
+        activePayloads.setPayloadInactive(1);
+        assertFalse(activePayloads.payloadIsActive(4));
+        assertFalse(activePayloads.payloadIsActive(1));
+        assertTrue(activePayloads.payloadIsActive(0));
     }
 }
