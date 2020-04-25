@@ -285,7 +285,7 @@ public enum UasDatalinkTag
     CorrectionOffset(137),
     /** Tag 138; List of payloads available on the Platform; Value is a {@link PayloadList} */
     PayloadList(138),
-    /** Tag 139; List of currently active payloads from the payload list (Tag 138); Value is a {@link OpaqueValue} */
+    /** Tag 139; List of currently active payloads from the payload list (Tag 138); Value is a {@link ActivePayloads} */
     ActivePayloads(139),
     /** Tag 140; List of weapon stores and status; Value is a {@link OpaqueValue} */
     WeaponsStores(140),
