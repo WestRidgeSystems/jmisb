@@ -251,7 +251,7 @@ public enum UasDatalinkTag
     OnBoardMiStoragePercentFull(120),
     /** Tag 121; List of wavelengths in Motion Imagery; Value is a {@link ActiveWavelengthList} */
     ActiveWavelengthList(121),
-    /** Tag 122; Country codes which are associated with the platform and its operation; Value is a {@link OpaqueValue} */
+    /** Tag 122; Country codes which are associated with the platform and its operation; Value is a {@link CountryCodes} */
     CountryCodes(122),
     /** Tag 123; Count of navigation satellites in view of platform; Value is a {@link NavsatsInView} */
     NumberNavsatsInView(123),

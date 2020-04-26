@@ -282,8 +282,7 @@ public class UasDatalinkFactory
             case ActiveWavelengthList:
                 return new ActiveWavelengthList(bytes);
             case CountryCodes:
-                // TODO
-                return new OpaqueValue(bytes);
+                return new CountryCodes(bytes);
             case NumberNavsatsInView:
                 return new NavsatsInView(bytes);
             case PositioningMethodSource:
