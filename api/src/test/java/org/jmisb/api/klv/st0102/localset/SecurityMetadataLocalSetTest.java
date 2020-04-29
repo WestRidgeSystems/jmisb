@@ -12,6 +12,7 @@ import java.util.SortedMap;
 import java.util.TreeMap;
 import org.jmisb.api.common.KlvParseException;
 import org.jmisb.api.klv.LoggerChecks;
+import org.jmisb.core.klv.ArrayUtils;
 
 public class SecurityMetadataLocalSetTest extends LoggerChecks
 {
@@ -144,9 +145,9 @@ public class SecurityMetadataLocalSetTest extends LoggerChecks
         Assert.assertEquals(fullMessage.getField(SecurityMetadataKey.ItemDesignatorId).getBytes(), ItemDesignatorIdValue);
 
         byte[] bytes = fullMessage.frameMessage(false);
-        // System.out.println(ArrayUtils.toHexString(bytes));
+        System.out.println(ArrayUtils.toHexString(bytes));
 
-        Assert.assertEquals(bytes[21], Classification.TOP_SECRET.getCode());
+        Assert.assertEquals(bytes[20], Classification.TOP_SECRET.getCode());
     }
 
     @Test
