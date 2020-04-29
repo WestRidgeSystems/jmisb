@@ -145,7 +145,7 @@ public class SecurityMetadataLocalSetTest extends LoggerChecks
         Assert.assertEquals(fullMessage.getField(SecurityMetadataKey.ItemDesignatorId).getBytes(), ItemDesignatorIdValue);
 
         byte[] bytes = fullMessage.frameMessage(false);
-        System.out.println(ArrayUtils.toHexString(bytes));
+        // System.out.println(ArrayUtils.toHexString(bytes));
 
         Assert.assertEquals(bytes[20], Classification.TOP_SECRET.getCode());
     }
