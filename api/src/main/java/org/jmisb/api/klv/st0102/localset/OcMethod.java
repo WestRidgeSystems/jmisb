@@ -6,6 +6,7 @@ import org.jmisb.api.klv.st0102.ISecurityMetadataValue;
 import java.util.Arrays;
 import java.util.HashSet;
 import java.util.Set;
+import org.jmisb.api.klv.st0102.CountryCodingMethodUtilities;
 
 /**
  * Object Country Coding Method (ST 0102 tag 12)
@@ -23,48 +24,9 @@ public class OcMethod implements ISecurityMetadataValue
      */
     public OcMethod(CountryCodingMethod method)
     {
-        switch (method)
-        {
-            case ISO3166_TWO_LETTER:
-                this.method = 1;
-                break;
-            case ISO3166_THREE_LETTER:
-                this.method = 2;
-                break;
-            case ISO3166_NUMERIC:
-                this.method = 3;
-                break;
-            case FIPS10_4_TWO_LETTER:
-                this.method = 4;
-                break;
-            case FIPS10_4_FOUR_LETTER:
-                this.method = 5;
-                break;
-            case C1059_TWO_LETTER:
-                this.method = 6;
-                break;
-            case C1059_THREE_LETTER:
-                this.method = 7;
-                break;
-            case OMITTED_VALUE:
-                this.method = 8;
-                break;
-            case GENC_TWO_LETTER:
-                this.method = 13;
-                break;
-            case GENC_THREE_LETTER:
-                this.method = 14;
-                break;
-            case GENC_NUMERIC:
-                this.method = 15;
-                break;
-            case GENC_ADMINSUB:
-                this.method = 64;
-                break;
-            default:
-                throw new IllegalArgumentException("Invalid object country coding method: " + method);
-        }
+        this.method = CountryCodingMethodUtilities.getValueForCodingMethod(method);
     }
+
 
     /**
      * Create from encoded bytes
@@ -93,41 +55,9 @@ public class OcMethod implements ISecurityMetadataValue
      */
     public CountryCodingMethod getMethod()
     {
-        // For some reason, classifying country and object country coding method fields use different values to
-        // represent essentially the same set of methods. The ugliness here attempts to shield clients from that.
-        switch (method)
-        {
-            case 1:
-                return CountryCodingMethod.ISO3166_TWO_LETTER;
-            case 2:
-                return CountryCodingMethod.ISO3166_THREE_LETTER;
-            case 3:
-                return CountryCodingMethod.ISO3166_NUMERIC;
-            case 4:
-                return CountryCodingMethod.FIPS10_4_TWO_LETTER;
-            case 5:
-                return CountryCodingMethod.FIPS10_4_FOUR_LETTER;
-            case 6:
-                return CountryCodingMethod.C1059_TWO_LETTER;
-            case 7:
-                return CountryCodingMethod.C1059_THREE_LETTER;
-            case 8:
-            case 9:
-            case 10:
-            case 11:
-            case 12:
-                return CountryCodingMethod.OMITTED_VALUE;
-            case 13:
-                return CountryCodingMethod.GENC_TWO_LETTER;
-            case 14:
-                return CountryCodingMethod.GENC_THREE_LETTER;
-            case 15:
-                return CountryCodingMethod.GENC_NUMERIC;
-            case 64:
-                return CountryCodingMethod.GENC_ADMINSUB;
-        }
-        return CountryCodingMethod.OMITTED_VALUE;
+        return CountryCodingMethodUtilities.getMethodForValue(this.method);
     }
+
 
     @Override
     public byte[] getBytes()
