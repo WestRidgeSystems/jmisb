@@ -10,6 +10,8 @@ import org.slf4j.LoggerFactory;
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
+import static org.bytedeco.ffmpeg.global.avcodec.AV_PKT_DATA_MPEGTS_STREAM_ID;
+import static org.bytedeco.ffmpeg.global.avcodec.av_packet_add_side_data;
 
 import static org.bytedeco.ffmpeg.global.avcodec.av_packet_alloc;
 import static org.bytedeco.ffmpeg.global.avcodec.av_packet_free;
@@ -22,7 +24,10 @@ import static org.bytedeco.ffmpeg.global.avformat.avformat_write_header;
 import static org.bytedeco.ffmpeg.global.avformat.avio_open2;
 import static org.bytedeco.ffmpeg.global.avutil.AVERROR_EOF;
 import static org.bytedeco.ffmpeg.global.avutil.av_dict_free;
+import static org.bytedeco.ffmpeg.global.avutil.av_free;
+import static org.bytedeco.ffmpeg.global.avutil.av_malloc;
 import static org.bytedeco.ffmpeg.presets.avutil.AVERROR_EAGAIN;
+import org.bytedeco.javacpp.BytePointer;
 
 /**
  * Write video/metadata to a file
@@ -31,6 +36,8 @@ public class VideoFileOutput extends VideoOutput implements IVideoFileOutput
 {
     private static Logger logger = LoggerFactory.getLogger(VideoFileOutput.class);
     private String filename;
+
+    protected static final byte ASYNC_STREAM_ID = (byte)0xBD;
 
     /**
      * Constructor
@@ -136,15 +143,22 @@ public class VideoFileOutput extends VideoOutput implements IVideoFileOutput
         }
 
         AVPacket packet = convert(frame);
+        BytePointer stream_id_side_data = new BytePointer(av_malloc(1)).capacity(1);
+        stream_id_side_data.put(ASYNC_STREAM_ID);
+        int ret;
+        if ((ret = av_packet_add_side_data(packet, AV_PKT_DATA_MPEGTS_STREAM_ID, stream_id_side_data, 1)) < 0)
+        {
+            logger.warn("Failed to set stream ID for metadata packet: " + ret);
+            av_free(stream_id_side_data);
+        }
 
         // Write the packet to the file
-        int ret;
         if ((ret = av_write_frame(formatContext, packet)) < 0)
         {
             throw new IOException("Error writing metadata packet: " + FfmpegUtils.formatError(ret));
         }
 
-        // Free packet
+        // Free packet (and stream_id_side_data, which is now owned by packet)
         av_packet_free(packet);
     }
 
