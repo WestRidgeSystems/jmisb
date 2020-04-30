@@ -53,7 +53,7 @@ public abstract class VmtiUtf8 implements IVmtiMetadataValue
     public VmtiUtf8(String name, byte[] bytes)
     {
         this.displayName = name;
-        this.stringValue = new String(bytes);
+        this.stringValue = new String(bytes, StandardCharsets.UTF_8);
     }
 
     /**

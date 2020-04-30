@@ -154,7 +154,12 @@ public class VideoStreamOutput extends VideoOutput implements IVideoStreamOutput
     @Override
     public void queueVideoFrame(VideoFrame videoFrame)
     {
-        videoFrames.offer(videoFrame);
+        boolean wasAdded = videoFrames.offer(videoFrame);
+        if (!wasAdded)
+        {
+            logger.info("Video frame could not be queued, possible lag");
+            return;
+        }
         outputStatistics.videoFrameQueued();
     }
 
@@ -167,7 +172,12 @@ public class VideoStreamOutput extends VideoOutput implements IVideoStreamOutput
         }
 
         AVPacket packet = convert(metadataFrame);
-        klvPackets.offer(av_packet_clone(packet));
+        boolean wasAdded = klvPackets.offer(av_packet_clone(packet));
+        if (!wasAdded)
+        {
+            logger.info("Metadata Frame could not be queued, possible lag");
+            return;
+        }
         outputStatistics.metadataFrameQueued();
     }
 
@@ -201,7 +211,12 @@ public class VideoStreamOutput extends VideoOutput implements IVideoStreamOutput
                     int ret = avcodec_receive_packet(videoCodecContext, packet);
                     if (ret == 0)
                     {
-                        videoPackets.offer(av_packet_clone(packet));
+                        boolean wasQueued = videoPackets.offer(av_packet_clone(packet));
+                        if (!wasQueued)
+                        {
+                            logger.info("Packet could not be queued, possible lag in stream");
+                            return;
+                        }
                     } else if (ret == AVERROR_EOF)
                     {
                         logger.info("Received EOF from encoder");

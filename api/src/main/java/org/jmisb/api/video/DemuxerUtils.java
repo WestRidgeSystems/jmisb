@@ -94,9 +94,8 @@ class DemuxerUtils
             logger.debug("Seeking to " + microseconds + "us");
         }
 
-        int ret;
-        if ((ret = avformat_seek_file(avFormatContext, -1, Long.MIN_VALUE, microseconds, Long.MAX_VALUE,
-                AVSEEK_FLAG_BACKWARD)) < 0)
+        if (avformat_seek_file(avFormatContext, -1, Long.MIN_VALUE, microseconds, Long.MAX_VALUE,
+                AVSEEK_FLAG_BACKWARD) < 0)
         {
             logger.error("Error seeking to " + seekPosition);
         }

@@ -42,14 +42,14 @@ public class PositioningMethodSource implements IUasDatalinkValue
     private static int MIN_VALUE = 1;
     private static int MAX_VALUE = 255;
 
-    public static int INS = 1;
-    public static int GPS = 2;
-    public static int GALILEO = 4;
-    public static int QZSS = 8;
-    public static int NAVIC = 16;
-    public static int GLONASS = 32;
-    public static int BEIDOU1 = 64;
-    public static int BIEDOU2 = 128;
+    public static final int INS = 1;
+    public static final int GPS = 2;
+    public static final int GALILEO = 4;
+    public static final int QZSS = 8;
+    public static final int NAVIC = 16;
+    public static final int GLONASS = 32;
+    public static final int BEIDOU1 = 64;
+    public static final int BIEDOU2 = 128;
 
     /**
      * Create from value
@@ -129,7 +129,7 @@ public class PositioningMethodSource implements IUasDatalinkValue
     }
 
     @Override
-    public String getDisplayName()
+    public final String getDisplayName()
     {
         return "Positioning Method Source";
     }

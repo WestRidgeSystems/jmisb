@@ -19,9 +19,9 @@ import java.util.Arrays;
 abstract public class UasDatalinkSensorVelocity implements IUasDatalinkValue
 {
     private double velocity;
-    private static byte[] invalidBytes = new byte[]{(byte)0x80, (byte)0x00};
-    private static double FLOAT_RANGE = 654.0;
-    private static double INT_RANGE = 65534.0; // 2^15-1
+    private static final byte[] invalidBytes = new byte[]{(byte)0x80, (byte)0x00};
+    private static final double FLOAT_RANGE = 654.0;
+    private static final double INT_RANGE = 65534.0; // 2^15-1
 
     /**
      * Create from value
@@ -73,7 +73,7 @@ abstract public class UasDatalinkSensorVelocity implements IUasDatalinkValue
     {
         if (velocity == Double.POSITIVE_INFINITY)
         {
-            return invalidBytes;
+            return invalidBytes.clone();
         }
 
         short shortVal = (short) Math.round((velocity / FLOAT_RANGE) * INT_RANGE);

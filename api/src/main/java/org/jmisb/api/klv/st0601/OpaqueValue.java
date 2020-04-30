@@ -13,13 +13,13 @@ public class OpaqueValue implements IUasDatalinkValue
      */
     public OpaqueValue(byte[] bytes)
     {
-        this.bytes = bytes;
+        this.bytes = bytes.clone();
     }
 
     @Override
     public byte[] getBytes()
     {
-        return bytes;
+        return bytes.clone();
     }
 
     @Override
@@ -29,7 +29,7 @@ public class OpaqueValue implements IUasDatalinkValue
     }
 
     @Override
-    public String getDisplayName()
+    public final String getDisplayName()
     {
         return "Opaque Value";
     }

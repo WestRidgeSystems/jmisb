@@ -20,9 +20,9 @@ import java.util.Arrays;
 public class PlatformRollAngle implements IUasDatalinkValue
 {
     private double degrees;
-    private static byte[] invalidBytes = new byte[]{(byte)0x80, (byte)0x00};
-    private static double FLOAT_RANGE = 100.0;
-    private static double INT_RANGE = 65534.0;
+    private static final byte[] invalidBytes = new byte[]{(byte)0x80, (byte)0x00};
+    private static final double FLOAT_RANGE = 100.0;
+    private static final double INT_RANGE = 65534.0;
 
     /**
      * Create from value
@@ -74,7 +74,7 @@ public class PlatformRollAngle implements IUasDatalinkValue
     {
         if (degrees == Double.POSITIVE_INFINITY)
         {
-            return invalidBytes;
+            return invalidBytes.clone();
         }
 
         short shortVal = (short) Math.round((degrees / FLOAT_RANGE) * INT_RANGE);
@@ -88,7 +88,7 @@ public class PlatformRollAngle implements IUasDatalinkValue
     }
 
     @Override
-    public String getDisplayName()
+    public final String getDisplayName()
     {
         return "Platform Roll Angle";
     }

@@ -1,7 +1,6 @@
 package org.jmisb.api.klv.st0102.localset;
 
 import org.jmisb.api.klv.st0102.CountryCodingMethod;
-import org.jmisb.api.klv.st0102.localset.CcMethod;
 import org.testng.Assert;
 import org.testng.annotations.Test;
 

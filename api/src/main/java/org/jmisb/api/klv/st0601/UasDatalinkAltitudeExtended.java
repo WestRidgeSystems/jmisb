@@ -12,9 +12,9 @@ import org.jmisb.api.klv.st1201.FpEncoder;
  */
 public abstract class UasDatalinkAltitudeExtended implements IUasDatalinkValue
 {
-    protected static double MIN_VAL = -900.0;
-    protected static double MAX_VAL = 40000.0;
-    protected static int RECOMMENDED_BYTES = 3;
+    protected static final double MIN_VAL = -900.0;
+    protected static final double MAX_VAL = 40000.0;
+    protected static final int RECOMMENDED_BYTES = 3;
     private double metres;
 
     /**

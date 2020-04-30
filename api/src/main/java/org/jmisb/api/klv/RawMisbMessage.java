@@ -11,7 +11,7 @@ public class RawMisbMessage implements IMisbMessage
     public RawMisbMessage(UniversalLabel universalLabel, byte[] bytes)
     {
         this.universalLabel = universalLabel;
-        this.bytes = bytes;
+        this.bytes = bytes.clone();
     }
 
     @Override
@@ -27,13 +27,13 @@ public class RawMisbMessage implements IMisbMessage
      */
     public byte[] getBytes()
     {
-        return bytes;
+        return bytes.clone();
     }
 
     @Override
     public byte[] frameMessage(boolean isNested)
     {
-        return bytes;
+        return getBytes();
     }
 
     @Override

@@ -56,9 +56,9 @@ public class CornerOffset implements IUasDatalinkValue
     public final static String CORNER_LON_4 = "Offset Corner Longitude Point 4";
 
     private double degrees;
-    private static byte[] invalidBytes = new byte[]{(byte)0x80, (byte)0x00};
-    private static double FLOAT_RANGE = 0.15;
-    private static double INT_RANGE = 65534.0; // 2^15-1
+    private static final byte[] invalidBytes = new byte[]{(byte)0x80, (byte)0x00};
+    private static final double FLOAT_RANGE = 0.15;
+    private static final double INT_RANGE = 65534.0; // 2^15-1
     private final String displayName;
 
     /**
@@ -113,7 +113,7 @@ public class CornerOffset implements IUasDatalinkValue
     {
         if (degrees == Double.POSITIVE_INFINITY)
         {
-            return invalidBytes;
+            return invalidBytes.clone();
         }
 
         short shortVal = (short) Math.round((degrees / FLOAT_RANGE) * INT_RANGE);
@@ -127,7 +127,7 @@ public class CornerOffset implements IUasDatalinkValue
     }
 
     @Override
-    public String getDisplayName()
+    public final String getDisplayName()
     {
         return displayName;
     }

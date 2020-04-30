@@ -57,7 +57,7 @@ abstract public class TargetTrackGateSize implements IUasDatalinkValue
     @Override
     public byte[] getBytes()
     {
-        short intVal = (short) Math.round(pixels / 2);
+        short intVal = (short) (pixels / 2);
         return PrimitiveConverter.uint8ToBytes(intVal);
     }
 

@@ -24,7 +24,7 @@ public class SecurityMetadataString implements ISecurityMetadataValue
      */
     public SecurityMetadataString(byte[] bytes)
     {
-        this.stringValue = new String(bytes);
+        this.stringValue = new String(bytes, StandardCharsets.US_ASCII);
     }
 
     /**

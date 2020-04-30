@@ -123,7 +123,7 @@ public class WavelengthsList implements IUasDatalinkValue {
             packLength += minBytes.length;
             byte[] maxBytes = decoder.encode(wavelengths.getMax());
             packLength += maxBytes.length;
-            byte[] nameBytes = wavelengths.getName().getBytes();
+            byte[] nameBytes = wavelengths.getName().getBytes(StandardCharsets.UTF_8);
             packLength += nameBytes.length;
             byte[] packLengthBytes = BerEncoder.encode(packLength);
             baos.write(packLengthBytes, 0, packLengthBytes.length);
