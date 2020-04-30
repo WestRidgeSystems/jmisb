@@ -13,6 +13,7 @@ public class OcMethodTest
         Assert.assertEquals(method.getBytes().length, 1);
         Assert.assertEquals(method.getBytes()[0], 15);
         Assert.assertEquals(method.getMethod(), CountryCodingMethod.GENC_NUMERIC);
+        Assert.assertEquals(method.getDisplayableValue(), "GENC_NUMERIC");
     }
 
     @Test
@@ -22,11 +23,13 @@ public class OcMethodTest
         Assert.assertEquals(method.getMethod(), CountryCodingMethod.ISO3166_NUMERIC);
         Assert.assertEquals(method.getBytes().length, 1);
         Assert.assertEquals(method.getBytes()[0], 0x03);
+        Assert.assertEquals(method.getDisplayableValue(), "ISO3166_NUMERIC");
 
         method = new OcMethod(new byte[]{0x0a});
         Assert.assertEquals(method.getMethod(), CountryCodingMethod.OMITTED_VALUE);
         Assert.assertEquals(method.getBytes().length, 1);
         Assert.assertEquals(method.getBytes()[0], 0x0a);
+        Assert.assertEquals(method.getDisplayableValue(), "OMITTED_VALUE");
     }
 
     @Test(expectedExceptions = IllegalArgumentException.class)
@@ -39,5 +42,11 @@ public class OcMethodTest
     public void testIllegalCode()
     {
         new OcMethod(new byte[]{0x10});
+    }
+
+    @Test(expectedExceptions = IllegalArgumentException.class)
+    public void testBadLength()
+    {
+        new OcMethod(new byte[]{0x01, 0x02});
     }
 }
