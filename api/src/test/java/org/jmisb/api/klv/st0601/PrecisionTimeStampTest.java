@@ -22,7 +22,7 @@ public class PrecisionTimeStampTest
         PrecisionTimeStamp pts = new PrecisionTimeStamp(bytes);
         Assert.assertEquals(pts.getDisplayName(), "Precision Time Stamp");
         Assert.assertEquals(pts.getDisplayableValue(), "1224807209913000");
-        LocalDateTime dateTime = pts.getLocalDateTime();
+        LocalDateTime dateTime = pts.getDateTime();
 
         Assert.assertEquals(dateTime.getYear(), 2008);
         Assert.assertEquals(dateTime.getMonth(), Month.OCTOBER);
@@ -53,7 +53,7 @@ public class PrecisionTimeStampTest
         Assert.assertEquals(v.getDisplayName(), "Precision Time Stamp");
         PrecisionTimeStamp pts = (PrecisionTimeStamp)v;
         Assert.assertEquals(pts.getDisplayableValue(), "1224807209913000");
-        LocalDateTime dateTime = pts.getLocalDateTime();
+        LocalDateTime dateTime = pts.getDateTime();
 
         Assert.assertEquals(dateTime.getYear(), 2008);
         Assert.assertEquals(dateTime.getMonth(), Month.OCTOBER);
@@ -70,8 +70,8 @@ public class PrecisionTimeStampTest
         LocalDateTime now = LocalDateTime.now();
         PrecisionTimeStamp pts = new PrecisionTimeStamp(now);
         Assert.assertEquals(pts.getDisplayName(), "Precision Time Stamp");
-        Assert.assertEquals(pts.getLocalDateTime().getDayOfMonth(), now.getDayOfMonth());
-        Assert.assertEquals(pts.getLocalDateTime().getHour(), now.getHour());
+        Assert.assertEquals(pts.getDateTime().getDayOfMonth(), now.getDayOfMonth());
+        Assert.assertEquals(pts.getDateTime().getHour(), now.getHour());
         long ptsMicroseconds = pts.getMicroseconds();
         long nowMicroseconds = ChronoUnit.MICROS.between(Instant.EPOCH, now.toInstant(ZoneOffset.UTC));
         Assert.assertEquals(ptsMicroseconds, nowMicroseconds);
@@ -82,9 +82,9 @@ public class PrecisionTimeStampTest
     {
         PrecisionTimeStamp pts = new PrecisionTimeStamp(0L);
         Assert.assertEquals(pts.getDisplayName(), "Precision Time Stamp");
-        Assert.assertEquals(pts.getLocalDateTime().getYear(), 1970);
-        Assert.assertEquals(pts.getLocalDateTime().getMonth(), Month.JANUARY);
-        Assert.assertEquals(pts.getLocalDateTime().getDayOfMonth(), 1);
+        Assert.assertEquals(pts.getDateTime().getYear(), 1970);
+        Assert.assertEquals(pts.getDateTime().getMonth(), Month.JANUARY);
+        Assert.assertEquals(pts.getDateTime().getDayOfMonth(), 1);
         Assert.assertEquals(pts.getDisplayableValue(), "0");
 
         // Create max value and ensure no exception is thrown
