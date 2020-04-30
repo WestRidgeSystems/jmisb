@@ -287,7 +287,7 @@ public enum UasDatalinkTag
     PayloadList(138),
     /** Tag 139; List of currently active payloads from the payload list (Tag 138); Value is a {@link ActivePayloads} */
     ActivePayloads(139),
-    /** Tag 140; List of weapon stores and status; Value is a {@link OpaqueValue} */
+    /** Tag 140; List of weapon stores and status; Value is a {@link WeaponsStores} */
     WeaponsStores(140),
     /** Tag 141; List of waypoints and their status; Value is a {@link WaypointList} */
     WaypointList(141);
