@@ -5,8 +5,10 @@ import org.testng.Assert;
 import org.testng.annotations.Test;
 
 import java.time.Instant;
+import java.time.LocalDateTime;
 import java.time.Month;
 import java.time.ZoneId;
+import java.time.ZoneOffset;
 import java.time.ZonedDateTime;
 import java.time.temporal.ChronoUnit;
 import org.jmisb.api.common.KlvParseException;
@@ -22,7 +24,7 @@ public class StartTimeTest
         StartTime pts = new StartTime(bytes);
         Assert.assertEquals(pts.getDisplayName(), "Start Time");
         Assert.assertEquals(pts.getDisplayableValue(), "987654321000000");
-        ZonedDateTime dateTime = pts.getDateTime();
+        LocalDateTime dateTime = pts.getDateTime();
 
         Assert.assertEquals(dateTime.getYear(), 2001);
         Assert.assertEquals(dateTime.getMonth(), Month.APRIL);
@@ -33,7 +35,7 @@ public class StartTimeTest
         Assert.assertEquals(dateTime.getNano(), 0);
 
         // Convert value -> byte[]
-        long microseconds = dateTime.toInstant().toEpochMilli() * 1000;
+        long microseconds = dateTime.toInstant(ZoneOffset.UTC).toEpochMilli() * 1000;
         StartTime pts2 = new StartTime(microseconds);
         Assert.assertEquals(pts2.getDisplayName(), "Start Time");
         Assert.assertEquals(pts2.getBytes(), new byte[]{(byte)0x00, (byte)0x03, (byte)0x82, (byte)0x44, (byte)0x30, (byte)0xF6, (byte)0xCE, (byte)0x40});
@@ -51,7 +53,7 @@ public class StartTimeTest
         Assert.assertEquals(v.getDisplayName(), "Start Time");
         StartTime pts = (StartTime)v;
         Assert.assertEquals(pts.getDisplayableValue(), "987654321000000");
-        ZonedDateTime dateTime = pts.getDateTime();
+        LocalDateTime dateTime = pts.getDateTime();
 
         Assert.assertEquals(dateTime.getYear(), 2001);
         Assert.assertEquals(dateTime.getMonth(), Month.APRIL);
@@ -65,13 +67,13 @@ public class StartTimeTest
     @Test
     public void testNow()
     {
-        ZonedDateTime now = ZonedDateTime.now(ZoneId.of("UTC"));
+        LocalDateTime now = LocalDateTime.now(ZoneId.of("UTC"));
         StartTime pts = new StartTime(now);
         Assert.assertEquals(pts.getDisplayName(), "Start Time");
         Assert.assertEquals(pts.getDateTime().getDayOfMonth(), now.getDayOfMonth());
         Assert.assertEquals(pts.getDateTime().getHour(), now.getHour());
         long ptsMicroseconds = pts.getMicroseconds();
-        long nowMicroseconds = ChronoUnit.MICROS.between(Instant.EPOCH, now.toInstant());
+        long nowMicroseconds = ChronoUnit.MICROS.between(Instant.EPOCH, now.toInstant(ZoneOffset.UTC));
         Assert.assertEquals(ptsMicroseconds, nowMicroseconds);
     }
 
@@ -100,7 +102,7 @@ public class StartTimeTest
     public void testTooBig()
     {
         // Oct 12, 2263 at 08:30
-        new StartTime(ZonedDateTime.of(2263, 10, 12, 8, 30, 0, 0, ZoneId.of("UTC")));
+        new StartTime(LocalDateTime.of(2263, 10, 12, 8, 30, 0, 0));
     }
 
     @Test(expectedExceptions = IllegalArgumentException.class)
