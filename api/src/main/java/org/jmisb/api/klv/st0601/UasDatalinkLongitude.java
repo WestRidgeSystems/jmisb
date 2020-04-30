@@ -18,10 +18,10 @@ import java.util.Arrays;
 public abstract class UasDatalinkLongitude implements IUasDatalinkValue
 {
     private double degrees;
-    private static byte[] invalidBytes = new byte[]{(byte) 0x80, (byte) 0x00, (byte) 0x00, (byte) 0x00};
-    private static double FLOAT_RANGE = 180.0;
-    private static double MAX_INT = 2147483647.0;
-    public static double DELTA = 42e-9; // +/- 42 nano degrees
+    private static final byte[] invalidBytes = new byte[]{(byte) 0x80, (byte) 0x00, (byte) 0x00, (byte) 0x00};
+    private static final double FLOAT_RANGE = 180.0;
+    private static final double MAX_INT = 2147483647.0;
+    public static final double DELTA = 42e-9; // +/- 42 nano degrees
 
     /**
      * Create from value
@@ -75,7 +75,7 @@ public abstract class UasDatalinkLongitude implements IUasDatalinkValue
     {
         if (degrees == Double.POSITIVE_INFINITY)
         {
-            return invalidBytes;
+            return invalidBytes.clone();
         }
 
         int intVal = (int) Math.round((degrees / FLOAT_RANGE) * MAX_INT);

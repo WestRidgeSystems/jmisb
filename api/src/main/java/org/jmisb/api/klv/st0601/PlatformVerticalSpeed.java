@@ -25,9 +25,9 @@ import java.util.Arrays;
 public class PlatformVerticalSpeed implements IUasDatalinkValue
 {
     private double verticalSpeed;
-    private static byte[] invalidBytes = new byte[]{(byte)0x80, (byte)0x00};
-    private static double FLOAT_RANGE = 360.0;
-    private static double INT_RANGE = 65534.0;
+    private static final byte[] invalidBytes = new byte[]{(byte)0x80, (byte)0x00};
+    private static final double FLOAT_RANGE = 360.0;
+    private static final double INT_RANGE = 65534.0;
 
     /**
      * Create from value
@@ -80,7 +80,7 @@ public class PlatformVerticalSpeed implements IUasDatalinkValue
     {
         if (verticalSpeed == Double.POSITIVE_INFINITY)
         {
-            return invalidBytes;
+            return invalidBytes.clone();
         }
 
         short shortVal = (short) Math.round((verticalSpeed / FLOAT_RANGE) * INT_RANGE);
@@ -94,7 +94,7 @@ public class PlatformVerticalSpeed implements IUasDatalinkValue
     }
 
     @Override
-    public String getDisplayName()
+    public final String getDisplayName()
     {
         return "Platform Vertical Speed";
     }

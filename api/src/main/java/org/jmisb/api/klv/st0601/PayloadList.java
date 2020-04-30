@@ -1,6 +1,7 @@
 package org.jmisb.api.klv.st0601;
 
 import java.nio.charset.Charset;
+import java.nio.charset.StandardCharsets;
 import java.util.ArrayList;
 import java.util.List;
 import org.jmisb.api.klv.Ber;
@@ -71,7 +72,7 @@ public class PayloadList implements IUasDatalinkValue
             offset += typeField.getLength();
             BerField nameLengthField = BerDecoder.decode(bytes, offset, false);
             offset += nameLengthField.getLength();
-            String name = new String(bytes, offset, nameLengthField.getValue());
+            String name = new String(bytes, offset, nameLengthField.getValue(), StandardCharsets.UTF_8);
             Payload payload = new Payload(idField.getValue(), typeField.getValue(), name);
             offset += nameLengthField.getValue();
             payloadList.add(payload);
@@ -105,7 +106,7 @@ public class PayloadList implements IUasDatalinkValue
             lengthForPayload += idBytes.length;
             byte[] typeBytes = BerEncoder.encode(payload.getType(), Ber.OID);
             lengthForPayload += typeBytes.length;
-            byte[] nameBytes = payload.getName().getBytes(Charset.forName("UTF-8"));
+            byte[] nameBytes = payload.getName().getBytes(StandardCharsets.UTF_8);
             byte[] nameLengthBytes = BerEncoder.encode(nameBytes.length);
             lengthForPayload += nameLengthBytes.length;
             lengthForPayload += nameBytes.length;

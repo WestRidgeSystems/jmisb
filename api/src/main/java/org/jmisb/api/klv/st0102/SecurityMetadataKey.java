@@ -68,6 +68,6 @@ public enum SecurityMetadataKey
 
     public static SecurityMetadataKey getKey(UniversalLabel ul)
     {
-        return ulTable.containsKey(ul) ? tagTable.get(ul) : Undefined;
+        return ulTable.containsKey(ul) ? ulTable.get(ul) : Undefined;
     }
 }

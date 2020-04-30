@@ -13,8 +13,8 @@ import org.jmisb.core.klv.PrimitiveConverter;
  */
 public abstract class Confidence implements IVmtiMetadataValue {
     
-    protected static int MIN_VALUE = 0;
-    protected static int MAX_VALUE = 100;
+    protected static final int MIN_VALUE = 0;
+    protected static final int MAX_VALUE = 100;
     protected final short confidence;
 
     /**

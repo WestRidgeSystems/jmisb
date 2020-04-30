@@ -42,7 +42,7 @@ public class UasDatalinkString implements IUasDatalinkValue
     public UasDatalinkString(String name, byte[] bytes)
     {
         this.displayName = name;
-        this.stringValue = new String(bytes);
+        this.stringValue = new String(bytes, StandardCharsets.UTF_8);
     }
 
     /**
@@ -57,7 +57,7 @@ public class UasDatalinkString implements IUasDatalinkValue
     @Override
     public byte[] getBytes()
     {
-        return stringValue.getBytes(StandardCharsets.US_ASCII);
+        return stringValue.getBytes(StandardCharsets.UTF_8);
     }
 
     @Override

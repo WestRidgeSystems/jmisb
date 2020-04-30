@@ -7,6 +7,7 @@ import org.bytedeco.ffmpeg.avutil.AVRational;
 
 import java.nio.ByteBuffer;
 import java.nio.ByteOrder;
+import java.nio.charset.StandardCharsets;
 
 import static org.bytedeco.ffmpeg.global.avcodec.avcodec_descriptor_get;
 import static org.bytedeco.ffmpeg.global.avformat.av_guess_frame_rate;
@@ -36,7 +37,7 @@ public class FfmpegUtils
         {
             return "(" + error + ") Unknown to strerror";
         }
-        return "(" + error + ") " + new String(bytes);
+        return "(" + error + ") " + new String(bytes, StandardCharsets.UTF_8);
     }
 
     public static AVStream getVideoStream(AVFormatContext context)
@@ -73,7 +74,7 @@ public class FfmpegUtils
      */
     public static String tagToFourCc(int i)
     {
-        return new String(ByteBuffer.allocate(4).order(ByteOrder.LITTLE_ENDIAN).putInt(i).array());
+        return new String(ByteBuffer.allocate(4).order(ByteOrder.LITTLE_ENDIAN).putInt(i).array(), StandardCharsets.US_ASCII);
     }
 
     /**
@@ -89,7 +90,7 @@ public class FfmpegUtils
             throw new IllegalArgumentException("Four CC must be 4 characters");
         }
 
-        return ByteBuffer.wrap(str.getBytes()).order(java.nio.ByteOrder.LITTLE_ENDIAN).getInt();
+        return ByteBuffer.wrap(str.getBytes(StandardCharsets.US_ASCII)).order(java.nio.ByteOrder.LITTLE_ENDIAN).getInt();
     }
 
     /**
@@ -100,7 +101,7 @@ public class FfmpegUtils
      */
     public static double getDuration(AVFormatContext context)
     {
-        return (double)(context.duration() / AV_TIME_BASE);
+        return (double)context.duration() / AV_TIME_BASE;
     }
 
     /**

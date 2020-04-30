@@ -15,10 +15,10 @@ import org.jmisb.core.klv.PrimitiveConverter;
 public abstract class UasRange implements IUasDatalinkValue
 {
 
-    protected static double MIN_VAL = 0.0;
-    protected static double MAX_VAL = 5000000.0;
-    protected static double MAXINT = 4294967295.0; // 2^32-1
-    public static double DELTA = 0.6e-3; // +/- 0.6 mm
+    protected static final double MIN_VAL = 0.0;
+    protected static final double MAX_VAL = 5000000.0;
+    protected static final double MAXINT = 4294967295.0; // 2^32-1
+    public static final double DELTA = 0.6e-3; // +/- 0.6 mm
     protected double meters;
 
     /**

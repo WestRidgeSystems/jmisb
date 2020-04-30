@@ -137,9 +137,8 @@ public class VideoFileInput extends VideoInput implements IVideoFileInput
         }
 
         // Seek back to start of file
-        int ret;
-        if ((ret = avformat_seek_file(formatContext, -1, Long.MIN_VALUE, 0, Long.MAX_VALUE,
-                AVSEEK_FLAG_BACKWARD)) < 0)
+        if (avformat_seek_file(formatContext, -1, Long.MIN_VALUE, 0, Long.MAX_VALUE,
+                AVSEEK_FLAG_BACKWARD) < 0)
         {
             logger.error("Error seeking to start of file");
         }

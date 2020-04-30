@@ -17,9 +17,9 @@ import org.jmisb.core.klv.PrimitiveConverter;
  */
 public abstract class UasDatalinkAngle implements IUasDatalinkValue
 {
-    protected static byte[] invalidBytes = new byte[]{(byte) 0x80, (byte) 0x00};
-    protected static double FLOAT_RANGE = 40.0;
-    protected static double INT_RANGE = 65534.0; // 2^15-1
+    static final byte[] invalidBytes = new byte[]{(byte) 0x80, (byte) 0x00};
+    protected static final double FLOAT_RANGE = 40.0;
+    protected static final double INT_RANGE = 65534.0; // 2^15-1
     protected double degrees;
 
     /**
@@ -76,7 +76,7 @@ public abstract class UasDatalinkAngle implements IUasDatalinkValue
     {
         if (degrees == Double.POSITIVE_INFINITY)
         {
-            return invalidBytes;
+            return invalidBytes.clone();
         }
         short shortVal = (short) Math.round((degrees / FLOAT_RANGE) * INT_RANGE);
         return PrimitiveConverter.int16ToBytes(shortVal);

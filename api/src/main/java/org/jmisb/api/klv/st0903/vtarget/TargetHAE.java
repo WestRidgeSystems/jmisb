@@ -14,9 +14,9 @@ import org.jmisb.api.klv.st1201.FpEncoder;
  */
 public class TargetHAE implements IVmtiMetadataValue
 {
-    protected static double MIN_VAL = -900;
-    protected static double MAX_VAL = 19000;
-    protected static int NUM_BYTES = 2;
+    protected static final double MIN_VAL = -900;
+    protected static final double MAX_VAL = 19000;
+    protected static final int NUM_BYTES = 2;
     protected double value;
 
     /**
