@@ -40,7 +40,7 @@ public class BerEncoder
         }
         else if (ber == Ber.LONG_FORM)
         {
-            if (value <= 127)
+            if (value <= 255)
             {
                 // 1 byte
                 bytes = new byte[2];
