@@ -60,7 +60,7 @@ import static org.bytedeco.ffmpeg.global.avutil.av_dict_set;
 /**
  * Abstract base class for video output
  */
-public abstract class VideoOutput
+public abstract class VideoOutput extends VideoIO
 {
     private static Logger logger = LoggerFactory.getLogger(VideoOutput.class);
     protected VideoOutputOptions options;
@@ -97,7 +97,7 @@ public abstract class VideoOutput
      *
      * @param options The output options
      */
-    VideoOutput(VideoOutputOptions options)
+    public VideoOutput(VideoOutputOptions options)
     {
         this.options = options;
     }

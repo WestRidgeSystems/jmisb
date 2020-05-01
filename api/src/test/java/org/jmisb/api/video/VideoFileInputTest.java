@@ -16,7 +16,7 @@ public class VideoFileInputTest extends LoggerChecks
     @Test
     public void testCreate()
     {
-        try (IVideoFileInput fileInput = VideoSystem.createInputFile())
+        try (IVideoFileInput fileInput = new VideoFileInput())
         {
             Assert.assertFalse(fileInput.isOpen());
             Assert.assertFalse(fileInput.isPlaying());
@@ -32,7 +32,7 @@ public class VideoFileInputTest extends LoggerChecks
     @Test(expectedExceptions = IOException.class)
     public void checkOpenExceptions() throws IOException
     {
-        try (IVideoFileInput fileInput = VideoSystem.createInputFile())
+        try (IVideoFileInput fileInput = new VideoFileInput())
         {
             fileInput.open("This file does not exist");
         }

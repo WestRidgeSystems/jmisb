@@ -24,7 +24,7 @@ import static org.jmisb.core.video.TimingUtils.shortWait;
 /**
  * Abstract base class for video input
  */
-public abstract class VideoInput implements IVideoInput
+public abstract class VideoInput extends VideoIO implements IVideoInput
 {
     private static Logger logger = LoggerFactory.getLogger(VideoInput.class);
     private Set<IVideoListener> videoListeners = new HashSet<>();

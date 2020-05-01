@@ -98,8 +98,7 @@ Below is a simple example of reading a network stream containing video
 and (optionally) metadata.
 
 ```java
-IVideoStreamInput stream = VideoSystem.createInputStream();
-try
+try (IVideoStreamInput stream = new VideoStreamInput())
 {
     stream.open("udp://225.1.1.1:35800");
     stream.addFrameListener(exampleProcessor);

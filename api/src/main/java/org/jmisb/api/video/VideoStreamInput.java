@@ -23,17 +23,24 @@ import static org.bytedeco.ffmpeg.global.avutil.av_dict_set;
  */
 public class VideoStreamInput extends VideoInput implements IVideoStreamInput
 {
-    private static Logger logger = LoggerFactory.getLogger(VideoStreamInput.class);
+    private static final Logger logger = LoggerFactory.getLogger(VideoStreamInput.class);
     private final VideoStreamInputOptions options;
     private StreamDemuxer demuxer;
     private boolean open = false;
 
     /**
-     * Clients must use {@link VideoSystem#createInputStream()} to construct new instances
-     *
-     * @param options Options to use for the stream
+     * Construct with default options
      */
-    VideoStreamInput(VideoStreamInputOptions options)
+    public VideoStreamInput()
+    {
+        this(new VideoStreamInputOptions());
+    }
+
+    /**
+     * Construct with options
+     * @param options Options for video input
+     */
+    public VideoStreamInput(VideoStreamInputOptions options)
     {
         this.options = options;
     }

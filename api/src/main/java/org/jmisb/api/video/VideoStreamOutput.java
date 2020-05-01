@@ -47,10 +47,9 @@ public class VideoStreamOutput extends VideoOutput implements IVideoStreamOutput
 
     /**
      * Constructor
-     * <p>
-     * Clients must use {@link VideoSystem#createOutputStream(VideoOutputOptions)} to construct new instances
+     * @param options Options for video output
      */
-    VideoStreamOutput(VideoOutputOptions options)
+    public VideoStreamOutput(VideoOutputOptions options)
     {
         super(options);
     }

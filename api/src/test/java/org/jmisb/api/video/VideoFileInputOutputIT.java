@@ -27,7 +27,7 @@ import java.util.TreeMap;
 @Test(groups={"integration-tests"})
 public class VideoFileInputOutputIT
 {
-    private static Logger logger = LoggerFactory.getLogger(VideoFileInputOutputIT.class);
+    private static final Logger logger = LoggerFactory.getLogger(VideoFileInputOutputIT.class);
     private final double sensorLatitude = 42.4036;
     private final double sensorLongitude = -71.1284;
     private final double sensorAltitude = 1258.3;
@@ -52,7 +52,7 @@ public class VideoFileInputOutputIT
         final double frameDuration = 1.0 / frameRate;
         final int numFrames = 300;
 
-        try (IVideoFileOutput output = VideoSystem.createOutputFile(
+        try (IVideoFileOutput output = new VideoFileOutput(
                 new VideoOutputOptions(width, height, bitRate, frameRate, gopSize, hasKlv)))
         {
             output.open(filename);
@@ -95,7 +95,7 @@ public class VideoFileInputOutputIT
         checkFileDuration(filename, frameRate, numFrames);
 
         // Check metadata contents
-        try (IVideoFileInput input = VideoSystem.createInputFile())
+        try (IVideoFileInput input = new VideoFileInput())
         {
             input.open(filename);
             List<PesInfo> pesList = input.getPesInfo();
@@ -127,7 +127,7 @@ public class VideoFileInputOutputIT
 
         createFile(filename, frameRate, numFrames);
 
-        try (IVideoFileInput input = VideoSystem.createInputFile(
+        try (IVideoFileInput input = new VideoFileInput(
             new VideoFileInputOptions(false, true, false, true)))
         {
             input.open(filename);
@@ -162,7 +162,7 @@ public class VideoFileInputOutputIT
         final boolean hasKlv = true;
         final double frameDuration = 1.0 / frameRate;
 
-        try (IVideoFileOutput output = VideoSystem.createOutputFile(
+        try (IVideoFileOutput output = new VideoFileOutput(
             new VideoOutputOptions(width, height, bitRate, frameRate, gopSize, hasKlv)))
         {
             output.open(filename);
@@ -228,7 +228,7 @@ public class VideoFileInputOutputIT
 
     private void checkFileDuration(String filename, double frameRate, int numFrames)
     {
-        try (IVideoFileInput input = VideoSystem.createInputFile())
+        try (IVideoFileInput input = new VideoFileInput())
         {
             input.open(filename);
             Assert.assertTrue(input.isOpen());
@@ -267,7 +267,7 @@ public class VideoFileInputOutputIT
         }
     }
 
-    private class MetadataCounter implements IMetadataListener
+    private static class MetadataCounter implements IMetadataListener
     {
         private int count = 0;
 
