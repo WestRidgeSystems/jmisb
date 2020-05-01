@@ -26,7 +26,7 @@ import static org.jmisb.core.video.TimingUtils.shortWait;
  */
 public class VideoFileInput extends VideoInput implements IVideoFileInput
 {
-    private static Logger logger = LoggerFactory.getLogger(VideoFileInput.class);
+    private static final Logger logger = LoggerFactory.getLogger(VideoFileInput.class);
     private final VideoFileInputOptions options;
     private FileDemuxer demuxer;
     private boolean open = false;
@@ -43,9 +43,18 @@ public class VideoFileInput extends VideoInput implements IVideoFileInput
     private long videoDelay;
 
     /**
-     * Clients must use {@link VideoSystem#createInputFile()} to construct new instances
+     * Construct with default options
      */
-    VideoFileInput(VideoFileInputOptions options)
+    public VideoFileInput()
+    {
+        this(new VideoFileInputOptions());
+    }
+
+    /**
+     * Construct with options
+     * @param options Options for video input
+     */
+    public VideoFileInput(VideoFileInputOptions options)
     {
         this.options = options;
     }

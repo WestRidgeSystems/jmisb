@@ -41,10 +41,9 @@ public class VideoFileOutput extends VideoOutput implements IVideoFileOutput
 
     /**
      * Constructor
-     * <p>
-     * Clients must use {@link VideoSystem#createOutputFile(VideoOutputOptions)} to construct new instances
+     * @param options Options for video output
      */
-    VideoFileOutput(VideoOutputOptions options)
+    public VideoFileOutput(VideoOutputOptions options)
     {
         super(options);
     }

@@ -61,7 +61,7 @@ public class StreamerUtil
 
         IMisbMessage message;
 
-        try (IVideoStreamOutput output = VideoSystem.createOutputStream(
+        try (IVideoStreamOutput output = new VideoStreamOutput(
             new VideoOutputOptions(width, height, bitRate, frameRate, gopSize, true)))
         {
             output.open(url);

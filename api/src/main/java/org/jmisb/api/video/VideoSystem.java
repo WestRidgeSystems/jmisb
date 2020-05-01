@@ -24,10 +24,11 @@ import static org.bytedeco.ffmpeg.global.avutil.setLogCallback;
  * }
  * }
  * </pre>
+ * @deprecated Use the Video IO classes constructors directly
  */
 public class VideoSystem
 {
-    private static Logger logger = LoggerFactory.getLogger(VideoSystem.class);
+    private static final Logger logger = LoggerFactory.getLogger(VideoSystem.class);
 
     private VideoSystem() {}
 

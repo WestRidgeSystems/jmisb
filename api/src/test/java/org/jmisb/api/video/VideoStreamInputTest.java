@@ -16,7 +16,7 @@ public class VideoStreamInputTest extends LoggerChecks
     @Test
     public void createInputStream()
     {
-        try (IVideoStreamInput stream = VideoSystem.createInputStream())
+        try (IVideoStreamInput stream = new VideoStreamInput())
         {
             Assert.assertFalse(stream.isOpen());
         }
@@ -30,7 +30,7 @@ public class VideoStreamInputTest extends LoggerChecks
     public void checkOpenExceptions() throws IOException
     {
         this.verifyNoLoggerMessages();
-        try (IVideoStreamInput stream = VideoSystem.createInputStream())
+        try (IVideoStreamInput stream = new VideoStreamInput())
         {
             stream.open("This url does not exist");
         }

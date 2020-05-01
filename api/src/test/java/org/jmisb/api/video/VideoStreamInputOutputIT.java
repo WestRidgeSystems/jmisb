@@ -66,7 +66,7 @@ public class VideoStreamInputOutputIT
         final String url = "udp://225.1.1.1:31200";
         final double frameDuration = 1.0 / frameRate;
 
-        try (IVideoStreamOutput output = VideoSystem.createOutputStream(
+        try (IVideoStreamOutput output = new VideoStreamOutput(
                 new VideoOutputOptions(width, height, bitRate, frameRate, gopSize, false)))
         {
             output.open(url);
@@ -96,7 +96,7 @@ public class VideoStreamInputOutputIT
         final String url = "udp://225.1.1.1:31200";
         final double frameDuration = 1.0 / frameRate;
 
-        try (IVideoStreamOutput output = VideoSystem.createOutputStream(
+        try (IVideoStreamOutput output = new VideoStreamOutput(
                 new VideoOutputOptions(width, height, bitRate, frameRate, gopSize, true)))
         {
             output.open(url);
@@ -124,7 +124,7 @@ public class VideoStreamInputOutputIT
 
         try
         {
-            output = VideoSystem.createOutputStream(
+            output = new VideoStreamOutput(
                     new VideoOutputOptions(width, height, bitRate, frameRate, gopSize, true));
 
             output.open(url);
@@ -143,7 +143,7 @@ public class VideoStreamInputOutputIT
     @Test(expectedExceptions = IllegalArgumentException.class)
     public void testInvalidProtocol()
     {
-        try (IVideoStreamOutput output = VideoSystem.createOutputStream(
+        try (IVideoStreamOutput output = new VideoStreamOutput(
                 new VideoOutputOptions(width, height, bitRate, frameRate, gopSize, true)))
         {
             output.open("http://127.0.0.1:30800/test.sdp");
@@ -157,7 +157,7 @@ public class VideoStreamInputOutputIT
     @Test(expectedExceptions = IOException.class)
     public void testInvalidAddress() throws IOException
     {
-        try (IVideoStreamOutput output = VideoSystem.createOutputStream(
+        try (IVideoStreamOutput output = new VideoStreamOutput(
                 new VideoOutputOptions(width, height, bitRate, frameRate, gopSize, true)))
         {
             output.open("udp://256.0.0.0:30800");
