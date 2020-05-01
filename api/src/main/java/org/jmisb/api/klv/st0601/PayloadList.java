@@ -1,6 +1,5 @@
 package org.jmisb.api.klv.st0601;
 
-import java.nio.charset.Charset;
 import java.nio.charset.StandardCharsets;
 import java.util.ArrayList;
 import java.util.List;
