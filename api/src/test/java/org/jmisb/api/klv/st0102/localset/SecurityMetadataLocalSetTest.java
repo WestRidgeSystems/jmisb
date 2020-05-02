@@ -60,13 +60,21 @@ public class SecurityMetadataLocalSetTest extends LoggerChecks
         // Frame a full message
         byte[] bytes = localSet.frameMessage(false);
 
-        // System.out.println(ArrayUtils.toHexString(bytes));
+        System.out.println(ArrayUtils.toHexString(bytes));
 
+        byte[] expectedBytes = new byte[]{
+            (byte)0x06, (byte)0x0e, (byte)0x2b, (byte)0x34, (byte)0x02, (byte)0x03, (byte)0x01, (byte)0x01, (byte)0x0e, (byte)0x01, (byte)0x03, (byte)0x03, (byte)0x02, (byte)0x00, (byte)0x00, (byte)0x00,
+            (byte)0x1f,
+            (byte)0x01, (byte)0x01, (byte)0x01,
+            (byte)0x02, (byte)0x01, (byte)0x0d,
+            (byte)0x03, (byte)0x04, (byte)0x2f, (byte)0x2f, (byte)0x55, (byte)0x53,
+            (byte)0x0c, (byte)0x01, (byte)0x0d,
+            (byte)0x0d, (byte)0x0a, (byte)0x00, (byte)0x55, (byte)0x00, (byte)0x53, (byte)0x00, (byte)0x3b, (byte)0x00, (byte)0x43, (byte)0x00, (byte)0x41,
+            (byte)0x16, (byte)0x02, (byte)0x00, (byte)0x0c};
         // Check that the bytes begin with the correct 16-byte UL
         Assert.assertEquals(Arrays.copyOfRange(bytes, 0, 16), KlvConstants.SecurityMetadataLocalSetUl.getBytes());
 
-        // Value length = 3 + 3 + 6 + 3 + 7 + 4 = 26 bytes
-        Assert.assertEquals(bytes[16], 26);
+        Assert.assertEquals(bytes, expectedBytes);
     }
 
     @Test
@@ -77,8 +85,14 @@ public class SecurityMetadataLocalSetTest extends LoggerChecks
 
         // System.out.println(ArrayUtils.toHexString(bytes));
 
-        // Value length = 3 + 3 + 6 + 3 + 7 + 4 = 26 bytes
-        Assert.assertEquals(bytes.length, 26);
+        byte[] expectedBytes = new byte[]{
+            (byte)0x01, (byte)0x01, (byte)0x01,
+            (byte)0x02, (byte)0x01, (byte)0x0d,
+            (byte)0x03, (byte)0x04, (byte)0x2f, (byte)0x2f, (byte)0x55, (byte)0x53,
+            (byte)0x0c, (byte)0x01, (byte)0x0d,
+            (byte)0x0d, (byte)0x0a, (byte)0x00, (byte)0x55, (byte)0x00, (byte)0x53, (byte)0x00, (byte)0x3b, (byte)0x00, (byte)0x43, (byte)0x00, (byte)0x41,
+            (byte)0x16, (byte)0x02, (byte)0x00, (byte)0x0c};
+        Assert.assertEquals(bytes, expectedBytes);
     }
 
     @Test
