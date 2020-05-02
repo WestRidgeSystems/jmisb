@@ -1,19 +1,12 @@
-/*
- * To change this license header, choose License Headers in Project Properties.
- * To change this template file, choose Tools | Templates
- * and open the template in the editor.
- */
 package org.jmisb.api.klv.st0601;
 
 import org.jmisb.api.klv.IKlvKey;
 
 /**
- *
- * @author bradh
+ * Enumeration of the various flags used in GenericFlagData01.
  */
 public enum FlagDataKey implements IKlvKey
 {
-
     LaserRange(0),
     AutoTrack(1),
     IR_Polarity(2),
