@@ -60,7 +60,7 @@ public class SecurityMetadataLocalSetTest extends LoggerChecks
         // Frame a full message
         byte[] bytes = localSet.frameMessage(false);
 
-        System.out.println(ArrayUtils.toHexString(bytes));
+        // System.out.println(ArrayUtils.toHexString(bytes));
 
         byte[] expectedBytes = new byte[]{
             (byte)0x06, (byte)0x0e, (byte)0x2b, (byte)0x34, (byte)0x02, (byte)0x03, (byte)0x01, (byte)0x01, (byte)0x0e, (byte)0x01, (byte)0x03, (byte)0x03, (byte)0x02, (byte)0x00, (byte)0x00, (byte)0x00,
