@@ -2,10 +2,15 @@ package org.jmisb.api.klv.st0601;
 
 import java.nio.charset.StandardCharsets;
 import java.util.ArrayList;
+import java.util.HashSet;
 import java.util.List;
+import java.util.Set;
 import org.jmisb.api.klv.BerDecoder;
 import org.jmisb.api.klv.BerEncoder;
 import org.jmisb.api.klv.BerField;
+import org.jmisb.api.klv.IKlvKey;
+import org.jmisb.api.klv.IKlvValue;
+import org.jmisb.api.klv.INestedKlvValue;
 import org.jmisb.api.klv.st0102.CountryCodingMethod;
 import org.jmisb.api.klv.st0102.CountryCodingMethodUtilities;
 import org.jmisb.core.klv.ArrayUtils;
@@ -53,8 +58,7 @@ import org.jmisb.core.klv.ArrayUtils;
  * </ul>
  * </blockquote>
  */
-// TODO: candidate for nested metadata
-public class CountryCodes implements IUasDatalinkValue
+public class CountryCodes implements IUasDatalinkValue, INestedKlvValue
 {
     private final CountryCodingMethod codingMethod;
     private final String overflightCountry;
@@ -223,5 +227,96 @@ public class CountryCodes implements IUasDatalinkValue
     public final String getDisplayName()
     {
         return "Country Codes";
+    }
+
+    @Override
+    public IKlvValue getField(IKlvKey tag) {
+        if (tag == CountryCodeKey.CountryCodingMethod)
+        {
+            return new IKlvValue()
+            {
+                @Override
+                public String getDisplayName()
+                {
+                    return "Country Coding Method";
+                }
+
+                @Override
+                public String getDisplayableValue()
+                {
+                    return getCodingMethod().toString();
+                }
+            };
+        }
+        if (tag == CountryCodeKey.OverflightCountry)
+        {
+            return new IKlvValue(){
+                @Override
+                public String getDisplayName()
+                {
+                    return "Overflight Country";
+                }
+
+                @Override
+                public String getDisplayableValue()
+                {
+                    return getOverflightCountry();
+                }
+            };
+        }
+        if (tag == CountryCodeKey.OperatorCountry)
+        {
+            return new IKlvValue(){
+                @Override
+                public String getDisplayName()
+                {
+                    return "Operator Country";
+                }
+
+                @Override
+                public String getDisplayableValue()
+                {
+                    return getOperatorCountry();
+                }
+            };
+        }
+        if (tag == CountryCodeKey.CountryOfManufacture)
+        {
+            return new IKlvValue()
+            {
+                @Override
+                public String getDisplayName()
+                {
+                    return "Country of Manufacture";
+                }
+
+                @Override
+                public String getDisplayableValue()
+                {
+                    return getCountryOfManufacture();
+                }
+            };
+        }
+        return null;
+    }
+
+    @Override
+    public Set<? extends IKlvKey> getTags()
+    {
+        Set<CountryCodeKey> tags = new HashSet<>();
+        tags.add(CountryCodeKey.CountryCodingMethod);
+        if (!countryOfManufacture.equals(""))
+        {
+            tags.add(CountryCodeKey.CountryOfManufacture);
+        }
+        if (!overflightCountry.equals(""))
+        {
+            tags.add(CountryCodeKey.OverflightCountry);
+        }
+        if (!operatorCountry.equals(""))
+        {
+            tags.add(CountryCodeKey.OperatorCountry);
+        }
+        return tags;
     }
 }

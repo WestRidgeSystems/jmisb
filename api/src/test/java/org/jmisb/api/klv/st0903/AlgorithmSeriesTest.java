@@ -63,6 +63,9 @@ public class AlgorithmSeriesTest
     public void testParsingFromValues()
     {
         assertNotNull(algorithmSeriesFromAlgorithms);
+        assertEquals(algorithmSeriesFromAlgorithms.getNumberOfEntries(), 2);
+        assertEquals(algorithmSeriesFromAlgorithms.getNestedValue(0).getTags().size(), 3);
+        assertEquals(algorithmSeriesFromAlgorithms.getNestedValue(1).getTags().size(), 1);
         List<AlgorithmLS> algorithms = algorithmSeriesFromAlgorithms.getAlgorithms();
         assertEquals(algorithms.size(), 2);
         AlgorithmLS algo1 = algorithms.get(0);
@@ -78,6 +81,9 @@ public class AlgorithmSeriesTest
         assertNotNull(value);
         assertTrue(value instanceof AlgorithmSeries);
         AlgorithmSeries algorithmSeries = (AlgorithmSeries)value;
+        assertEquals(algorithmSeries.getNumberOfEntries(), 2);
+        assertEquals(algorithmSeries.getNestedValue(0).getTags().size(), 3);
+        assertEquals(algorithmSeries.getNestedValue(1).getTags().size(), 1);
         List<AlgorithmLS> algorithms = algorithmSeries.getAlgorithms();
         assertEquals(algorithms.size(), 2);
         AlgorithmLS algo1 = algorithms.get(0);

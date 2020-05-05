@@ -40,6 +40,12 @@ public class VTrackerTest
         assertEquals(tracker.getDisplayName(), "VTracker");
         assertEquals(tracker.getDisplayableValue(), "[VTracker]");
         assertEquals(tracker.getTracker().getTags().size(), 2);
+        assertEquals(tracker.getTags().size(), 2);
+        assertTrue(tracker.getTags().contains(VTrackerMetadataKey.detectionStatus));
+        assertTrue(tracker.getTags().contains(VTrackerMetadataKey.algorithm));
+        assertEquals(tracker.getField(VTrackerMetadataKey.detectionStatus).getDisplayName(), "Detection Status");
+        assertEquals(tracker.getField(VTrackerMetadataKey.algorithm).getDisplayName(), "Algorithm");
+        assertEquals(tracker.getField(VTrackerMetadataKey.algorithm).getDisplayableValue(), "test");
     }
 
     @Test
@@ -57,6 +63,12 @@ public class VTrackerTest
         assertEquals(tracker.getDisplayName(), "VTracker");
         assertEquals(tracker.getDisplayableValue(), "[VTracker]");
         assertEquals(tracker.getTracker().getTags().size(), 2);
+        assertEquals(tracker.getTags().size(), 2);
+        assertTrue(tracker.getTags().contains(VTrackerMetadataKey.detectionStatus));
+        assertTrue(tracker.getTags().contains(VTrackerMetadataKey.algorithm));
+        assertEquals(tracker.getField(VTrackerMetadataKey.detectionStatus).getDisplayName(), "Detection Status");
+        assertEquals(tracker.getField(VTrackerMetadataKey.algorithm).getDisplayName(), "Algorithm");
+        assertEquals(tracker.getField(VTrackerMetadataKey.algorithm).getDisplayableValue(), "test");
     }
 
     @Test
@@ -71,5 +83,11 @@ public class VTrackerTest
         VTracker vTracker = new VTracker(vTrackerLS);
         assertNotNull(vTracker);
         assertEquals(vTracker.getTracker().getTags().size(), 2);
+        assertEquals(vTracker.getTags().size(), 2);
+        assertTrue(vTracker.getTags().contains(VTrackerMetadataKey.detectionStatus));
+        assertTrue(vTracker.getTags().contains(VTrackerMetadataKey.algorithm));
+        assertEquals(vTracker.getField(VTrackerMetadataKey.detectionStatus).getDisplayName(), "Detection Status");
+        assertEquals(vTracker.getField(VTrackerMetadataKey.algorithm).getDisplayName(), "Algorithm");
+        assertEquals(vTracker.getField(VTrackerMetadataKey.algorithm).getDisplayableValue(), "test");
     }
 }

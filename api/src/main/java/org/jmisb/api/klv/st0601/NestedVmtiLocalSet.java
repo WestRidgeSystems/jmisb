@@ -1,10 +1,15 @@
 package org.jmisb.api.klv.st0601;
 
+import java.util.Set;
 import org.jmisb.api.common.KlvParseException;
+import org.jmisb.api.klv.IKlvKey;
+import org.jmisb.api.klv.IKlvValue;
+import org.jmisb.api.klv.INestedKlvValue;
 import org.jmisb.api.klv.st0903.VmtiLocalSet;
+import org.jmisb.api.klv.st0903.VmtiMetadataKey;
 
 /**
- * VMTI Local Set (ST 0601 tag 74)
+ * VMTI Local Set (ST 0601 tag 74).
  * <p>
  * From ST:
  * <blockquote>
@@ -21,7 +26,7 @@ import org.jmisb.api.klv.st0903.VmtiLocalSet;
  * angles, or frame center).
  * </blockquote>
  */
-public class NestedVmtiLocalSet implements IUasDatalinkValue
+public class NestedVmtiLocalSet implements IUasDatalinkValue, INestedKlvValue
 {
     private final VmtiLocalSet vmtiLocalSet;
 
@@ -72,5 +77,17 @@ public class NestedVmtiLocalSet implements IUasDatalinkValue
     public VmtiLocalSet getVmti()
     {
         return this.vmtiLocalSet;
+    }
+
+    @Override
+    public IKlvValue getField(IKlvKey tag)
+    {
+        return vmtiLocalSet.getField((VmtiMetadataKey)tag);
+    }
+
+    @Override
+    public Set<? extends IKlvKey> getTags()
+    {
+        return vmtiLocalSet.getTags();
     }
 }

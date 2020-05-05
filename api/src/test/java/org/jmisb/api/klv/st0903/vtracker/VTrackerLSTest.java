@@ -1,6 +1,7 @@
 package org.jmisb.api.klv.st0903.vtracker;
 
 import org.jmisb.api.common.KlvParseException;
+import org.jmisb.api.klv.IKlvKey;
 import org.jmisb.api.klv.st0903.IVmtiMetadataValue;
 import org.jmisb.api.klv.st0903.shared.AlgorithmId;
 import org.jmisb.api.klv.LoggerChecks;
@@ -42,5 +43,8 @@ public class VTrackerLSTest extends LoggerChecks
         AlgorithmId id = (AlgorithmId) localSet.getField(VTrackerMetadataKey.algorithmId);
         assertEquals(id.getValue(), 3);
         assertEquals(id.getBytes(), new byte[] {0x03});
+        AlgorithmId id2 = (AlgorithmId) localSet.getField((IKlvKey)VTrackerMetadataKey.algorithmId);
+        assertEquals(id2.getValue(), 3);
+        assertEquals(id2.getBytes(), new byte[] {0x03});
     }
 }

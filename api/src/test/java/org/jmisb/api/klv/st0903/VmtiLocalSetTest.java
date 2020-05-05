@@ -4,6 +4,7 @@ import java.net.URISyntaxException;
 import java.util.HashMap;
 import java.util.Map;
 import org.jmisb.api.common.KlvParseException;
+import org.jmisb.api.klv.IKlvKey;
 import org.jmisb.api.klv.IMisbMessage;
 import org.jmisb.api.klv.KlvConstants;
 import org.jmisb.api.klv.st0903.shared.VmtiTextString;
@@ -136,6 +137,7 @@ public class VmtiLocalSetTest extends LoggerChecks
         assertEquals(localSet.getUniversalLabel().getBytes(), new byte[]{
             (byte) 0x06, (byte) 0x0E, (byte) 0x2B, (byte) 0x34, (byte) 0x02, (byte) 0x0B, (byte) 0x01, (byte) 0x01,
             (byte) 0x0E, (byte) 0x01, (byte) 0x03, (byte) 0x03, (byte) 0x06, (byte) 0x00, (byte) 0x00, (byte) 0x00});
+        assertEquals(localSet.getField((IKlvKey)VmtiMetadataKey.VersionNumber).getDisplayName(), "Version Number");
     }
 
     @Test

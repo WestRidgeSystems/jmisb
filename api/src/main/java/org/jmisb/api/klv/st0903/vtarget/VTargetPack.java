@@ -10,6 +10,9 @@ import org.jmisb.api.common.KlvParseException;
 import org.jmisb.api.klv.BerDecoder;
 import org.jmisb.api.klv.BerEncoder;
 import org.jmisb.api.klv.BerField;
+import org.jmisb.api.klv.IKlvKey;
+import org.jmisb.api.klv.IKlvValue;
+import org.jmisb.api.klv.INestedKlvValue;
 import org.jmisb.api.klv.LdsField;
 import org.jmisb.api.klv.LdsParser;
 import org.jmisb.api.klv.st0903.IVmtiMetadataValue;
@@ -18,7 +21,8 @@ import org.jmisb.core.klv.ArrayUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
-public class VTargetPack {
+public class VTargetPack implements INestedKlvValue
+{
 
     private static final Logger LOGGER = LoggerFactory.getLogger(VTargetPack.class);
 
@@ -148,6 +152,7 @@ public class VTargetPack {
      *
      * @return The set of tags for which values have been set
      */
+    @Override
     public Set<VTargetMetadataKey> getTags()
     {
         return map.keySet();
@@ -190,5 +195,11 @@ public class VTargetPack {
             len += bytes.length;
         }
         return ArrayUtils.arrayFromChunks(chunks, len);
+    }
+
+    @Override
+    public IKlvValue getField(IKlvKey tag)
+    {
+        return getField((VTargetMetadataKey)tag);
     }
 }

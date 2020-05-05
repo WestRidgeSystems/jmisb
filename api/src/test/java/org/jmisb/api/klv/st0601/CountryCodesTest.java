@@ -1,5 +1,7 @@
 package org.jmisb.api.klv.st0601;
 
+import java.util.HashSet;
+import java.util.Set;
 import org.jmisb.api.common.KlvParseException;
 import org.jmisb.api.klv.st0102.CountryCodingMethod;
 import org.testng.Assert;
@@ -45,6 +47,20 @@ public class CountryCodesTest
         assertEquals(countryCodes.getOperatorCountry(), "");
         assertEquals(countryCodes.getCountryOfManufacture(), "FRA");
         assertEquals(countryCodes.getBytes(), ST_EXAMPLE_BYTES);
+        Set<CountryCodeKey> expectedTags = new HashSet<>();
+        expectedTags.add(CountryCodeKey.CountryCodingMethod);
+        expectedTags.add(CountryCodeKey.OverflightCountry);
+        expectedTags.add(CountryCodeKey.CountryOfManufacture);
+        assertEquals(countryCodes.getTags(), expectedTags);
+        assertEquals(countryCodes.getField(CountryCodeKey.CountryCodingMethod).getDisplayName(), "Country Coding Method");
+        assertEquals(countryCodes.getField(CountryCodeKey.CountryCodingMethod).getDisplayableValue(), "GENC_THREE_LETTER");
+        assertEquals(countryCodes.getField(CountryCodeKey.OverflightCountry).getDisplayName(), "Overflight Country");
+        assertEquals(countryCodes.getField(CountryCodeKey.OverflightCountry).getDisplayableValue(), "CAN");
+        assertEquals(countryCodes.getField(CountryCodeKey.OperatorCountry).getDisplayName(), "Operator Country");
+        assertEquals(countryCodes.getField(CountryCodeKey.OperatorCountry).getDisplayableValue(), "");
+        assertEquals(countryCodes.getField(CountryCodeKey.CountryOfManufacture).getDisplayName(), "Country of Manufacture");
+        assertEquals(countryCodes.getField(CountryCodeKey.CountryOfManufacture).getDisplayableValue(), "FRA");
+        assertNull(countryCodes.getField(() -> 616));
     }
 
     @Test
@@ -58,6 +74,19 @@ public class CountryCodesTest
         assertEquals(countryCodes.getOperatorCountry(), "US");
         assertEquals(countryCodes.getCountryOfManufacture(), "");
         assertEquals(countryCodes.getBytes(), new byte[]{0x01, 0x01, 0x02, 0x41, 0x55, 0x02, 0x55, 0x53});
+        Set<CountryCodeKey> expectedTags = new HashSet<>();
+        expectedTags.add(CountryCodeKey.CountryCodingMethod);
+        expectedTags.add(CountryCodeKey.OverflightCountry);
+        expectedTags.add(CountryCodeKey.OperatorCountry);
+        assertEquals(countryCodes.getTags(), expectedTags);
+        assertEquals(countryCodes.getField(CountryCodeKey.CountryCodingMethod).getDisplayName(), "Country Coding Method");
+        assertEquals(countryCodes.getField(CountryCodeKey.CountryCodingMethod).getDisplayableValue(), "ISO3166_TWO_LETTER");
+        assertEquals(countryCodes.getField(CountryCodeKey.OverflightCountry).getDisplayName(), "Overflight Country");
+        assertEquals(countryCodes.getField(CountryCodeKey.OverflightCountry).getDisplayableValue(), "AU");
+        assertEquals(countryCodes.getField(CountryCodeKey.OperatorCountry).getDisplayName(), "Operator Country");
+        assertEquals(countryCodes.getField(CountryCodeKey.OperatorCountry).getDisplayableValue(), "US");
+        assertEquals(countryCodes.getField(CountryCodeKey.CountryOfManufacture).getDisplayName(), "Country of Manufacture");
+        assertEquals(countryCodes.getField(CountryCodeKey.CountryOfManufacture).getDisplayableValue(), "");
     }
 
     @Test
@@ -71,6 +100,49 @@ public class CountryCodesTest
         assertEquals(countryCodes.getOperatorCountry(), "");
         assertEquals(countryCodes.getCountryOfManufacture(), "");
         assertEquals(countryCodes.getBytes(), new byte[]{0x01, 0x0E, 0x03, 0x43, 0x41, 0x4E});
+        Set<CountryCodeKey> expectedTags = new HashSet<>();
+        expectedTags.add(CountryCodeKey.CountryCodingMethod);
+        expectedTags.add(CountryCodeKey.OverflightCountry);
+        assertEquals(countryCodes.getTags(), expectedTags);
+        assertEquals(countryCodes.getField(CountryCodeKey.CountryCodingMethod).getDisplayName(), "Country Coding Method");
+        assertEquals(countryCodes.getField(CountryCodeKey.CountryCodingMethod).getDisplayableValue(), "GENC_THREE_LETTER");
+        assertEquals(countryCodes.getField(CountryCodeKey.OverflightCountry).getDisplayName(), "Overflight Country");
+        assertEquals(countryCodes.getField(CountryCodeKey.OverflightCountry).getDisplayableValue(), "CAN");
+        assertEquals(countryCodes.getField(CountryCodeKey.OperatorCountry).getDisplayName(), "Operator Country");
+        assertEquals(countryCodes.getField(CountryCodeKey.OperatorCountry).getDisplayableValue(), "");
+        assertEquals(countryCodes.getField(CountryCodeKey.CountryOfManufacture).getDisplayName(), "Country of Manufacture");
+        assertEquals(countryCodes.getField(CountryCodeKey.CountryOfManufacture).getDisplayableValue(), "");
     }
 
+    @Test
+    public void testFromValuesNoOverflight()
+    {
+        CountryCodes countryCodes = new CountryCodes(CountryCodingMethod.ISO3166_THREE_LETTER, "", "", "CAN");
+        assertEquals(countryCodes.getDisplayName(), "Country Codes");
+        assertEquals(countryCodes.getDisplayableValue(), "[Country Codes]");
+        assertEquals(countryCodes.getCodingMethod(), CountryCodingMethod.ISO3166_THREE_LETTER);
+        assertEquals(countryCodes.getOverflightCountry(), "");
+        assertEquals(countryCodes.getOperatorCountry(), "");
+        assertEquals(countryCodes.getCountryOfManufacture(), "CAN");
+        assertEquals(countryCodes.getBytes(), new byte[]{0x01, 0x02, 0x0, 0x0, 0x03, 0x43, 0x41, 0x4E});
+        Set<CountryCodeKey> expectedTags = new HashSet<>();
+        expectedTags.add(CountryCodeKey.CountryCodingMethod);
+        expectedTags.add(CountryCodeKey.CountryOfManufacture);
+        assertEquals(countryCodes.getTags(), expectedTags);
+        assertEquals(countryCodes.getField(CountryCodeKey.CountryCodingMethod).getDisplayName(), "Country Coding Method");
+        assertEquals(countryCodes.getField(CountryCodeKey.CountryCodingMethod).getDisplayableValue(), "ISO3166_THREE_LETTER");
+        assertEquals(countryCodes.getField(CountryCodeKey.OverflightCountry).getDisplayName(), "Overflight Country");
+        assertEquals(countryCodes.getField(CountryCodeKey.OverflightCountry).getDisplayableValue(), "");
+        assertEquals(countryCodes.getField(CountryCodeKey.OperatorCountry).getDisplayName(), "Operator Country");
+        assertEquals(countryCodes.getField(CountryCodeKey.OperatorCountry).getDisplayableValue(), "");
+        assertEquals(countryCodes.getField(CountryCodeKey.CountryOfManufacture).getDisplayName(), "Country of Manufacture");
+        assertEquals(countryCodes.getField(CountryCodeKey.CountryOfManufacture).getDisplayableValue(), "CAN");
+    }
+
+    @Test
+    public void testCountryCodeKeyValue()
+    {
+        assertEquals(CountryCodeKey.CountryCodingMethod.getTagCode(), 0);
+        assertEquals(CountryCodeKey.CountryOfManufacture.getTagCode(), 3);
+    }
 }

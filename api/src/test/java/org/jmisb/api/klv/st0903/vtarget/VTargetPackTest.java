@@ -1,6 +1,7 @@
 package org.jmisb.api.klv.st0903.vtarget;
 
 import org.jmisb.api.common.KlvParseException;
+import org.jmisb.api.klv.IKlvKey;
 import org.jmisb.api.klv.st0903.IVmtiMetadataValue;
 import org.jmisb.api.klv.st0903.shared.AlgorithmId;
 import org.jmisb.api.klv.LoggerChecks;
@@ -59,5 +60,7 @@ public class VTargetPackTest extends LoggerChecks
         verifySingleLoggerMessage("Unknown VMTI VTarget Metadata tag: 55");
         assertNotNull(localSet);
         assertEquals(localSet.getTags().size(), 1);
+        assertTrue(localSet.getTags().contains(VTargetMetadataKey.AlgorithmId));
+        assertEquals(localSet.getField((IKlvKey)VTargetMetadataKey.AlgorithmId).getDisplayName(), "Algorithm Id");
     }
 }

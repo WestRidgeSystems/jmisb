@@ -8,6 +8,9 @@ import java.util.SortedMap;
 import java.util.TreeMap;
 import org.jmisb.api.common.KlvParseException;
 import org.jmisb.api.klv.BerEncoder;
+import org.jmisb.api.klv.IKlvKey;
+import org.jmisb.api.klv.IKlvValue;
+import org.jmisb.api.klv.INestedKlvValue;
 import org.jmisb.api.klv.LdsField;
 import org.jmisb.api.klv.LdsParser;
 import org.jmisb.api.klv.st0903.IVmtiMetadataValue;
@@ -22,7 +25,7 @@ import org.slf4j.LoggerFactory;
  *
  * The Algorithm LS documents attributes of the algorithm used for detection and tracking of targets.
  */
-public class AlgorithmLS {
+public class AlgorithmLS implements INestedKlvValue {
 
     private static final Logger LOGGER = LoggerFactory.getLogger(AlgorithmLS.class);
 
@@ -131,5 +134,11 @@ public class AlgorithmLS {
             len += bytes.length;
         }
         return ArrayUtils.arrayFromChunks(chunks, len);
+    }
+
+    @Override
+    public IKlvValue getField(IKlvKey tag)
+    {
+        return getField((AlgorithmMetadataKey)tag);
     }
 }

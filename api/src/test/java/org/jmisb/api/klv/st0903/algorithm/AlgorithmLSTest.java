@@ -3,6 +3,8 @@ package org.jmisb.api.klv.st0903.algorithm;
 import java.util.HashMap;
 import java.util.Map;
 import org.jmisb.api.common.KlvParseException;
+import org.jmisb.api.klv.IKlvKey;
+import org.jmisb.api.klv.IKlvValue;
 import org.jmisb.api.klv.st0903.IVmtiMetadataValue;
 import org.jmisb.api.klv.st0903.shared.AlgorithmId;
 import org.jmisb.api.klv.LoggerChecks;
@@ -38,6 +40,7 @@ public class AlgorithmLSTest extends LoggerChecks
         assertNotNull(algorithmLS);
         assertEquals(algorithmLS.getTags().size(), 1);
         checkNameExample(algorithmLS);
+        checkNameExampleIKlvKey(algorithmLS);
     }
 
     @Test
@@ -88,6 +91,7 @@ public class AlgorithmLSTest extends LoggerChecks
         checkIdExample(algorithmLS);
         checkClassExample(algorithmLS);
         checkNameExample(algorithmLS);
+        checkNameExampleIKlvKey(algorithmLS);
         checkVersionExample(algorithmLS);
         checkNumFramesExample(algorithmLS);
     }
@@ -121,6 +125,18 @@ public class AlgorithmLSTest extends LoggerChecks
         final String stringVal = "k6_yolo_9000_tracker";
         assertTrue(algorithmLS.getTags().contains(AlgorithmMetadataKey.name));
         IVmtiMetadataValue v = algorithmLS.getField(AlgorithmMetadataKey.name);
+        assertEquals(v.getDisplayName(), "Algorithm Name");
+        assertEquals(v.getDisplayName(), VmtiTextString.ALGORITHM_NAME);
+        assertEquals(v.getDisplayableValue(), stringVal);
+        assertTrue(v instanceof VmtiTextString);
+        VmtiTextString text = (VmtiTextString) algorithmLS.getField(AlgorithmMetadataKey.name);
+        assertEquals(text.getValue(), stringVal);
+    }
+
+    public void checkNameExampleIKlvKey(AlgorithmLS algorithmLS)
+    {
+        final String stringVal = "k6_yolo_9000_tracker";
+        IKlvValue v = algorithmLS.getField((IKlvKey)AlgorithmMetadataKey.name);
         assertEquals(v.getDisplayName(), "Algorithm Name");
         assertEquals(v.getDisplayName(), VmtiTextString.ALGORITHM_NAME);
         assertEquals(v.getDisplayableValue(), stringVal);

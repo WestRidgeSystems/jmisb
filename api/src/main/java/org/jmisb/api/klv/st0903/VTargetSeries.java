@@ -8,6 +8,7 @@ import org.jmisb.api.common.KlvParseException;
 import org.jmisb.api.klv.BerDecoder;
 import org.jmisb.api.klv.BerEncoder;
 import org.jmisb.api.klv.BerField;
+import org.jmisb.api.klv.IRepeatingNestedKlvValue;
 import org.jmisb.core.klv.ArrayUtils;
 
 /**
@@ -22,7 +23,7 @@ import org.jmisb.core.klv.ArrayUtils;
  * parsed according to the Length provided for each VTarget Pack.
  * </blockquote>
  */
-public class VTargetSeries implements IVmtiMetadataValue
+public class VTargetSeries implements IVmtiMetadataValue, IRepeatingNestedKlvValue
 {
     private final List<VTargetPack> targetPacks = new ArrayList<>();
 
@@ -94,4 +95,15 @@ public class VTargetSeries implements IVmtiMetadataValue
         return targetPacks;
     }
 
+    @Override
+    public int getNumberOfEntries()
+    {
+        return targetPacks.size();
+    }
+
+    @Override
+    public VTargetPack getNestedValue(int i)
+    {
+        return targetPacks.get(i);
+    }
 }

@@ -1,6 +1,10 @@
 package org.jmisb.api.klv.st0903.vtarget;
 
+import java.util.Set;
 import org.jmisb.api.common.KlvParseException;
+import org.jmisb.api.klv.IKlvKey;
+import org.jmisb.api.klv.IKlvValue;
+import org.jmisb.api.klv.INestedKlvValue;
 import org.jmisb.api.klv.st0903.IVmtiMetadataValue;
 import org.jmisb.api.klv.st0903.vtracker.VTrackerLS;
 
@@ -16,7 +20,7 @@ import org.jmisb.api.klv.st0903.vtracker.VTrackerLS;
  * LS for the representation of target tracks.
  * </blockquote>
  */
-public class VTracker implements IVmtiMetadataValue
+public class VTracker implements IVmtiMetadataValue, INestedKlvValue
 {
     private final VTrackerLS value;
 
@@ -67,5 +71,17 @@ public class VTracker implements IVmtiMetadataValue
     public VTrackerLS getTracker()
     {
         return value;
+    }
+
+    @Override
+    public IKlvValue getField(IKlvKey tag)
+    {
+        return value.getField(tag);
+    }
+
+    @Override
+    public Set<? extends IKlvKey> getTags()
+    {
+        return value.getTags();
     }
 }

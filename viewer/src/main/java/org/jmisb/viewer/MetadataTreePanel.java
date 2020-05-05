@@ -15,6 +15,7 @@ import org.jmisb.api.video.MetadataFrame;
 import org.jmisb.api.klv.IKlvValue;
 import org.jmisb.api.klv.INestedKlvValue;
 import org.jmisb.api.klv.IKlvKey;
+import org.jmisb.api.klv.IRepeatingNestedKlvValue;
 
 public class MetadataTreePanel extends JPanel implements IMetadataListener {
 
@@ -108,6 +109,21 @@ public class MetadataTreePanel extends JPanel implements IMetadataListener {
                 addValue(nestedTag, childValue, model, child);
             });
         }
+        if (value instanceof IRepeatingNestedKlvValue)
+        {
+            IRepeatingNestedKlvValue repeatingValue = (IRepeatingNestedKlvValue)value;
+            int numValues = repeatingValue.getNumberOfEntries();
+            for (int i = 0; i < numValues; ++i)
+            {
+                DefaultMutableTreeNode repeatingNode = new DefaultMutableTreeNode("" + i);
+                model.insertNodeInto(repeatingNode, child, i);
+                INestedKlvValue nested = repeatingValue.getNestedValue(i);
+                nested.getTags().forEach((nestedTag) -> {
+                    IKlvValue childValue = nested.getField(nestedTag);
+                    addValue(nestedTag, childValue, model, repeatingNode);
+                });
+            }
+        }
         model.insertNodeInto(child, node, node.getChildCount());
     }
 
@@ -124,6 +140,7 @@ public class MetadataTreePanel extends JPanel implements IMetadataListener {
             INestedKlvValue nested = (INestedKlvValue)value;
             addMetadataToNode(model, node, nested);
         }
+        // TODO: nested...
     }
     
     void clear()

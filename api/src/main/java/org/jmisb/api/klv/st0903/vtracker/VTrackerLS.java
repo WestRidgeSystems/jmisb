@@ -8,6 +8,9 @@ import java.util.SortedMap;
 import java.util.TreeMap;
 import org.jmisb.api.common.KlvParseException;
 import org.jmisb.api.klv.BerEncoder;
+import org.jmisb.api.klv.IKlvKey;
+import org.jmisb.api.klv.IKlvValue;
+import org.jmisb.api.klv.INestedKlvValue;
 import org.jmisb.api.klv.LdsField;
 import org.jmisb.api.klv.LdsParser;
 import org.jmisb.api.klv.st0903.IVmtiMetadataValue;
@@ -20,7 +23,8 @@ import org.slf4j.LoggerFactory;
 /**
  * VTracker Local Set.
  */
-public class VTrackerLS {
+public class VTrackerLS implements INestedKlvValue
+{
 
     private static final Logger LOGGER = LoggerFactory.getLogger(VTrackerLS.class);
 
@@ -124,6 +128,7 @@ public class VTrackerLS {
      *
      * @return The set of tags for which values have been set
      */
+    @Override
     public Set<VTrackerMetadataKey> getTags()
     {
         return map.keySet();
@@ -138,5 +143,11 @@ public class VTrackerLS {
     public IVmtiMetadataValue getField(VTrackerMetadataKey tag)
     {
         return map.get(tag);
+    }
+
+    @Override
+    public IKlvValue getField(IKlvKey tag)
+    {
+        return getField((VTrackerMetadataKey) tag);
     }
 }

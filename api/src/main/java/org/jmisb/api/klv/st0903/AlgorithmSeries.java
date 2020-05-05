@@ -3,11 +3,17 @@ package org.jmisb.api.klv.st0903;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
+import java.util.Set;
 import org.jmisb.api.common.KlvParseException;
 import org.jmisb.api.klv.BerDecoder;
 import org.jmisb.api.klv.BerEncoder;
 import org.jmisb.api.klv.BerField;
+import org.jmisb.api.klv.IKlvKey;
+import org.jmisb.api.klv.IKlvValue;
+import org.jmisb.api.klv.INestedKlvValue;
+import org.jmisb.api.klv.IRepeatingNestedKlvValue;
 import org.jmisb.api.klv.st0903.algorithm.AlgorithmLS;
+import org.jmisb.api.klv.st0903.algorithm.AlgorithmMetadataKey;
 import org.jmisb.core.klv.ArrayUtils;
 
 /**
@@ -30,7 +36,7 @@ import org.jmisb.core.klv.ArrayUtils;
  * algorithm applies to more than one detection.
  * </blockquote>
  */
-public class AlgorithmSeries implements IVmtiMetadataValue
+public class AlgorithmSeries implements IVmtiMetadataValue, IRepeatingNestedKlvValue
 {
     private final List<AlgorithmLS> localSets = new ArrayList<>();
 
@@ -103,4 +109,15 @@ public class AlgorithmSeries implements IVmtiMetadataValue
         return localSets;
     }
 
+    @Override
+    public int getNumberOfEntries()
+    {
+        return localSets.size();
+    }
+
+    @Override
+    public AlgorithmLS getNestedValue(int i)
+    {
+        return localSets.get(i);
+    }
 }

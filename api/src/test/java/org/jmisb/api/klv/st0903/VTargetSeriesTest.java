@@ -82,6 +82,9 @@ public class VTargetSeriesTest
         assertEquals(vtarget1.getTargetIdentifier(), 1);
         VTargetPack vtarget2 = vtargets.get(1);
         assertEquals(vtarget2.getTargetIdentifier(), 2);
+        assertEquals(vTargetSeriesFromVTargets.getNumberOfEntries(), 2);
+        assertEquals(vTargetSeriesFromVTargets.getNestedValue(0).getTargetIdentifier(), 1);
+        assertEquals(vTargetSeriesFromVTargets.getNestedValue(1).getTargetIdentifier(), 2);
     }
 
     /**
@@ -97,6 +100,9 @@ public class VTargetSeriesTest
         assertEquals(vtarget1.getTargetIdentifier(), 1);
         VTargetPack vtarget2 = vtargets.get(1);
         assertEquals(vtarget2.getTargetIdentifier(), 2);
+        assertEquals(vTargetSeriesFromBytes.getNumberOfEntries(), 2);
+        assertEquals(vTargetSeriesFromBytes.getNestedValue(0).getTargetIdentifier(), 1);
+        assertEquals(vTargetSeriesFromBytes.getNestedValue(1).getTargetIdentifier(), 2);
     }
 
     @Test
@@ -112,6 +118,9 @@ public class VTargetSeriesTest
         assertEquals(vtarget1.getTargetIdentifier(), 1);
         VTargetPack vtarget2 = vtargets.get(1);
         assertEquals(vtarget2.getTargetIdentifier(), 2);
+        assertEquals(targetSeries.getNumberOfEntries(), 2);
+        assertEquals(targetSeries.getNestedValue(0).getTargetIdentifier(), 1);
+        assertEquals(targetSeries.getNestedValue(1).getTargetIdentifier(), 2);
     }
 
     /**
