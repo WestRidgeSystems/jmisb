@@ -320,8 +320,7 @@ public class UasDatalinkFactory
             case ActivePayloads:
                 return new ActivePayloads(bytes);
             case WeaponsStores:
-                // TODO
-                return new OpaqueValue(bytes);
+                return new WeaponsStores(bytes);
             case WaypointList:
                 return new WaypointList(bytes);
         }
