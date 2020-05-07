@@ -1,12 +1,16 @@
 package org.jmisb.api.klv.st1204;
 
 import org.jmisb.core.klv.UuidUtils;
+import java.security.MessageDigest;
+import java.security.NoSuchAlgorithmException;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.UUID;
 import org.jmisb.api.klv.BerDecoder;
 import org.jmisb.api.klv.BerField;
 import org.jmisb.core.klv.ArrayUtils;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 /**
  * ST1204 Core Identifier.
@@ -37,16 +41,16 @@ import org.jmisb.core.klv.ArrayUtils;
  * There are two types of Core Identifiers: Foundational and Minor.
  * </p>
  * <p>
- * A Foundational Core Identifier is composed of up to three Identifier
+ * A Foundational Core Identifier (FCID) is composed of up to three Identifier
  * Components: Sensor Device Identifier, Platform Device Identifier, and Window
  * Identifier. Constructing a Foundational Core Identifier requires a device
  * and/or Window Identifiers be known, which limits their insertion to either
  * on-board the platform or at a ground control station (e.g., GCS for a UAS).
  * </p>
  * <p>
- * A Minor Core Identifier is a single Identifier Component from a randomly
- * generated UUID and created/inserted after the platform; not on-board a
- * platform.
+ * A Minor Core Identifier (MCID) is a single Identifier Component from a
+ * randomly generated UUID and created/inserted after the platform; not on-board
+ * a platform.
  * </p>
  * <p>
  * The Identifier Components include information on the insertion point in a
@@ -62,6 +66,8 @@ import org.jmisb.core.klv.ArrayUtils;
  */
 public class CoreIdentifier
 {
+    private static Logger logger = LoggerFactory.getLogger(CoreIdentifier.class);
+
     private int version;
     private IdType sensorIdType = IdType.None;
     private IdType platformIdType = IdType.None;
@@ -73,7 +79,30 @@ public class CoreIdentifier
     private UUID windowUUID;
     private UUID minorUUID;
 
-    public static CoreIdentifier fromString(final String text) {
+    /**
+     * Construct a CoreIdentifier from a text format string.
+     * <p>
+     * The FCID format is:
+     * VersionUsageValue:SensorID/PlatformID/WindowID:CheckValue.
+     * <p>
+     * An example is:
+     * </p>
+     * <pre>
+     * 0170:F592-F023-7336-4AF8-AA91-62C0-0F2E-B2DA/16B7-4341-0008-41A0-BE36-5B5A-B96A-3645:D3
+     * </pre>
+     * <p>
+     * The MCID format is: VersionUsageValue:MCID:CheckValue.
+     * </p>
+     * <p>
+     * This method tolerates a missing check value (although this will be
+     * flagged in the resulting identifier).
+     *
+     * @param text the text string.
+     * @return A core identifier, or null if the string was not correctly
+     * formatted.
+     */
+    public static CoreIdentifier fromString(final String text)
+    {
         CoreIdentifier coreIdentifier = new CoreIdentifier();
         String[] parts = text.split(":");
         if (parts.length < 2) {
@@ -125,7 +154,14 @@ public class CoreIdentifier
         return coreIdentifier;
     }
 
-    public static CoreIdentifier fromBytes(byte[] bytes) {
+    /**
+     * Construct a core identifier from the binary representation.
+     *
+     * @param bytes byte array corresponding to the core identifier.
+     * @return core identifier.
+     */
+    public static CoreIdentifier fromBytes(byte[] bytes)
+    {
         int index = 0;
         CoreIdentifier coreIdentifier = new CoreIdentifier();
         BerField field = BerDecoder.decode(bytes, index, true);
@@ -151,6 +187,34 @@ public class CoreIdentifier
         // No checksum needed for binary format
         coreIdentifier.hasValidCheckValue = true;
         return coreIdentifier;
+    }
+
+    /**
+     * Construct a UUID from multiple UUID strings.
+     *
+     * This corresponds to the ST1204.3 combination algorithm.
+     *
+     * @param uuids list of strings containing UUIDs
+     * @return UUID corresponding to the combined list of inputs, or null if combining failed.
+     */
+    public static UUID combineMultipleUUID(List<String> uuids)
+    {
+        try
+        {
+            MessageDigest hasher = MessageDigest.getInstance("SHA-1");
+            for (String uuidString: uuids)
+            {
+                byte[] uuidBytes = UuidUtils.uuidStringToByteArray(uuidString);
+                hasher.update(uuidBytes);
+            }
+            byte[] uuidBytes = hasher.digest();
+            return UuidUtils.convertHashOutputToVersion5UUID(uuidBytes);
+        }
+        catch (NoSuchAlgorithmException ex)
+        {
+            logger.warn(null, ex);
+        }
+        return null;
     }
 
     public int getVersion() {
