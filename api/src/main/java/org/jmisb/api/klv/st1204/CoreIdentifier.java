@@ -3,11 +3,14 @@ package org.jmisb.api.klv.st1204;
 import org.jmisb.core.klv.UuidUtils;
 import java.security.MessageDigest;
 import java.security.NoSuchAlgorithmException;
+import java.util.ArrayList;
 import java.util.List;
 import java.util.UUID;
 import org.jmisb.api.klv.BerDecoder;
 import org.jmisb.api.klv.BerField;
 import org.jmisb.core.klv.ArrayUtils;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 /**
  * ST1204 Core Identifier.
@@ -63,6 +66,8 @@ import org.jmisb.core.klv.ArrayUtils;
  */
 public class CoreIdentifier
 {
+    private static Logger logger = LoggerFactory.getLogger(CoreIdentifier.class);
+
     private int version;
     private IdType sensorIdType = IdType.None;
     private IdType platformIdType = IdType.None;
@@ -207,7 +212,7 @@ public class CoreIdentifier
         }
         catch (NoSuchAlgorithmException ex)
         {
-            LOG.log(Level.SEVERE, null, ex);
+            logger.warn(null, ex);
         }
         return null;
     }

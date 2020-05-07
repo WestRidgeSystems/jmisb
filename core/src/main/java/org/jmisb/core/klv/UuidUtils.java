@@ -75,7 +75,7 @@ public class UuidUtils {
         return misbFormatUUID;
     }
 
-    static UUID convertHashOutputToVersion5UUID(byte[] uuidBytes)
+    public static UUID convertHashOutputToVersion5UUID(byte[] uuidBytes)
     {
         byte[] truncatedBytes = Arrays.copyOf(uuidBytes, 16);
         truncatedBytes[6] &= 15; // clear version
@@ -88,11 +88,11 @@ public class UuidUtils {
     /**
      * Convert a hex String (in UUID format) to a byte array.
      * <p>
-     * Per ST1204 algorithm, the separators are ignored, and the conversion i
+     * Per ST1204 algorithm, the separators are ignored.
      * @param uuidString the string to convert
      * @return corresponding byte array.
      */
-    static byte[] uuidStringToByteArray(String uuidString)
+    public static byte[] uuidStringToByteArray(String uuidString)
     {
         return uuidString.replaceAll("-", "").toUpperCase().getBytes(Charset.forName("US-ASCII"));
     }
