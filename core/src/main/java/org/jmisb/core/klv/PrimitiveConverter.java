@@ -1,5 +1,6 @@
 package org.jmisb.core.klv;
 
+import java.math.BigInteger;
 import java.nio.ByteBuffer;
 import java.util.Arrays;
 
@@ -351,6 +352,17 @@ public class PrimitiveConverter
     }
 
     /**
+     * Convert a variable length byte array to an signed 64-bit integer (long)
+     *
+     * @param bytes The array of length 1-8
+     * @return The signed 64-bit integer as a long
+     */
+    public static long variableBytesToInt64(byte[] bytes)
+    {
+        return new BigInteger(bytes).longValue();
+    }
+
+    /**
      * Convert a signed 64-byte integer to a byte array
      *
      * @param val The long value
@@ -360,6 +372,21 @@ public class PrimitiveConverter
     {
         longBuffer.get().putLong(0, val);
         return longBuffer.get().array();
+    }
+
+    /**
+     * Convert an signed 64-bit integer to a byte array.
+     * <p>
+     * This is similar to int64ToBytes, except that it only uses the minimum
+     * required number of bytes to represent the value. So if the value will
+     * fit into two bytes, the results will be only two bytes.
+     *
+     * @param val The signed 64-bit integer
+     * @return The array of length 1-8 bytes.
+     */
+    public static byte[] int64ToVariableBytes(long val)
+    {
+        return BigInteger.valueOf(val).toByteArray();
     }
 
     /**
