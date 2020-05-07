@@ -1,6 +1,8 @@
 package org.jmisb.core.klv;
 
 import java.nio.ByteBuffer;
+import java.nio.charset.Charset;
+import java.util.Arrays;
 import java.util.UUID;
 
 /**
@@ -66,10 +68,33 @@ public class UuidUtils {
      * @param uuid the UUID to format as text
      * @return text equivalent to the UUID
      */
-    public static String formatUUID(UUID uuid) {
+    public static String formatUUID(UUID uuid)
+    {
         String standardFormatUUID = uuid.toString().toUpperCase();
         String misbFormatUUID = standardFormatUUID.substring(0, 4) + "-" + standardFormatUUID.substring(4, 28) + "-" + standardFormatUUID.substring(28, 32) + "-" + standardFormatUUID.substring(32);
         return misbFormatUUID;
+    }
+
+    public static UUID convertHashOutputToVersion5UUID(byte[] uuidBytes)
+    {
+        byte[] truncatedBytes = Arrays.copyOf(uuidBytes, 16);
+        truncatedBytes[6] &= 15; // clear version
+        truncatedBytes[6] |= 80; // set to version 5
+        truncatedBytes[8] &= 63; // clear variant bits
+        truncatedBytes[8] |= 128; // set to variant 2
+        return UuidUtils.arrayToUuid(truncatedBytes, 0);
+    }
+
+    /**
+     * Convert a hex String (in UUID format) to a byte array.
+     * <p>
+     * Per ST1204 algorithm, the separators are ignored.
+     * @param uuidString the string to convert
+     * @return corresponding byte array.
+     */
+    public static byte[] uuidStringToByteArray(String uuidString)
+    {
+        return uuidString.replaceAll("-", "").toUpperCase().getBytes(Charset.forName("US-ASCII"));
     }
 
 }
