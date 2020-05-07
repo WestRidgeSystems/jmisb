@@ -313,8 +313,7 @@ public class UasDatalinkFactory
             case LeapSeconds:
                 return new LeapSeconds(bytes);
             case CorrectionOffset:
-                // TODO
-                return new OpaqueValue(bytes);
+                return new CorrectionOffset(bytes);
             case PayloadList:
                 return new PayloadList(bytes);
             case ActivePayloads:

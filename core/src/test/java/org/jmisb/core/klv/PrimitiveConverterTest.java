@@ -476,4 +476,212 @@ public class PrimitiveConverterTest
     {
         PrimitiveConverter.toInt64(new byte[]{(byte)0x12, (byte)0x34, (byte)0x00, (byte)0x04, (byte)0x59, (byte)0xF4, (byte)0xA6, (byte)0xAA, (byte)0x4A}, 2);
     }
+
+    @Test
+    public void testVariableBytesToSignedInt64()
+    {
+        byte[] bytes = new byte[]{(byte)0xff};
+        Assert.assertEquals(PrimitiveConverter.variableBytesToInt64(bytes), -1);
+
+        bytes = new byte[]{(byte)0x00};
+        Assert.assertEquals(PrimitiveConverter.variableBytesToInt64(bytes), 0);
+
+        bytes = new byte[]{(byte)0x80};
+        Assert.assertEquals(PrimitiveConverter.variableBytesToInt64(bytes), -128);
+
+        bytes = new byte[]{(byte)0x7F};
+        Assert.assertEquals(PrimitiveConverter.variableBytesToInt64(bytes), 127);
+
+        bytes = new byte[]{(byte)0xff, (byte)0xff};
+        Assert.assertEquals(PrimitiveConverter.variableBytesToInt64(bytes), -1);
+
+        bytes = new byte[]{(byte)0x00, (byte)0x00};
+        Assert.assertEquals(PrimitiveConverter.variableBytesToInt64(bytes), 0);
+
+        bytes = new byte[]{(byte)0x80, (byte)0x00};
+        Assert.assertEquals(PrimitiveConverter.variableBytesToInt64(bytes), -32768);
+
+        bytes = new byte[]{(byte)0x7F, (byte)0xff};
+        Assert.assertEquals(PrimitiveConverter.variableBytesToInt64(bytes), 32767);
+
+        bytes = new byte[]{(byte)0xff, (byte)0xff, (byte)0xff};
+        Assert.assertEquals(PrimitiveConverter.variableBytesToInt64(bytes), -1);
+
+        bytes = new byte[]{(byte)0x00, (byte)0x00, (byte)0x00};
+        Assert.assertEquals(PrimitiveConverter.variableBytesToInt64(bytes), 0);
+
+        bytes = new byte[]{(byte)0x80, (byte)0x00, (byte)0x00};
+        Assert.assertEquals(PrimitiveConverter.variableBytesToInt64(bytes), -8388608);
+
+        bytes = new byte[]{(byte)0x7F, (byte)0xff, (byte)0xff};
+        Assert.assertEquals(PrimitiveConverter.variableBytesToInt64(bytes), 8388607);
+
+        bytes = new byte[]{(byte)0xff, (byte)0xff, (byte)0xff, (byte)0xff};
+        Assert.assertEquals(PrimitiveConverter.variableBytesToInt64(bytes), -1);
+
+        bytes = new byte[]{(byte)0x00, (byte)0x00, (byte)0x00, (byte)0x00};
+        Assert.assertEquals(PrimitiveConverter.variableBytesToInt64(bytes), 0);
+
+        bytes = new byte[]{(byte)0x80, (byte)0x00, (byte)0x00, (byte)0x00};
+        Assert.assertEquals(PrimitiveConverter.variableBytesToInt64(bytes), -2147483648);
+
+        bytes = new byte[]{(byte)0x7F, (byte)0xff, (byte)0xff, (byte)0xff};
+        Assert.assertEquals(PrimitiveConverter.variableBytesToInt64(bytes), 2147483647);
+
+        bytes = new byte[]{(byte)0xff, (byte)0xff, (byte)0xff, (byte)0xff, (byte)0xff};
+        Assert.assertEquals(PrimitiveConverter.variableBytesToInt64(bytes), -1);
+
+        bytes = new byte[]{(byte)0x00, (byte)0x00, (byte)0x00, (byte)0x00, (byte)0x00};
+        Assert.assertEquals(PrimitiveConverter.variableBytesToInt64(bytes), 0);
+
+        bytes = new byte[]{(byte)0x80, (byte)0x00, (byte)0x00, (byte)0x00, (byte)0x00};
+        Assert.assertEquals(PrimitiveConverter.variableBytesToInt64(bytes), -549755813888L);
+
+        bytes = new byte[]{(byte)0x7F, (byte)0xff, (byte)0xff, (byte)0xff, (byte)0xff};
+        Assert.assertEquals(PrimitiveConverter.variableBytesToInt64(bytes), 549755813887L);
+
+        bytes = new byte[]{(byte)0xff, (byte)0xff, (byte)0xff, (byte)0xff, (byte)0xff, (byte)0xff};
+        Assert.assertEquals(PrimitiveConverter.variableBytesToInt64(bytes), -1);
+
+        bytes = new byte[]{(byte)0x00, (byte)0x00, (byte)0x00, (byte)0x00, (byte)0x00, (byte)0x00};
+        Assert.assertEquals(PrimitiveConverter.variableBytesToInt64(bytes), 0);
+
+        bytes = new byte[]{(byte)0x80, (byte)0x00, (byte)0x00, (byte)0x00, (byte)0x00, (byte)0x00};
+        Assert.assertEquals(PrimitiveConverter.variableBytesToInt64(bytes), -140737488355328L);
+
+        bytes = new byte[]{(byte)0x7F, (byte)0xff, (byte)0xff, (byte)0xff, (byte)0xff, (byte)0xff};
+        Assert.assertEquals(PrimitiveConverter.variableBytesToInt64(bytes), 140737488355327L);
+
+        bytes = new byte[]{(byte)0xff, (byte)0xff, (byte)0xff, (byte)0xff, (byte)0xff, (byte)0xff, (byte)0xff};
+        Assert.assertEquals(PrimitiveConverter.variableBytesToInt64(bytes), -1);
+
+        bytes = new byte[]{(byte)0x00, (byte)0x00, (byte)0x00, (byte)0x00, (byte)0x00, (byte)0x00, (byte)0x00};
+        Assert.assertEquals(PrimitiveConverter.variableBytesToInt64(bytes), 0);
+
+        bytes = new byte[]{(byte)0x80, (byte)0x00, (byte)0x00, (byte)0x00, (byte)0x00, (byte)0x00, (byte)0x00};
+        Assert.assertEquals(PrimitiveConverter.variableBytesToInt64(bytes), -36028797018963968L);
+
+        bytes = new byte[]{(byte)0x7F, (byte)0xff, (byte)0xff, (byte)0xff, (byte)0xff, (byte)0xff, (byte)0xff};
+        Assert.assertEquals(PrimitiveConverter.variableBytesToInt64(bytes), 36028797018963967L);
+
+        bytes = new byte[]{(byte)0xff, (byte)0xff, (byte)0xff, (byte)0xff, (byte)0xff, (byte)0xff, (byte)0xff, (byte)0xff};
+        Assert.assertEquals(PrimitiveConverter.variableBytesToInt64(bytes), -1);
+
+        bytes = new byte[]{(byte)0x00, (byte)0x00, (byte)0x00, (byte)0x00, (byte)0x00, (byte)0x00, (byte)0x00, (byte)0x00};
+        Assert.assertEquals(PrimitiveConverter.variableBytesToInt64(bytes), 0);
+
+        bytes = new byte[]{(byte)0x80, (byte)0x00, (byte)0x00, (byte)0x00, (byte)0x00, (byte)0x00, (byte)0x00, (byte)0x00};
+        Assert.assertEquals(PrimitiveConverter.variableBytesToInt64(bytes), Long.MIN_VALUE);
+
+        bytes = new byte[]{(byte)0x7F, (byte)0xff, (byte)0xff, (byte)0xff, (byte)0xff, (byte)0xff, (byte)0xff, (byte)0xff};
+        Assert.assertEquals(PrimitiveConverter.variableBytesToInt64(bytes), Long.MAX_VALUE);
+    }
+
+    @Test
+    public void testSignedInt64ToVariableBytes()
+    {
+        long intVal = -1;
+        byte[] bytes = PrimitiveConverter.int64ToVariableBytes(intVal);
+        Assert.assertEquals(bytes, new byte[]{(byte)0xff});
+
+        intVal = 0;
+        bytes = PrimitiveConverter.int64ToVariableBytes(intVal);
+        Assert.assertEquals(bytes, new byte[]{0x00});
+
+        intVal = 10;
+        bytes = PrimitiveConverter.int64ToVariableBytes(intVal);
+        Assert.assertEquals(bytes, new byte[]{0x0a});
+
+        intVal = 127;
+        bytes = PrimitiveConverter.int64ToVariableBytes(intVal);
+        Assert.assertEquals(bytes, new byte[]{0x7f});
+
+        intVal = -127;
+        bytes = PrimitiveConverter.int64ToVariableBytes(intVal);
+        Assert.assertEquals(bytes, new byte[]{(byte)0x81});
+
+        intVal = -128;
+        bytes = PrimitiveConverter.int64ToVariableBytes(intVal);
+        Assert.assertEquals(bytes, new byte[]{(byte)0x80});
+
+        intVal = 128;
+        bytes = PrimitiveConverter.int64ToVariableBytes(intVal);
+        Assert.assertEquals(bytes, new byte[]{(byte)0x00, (byte)0x80});
+
+        intVal = -129;
+        bytes = PrimitiveConverter.int64ToVariableBytes(intVal);
+        Assert.assertEquals(bytes, new byte[]{(byte)0xFF, (byte)0x7F});
+
+        intVal = 32767;
+        bytes = PrimitiveConverter.int64ToVariableBytes(intVal);
+        Assert.assertEquals(bytes, new byte[]{(byte)0x7F, (byte)0xFF});
+
+        intVal = -32767;
+        bytes = PrimitiveConverter.int64ToVariableBytes(intVal);
+        Assert.assertEquals(bytes, new byte[]{(byte)0x80, (byte)0x01});
+
+        intVal = -32768;
+        bytes = PrimitiveConverter.int64ToVariableBytes(intVal);
+        Assert.assertEquals(bytes, new byte[]{(byte)0x80, (byte)0x00});
+
+        intVal = 32768;
+        bytes = PrimitiveConverter.int64ToVariableBytes(intVal);
+        Assert.assertEquals(bytes, new byte[]{(byte)0x00, (byte)0x80, (byte)0x00});
+
+        intVal = -32769;
+        bytes = PrimitiveConverter.int64ToVariableBytes(intVal);
+        Assert.assertEquals(bytes, new byte[]{(byte)0xFF, (byte)0x7F, (byte)0xFF});
+
+        intVal = 32768;
+        bytes = PrimitiveConverter.int64ToVariableBytes(intVal);
+        Assert.assertEquals(bytes, new byte[]{(byte)0x00, (byte)0x80, (byte)0x00});
+
+        intVal = -8388608;
+        bytes = PrimitiveConverter.int64ToVariableBytes(intVal);
+        Assert.assertEquals(bytes, new byte[]{(byte)0x80, (byte)0x00, (byte)0x00});
+
+        intVal = 8388607;
+        bytes = PrimitiveConverter.int64ToVariableBytes(intVal);
+        Assert.assertEquals(bytes, new byte[]{(byte)0x7F, (byte)0xff, (byte)0xff});
+
+        intVal = -2147483648;
+        bytes = PrimitiveConverter.int64ToVariableBytes(intVal);
+        Assert.assertEquals(bytes, new byte[]{(byte)0x80, (byte)0x00, (byte)0x00, (byte)0x00});
+
+        intVal = 2147483647;
+        bytes = PrimitiveConverter.int64ToVariableBytes(intVal);
+        Assert.assertEquals(bytes, new byte[]{(byte)0x7F, (byte)0xff, (byte)0xff, (byte)0xff});
+
+        intVal = -549755813888L;
+        bytes = PrimitiveConverter.int64ToVariableBytes(intVal);
+        Assert.assertEquals(bytes, new byte[]{(byte)0x80, (byte)0x00, (byte)0x00, (byte)0x00, (byte)0x00});
+
+        intVal = 549755813887L;
+        bytes = PrimitiveConverter.int64ToVariableBytes(intVal);
+        Assert.assertEquals(bytes, new byte[]{(byte)0x7F, (byte)0xff, (byte)0xff, (byte)0xff, (byte)0xff});
+
+        intVal = -140737488355328L;
+        bytes = PrimitiveConverter.int64ToVariableBytes(intVal);
+        Assert.assertEquals(bytes, new byte[]{(byte)0x80, (byte)0x00, (byte)0x00, (byte)0x00, (byte)0x00, (byte)0x00});
+
+        intVal = 140737488355327L;
+        bytes = PrimitiveConverter.int64ToVariableBytes(intVal);
+        Assert.assertEquals(bytes, new byte[]{(byte)0x7F, (byte)0xff, (byte)0xff, (byte)0xff, (byte)0xff, (byte)0xff});
+
+        intVal = -36028797018963968L;
+        bytes = PrimitiveConverter.int64ToVariableBytes(intVal);
+        Assert.assertEquals(bytes, new byte[]{(byte)0x80, (byte)0x00, (byte)0x00, (byte)0x00, (byte)0x00, (byte)0x00, (byte)0x00});
+
+        intVal = 36028797018963967L;
+        bytes = PrimitiveConverter.int64ToVariableBytes(intVal);
+        Assert.assertEquals(bytes, new byte[]{(byte)0x7F, (byte)0xff, (byte)0xff, (byte)0xff, (byte)0xff, (byte)0xff, (byte)0xff});
+
+        intVal = Long.MIN_VALUE;
+        bytes = PrimitiveConverter.int64ToVariableBytes(intVal);
+        Assert.assertEquals(bytes, new byte[]{(byte)0x80, (byte)0x00, (byte)0x00, (byte)0x00, (byte)0x00, (byte)0x00, (byte)0x00, (byte)0x00});
+
+        intVal = Long.MAX_VALUE;
+        bytes = PrimitiveConverter.int64ToVariableBytes(intVal);
+        Assert.assertEquals(bytes, new byte[]{(byte)0x7F, (byte)0xff, (byte)0xff, (byte)0xff, (byte)0xff, (byte)0xff, (byte)0xff, (byte)0xff});
+    }
 }

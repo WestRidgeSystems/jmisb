@@ -281,7 +281,7 @@ public enum UasDatalinkTag
     CommunicationsMethod(135),
     /** Tag 136; Number of leap seconds to adjust Precision Time Stamp (Tag 2) to UTC; Value is a {@link LeapSeconds} */
     LeapSeconds(136),
-    /** Tag 137; Post-flight time adjustment to correct Precision Time Stamp (Tag 2) as needed; Value is a {@link OpaqueValue} */
+    /** Tag 137; Post-flight time adjustment to correct Precision Time Stamp (Tag 2) as needed; Value is a {@link CorrectionOffset} */
     CorrectionOffset(137),
     /** Tag 138; List of payloads available on the Platform; Value is a {@link PayloadList} */
     PayloadList(138),
