@@ -51,10 +51,20 @@ public abstract class UasDatalinkAngle360 implements IUasDatalinkValue
 
     /**
      * Get the value in degrees
+     *
      * @return angle, in degrees
      */
     public double getDegrees() {
         return degrees;
+    }
+
+    /**
+     * Get the value in radians
+     *
+     * @return angle, in radians
+     */
+    public double getRadians() {
+        return degrees * (Math.PI / 180.0);
     }
 
     @Override

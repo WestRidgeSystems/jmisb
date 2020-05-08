@@ -68,6 +68,15 @@ public abstract class UasDatalinkLatitude implements IUasDatalinkValue
         return degrees;
     }
 
+    /**
+     * Get the latitude in radians
+     * @return Latitude, in range [-pi/2,pi/2], or Double.POSITIVE_INFINITY if error condition was specified.
+     */
+    public double getRadians()
+    {
+        return degrees * (Math.PI / 180.0);
+    }
+
     @Override
     public byte[] getBytes()
     {

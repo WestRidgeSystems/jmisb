@@ -84,12 +84,18 @@
                 <artifactId>ffmpeg-platform</artifactId>
                 <version>4.2.2-1.5.3</version>
             </dependency>
+            <dependency>
+                <groupId>org.apache.commons</groupId>
+                <artifactId>commons-math3</artifactId>
+                <version>3.6.1</version>
+            </dependency>
         </dependencies>
     </dependencyManagement>
 
     <modules>
         <module>api</module>
         <module>core</module>
+        <module>cumulo</module>
         <module>viewer</module>
     </modules>
 

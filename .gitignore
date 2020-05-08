@@ -10,3 +10,4 @@ target/
 *.ts
 *.dat
 /api/nbproject/
+*.gz

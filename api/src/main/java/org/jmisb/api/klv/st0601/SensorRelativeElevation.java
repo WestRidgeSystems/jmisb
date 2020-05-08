@@ -63,11 +63,22 @@ public class SensorRelativeElevation implements IUasDatalinkValue
 
     /**
      * Get the value in degrees
+     *
      * @return Degrees in range [-180,180], or Double.POSITIVE_INFINITY if error condition was specified.
      */
     public double getDegrees()
     {
         return degrees;
+    }
+
+    /**
+     * Get the value in radians
+     *
+     * @return Radians in range [-pi,pi], or Double.POSITIVE_INFINITY if error condition was specified.
+     */
+    public double getRadians()
+    {
+        return degrees * (Math.PI / 180.0);
     }
 
     @Override

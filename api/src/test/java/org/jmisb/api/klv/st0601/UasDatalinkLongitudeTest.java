@@ -168,4 +168,16 @@ public class UasDatalinkLongitudeTest
         Assert.assertEquals(longitude.getDisplayableValue(), "29.1457\u00B0");
         Assert.assertEquals(v.getDisplayName(), "Corner Longitude Point 4 (Full)");
     }
+
+    @Test
+    public void testDegreesRadians() {
+        SensorLongitude longitude = new SensorLongitude(180.0);
+        Assert.assertEquals(longitude.getRadians(), Math.PI, delta);
+
+        longitude = new SensorLongitude(-180.0);
+        Assert.assertEquals(longitude.getRadians(), -Math.PI, delta);
+
+        longitude = new SensorLongitude(Double.POSITIVE_INFINITY);
+        Assert.assertEquals(longitude.getRadians(), Double.POSITIVE_INFINITY);
+    }
 }

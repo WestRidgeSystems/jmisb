@@ -70,6 +70,15 @@ public abstract class UasDatalinkLongitude implements IUasDatalinkValue
         return degrees;
     }
 
+    /**
+     * Get the longitude in radians
+     * @return Longitude, in range [-pi,pi], or Double.POSITIVE_INFINITY if error condition was specified.
+     */
+    public double getRadians()
+    {
+        return degrees * (Math.PI / 180.0);
+    }
+
     @Override
     public byte[] getBytes()
     {

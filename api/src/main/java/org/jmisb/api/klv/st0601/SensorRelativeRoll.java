@@ -51,11 +51,22 @@ public class SensorRelativeRoll implements IUasDatalinkValue
 
     /**
      * Get the value in degrees
+     *
      * @return Degrees in range [0,360]
      */
     public double getDegrees()
     {
         return degrees;
+    }
+
+    /**
+     * Get the value in radians
+     *
+     * @return Radians in range [0,2pi]
+     */
+    public double getRadians()
+    {
+        return degrees * (Math.PI / 180.0);
     }
 
     @Override

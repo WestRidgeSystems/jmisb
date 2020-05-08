@@ -173,4 +173,16 @@ public class UasDatalinkLatitudeTest
         Assert.assertEquals(latitude.getDisplayableValue(), "-10.5413\u00B0");
         Assert.assertEquals(v.getDisplayName(), "Corner Latitude Point 4 (Full)");
     }
+
+    @Test
+    public void testDegreesRadians() {
+        SensorLatitude latitude = new SensorLatitude(90.0);
+        Assert.assertEquals(latitude.getRadians(), Math.PI/2, delta);
+
+        latitude = new SensorLatitude(-90.0);
+        Assert.assertEquals(latitude.getRadians(), -Math.PI/2, delta);
+
+        latitude = new SensorLatitude(Double.POSITIVE_INFINITY);
+        Assert.assertEquals(latitude.getRadians(), Double.POSITIVE_INFINITY);
+    }
 }

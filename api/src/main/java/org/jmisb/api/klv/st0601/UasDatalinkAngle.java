@@ -71,6 +71,16 @@ public abstract class UasDatalinkAngle implements IUasDatalinkValue
         return degrees;
     }
 
+    /**
+     * Get the value in radians
+     *
+     * @return angle, in radians, or {@code Double.POSITIVE_INFINITY} to indicate
+     * an error condition
+     */
+    public double getRadians() {
+        return degrees * (Math.PI / 180.0);
+    }
+
     @Override
     public byte[] getBytes()
     {

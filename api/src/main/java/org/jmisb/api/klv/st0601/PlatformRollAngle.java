@@ -69,6 +69,16 @@ public class PlatformRollAngle implements IUasDatalinkValue
         return degrees;
     }
 
+    /**
+     * Get the value in radians
+     *
+     * @return angle, in radians, or {@code Double.POSITIVE_INFINITY} if "out of range"
+     */
+    public double getRadians()
+    {
+        return degrees * (Math.PI / 180.0);
+    }
+
     @Override
     public byte[] getBytes()
     {

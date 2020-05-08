@@ -60,6 +60,15 @@ public class VerticalFov implements IUasDatalinkValue
         return degrees;
     }
 
+    /**
+     * Get the vertical field of view
+     * @return The vertical field of view, in radians
+     */
+    public double getRadians()
+    {
+        return degrees * (Math.PI / 180.0);
+    }
+
     @Override
     public byte[] getBytes()
     {
