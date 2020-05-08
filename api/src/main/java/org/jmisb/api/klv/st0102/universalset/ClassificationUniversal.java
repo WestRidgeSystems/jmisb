@@ -80,6 +80,8 @@ public class ClassificationUniversal implements ISecurityMetadataValue
             case UNCLASSIFIED:
                 string = "UNCLASSIFIED//";
                 break;
+            default:
+                throw new IllegalArgumentException("Invalid security classification: " + value);
         }
         return string.getBytes(StandardCharsets.US_ASCII);
     }
