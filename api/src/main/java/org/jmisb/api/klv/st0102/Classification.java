@@ -8,6 +8,7 @@ import java.util.Map;
  */
 public enum Classification
 {
+    UNKNOWN((byte)0x00),
     UNCLASSIFIED((byte)0x01),
     RESTRICTED((byte)0x02),
     CONFIDENTIAL((byte)0x03),

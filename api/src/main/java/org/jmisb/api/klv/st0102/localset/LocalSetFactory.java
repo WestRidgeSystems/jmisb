@@ -46,6 +46,8 @@ public class LocalSetFactory
                 return new ObjectCountryCodeString(bytes);
             case ClassificationComments:
                 return new SecurityMetadataString(bytes);
+            case StreamId:
+                return new StreamId(bytes);
             case ItemDesignatorId:
                 return new ItemDesignatorId(bytes);
             case Version:
