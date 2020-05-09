@@ -127,7 +127,7 @@ public enum UasDatalinkTag
     PlatformFuelRemaining(58),
     /** Tag 59; Call sign of platform or operating unit; Value is a {@link UasDatalinkString} */
     PlatformCallSign(59),
-    /** Tag 60; Current weapons stored on aircraft; Value is a {@link OpaqueValue} */
+    /** Tag 60; Current weapons stored on aircraft; Value is a {@link WeaponLoad} */
     WeaponLoad(60),
     /** Tag 61; Indication when a particular weapon is released; Value is a {@link OpaqueValue} */
     WeaponFired(61),

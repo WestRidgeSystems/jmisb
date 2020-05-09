@@ -145,8 +145,7 @@ public class UasDatalinkFactory
             case PlatformCallSign:
                 return new UasDatalinkString(UasDatalinkString.PLATFORM_CALL_SIGN, bytes);
             case WeaponLoad:
-                // TODO
-                return new OpaqueValue(bytes);
+                return new WeaponLoad(bytes);
             case WeaponFired:
                 // TODO
                 return new OpaqueValue(bytes);
