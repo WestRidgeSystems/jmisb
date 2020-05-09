@@ -147,8 +147,7 @@ public class UasDatalinkFactory
             case WeaponLoad:
                 return new WeaponLoad(bytes);
             case WeaponFired:
-                // TODO
-                return new OpaqueValue(bytes);
+                return new WeaponFired(bytes);
             case LaserPrfCode:
                 return new LaserPrfCode(bytes);
             case SensorFovName:
