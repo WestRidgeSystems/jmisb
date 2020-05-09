@@ -300,8 +300,7 @@ public class UasDatalinkFactory
             case AirbaseLocations:
                 return new AirbaseLocations(bytes);
             case TakeOffTime:
-                // TODO
-                return new OpaqueValue(bytes);
+                return new TakeOffTime(bytes);
             case TransmissionFrequency:
                 return new TransmissionFrequency(bytes);
             case OnBoardMiStorageCapacity:

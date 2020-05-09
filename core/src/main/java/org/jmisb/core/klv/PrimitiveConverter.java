@@ -92,6 +92,33 @@ public class PrimitiveConverter
         }
     }
 
+    /**
+     * Convert an unsigned 8 byte unsigned integer (long with range of uint64) to a byte array.
+     * <p>
+     * This only uses the minimum required number of bytes to represent the
+     * value. So if the value will fit into two bytes, the results will be only
+     * two bytes.
+     *
+     * @param longValue The unsigned integer as long
+     * @return The array of length 1-8 bytes.
+     */
+    public static byte[] uintToVariableBytes(long longValue)
+    {
+        if (Long.compareUnsigned(longValue, 72057594037927935L) > 0)
+        {
+            return PrimitiveConverter.int64ToBytes(longValue);
+        }
+        else if (Long.compareUnsigned(longValue, 281474976710655L) > 0)
+        {
+            byte[] bytes = PrimitiveConverter.int64ToBytes(longValue);
+            return new byte[]{bytes[1], bytes[2], bytes[3], bytes[4], bytes[5], bytes[6], bytes[7]};
+        }
+        else
+        {
+            return uintToVariableBytesV6(longValue);
+        }
+    }
+
     private PrimitiveConverter() {}
 
     /**
@@ -360,6 +387,36 @@ public class PrimitiveConverter
     public static long variableBytesToInt64(byte[] bytes)
     {
         return new BigInteger(bytes).longValue();
+    }
+
+    /**
+     * Convert a variable length byte array to an unsigned 64-bit integer (long with range of uint64)
+     *
+     * @param bytes The array of length 1-8
+     * @return The unsigned 64-bit integer as a long
+     */
+    public static long variableBytesToUint64(byte[] bytes)
+    {
+        switch (bytes.length) {
+            case 8:
+                return ByteBuffer.wrap(bytes, 0, Long.BYTES).getLong();
+            case 7:
+                return arrayToUnsignedLongInternal(bytes);
+            case 6:
+                return arrayToUnsignedLongInternal(bytes);
+            case 5:
+                return arrayToUnsignedLongInternal(bytes);
+            case 4:
+                return PrimitiveConverter.toUint32(bytes);
+            case 3:
+                return arrayToUnsignedLongInternal(bytes);
+            case 2:
+                return PrimitiveConverter.toUint16(bytes);
+            case 1:
+                return PrimitiveConverter.toUint8(bytes);
+            default:
+                throw new IllegalArgumentException("Invalid buffer length");
+        }
     }
 
     /**

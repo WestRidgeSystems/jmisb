@@ -27,7 +27,11 @@ public class StartTime extends ST0603TimeStamp implements IVmtiMetadataValue
     }
 
     /**
-     * Create from encoded bytes
+     * Create from encoded bytes.
+     *
+     * In ST0903.4 and ST0903.5, this needs to be 8 bytes. However earlier
+     * versions allowed it to be up to 8 bytes, so we tolerate that.
+     *
      * @param bytes Encoded byte array
      */
     public StartTime(byte[] bytes)
@@ -48,5 +52,12 @@ public class StartTime extends ST0603TimeStamp implements IVmtiMetadataValue
     public final String getDisplayName()
     {
         return "Start Time";
+    }
+
+    @Override
+    public byte[] getBytes()
+    {
+        // On generation, we return the full 8 bytes for compliance.
+        return getBytesFull();
     }
 }

@@ -269,7 +269,7 @@ public enum UasDatalinkTag
     TargetId(129),
     /** Tag 130; Geographic location of the take-off site and recovery site; Value is a {@link AirbaseLocations} */
     AirbaseLocations(130),
-    /** Tag 131; Time when aircraft became airborne; Value is a {@link OpaqueValue} */
+    /** Tag 131; Time when aircraft became airborne; Value is a {@link TakeOffTime} */
     TakeOffTime(131),
     /** Tag 132; Radio frequency used to transmit the Motion Imagery; Value is a {@link TransmissionFrequency} */
     TransmissionFrequency(132),

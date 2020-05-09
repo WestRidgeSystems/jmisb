@@ -3,6 +3,7 @@ package org.jmisb.api.klv.st0603;
 import java.time.Instant;
 import java.time.LocalDateTime;
 import java.time.ZoneOffset;
+import java.time.format.DateTimeFormatter;
 import java.time.temporal.ChronoUnit;
 import org.jmisb.core.klv.PrimitiveConverter;
 
@@ -29,16 +30,24 @@ public class ST0603TimeStamp
     }
 
     /**
-     * Create from encoded bytes
-     * @param bytes Encoded byte array
+     * Create from encoded bytes.
+     *
+     * This method does not check that the array is exactly 8 bytes, only that
+     * it is not more than 8 bytes. Missing bytes are assumed be leading bytes,
+     * value zero.
+     *
+     * @param bytes Encoded byte array (1-8 bytes).
      */
     public ST0603TimeStamp(byte[] bytes)
     {
-        if (bytes.length != 8)
+        if (bytes.length <= 8)
         {
-            throw new IllegalArgumentException("Timestamp encoding is an 8-byte unsigned int");
+            microseconds = PrimitiveConverter.variableBytesToUint64(bytes);
         }
-        microseconds = PrimitiveConverter.toInt64(bytes);
+        else
+        {
+            throw new IllegalArgumentException("Timestamp encoding is an 1 to 8-byte unsigned int");
+        }
     }
 
     /**
@@ -68,9 +77,27 @@ public class ST0603TimeStamp
         return microseconds;
     }
 
-    public byte[] getBytes()
+    /**
+     * Get the byte array corresponding to this timestamp.
+     *
+     * This version always returns an 8 byte array
+     * @return full byte array corresponding to the timestamp.
+     */
+    public byte[] getBytesFull()
     {
         return PrimitiveConverter.int64ToBytes(microseconds);
+    }
+
+    /**
+     * Get the byte array corresponding to this timestamp.
+     *
+     * This version will drop leading zero bytes. The maximum length is 8 bytes.
+     *
+     * @return 1-8 byte array corresponding to the timestamp.
+     */
+    public byte[] getBytesVariable()
+    {
+        return PrimitiveConverter.uintToVariableBytes(microseconds);
     }
 
     /**
@@ -83,8 +110,25 @@ public class ST0603TimeStamp
         return LocalDateTime.ofEpochSecond(microseconds / 1000000, (int)(microseconds % 1000000) * 1000, ZoneOffset.UTC);
     }
 
+    /**
+     * Get a displayable representation of the timestamp.
+     *
+     * @return String representation of this timestamp, in microseconds after the epoch.
+     */
     public String getDisplayableValue()
     {
         return "" + microseconds;
+    }
+
+    /**
+     * Get a displayable representation of the timestamp.
+     *
+     * @return String representation of this timestamp, date / time format.
+     */
+    public String getDisplayableValueDateTime()
+    {
+        LocalDateTime ldt = getDateTime();
+        String displayableLocalDateTime = ldt.format(DateTimeFormatter.ISO_DATE_TIME);
+        return displayableLocalDateTime;
     }
 }

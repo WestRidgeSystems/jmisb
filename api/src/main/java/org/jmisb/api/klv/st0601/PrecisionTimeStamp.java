@@ -32,6 +32,10 @@ public class PrecisionTimeStamp extends ST0603TimeStamp implements IUasDatalinkV
     public PrecisionTimeStamp(byte[] bytes)
     {
         super(bytes);
+        if (bytes.length < 8)
+        {
+            throw new IllegalArgumentException(this.getDisplayName() + " encoding is an 8-byte unsigned int");
+        }
     }
 
     /**
@@ -44,8 +48,15 @@ public class PrecisionTimeStamp extends ST0603TimeStamp implements IUasDatalinkV
     }
 
     @Override
-    public String getDisplayName()
+    public final String getDisplayName()
     {
         return "Precision Time Stamp";
+    }
+
+    @Override
+    public byte[] getBytes()
+    {
+        // On generation, we return the full 8 bytes for compliance.
+        return getBytesFull();
     }
 }

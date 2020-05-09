@@ -351,7 +351,7 @@ public class PrimitiveConverterTest
     }
 
     @Test
-    public void testUnsignedInt32ToVariableBytesV6()
+    public void testUnsignedIntToVariableBytesV6()
     {
         long longVal = 1L;
         byte[] bytes = PrimitiveConverter.uintToVariableBytesV6(longVal);
@@ -400,6 +400,118 @@ public class PrimitiveConverterTest
         longVal = 281474976710655L;
         bytes = PrimitiveConverter.uintToVariableBytesV6(longVal);
         Assert.assertEquals(bytes, new byte[]{(byte)0xff, (byte)0xff, (byte)0xff, (byte)0xff, (byte)0xff, (byte)0xff});
+    }
+
+    @Test
+    public void testUnsignedIntToVariableBytes()
+    {
+        long longVal = 1L;
+        byte[] bytes = PrimitiveConverter.uintToVariableBytes(longVal);
+        Assert.assertEquals(bytes, new byte[]{0x01});
+
+        longVal = 255L;
+        bytes = PrimitiveConverter.uintToVariableBytes(longVal);
+        Assert.assertEquals(bytes, new byte[]{(byte)0xff});
+
+        longVal = 256L;
+        bytes = PrimitiveConverter.uintToVariableBytes(longVal);
+        Assert.assertEquals(bytes, new byte[]{(byte)0x01, (byte)0x00});
+
+        longVal = 65535L;
+        bytes = PrimitiveConverter.uintToVariableBytes(longVal);
+        Assert.assertEquals(bytes, new byte[]{(byte)0xff, (byte)0xff});
+
+        longVal = 65536L;
+        bytes = PrimitiveConverter.uintToVariableBytes(longVal);
+        Assert.assertEquals(bytes, new byte[]{(byte)0x01, (byte)0x00, (byte)0x00});
+
+        longVal = 16777215L;
+        bytes = PrimitiveConverter.uintToVariableBytes(longVal);
+        Assert.assertEquals(bytes, new byte[]{(byte)0xff, (byte)0xff, (byte)0xff});
+
+        longVal = 16777216L;
+        bytes = PrimitiveConverter.uintToVariableBytes(longVal);
+        Assert.assertEquals(bytes, new byte[]{(byte)0x01, (byte)0x00, (byte)0x00, (byte)0x00});
+
+        longVal = 4294967295L;
+        bytes = PrimitiveConverter.uintToVariableBytes(longVal);
+        Assert.assertEquals(bytes, new byte[]{(byte)0xff, (byte)0xff, (byte)0xff, (byte)0xff});
+
+        longVal = 4294967296L;
+        bytes = PrimitiveConverter.uintToVariableBytes(longVal);
+        Assert.assertEquals(bytes, new byte[]{(byte)0x01, (byte)0x00, (byte)0x00, (byte)0x00, (byte)0x00});
+
+        longVal = 1099511627775L;
+        bytes = PrimitiveConverter.uintToVariableBytes(longVal);
+        Assert.assertEquals(bytes, new byte[]{(byte)0xff, (byte)0xff, (byte)0xff, (byte)0xff, (byte)0xff});
+
+        longVal = 1099511627776L;
+        bytes = PrimitiveConverter.uintToVariableBytes(longVal);
+        Assert.assertEquals(bytes, new byte[]{(byte)0x01, (byte)0x00, (byte)0x00, (byte)0x00, (byte)0x00, (byte)0x00});
+
+        longVal = 281474976710655L;
+        bytes = PrimitiveConverter.uintToVariableBytes(longVal);
+        Assert.assertEquals(bytes, new byte[]{(byte)0xff, (byte)0xff, (byte)0xff, (byte)0xff, (byte)0xff, (byte)0xff});
+
+        longVal = 72057594037927935L;
+        bytes = PrimitiveConverter.uintToVariableBytes(longVal);
+        Assert.assertEquals(bytes, new byte[]{(byte)0xff, (byte)0xff, (byte)0xff, (byte)0xff, (byte)0xff, (byte)0xff, (byte)0xff});
+
+        longVal = 72057594037927936L;
+        bytes = PrimitiveConverter.uintToVariableBytes(longVal);
+        Assert.assertEquals(bytes, new byte[]{(byte)0x01, (byte)0x00, (byte)0x00, (byte)0x00, (byte)0x00, (byte)0x00, (byte)0x00, (byte)0x00});
+    }
+
+    @Test(expectedExceptions = IllegalArgumentException.class)
+    public void testVariableBytesToUintBadLength()
+    {
+        PrimitiveConverter.variableBytesToUint64(new byte[]{(byte)0x01, (byte)0x02, (byte)0x03, (byte)0x04, (byte)0x05, (byte)0x06, (byte)0x07, (byte)0x08, (byte)0x09});
+    }
+
+    @Test
+    public void testVariableBytesToUint()
+    {
+        long val = PrimitiveConverter.variableBytesToUint64(new byte[]{0x01});
+        Assert.assertEquals(val, 1L);
+
+        val = PrimitiveConverter.variableBytesToUint64(new byte[]{(byte)0xFF});
+        Assert.assertEquals(val, 255L);
+
+        val = PrimitiveConverter.variableBytesToUint64(new byte[]{(byte)0x01, (byte)0x00});
+        Assert.assertEquals(val, 256L);
+
+        val = PrimitiveConverter.variableBytesToUint64(new byte[]{(byte)0xFF, (byte)0xFF});
+        Assert.assertEquals(val, 65535L);
+
+        val = PrimitiveConverter.variableBytesToUint64(new byte[]{(byte)0x01, (byte)0x00, (byte)0x00});
+        Assert.assertEquals(val, 65536L);
+
+        val = PrimitiveConverter.variableBytesToUint64(new byte[]{(byte)0xff, (byte)0xff, (byte)0xff});
+        Assert.assertEquals(val, 16777215L);
+
+        val = PrimitiveConverter.variableBytesToUint64(new byte[]{(byte)0x01, (byte)0x00, (byte)0x00, (byte)0x00});
+        Assert.assertEquals(val, 16777216L);
+
+        val = PrimitiveConverter.variableBytesToUint64(new byte[]{(byte)0xff, (byte)0xff, (byte)0xff, (byte)0xff});
+        Assert.assertEquals(val, 4294967295L);
+
+        val = PrimitiveConverter.variableBytesToUint64(new byte[]{(byte)0x01, (byte)0x00, (byte)0x00, (byte)0x00, (byte)0x00});
+        Assert.assertEquals(val, 4294967296L);
+
+        val = PrimitiveConverter.variableBytesToUint64(new byte[]{(byte)0xff, (byte)0xff, (byte)0xff, (byte)0xff, (byte)0xff});
+        Assert.assertEquals(val, 1099511627775L);
+
+        val = PrimitiveConverter.variableBytesToUint64(new byte[]{(byte)0x01, (byte)0x00, (byte)0x00, (byte)0x00, (byte)0x00, (byte)0x00});
+        Assert.assertEquals(val, 1099511627776L);
+
+        val = PrimitiveConverter.variableBytesToUint64(new byte[]{(byte)0xff, (byte)0xff, (byte)0xff, (byte)0xff, (byte)0xff, (byte)0xff});
+        Assert.assertEquals(val, 281474976710655L);
+
+        val = PrimitiveConverter.variableBytesToUint64(new byte[]{(byte)0xff, (byte)0xff, (byte)0xff, (byte)0xff, (byte)0xff, (byte)0xff, (byte)0xff});
+        Assert.assertEquals(val, 72057594037927935L);
+
+        val = PrimitiveConverter.variableBytesToUint64(new byte[]{(byte)0x01, (byte)0x00, (byte)0x00, (byte)0x00, (byte)0x00, (byte)0x00, (byte)0x00, (byte)0x00});
+        Assert.assertEquals(val,72057594037927936L );
     }
 
     @Test
