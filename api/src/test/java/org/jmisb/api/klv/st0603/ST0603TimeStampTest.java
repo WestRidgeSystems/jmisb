@@ -6,11 +6,8 @@ import org.testng.annotations.Test;
 import java.time.Instant;
 import java.time.LocalDateTime;
 import java.time.Month;
-import java.time.ZoneId;
 import java.time.ZoneOffset;
-import java.time.ZonedDateTime;
 import java.time.temporal.ChronoUnit;
-import org.jmisb.api.common.KlvParseException;
 
 public class ST0603TimeStampTest
 {
@@ -32,11 +29,12 @@ public class ST0603TimeStampTest
         Assert.assertEquals(dateTime.getSecond(), 21);
         Assert.assertEquals(dateTime.getNano(), 0);
 
+        Assert.assertEquals(pts.getDisplayableValueDateTime(), "2001-04-19T04:25:21");
         // Convert value -> byte[]
         long microseconds = dateTime.toInstant(ZoneOffset.UTC).toEpochMilli() * 1000;
         ST0603TimeStamp pts2 = new ST0603TimeStamp(microseconds);
-        Assert.assertEquals(pts2.getBytes(), new byte[]{(byte)0x00, (byte)0x03, (byte)0x82, (byte)0x44, (byte)0x30, (byte)0xF6, (byte)0xCE, (byte)0x40});
-
+        Assert.assertEquals(pts2.getBytesFull(), new byte[]{(byte)0x00, (byte)0x03, (byte)0x82, (byte)0x44, (byte)0x30, (byte)0xF6, (byte)0xCE, (byte)0x40});
+        Assert.assertEquals(pts2.getBytesVariable(), new byte[]{(byte)0x03, (byte)0x82, (byte)0x44, (byte)0x30, (byte)0xF6, (byte)0xCE, (byte)0x40});
         Assert.assertEquals(microseconds, 987654321000000L);
         Assert.assertEquals(pts2.getDisplayableValue(), "987654321000000");
     }
@@ -61,6 +59,7 @@ public class ST0603TimeStampTest
         Assert.assertEquals(pts.getDateTime().getMonth(), Month.JANUARY);
         Assert.assertEquals(pts.getDateTime().getDayOfMonth(), 1);
         Assert.assertEquals(pts.getDisplayableValue(), "0");
+        Assert.assertEquals(pts.getDisplayableValueDateTime(), "1970-01-01T00:00:00");
 
         // Create max value and ensure no exception is thrown
         pts = new ST0603TimeStamp(Long.MAX_VALUE);
@@ -82,6 +81,6 @@ public class ST0603TimeStampTest
     @Test(expectedExceptions = IllegalArgumentException.class)
     public void badArrayLength()
     {
-        new ST0603TimeStamp(new byte[]{0x00, 0x00, 0x00, 0x00});
+        new ST0603TimeStamp(new byte[]{0x01, 0x02, 0x03, 0x04, 0x05, 0x06, 0x07, 0x08, 0x09});
     }
 }
