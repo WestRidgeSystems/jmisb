@@ -170,8 +170,7 @@ public class UasDatalinkFactory
             case AlternatePlatformHeading:
                 return new AlternatePlatformHeading(bytes);
             case EventStartTimeUtc:
-                // TODO
-                return new OpaqueValue(bytes);
+                return new EventStartTimeUtc(bytes);
             case RvtLocalDataSet:
                 // TODO Implement ST 0806
                 return new OpaqueValue(bytes);
