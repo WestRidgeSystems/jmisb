@@ -39,28 +39,22 @@ public class RvtLocalSet implements IMisbMessage
                 // TODO: implement
                 break;
             case PlatformTrueAirspeed:
-                return new PlatformTrueAirspeed(bytes);
+                return new RvtPlatformTrueAirspeed(bytes);
             case PlatformIndicatedAirspeed:
-                // TODO: implement
-                break;
+                return new RvtPlatformIndicatedAirspeed(bytes);
             case TelemetryAccuracyIndicator:
                 // TODO: implement (maybe)
                 break;
             case FragCircleRadius:
-                // TODO: implement
-                break;
+                return new FragCircleRadius(bytes);
             case FrameCode:
-                // TODO: implement
-                break;
+                return new FrameCode(bytes);
             case UASLSVersionNumber:
-                // TODO: implement
-                break;
+                return new ST0806Version(bytes);
             case VideoDataRate:
-                // TODO: implement
-                break;
+                return new VideoDataRate(bytes);
             case DigitalVideoFileFormat:
-                // TODO: implement
-                break;
+                return new DigitalVideoFileFormat(bytes);
             case UserDefinedLS:
                 // TODO: implement - this can repeat
                 break;

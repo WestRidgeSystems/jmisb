@@ -128,8 +128,8 @@ public class RvtLocalSetTest extends LoggerChecks
         assertEquals(v.getDisplayName(), "Platform True Airspeed (TAS)");
         assertEquals(v.getDisplayableValue(), "258m/s");
         assertEquals(v.getBytes(), new byte[]{0x01, 0x02});
-        assertTrue(v instanceof PlatformTrueAirspeed);
-        PlatformTrueAirspeed tas = (PlatformTrueAirspeed) localSet.getField(RvtMetadataKey.PlatformTrueAirspeed);
+        assertTrue(v instanceof RvtPlatformTrueAirspeed);
+        RvtPlatformTrueAirspeed tas = (RvtPlatformTrueAirspeed) localSet.getField(RvtMetadataKey.PlatformTrueAirspeed);
         assertEquals(tas.getMetersPerSecond(), 258);
     }
 

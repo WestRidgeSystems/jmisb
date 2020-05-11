@@ -11,12 +11,12 @@ import org.jmisb.core.klv.PrimitiveConverter;
  * <p>
  * Resolution: 1 meter/second.
  */
-public class PlatformTrueAirspeed implements IRvtMetadataValue
+public class RvtPlatformTrueAirspeed implements IRvtMetadataValue
 {
     private final int airspeed;
 
-    private static double MIN_VALUE = 0;
-    private static double MAX_VALUE = 65535;
+    private static long MIN_VALUE = 0;
+    private static long MAX_VALUE = 65535;
     private final static int REQUIRED_BYTE_LENGTH = 2;
 
     /**
@@ -24,7 +24,7 @@ public class PlatformTrueAirspeed implements IRvtMetadataValue
      *
      * @param speed airspeed in meters/second. Legal values are in [0, 65535].
      */
-    public PlatformTrueAirspeed(int speed)
+    public RvtPlatformTrueAirspeed(int speed)
     {
         if (speed > MAX_VALUE || speed < MIN_VALUE)
         {
@@ -38,7 +38,7 @@ public class PlatformTrueAirspeed implements IRvtMetadataValue
      *
      * @param bytes two bytes representing unsigned integer value.
      */
-    public PlatformTrueAirspeed(byte[] bytes)
+    public RvtPlatformTrueAirspeed(byte[] bytes)
     {
         if (bytes.length != REQUIRED_BYTE_LENGTH)
         {
