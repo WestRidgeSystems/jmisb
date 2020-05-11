@@ -68,8 +68,7 @@ public class RvtLocalSet implements IMisbMessage
                 // TODO: implement
                 break;
             case MGRSLatitudeBandAndGridSquare:
-                // TODO: implement
-                break;
+                return new AircraftMGRSLatitudeBandAndGridSquare(bytes);
             case MGRSEasting:
                 // TODO: implement
                 break;
@@ -80,8 +79,7 @@ public class RvtLocalSet implements IMisbMessage
                 // TODO: implement
                 break;
             case MGRSLatitudeBandAndGridSquareSecondValue:
-                // TODO: implement
-                break;
+                return new FrameCentreMGRSLatitudeBandAndGridSquare(bytes);
             case MGRSEastingSecondValue:
                 // TODO: implement
                 break;

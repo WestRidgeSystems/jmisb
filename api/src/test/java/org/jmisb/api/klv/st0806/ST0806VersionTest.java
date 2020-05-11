@@ -88,7 +88,7 @@ public class ST0806VersionTest
 
     @Test(expectedExceptions = IllegalArgumentException.class)
     public void testTooBig() {
-        new ST0806Version(256);;
+        new ST0806Version(256);
     }
 
     @Test(expectedExceptions = IllegalArgumentException.class)

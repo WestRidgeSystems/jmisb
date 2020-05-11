@@ -10,19 +10,19 @@ public class DigitalVideoFileFormatTest
     @Test
     public void testConstructFromValue()
     {
-        DigitalVideoFileFormat rate = new DigitalVideoFileFormat("H.264");
-        assertEquals(rate.getBytes(), new byte[]{(byte)0x48, (byte)0x2E, (byte)0x32, (byte)0x36, (byte)0x34});
-        assertEquals(rate.getDisplayName(), "Digital Video File Format");
-        assertEquals(rate.getDisplayableValue(), "H.264");
+        DigitalVideoFileFormat format = new DigitalVideoFileFormat("H.264");
+        assertEquals(format.getBytes(), new byte[]{(byte)0x48, (byte)0x2E, (byte)0x32, (byte)0x36, (byte)0x34});
+        assertEquals(format.getDisplayName(), "Digital Video File Format");
+        assertEquals(format.getDisplayableValue(), "H.264");
     }
 
     @Test
     public void testConstructFromEncoded()
     {
-        DigitalVideoFileFormat rate = new DigitalVideoFileFormat(new byte[]{(byte)0x48, (byte)0x2E, (byte)0x32, (byte)0x36, (byte)0x34});
-        assertEquals(rate.getDisplayableValue(), "H.264");
-        assertEquals(rate.getBytes(), new byte[]{(byte)0x48, (byte)0x2E, (byte)0x32, (byte)0x36, (byte)0x34});
-        assertEquals(rate.getDisplayName(), "Digital Video File Format");
+        DigitalVideoFileFormat format = new DigitalVideoFileFormat(new byte[]{(byte)0x48, (byte)0x2E, (byte)0x32, (byte)0x36, (byte)0x34});
+        assertEquals(format.getDisplayableValue(), "H.264");
+        assertEquals(format.getBytes(), new byte[]{(byte)0x48, (byte)0x2E, (byte)0x32, (byte)0x36, (byte)0x34});
+        assertEquals(format.getDisplayName(), "Digital Video File Format");
     }
 
     @Test
@@ -31,9 +31,9 @@ public class DigitalVideoFileFormatTest
         byte[] bytes = new byte[]{(byte)0x48, (byte)0x2E, (byte)0x32, (byte)0x36, (byte)0x34};
         IRvtMetadataValue v = RvtLocalSet.createValue(RvtMetadataKey.DigitalVideoFileFormat, bytes);
         assertTrue(v instanceof DigitalVideoFileFormat);
-        DigitalVideoFileFormat rate = (DigitalVideoFileFormat)v;
-        assertEquals(rate.getBytes(), new byte[]{(byte)0x48, (byte)0x2E, (byte)0x32, (byte)0x36, (byte)0x34});
-        assertEquals(rate.getDisplayableValue(), "H.264");
-        assertEquals(rate.getDisplayName(), "Digital Video File Format");
+        DigitalVideoFileFormat format = (DigitalVideoFileFormat)v;
+        assertEquals(format.getBytes(), new byte[]{(byte)0x48, (byte)0x2E, (byte)0x32, (byte)0x36, (byte)0x34});
+        assertEquals(format.getDisplayableValue(), "H.264");
+        assertEquals(format.getDisplayName(), "Digital Video File Format");
     }
 }

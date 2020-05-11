@@ -32,15 +32,6 @@ public abstract class RvtString implements IRvtMetadataValue
         this.stringValue = new String(bytes, StandardCharsets.UTF_8);
     }
 
-    /**
-     * Get the value
-     * @return The string value
-     */
-    public String getValue()
-    {
-        return stringValue;
-    }
-
     @Override
     public byte[] getBytes()
     {
@@ -48,13 +39,13 @@ public abstract class RvtString implements IRvtMetadataValue
     }
 
     @Override
-    public String getDisplayableValue()
+    public final String getDisplayableValue()
     {
         return stringValue;
     }
 
     @Override
-    public String getDisplayName()
+    public final String getDisplayName()
     {
         return displayName;
     }
