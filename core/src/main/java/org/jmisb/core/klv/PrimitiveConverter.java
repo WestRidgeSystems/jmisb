@@ -233,6 +233,39 @@ public class PrimitiveConverter
     }
 
     /**
+     * Convert a byte array to an unsigned 24-bit integer (int with range of uint24)
+     *
+     * @param bytes The array of length 3
+     * @return The unsigned 24-bit integer as an int
+     */
+    public static int toUint24(byte[] bytes)
+    {
+        if (bytes.length == 3)
+        {
+            int res = 0;
+            for (byte b : bytes)
+            {
+                int i = b & 0xFF;
+                res = (res << 8) + i;
+            }
+            return res;
+        }
+        throw new IllegalArgumentException("Invalid buffer length");
+    }
+
+    /**
+     * Convert an unsigned 24-bit value to byte array.
+     *
+     * @param intValue The integer value (24-byte unsigned integer)
+     * @return The array of length 3
+     */
+    public static byte[] uint24ToBytes(int intValue)
+    {
+        byte[] bytes = PrimitiveConverter.uint32ToBytes(intValue);
+        return new byte[]{bytes[1], bytes[2], bytes[3]};
+    }
+
+    /**
      * Convert a byte array to an unsigned 32-bit integer (long with range of uint32)
      *
      * @param bytes The array of length 4

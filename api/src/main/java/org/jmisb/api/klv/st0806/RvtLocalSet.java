@@ -65,24 +65,20 @@ public class RvtLocalSet implements IMisbMessage
                 // TODO: implement - this can repeat
                 break;
             case MGRSZone:
-                // TODO: implement
-                break;
+                return new AircraftMGRSZone(bytes);
             case MGRSLatitudeBandAndGridSquare:
                 return new AircraftMGRSLatitudeBandAndGridSquare(bytes);
             case MGRSEasting:
-                // TODO: implement
-                break;
+                return new AircraftMGRSEasting(bytes);
             case MGRSNorthing:
                 // TODO: implement
                 break;
             case MGRSZoneSecondValue:
-                // TODO: implement
-                break;
+                return new FrameCentreMGRSZone(bytes);
             case MGRSLatitudeBandAndGridSquareSecondValue:
                 return new FrameCentreMGRSLatitudeBandAndGridSquare(bytes);
             case MGRSEastingSecondValue:
-                // TODO: implement
-                break;
+                return new FrameCentreMGRSEasting(bytes);
             case MGRSNorthingSecondValue:
                 // TODO: implement
                 break;
