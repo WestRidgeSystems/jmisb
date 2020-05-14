@@ -905,4 +905,46 @@ public class PrimitiveConverterTest
 
         Assert.assertEquals(bytes1, new byte[]{(byte)0x40, (byte)0x00, (byte)0x00, (byte)0x00, (byte)0x00, (byte)0x00, (byte)0x00, (byte)0x00});
     }
+
+    public void testToUint24()
+    {
+        long val = PrimitiveConverter.toUint24(new byte[]{0x00, 0x00, 0x00});
+        Assert.assertEquals(val, 0);
+
+        val = PrimitiveConverter.variableBytesToUint64(new byte[]{(byte)0x01, (byte)0x00, (byte)0x00});
+        Assert.assertEquals(val, 65536);
+
+        val = PrimitiveConverter.variableBytesToUint64(new byte[]{(byte)0xff, (byte)0xff, (byte)0xff});
+        Assert.assertEquals(val, 16777215);
+    }
+
+    @Test
+    public void testUnsignedInt24ToBytes()
+    {
+        byte[] bytes = PrimitiveConverter.uint24ToBytes(1);
+        Assert.assertEquals(bytes, new byte[]{0x00, 0x00, 0x01});
+        int v = (int)(Math.pow(2, 24) - 1);
+        bytes = PrimitiveConverter.uint24ToBytes(v);
+        Assert.assertEquals(bytes, new byte[]{(byte)0xff, (byte)0xff, (byte)0xff});
+    }
+
+    @Test(expectedExceptions = IllegalArgumentException.class)
+    public void testUnsignedInt24ToBytesTooSmall()
+    {
+        int val = -1;
+        PrimitiveConverter.uint24ToBytes(val);
+    }
+
+    @Test(expectedExceptions = IllegalArgumentException.class)
+    public void testUnsignedInt24ToBytesTooBig()
+    {
+        int val = (int) Math.pow(2, 24);
+        PrimitiveConverter.uint24ToBytes(val);
+    }
+
+    @Test(expectedExceptions = IllegalArgumentException.class)
+    public void testToUint24BadArrayLength()
+    {
+        PrimitiveConverter.toUint24(new byte[]{0x00, 0x00});
+    }
 }

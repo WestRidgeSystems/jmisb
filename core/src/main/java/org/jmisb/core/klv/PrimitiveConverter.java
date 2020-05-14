@@ -261,6 +261,10 @@ public class PrimitiveConverter
      */
     public static byte[] uint24ToBytes(int intValue)
     {
+        if (intValue < 0 || intValue > 16777215)
+        {
+            throw new IllegalArgumentException("Value out of range");
+        }
         byte[] bytes = PrimitiveConverter.uint32ToBytes(intValue);
         return new byte[]{bytes[1], bytes[2], bytes[3]};
     }
