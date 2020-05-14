@@ -71,8 +71,7 @@ public class RvtLocalSet implements IMisbMessage
             case MGRSEasting:
                 return new AircraftMGRSEasting(bytes);
             case MGRSNorthing:
-                // TODO: implement
-                break;
+                return new AircraftMGRSNorthing(bytes);
             case MGRSZoneSecondValue:
                 return new FrameCentreMGRSZone(bytes);
             case MGRSLatitudeBandAndGridSquareSecondValue:
@@ -80,8 +79,7 @@ public class RvtLocalSet implements IMisbMessage
             case MGRSEastingSecondValue:
                 return new FrameCentreMGRSEasting(bytes);
             case MGRSNorthingSecondValue:
-                // TODO: implement
-                break;
+                return new FrameCentreMGRSNorthing(bytes);
             default:
                 LOGGER.info("Unknown Remote Video Terminal Metadata tag: {}", tag);
         }

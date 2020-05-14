@@ -3,9 +3,10 @@ package org.jmisb.api.klv.st0806;
 import org.jmisb.core.klv.PrimitiveConverter;
 
 /**
- * Shared implementation for AircraftMGRSEasting and FrameCentreMGRSEasting.
+ * Shared implementation for AircraftMGRSEasting, AircraftMGRSNorthing,
+ * FrameCentreMGRSEasting and FrameCentreMGRSNorthing.
  */
-abstract class AbstractMGRSEasting implements IRvtMetadataValue
+abstract class AbstractMGRSEastingOrNorthing implements IRvtMetadataValue
 {
     private static final int REQUIRED_NUM_BYTES = 3;
     private static final int MIN_VALUE = 0;
@@ -20,7 +21,7 @@ abstract class AbstractMGRSEasting implements IRvtMetadataValue
      * @param name the display name for the specific implementation
      * @param value integer value, in the range 0 to 99999.
      */
-    public AbstractMGRSEasting(String name, int value)
+    public AbstractMGRSEastingOrNorthing(String name, int value)
     {
         if ((value > MAX_VALUE) || (value < MIN_VALUE))
         {
@@ -36,7 +37,7 @@ abstract class AbstractMGRSEasting implements IRvtMetadataValue
      * @param name the display name for the specific implementation
      * @param bytes Encoded byte array, of length 3 bytes.
      */
-    public AbstractMGRSEasting(String name, byte[] bytes)
+    public AbstractMGRSEastingOrNorthing(String name, byte[] bytes)
     {
         if (bytes.length != REQUIRED_NUM_BYTES)
         {
@@ -65,11 +66,11 @@ abstract class AbstractMGRSEasting implements IRvtMetadataValue
     }
 
     /**
-     * Get the MGRS Easting.
+     * Get the MGRS Easting or Northing Value.
      *
-     * @return MGRS Easting as an integer.
+     * @return MGRS Easting or Northign as an integer.
      */
-    public final int getEasting()
+    public final int getValue()
     {
         return v;
     }

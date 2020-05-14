@@ -8,7 +8,7 @@ package org.jmisb.api.klv.st0806;
  * <p>
  * Resolution: 1 meter
  */
-public class AircraftMGRSEasting extends AbstractMGRSEasting implements IRvtMetadataValue
+public class AircraftMGRSEasting extends AbstractMGRSEastingOrNorthing implements IRvtMetadataValue
 {
     public static final String AIRCRAFT_MGRS_EASTING = "Aircraft MGRS Easting";
 
@@ -25,7 +25,7 @@ public class AircraftMGRSEasting extends AbstractMGRSEasting implements IRvtMeta
     /**
      * Create from encoded bytes.
      *
-     * @param bytes Encoded byte array, of length 1 byte.
+     * @param bytes Encoded byte array, of length 3 bytes.
      */
     public AircraftMGRSEasting(byte[] bytes)
     {

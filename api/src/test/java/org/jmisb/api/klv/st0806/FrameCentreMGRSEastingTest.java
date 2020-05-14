@@ -29,18 +29,18 @@ public class FrameCentreMGRSEastingTest
     {
         // Min
         FrameCentreMGRSEasting easting = new FrameCentreMGRSEasting(new byte[]{(byte)0x00, (byte)0x00, (byte)0x00});
-        assertEquals(easting.getEasting(), 0);
+        assertEquals(easting.getValue(), 0);
         assertEquals(easting.getBytes(), new byte[]{(byte)0x00, (byte)0x00, (byte)0x00});
         assertEquals(easting.getDisplayableValue(), "0");
 
         // Max
         easting = new FrameCentreMGRSEasting(new byte[]{(byte)0x01, (byte)0x86, (byte)0x9F});
-        assertEquals(easting.getEasting(), 99999);
+        assertEquals(easting.getValue(), 99999);
         assertEquals(easting.getBytes(), new byte[]{(byte)0x01, (byte)0x86, (byte)0x9F});
         assertEquals(easting.getDisplayableValue(), "99999");
 
         easting = new FrameCentreMGRSEasting(new byte[]{(byte)0x01, (byte)0x23, (byte)0x45});
-        assertEquals(easting.getEasting(), 74565);
+        assertEquals(easting.getValue(), 74565);
         assertEquals(easting.getBytes(), new byte[]{(byte)0x01, (byte)0x23, (byte)0x45});
         assertEquals(easting.getDisplayableValue(), "74565");
         assertEquals(easting.getDisplayName(), "Frame Center MGRS Easting");
@@ -53,7 +53,7 @@ public class FrameCentreMGRSEastingTest
         IRvtMetadataValue v = RvtLocalSet.createValue(RvtMetadataKey.MGRSEastingSecondValue, bytes);
         assertTrue(v instanceof FrameCentreMGRSEasting);
         FrameCentreMGRSEasting easting = (FrameCentreMGRSEasting)v;
-        assertEquals(easting.getEasting(), 74565);
+        assertEquals(easting.getValue(), 74565);
         assertEquals(easting.getBytes(), new byte[]{(byte)0x01, (byte)0x23, (byte)0x45});
         assertEquals(easting.getDisplayableValue(), "74565");
         assertEquals(easting.getDisplayName(), "Frame Center MGRS Easting");
