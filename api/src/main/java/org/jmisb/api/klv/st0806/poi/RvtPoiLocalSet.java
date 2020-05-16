@@ -89,23 +89,17 @@ public class RvtPoiLocalSet {
             case PoiAltitude:
                 return new PoiAltitude(bytes);
             case PoiAoiType:
-                // TODO
-                break;
+                return new PoiAoiType(bytes);
             case PoiAoiText:
-                // TODO
-                break;
+                return new RvtPoiTextString(RvtPoiTextString.POI_AOI_TEXT, bytes);
             case PoiSourceIcon:
-                // TODO
-                break;
+                return new RvtPoiTextString(RvtPoiTextString.POI_SOURCE_ICON, bytes);
             case PoiAoiSourceId:
-                // TODO
-                break;
+                return new RvtPoiTextString(RvtPoiTextString.POI_AOI_SOURCE_ID, bytes);
             case PoiAoiLabel:
-                // TODO
-                break;
+                return new RvtPoiTextString(RvtPoiTextString.POI_AOI_LABEL, bytes);
             case OperationId:
-                // TODO
-                break;
+                return new RvtPoiTextString(RvtPoiTextString.OPERATION_ID, bytes);
             default:
                 LOGGER.info("Unrecognized RVT POI tag: {}", tag);
         }
