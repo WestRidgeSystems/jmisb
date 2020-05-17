@@ -80,16 +80,6 @@ public class PoiAoiType implements IRvtPoiMetadataValue
         return "POI/AOI Type";
     }
 
-    /**
-     * Get the target identifier.
-     *
-     * @return The value as an enumeration
-     */
-    public byte getDetectionStatus()
-    {
-        return value;
-    }
-
     @Override
     public byte[] getBytes()
     {

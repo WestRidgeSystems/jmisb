@@ -1,5 +1,7 @@
 package org.jmisb.api.klv.st0806.poi;
 
+import java.util.HashMap;
+import java.util.Map;
 import org.jmisb.api.common.KlvParseException;
 import org.jmisb.api.klv.LoggerChecks;
 import static org.testng.Assert.*;
@@ -24,98 +26,40 @@ public class RvtPoiLocalSetTest extends LoggerChecks
         assertEquals(poiLocalSet.getTags().size(), 1);
         checkPoiAoiNumberExample(poiLocalSet);
     }
-/*
-    @Test
-    public void parseTag2() throws KlvParseException, URISyntaxException
-    {
-        final byte[] bytes = new byte[]{0x02, 46, 0x68, 0x74, 0x74, 0x70, 0x73, 0x3A, 0x2F, 0x2F, 0x77, 0x77, 0x77, 0x2E, 0x67, 0x77, 0x67, 0x2E, 0x6E, 0x67, 0x61, 0x2E, 0x6D, 0x69, 0x6C, 0x2F, 0x6D, 0x69, 0x73, 0x62, 0x2F, 0x69, 0x6D, 0x61, 0x67, 0x65, 0x73, 0x2F, 0x62, 0x61, 0x6E, 0x6E, 0x65, 0x72, 0x2E, 0x6A, 0x70, 0x67};
-        RvtPoiLocalSet poiLocalSet = new RvtPoiLocalSet(bytes);
-        assertNotNull(poiLocalSet);
-        assertEquals(poiLocalSet.getTags().size(), 1);
-        checkImageUriExample(poiLocalSet);
-    }
 
     @Test
-    public void parseTag3() throws KlvParseException, URISyntaxException
+    public void parseRequiredTags() throws KlvParseException
     {
         final byte[] bytes = new byte[]{
-            (byte) 0x03,
-            70,
-            (byte) 0x89, (byte) 0x50, (byte) 0x4E, (byte) 0x47, (byte) 0x0D, (byte) 0x0A, (byte) 0x1A, (byte) 0x0A,
-            (byte) 0x00, (byte) 0x00, (byte) 0x00, (byte) 0x0D, (byte) 0x49, (byte) 0x48, (byte) 0x44, (byte) 0x52,
-            (byte) 0x00, (byte) 0x00, (byte) 0x00, (byte) 0x01, (byte) 0x00, (byte) 0x00, (byte) 0x00, (byte) 0x01,
-            (byte) 0x08, (byte) 0x06, (byte) 0x00, (byte) 0x00, (byte) 0x00, (byte) 0x1F, (byte) 0x15, (byte) 0xC4,
-            (byte) 0x89, (byte) 0x00, (byte) 0x00, (byte) 0x00, (byte) 0x0D, (byte) 0x49, (byte) 0x44, (byte) 0x41,
-            (byte) 0x54, (byte) 0x78, (byte) 0xDA, (byte) 0x63, (byte) 0x64, (byte) 0xD8, (byte) 0xF8, (byte) 0xFF,
-            (byte) 0x3F, (byte) 0x00, (byte) 0x05, (byte) 0x1A, (byte) 0x02, (byte) 0xB1, (byte) 0x49, (byte) 0xC5,
-            (byte) 0x4C, (byte) 0x37, (byte) 0x00, (byte) 0x00, (byte) 0x00, (byte) 0x00, (byte) 0x49, (byte) 0x45,
-            (byte) 0x4E, (byte) 0x44, (byte) 0xAE, (byte) 0x42, (byte) 0x60, (byte) 0x82};
-        RvtPoiLocalSet poiLocalSet = new RvtPoiLocalSet(bytes);
+            0x01, 0x02, 0x02, 0x04,
+            0x02, 0x04, (byte)0x85, (byte)0xa1, (byte)0x5a, (byte)0x39,
+            0x03, 0x04, (byte)0x53, (byte)0x27, (byte)0x3F, (byte)0xD4};
+        RvtPoiLocalSet poiLocalSet = new RvtPoiLocalSet(bytes, 0, bytes.length);
         assertNotNull(poiLocalSet);
-        assertEquals(poiLocalSet.getTags().size(), 1);
-        checkEmbeddedImageExample(poiLocalSet);
+        assertEquals(poiLocalSet.getTags().size(), 3);
+        checkPoiAoiNumberExample(poiLocalSet);
+        checkPoiAoiLatitudeExample(poiLocalSet);
+        checkPoiAoiLongitudeExample(poiLocalSet);
     }
 
     @Test
-    public void parseTag1andTag2() throws KlvParseException, URISyntaxException
-    {
-        final byte[] bytes = new byte[]{0x01, 0x04, 0x6A, 0x70, 0x65, 0x67, 0x02, 46, 0x68, 0x74, 0x74, 0x70, 0x73, 0x3A, 0x2F, 0x2F, 0x77, 0x77, 0x77, 0x2E, 0x67, 0x77, 0x67, 0x2E, 0x6E, 0x67, 0x61, 0x2E, 0x6D, 0x69, 0x6C, 0x2F, 0x6D, 0x69, 0x73, 0x62, 0x2F, 0x69, 0x6D, 0x61, 0x67, 0x65, 0x73, 0x2F, 0x62, 0x61, 0x6E, 0x6E, 0x65, 0x72, 0x2E, 0x6A, 0x70, 0x67};
-        RvtPoiLocalSet poiLocalSet = new RvtPoiLocalSet(bytes);
-        assertNotNull(poiLocalSet);
-        assertEquals(poiLocalSet.getTags().size(), 2);
-        checkPoiAoiNumberExamle(poiLocalSet);
-        checkImageUriExample(poiLocalSet);
-    }
-
-    @Test
-    public void parseTag1andTag3() throws KlvParseException, URISyntaxException
+    public void parseTagsWithUnknownTag() throws KlvParseException
     {
         final byte[] bytes = new byte[]{
-            0x01, 0x04, 0x6A, 0x70, 0x65, 0x67, // Tag 1
-            (byte) 0x03, // Tag 3 key
-            70, // Tag 3 length
-            (byte) 0x89, (byte) 0x50, (byte) 0x4E, (byte) 0x47, (byte) 0x0D, (byte) 0x0A, (byte) 0x1A, (byte) 0x0A,
-            (byte) 0x00, (byte) 0x00, (byte) 0x00, (byte) 0x0D, (byte) 0x49, (byte) 0x48, (byte) 0x44, (byte) 0x52,
-            (byte) 0x00, (byte) 0x00, (byte) 0x00, (byte) 0x01, (byte) 0x00, (byte) 0x00, (byte) 0x00, (byte) 0x01,
-            (byte) 0x08, (byte) 0x06, (byte) 0x00, (byte) 0x00, (byte) 0x00, (byte) 0x1F, (byte) 0x15, (byte) 0xC4,
-            (byte) 0x89, (byte) 0x00, (byte) 0x00, (byte) 0x00, (byte) 0x0D, (byte) 0x49, (byte) 0x44, (byte) 0x41,
-            (byte) 0x54, (byte) 0x78, (byte) 0xDA, (byte) 0x63, (byte) 0x64, (byte) 0xD8, (byte) 0xF8, (byte) 0xFF,
-            (byte) 0x3F, (byte) 0x00, (byte) 0x05, (byte) 0x1A, (byte) 0x02, (byte) 0xB1, (byte) 0x49, (byte) 0xC5,
-            (byte) 0x4C, (byte) 0x37, (byte) 0x00, (byte) 0x00, (byte) 0x00, (byte) 0x00, (byte) 0x49, (byte) 0x45,
-            (byte) 0x4E, (byte) 0x44, (byte) 0xAE, (byte) 0x42, (byte) 0x60, (byte) 0x82};
-        RvtPoiLocalSet poiLocalSet = new RvtPoiLocalSet(bytes);
-        assertNotNull(poiLocalSet);
-        assertEquals(poiLocalSet.getTags().size(), 2);
-        checkPoiAoiNumberExamle(poiLocalSet);
-        checkEmbeddedImageExample(poiLocalSet);
-    }
-
-    @Test
-    public void parseTagsWithUnknownTag() throws KlvParseException, URISyntaxException
-    {
-        final byte[] bytes = new byte[]{
-            0x04, 0x02, (byte) 0x80, (byte) 0xCA, // No such tag
-            0x01, 0x04, 0x6A, 0x70, 0x65, 0x67, // Tag 1
-            (byte) 0x03, // Tag 3 key
-            70, // Tag 3 length
-            (byte) 0x89, (byte) 0x50, (byte) 0x4E, (byte) 0x47, (byte) 0x0D, (byte) 0x0A, (byte) 0x1A, (byte) 0x0A,
-            (byte) 0x00, (byte) 0x00, (byte) 0x00, (byte) 0x0D, (byte) 0x49, (byte) 0x48, (byte) 0x44, (byte) 0x52,
-            (byte) 0x00, (byte) 0x00, (byte) 0x00, (byte) 0x01, (byte) 0x00, (byte) 0x00, (byte) 0x00, (byte) 0x01,
-            (byte) 0x08, (byte) 0x06, (byte) 0x00, (byte) 0x00, (byte) 0x00, (byte) 0x1F, (byte) 0x15, (byte) 0xC4,
-            (byte) 0x89, (byte) 0x00, (byte) 0x00, (byte) 0x00, (byte) 0x0D, (byte) 0x49, (byte) 0x44, (byte) 0x41,
-            (byte) 0x54, (byte) 0x78, (byte) 0xDA, (byte) 0x63, (byte) 0x64, (byte) 0xD8, (byte) 0xF8, (byte) 0xFF,
-            (byte) 0x3F, (byte) 0x00, (byte) 0x05, (byte) 0x1A, (byte) 0x02, (byte) 0xB1, (byte) 0x49, (byte) 0xC5,
-            (byte) 0x4C, (byte) 0x37, (byte) 0x00, (byte) 0x00, (byte) 0x00, (byte) 0x00, (byte) 0x49, (byte) 0x45,
-            (byte) 0x4E, (byte) 0x44, (byte) 0xAE, (byte) 0x42, (byte) 0x60, (byte) 0x82};
+            0x0B, 0x02, (byte) 0x80, (byte) 0xCA, // No such tag
+            0x01, 0x02, 0x02, 0x04,
+            0x02, 0x04, (byte)0x85, (byte)0xa1, (byte)0x5a, (byte)0x39,
+            0x03, 0x04, (byte)0x53, (byte)0x27, (byte)0x3F, (byte)0xD4};
         verifyNoLoggerMessages();
-        RvtPoiLocalSet poiLocalSet = new RvtPoiLocalSet(bytes);
-        verifySingleLoggerMessage("Unknown VMTI VChip Metadata tag: 4");
+        RvtPoiLocalSet poiLocalSet = new RvtPoiLocalSet(bytes, 0, bytes.length);
+        verifySingleLoggerMessage("Unknown RVT POI Metadata tag: 11");
         assertNotNull(poiLocalSet);
-        assertEquals(poiLocalSet.getTags().size(), 2);
-        checkPoiAoiNumberExamle(poiLocalSet);
-        checkEmbeddedImageExample(poiLocalSet);
+        assertEquals(poiLocalSet.getTags().size(), 3);
+        checkPoiAoiNumberExample(poiLocalSet);
+        checkPoiAoiLatitudeExample(poiLocalSet);
+        checkPoiAoiLongitudeExample(poiLocalSet);
     }
-*/
+
     private void checkPoiAoiNumberExample(RvtPoiLocalSet poiLocalSet)
     {
         assertTrue(poiLocalSet.getTags().contains(RvtPoiMetadataKey.PoiAoiNumber));
@@ -127,30 +71,31 @@ public class RvtPoiLocalSetTest extends LoggerChecks
         assertNotNull(number);
         assertEquals(number.getNumber(), 516);
     }
-/*
-    private void checkImageUriExample(RvtPoiLocalSet poiLocalSet) throws URISyntaxException
+
+    private void checkPoiAoiLatitudeExample(RvtPoiLocalSet poiLocalSet)
     {
-        final String stringVal = "https://www.gwg.nga.mil/misb/images/banner.jpg";
-        assertTrue(poiLocalSet.getTags().contains(VChipMetadataKey.imageUri));
-        IVmtiMetadataValue v = poiLocalSet.getField(VChipMetadataKey.imageUri);
-        assertEquals(v.getDisplayName(), "Image URI");
-        assertEquals(v.getDisplayName(), VmtiUri.IMAGE_URI);
-        assertEquals(v.getDisplayableValue(), stringVal);
-        assertTrue(v instanceof VmtiUri);
-        VmtiUri uri = (VmtiUri) poiLocalSet.getField(VChipMetadataKey.imageUri);
-        assertEquals(uri.getUri().toString(), stringVal);
+        assertTrue(poiLocalSet.getTags().contains(RvtPoiMetadataKey.PoiLatitude));
+        IRvtPoiMetadataValue v = poiLocalSet.getField(RvtPoiMetadataKey.PoiLatitude);
+        assertEquals(v.getDisplayName(), "POI Latitude");
+        assertEquals(v.getDisplayableValue(), "-86.0412\u00B0");
+        assertTrue(v instanceof PoiLatitude);
+        PoiLatitude lat = (PoiLatitude)v;
+        assertEquals(lat.getDegrees(), -86.0412, 0.0001);
+        assertEquals(lat.getBytes(), new byte[]{(byte)0x85, (byte)0xa1, (byte)0x5a, (byte)0x39});
     }
 
-    private void checkEmbeddedImageExample(RvtPoiLocalSet poiLocalSet) throws URISyntaxException
+    private void checkPoiAoiLongitudeExample(RvtPoiLocalSet poiLocalSet)
     {
-        assertTrue(poiLocalSet.getTags().contains(VChipMetadataKey.embeddedImage));
-        IVmtiMetadataValue v = poiLocalSet.getField(VChipMetadataKey.embeddedImage);
-        assertEquals(v.getDisplayName(), "Embedded Image");
-        assertEquals(v.getDisplayableValue(), "[Image]");
-        assertTrue(v instanceof EmbeddedImage);
-        EmbeddedImage image = (EmbeddedImage) poiLocalSet.getField(VChipMetadataKey.embeddedImage);
+        assertTrue(poiLocalSet.getTags().contains(RvtPoiMetadataKey.PoiLongitude));
+        IRvtPoiMetadataValue v = poiLocalSet.getField(RvtPoiMetadataKey.PoiLongitude);
+        assertEquals(v.getDisplayName(), "POI Longitude");
+        assertEquals(v.getDisplayableValue(), "116.9344\u00B0");
+        assertTrue(v instanceof PoiLongitude);
+        PoiLongitude lon = (PoiLongitude)v;
+        assertEquals(lon.getDegrees(), 116.9344, 0.0001);
+        assertEquals(lon.getBytes(), new byte[]{(byte)0x53, (byte)0x27, (byte)0x3F, (byte)0xD4});
     }
-*/
+
     @Test
     public void createUnknownTag() throws KlvParseException
     {
@@ -160,21 +105,33 @@ public class RvtPoiLocalSetTest extends LoggerChecks
         verifySingleLoggerMessage("Unrecognized RVT POI tag: Undefined");
         assertNull(value);
     }
-/*
+
     @Test
-    public void constructFromMap() throws KlvParseException, URISyntaxException
+    public void constructFromMap() throws KlvParseException
     {
-        Map<VChipMetadataKey, IVmtiMetadataValue> values = new HashMap<>();
-        IVmtiMetadataValue imageType = RvtPoiLocalSet.createValue(VChipMetadataKey.imageType, new byte[]{0x6A, 0x70, 0x65, 0x67});
-        values.put(VChipMetadataKey.imageType, imageType);
-        final byte[] urlBytes = new byte[]{0x68, 0x74, 0x74, 0x70, 0x73, 0x3A, 0x2F, 0x2F, 0x77, 0x77, 0x77, 0x2E, 0x67, 0x77, 0x67, 0x2E, 0x6E, 0x67, 0x61, 0x2E, 0x6D, 0x69, 0x6C, 0x2F, 0x6D, 0x69, 0x73, 0x62, 0x2F, 0x69, 0x6D, 0x61, 0x67, 0x65, 0x73, 0x2F, 0x62, 0x61, 0x6E, 0x6E, 0x65, 0x72, 0x2E, 0x6A, 0x70, 0x67};
-        IVmtiMetadataValue imageUri = RvtPoiLocalSet.createValue(VChipMetadataKey.imageUri, urlBytes);
-        values.put(VChipMetadataKey.imageUri, imageUri);
+        Map<RvtPoiMetadataKey, IRvtPoiMetadataValue> values = new HashMap<>();
+        IRvtPoiMetadataValue poiNumberBytes = RvtPoiLocalSet.createValue(RvtPoiMetadataKey.PoiAoiNumber, new byte[]{0x02, 0x04});
+        values.put(RvtPoiMetadataKey.PoiAoiNumber, poiNumberBytes);
+        final byte[] latBytes = new byte[]{(byte)0x85, (byte)0xa1, (byte)0x5a, (byte)0x39};
+        IRvtPoiMetadataValue lat = RvtPoiLocalSet.createValue(RvtPoiMetadataKey.PoiLatitude, latBytes);
+        values.put(RvtPoiMetadataKey.PoiLatitude, lat);
+        final byte[] lonBytes = new byte[]{(byte)0x53, (byte)0x27, (byte)0x3F, (byte)0xD4};
+        IRvtPoiMetadataValue lon = RvtPoiLocalSet.createValue(RvtPoiMetadataKey.PoiLongitude, lonBytes);
+        values.put(RvtPoiMetadataKey.PoiLongitude, lon);
+        IRvtPoiMetadataValue label = new RvtPoiTextString(RvtPoiTextString.POI_AOI_LABEL, "My Point");
+        values.put(RvtPoiMetadataKey.PoiAoiLabel, label);
         RvtPoiLocalSet poiLocalSet = new RvtPoiLocalSet(values);
         assertNotNull(poiLocalSet);
-        assertEquals(poiLocalSet.getTags().size(), 2);
-        checkPoiAoiNumberExamle(poiLocalSet);
-        checkImageUriExample(poiLocalSet);
+        assertEquals(poiLocalSet.getTags().size(), 4);
+        checkPoiAoiNumberExample(poiLocalSet);
+        checkPoiAoiLatitudeExample(poiLocalSet);
+        checkPoiAoiLongitudeExample(poiLocalSet);
+        byte[] expectedBytes = new byte[] {
+            (byte)0x01, (byte)0x02, (byte)0x02, (byte)0x04, // T:1, L:2, V: 0x0204
+            (byte)0x02, (byte)0x04, (byte)0x85, (byte)0xa1, (byte)0x5a, (byte)0x39, // T: 2, L:4, V: -86.0412
+            (byte)0x03, (byte)0x04, (byte)0x53, (byte)0x27, (byte)0x3F, (byte)0xD4, // T: 3, L:4, V: 116.9344
+            (byte)0x09, (byte)0x08, (byte)0x4D, (byte)0x79, (byte)0x20, (byte)0x50, (byte)0x6F, (byte)0x69, (byte)0x6e, (byte)0x74 // T:9, L: 8, V: "My Point"
+        };
+        assertEquals(poiLocalSet.getBytes(), expectedBytes);
     }
-*/
 }

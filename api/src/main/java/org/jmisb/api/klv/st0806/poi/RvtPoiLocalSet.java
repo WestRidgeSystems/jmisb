@@ -81,11 +81,9 @@ public class RvtPoiLocalSet {
             case PoiAoiNumber:
                 return new PoiAoiNumber(bytes);
             case PoiLatitude:
-                // TODO
-                break;
+                return new PoiLatitude(bytes);
             case PoiLongitude:
-                // TODO
-                break;
+                return new PoiLongitude(bytes);
             case PoiAltitude:
                 return new PoiAltitude(bytes);
             case PoiAoiType:

@@ -47,6 +47,7 @@ public class PoiAoiTextStringTest
         assertEquals(textString.getBytes(), new byte[]{(byte)0x54, (byte)0x32, (byte)0x35, (byte)0x32, (byte)0x35, (byte)0x42, (byte)0x59});
         assertEquals(textString.getDisplayableValue(), "T2525BY");
         assertEquals(textString.getDisplayName(), "POI Source Icon");
+        assertEquals(textString.getValue(), "T2525BY");
     }
 
     @Test
@@ -59,5 +60,29 @@ public class PoiAoiTextStringTest
         assertEquals(textString.getBytes(), new byte[]{(byte)0x31, (byte)0x32, (byte)0x33, (byte)0x34, (byte)0x20, (byte)0x41, (byte)0x42});
         assertEquals(textString.getDisplayableValue(), "1234 AB");
         assertEquals(textString.getDisplayName(), "POI/AOI Source ID");
+    }
+
+    @Test
+    public void testFactoryPoiAoiLabel() throws KlvParseException
+    {
+        byte[] bytes = new byte[]{(byte)0x41, (byte)0x33};
+        IRvtPoiMetadataValue v = RvtPoiLocalSet.createValue(RvtPoiMetadataKey.PoiAoiLabel, bytes);
+        assertTrue(v instanceof RvtPoiTextString);
+        RvtPoiTextString textString = (RvtPoiTextString)v;
+        assertEquals(textString.getBytes(), new byte[]{(byte)0x41, (byte)0x33});
+        assertEquals(textString.getDisplayableValue(), "A3");
+        assertEquals(textString.getDisplayName(), "POI/AOI Label");
+    }
+
+    @Test
+    public void testFactoryOperationID() throws KlvParseException
+    {
+        byte[] bytes = new byte[]{(byte)0x4F, (byte)0x50, (byte)0x20, (byte)0x53, (byte)0x6F, (byte)0x6C};
+        IRvtPoiMetadataValue v = RvtPoiLocalSet.createValue(RvtPoiMetadataKey.OperationId, bytes);
+        assertTrue(v instanceof RvtPoiTextString);
+        RvtPoiTextString textString = (RvtPoiTextString)v;
+        assertEquals(textString.getBytes(), new byte[]{(byte)0x4F, (byte)0x50, (byte)0x20, (byte)0x53, (byte)0x6F, (byte)0x6C});
+        assertEquals(textString.getDisplayableValue(), "OP Sol");
+        assertEquals(textString.getDisplayName(), "Operation ID");
     }
 }
