@@ -99,6 +99,19 @@ public class PrimitiveConverterTest
     }
 
     @Test
+    public void testSignedInt16ToBytesReuse()
+    {
+        byte[] bytes1 = PrimitiveConverter.int16ToBytes((short)1);
+        Assert.assertEquals(bytes1, new byte[]{(byte)0x00, (byte)0x01});
+
+        byte[] bytes2 = PrimitiveConverter.int16ToBytes((short)2);
+        Assert.assertEquals(bytes2, new byte[]{(byte)0x00, (byte)0x02});
+
+        // Verify the original array is still OK
+        Assert.assertEquals(bytes1, new byte[]{(byte)0x00, (byte)0x01});
+    }
+
+    @Test
     public void testSignedInt32ToBytes()
     {
         int intVal = -1;
@@ -108,6 +121,19 @@ public class PrimitiveConverterTest
         intVal = 10;
         bytes = PrimitiveConverter.int32ToBytes(intVal);
         Assert.assertEquals(bytes, new byte[]{0x00, 0x00, 0x00, 0x0a});
+    }
+
+    @Test
+    public void testSignedInt32ToBytesReuse()
+    {
+        byte[] bytes1 = PrimitiveConverter.int32ToBytes(1);
+        Assert.assertEquals(bytes1, new byte[]{(byte)0x00, (byte)0x00, (byte)0x00, (byte)0x01});
+
+        byte[] bytes2 = PrimitiveConverter.int32ToBytes(2);
+        Assert.assertEquals(bytes2, new byte[]{0x00, 0x00, 0x00, 0x02});
+
+        // Verify the original array is still OK
+        Assert.assertEquals(bytes1, new byte[]{(byte)0x00, (byte)0x00, (byte)0x00, (byte)0x01});
     }
 
     @Test
@@ -526,6 +552,18 @@ public class PrimitiveConverterTest
         Assert.assertEquals(bytes, new byte[]{(byte)0xff});
     }
 
+    @Test
+    public void testUnsignedInt8ToBytesReuse()
+    {
+        byte[] bytes1 = PrimitiveConverter.uint8ToBytes((short)1);
+        Assert.assertEquals(bytes1, new byte[]{0x01});
+
+        byte[] bytes2 = PrimitiveConverter.uint8ToBytes((short)255);
+        Assert.assertEquals(bytes2, new byte[]{(byte)0xff});
+
+        Assert.assertEquals(bytes1, new byte[]{0x01});
+    }
+
     @Test(expectedExceptions = IllegalArgumentException.class)
     public void testUnsignedInt8ToBytesTooSmall()
     {
@@ -795,5 +833,76 @@ public class PrimitiveConverterTest
         intVal = Long.MAX_VALUE;
         bytes = PrimitiveConverter.int64ToVariableBytes(intVal);
         Assert.assertEquals(bytes, new byte[]{(byte)0x7F, (byte)0xff, (byte)0xff, (byte)0xff, (byte)0xff, (byte)0xff, (byte)0xff, (byte)0xff});
+    }
+
+    @Test
+    public void testSignedInt64ToBytesReuse()
+    {
+        byte[] bytes1 = PrimitiveConverter.int64ToBytes(1);
+        Assert.assertEquals(bytes1, new byte[]{(byte)0x00, (byte)0x00, (byte)0x00, (byte)0x00, (byte)0x00, (byte)0x00, (byte)0x00, (byte)0x01});
+
+        byte[] bytes2 = PrimitiveConverter.int64ToBytes(2);
+        Assert.assertEquals(bytes2, new byte[]{(byte)0x00, (byte)0x00, (byte)0x00, (byte)0x00, (byte)0x00, (byte)0x00, (byte)0x00, (byte)0x02});
+
+        // Verify the original array is still OK
+        Assert.assertEquals(bytes1, new byte[]{(byte)0x00, (byte)0x00, (byte)0x00, (byte)0x00, (byte)0x00, (byte)0x00, (byte)0x00, (byte)0x01});
+    }
+
+    @Test
+    public void testSignedInt64ToVariableBytesReuse()
+    {
+        byte[] bytes1 = PrimitiveConverter.int64ToVariableBytes(1);
+        Assert.assertEquals(bytes1, new byte[]{(byte)0x01});
+
+        byte[] bytes2 = PrimitiveConverter.int64ToVariableBytes(2);
+        Assert.assertEquals(bytes2, new byte[]{0x02});
+
+        // Verify the original array is still OK
+        Assert.assertEquals(bytes1, new byte[]{(byte)0x01});
+    }
+
+    @Test
+    public void testFloat32ToBytes()
+    {
+        byte[] bytes = PrimitiveConverter.float32ToBytes(2.0f);
+        Assert.assertEquals(bytes, new byte[]{(byte)0x40, (byte)0x00, (byte)0x00, (byte)0x00});
+
+        bytes = PrimitiveConverter.float32ToBytes(-4.0f);
+        Assert.assertEquals(bytes, new byte[]{(byte)0xC0, (byte)0x80, (byte)0x00, (byte)0x00});
+    }
+
+    @Test
+    public void testFloat32ToBytesReuse()
+    {
+        byte[] bytes1 = PrimitiveConverter.float32ToBytes(1.0f);
+        Assert.assertEquals(bytes1, new byte[]{(byte)0x3f, (byte)0x80, (byte)0x00, (byte)0x00});
+
+        byte[] bytes2 = PrimitiveConverter.float32ToBytes(-3.0f);
+        Assert.assertEquals(bytes2, new byte[]{(byte)0xC0, (byte)0x40, (byte)0x00, (byte)0x00});
+
+        // Verify the original array is still OK
+        Assert.assertEquals(bytes1, new byte[]{(byte)0x3f, (byte)0x80, (byte)0x00, (byte)0x00});
+    }
+
+    @Test
+    public void testFloat64ToBytes()
+    {
+        byte[] bytes = PrimitiveConverter.float64ToBytes(2.0f);
+        Assert.assertEquals(bytes, new byte[]{(byte)0x40, (byte)0x00, (byte)0x00, (byte)0x00, (byte)0x00, (byte)0x00, (byte)0x00, (byte)0x00});
+
+        bytes = PrimitiveConverter.float64ToBytes(-4.0f);
+        Assert.assertEquals(bytes, new byte[]{(byte)0xC0, (byte)0x10, (byte)0x00, (byte)0x00, (byte)0x00, (byte)0x00, (byte)0x00, (byte)0x00});
+    }
+
+    @Test
+    public void testFloat64ToBytesReuse()
+    {
+        byte[] bytes1 = PrimitiveConverter.float64ToBytes(2.0f);
+        Assert.assertEquals(bytes1, new byte[]{(byte)0x40, (byte)0x00, (byte)0x00, (byte)0x00, (byte)0x00, (byte)0x00, (byte)0x00, (byte)0x00});
+
+        byte[] bytes2 = PrimitiveConverter.float64ToBytes(-4.0f);
+        Assert.assertEquals(bytes2, new byte[]{(byte)0xC0, (byte)0x10, (byte)0x00, (byte)0x00, (byte)0x00, (byte)0x00, (byte)0x00, (byte)0x00});
+
+        Assert.assertEquals(bytes1, new byte[]{(byte)0x40, (byte)0x00, (byte)0x00, (byte)0x00, (byte)0x00, (byte)0x00, (byte)0x00, (byte)0x00});
     }
 }
