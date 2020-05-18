@@ -1,4 +1,4 @@
-package org.jmisb.api.klv.st0806.poi;
+package org.jmisb.api.klv.st0806.userdefined;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -15,26 +15,26 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 /**
- * ST0806 Remove Video Terminal Point of Interest (POI) Local Set.
+ * ST0806 Remove Video Terminal User Defined Local Set.
  *
- * Any number of POI Local Sets (including none) can be embedded in a parent
- * RvtLocalSet instance.
+ * Any number of User Defined Local Sets (including none) can be embedded in a
+ * parent RvtLocalSet instance.
  */
-public class RvtPoiLocalSet {
+public class RvtUserDefinedLocalSet {
 
-    private static final Logger LOGGER = LoggerFactory.getLogger(RvtPoiLocalSet.class);
+    private static final Logger LOGGER = LoggerFactory.getLogger(RvtUserDefinedLocalSet.class);
 
     /**
      * Map containing all data elements in the message
      */
-    private final SortedMap<RvtPoiMetadataKey, IRvtPoiMetadataValue> map = new TreeMap<>();
+    private final SortedMap<RvtUserDefinedMetadataKey, IRvtUserDefinedMetadataValue> map = new TreeMap<>();
 
     /**
      * Create the message from the given key/value pairs
      *
      * @param values Tag/value pairs to be included in the local set/
      */
-    public RvtPoiLocalSet(Map<RvtPoiMetadataKey, IRvtPoiMetadataValue> values)
+    public RvtUserDefinedLocalSet(Map<RvtUserDefinedMetadataKey, IRvtUserDefinedMetadataValue> values)
     {
         map.putAll(values);
     }
@@ -48,58 +48,41 @@ public class RvtPoiLocalSet {
      *
      * @throws KlvParseException If a parsing error occurs
      */
-    public RvtPoiLocalSet(byte[] bytes, int start, int length) throws KlvParseException
+    public RvtUserDefinedLocalSet(byte[] bytes, int start, int length) throws KlvParseException
     {
         List<LdsField> fields = LdsParser.parseFields(bytes, start, length);
         for (LdsField field : fields)
         {
-            RvtPoiMetadataKey key = RvtPoiMetadataKey.getKey(field.getTag());
-            if (key == RvtPoiMetadataKey.Undefined)
+            RvtUserDefinedMetadataKey key = RvtUserDefinedMetadataKey.getKey(field.getTag());
+            if (key == RvtUserDefinedMetadataKey.Undefined)
             {
-                LOGGER.info("Unknown RVT POI Metadata tag: {}", field.getTag());
+                LOGGER.info("Unknown RVT User Defined Metadata tag: {}", field.getTag());
             }
             else
             {
-                IRvtPoiMetadataValue value = createValue(key, field.getData());
+                IRvtUserDefinedMetadataValue value = createValue(key, field.getData());
                 map.put(key, value);
             }
         }
     }
 
     /**
-     * Create a {@link IRvtPoiMetadataValue} instance from encoded bytes
+     * Create a {@link IRvtUserDefinedMetadataValue} instance from encoded bytes
      *
      * @param tag The tag defining the value type
      * @param bytes Encoded bytes
      * @return The new instance
      * @throws KlvParseException if the bytes could not be parsed.
      */
-    public static IRvtPoiMetadataValue createValue(RvtPoiMetadataKey tag, byte[] bytes) throws KlvParseException
+    public static IRvtUserDefinedMetadataValue createValue(RvtUserDefinedMetadataKey tag, byte[] bytes) throws KlvParseException
     {
-        switch (tag)
-        {
-            case PoiAoiNumber:
-                return new PoiAoiNumber(bytes);
-            case PoiLatitude:
-                return new PoiLatitude(bytes);
-            case PoiLongitude:
-                return new PoiLongitude(bytes);
-            case PoiAltitude:
-                return new PoiAltitude(bytes);
-            case PoiAoiType:
-                return new PoiAoiType(bytes);
-            case PoiAoiText:
-                return new RvtPoiTextString(RvtPoiTextString.POI_AOI_TEXT, bytes);
-            case PoiSourceIcon:
-                return new RvtPoiTextString(RvtPoiTextString.POI_SOURCE_ICON, bytes);
-            case PoiAoiSourceId:
-                return new RvtPoiTextString(RvtPoiTextString.POI_AOI_SOURCE_ID, bytes);
-            case PoiAoiLabel:
-                return new RvtPoiTextString(RvtPoiTextString.POI_AOI_LABEL, bytes);
-            case OperationId:
-                return new RvtPoiTextString(RvtPoiTextString.OPERATION_ID, bytes);
+        switch (tag) {
+            case NumericId:
+                return new RvtNumericId(bytes);
+            case UserData:
+                return new RvtUserData(bytes);
             default:
-                LOGGER.info("Unrecognized RVT POI tag: {}", tag);
+                LOGGER.info("Unrecognized RVT User Defined Data tag: {}", tag);
         }
         return null;
     }
@@ -109,7 +92,7 @@ public class RvtPoiLocalSet {
      *
      * @return The set of tags for which values have been set
      */
-    public Set<RvtPoiMetadataKey> getTags()
+    public Set<RvtUserDefinedMetadataKey> getTags()
     {
         return map.keySet();
     }
@@ -120,7 +103,7 @@ public class RvtPoiLocalSet {
      * @param tag Tag of the value to retrieve
      * @return The value, or null if no value was set
      */
-    public IRvtPoiMetadataValue getField(RvtPoiMetadataKey tag)
+    public IRvtUserDefinedMetadataValue getField(RvtUserDefinedMetadataKey tag)
     {
         return map.get(tag);
     }
@@ -133,11 +116,11 @@ public class RvtPoiLocalSet {
     {
         int len = 0;
         List<byte[]> chunks = new ArrayList<>();
-        for (RvtPoiMetadataKey tag: getTags())
+        for (RvtUserDefinedMetadataKey tag: getTags())
         {
             chunks.add(new byte[]{(byte) tag.getTag()});
             len += 1;
-            IRvtPoiMetadataValue value = getField(tag);
+            IRvtUserDefinedMetadataValue value = getField(tag);
             byte[] bytes = value.getBytes();
             byte[] lengthBytes = BerEncoder.encode(bytes.length);
             chunks.add(lengthBytes);

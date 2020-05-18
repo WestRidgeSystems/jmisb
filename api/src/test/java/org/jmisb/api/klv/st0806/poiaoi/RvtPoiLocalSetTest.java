@@ -1,4 +1,4 @@
-package org.jmisb.api.klv.st0806.poi;
+package org.jmisb.api.klv.st0806.poiaoi;
 
 import java.util.HashMap;
 import java.util.Map;
@@ -63,7 +63,7 @@ public class RvtPoiLocalSetTest extends LoggerChecks
     private void checkPoiAoiNumberExample(RvtPoiLocalSet poiLocalSet)
     {
         assertTrue(poiLocalSet.getTags().contains(RvtPoiMetadataKey.PoiAoiNumber));
-        IRvtPoiMetadataValue v = poiLocalSet.getField(RvtPoiMetadataKey.PoiAoiNumber);
+        IRvtPoiAoiMetadataValue v = poiLocalSet.getField(RvtPoiMetadataKey.PoiAoiNumber);
         assertEquals(v.getDisplayName(), "POI/AOI Number");
         assertEquals(v.getDisplayableValue(), "516");
         assertTrue(v instanceof PoiAoiNumber);
@@ -75,7 +75,7 @@ public class RvtPoiLocalSetTest extends LoggerChecks
     private void checkPoiAoiLatitudeExample(RvtPoiLocalSet poiLocalSet)
     {
         assertTrue(poiLocalSet.getTags().contains(RvtPoiMetadataKey.PoiLatitude));
-        IRvtPoiMetadataValue v = poiLocalSet.getField(RvtPoiMetadataKey.PoiLatitude);
+        IRvtPoiAoiMetadataValue v = poiLocalSet.getField(RvtPoiMetadataKey.PoiLatitude);
         assertEquals(v.getDisplayName(), "POI Latitude");
         assertEquals(v.getDisplayableValue(), "-86.0412\u00B0");
         assertTrue(v instanceof PoiLatitude);
@@ -87,7 +87,7 @@ public class RvtPoiLocalSetTest extends LoggerChecks
     private void checkPoiAoiLongitudeExample(RvtPoiLocalSet poiLocalSet)
     {
         assertTrue(poiLocalSet.getTags().contains(RvtPoiMetadataKey.PoiLongitude));
-        IRvtPoiMetadataValue v = poiLocalSet.getField(RvtPoiMetadataKey.PoiLongitude);
+        IRvtPoiAoiMetadataValue v = poiLocalSet.getField(RvtPoiMetadataKey.PoiLongitude);
         assertEquals(v.getDisplayName(), "POI Longitude");
         assertEquals(v.getDisplayableValue(), "116.9344\u00B0");
         assertTrue(v instanceof PoiLongitude);
@@ -101,7 +101,7 @@ public class RvtPoiLocalSetTest extends LoggerChecks
     {
         final byte[] bytes = new byte[]{0x03};
         verifyNoLoggerMessages();
-        IRvtPoiMetadataValue value = RvtPoiLocalSet.createValue(RvtPoiMetadataKey.Undefined, bytes);
+        IRvtPoiAoiMetadataValue value = RvtPoiLocalSet.createValue(RvtPoiMetadataKey.Undefined, bytes);
         verifySingleLoggerMessage("Unrecognized RVT POI tag: Undefined");
         assertNull(value);
     }
@@ -109,16 +109,16 @@ public class RvtPoiLocalSetTest extends LoggerChecks
     @Test
     public void constructFromMap() throws KlvParseException
     {
-        Map<RvtPoiMetadataKey, IRvtPoiMetadataValue> values = new HashMap<>();
-        IRvtPoiMetadataValue poiNumberBytes = RvtPoiLocalSet.createValue(RvtPoiMetadataKey.PoiAoiNumber, new byte[]{0x02, 0x04});
+        Map<RvtPoiMetadataKey, IRvtPoiAoiMetadataValue> values = new HashMap<>();
+        IRvtPoiAoiMetadataValue poiNumberBytes = RvtPoiLocalSet.createValue(RvtPoiMetadataKey.PoiAoiNumber, new byte[]{0x02, 0x04});
         values.put(RvtPoiMetadataKey.PoiAoiNumber, poiNumberBytes);
         final byte[] latBytes = new byte[]{(byte)0x85, (byte)0xa1, (byte)0x5a, (byte)0x39};
-        IRvtPoiMetadataValue lat = RvtPoiLocalSet.createValue(RvtPoiMetadataKey.PoiLatitude, latBytes);
+        IRvtPoiAoiMetadataValue lat = RvtPoiLocalSet.createValue(RvtPoiMetadataKey.PoiLatitude, latBytes);
         values.put(RvtPoiMetadataKey.PoiLatitude, lat);
         final byte[] lonBytes = new byte[]{(byte)0x53, (byte)0x27, (byte)0x3F, (byte)0xD4};
-        IRvtPoiMetadataValue lon = RvtPoiLocalSet.createValue(RvtPoiMetadataKey.PoiLongitude, lonBytes);
+        IRvtPoiAoiMetadataValue lon = RvtPoiLocalSet.createValue(RvtPoiMetadataKey.PoiLongitude, lonBytes);
         values.put(RvtPoiMetadataKey.PoiLongitude, lon);
-        IRvtPoiMetadataValue label = new RvtPoiTextString(RvtPoiTextString.POI_AOI_LABEL, "My Point");
+        IRvtPoiAoiMetadataValue label = new RvtPoiAoiTextString(RvtPoiAoiTextString.POI_AOI_LABEL, "My Point");
         values.put(RvtPoiMetadataKey.PoiAoiLabel, label);
         RvtPoiLocalSet poiLocalSet = new RvtPoiLocalSet(values);
         assertNotNull(poiLocalSet);

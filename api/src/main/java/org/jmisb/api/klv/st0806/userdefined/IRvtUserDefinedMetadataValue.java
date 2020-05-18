@@ -1,6 +1,7 @@
-package org.jmisb.api.klv.st0806.poi;
+package org.jmisb.api.klv.st0806.userdefined;
 
-public interface IRvtPoiMetadataValue {
+public interface IRvtUserDefinedMetadataValue
+{
     /**
      * Get the encoded bytes
      * @return The encoded byte array

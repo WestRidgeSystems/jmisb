@@ -1,4 +1,4 @@
-package org.jmisb.api.klv.st0806.poi;
+package org.jmisb.api.klv.st0806.poiaoi;
 
 import java.util.Arrays;
 import java.util.Collections;
@@ -6,11 +6,11 @@ import java.util.Map;
 import java.util.stream.Collectors;
 
 /**
- * POI/AOI Type (ST 0806 POI Local Set Tag 5)
+ * POI/AOI Type (ST 0806 POI Local Set Tag 5, AOI Local Set Tag 6)
  * <p>
  * Target Identifier.
  */
-public class PoiAoiType implements IRvtPoiMetadataValue
+public class PoiAoiType implements IRvtPoiAoiMetadataValue
 {
     /**
      * Friendly.

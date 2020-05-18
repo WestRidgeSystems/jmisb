@@ -1,4 +1,4 @@
-package org.jmisb.api.klv.st0806.poi;
+package org.jmisb.api.klv.st0806.poiaoi;
 
 import org.jmisb.core.klv.PrimitiveConverter;
 
@@ -11,7 +11,7 @@ import org.jmisb.core.klv.PrimitiveConverter;
  * <p>
  * Resolution: ~0.3 meters.
  */
-public class PoiAltitude implements IRvtPoiMetadataValue
+public class PoiAltitude implements IRvtPoiAoiMetadataValue
 {
     private double meters;
     private static final double MIN_VALUE = -900;

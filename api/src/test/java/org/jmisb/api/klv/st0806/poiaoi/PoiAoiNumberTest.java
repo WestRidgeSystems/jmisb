@@ -1,6 +1,5 @@
-package org.jmisb.api.klv.st0806.poi;
+package org.jmisb.api.klv.st0806.poiaoi;
 
-import org.jmisb.api.klv.st0806.*;
 import org.jmisb.api.common.KlvParseException;
 import static org.testng.Assert.assertEquals;
 import static org.testng.Assert.assertTrue;
@@ -50,7 +49,7 @@ public class PoiAoiNumberTest
     public void testFactory() throws KlvParseException
     {
         byte[] bytes = new byte[]{(byte)0x00, (byte)0x00};
-        IRvtPoiMetadataValue v = RvtPoiLocalSet.createValue(RvtPoiMetadataKey.PoiAoiNumber, bytes);
+        IRvtPoiAoiMetadataValue v = RvtPoiLocalSet.createValue(RvtPoiMetadataKey.PoiAoiNumber, bytes);
         assertTrue(v instanceof PoiAoiNumber);
         PoiAoiNumber number = (PoiAoiNumber)v;
         assertEquals(number.getNumber(), 0);

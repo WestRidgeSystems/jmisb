@@ -1,4 +1,4 @@
-package org.jmisb.api.klv.st0806.poi;
+package org.jmisb.api.klv.st0806.poiaoi;
 
 import org.jmisb.api.common.KlvParseException;
 import static org.testng.Assert.assertEquals;
@@ -34,7 +34,7 @@ public class PoiAltitudeTest
     public void testFactory() throws KlvParseException
     {
         byte[] bytes = new byte[]{(byte)0xca, (byte)0x35};
-        IRvtPoiMetadataValue v = RvtPoiLocalSet.createValue(RvtPoiMetadataKey.PoiAltitude, bytes);
+        IRvtPoiAoiMetadataValue v = RvtPoiLocalSet.createValue(RvtPoiMetadataKey.PoiAltitude, bytes);
         assertTrue(v instanceof PoiAltitude);
         PoiAltitude alt = (PoiAltitude)v;
         assertEquals(alt.getMeters(), 14818.68, 0.15);
