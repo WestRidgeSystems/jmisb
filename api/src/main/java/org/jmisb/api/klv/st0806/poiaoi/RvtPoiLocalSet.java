@@ -20,7 +20,8 @@ import org.slf4j.LoggerFactory;
  * Any number of POI Local Sets (including none) can be embedded in a parent
  * RvtLocalSet instance.
  */
-public class RvtPoiLocalSet {
+public class RvtPoiLocalSet
+{
 
     private static final Logger LOGGER = LoggerFactory.getLogger(RvtPoiLocalSet.class);
 

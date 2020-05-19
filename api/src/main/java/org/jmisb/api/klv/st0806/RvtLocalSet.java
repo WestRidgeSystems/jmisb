@@ -1,6 +1,8 @@
 package org.jmisb.api.klv.st0806;
 
 import java.util.ArrayList;
+import java.util.Collection;
+import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 import java.util.Set;
@@ -14,6 +16,9 @@ import static org.jmisb.api.klv.KlvConstants.RvtLocalSetUl;
 import org.jmisb.api.klv.LdsField;
 import org.jmisb.api.klv.LdsParser;
 import org.jmisb.api.klv.UniversalLabel;
+import org.jmisb.api.klv.st0806.poiaoi.PoiAoiNumber;
+import org.jmisb.api.klv.st0806.poiaoi.RvtPoiLocalSet;
+import org.jmisb.api.klv.st0806.poiaoi.RvtPoiMetadataKey;
 import org.jmisb.core.klv.ArrayUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -87,9 +92,14 @@ public class RvtLocalSet implements IMisbMessage
     }
 
     /**
-     * Map containing all data elements in the message
+     * Map containing all non-repeating elements in the message
      */
     private final SortedMap<RvtMetadataKey, IRvtMetadataValue> map = new TreeMap<>();
+
+    /**
+     * Map containing POI Local sets
+     */
+    private final Map<Integer, RvtPoiLocalSet> pois = new TreeMap<>();
 
     /**
      * Create the local set from the given key/value pairs
@@ -121,6 +131,14 @@ public class RvtLocalSet implements IMisbMessage
                 case CRC32:
                     // TODO
                     break;
+                case PointOfInterestLS:
+                    RvtPoiLocalSet poi = (RvtPoiLocalSet)createValue(key, field.getData());
+                    if (poi.getTags().contains(RvtPoiMetadataKey.PoiAoiNumber))
+                    {
+                        PoiAoiNumber poiNumber = (PoiAoiNumber)poi.getField(RvtPoiMetadataKey.PoiAoiNumber);
+                        pois.put(poiNumber.getNumber(), poi);
+                    }
+                    break;
                 default:
                     IRvtMetadataValue value = createValue(key, field.getData());
                     map.put(key, value);
@@ -150,7 +168,18 @@ public class RvtLocalSet implements IMisbMessage
             chunks.add(bytes);
             len += bytes.length;
         }
-
+        for (Integer poiNumber: getPOIIndexes())
+        {
+            RvtPoiLocalSet poiLocalSet = getPOI(poiNumber);
+            chunks.add(new byte[]{(byte)(RvtMetadataKey.PointOfInterestLS.getTag())});
+            len += 1;
+            byte[] localSetBytes = poiLocalSet.getBytes();
+            byte[] lengthBytes = BerEncoder.encode(localSetBytes.length);
+            chunks.add(lengthBytes);
+            len += lengthBytes.length;
+            chunks.add(localSetBytes);
+            len += localSetBytes.length;
+        }
         // Figure out value length
         final int keyLength = UniversalLabel.LENGTH;
         int valueLength = 0;
@@ -162,10 +191,13 @@ public class RvtLocalSet implements IMisbMessage
         }
         else
         {
-            // Add Key and Length of checksum with placeholder for value - Checksum must be final element
-            byte[] checksum = new byte[2];
+            // Add Key and Length of CRC-32 with placeholder for value - must be final element if used
+            byte[] checksum = new byte[4];
             chunks.add(new byte[]{(byte)RvtMetadataKey.CRC32.getTag()});
-            chunks.add(BerEncoder.encode(checksum.length, Ber.SHORT_FORM));
+            valueLength += 1;
+            byte[] checksumLengthBytes = BerEncoder.encode(checksum.length, Ber.SHORT_FORM);
+            chunks.add(checksumLengthBytes);
+            valueLength += checksumLengthBytes.length;
             chunks.add(checksum);
             valueLength += 4;
 
@@ -177,14 +209,17 @@ public class RvtLocalSet implements IMisbMessage
             chunks.add(0, RvtLocalSetUl.getBytes());
 
             byte[] array = ArrayUtils.arrayFromChunks(chunks, keyLength + lengthField.length + valueLength);
-            // TODO: Compute the checksum and replace the last two bytes of array
+            // TODO: Compute the CRC-32 and replace the last four bytes of array
             // Checksum.compute(array, true);
             return array;
         }
     }
 
     /**
-     * Get the set of tags with populated values
+     * Get the set of tags with populated values.
+     *
+     * This doesn't include the POI Local Sets, AOI Local Sets or User Defined
+     * Local Sets (if any).
      *
      * @return The set of tags for which values have been set
      */
@@ -194,7 +229,10 @@ public class RvtLocalSet implements IMisbMessage
     }
 
     /**
-     * Get the value of a given tag
+     * Get the value of a given tag.
+     * 
+     * This cannot be used to access the POI Local Sets, AOI Local Sets or User
+     * Defined Local Sets. There are specific accessors for those.
      *
      * @param tag Tag of the value to retrieve
      * @return The value, or null if no value was set
@@ -216,4 +254,40 @@ public class RvtLocalSet implements IMisbMessage
         return "ST0806 Remote Video Terminal";
     }
 
+    public void addPointOfInterestLocalSet(RvtPoiLocalSet localset)
+    {
+        if (localset == null)
+        {
+            throw new IllegalArgumentException("Cannot add null POI local set to RVT parent");
+        }
+        if (localset.getTags() == null)
+        {
+            throw new IllegalArgumentException("Cannot add null POI local set tags to RVT parent");
+        }
+        if (!localset.getTags().contains(RvtPoiMetadataKey.PoiAoiNumber))
+        {
+            throw new IllegalArgumentException("POI local set must contain POI/AOI Number");
+        }
+        PoiAoiNumber poiNumber = (PoiAoiNumber)localset.getField(RvtPoiMetadataKey.PoiAoiNumber);
+        pois.put(poiNumber.getNumber(), localset);
+    }
+
+    /**
+     * Get the available POI Local Set indexes.
+     * @return set of POI/AOI Numbers.
+     */
+    public Set<Integer> getPOIIndexes()
+    {
+        return pois.keySet();
+    }
+
+    /**
+     * Get the POI Local Set by index.
+     * @param index the index (POI/AOI Number)
+     * @return POI corresponding to the index.
+     */
+    public RvtPoiLocalSet getPOI(int index)
+    {
+        return pois.get(index);
+    }
 }

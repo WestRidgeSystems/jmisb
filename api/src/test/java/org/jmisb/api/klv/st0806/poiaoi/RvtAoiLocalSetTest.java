@@ -151,17 +151,7 @@ public class RvtAoiLocalSetTest extends LoggerChecks
     @Test
     public void constructFromMap() throws KlvParseException
     {
-        Map<RvtAoiMetadataKey, IRvtPoiAoiMetadataValue> values = new HashMap<>();
-        IRvtPoiAoiMetadataValue poiNumberBytes = RvtAoiLocalSet.createValue(RvtAoiMetadataKey.PoiAoiNumber, new byte[]{0x02, 0x04});
-        values.put(RvtAoiMetadataKey.PoiAoiNumber, poiNumberBytes);
-        final byte[] latBytes = new byte[]{(byte)0x85, (byte)0xa1, (byte)0x5a, (byte)0x39};
-        IRvtPoiAoiMetadataValue lat = RvtAoiLocalSet.createValue(RvtAoiMetadataKey.CornerLatitudePoint1, latBytes);
-        values.put(RvtAoiMetadataKey.CornerLatitudePoint1, lat);
-        final byte[] lonBytes = new byte[]{(byte)0x53, (byte)0x27, (byte)0x3F, (byte)0xD4};
-        IRvtPoiAoiMetadataValue lon = RvtAoiLocalSet.createValue(RvtAoiMetadataKey.CornerLongitudePoint1, lonBytes);
-        values.put(RvtAoiMetadataKey.CornerLongitudePoint1, lon);
-        IRvtPoiAoiMetadataValue label = new RvtPoiAoiTextString(RvtPoiAoiTextString.POI_AOI_LABEL, "My Point");
-        values.put(RvtAoiMetadataKey.PoiAoiLabel, label);
+        Map<RvtAoiMetadataKey, IRvtPoiAoiMetadataValue> values = buildAoiValues();
         RvtAoiLocalSet aoiLocalSet = new RvtAoiLocalSet(values);
         assertNotNull(aoiLocalSet);
         assertEquals(aoiLocalSet.getTags().size(), 4);
@@ -175,5 +165,26 @@ public class RvtAoiLocalSetTest extends LoggerChecks
             (byte)0x09, (byte)0x08, (byte)0x4D, (byte)0x79, (byte)0x20, (byte)0x50, (byte)0x6F, (byte)0x69, (byte)0x6e, (byte)0x74 // T:9, L: 8, V: "My Point"
         };
         assertEquals(aoiLocalSet.getBytes(), expectedBytes);
+    }
+
+    /**
+     * Basic test values for AOI Local Set.
+     * @return Map ready to drop into the value constructor.
+     * @throws KlvParseException if parsing goes wrong.
+     */
+    public static Map<RvtAoiMetadataKey, IRvtPoiAoiMetadataValue> buildAoiValues() throws KlvParseException
+    {
+        Map<RvtAoiMetadataKey, IRvtPoiAoiMetadataValue> values = new HashMap<>();
+        IRvtPoiAoiMetadataValue poiNumberBytes = RvtAoiLocalSet.createValue(RvtAoiMetadataKey.PoiAoiNumber, new byte[]{0x02, 0x04});
+        values.put(RvtAoiMetadataKey.PoiAoiNumber, poiNumberBytes);
+        final byte[] latBytes = new byte[]{(byte)0x85, (byte)0xa1, (byte)0x5a, (byte)0x39};
+        IRvtPoiAoiMetadataValue lat = RvtAoiLocalSet.createValue(RvtAoiMetadataKey.CornerLatitudePoint1, latBytes);
+        values.put(RvtAoiMetadataKey.CornerLatitudePoint1, lat);
+        final byte[] lonBytes = new byte[]{(byte)0x53, (byte)0x27, (byte)0x3F, (byte)0xD4};
+        IRvtPoiAoiMetadataValue lon = RvtAoiLocalSet.createValue(RvtAoiMetadataKey.CornerLongitudePoint1, lonBytes);
+        values.put(RvtAoiMetadataKey.CornerLongitudePoint1, lon);
+        IRvtPoiAoiMetadataValue label = new RvtPoiAoiTextString(RvtPoiAoiTextString.POI_AOI_LABEL, "My Point");
+        values.put(RvtAoiMetadataKey.PoiAoiLabel, label);
+        return values;
     }
 }
