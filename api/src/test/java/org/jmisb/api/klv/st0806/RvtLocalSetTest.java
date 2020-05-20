@@ -69,47 +69,36 @@ public class RvtLocalSetTest extends LoggerChecks
         verifySingleLoggerMessage("Unknown RVT Metadata tag: 127");
         assertNotNull(localSet);
         assertEquals(localSet.getTags().size(), 2);
-        checkVersionNumberExample(localSet);
+        checkPlatformTrueAirspeedExample(localSet);
         checkVersionNumberExample(localSet);
     }
-/*
+
     @Test
     public void parseTagsWithChecksum() throws KlvParseException
     {
         final byte[] bytes = new byte[]{
-            0x03, 0x0E, 0x44, 0x53, 0x54, 0x4F, 0x5F, 0x41, 0x44, 0x53, 0x53, 0x5F, 0x56, 0x4D, 0x54, 0x49,
-            0x04, 0x01, 0x04,
-            0x01, 0x02, 0x47, 0x3b
+            0x03, 0x02, 0x01, 0x02,
+            0x08, 0x01, 0x04,
+            0x01, 0x04, (byte)0x0d, (byte)0xa8, (byte)0xdf, (byte)0x5d
         };
         RvtLocalSet localSet = new RvtLocalSet(bytes);
         assertNotNull(localSet);
         assertEquals(localSet.getTags().size(), 2);
+        checkPlatformTrueAirspeedExample(localSet);
         checkVersionNumberExample(localSet);
-        checkSystemNameExample(localSet);
     }
 
     @Test(expectedExceptions = KlvParseException.class)
-    public void parseTagsWithChecksumBad1() throws KlvParseException, URISyntaxException
+    public void parseTagsWithBadChecksum() throws KlvParseException
     {
         final byte[] bytes = new byte[]{
-            0x03, 0x0E, 0x44, 0x53, 0x54, 0x4F, 0x5F, 0x41, 0x44, 0x53, 0x53, 0x5F, 0x56, 0x4D, 0x54, 0x49,
-            0x04, 0x01, 0x04,
-            0x01, 0x02, 0x46, 0x3b
+            0x03, 0x02, 0x01, 0x02,
+            0x08, 0x01, 0x04,
+            0x01, 0x04, (byte)0x0d, (byte)0xa8, (byte)0xdf, (byte)0x5e
         };
         new RvtLocalSet(bytes);
     }
 
-    @Test(expectedExceptions = KlvParseException.class)
-    public void parseTagsWithChecksumBad2() throws KlvParseException, URISyntaxException
-    {
-        final byte[] bytes = new byte[]{
-            0x03, 0x0E, 0x44, 0x53, 0x54, 0x4F, 0x5F, 0x41, 0x44, 0x53, 0x53, 0x5F, 0x56, 0x4D, 0x54, 0x49,
-            0x04, 0x01, 0x04,
-            0x01, 0x02, 0x47, 0x3c
-        };
-        new RvtLocalSet(bytes);
-    }
-*/
     private void checkVersionNumberExample(RvtLocalSet localSet)
     {
         assertTrue(localSet.getTags().contains(RvtMetadataKey.UASLSVersionNumber));
@@ -231,8 +220,7 @@ public class RvtLocalSetTest extends LoggerChecks
             0x0D, // LS length
             0x03, 0x02, 0x01, 0x02, // tag 3 - TAS
             0x08, 0x01, 0x04,  // tag 8 - version
-            // TODO: fix this
-            0x01, 0x04, 0x00, 0x00, 0x00, 0x00  // Tag 1 - CRC-32
+            0x01, 0x04, (byte)0xbd, (byte)0xd4, (byte)0x5d, (byte)0x45  // Tag 1 - CRC-32
         };
         assertEquals(localSet.frameMessage(false), expectedBytes);
         assertTrue(localSet instanceof IMisbMessage);
@@ -351,51 +339,53 @@ public class RvtLocalSetTest extends LoggerChecks
         assertEquals(localSet.frameMessage(true), expectedBytes);
     }
 
-    /*
     @Test
     public void constructFromMapNonNestedWithChecksum()
     {
         Map<RvtMetadataKey, IRvtMetadataValue> values = new HashMap<>();
-        IRvtMetadataValue systemName = new VmtiTextString(VmtiTextString.SYSTEM_NAME, "DSTO_ADSS_Remote Video Terrminal");
-        values.put(RvtMetadataKey.SystemName, systemName);
-        IRvtMetadataValue version = new ST0903Version(4);
-        values.put(RvtMetadataKey.VersionNumber, version);
+        IRvtMetadataValue platformTAS = new RvtPlatformTrueAirspeed(258);
+        values.put(RvtMetadataKey.PlatformTrueAirspeed, platformTAS);
+        IRvtMetadataValue version = new ST0806Version(4);
+        values.put(RvtMetadataKey.UASLSVersionNumber, version);
         IRvtMetadataValue fakeChecksum = new IRvtMetadataValue() {
             @Override
-            public byte[] getBytes() {
-                return new byte[]{0x12, 0x34};
+            public byte[] getBytes()
+            {
+                return new byte[]{0x12, 0x34, 0x56, 0x78};
             }
 
             @Override
-            public String getDisplayableValue() {
+            public String getDisplayableValue()
+            {
                 return "x";
             }
 
             @Override
-            public String getDisplayName() {
+            public String getDisplayName()
+            {
                 return "y";
             }
         };
-        values.put(RvtMetadataKey.Checksum, fakeChecksum);
+        values.put(RvtMetadataKey.CRC32, fakeChecksum);
         RvtLocalSet localSet = new RvtLocalSet(values);
         assertNotNull(localSet);
         assertEquals(localSet.getTags().size(), 3);
-        checkSystemNameExample(localSet);
+        checkPlatformTrueAirspeedExample(localSet);
         checkVersionNumberExample(localSet);
-        assertTrue(localSet.getTags().contains(RvtMetadataKey.Checksum));
+        assertTrue(localSet.getTags().contains(RvtMetadataKey.CRC32));
         // but the checksum should be ignored.
         byte[] expectedBytes = new byte[]{
-            (byte) 0x06, (byte) 0x0E, (byte) 0x2B, (byte) 0x34, (byte) 0x02, (byte) 0x0B, (byte) 0x01, (byte) 0x01, (byte) 0x0E, (byte) 0x01, (byte) 0x03, (byte) 0x03, (byte) 0x06, (byte) 0x00, (byte) 0x00, (byte) 0x00,
-            0x17, // LS length
-            0x03, 0x0E, 0x44, 0x53, 0x54, 0x4F, 0x5F, 0x41, 0x44, 0x53, 0x53, 0x5F, 0x56, 0x4D, 0x54, 0x49, // Tag 3
-            0x04, 0x01, 0x04, // Tag 4
-            0x01, 0x02, (byte)0x9f, (byte)0x97 // checksum
+            (byte) 0x06, (byte) 0x0E, (byte) 0x2B, (byte) 0x34, (byte) 0x02, (byte) 0x0B, (byte) 0x01, (byte) 0x01, (byte) 0x0E, (byte) 0x01, (byte) 0x03, (byte) 0x01, (byte) 0x02, (byte) 0x00, (byte) 0x00, (byte) 0x00,
+            0x0D, // LS length
+            0x03, 0x02, 0x01, 0x02, // Tag 3
+            0x08, 0x01, 0x04, // Tag 8
+            0x01, 0x04, (byte)0xbd, (byte)0xd4, (byte)0x5d, (byte)0x45 // checksum
         };
         assertEquals(localSet.frameMessage(false), expectedBytes);
         assertTrue(localSet instanceof IMisbMessage);
-        assertEquals(localSet.displayHeader(), "ST0903 Remote Video Terrminal");
+        assertEquals(localSet.displayHeader(), "ST0806 Remote Video Terminal");
     }
-*/
+
     private RvtLocalSet buildLocalSetValues()
     {
         Map<RvtMetadataKey, IRvtMetadataValue> values = new HashMap<>();
@@ -433,8 +423,7 @@ public class RvtLocalSetTest extends LoggerChecks
             0x02, 0x08, (byte)0x00, (byte)0x04, (byte)0x59, (byte)0xf4, (byte)0xA6, (byte)0xaa, (byte)0x4a, (byte)0xa8,
             0x03, 0x02, 0x01, 0x02, // tag 3 - TAS
             0x08, 0x01, 0x04,  // tag 8 - version
-            // TODO: fix this
-            0x01, 0x04, 0x00, 0x00, 0x00, 0x00  // Tag 1 - CRC-32
+            0x01, 0x04, (byte)0xC2, (byte)0x57, (byte)0xd3, (byte)0x1d  // Tag 1 - CRC-32
         };
         assertEquals(localSet.frameMessage(false), expectedBytes);
         assertTrue(localSet instanceof IMisbMessage);

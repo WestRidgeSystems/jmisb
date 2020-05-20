@@ -3,18 +3,16 @@ package org.jmisb.api.klv.st0806;
 import org.jmisb.core.klv.PrimitiveConverter;
 
 /**
- * Remote Video Terminal LS Version Number (ST 0806 RVT LS Tag 8).
+ * Telemetry Accuracy Indicator (ST 0806 RVT LS Tag 5).
  * <p>
  * From ST0806:
  * <blockquote>
- * Version number of the LS document used to generate a source of LS KLV
- * metadata. 0 is pre-release, initial release (0806.0), or test data. 1..255
- * corresponds to document revisions 1 thru 255.
+ * Reserved for future use.
  * </blockquote>
  */
-public class ST0806Version implements IRvtMetadataValue
+public class TelemetryAccuracyIndicator implements IRvtMetadataValue
 {
-    private int version;
+    private int value;
     private static final int MIN_VALUE = 0;
     private static final int MAX_VALUE = 255;
     private static final int REQUIRED_BYTES = 1;
@@ -22,56 +20,56 @@ public class ST0806Version implements IRvtMetadataValue
     /**
      * Create from value
      *
-     * @param version The version number
+     * @param value the value
      */
-    public ST0806Version(int version)
+    public TelemetryAccuracyIndicator(int value)
     {
-        if (version < MIN_VALUE || version > MAX_VALUE)
+        if (value < MIN_VALUE || value > MAX_VALUE)
         {
             throw new IllegalArgumentException(this.getDisplayName() + " value must be in range [0,255]");
         }
-        this.version = version;
+        this.value = value;
     }
 
     /**
      * Create from encoded bytes
      *
-     * @param bytes Byte array of length 1 byte.
+     * @param bytes Byte array of length 1
      */
-    public ST0806Version(byte[] bytes)
+    public TelemetryAccuracyIndicator(byte[] bytes)
     {
         if (bytes.length != REQUIRED_BYTES)
         {
             throw new IllegalArgumentException(this.getDisplayName() + " encoding is one byte unsigned integer");
         }
-        version = PrimitiveConverter.toUint8(bytes);
+        value = PrimitiveConverter.toUint8(bytes);
     }
 
     /**
-     * Get the version number
+     * Get the value
      *
-     * @return The version number
+     * @return The value
      */
-    public int getVersion()
+    public int getValue()
     {
-        return version;
+        return value;
     }
 
     @Override
     public byte[] getBytes()
     {
-        return PrimitiveConverter.uint8ToBytes((short)version);
+        return PrimitiveConverter.uint8ToBytes((short)value);
     }
 
     @Override
     public String getDisplayableValue()
     {
-        return "ST0806." + version;
+        return "" + value;
     }
 
     @Override
     public final String getDisplayName()
     {
-        return "Version Number";
+        return "Telemetry Accuracy Indicator";
     }
 }

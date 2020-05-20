@@ -1,8 +1,7 @@
 package org.jmisb.api.klv.st0806;
 
 import java.util.ArrayList;
-import java.util.Collection;
-import java.util.HashMap;
+import java.util.Arrays;
 import java.util.List;
 import java.util.Map;
 import java.util.Set;
@@ -16,6 +15,7 @@ import static org.jmisb.api.klv.KlvConstants.RvtLocalSetUl;
 import org.jmisb.api.klv.LdsField;
 import org.jmisb.api.klv.LdsParser;
 import org.jmisb.api.klv.UniversalLabel;
+import org.jmisb.api.klv.st0601.Checksum;
 import org.jmisb.api.klv.st0806.poiaoi.PoiAoiNumber;
 import org.jmisb.api.klv.st0806.poiaoi.RvtAoiLocalSet;
 import org.jmisb.api.klv.st0806.poiaoi.RvtAoiMetadataKey;
@@ -25,6 +25,7 @@ import org.jmisb.api.klv.st0806.userdefined.RvtNumericId;
 import org.jmisb.api.klv.st0806.userdefined.RvtUserDefinedLocalSet;
 import org.jmisb.api.klv.st0806.userdefined.RvtUserDefinedMetadataKey;
 import org.jmisb.core.klv.ArrayUtils;
+import org.jmisb.core.klv.CRC32MPEG2;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -42,7 +43,7 @@ public class RvtLocalSet implements IMisbMessage
      */
     public static IRvtMetadataValue createValue(RvtMetadataKey tag, byte[] bytes) throws KlvParseException
     {
-        // Unimplemented tags flagged with TODO
+        // This is fully implemented as of ST0806.4
         switch (tag) {
             // No checksum, handled automatically
             case UserDefinedTimeStampMicroseconds:
@@ -52,8 +53,7 @@ public class RvtLocalSet implements IMisbMessage
             case PlatformIndicatedAirspeed:
                 return new RvtPlatformIndicatedAirspeed(bytes);
             case TelemetryAccuracyIndicator:
-                // TODO: implement (maybe)
-                break;
+                return new TelemetryAccuracyIndicator(bytes);
             case FragCircleRadius:
                 return new FragCircleRadius(bytes);
             case FrameCode:
@@ -140,7 +140,10 @@ public class RvtLocalSet implements IMisbMessage
                     LOGGER.info("Unknown RVT Metadata tag: {}", field.getTag());
                     break;
                 case CRC32:
-                    // TODO
+                    if (!CRC32MPEG2.verify(bytes, field.getData()))
+                    {   
+                        throw new KlvParseException("Bad checksum");
+                    }
                     break;
                 case UserDefinedLS:
                     RvtUserDefinedLocalSet userDefinedLocalSet = (RvtUserDefinedLocalSet)createValue(key, field.getData());
@@ -260,8 +263,8 @@ public class RvtLocalSet implements IMisbMessage
             chunks.add(0, RvtLocalSetUl.getBytes());
 
             byte[] array = ArrayUtils.arrayFromChunks(chunks, keyLength + lengthField.length + valueLength);
-            // TODO: Compute the CRC-32 and replace the last four bytes of array
-            // Checksum.compute(array, true);
+            // Compute the CRC-32 and replace the last four bytes of array
+            CRC32MPEG2.compute(array);
             return array;
         }
     }
