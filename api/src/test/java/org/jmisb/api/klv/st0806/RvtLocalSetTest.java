@@ -8,8 +8,11 @@ import org.jmisb.api.klv.KlvConstants;
 import org.jmisb.api.klv.LoggerChecks;
 import org.jmisb.api.klv.st0806.poiaoi.IRvtPoiAoiMetadataValue;
 import org.jmisb.api.klv.st0806.poiaoi.PoiAoiNumber;
+import org.jmisb.api.klv.st0806.poiaoi.PoiAoiType;
 import org.jmisb.api.klv.st0806.poiaoi.PoiLatitude;
 import org.jmisb.api.klv.st0806.poiaoi.PoiLongitude;
+import org.jmisb.api.klv.st0806.poiaoi.RvtAoiLocalSet;
+import org.jmisb.api.klv.st0806.poiaoi.RvtAoiMetadataKey;
 import org.jmisb.api.klv.st0806.poiaoi.RvtPoiAoiTextString;
 import org.jmisb.api.klv.st0806.poiaoi.RvtPoiLocalSet;
 import org.jmisb.api.klv.st0806.poiaoi.RvtPoiLocalSetTest;
@@ -150,7 +153,7 @@ public class RvtLocalSetTest extends LoggerChecks
     @Test
     public void constructFromMapWithSubordinateLS() throws KlvParseException
     {
-        RvtLocalSet localSet = buildLocalSetWithPoiLSValues();
+        RvtLocalSet localSet = buildLocalSetValues();
         Map<RvtPoiMetadataKey, IRvtPoiAoiMetadataValue> poiValues = RvtPoiLocalSetTest.buildPoiValues();
         localSet.addPointOfInterestLocalSet(new RvtPoiLocalSet(poiValues));
         assertNotNull(localSet);
@@ -166,6 +169,11 @@ public class RvtLocalSetTest extends LoggerChecks
         userDefined.put(RvtUserDefinedMetadataKey.UserData, new RvtUserData(new byte[]{0x01, 0x02, 0x03, 0x04}));
         RvtUserDefinedLocalSet userDefinedLocalSet = new RvtUserDefinedLocalSet(userDefined);
         localSet.addUserDefinedLocalSet(userDefinedLocalSet);
+        Map<RvtAoiMetadataKey, IRvtPoiAoiMetadataValue> aoiValues = new HashMap<>();
+        aoiValues.put(RvtAoiMetadataKey.PoiAoiNumber, new PoiAoiNumber(262));
+        aoiValues.put(RvtAoiMetadataKey.PoiAoiType, new PoiAoiType((byte)3));
+        // Not really enough values for compliance, but enough for test
+        localSet.addAreaOfInterestLocalSet(new RvtAoiLocalSet(aoiValues));
         assertEquals(localSet.getTags().size(), 2);
         assertEquals(localSet.getPOIIndexes().size(), 2);
         checkPoiLocalSetExample(localSet);
@@ -182,6 +190,9 @@ public class RvtLocalSetTest extends LoggerChecks
         RvtPoiAoiTextString text2 = (RvtPoiAoiTextString)ls2.getField(RvtPoiMetadataKey.PoiAoiLabel);
         assertEquals(text2.getDisplayName(), "POI/AOI Label");
         assertEquals(text2.getValue(), "Another Point");
+        assertEquals(localSet.getAOIIndexes().size(), 1);
+        assertTrue(localSet.getAOIIndexes().contains(262));
+        assertEquals(localSet.getAOI(262).getTags().size(), 2);
         byte[] expectedBytes = new byte[]{
             0x03, 0x02, 0x01, 0x02,
             0x08, 0x01, 0x04,
@@ -197,7 +208,10 @@ public class RvtLocalSetTest extends LoggerChecks
             (byte)0x01, (byte)0x02, (byte)0x02, (byte)0x04,
             (byte)0x02, (byte)0x04, (byte)0x85, (byte)0xa1, (byte)0x5a, (byte)0x39,
             (byte)0x03, (byte)0x04, (byte)0x53, (byte)0x27, (byte)0x3F, (byte)0xD4,
-            (byte)0x09, (byte)0x08, (byte)0x4D, (byte)0x79, (byte)0x20, (byte)0x50, (byte)0x6F, (byte)0x69, (byte)0x6e, (byte)0x74
+            (byte)0x09, (byte)0x08, (byte)0x4D, (byte)0x79, (byte)0x20, (byte)0x50, (byte)0x6F, (byte)0x69, (byte)0x6e, (byte)0x74,
+            (byte)0x0D, (byte)((1 + 1 + 2) + (1 + 1 + 1)),
+            (byte)0x01, (byte)0x02, (byte)0x01, (byte)0x06,
+            (byte)0x06, (byte)0x01, (byte)0x03
         };
         assertEquals(localSet.frameMessage(true), expectedBytes);
         assertTrue(localSet instanceof IMisbMessage);
@@ -300,7 +314,44 @@ public class RvtLocalSetTest extends LoggerChecks
         };
         assertEquals(localSet.frameMessage(true), expectedBytes);
     }
-/*
+    @Test
+    public void constructFromBytesWithSubordinateLSthatDontHaveNumbers() throws KlvParseException
+    {
+        byte[] bytes = new byte[]{
+            0x03, 0x02, 0x01, 0x02, // tag 3 - TAS
+            0x08, 0x01, 0x04,  // tag 8 - version
+            0x0C, (byte)((1 + 1 + 4) + (1 + 1 + 4) + (1 + 1 + 13)),
+            (byte)0x02, (byte)0x04, (byte)0xcd, (byte)0xa7, (byte)0x40, (byte)0xdb,
+            (byte)0x03, (byte)0x04, (byte)0x60, (byte)0x48, (byte)0xd1, (byte)0x59,
+            (byte)0x09, (byte)0x0D, (byte)0x41, (byte)0x6e, (byte)0x6f, (byte)0x74, (byte)0x68, (byte)0x65, (byte)0x72, (byte)0x20, (byte)0x50, (byte)0x6F, (byte)0x69, (byte)0x6e, (byte)0x74,
+            (byte)0x0C, (byte)((1 + 1 + 4) + (1 + 1 + 4) + (1 + 1 + 8)),
+            (byte)0x02, (byte)0x04, (byte)0x85, (byte)0xa1, (byte)0x5a, (byte)0x39,
+            (byte)0x03, (byte)0x04, (byte)0x53, (byte)0x27, (byte)0x3F, (byte)0xD4,
+            (byte)0x09, (byte)0x08, (byte)0x4D, (byte)0x79, (byte)0x20, (byte)0x50, (byte)0x6F, (byte)0x69, (byte)0x6e, (byte)0x74,
+            (byte)0x0B, (byte)((1 + 1 + 4)),
+            (byte)0x02, (byte)0x04, (byte)0x01, (byte)0x02, (byte)0x03, (byte)0x04,
+            (byte)0x0D, (byte)((1 + 1 + 4) + (1 + 1 + 4) + (1 + 1 + 4) + (1 + 1 + 4) + (1 + 1 + 1)),
+            (byte)0x02, (byte)0x04, (byte)0x85, (byte)0xa1, (byte)0x5a, (byte)0x39,
+            (byte)0x03, (byte)0x04, (byte)0x53, (byte)0x27, (byte)0x3F, (byte)0xD4,
+            (byte)0x04, (byte)0x04, (byte)0x85, (byte)0x92, (byte)0x5a, (byte)0x39,
+            (byte)0x05, (byte)0x04, (byte)0x53, (byte)0x37, (byte)0x3F, (byte)0xD4,
+            (byte)0x06, (byte)0x01, (byte)0x03
+        };
+        RvtLocalSet localSet = new RvtLocalSet(bytes);
+        assertTrue(localSet instanceof IMisbMessage);
+        assertEquals(localSet.displayHeader(), "ST0806 Remote Video Terminal");
+        assertEquals(localSet.getTags().size(), 2);
+        assertEquals(localSet.getUserDefinedIndexes().size(), 0);
+        assertEquals(localSet.getPOIIndexes().size(), 0);
+        assertEquals(localSet.getAOIIndexes().size(), 0);
+        byte[] expectedBytes = new byte[]{
+            0x03, 0x02, 0x01, 0x02,
+            0x08, 0x01, 0x04,
+        };
+        assertEquals(localSet.frameMessage(true), expectedBytes);
+    }
+
+    /*
     @Test
     public void constructFromMapNonNestedWithChecksum()
     {
@@ -359,19 +410,39 @@ public class RvtLocalSetTest extends LoggerChecks
         checkVersionNumberExample(localSet);
         return localSet;
     }
-
-    private RvtLocalSet buildLocalSetWithPoiLSValues() throws KlvParseException
+    
+    @Test
+    public void testTimestampComesOutFirstIfUsed()
     {
         Map<RvtMetadataKey, IRvtMetadataValue> values = new HashMap<>();
         IRvtMetadataValue platformTAS = new RvtPlatformTrueAirspeed(258);
         values.put(RvtMetadataKey.PlatformTrueAirspeed, platformTAS);
         IRvtMetadataValue version = new ST0806Version(4);
         values.put(RvtMetadataKey.UASLSVersionNumber, version);
+        // Put it in last, expect it to come out in order.
+        IRvtMetadataValue timestamp = new UserDefinedTimeStampMicroseconds(1224807209913000L);
+        values.put(RvtMetadataKey.UserDefinedTimeStampMicroseconds, timestamp);
         RvtLocalSet localSet = new RvtLocalSet(values);
-        return localSet;
+        assertNotNull(localSet);
+        assertEquals(localSet.getTags().size(), 3);
+        checkPlatformTrueAirspeedExample(localSet);
+        checkVersionNumberExample(localSet);
+        byte[] expectedBytes = new byte[]{
+            (byte) 0x06, (byte) 0x0E, (byte) 0x2B, (byte) 0x34, (byte) 0x02, (byte) 0x0B, (byte) 0x01, (byte) 0x01, (byte) 0x0E, (byte) 0x01, (byte) 0x03, (byte) 0x01, (byte) 0x02, (byte) 0x00, (byte) 0x00, (byte) 0x00,
+            0x17, // LS length
+            0x02, 0x08, (byte)0x00, (byte)0x04, (byte)0x59, (byte)0xf4, (byte)0xA6, (byte)0xaa, (byte)0x4a, (byte)0xa8,
+            0x03, 0x02, 0x01, 0x02, // tag 3 - TAS
+            0x08, 0x01, 0x04,  // tag 8 - version
+            // TODO: fix this
+            0x01, 0x04, 0x00, 0x00, 0x00, 0x00  // Tag 1 - CRC-32
+        };
+        assertEquals(localSet.frameMessage(false), expectedBytes);
+        assertTrue(localSet instanceof IMisbMessage);
+        assertEquals(localSet.displayHeader(), "ST0806 Remote Video Terminal");
     }
 
-        public static Map<RvtPoiMetadataKey, IRvtPoiAoiMetadataValue> buildAnotherPoiValues() throws KlvParseException {
+    public static Map<RvtPoiMetadataKey, IRvtPoiAoiMetadataValue> buildAnotherPoiValues() throws KlvParseException 
+    {
         Map<RvtPoiMetadataKey, IRvtPoiAoiMetadataValue> values = new HashMap<>();
         values.put(RvtPoiMetadataKey.PoiAoiNumber, new PoiAoiNumber(3));
         values.put(RvtPoiMetadataKey.PoiLatitude, new PoiLatitude(-35.4));
@@ -397,5 +468,59 @@ public class RvtLocalSetTest extends LoggerChecks
         IRvtMetadataValue unknown = RvtLocalSet.createValue(RvtMetadataKey.Undefined, new byte[]{0x01, 0x02});
         this.verifySingleLoggerMessage("Unknown Remote Video Terminal Metadata tag: Undefined");
         assertNull(unknown);
+    }
+
+    @Test(expectedExceptions = IllegalArgumentException.class)
+    public void testAddingPoiLocalSetWithoutNumber() throws KlvParseException
+    {
+        RvtLocalSet localSet = buildLocalSetValues();
+        Map<RvtPoiMetadataKey, IRvtPoiAoiMetadataValue> values = new HashMap<>();
+        // No PoiAoiNumber
+        values.put(RvtPoiMetadataKey.PoiLatitude, new PoiLatitude(-35.4));
+        RvtPoiLocalSet poiLocalSetNoNumber = new RvtPoiLocalSet(values);
+        localSet.addPointOfInterestLocalSet(poiLocalSetNoNumber);
+    }
+
+    @Test(expectedExceptions = IllegalArgumentException.class)
+    public void testAddingAoiLocalSetWithoutNumber() throws KlvParseException
+    {
+        RvtLocalSet localSet = buildLocalSetValues();
+        Map<RvtAoiMetadataKey, IRvtPoiAoiMetadataValue> values = new HashMap<>();
+        // No PoiAoiNumber
+        values.put(RvtAoiMetadataKey.PoiAoiType, new PoiAoiType((byte)1));
+        RvtAoiLocalSet aoiLocalSetNoNumber = new RvtAoiLocalSet(values);
+        localSet.addAreaOfInterestLocalSet(aoiLocalSetNoNumber);
+    }
+
+    @Test(expectedExceptions = IllegalArgumentException.class)
+    public void testAddingUserDefinedLocalSetWithoutNumber() throws KlvParseException
+    {
+        RvtLocalSet localSet = buildLocalSetValues();
+        Map<RvtUserDefinedMetadataKey, IRvtUserDefinedMetadataValue> values = new HashMap<>();
+        // No NumbericID
+        values.put(RvtUserDefinedMetadataKey.UserData, new RvtUserData(new byte[]{0x01, 0x02}));
+        RvtUserDefinedLocalSet userDataLocalSetNoNumber = new RvtUserDefinedLocalSet(values);
+        localSet.addUserDefinedLocalSet(userDataLocalSetNoNumber);
+    }
+
+    @Test(expectedExceptions = IllegalArgumentException.class)
+    public void testAddingNullPoiLocalSet() throws KlvParseException
+    {
+        RvtLocalSet localSet = buildLocalSetValues();
+        localSet.addPointOfInterestLocalSet(null);
+    }
+
+    @Test(expectedExceptions = IllegalArgumentException.class)
+    public void testAddingNullAoiLocalSet() throws KlvParseException
+    {
+        RvtLocalSet localSet = buildLocalSetValues();
+        localSet.addAreaOfInterestLocalSet(null);
+    }
+
+    @Test(expectedExceptions = IllegalArgumentException.class)
+    public void testAddingNullUserDefinedLocalSet() throws KlvParseException
+    {
+        RvtLocalSet localSet = buildLocalSetValues();
+        localSet.addUserDefinedLocalSet(null);
     }
 }

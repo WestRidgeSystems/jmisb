@@ -39,6 +39,8 @@ public class RvtAoiLocalSetTest extends LoggerChecks
             0x06, 0x01, (byte)0x03};
         RvtAoiLocalSet aoiLocalSet = new RvtAoiLocalSet(bytes, 0, bytes.length);
         assertNotNull(aoiLocalSet);
+        assertEquals(aoiLocalSet.getDisplayName(), "Area of Interest");
+        assertEquals(aoiLocalSet.getDisplayableValue(), "[AOI Local Set]");
         assertEquals(aoiLocalSet.getTags().size(), 6);
         checkPoiAoiNumberExample(aoiLocalSet);
         checkPoiAoiLatitude1Example(aoiLocalSet);
@@ -60,6 +62,8 @@ public class RvtAoiLocalSetTest extends LoggerChecks
         RvtAoiLocalSet aoiLocalSet = new RvtAoiLocalSet(bytes, 0, bytes.length);
         verifySingleLoggerMessage("Unknown RVT AOI Metadata tag: 11");
         assertNotNull(aoiLocalSet);
+        assertEquals(aoiLocalSet.getDisplayName(), "Area of Interest");
+        assertEquals(aoiLocalSet.getDisplayableValue(), "[AOI Local Set]");
         assertEquals(aoiLocalSet.getTags().size(), 3);
         checkPoiAoiNumberExample(aoiLocalSet);
         checkPoiAoiLatitude1Example(aoiLocalSet);
@@ -154,6 +158,8 @@ public class RvtAoiLocalSetTest extends LoggerChecks
         Map<RvtAoiMetadataKey, IRvtPoiAoiMetadataValue> values = buildAoiValues();
         RvtAoiLocalSet aoiLocalSet = new RvtAoiLocalSet(values);
         assertNotNull(aoiLocalSet);
+        assertEquals(aoiLocalSet.getDisplayName(), "Area of Interest");
+        assertEquals(aoiLocalSet.getDisplayableValue(), "[AOI Local Set]");
         assertEquals(aoiLocalSet.getTags().size(), 4);
         checkPoiAoiNumberExample(aoiLocalSet);
         checkPoiAoiLatitude1Example(aoiLocalSet);

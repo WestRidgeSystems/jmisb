@@ -101,6 +101,8 @@ public class RvtUserDefinedLocalSetTest extends LoggerChecks
         values.put(RvtUserDefinedMetadataKey.UserData, data);
         RvtUserDefinedLocalSet userDefinedLocalSet = new RvtUserDefinedLocalSet(values);
         assertNotNull(userDefinedLocalSet);
+        assertEquals(userDefinedLocalSet.getDisplayName(), "User Data");
+        assertEquals(userDefinedLocalSet.getDisplayableValue(), "[User Defined Local Set]");
         assertEquals(userDefinedLocalSet.getTags().size(), 2);
         checkNumericIdExample(userDefinedLocalSet);
         checkUserDataExample(userDefinedLocalSet);

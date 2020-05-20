@@ -46,8 +46,7 @@ public class RvtLocalSet implements IMisbMessage
         switch (tag) {
             // No checksum, handled automatically
             case UserDefinedTimeStampMicroseconds:
-                // TODO: implement
-                break;
+                return new UserDefinedTimeStampMicroseconds(bytes);
             case PlatformTrueAirspeed:
                 return new RvtPlatformTrueAirspeed(bytes);
             case PlatformIndicatedAirspeed:
@@ -312,10 +311,6 @@ public class RvtLocalSet implements IMisbMessage
         {
             throw new IllegalArgumentException("Cannot add null User Defined local set to RVT parent");
         }
-        if (localset.getTags() == null)
-        {
-            throw new IllegalArgumentException("Cannot add null User Defined  local set tags to RVT parent");
-        }
         if (!localset.getTags().contains(RvtUserDefinedMetadataKey.NumericId))
         {
             throw new IllegalArgumentException("User Defined local set must contain NumericId");
@@ -349,10 +344,6 @@ public class RvtLocalSet implements IMisbMessage
         {
             throw new IllegalArgumentException("Cannot add null POI local set to RVT parent");
         }
-        if (localset.getTags() == null)
-        {
-            throw new IllegalArgumentException("Cannot add null POI local set tags to RVT parent");
-        }
         if (!localset.getTags().contains(RvtPoiMetadataKey.PoiAoiNumber))
         {
             throw new IllegalArgumentException("POI local set must contain POI/AOI Number");
@@ -385,10 +376,6 @@ public class RvtLocalSet implements IMisbMessage
         if (localset == null)
         {
             throw new IllegalArgumentException("Cannot add null AOI local set to RVT parent");
-        }
-        if (localset.getTags() == null)
-        {
-            throw new IllegalArgumentException("Cannot add null AOI local set tags to RVT parent");
         }
         if (!localset.getTags().contains(RvtAoiMetadataKey.PoiAoiNumber))
         {

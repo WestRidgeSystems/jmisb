@@ -36,6 +36,8 @@ public class RvtPoiLocalSetTest extends LoggerChecks
             0x03, 0x04, (byte)0x53, (byte)0x27, (byte)0x3F, (byte)0xD4};
         RvtPoiLocalSet poiLocalSet = new RvtPoiLocalSet(bytes, 0, bytes.length);
         assertNotNull(poiLocalSet);
+        assertEquals(poiLocalSet.getDisplayName(), "Point of Interest");
+        assertEquals(poiLocalSet.getDisplayableValue(), "[POI Local Set]");
         assertEquals(poiLocalSet.getTags().size(), 3);
         checkPoiAoiNumberExample(poiLocalSet);
         checkPoiAoiLatitudeExample(poiLocalSet);
@@ -54,6 +56,8 @@ public class RvtPoiLocalSetTest extends LoggerChecks
         RvtPoiLocalSet poiLocalSet = new RvtPoiLocalSet(bytes, 0, bytes.length);
         verifySingleLoggerMessage("Unknown RVT POI Metadata tag: 11");
         assertNotNull(poiLocalSet);
+        assertEquals(poiLocalSet.getDisplayName(), "Point of Interest");
+        assertEquals(poiLocalSet.getDisplayableValue(), "[POI Local Set]");
         assertEquals(poiLocalSet.getTags().size(), 3);
         checkPoiAoiNumberExample(poiLocalSet);
         checkPoiAoiLatitudeExample(poiLocalSet);
@@ -112,6 +116,8 @@ public class RvtPoiLocalSetTest extends LoggerChecks
         Map<RvtPoiMetadataKey, IRvtPoiAoiMetadataValue> values = buildPoiValues();
         RvtPoiLocalSet poiLocalSet = new RvtPoiLocalSet(values);
         assertNotNull(poiLocalSet);
+        assertEquals(poiLocalSet.getDisplayName(), "Point of Interest");
+        assertEquals(poiLocalSet.getDisplayableValue(), "[POI Local Set]");
         assertEquals(poiLocalSet.getTags().size(), 4);
         checkPoiAoiNumberExample(poiLocalSet);
         checkPoiAoiLatitudeExample(poiLocalSet);
