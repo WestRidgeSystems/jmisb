@@ -27,7 +27,7 @@ public class RvtNumericId implements IRvtUserDefinedMetadataValue
         {
             throw new IllegalArgumentException(getDisplayName() + " id must be in range [0, 64]");
         }
-        number = (byte)((dataType << 7) + id);
+        number = (short)((dataType << 6) + id);
     }
 
     /**
@@ -102,4 +102,13 @@ public class RvtNumericId implements IRvtUserDefinedMetadataValue
         return "Numeric ID";
     }
 
+    /**
+     * Get the composite value for this numeric ID.
+     *
+     * @return numeric ID as an integer.
+     */
+    public int getValue()
+    {
+        return number;
+    }
 }

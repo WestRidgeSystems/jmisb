@@ -10,6 +10,7 @@ import org.jmisb.api.common.KlvParseException;
 import org.jmisb.api.klv.BerEncoder;
 import org.jmisb.api.klv.LdsField;
 import org.jmisb.api.klv.LdsParser;
+import org.jmisb.api.klv.st0806.IRvtMetadataValue;
 import org.jmisb.core.klv.ArrayUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -20,7 +21,8 @@ import org.slf4j.LoggerFactory;
  * Any number of AOI Local Sets (including none) can be embedded in a parent
  * RvtLocalSet instance.
  */
-public class RvtAoiLocalSet {
+public class RvtAoiLocalSet implements IRvtMetadataValue
+{
 
     private static final Logger LOGGER = LoggerFactory.getLogger(RvtAoiLocalSet.class);
 
@@ -129,6 +131,7 @@ public class RvtAoiLocalSet {
      * Get the byte array corresponding to the value for this Local Set.
      * @return byte array with the encoded local set.
      */
+    @Override
     public byte[] getBytes()
     {
         int len = 0;
@@ -146,5 +149,17 @@ public class RvtAoiLocalSet {
             len += bytes.length;
         }
         return ArrayUtils.arrayFromChunks(chunks, len);
+    }
+
+    @Override
+    public String getDisplayableValue()
+    {
+        return "[AOI Local Set]";
+    }
+
+    @Override
+    public String getDisplayName()
+    {
+        return "Area of Interest";
     }
 }

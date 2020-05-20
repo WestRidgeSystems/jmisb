@@ -14,6 +14,11 @@ import org.jmisb.api.klv.st0806.poiaoi.RvtPoiAoiTextString;
 import org.jmisb.api.klv.st0806.poiaoi.RvtPoiLocalSet;
 import org.jmisb.api.klv.st0806.poiaoi.RvtPoiLocalSetTest;
 import org.jmisb.api.klv.st0806.poiaoi.RvtPoiMetadataKey;
+import org.jmisb.api.klv.st0806.userdefined.IRvtUserDefinedMetadataValue;
+import org.jmisb.api.klv.st0806.userdefined.RvtNumericId;
+import org.jmisb.api.klv.st0806.userdefined.RvtUserData;
+import org.jmisb.api.klv.st0806.userdefined.RvtUserDefinedLocalSet;
+import org.jmisb.api.klv.st0806.userdefined.RvtUserDefinedMetadataKey;
 import static org.testng.Assert.*;
 import org.testng.annotations.Test;
 
@@ -156,6 +161,11 @@ public class RvtLocalSetTest extends LoggerChecks
         checkPoiLocalSetExample(localSet);
         Map<RvtPoiMetadataKey, IRvtPoiAoiMetadataValue> poiValues2 = buildAnotherPoiValues();
         localSet.addPointOfInterestLocalSet(new RvtPoiLocalSet(poiValues2));
+        Map<RvtUserDefinedMetadataKey, IRvtUserDefinedMetadataValue> userDefined = new HashMap<>();
+        userDefined.put(RvtUserDefinedMetadataKey.NumericId, new RvtNumericId(2, 2));
+        userDefined.put(RvtUserDefinedMetadataKey.UserData, new RvtUserData(new byte[]{0x01, 0x02, 0x03, 0x04}));
+        RvtUserDefinedLocalSet userDefinedLocalSet = new RvtUserDefinedLocalSet(userDefined);
+        localSet.addUserDefinedLocalSet(userDefinedLocalSet);
         assertEquals(localSet.getTags().size(), 2);
         assertEquals(localSet.getPOIIndexes().size(), 2);
         checkPoiLocalSetExample(localSet);
@@ -175,13 +185,16 @@ public class RvtLocalSetTest extends LoggerChecks
         byte[] expectedBytes = new byte[]{
             0x03, 0x02, 0x01, 0x02,
             0x08, 0x01, 0x04,
+            (byte)0x0B, (byte)((1 + 1 + 1) + (1 + 1 + 4)),
+            (byte)0x01, (byte)0x01, (byte)0b10000010,
+            (byte)0x02, (byte)0x04, (byte)0x01, (byte)0x02, (byte)0x03, (byte)0x04,
             0x0C, (byte)((1 + 1 + 2) + (1 + 1 + 4) + (1 + 1 + 4) + (1 + 1 + 13)),
             (byte)0x01, (byte)0x02, (byte)0x00, (byte)0x03,
             (byte)0x02, (byte)0x04, (byte)0xcd, (byte)0xa7, (byte)0x40, (byte)0xdb,
             (byte)0x03, (byte)0x04, (byte)0x60, (byte)0x48, (byte)0xd1, (byte)0x59,
             (byte)0x09, (byte)0x0D, (byte)0x41, (byte)0x6e, (byte)0x6f, (byte)0x74, (byte)0x68, (byte)0x65, (byte)0x72, (byte)0x20, (byte)0x50, (byte)0x6F, (byte)0x69, (byte)0x6e, (byte)0x74,
             0x0C, (byte)((1 + 1 + 2) + (1 + 1 + 4) + (1 + 1 + 4) + (1 + 1 + 8)),
-            (byte)0x01, (byte)0x02, (byte)0x02, (byte)0x04, // T:1, L:2, V: 0x0204
+            (byte)0x01, (byte)0x02, (byte)0x02, (byte)0x04,
             (byte)0x02, (byte)0x04, (byte)0x85, (byte)0xa1, (byte)0x5a, (byte)0x39,
             (byte)0x03, (byte)0x04, (byte)0x53, (byte)0x27, (byte)0x3F, (byte)0xD4,
             (byte)0x09, (byte)0x08, (byte)0x4D, (byte)0x79, (byte)0x20, (byte)0x50, (byte)0x6F, (byte)0x69, (byte)0x6e, (byte)0x74
@@ -204,11 +217,88 @@ public class RvtLocalSetTest extends LoggerChecks
             0x0D, // LS length
             0x03, 0x02, 0x01, 0x02, // tag 3 - TAS
             0x08, 0x01, 0x04,  // tag 8 - version
+            // TODO: fix this
             0x01, 0x04, 0x00, 0x00, 0x00, 0x00  // Tag 1 - CRC-32
         };
         assertEquals(localSet.frameMessage(false), expectedBytes);
         assertTrue(localSet instanceof IMisbMessage);
         assertEquals(localSet.displayHeader(), "ST0806 Remote Video Terminal");
+    }
+
+    @Test
+    public void constructFromBytesWithSubordinateLS() throws KlvParseException
+    {
+        byte[] bytes = new byte[]{
+            0x03, 0x02, 0x01, 0x02, // tag 3 - TAS
+            0x08, 0x01, 0x04,  // tag 8 - version
+            0x0C, (byte)((1 + 1 + 2) + (1 + 1 + 4) + (1 + 1 + 4) + (1 + 1 + 13)),
+            (byte)0x01, (byte)0x02, (byte)0x00, (byte)0x03,
+            (byte)0x02, (byte)0x04, (byte)0xcd, (byte)0xa7, (byte)0x40, (byte)0xdb,
+            (byte)0x03, (byte)0x04, (byte)0x60, (byte)0x48, (byte)0xd1, (byte)0x59,
+            (byte)0x09, (byte)0x0D, (byte)0x41, (byte)0x6e, (byte)0x6f, (byte)0x74, (byte)0x68, (byte)0x65, (byte)0x72, (byte)0x20, (byte)0x50, (byte)0x6F, (byte)0x69, (byte)0x6e, (byte)0x74,
+            (byte)0x0C, (byte)((1 + 1 + 2) + (1 + 1 + 4) + (1 + 1 + 4) + (1 + 1 + 8)),
+            (byte)0x01, (byte)0x02, (byte)0x02, (byte)0x04,
+            (byte)0x02, (byte)0x04, (byte)0x85, (byte)0xa1, (byte)0x5a, (byte)0x39,
+            (byte)0x03, (byte)0x04, (byte)0x53, (byte)0x27, (byte)0x3F, (byte)0xD4,
+            (byte)0x09, (byte)0x08, (byte)0x4D, (byte)0x79, (byte)0x20, (byte)0x50, (byte)0x6F, (byte)0x69, (byte)0x6e, (byte)0x74,
+            (byte)0x0B, (byte)((1 + 1 + 1) + (1 + 1 + 4)),
+            (byte)0x01, (byte)0x01, (byte)0b10000010,
+            (byte)0x02, (byte)0x04, (byte)0x01, (byte)0x02, (byte)0x03, (byte)0x04,
+            (byte)0x0D, (byte)((1 + 1 + 2) + (1 + 1 + 4) + (1 + 1 + 4) + (1 + 1 + 4) + (1 + 1 + 4) + (1 + 1 + 1)),
+            (byte)0x01, (byte)0x02, (byte)0x01, (byte)0x06,
+            (byte)0x02, (byte)0x04, (byte)0x85, (byte)0xa1, (byte)0x5a, (byte)0x39,
+            (byte)0x03, (byte)0x04, (byte)0x53, (byte)0x27, (byte)0x3F, (byte)0xD4,
+            (byte)0x04, (byte)0x04, (byte)0x85, (byte)0x92, (byte)0x5a, (byte)0x39,
+            (byte)0x05, (byte)0x04, (byte)0x53, (byte)0x37, (byte)0x3F, (byte)0xD4,
+            (byte)0x06, (byte)0x01, (byte)0x03
+        };
+        RvtLocalSet localSet = new RvtLocalSet(bytes);
+        assertTrue(localSet instanceof IMisbMessage);
+        assertEquals(localSet.displayHeader(), "ST0806 Remote Video Terminal");
+        assertEquals(localSet.getTags().size(), 2);
+        assertEquals(localSet.getUserDefinedIndexes().size(), 1);
+        assertTrue(localSet.getUserDefinedIndexes().contains(0x82));
+        assertEquals(localSet.getPOIIndexes().size(), 2);
+        checkPoiLocalSetExample(localSet);
+        assertTrue(localSet.getPOIIndexes().contains(3));
+        RvtPoiLocalSet ls2 = localSet.getPOI(3);
+        assertEquals(ls2.getTags().size(),4);
+        assertTrue(ls2.getTags().contains(RvtPoiMetadataKey.PoiAoiNumber));
+        assertTrue(ls2.getTags().contains(RvtPoiMetadataKey.PoiLatitude));
+        assertTrue(ls2.getTags().contains(RvtPoiMetadataKey.PoiLongitude));
+        assertTrue(ls2.getTags().contains(RvtPoiMetadataKey.PoiAoiLabel));
+        PoiAoiNumber num2 = (PoiAoiNumber)ls2.getField(RvtPoiMetadataKey.PoiAoiNumber);
+        assertEquals(num2.getNumber(), 3);
+        assertEquals(num2.getDisplayName(), "POI/AOI Number");
+        RvtPoiAoiTextString text2 = (RvtPoiAoiTextString)ls2.getField(RvtPoiMetadataKey.PoiAoiLabel);
+        assertEquals(text2.getDisplayName(), "POI/AOI Label");
+        assertEquals(text2.getValue(), "Another Point");
+        assertEquals(localSet.getAOIIndexes().size(), 1);
+        byte[] expectedBytes = new byte[]{
+            0x03, 0x02, 0x01, 0x02,
+            0x08, 0x01, 0x04,
+            0x0B, (byte)((1 + 1 + 1) + (1 + 1 + 4)),
+            (byte)0x01, (byte)0x01, (byte)0b10000010,
+            (byte)0x02, (byte)0x04, (byte)0x01, (byte)0x02, (byte)0x03, (byte)0x04,
+            0x0C, (byte)((1 + 1 + 2) + (1 + 1 + 4) + (1 + 1 + 4) + (1 + 1 + 13)),
+            (byte)0x01, (byte)0x02, (byte)0x00, (byte)0x03,
+            (byte)0x02, (byte)0x04, (byte)0xcd, (byte)0xa7, (byte)0x40, (byte)0xdb,
+            (byte)0x03, (byte)0x04, (byte)0x60, (byte)0x48, (byte)0xd1, (byte)0x59,
+            (byte)0x09, (byte)0x0D, (byte)0x41, (byte)0x6e, (byte)0x6f, (byte)0x74, (byte)0x68, (byte)0x65, (byte)0x72, (byte)0x20, (byte)0x50, (byte)0x6F, (byte)0x69, (byte)0x6e, (byte)0x74,
+            0x0C, (byte)((1 + 1 + 2) + (1 + 1 + 4) + (1 + 1 + 4) + (1 + 1 + 8)),
+            (byte)0x01, (byte)0x02, (byte)0x02, (byte)0x04,
+            (byte)0x02, (byte)0x04, (byte)0x85, (byte)0xa1, (byte)0x5a, (byte)0x39,
+            (byte)0x03, (byte)0x04, (byte)0x53, (byte)0x27, (byte)0x3F, (byte)0xD4,
+            (byte)0x09, (byte)0x08, (byte)0x4D, (byte)0x79, (byte)0x20, (byte)0x50, (byte)0x6F, (byte)0x69, (byte)0x6e, (byte)0x74,
+            0x0D, (byte)((1 + 1 + 2) + (1 + 1 + 4) + (1 + 1 + 4) + (1 + 1 + 4) + (1 + 1 + 4) + (1 + 1 + 1)),
+            (byte)0x01, (byte)0x02, (byte)0x01, (byte)0x06,
+            (byte)0x02, (byte)0x04, (byte)0x85, (byte)0xa1, (byte)0x5a, (byte)0x39,
+            (byte)0x03, (byte)0x04, (byte)0x53, (byte)0x27, (byte)0x3F, (byte)0xD4,
+            (byte)0x04, (byte)0x04, (byte)0x85, (byte)0x92, (byte)0x5a, (byte)0x39,
+            (byte)0x05, (byte)0x04, (byte)0x53, (byte)0x37, (byte)0x3F, (byte)0xD4,
+            (byte)0x06, (byte)0x01, (byte)0x03
+        };
+        assertEquals(localSet.frameMessage(true), expectedBytes);
     }
 /*
     @Test

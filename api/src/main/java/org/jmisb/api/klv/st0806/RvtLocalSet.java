@@ -17,8 +17,13 @@ import org.jmisb.api.klv.LdsField;
 import org.jmisb.api.klv.LdsParser;
 import org.jmisb.api.klv.UniversalLabel;
 import org.jmisb.api.klv.st0806.poiaoi.PoiAoiNumber;
+import org.jmisb.api.klv.st0806.poiaoi.RvtAoiLocalSet;
+import org.jmisb.api.klv.st0806.poiaoi.RvtAoiMetadataKey;
 import org.jmisb.api.klv.st0806.poiaoi.RvtPoiLocalSet;
 import org.jmisb.api.klv.st0806.poiaoi.RvtPoiMetadataKey;
+import org.jmisb.api.klv.st0806.userdefined.RvtNumericId;
+import org.jmisb.api.klv.st0806.userdefined.RvtUserDefinedLocalSet;
+import org.jmisb.api.klv.st0806.userdefined.RvtUserDefinedMetadataKey;
 import org.jmisb.core.klv.ArrayUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -61,14 +66,11 @@ public class RvtLocalSet implements IMisbMessage
             case DigitalVideoFileFormat:
                 return new DigitalVideoFileFormat(bytes);
             case UserDefinedLS:
-                // TODO: implement - this can repeat
-                break;
+                return new RvtUserDefinedLocalSet(bytes, 0, bytes.length);
             case PointOfInterestLS:
-                // TODO: implement - this can repeat
-                break;
+                return new RvtPoiLocalSet(bytes, 0, bytes.length);
             case AreaOfInterestLS:
-                // TODO: implement - this can repeat
-                break;
+                return new RvtAoiLocalSet(bytes, 0, bytes.length);
             case MGRSZone:
                 return new AircraftMGRSZone(bytes);
             case MGRSLatitudeBandAndGridSquare:
@@ -97,9 +99,19 @@ public class RvtLocalSet implements IMisbMessage
     private final SortedMap<RvtMetadataKey, IRvtMetadataValue> map = new TreeMap<>();
 
     /**
+     * Map containing User Defined Local sets
+     */
+    private final Map<Integer, RvtUserDefinedLocalSet> userDefined = new TreeMap<>();
+
+    /**
      * Map containing POI Local sets
      */
     private final Map<Integer, RvtPoiLocalSet> pois = new TreeMap<>();
+
+    /**
+     * Map containing AOI Local sets
+     */
+    private final Map<Integer, RvtAoiLocalSet> aois = new TreeMap<>();
 
     /**
      * Create the local set from the given key/value pairs
@@ -131,12 +143,28 @@ public class RvtLocalSet implements IMisbMessage
                 case CRC32:
                     // TODO
                     break;
+                case UserDefinedLS:
+                    RvtUserDefinedLocalSet userDefinedLocalSet = (RvtUserDefinedLocalSet)createValue(key, field.getData());
+                    if (userDefinedLocalSet.getTags().contains(RvtUserDefinedMetadataKey.NumericId))
+                    {
+                        RvtNumericId rvtNumericId = (RvtNumericId)userDefinedLocalSet.getField(RvtUserDefinedMetadataKey.NumericId);
+                        userDefined.put(rvtNumericId.getValue(), userDefinedLocalSet);
+                    }
+                    break;
                 case PointOfInterestLS:
                     RvtPoiLocalSet poi = (RvtPoiLocalSet)createValue(key, field.getData());
                     if (poi.getTags().contains(RvtPoiMetadataKey.PoiAoiNumber))
                     {
                         PoiAoiNumber poiNumber = (PoiAoiNumber)poi.getField(RvtPoiMetadataKey.PoiAoiNumber);
                         pois.put(poiNumber.getNumber(), poi);
+                    }
+                    break;
+                case AreaOfInterestLS:
+                    RvtAoiLocalSet aoi = (RvtAoiLocalSet)createValue(key, field.getData());
+                    if (aoi.getTags().contains(RvtAoiMetadataKey.PoiAoiNumber))
+                    {
+                        PoiAoiNumber aoiNumber = (PoiAoiNumber)aoi.getField(RvtAoiMetadataKey.PoiAoiNumber);
+                        aois.put(aoiNumber.getNumber(), aoi);
                     }
                     break;
                 default:
@@ -168,12 +196,36 @@ public class RvtLocalSet implements IMisbMessage
             chunks.add(bytes);
             len += bytes.length;
         }
+        for (Integer numericId: getUserDefinedIndexes())
+        {
+            RvtUserDefinedLocalSet userDefinedLocalSet = getUserDefinedLocalSet(numericId);
+            chunks.add(new byte[]{(byte)(RvtMetadataKey.UserDefinedLS.getTag())});
+            len += 1;
+            byte[] localSetBytes = userDefinedLocalSet.getBytes();
+            byte[] lengthBytes = BerEncoder.encode(localSetBytes.length);
+            chunks.add(lengthBytes);
+            len += lengthBytes.length;
+            chunks.add(localSetBytes);
+            len += localSetBytes.length;
+        }
         for (Integer poiNumber: getPOIIndexes())
         {
             RvtPoiLocalSet poiLocalSet = getPOI(poiNumber);
             chunks.add(new byte[]{(byte)(RvtMetadataKey.PointOfInterestLS.getTag())});
             len += 1;
             byte[] localSetBytes = poiLocalSet.getBytes();
+            byte[] lengthBytes = BerEncoder.encode(localSetBytes.length);
+            chunks.add(lengthBytes);
+            len += lengthBytes.length;
+            chunks.add(localSetBytes);
+            len += localSetBytes.length;
+        }
+        for (Integer aoiNumber: getAOIIndexes())
+        {
+            RvtAoiLocalSet aoiLocalSet = getAOI(aoiNumber);
+            chunks.add(new byte[]{(byte)(RvtMetadataKey.AreaOfInterestLS.getTag())});
+            len += 1;
+            byte[] localSetBytes = aoiLocalSet.getBytes();
             byte[] lengthBytes = BerEncoder.encode(localSetBytes.length);
             chunks.add(lengthBytes);
             len += lengthBytes.length;
@@ -254,6 +306,43 @@ public class RvtLocalSet implements IMisbMessage
         return "ST0806 Remote Video Terminal";
     }
 
+    public void addUserDefinedLocalSet(RvtUserDefinedLocalSet localset)
+    {
+        if (localset == null)
+        {
+            throw new IllegalArgumentException("Cannot add null User Defined local set to RVT parent");
+        }
+        if (localset.getTags() == null)
+        {
+            throw new IllegalArgumentException("Cannot add null User Defined  local set tags to RVT parent");
+        }
+        if (!localset.getTags().contains(RvtUserDefinedMetadataKey.NumericId))
+        {
+            throw new IllegalArgumentException("User Defined local set must contain NumericId");
+        }
+        RvtNumericId numericId = (RvtNumericId)localset.getField(RvtUserDefinedMetadataKey.NumericId);
+        userDefined.put(numericId.getValue(), localset);
+    }
+
+    /**
+     * Get the available User Defined Local Set indexes.
+     * @return set of NumericIds.
+     */
+    public Set<Integer> getUserDefinedIndexes()
+    {
+        return userDefined.keySet();
+    }
+
+    /**
+     * Get the User Defined Local Set by index.
+     * @param index the index (NumericId)
+     * @return User Defined Set corresponding to the index.
+     */
+    public RvtUserDefinedLocalSet getUserDefinedLocalSet(int index)
+    {
+        return userDefined.get(index);
+    }
+
     public void addPointOfInterestLocalSet(RvtPoiLocalSet localset)
     {
         if (localset == null)
@@ -290,4 +379,42 @@ public class RvtLocalSet implements IMisbMessage
     {
         return pois.get(index);
     }
+
+    public void addAreaOfInterestLocalSet(RvtAoiLocalSet localset)
+    {
+        if (localset == null)
+        {
+            throw new IllegalArgumentException("Cannot add null AOI local set to RVT parent");
+        }
+        if (localset.getTags() == null)
+        {
+            throw new IllegalArgumentException("Cannot add null AOI local set tags to RVT parent");
+        }
+        if (!localset.getTags().contains(RvtAoiMetadataKey.PoiAoiNumber))
+        {
+            throw new IllegalArgumentException("AOI local set must contain POI/AOI Number");
+        }
+        PoiAoiNumber aoiNumber = (PoiAoiNumber)localset.getField(RvtAoiMetadataKey.PoiAoiNumber);
+        aois.put(aoiNumber.getNumber(), localset);
+    }
+
+    /**
+     * Get the available AOI Local Set indexes.
+     * @return set of POI/AOI Numbers.
+     */
+    public Set<Integer> getAOIIndexes()
+    {
+        return aois.keySet();
+    }
+
+    /**
+     * Get the AOI Local Set by index.
+     * @param index the index (POI/AOI Number)
+     * @return AOI corresponding to the index.
+     */
+    public RvtAoiLocalSet getAOI(int index)
+    {
+        return aois.get(index);
+    }
+
 }
