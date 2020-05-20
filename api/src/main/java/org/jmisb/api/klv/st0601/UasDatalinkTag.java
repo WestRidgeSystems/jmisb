@@ -153,7 +153,7 @@ public enum UasDatalinkTag
     AlternatePlatformHeading(71),
     /** Tag 72; Start time of scene, project, event, mission, editing event, license, publication, etc; Value is a {@link EventStartTimeUtc} */
     EventStartTimeUtc(72),
-    /** Tag 73; MISB ST 0806 RVT Local Set metadata items; Value is a {@link OpaqueValue} */
+    /** Tag 73; MISB ST 0806 RVT Local Set metadata items; Value is a {@link NestedRvtLocalSet} */
     RvtLocalDataSet(73),
     /** Tag 74; MISB ST 0903 VMTI Local Set metadata items; Value is a {@link NestedVmtiLocalSet} */
     VmtiLocalDataSet(74),

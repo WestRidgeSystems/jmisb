@@ -38,6 +38,7 @@ set of standards to be supported are:
 * ST 0102: Security Metadata Universal and Local Sets for Digital Motion Imagery
 * ST 0601: UAS Datalink Local Set
 * ST 0805: KLV to Cursor-on-Target (CoT) Conversions
+* ST 0806: Remote Video Terminal Metadata Set
 * ST 0903: Video Moving Target Indicator and Track Metadata
 * ST 1201: Floating Point to Integer Mapping
 * ST 1204: Motion Imagery Identification System (MIIS) Core Identifier
