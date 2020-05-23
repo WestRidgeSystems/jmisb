@@ -31,6 +31,7 @@ public class UdsParser
         {
             // Get the Key (UL)
             UniversalLabel key = new UniversalLabel(Arrays.copyOfRange(bytes, offset, offset + UniversalLabel.LENGTH));
+            // increment offset by the number of bytes in the UL key.
             offset += UniversalLabel.LENGTH;
 
             // Get the length
@@ -40,6 +41,7 @@ public class UdsParser
                 throw new KlvParseException("Overrun encountered while parsing UDS fields");
             }
             BerField lengthField = BerDecoder.decode(bytes, offset, false);
+            // increment offset by the number of bytes in the length
             offset += lengthField.getLength();
 
             // Get the value
@@ -53,6 +55,8 @@ public class UdsParser
 
             // Add to fields
             fields.add(new UdsField(key, value));
+            // Increment offset by the number of bytes in the value.
+            offset += value.length;
         }
 
         return fields;

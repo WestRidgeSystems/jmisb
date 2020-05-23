@@ -12,6 +12,9 @@ import javax.swing.*;
 import java.awt.*;
 
 import static java.awt.Font.PLAIN;
+import org.jmisb.api.klv.eg0104.IPredatorMetadataValue;
+import org.jmisb.api.klv.eg0104.PredatorMetadataKey;
+import org.jmisb.api.klv.eg0104.PredatorUavMessage;
 
 /**
  * Simple text pane to display MISB metadata
@@ -73,7 +76,15 @@ public class MetadataPanel extends JTextPane implements IMetadataListener
                         sb.append("<b>").append(tag).append(":</b> ").append(value.getDisplayableValue()).append("<br>");
                     }
                 }
-
+                if (metadataFrame.getMisbMessage() instanceof PredatorUavMessage)
+                {
+                    PredatorUavMessage message = (PredatorUavMessage) metadataFrame.getMisbMessage();
+                    for (PredatorMetadataKey key : message.getKeys())
+                    {
+                        IPredatorMetadataValue value = message.getField(key);
+                        sb.append("<b>").append(key).append(":</b> ").append(value.getDisplayableValue()).append("<br>");
+                    }
+                }
                 sb.append("</body>");
                 sb.append("</html>");
                 setText(sb.toString());
