@@ -2,6 +2,7 @@ package org.jmisb.api.klv.st0903;
 
 import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.EnumSet;
 import java.util.List;
 import java.util.Map;
 import java.util.Set;
@@ -14,6 +15,7 @@ import org.jmisb.api.klv.IMisbMessage;
 import static org.jmisb.api.klv.KlvConstants.VmtiLocalSetUl;
 import org.jmisb.api.klv.LdsField;
 import org.jmisb.api.klv.LdsParser;
+import org.jmisb.api.klv.ParseOptions;
 import org.jmisb.api.klv.UniversalLabel;
 import org.jmisb.api.klv.st0601.Checksum;
 import org.jmisb.api.klv.st0903.shared.VmtiTextString;
@@ -34,6 +36,20 @@ public class VmtiLocalSet implements IMisbMessage
      * @throws KlvParseException if the byte array could not be parsed.
      */
     public static IVmtiMetadataValue createValue(VmtiMetadataKey tag, byte[] bytes) throws KlvParseException
+    {
+        return createValue(tag, bytes, EnumSet.noneOf(ParseOptions.class));
+    }
+
+    /**
+     * Create a {@link IVmtiMetadataValue} instance from encoded bytes
+     *
+     * @param tag The tag defining the value type
+     * @param bytes Encoded bytes
+     * @param parseOptions the parsing options to use in the event of error
+     * @return The new instance
+     * @throws KlvParseException if the byte array could not be parsed.
+     */
+    public static IVmtiMetadataValue createValue(VmtiMetadataKey tag, byte[] bytes, EnumSet<ParseOptions> parseOptions) throws KlvParseException
     {
         // This is fully implemented as of ST0903.5
         switch (tag) {
@@ -67,7 +83,7 @@ public class VmtiLocalSet implements IMisbMessage
             case AlgorithmSeries:
                 return new AlgorithmSeries(bytes);
             case OntologySeries:
-                return new OntologySeries(bytes);
+                return new OntologySeries(bytes, parseOptions);
             default:
                 LOGGER.info("Unknown VMTI Metadata tag: {}", tag);
         }
@@ -93,12 +109,26 @@ public class VmtiLocalSet implements IMisbMessage
      * Build a VMTI Local Set from encoded bytes.
      *
      * @param bytes the bytes to build from
+     *
      * @throws KlvParseException if parsing fails
      */
     public VmtiLocalSet(byte[] bytes) throws KlvParseException
     {
+        this(bytes, EnumSet.noneOf(ParseOptions.class));
+    }
+
+    /**
+     * Build a VMTI Local Set from encoded bytes.
+     *
+     * @param bytes the bytes to build from
+     * @param parseOptions any special parsing options
+     *
+     * @throws KlvParseException if parsing fails
+     */
+    public VmtiLocalSet(byte[] bytes, EnumSet<ParseOptions> parseOptions) throws KlvParseException
+    {
         int offset = 0;
-        List<LdsField> fields = LdsParser.parseFields(bytes, offset, bytes.length);
+        List<LdsField> fields = LdsParser.parseFields(bytes, offset, bytes.length, parseOptions);
         for (LdsField field : fields)
         {
             VmtiMetadataKey key = VmtiMetadataKey.getKey(field.getTag());
@@ -111,15 +141,36 @@ public class VmtiLocalSet implements IMisbMessage
                     byte[] actual = Arrays.copyOfRange(bytes, bytes.length-2, bytes.length);
                     if (!Arrays.equals(expected, actual))
                     {
-                        throw new KlvParseException("Bad checksum");
+                        if (parseOptions.contains(ParseOptions.LOG_ON_CHECKSUM_FAIL))
+                        {
+                            LOGGER.warn("Bad checksum");
+                        }
+                        else
+                        {
+                            throw new KlvParseException("Bad checksum");
+                        }
                     }
                     break;
                 default:
-                    IVmtiMetadataValue value = createValue(key, field.getData());
-                    map.put(key, value);
+                    try
+                    {
+                        IVmtiMetadataValue value = createValue(key, field.getData(), parseOptions);
+                        map.put(key, value);
+                    }
+                    catch (KlvParseException | IllegalArgumentException ex)
+                    {
+                        if (parseOptions.contains(ParseOptions.LOG_ON_INVALID_FIELD_ENCODING))
+                        {
+                            LOGGER.warn(ex.getMessage());
+                        }
+                        else
+                        {
+                            throw ex;
+                        }
+                    }
                     break;
             }
-        }        
+        }
     }
 
     @Override

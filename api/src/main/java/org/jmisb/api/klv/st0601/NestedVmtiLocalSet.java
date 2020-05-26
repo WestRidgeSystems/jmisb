@@ -1,6 +1,8 @@
 package org.jmisb.api.klv.st0601;
 
+import java.util.EnumSet;
 import org.jmisb.api.common.KlvParseException;
+import org.jmisb.api.klv.ParseOptions;
 import org.jmisb.api.klv.st0903.VmtiLocalSet;
 
 /**
@@ -39,11 +41,12 @@ public class NestedVmtiLocalSet implements IUasDatalinkValue
      * Create from encoded bytes.
      *
      * @param bytes The byte array
+     * @param parseOptions any special parsing options
      * @throws KlvParseException if the input is invalid
      */
-    public NestedVmtiLocalSet(byte[] bytes) throws KlvParseException
+    public NestedVmtiLocalSet(byte[] bytes, EnumSet<ParseOptions> parseOptions) throws KlvParseException
     {
-        this.vmtiLocalSet = new VmtiLocalSet(bytes);
+        this.vmtiLocalSet = new VmtiLocalSet(bytes, parseOptions);
     }
 
     @Override

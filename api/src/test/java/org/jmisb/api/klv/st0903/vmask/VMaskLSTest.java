@@ -1,12 +1,14 @@
 package org.jmisb.api.klv.st0903.vmask;
 
 import java.util.ArrayList;
+import java.util.EnumSet;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 import org.jmisb.api.common.KlvParseException;
 import org.jmisb.api.klv.st0903.IVmtiMetadataValue;
 import org.jmisb.api.klv.LoggerChecks;
+import org.jmisb.api.klv.ParseOptions;
 import static org.testng.Assert.*;
 import org.testng.annotations.Test;
 
@@ -30,7 +32,7 @@ public class VMaskLSTest extends LoggerChecks
             0x02, 0x39, (byte)0xBF,
             0x02, 0x3B, 0x0B
         };
-        VMaskLS localSet = new VMaskLS(bytes);
+        VMaskLS localSet = new VMaskLS(bytes, EnumSet.noneOf(ParseOptions.class));
         assertNotNull(localSet);
         assertEquals(localSet.getTags().size(), 1);
         checkPolygonExample(localSet);
@@ -46,7 +48,7 @@ public class VMaskLSTest extends LoggerChecks
             0x03, 0x01, 0x59, 0x04, // (89, 4)
             0x03, 0x01, 0x6A, 0x02  // (106, 2)
         };
-        VMaskLS localSet = new VMaskLS(bytes);
+        VMaskLS localSet = new VMaskLS(bytes, EnumSet.noneOf(ParseOptions.class));
         assertNotNull(localSet);
         assertEquals(localSet.getTags().size(), 1);
         assertEquals(localSet.getBytes(), bytes);
@@ -70,7 +72,7 @@ public class VMaskLSTest extends LoggerChecks
             0x03, 0x01, 0x6A, 0x02  // (106, 2)
         };
         verifyNoLoggerMessages();
-        VMaskLS localSet = new VMaskLS(bytes);
+        VMaskLS localSet = new VMaskLS(bytes, EnumSet.noneOf(ParseOptions.class));
         this.verifySingleLoggerMessage("Unknown VMTI VMask Metadata tag: 3");
         assertNotNull(localSet);
         assertEquals(localSet.getTags().size(), 2);

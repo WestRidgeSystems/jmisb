@@ -6,6 +6,7 @@ import org.slf4j.LoggerFactory;
 
 import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.EnumSet;
 import java.util.List;
 
 /**
@@ -18,17 +19,17 @@ public class LdsParser
     private LdsParser() {}
 
     /**
-     * Parse {@link LdsField}s from a byte array
+     * Parse {@link LdsField}s from a byte array.
      *
      * @param bytes Byte array to parse
      * @param start Index of the first byte to parse
      * @param length Number of bytes to parse
+     * @param parseOptions any special parsing options
      * @return List of parsed fields
      *
      * @throws KlvParseException If a parsing error occurs
      */
-    public static List<LdsField> parseFields(byte[] bytes, int start, int length) throws KlvParseException
-    {
+    public static List<LdsField> parseFields(byte[] bytes, int start, int length, EnumSet<ParseOptions> parseOptions) throws KlvParseException {
         StringBuilder debugMessageStringBuilder = new StringBuilder();
         if (logger.isDebugEnabled())
         {
@@ -54,8 +55,15 @@ public class LdsParser
             int end = begin + lengthField.getValue();
             if (end > bytes.length)
             {
-                // TODO: we will probably need a non-strict option to return the fields that were actually parsed
-                throw new KlvParseException("Overrun encountered while parsing LDS fields");
+                if (parseOptions.contains(ParseOptions.LOG_ON_OVERRUN))
+                {
+                    logger.warn("Overrun encountered while parsing LDS fields");
+                    break;
+                }
+                else
+                {
+                    throw new KlvParseException("Overrun encountered while parsing LDS fields");
+                }
             }
 
             byte[] value = Arrays.copyOfRange(bytes, begin, end);

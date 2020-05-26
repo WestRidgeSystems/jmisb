@@ -1,9 +1,11 @@
 package org.jmisb.api.klv.st0903.vtracker;
 
+import java.util.EnumSet;
 import org.jmisb.api.common.KlvParseException;
 import org.jmisb.api.klv.st0903.IVmtiMetadataValue;
 import org.jmisb.api.klv.st0903.shared.AlgorithmId;
 import org.jmisb.api.klv.LoggerChecks;
+import org.jmisb.api.klv.ParseOptions;
 import static org.testng.Assert.*;
 import org.testng.annotations.Test;
 
@@ -31,7 +33,7 @@ public class VTrackerLSTest extends LoggerChecks
     public void parseAlgorithmId() throws KlvParseException
     {
         final byte[] bytes = new byte[]{0x0C, 0x01, 0x03};
-        VTrackerLS localSet = new VTrackerLS(bytes);
+        VTrackerLS localSet = new VTrackerLS(bytes, EnumSet.noneOf(ParseOptions.class));
         assertNotNull(localSet);
         assertEquals(localSet.getTags().size(), 1);
         assertTrue(localSet.getTags().contains(VTrackerMetadataKey.algorithmId));

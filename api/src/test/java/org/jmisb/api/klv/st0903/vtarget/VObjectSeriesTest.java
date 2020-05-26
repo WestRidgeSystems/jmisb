@@ -2,10 +2,12 @@ package org.jmisb.api.klv.st0903.vtarget;
 
 import java.net.URISyntaxException;
 import java.util.ArrayList;
+import java.util.EnumSet;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 import org.jmisb.api.common.KlvParseException;
+import org.jmisb.api.klv.ParseOptions;
 import org.jmisb.api.klv.st0903.IVmtiMetadataValue;
 import org.jmisb.api.klv.st0903.vobject.VObjectLS;
 import org.jmisb.api.klv.st0903.vobject.VObjectMetadataKey;
@@ -56,7 +58,7 @@ public class VObjectSeriesTest
     @Test
     public void testConstructFromEncodedBytes() throws KlvParseException
     {
-        VObjectSeries objectSeries = new VObjectSeries(bytesOneObject);
+        VObjectSeries objectSeries = new VObjectSeries(bytesOneObject, EnumSet.noneOf(ParseOptions.class));
         assertEquals(objectSeries.getBytes().length, bytesOneObject.length);
         assertEquals(objectSeries.getDisplayName(), "Ontologies");
         assertEquals(objectSeries.getDisplayableValue(), "[VObject Series]");

@@ -1,5 +1,6 @@
 package org.jmisb.api.klv.st0903.vtarget;
 
+import java.util.EnumSet;
 import org.jmisb.api.common.KlvParseException;
 import org.jmisb.api.klv.st0903.IVmtiMetadataValue;
 import static org.testng.Assert.*;

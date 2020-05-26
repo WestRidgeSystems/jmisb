@@ -6,6 +6,8 @@ import org.jmisb.api.klv.st0102.*;
 
 import java.time.LocalDate;
 import java.util.*;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 import static org.jmisb.core.klv.ArrayUtils.arrayFromChunks;
 
@@ -14,6 +16,7 @@ import static org.jmisb.core.klv.ArrayUtils.arrayFromChunks;
  */
 public class SecurityMetadataUniversalSet extends SecurityMetadataMessage
 {
+    private static Logger logger = LoggerFactory.getLogger(SecurityMetadataUniversalSet.class);
     /**
      * Create the message from the given key/value pairs
      *
@@ -30,8 +33,19 @@ public class SecurityMetadataUniversalSet extends SecurityMetadataMessage
      * @param bytes Byte array containing a Security Metadata Universal Set message
      * @throws KlvParseException if a parsing error occurs
      */
-    public SecurityMetadataUniversalSet(byte[] bytes) throws KlvParseException
+    public SecurityMetadataUniversalSet(byte[] bytes) throws org.jmisb.api.common.KlvParseException
     {
+        this(bytes, EnumSet.noneOf(ParseOptions.class));
+    }
+
+    /**
+     * Create a Security Metadata Universal Set message by parsing the given byte array
+     *
+     * @param bytes Byte array containing a Security Metadata Universal Set message
+     * @param parserOptions any special parser options
+     * @throws KlvParseException if a parsing error occurs
+     */
+    public SecurityMetadataUniversalSet(byte[] bytes, EnumSet<ParseOptions> parserOptions) throws KlvParseException {
         // Parse the length field
         BerField lengthField = BerDecoder.decode(bytes, UniversalLabel.LENGTH, false);
         int lengthLength = lengthField.getLength();
@@ -44,9 +58,23 @@ public class SecurityMetadataUniversalSet extends SecurityMetadataMessage
         // Convert field data based on ST 0102
         for (UdsField field : fields)
         {
-            SecurityMetadataKey key = SecurityMetadataKey.getKey(field.getKey());
-            ISecurityMetadataValue value = UniversalSetFactory.createValue(SecurityMetadataKey.getKey(field.getKey()), field.getValue());
-            setField(key, value);
+            try
+            {
+                SecurityMetadataKey key = SecurityMetadataKey.getKey(field.getKey());
+                ISecurityMetadataValue value = UniversalSetFactory.createValue(SecurityMetadataKey.getKey(field.getKey()), field.getValue());
+                setField(key, value);
+            }
+            catch (IllegalArgumentException ex)
+            {
+                if (parserOptions.contains(ParseOptions.LOG_ON_INVALID_FIELD_ENCODING))
+                {
+                    logger.warn(ex.getMessage());
+                }
+                else
+                {
+                    throw ex;
+                }
+            }
         }
     }
 

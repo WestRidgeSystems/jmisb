@@ -1,6 +1,8 @@
 package org.jmisb.api.klv.st0601;
 
+import java.util.EnumSet;
 import org.jmisb.api.common.KlvParseException;
+import org.jmisb.api.klv.ParseOptions;
 
 /**
  * Dynamically create {@link IUasDatalinkValue}s from {@link UasDatalinkTag}s.
@@ -19,8 +21,23 @@ public class UasDatalinkFactory
      * @throws IllegalArgumentException if input is invalid
      * @throws KlvParseException if a parsing error occurs
      */
-    public static IUasDatalinkValue createValue(UasDatalinkTag tag, byte[] bytes) throws KlvParseException
+    public static org.jmisb.api.klv.st0601.IUasDatalinkValue createValue(UasDatalinkTag tag, byte[] bytes) throws org.jmisb.api.common.KlvParseException
     {
+        return createValue(tag, bytes, EnumSet.noneOf(ParseOptions.class));
+    }
+
+    /**
+     * Create a {@link IUasDatalinkValue} instance from encoded bytes
+     *
+     * @param tag The tag defining the value type
+     * @param bytes Encoded bytes
+     * @param parseOptions any special parsing options
+     * @return The new instance
+     *
+     * @throws IllegalArgumentException if input is invalid
+     * @throws KlvParseException if a parsing error occurs
+     */
+    public static IUasDatalinkValue createValue(UasDatalinkTag tag, byte[] bytes, EnumSet<ParseOptions> parseOptions) throws KlvParseException {
         // Keep the case statements in enum ordinal order so we can keep track of what is implemented. Mark all
         // unimplemented tags with TODO.
         switch (tag)
@@ -121,7 +138,7 @@ public class UasDatalinkFactory
                 // TODO
                 return new OpaqueValue(bytes);
             case SecurityLocalMetadataSet:
-                return new NestedSecurityMetadata(bytes);
+                return new NestedSecurityMetadata(bytes, parseOptions);
             case DifferentialPressure:
                 return new DifferentialPressure(bytes);
             case PlatformAngleOfAttack:
@@ -176,7 +193,7 @@ public class UasDatalinkFactory
                 // TODO Implement ST 0806
                 return new OpaqueValue(bytes);
             case VmtiLocalDataSet:
-                return new NestedVmtiLocalSet(bytes);
+                return new NestedVmtiLocalSet(bytes, parseOptions);
             case SensorEllipsoidHeight:
                 return new SensorEllipsoidHeight(bytes);
             case AlternatePlatformEllipsoidHeight:

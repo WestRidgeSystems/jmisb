@@ -9,6 +9,7 @@ import java.util.*;
 
 import static org.jmisb.api.klv.KlvConstants.UasDatalinkLocalUl;
 import org.jmisb.api.klv.LoggerChecks;
+import org.jmisb.api.klv.ParseOptions;
 
 public class UasDatalinkMessageTest extends LoggerChecks
 {
@@ -110,7 +111,7 @@ public class UasDatalinkMessageTest extends LoggerChecks
         // ... and re-parse it
         try
         {
-            UasDatalinkMessage msg = new UasDatalinkMessage(bytes);
+            UasDatalinkMessage msg = new UasDatalinkMessage(bytes, EnumSet.noneOf(ParseOptions.class));
 
             // Verify the messages are the same
             SensorLatitude sensorLatitude = (SensorLatitude) msg.getField(UasDatalinkTag.SensorLatitude);
@@ -142,7 +143,7 @@ public class UasDatalinkMessageTest extends LoggerChecks
         // Parse
         try
         {
-            new UasDatalinkMessage(bytes);
+            new UasDatalinkMessage(bytes, EnumSet.noneOf(ParseOptions.class));
             Assert.fail("Parsing should have failed due to bad checksum");
         } catch (KlvParseException e)
         {
@@ -155,7 +156,7 @@ public class UasDatalinkMessageTest extends LoggerChecks
         missingChecksum[16] -= 4;
         try
         {
-            new UasDatalinkMessage(missingChecksum);
+            new UasDatalinkMessage(missingChecksum, EnumSet.noneOf(ParseOptions.class));
             Assert.fail("Parsing should have failed due to missing checksum");
         } catch (KlvParseException e)
         {

@@ -2,11 +2,13 @@ package org.jmisb.api.klv.st0903;
 
 import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.EnumSet;
 import java.util.List;
 import org.jmisb.api.common.KlvParseException;
 import org.jmisb.api.klv.BerDecoder;
 import org.jmisb.api.klv.BerEncoder;
 import org.jmisb.api.klv.BerField;
+import org.jmisb.api.klv.ParseOptions;
 import org.jmisb.api.klv.st0903.ontology.OntologyLS;
 import org.jmisb.core.klv.ArrayUtils;
 
@@ -49,9 +51,10 @@ public class OntologySeries implements IVmtiMetadataValue
      * Create from encoded bytes.
      *
      * @param bytes Encoded byte array
+     * @param parseOptions the parsing options to use in the event of error
      * @throws KlvParseException if there is a parsing error on the byte array.
      */
-    public OntologySeries(byte[] bytes) throws KlvParseException
+    public OntologySeries(byte[] bytes, EnumSet<ParseOptions> parseOptions) throws KlvParseException
     {
         int index = 0;
         while (index < bytes.length - 1)
@@ -59,7 +62,7 @@ public class OntologySeries implements IVmtiMetadataValue
             BerField lengthField = BerDecoder.decode(bytes, index, true);
             index += lengthField.getLength();
             byte[] localSetBytes = Arrays.copyOfRange(bytes, index, index + lengthField.getValue());
-            OntologyLS vobjectLS = new OntologyLS(localSetBytes);
+            OntologyLS vobjectLS = new OntologyLS(localSetBytes, parseOptions);
             localSets.add(vobjectLS);
             index += lengthField.getValue();
         }

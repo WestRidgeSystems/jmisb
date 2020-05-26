@@ -1,6 +1,7 @@
 package org.jmisb.api.klv.st0903.ontology;
 
 import java.util.ArrayList;
+import java.util.EnumSet;
 import java.util.List;
 import java.util.Map;
 import java.util.Set;
@@ -10,6 +11,7 @@ import org.jmisb.api.common.KlvParseException;
 import org.jmisb.api.klv.BerEncoder;
 import org.jmisb.api.klv.LdsField;
 import org.jmisb.api.klv.LdsParser;
+import org.jmisb.api.klv.ParseOptions;
 import org.jmisb.api.klv.st0903.IVmtiMetadataValue;
 import org.jmisb.api.klv.st0903.shared.VmtiTextString;
 import org.jmisb.api.klv.st0903.shared.VmtiUri;
@@ -49,10 +51,10 @@ public class OntologyLS {
     }
 
     // TODO consider refactoring to pass in the original array instead of a copy
-    public OntologyLS(byte[] bytes) throws KlvParseException
+    public OntologyLS(byte[] bytes, EnumSet<ParseOptions> parseOptions) throws KlvParseException
     {
         int offset = 0;
-        List<LdsField> fields = LdsParser.parseFields(bytes, offset, bytes.length - offset);
+        List<LdsField> fields = LdsParser.parseFields(bytes, offset, bytes.length - offset, parseOptions);
         for (LdsField field : fields)
         {
             OntologyMetadataKey key = OntologyMetadataKey.getKey(field.getTag());
@@ -62,8 +64,22 @@ public class OntologyLS {
             }
             else
             {
-                IVmtiMetadataValue value = createValue(key, field.getData());
-                map.put(key, value);
+                try
+                {
+                    IVmtiMetadataValue value = createValue(key, field.getData());
+                    map.put(key, value);
+                }
+                catch (KlvParseException | IllegalArgumentException ex)
+                {
+                    if (parseOptions.contains(ParseOptions.LOG_ON_INVALID_FIELD_ENCODING))
+                    {
+                        LOGGER.warn(ex.getMessage());
+                    }
+                    else
+                    {
+                        throw ex;
+                    }
+                }
             }
         }
     }

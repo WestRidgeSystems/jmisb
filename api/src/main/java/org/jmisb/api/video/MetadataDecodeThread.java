@@ -1,5 +1,6 @@
 package org.jmisb.api.video;
 
+import java.util.EnumSet;
 import org.bytedeco.ffmpeg.avcodec.AVCodecContext;
 import org.bytedeco.ffmpeg.avcodec.AVPacket;
 import org.bytedeco.ffmpeg.avformat.AVStream;
@@ -21,6 +22,7 @@ import static org.bytedeco.ffmpeg.global.avcodec.avcodec_alloc_context3;
 import static org.bytedeco.ffmpeg.global.avcodec.avcodec_free_context;
 import static org.bytedeco.ffmpeg.global.avcodec.avcodec_parameters_to_context;
 import static org.bytedeco.ffmpeg.global.avutil.av_q2d;
+import org.jmisb.api.klv.ParseOptions;
 
 /**
  * Metadata decoding thread
@@ -34,6 +36,7 @@ class MetadataDecodeThread extends ProcessingThread
     private final VideoInput inputStream;
     private final AVStream dataStream;
     private BlockingQueue<AVPacket> packetQueue = new LinkedBlockingDeque<>(INPUT_QUEUE_SIZE);
+    private EnumSet<ParseOptions> parseOptions = EnumSet.of(ParseOptions.LOG_ON_INVALID_FIELD_ENCODING);
 
     /**
      * Constructor
@@ -108,7 +111,7 @@ class MetadataDecodeThread extends ProcessingThread
 
                     try
                     {
-                        List<IMisbMessage> messages = KlvParser.parseBytes(data);
+                        List<IMisbMessage> messages = KlvParser.parseBytes(data, parseOptions);
                         for (IMisbMessage message : messages)
                         {
                             boolean queued = false;
@@ -140,4 +143,25 @@ class MetadataDecodeThread extends ProcessingThread
 
         avcodec_free_context(codecContext);
     }
+
+    /**
+     * Get the currently set parsing options.
+     *
+     * @return parsing options as an EnumSet.
+     */
+    public EnumSet<ParseOptions> getParseOptions()
+    {
+        return parseOptions;
+    }
+
+    /**
+     * Set the parsing options.
+     *
+     * @param options the parsing options.
+     */
+    public void setParseOptions(EnumSet<ParseOptions> options)
+    {
+        parseOptions = options;
+    }
+    
 }

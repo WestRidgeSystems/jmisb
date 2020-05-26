@@ -1,5 +1,6 @@
 package org.jmisb.api.klv.st0601;
 
+import org.jmisb.api.klv.ParseOptions;
 import org.jmisb.api.common.KlvParseException;
 import org.jmisb.api.klv.*;
 
@@ -11,7 +12,7 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 /**
- * UAS Datalink Local Set message packet as defined by ST 0601
+ * UAS Datalink Local Set message packet as defined by ST 0601.
  * <p>
  * For guidance on which items are mandatory to include in ST 0601 messages, refer to ST 0902 for a list of the
  * minimum set of UAS Datalink LS metadata items.
@@ -36,13 +37,28 @@ public class UasDatalinkMessage implements IMisbMessage
     }
 
     /**
-     * Create the message by parsing the given byte array
+     * Create the message by parsing the given byte array.
+     *
+     * This will use the default parsing options (basically, no flags set).
      *
      * @param bytes Byte array containing a UAS Datalink message
      *
      * @throws KlvParseException if a parsing error occurs, or checksum is missing/invalid
      */
-    public UasDatalinkMessage(byte[] bytes) throws KlvParseException
+    private UasDatalinkMessage(byte[] bytes) throws org.jmisb.api.common.KlvParseException
+    {
+        this(bytes, EnumSet.noneOf(ParseOptions.class));
+    }
+
+    /**
+     * Create the message by parsing the given byte array.
+     *
+     * @param bytes Byte array containing a UAS Datalink message
+     * @param parseOptions any special parse options
+     *
+     * @throws KlvParseException if a parsing error occurs, or checksum is missing/invalid (depending on parse options)
+     */
+    public UasDatalinkMessage(byte[] bytes, EnumSet<ParseOptions> parseOptions) throws KlvParseException
     {
         // Parse the length field
         BerField lengthField = BerDecoder.decode(bytes, UniversalLabel.LENGTH, false);
@@ -50,7 +66,7 @@ public class UasDatalinkMessage implements IMisbMessage
         int valueLength = lengthField.getValue();
 
         // Parse fields out of the array
-        List<LdsField> fields = LdsParser.parseFields(bytes, UniversalLabel.LENGTH + lengthLength, valueLength);
+        List<LdsField> fields = LdsParser.parseFields(bytes, UniversalLabel.LENGTH + lengthLength, valueLength, parseOptions);
 
         boolean checksumFound = false;
         for (LdsField field : fields)
@@ -67,20 +83,48 @@ public class UasDatalinkMessage implements IMisbMessage
                 byte[] actual = Arrays.copyOfRange(bytes, bytes.length-2, bytes.length);
                 if (!Arrays.equals(expected, actual))
                 {
-                    throw new KlvParseException("Bad checksum");
+                    if (parseOptions.contains(ParseOptions.LOG_ON_CHECKSUM_FAIL)) 
+                    {
+                        logger.warn("Bad checksum");
+                    }
+                    else
+                    {
+                        throw new KlvParseException("Bad checksum");
+                    }
                 }
             }
             else
             {
-                IUasDatalinkValue value = UasDatalinkFactory.createValue(tag, field.getData());
-                setField(tag, value);
+                try
+                {
+                    IUasDatalinkValue value = UasDatalinkFactory.createValue(tag, field.getData(), parseOptions);
+                    setField(tag, value);
+                }
+                catch (KlvParseException | IllegalArgumentException ex)
+                {
+                    if (parseOptions.contains(ParseOptions.LOG_ON_INVALID_FIELD_ENCODING)) 
+                    {
+                        logger.warn(ex.getMessage());
+                    }
+                    else
+                    {
+                        throw ex;
+                    }
+                }
             }
         }
 
         // Throw if checksum is missing
         if (!checksumFound)
         {
-            throw new KlvParseException("Missing checksum");
+            if (parseOptions.contains(ParseOptions.LOG_ON_CHECKSUM_MISSING)) 
+            {
+                logger.warn("Missing checksum");
+            }
+            else
+            {
+                throw new KlvParseException("Missing checksum");
+            }
         }
     }
 

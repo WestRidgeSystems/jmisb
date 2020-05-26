@@ -1,6 +1,8 @@
 package org.jmisb.api.klv.st0903.vtarget;
 
+import java.util.EnumSet;
 import org.jmisb.api.common.KlvParseException;
+import org.jmisb.api.klv.ParseOptions;
 import org.jmisb.api.klv.st0903.IVmtiMetadataValue;
 import org.jmisb.api.klv.st0903.vchip.VChipLS;
 
@@ -36,11 +38,12 @@ public class VChip implements IVmtiMetadataValue
      * Create from encoded bytes.
      *
      * @param bytes Encoded byte array comprising the VChip LS
+     * @param parseOptions any special parse options
      * @throws KlvParseException if the byte array could not be parsed.
      */
-    public VChip(byte[] bytes) throws KlvParseException
+    public VChip(byte[] bytes, EnumSet<ParseOptions> parseOptions) throws KlvParseException
     {
-        value = new VChipLS(bytes);
+        value = new VChipLS(bytes, parseOptions);
     }
 
     @Override

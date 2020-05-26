@@ -1,9 +1,11 @@
 package org.jmisb.api.klv.st0903.vtarget;
 
 import java.net.URISyntaxException;
+import java.util.EnumSet;
 import java.util.HashMap;
 import java.util.Map;
 import org.jmisb.api.common.KlvParseException;
+import org.jmisb.api.klv.ParseOptions;
 import org.jmisb.api.klv.st0903.IVmtiMetadataValue;
 import org.jmisb.api.klv.st0903.vfeature.VFeatureLS;
 import org.jmisb.api.klv.st0903.vfeature.VFeatureMetadataKey;
@@ -28,7 +30,7 @@ public class VFeatureTest
     @Test
     public void testConstructFromEncodedBytes() throws KlvParseException
     {
-        VFeature vfeature = new VFeature(featureBytes);
+        VFeature vfeature = new VFeature(featureBytes, EnumSet.noneOf(ParseOptions.class));
         assertEquals(vfeature.getBytes(), featureBytes);
         assertEquals(vfeature.getDisplayName(), "Target Feature");
         assertEquals(vfeature.getDisplayableValue(), "[VFeature]");

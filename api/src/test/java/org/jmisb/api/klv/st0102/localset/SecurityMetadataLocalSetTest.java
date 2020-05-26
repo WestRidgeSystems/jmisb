@@ -8,10 +8,12 @@ import org.testng.annotations.Test;
 
 import java.time.LocalDate;
 import java.util.Arrays;
+import java.util.EnumSet;
 import java.util.SortedMap;
 import java.util.TreeMap;
 import org.jmisb.api.common.KlvParseException;
 import org.jmisb.api.klv.LoggerChecks;
+import org.jmisb.api.klv.ParseOptions;
 import org.jmisb.core.klv.ArrayUtils;
 
 public class SecurityMetadataLocalSetTest extends LoggerChecks
@@ -153,7 +155,7 @@ public class SecurityMetadataLocalSetTest extends LoggerChecks
     @Test
     public void testParseConstructorMultipleFields() throws KlvParseException {
         byte[] bytes = new byte[]{1, 1, 1, 2, 1, 1, 3, 4, 47, 47, 67, 65, 4, 0, 5, 0, 6, 2, 67, 65, 21, 16, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 22, 2, 0, 5};
-        SecurityMetadataLocalSet securityMetadataLocalSet = new SecurityMetadataLocalSet(bytes, false);
+        SecurityMetadataLocalSet securityMetadataLocalSet = new SecurityMetadataLocalSet(bytes, false, EnumSet.noneOf(ParseOptions.class));
         Assert.assertEquals(securityMetadataLocalSet.displayHeader(), "ST 0102 (local)");
         Assert.assertNotNull(securityMetadataLocalSet.getField(SecurityMetadataKey.ItemDesignatorId));
     }
@@ -161,7 +163,7 @@ public class SecurityMetadataLocalSetTest extends LoggerChecks
     @Test
     public void testParseConstructor1() throws KlvParseException {
         byte[] bytes = new byte[]{1, 1, 1};
-        SecurityMetadataLocalSet securityMetadataLocalSet = new SecurityMetadataLocalSet(bytes, false);
+        SecurityMetadataLocalSet securityMetadataLocalSet = new SecurityMetadataLocalSet(bytes, false, EnumSet.noneOf(ParseOptions.class));
         Assert.assertEquals(securityMetadataLocalSet.displayHeader(), "ST 0102 (local)");
         Assert.assertNotNull(securityMetadataLocalSet.getField(SecurityMetadataKey.SecurityClassification));
         ISecurityMetadataValue val = securityMetadataLocalSet.getField(SecurityMetadataKey.SecurityClassification);
@@ -173,7 +175,7 @@ public class SecurityMetadataLocalSetTest extends LoggerChecks
     @Test
     public void testParseConstructor21() throws KlvParseException {
         byte[] bytes = new byte[]{21, 16, 0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15};
-        SecurityMetadataLocalSet securityMetadataLocalSet = new SecurityMetadataLocalSet(bytes, false);
+        SecurityMetadataLocalSet securityMetadataLocalSet = new SecurityMetadataLocalSet(bytes, false, EnumSet.noneOf(ParseOptions.class));
         Assert.assertEquals(securityMetadataLocalSet.displayHeader(), "ST 0102 (local)");
         Assert.assertNotNull(securityMetadataLocalSet.getField(SecurityMetadataKey.ItemDesignatorId));
         ISecurityMetadataValue val = securityMetadataLocalSet.getField(SecurityMetadataKey.ItemDesignatorId);
@@ -187,7 +189,7 @@ public class SecurityMetadataLocalSetTest extends LoggerChecks
     {
         byte[] bytes = new byte[]{88, 1, 1};
         verifyNoLoggerMessages();
-        SecurityMetadataLocalSet securityMetadataLocalSet = new SecurityMetadataLocalSet(bytes, false);
+        SecurityMetadataLocalSet securityMetadataLocalSet = new SecurityMetadataLocalSet(bytes, false, EnumSet.noneOf(ParseOptions.class));
         verifySingleLoggerMessage("Unknown Security Metadata tag: 88");
         Assert.assertEquals(securityMetadataLocalSet.displayHeader(), "ST 0102 (local)");
         Assert.assertEquals(0, securityMetadataLocalSet.getKeys().size());
@@ -198,7 +200,7 @@ public class SecurityMetadataLocalSetTest extends LoggerChecks
     {
         byte[] bytes = new byte[]{1, 1, 1, 2, 1, 1, 88, 1, 1, 3, 4, 47, 47, 67, 65, 4, 0, 5, 0, 6, 2, 67, 65, 22, 2, 0, 5};
         verifyNoLoggerMessages();
-        SecurityMetadataLocalSet securityMetadataLocalSet = new SecurityMetadataLocalSet(bytes, false);
+        SecurityMetadataLocalSet securityMetadataLocalSet = new SecurityMetadataLocalSet(bytes, false, EnumSet.noneOf(ParseOptions.class));
         verifySingleLoggerMessage("Unknown Security Metadata tag: 88");
         Assert.assertEquals(securityMetadataLocalSet.displayHeader(), "ST 0102 (local)");
         Assert.assertEquals(7, securityMetadataLocalSet.getKeys().size());

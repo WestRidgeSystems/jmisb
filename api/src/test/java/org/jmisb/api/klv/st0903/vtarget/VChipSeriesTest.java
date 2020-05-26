@@ -2,10 +2,12 @@ package org.jmisb.api.klv.st0903.vtarget;
 
 import java.net.URISyntaxException;
 import java.util.ArrayList;
+import java.util.EnumSet;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 import org.jmisb.api.common.KlvParseException;
+import org.jmisb.api.klv.ParseOptions;
 import org.jmisb.api.klv.st0903.IVmtiMetadataValue;
 import org.jmisb.api.klv.st0903.vchip.VChipLS;
 import org.jmisb.api.klv.st0903.vchip.VChipMetadataKey;
@@ -56,7 +58,7 @@ public class VChipSeriesTest
     @Test
     public void testConstructFromEncodedBytes() throws KlvParseException
     {
-        VChipSeries chipSeries = new VChipSeries(bytesOneChip);
+        VChipSeries chipSeries = new VChipSeries(bytesOneChip, EnumSet.noneOf(ParseOptions.class));
         assertEquals(chipSeries.getBytes().length, bytesOneChip.length);
         assertEquals(chipSeries.getDisplayName(), "Image Chips");
         assertEquals(chipSeries.getDisplayableValue(), "[Chip Series]");

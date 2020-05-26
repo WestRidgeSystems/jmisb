@@ -33,10 +33,10 @@ public class SecurityMetadataLocalSet extends SecurityMetadataMessage
      *
      * @param bytes Byte array containing a Security Metadata Local Set message
      * @param hasKeyAndLength Flag to indicate if {@code bytes} includes header fields
-     * @throws KlvParseException if a parsing error occurs
+     * @param parserOptions any special parser options
+     * @throws KlvParseException if a parsing error occurs (depending on parser options)
      */
-    public SecurityMetadataLocalSet(byte[] bytes, boolean hasKeyAndLength) throws KlvParseException
-    {
+    public SecurityMetadataLocalSet(byte[] bytes, boolean hasKeyAndLength, EnumSet<ParseOptions> parserOptions) throws KlvParseException {
         int offset = 0;
         int valueLength = bytes.length;
 
@@ -50,7 +50,7 @@ public class SecurityMetadataLocalSet extends SecurityMetadataMessage
         }
 
         // Parse fields out of the array
-        List<LdsField> fields = LdsParser.parseFields(bytes, offset, valueLength);
+        List<LdsField> fields = LdsParser.parseFields(bytes, offset, valueLength, parserOptions);
 
         // Convert field data based on ST 0102
         for (LdsField field : fields)
@@ -60,8 +60,22 @@ public class SecurityMetadataLocalSet extends SecurityMetadataMessage
             if (key == SecurityMetadataKey.Undefined) {
                 logger.info("Unknown Security Metadata tag: {}", field.getTag());
             } else {
-                ISecurityMetadataValue value = LocalSetFactory.createValue(key, field.getData());
-                setField(key, value);
+                try
+                {
+                    ISecurityMetadataValue value = LocalSetFactory.createValue(key, field.getData());
+                    setField(key, value);
+                }
+                catch (IllegalArgumentException ex)
+                {
+                    if (parserOptions.contains(ParseOptions.LOG_ON_INVALID_FIELD_ENCODING))
+                    {
+                        logger.warn(ex.getMessage());
+                    }
+                    else
+                    {
+                        throw ex;
+                    }
+                }
             }
         }
     }

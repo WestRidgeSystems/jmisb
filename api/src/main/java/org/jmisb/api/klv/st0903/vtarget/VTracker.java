@@ -1,6 +1,8 @@
 package org.jmisb.api.klv.st0903.vtarget;
 
+import java.util.EnumSet;
 import org.jmisb.api.common.KlvParseException;
+import org.jmisb.api.klv.ParseOptions;
 import org.jmisb.api.klv.st0903.IVmtiMetadataValue;
 import org.jmisb.api.klv.st0903.vtracker.VTrackerLS;
 
@@ -34,11 +36,12 @@ public class VTracker implements IVmtiMetadataValue
      * Create from encoded bytes.
      *
      * @param bytes Encoded byte array comprising the VTracker LS
+     * @param parseOptions any special parse options.
      * @throws KlvParseException if the byte array could not be parsed.
      */
-    public VTracker(byte[] bytes) throws KlvParseException
+    public VTracker(byte[] bytes, EnumSet<ParseOptions> parseOptions) throws KlvParseException
     {
-        value = new VTrackerLS(bytes);
+        value = new VTrackerLS(bytes, parseOptions);
     }
 
     @Override

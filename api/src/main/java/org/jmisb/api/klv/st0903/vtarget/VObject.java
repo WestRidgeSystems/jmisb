@@ -1,6 +1,8 @@
 package org.jmisb.api.klv.st0903.vtarget;
 
+import java.util.EnumSet;
 import org.jmisb.api.common.KlvParseException;
+import org.jmisb.api.klv.ParseOptions;
 import org.jmisb.api.klv.st0903.IVmtiMetadataValue;
 import org.jmisb.api.klv.st0903.vobject.VObjectLS;
 
@@ -34,11 +36,12 @@ public class VObject implements IVmtiMetadataValue
      * Create from encoded bytes.
      *
      * @param bytes Encoded byte array comprising the VObject LS
+     * @param parseOptions any special parse options
      * @throws KlvParseException if the byte array could not be parsed.
      */
-    public VObject(byte[] bytes) throws KlvParseException
+    public VObject(byte[] bytes, EnumSet<ParseOptions> parseOptions) throws KlvParseException
     {
-        value = new VObjectLS(bytes);
+        value = new VObjectLS(bytes, parseOptions);
     }
 
     @Override

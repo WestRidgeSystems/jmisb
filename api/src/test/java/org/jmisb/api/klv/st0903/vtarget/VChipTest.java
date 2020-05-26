@@ -1,9 +1,11 @@
 package org.jmisb.api.klv.st0903.vtarget;
 
 import java.net.URISyntaxException;
+import java.util.EnumSet;
 import java.util.HashMap;
 import java.util.Map;
 import org.jmisb.api.common.KlvParseException;
+import org.jmisb.api.klv.ParseOptions;
 import org.jmisb.api.klv.st0903.IVmtiMetadataValue;
 import org.jmisb.api.klv.st0903.vchip.VChipLS;
 import org.jmisb.api.klv.st0903.vchip.VChipMetadataKey;
@@ -32,7 +34,7 @@ public class VChipTest
     @Test
     public void testConstructFromEncodedBytes() throws KlvParseException
     {
-        VChip chip = new VChip(bytes);
+        VChip chip = new VChip(bytes, EnumSet.noneOf(ParseOptions.class));
         // Content can vary, but length should be OK.
         assertEquals(chip.getBytes().length, bytes.length);
         assertEquals(chip.getDisplayName(), "Image Chip");

@@ -2,11 +2,13 @@ package org.jmisb.api.klv.st0903.vtarget;
 
 import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.EnumSet;
 import java.util.List;
 import org.jmisb.api.common.KlvParseException;
 import org.jmisb.api.klv.BerDecoder;
 import org.jmisb.api.klv.BerEncoder;
 import org.jmisb.api.klv.BerField;
+import org.jmisb.api.klv.ParseOptions;
 import org.jmisb.api.klv.st0903.IVmtiMetadataValue;
 import org.jmisb.api.klv.st0903.vobject.VObjectLS;
 import org.jmisb.core.klv.ArrayUtils;
@@ -40,9 +42,10 @@ public class VObjectSeries implements IVmtiMetadataValue
      * Create from encoded bytes.
      *
      * @param bytes Encoded byte array comprising the VObjectSeries
+     * @param parseOptions any special parse options
      * @throws KlvParseException if the byte array could not be parsed.
      */
-    public VObjectSeries(byte[] bytes) throws KlvParseException
+    public VObjectSeries(byte[] bytes, EnumSet<ParseOptions> parseOptions) throws KlvParseException
     {
         int index = 0;
         while (index < bytes.length - 1)
@@ -50,7 +53,7 @@ public class VObjectSeries implements IVmtiMetadataValue
             BerField lengthField = BerDecoder.decode(bytes, index, true);
             index += lengthField.getLength();
             byte[] vObjectBytes = Arrays.copyOfRange(bytes, index, index + lengthField.getValue());
-            VObjectLS objectLocalSet = new VObjectLS(vObjectBytes);
+            VObjectLS objectLocalSet = new VObjectLS(vObjectBytes, parseOptions);
             vobjects.add(objectLocalSet);
             index += lengthField.getValue();
         }

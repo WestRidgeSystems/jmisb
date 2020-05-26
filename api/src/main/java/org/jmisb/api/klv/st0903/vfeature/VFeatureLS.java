@@ -1,6 +1,7 @@
 package org.jmisb.api.klv.st0903.vfeature;
 
 import java.util.ArrayList;
+import java.util.EnumSet;
 import java.util.List;
 import java.util.Map;
 import java.util.Set;
@@ -10,6 +11,7 @@ import org.jmisb.api.common.KlvParseException;
 import org.jmisb.api.klv.BerEncoder;
 import org.jmisb.api.klv.LdsField;
 import org.jmisb.api.klv.LdsParser;
+import org.jmisb.api.klv.ParseOptions;
 import org.jmisb.api.klv.st0903.IVmtiMetadataValue;
 import org.jmisb.api.klv.st0903.shared.VmtiTextString;
 import org.jmisb.api.klv.st0903.shared.VmtiUri;
@@ -40,17 +42,30 @@ public class VFeatureLS
     }
 
     // TODO consider refactoring to pass in the original array instead of a copy
-    public VFeatureLS(byte[] bytes) throws KlvParseException
-    {
+    public VFeatureLS(byte[] bytes, EnumSet<ParseOptions> parseOptions) throws KlvParseException {
         int offset = 0;
-        List<LdsField> fields = LdsParser.parseFields(bytes, offset, bytes.length - offset);
+        List<LdsField> fields = LdsParser.parseFields(bytes, offset, bytes.length - offset, parseOptions);
         for (LdsField field : fields) {
             VFeatureMetadataKey key = VFeatureMetadataKey.getKey(field.getTag());
             if (key == VFeatureMetadataKey.Undefined) {
                 LOGGER.info("Unknown VMTI VFeature Metadata tag: {}", field.getTag());
             } else {
-                IVmtiMetadataValue value = createValue(key, field.getData());
-                map.put(key, value);
+                try
+                {
+                    IVmtiMetadataValue value = createValue(key, field.getData());
+                    map.put(key, value);
+                }
+                catch (KlvParseException | IllegalArgumentException ex)
+                {
+                    if (parseOptions.contains(ParseOptions.LOG_ON_INVALID_FIELD_ENCODING))
+                    {
+                        LOGGER.warn(ex.getMessage());
+                    }
+                    else
+                    {
+                        throw ex;
+                    }
+                }
             }
         }
     }

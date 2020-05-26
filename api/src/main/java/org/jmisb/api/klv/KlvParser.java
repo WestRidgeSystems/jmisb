@@ -9,6 +9,7 @@ import org.slf4j.LoggerFactory;
 
 import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.EnumSet;
 import java.util.List;
 
 /**
@@ -21,6 +22,25 @@ public class KlvParser
     private KlvParser() {}
 
     /**
+     * Parse a byte array containing one or more {@link IMisbMessage}s.
+     * <p>
+     * This is the main interface for parsing KLV metadata. It assumes that {@code bytes} contains one or more top-level
+     * messages, i.e., byte sequences starting with a Universal Label (UL). If a particular UL is unsupported it will be
+     * returned as a {@link RawMisbMessage}.
+     *
+     * This version assumes default parse options (no flags set).
+     *
+     * @param bytes The byte array
+     * @return List of {@link IMisbMessage}s
+     *
+     * @throws KlvParseException if a parsing exception occurs
+     */
+    public static java.util.List<org.jmisb.api.klv.IMisbMessage> parseBytes(byte[] bytes) throws org.jmisb.api.common.KlvParseException
+    {
+        return parseBytes(bytes, EnumSet.noneOf(ParseOptions.class));
+    }
+
+    /**
      * Parse a byte array containing one or more {@link IMisbMessage}s
      * <p>
      * This is the main interface for parsing KLV metadata. It assumes that {@code bytes} contains one or more top-level
@@ -28,14 +48,14 @@ public class KlvParser
      * returned as a {@link RawMisbMessage}.
      *
      * @param bytes The byte array
+     * @param parserOptions any special parsing options.
      * @return List of {@link IMisbMessage}s
      *
      * @throws KlvParseException if a parsing exception occurs
      */
-    public static List<IMisbMessage> parseBytes(byte[] bytes) throws KlvParseException
-    {
+    public static List<IMisbMessage> parseBytes(byte[] bytes, EnumSet<ParseOptions> parserOptions) throws KlvParseException {
         List<IMisbMessage> messages = new ArrayList<>();
-
+        
         if (logger.isDebugEnabled())
             logger.debug("len: " + bytes.length);
 
@@ -57,20 +77,19 @@ public class KlvParser
                 {
                     if (logger.isDebugEnabled())
                         logger.debug("UAS Datalink message");
-
-                    UasDatalinkMessage message = new UasDatalinkMessage(nextMessage);
+                    UasDatalinkMessage message = new UasDatalinkMessage(nextMessage, parserOptions);
                     messages.add(message);
                 } else if (ul.equals(KlvConstants.SecurityMetadataUniversalSetUl))
                 {
                     if (logger.isDebugEnabled())
                         logger.debug("Security Metadata Universal Set message");
-                    SecurityMetadataUniversalSet message = new SecurityMetadataUniversalSet(nextMessage);
+                    SecurityMetadataUniversalSet message = new SecurityMetadataUniversalSet(nextMessage, parserOptions);
                     messages.add(message);
                 } else if (ul.equals(KlvConstants.SecurityMetadataLocalSetUl))
                 {
                     if (logger.isDebugEnabled())
                         logger.debug("Security Metadata Local Set message");
-                    SecurityMetadataLocalSet message = new SecurityMetadataLocalSet(nextMessage, true);
+                    SecurityMetadataLocalSet message = new SecurityMetadataLocalSet(nextMessage, true, parserOptions);
                     messages.add(message);
                 } else
                 {

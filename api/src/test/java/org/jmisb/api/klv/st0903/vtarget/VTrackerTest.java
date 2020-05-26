@@ -1,8 +1,10 @@
 package org.jmisb.api.klv.st0903.vtarget;
 
+import java.util.EnumSet;
 import java.util.HashMap;
 import java.util.Map;
 import org.jmisb.api.common.KlvParseException;
+import org.jmisb.api.klv.ParseOptions;
 import org.jmisb.api.klv.st0903.IVmtiMetadataValue;
 import org.jmisb.api.klv.st0903.shared.VmtiTextString;
 import org.jmisb.api.klv.st0903.vtracker.DetectionStatus;
@@ -24,7 +26,7 @@ public class VTrackerTest
     @Test
     public void testConstructFromEncodedBytes() throws KlvParseException
     {
-        VTracker tracker = new VTracker(bytes);
+        VTracker tracker = new VTracker(bytes, EnumSet.noneOf(ParseOptions.class));
         assertEquals(tracker.getBytes(), bytes);
         assertEquals(tracker.getDisplayName(), "VTracker");
         assertEquals(tracker.getDisplayableValue(), "[VTracker]");

@@ -1,8 +1,10 @@
 package org.jmisb.api.klv.st0601;
 
+import java.util.EnumSet;
 import java.util.SortedMap;
 import java.util.TreeMap;
 import org.jmisb.api.common.KlvParseException;
+import org.jmisb.api.klv.ParseOptions;
 import org.jmisb.api.klv.st0903.IVmtiMetadataValue;
 import org.jmisb.api.klv.st0903.VmtiLocalSet;
 import org.jmisb.api.klv.st0903.VmtiMetadataKey;
@@ -27,7 +29,7 @@ public class NestedVmtiLocalSetTest
     @Test
     public void testConstructFromBytes() throws KlvParseException
     {
-        NestedVmtiLocalSet localSetFromBytes = new NestedVmtiLocalSet(localSetAsByteArray);
+        NestedVmtiLocalSet localSetFromBytes = new NestedVmtiLocalSet(localSetAsByteArray, EnumSet.noneOf(ParseOptions.class));
         Assert.assertNotNull(localSetFromBytes);
         checkLocalSetValues(localSetFromBytes);
     }

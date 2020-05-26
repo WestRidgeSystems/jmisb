@@ -1,10 +1,12 @@
 package org.jmisb.api.klv.st0903;
 
 import java.util.ArrayList;
+import java.util.EnumSet;
 import java.util.List;
 import java.util.SortedMap;
 import java.util.TreeMap;
 import org.jmisb.api.common.KlvParseException;
+import org.jmisb.api.klv.ParseOptions;
 import org.jmisb.api.klv.st0903.ontology.OntologyLS;
 import org.jmisb.api.klv.st0903.ontology.OntologyMetadataKey;
 import org.jmisb.api.klv.st0903.shared.VmtiTextString;
@@ -44,7 +46,7 @@ public class OntologySeriesTest
     @BeforeMethod
     public void setUpMethod() throws Exception
     {
-        ontologySeriesFromBytes = new OntologySeries(twoOntologysBytes);
+        ontologySeriesFromBytes = new OntologySeries(twoOntologysBytes, EnumSet.noneOf(ParseOptions.class));
 
         List<OntologyLS> ontologies = new ArrayList<>();
 

@@ -2,11 +2,13 @@ package org.jmisb.api.klv.st0903;
 
 import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.EnumSet;
 import java.util.List;
 import org.jmisb.api.common.KlvParseException;
 import org.jmisb.api.klv.BerDecoder;
 import org.jmisb.api.klv.BerEncoder;
 import org.jmisb.api.klv.BerField;
+import org.jmisb.api.klv.ParseOptions;
 import org.jmisb.api.klv.st0903.algorithm.AlgorithmLS;
 import org.jmisb.core.klv.ArrayUtils;
 
@@ -58,7 +60,7 @@ public class AlgorithmSeries implements IVmtiMetadataValue
             BerField lengthField = BerDecoder.decode(bytes, index, true);
             index += lengthField.getLength();
             byte[] localSetBytes = Arrays.copyOfRange(bytes, index, index + lengthField.getValue());
-            AlgorithmLS algorithmLS = new AlgorithmLS(localSetBytes);
+            AlgorithmLS algorithmLS = new AlgorithmLS(localSetBytes, EnumSet.noneOf(ParseOptions.class));
             localSets.add(algorithmLS);
             index += lengthField.getValue();
         }

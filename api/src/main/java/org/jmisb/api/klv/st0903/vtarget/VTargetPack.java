@@ -1,6 +1,7 @@
 package org.jmisb.api.klv.st0903.vtarget;
 
 import java.util.ArrayList;
+import java.util.EnumSet;
 import java.util.List;
 import java.util.Map;
 import java.util.Set;
@@ -12,6 +13,7 @@ import org.jmisb.api.klv.BerEncoder;
 import org.jmisb.api.klv.BerField;
 import org.jmisb.api.klv.LdsField;
 import org.jmisb.api.klv.LdsParser;
+import org.jmisb.api.klv.ParseOptions;
 import org.jmisb.api.klv.st0903.IVmtiMetadataValue;
 import org.jmisb.api.klv.st0903.shared.AlgorithmId;
 import org.jmisb.core.klv.ArrayUtils;
@@ -35,14 +37,18 @@ public class VTargetPack {
         map.putAll(values);
     }
 
-    // TODO consider refactoring to pass in the original array instead of a copy
-    public VTargetPack(byte[] bytes) throws KlvParseException
+    public VTargetPack(byte[] bytes) throws org.jmisb.api.common.KlvParseException
     {
+        this(bytes, EnumSet.noneOf(ParseOptions.class));
+    }
+
+    // TODO consider refactoring to pass in the original array instead of a copy
+    public VTargetPack(byte[] bytes, EnumSet<ParseOptions> parseOptions) throws KlvParseException {
         int offset = 0;
         BerField targetIdField = BerDecoder.decode(bytes, offset, true);
         offset += targetIdField.getLength();
         targetId = targetIdField.getValue();
-        List<LdsField> fields = LdsParser.parseFields(bytes, offset, bytes.length - offset);
+        List<LdsField> fields = LdsParser.parseFields(bytes, offset, bytes.length - offset, parseOptions);
         for (LdsField field : fields)
         {
             VTargetMetadataKey key = VTargetMetadataKey.getKey(field.getTag());
@@ -52,13 +58,27 @@ public class VTargetPack {
             }
             else
             {
-                IVmtiMetadataValue value = createValue(key, field.getData());
-                map.put(key, value);
+                try
+                {
+                    IVmtiMetadataValue value = createValue(key, field.getData(), parseOptions);
+                    map.put(key, value);
+                }
+                catch (KlvParseException | IllegalArgumentException ex)
+                {
+                    if (parseOptions.contains(ParseOptions.LOG_ON_INVALID_FIELD_ENCODING))
+                    {
+                        LOGGER.warn(ex.getMessage());
+                    }
+                    else
+                    {
+                        throw ex;
+                    }
+                }
             }
         }
     }
 
-    /**
+        /**
      * Create a {@link IVmtiMetadataValue} instance from encoded bytes
      *
      * @param tag The tag defining the value type
@@ -67,6 +87,20 @@ public class VTargetPack {
      * @throws KlvParseException if the bytes could not be parsed.
      */
     public static IVmtiMetadataValue createValue(VTargetMetadataKey tag, byte[] bytes) throws KlvParseException
+    {
+        return createValue(tag, bytes, EnumSet.noneOf(ParseOptions.class));
+    }
+
+    /**
+     * Create a {@link IVmtiMetadataValue} instance from encoded bytes
+     *
+     * @param tag The tag defining the value type
+     * @param bytes Encoded bytes
+     * @param parseOptions the parsing options to use in the event of error
+     * @return The new instance
+     * @throws KlvParseException if the bytes could not be parsed.
+     */
+    public static IVmtiMetadataValue createValue(VTargetMetadataKey tag, byte[] bytes, EnumSet<ParseOptions> parseOptions) throws KlvParseException
     {
         switch (tag) {
             case TargetCentroid:
@@ -114,19 +148,19 @@ public class VTargetPack {
             case AlgorithmId:
                 return new AlgorithmId(bytes);
             case VMask:
-                return new VMask(bytes);
+                return new VMask(bytes, parseOptions);
             case VObject:
-                return new VObject(bytes);
+                return new VObject(bytes, parseOptions);
             case VFeature:
-                return new VFeature(bytes);
+                return new VFeature(bytes, parseOptions);
             case VTracker:
-                return new VTracker(bytes);
+                return new VTracker(bytes, parseOptions);
             case VChip:
-                return new VChip(bytes);
+                return new VChip(bytes, parseOptions);
             case VChipSeries:
-                return new VChipSeries(bytes);
+                return new VChipSeries(bytes, parseOptions);
             case VObjectSeries:
-                return new VObjectSeries(bytes);
+                return new VObjectSeries(bytes, parseOptions);
             default:
                 LOGGER.info("Unrecognized VTarget tag: {}", tag);
         }

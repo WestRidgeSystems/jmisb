@@ -3,9 +3,11 @@ package org.jmisb.api.klv.st0903.vfeature;
 import org.jmisb.api.klv.LoggerChecks;
 import java.io.IOException;
 import java.net.URISyntaxException;
+import java.util.EnumSet;
 import java.util.HashMap;
 import java.util.Map;
 import org.jmisb.api.common.KlvParseException;
+import org.jmisb.api.klv.ParseOptions;
 import org.jmisb.api.klv.st0903.IVmtiMetadataValue;
 import org.jmisb.api.klv.st0903.shared.VmtiTextString;
 import org.jmisb.api.klv.st0903.shared.VmtiUri;
@@ -34,7 +36,7 @@ public class VFeatureLSTest extends LoggerChecks
             0x31, 0x64, 0x30, 0x2d, 0x61, 0x37, 0x36, 0x35,
             0x2d, 0x30, 0x30, 0x61, 0x30, 0x63, 0x39, 0x31,
             0x65, 0x36, 0x62, 0x66, 0x36 };
-        VFeatureLS localSet = new VFeatureLS(bytes);
+        VFeatureLS localSet = new VFeatureLS(bytes, EnumSet.noneOf(ParseOptions.class));
         assertNotNull(localSet);
         assertEquals(localSet.getTags().size(), 1);
         checkSchemaExample(localSet);
@@ -88,7 +90,7 @@ public class VFeatureLSTest extends LoggerChecks
             0x3A, 0x44, 0x61, 0x74, 0x61, 0x42, 0x6C, 0x6F,
             0x63, 0x6B, 0x3E
         };
-        VFeatureLS localSet = new VFeatureLS(bytes);
+        VFeatureLS localSet = new VFeatureLS(bytes, EnumSet.noneOf(ParseOptions.class));
         assertNotNull(localSet);
         assertEquals(localSet.getTags().size(), 1);
         checkSchemaFeatureExample(localSet);
@@ -150,7 +152,7 @@ public class VFeatureLSTest extends LoggerChecks
             0x3A, 0x44, 0x61, 0x74, 0x61, 0x42, 0x6C, 0x6F,
             0x63, 0x6B, 0x3E};
         verifyNoLoggerMessages();
-        VFeatureLS localSet = new VFeatureLS(bytes);
+        VFeatureLS localSet = new VFeatureLS(bytes, EnumSet.noneOf(ParseOptions.class));
         this.verifySingleLoggerMessage("Unknown VMTI VFeature Metadata tag: 3");
         assertNotNull(localSet);
         assertEquals(localSet.getTags().size(), 2);

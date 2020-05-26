@@ -1,10 +1,12 @@
 package org.jmisb.api.klv.st0903.vtarget;
 
 import java.util.ArrayList;
+import java.util.EnumSet;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 import org.jmisb.api.common.KlvParseException;
+import org.jmisb.api.klv.ParseOptions;
 import org.jmisb.api.klv.st0903.IVmtiMetadataValue;
 import org.jmisb.api.klv.st0903.vmask.BitMaskSeries;
 import org.jmisb.api.klv.st0903.vmask.PixelPolygon;
@@ -70,7 +72,7 @@ public class VMaskTest {
             0x03, 0x01, 0x4A, 0x02, // (74, 2)
             0x03, 0x01, 0x59, 0x04, // (89, 4)
             0x03, 0x01, 0x6A, 0x02  // (106, 2)
-        });
+        }, EnumSet.noneOf(ParseOptions.class));
         assertEquals(mask.getBytes(), new byte[]{
             0x01,
             0x09,

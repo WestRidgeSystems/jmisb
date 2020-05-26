@@ -1,6 +1,8 @@
 package org.jmisb.api.klv.st0903.vtarget;
 
+import java.util.EnumSet;
 import org.jmisb.api.common.KlvParseException;
+import org.jmisb.api.klv.ParseOptions;
 import org.jmisb.api.klv.st0903.IVmtiMetadataValue;
 import org.jmisb.api.klv.st0903.vfeature.VFeatureLS;
 
@@ -52,11 +54,12 @@ public class VFeature implements IVmtiMetadataValue
      * Create from encoded bytes.
      *
      * @param bytes Encoded byte array comprising the VFeature LS
+     * @param parseOptions any special parse options
      * @throws KlvParseException if the byte array could not be parsed.
      */
-    public VFeature(byte[] bytes) throws KlvParseException
+    public VFeature(byte[] bytes, EnumSet<ParseOptions> parseOptions) throws KlvParseException
     {
-        value = new VFeatureLS(bytes);
+        value = new VFeatureLS(bytes, parseOptions);
     }
 
     @Override

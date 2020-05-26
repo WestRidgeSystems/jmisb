@@ -1,11 +1,13 @@
 package org.jmisb.api.klv.st0903.vobject;
 
 import java.net.URISyntaxException;
+import java.util.EnumSet;
 import java.util.HashMap;
 import java.util.Map;
 import org.jmisb.api.common.KlvParseException;
 import org.jmisb.api.klv.st0903.IVmtiMetadataValue;
 import org.jmisb.api.klv.LoggerChecks;
+import org.jmisb.api.klv.ParseOptions;
 import org.jmisb.api.klv.st0903.shared.VmtiTextString;
 import org.jmisb.api.klv.st0903.shared.VmtiUri;
 import static org.testng.Assert.*;
@@ -71,7 +73,7 @@ public class VObjectLSTest extends LoggerChecks
     @Test
     public void parseTag1() throws KlvParseException, URISyntaxException
     {
-        VObjectLS vObjectLS = new VObjectLS(ontologyBytes);
+        VObjectLS vObjectLS = new VObjectLS(ontologyBytes, EnumSet.noneOf(ParseOptions.class));
         assertNotNull(vObjectLS);
         assertEquals(vObjectLS.getTags().size(), 1);
         checkOntologyExample(vObjectLS);
@@ -80,7 +82,7 @@ public class VObjectLSTest extends LoggerChecks
     @Test
     public void parseTag2() throws KlvParseException
     {
-        VObjectLS vObjectLS = new VObjectLS(ontologyClassBytes);
+        VObjectLS vObjectLS = new VObjectLS(ontologyClassBytes, EnumSet.noneOf(ParseOptions.class));
         assertNotNull(vObjectLS);
         assertEquals(vObjectLS.getTags().size(), 1);
         checkOntologyClassExample(vObjectLS);
@@ -89,7 +91,7 @@ public class VObjectLSTest extends LoggerChecks
     @Test
     public void parseTag3() throws KlvParseException
     {
-        VObjectLS vObjectLS = new VObjectLS(ontologyIdBytes);
+        VObjectLS vObjectLS = new VObjectLS(ontologyIdBytes, EnumSet.noneOf(ParseOptions.class));
         assertNotNull(vObjectLS);
         assertEquals(vObjectLS.getTags().size(), 1);
         checkOntologyIdExample(vObjectLS);
@@ -98,7 +100,7 @@ public class VObjectLSTest extends LoggerChecks
     @Test
     public void parseTag4() throws KlvParseException
     {
-        VObjectLS vObjectLS = new VObjectLS(confidenceBytes);
+        VObjectLS vObjectLS = new VObjectLS(confidenceBytes, EnumSet.noneOf(ParseOptions.class));
         assertNotNull(vObjectLS);
         assertEquals(vObjectLS.getTags().size(), 1);
         checkConfidenceExample(vObjectLS);
@@ -107,7 +109,7 @@ public class VObjectLSTest extends LoggerChecks
     @Test
     public void parseMerged() throws KlvParseException, URISyntaxException
     {
-        VObjectLS vObjectLS = new VObjectLS(mergedBytes);
+        VObjectLS vObjectLS = new VObjectLS(mergedBytes, EnumSet.noneOf(ParseOptions.class));
         assertNotNull(vObjectLS);
         assertEquals(vObjectLS.getTags().size(), 4);
         checkOntologyExample(vObjectLS);
@@ -137,7 +139,7 @@ public class VObjectLSTest extends LoggerChecks
             0x01, 0x02
         };
         verifyNoLoggerMessages();
-        VObjectLS vObjectLS = new VObjectLS(bytes);
+        VObjectLS vObjectLS = new VObjectLS(bytes, EnumSet.noneOf(ParseOptions.class));
         verifySingleLoggerMessage("Unknown VMTI VObject Metadata tag: 5");
         assertNotNull(vObjectLS);
         assertEquals(vObjectLS.getTags().size(), 3);

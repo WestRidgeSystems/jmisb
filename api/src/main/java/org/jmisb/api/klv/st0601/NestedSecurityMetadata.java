@@ -1,6 +1,8 @@
 package org.jmisb.api.klv.st0601;
 
+import java.util.EnumSet;
 import org.jmisb.api.common.KlvParseException;
+import org.jmisb.api.klv.ParseOptions;
 import org.jmisb.api.klv.st0102.localset.SecurityMetadataLocalSet;
 
 /**
@@ -30,11 +32,12 @@ public class NestedSecurityMetadata implements IUasDatalinkValue
     /**
      * Create from encoded bytes
      * @param bytes Encoded bytes representing a nested ST 0102 local set
+     * @param parseOptions any special parse options
      * @throws KlvParseException if a parsing error occurs
      */
-    public NestedSecurityMetadata(byte[] bytes) throws KlvParseException
+    public NestedSecurityMetadata(byte[] bytes, EnumSet<ParseOptions> parseOptions) throws KlvParseException
     {
-        this.localSet = new SecurityMetadataLocalSet(bytes, false);
+        this.localSet = new SecurityMetadataLocalSet(bytes, false, parseOptions);
     }
 
     /**
