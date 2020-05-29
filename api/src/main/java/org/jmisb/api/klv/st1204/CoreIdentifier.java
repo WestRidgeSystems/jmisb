@@ -164,9 +164,9 @@ public class CoreIdentifier
      */
     public static CoreIdentifier fromBytes(byte[] bytes)
     {
-        if (bytes.length < UUID_BYTE_LEN + 2)
+        if (bytes.length < 2)
         {
-            LOGGER.error("Insufficient bytes to read MIIS Core Identifer");
+            LOGGER.error("Insufficient bytes to read MIIS Core Identifer usage");
             return null;
         }
         int index = 0;
