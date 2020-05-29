@@ -66,7 +66,9 @@ import org.slf4j.LoggerFactory;
  */
 public class CoreIdentifier
 {
-    private static Logger logger = LoggerFactory.getLogger(CoreIdentifier.class);
+    private static final Logger LOGGER = LoggerFactory.getLogger(CoreIdentifier.class);
+
+    private static final int UUID_BYTE_LEN = 16;
 
     private int version;
     private IdType sensorIdType = IdType.None;
@@ -158,10 +160,15 @@ public class CoreIdentifier
      * Construct a core identifier from the binary representation.
      *
      * @param bytes byte array corresponding to the core identifier.
-     * @return core identifier.
+     * @return core identifier, or null if there are insufficient bytes
      */
     public static CoreIdentifier fromBytes(byte[] bytes)
     {
+        if (bytes.length < UUID_BYTE_LEN + 2)
+        {
+            LOGGER.error("Insufficient bytes to read MIIS Core Identifer");
+            return null;
+        }
         int index = 0;
         CoreIdentifier coreIdentifier = new CoreIdentifier();
         BerField field = BerDecoder.decode(bytes, index, true);
@@ -171,17 +178,38 @@ public class CoreIdentifier
         index ++;
         coreIdentifier.parseUsage(usage);
         if (coreIdentifier.getSensorIdType() != IdType.None) {
+            if (index + UUID_BYTE_LEN > bytes.length)
+            {
+                LOGGER.error("Insufficient bytes to read MIIS Sensor UUID");
+                return null;
+            }
             coreIdentifier.sensorUUID = UuidUtils.arrayToUuid(bytes, index);
-            index += 16;
+            index += UUID_BYTE_LEN;
         }
         if (coreIdentifier.getPlatformIdType() != IdType.None) {
+            if (index + UUID_BYTE_LEN > bytes.length)
+            {
+                LOGGER.error("Insufficient bytes to read MIIS Platform UUID");
+                return null;
+            }
             coreIdentifier.platformUUID = UuidUtils.arrayToUuid(bytes, index);
-            index += 16;
+            index += UUID_BYTE_LEN;
         }
         if (coreIdentifier.hasWindowId) {
+            if (index + UUID_BYTE_LEN > bytes.length)
+            {
+                LOGGER.error("Insufficient bytes to read MIIS Window UUID");
+                return null;
+            }
             coreIdentifier.windowUUID = UuidUtils.arrayToUuid(bytes, index);
+            index += UUID_BYTE_LEN;
         }
         if (coreIdentifier.hasMinorId) {
+            if (index + UUID_BYTE_LEN > bytes.length)
+            {
+                LOGGER.error("Insufficient bytes to read MIIS Minor UUID");
+                return null;
+            }
             coreIdentifier.minorUUID = UuidUtils.arrayToUuid(bytes, index);
         }
         // No checksum needed for binary format
@@ -212,7 +240,7 @@ public class CoreIdentifier
         }
         catch (NoSuchAlgorithmException ex)
         {
-            logger.warn(null, ex);
+            LOGGER.warn(null, ex);
         }
         return null;
     }

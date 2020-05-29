@@ -41,7 +41,7 @@ public class MiisCoreIdentifier implements IUasDatalinkValue {
     /**
      * Get the identifier.
      *
-     * @return The identifier
+     * @return The identifier (which can be null if the parsing failed).
      */
     public CoreIdentifier getCoreIdentifier() {
         return coreIdentifier;
@@ -49,12 +49,20 @@ public class MiisCoreIdentifier implements IUasDatalinkValue {
 
     @Override
     public byte[] getBytes() {
-        return coreIdentifier.getRawBytesRepresentation();
+        if (coreIdentifier != null) {
+            return coreIdentifier.getRawBytesRepresentation();
+        } else {
+            return null;
+        }
     }
 
     @Override
     public String getDisplayableValue() {
-        return coreIdentifier.getTextRepresentation();
+        if (coreIdentifier != null) {
+            return coreIdentifier.getTextRepresentation();
+        } else {
+            return "[NULL]";
+        }
     }
 
     @Override
