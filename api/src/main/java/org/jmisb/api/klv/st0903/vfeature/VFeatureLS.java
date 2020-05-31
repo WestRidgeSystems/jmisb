@@ -39,11 +39,9 @@ public class VFeatureLS
         map.putAll(values);
     }
 
-    // TODO consider refactoring to pass in the original array instead of a copy
     public VFeatureLS(byte[] bytes) throws KlvParseException
     {
-        int offset = 0;
-        List<LdsField> fields = LdsParser.parseFields(bytes, offset, bytes.length - offset);
+        List<LdsField> fields = LdsParser.parseFields(bytes, 0, bytes.length);
         for (LdsField field : fields) {
             VFeatureMetadataKey key = VFeatureMetadataKey.getKey(field.getTag());
             if (key == VFeatureMetadataKey.Undefined) {

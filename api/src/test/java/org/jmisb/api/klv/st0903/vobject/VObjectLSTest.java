@@ -71,7 +71,7 @@ public class VObjectLSTest extends LoggerChecks
     @Test
     public void parseTag1() throws KlvParseException, URISyntaxException
     {
-        VObjectLS vObjectLS = new VObjectLS(ontologyBytes);
+        VObjectLS vObjectLS = new VObjectLS(ontologyBytes, 0, ontologyBytes.length);
         assertNotNull(vObjectLS);
         assertEquals(vObjectLS.getTags().size(), 1);
         checkOntologyExample(vObjectLS);
@@ -80,7 +80,7 @@ public class VObjectLSTest extends LoggerChecks
     @Test
     public void parseTag2() throws KlvParseException
     {
-        VObjectLS vObjectLS = new VObjectLS(ontologyClassBytes);
+        VObjectLS vObjectLS = new VObjectLS(ontologyClassBytes, 0, ontologyClassBytes.length);
         assertNotNull(vObjectLS);
         assertEquals(vObjectLS.getTags().size(), 1);
         checkOntologyClassExample(vObjectLS);
@@ -89,7 +89,7 @@ public class VObjectLSTest extends LoggerChecks
     @Test
     public void parseTag3() throws KlvParseException
     {
-        VObjectLS vObjectLS = new VObjectLS(ontologyIdBytes);
+        VObjectLS vObjectLS = new VObjectLS(ontologyIdBytes, 0, ontologyIdBytes.length);
         assertNotNull(vObjectLS);
         assertEquals(vObjectLS.getTags().size(), 1);
         checkOntologyIdExample(vObjectLS);
@@ -98,7 +98,7 @@ public class VObjectLSTest extends LoggerChecks
     @Test
     public void parseTag4() throws KlvParseException
     {
-        VObjectLS vObjectLS = new VObjectLS(confidenceBytes);
+        VObjectLS vObjectLS = new VObjectLS(confidenceBytes, 0, confidenceBytes.length);
         assertNotNull(vObjectLS);
         assertEquals(vObjectLS.getTags().size(), 1);
         checkConfidenceExample(vObjectLS);
@@ -107,7 +107,7 @@ public class VObjectLSTest extends LoggerChecks
     @Test
     public void parseMerged() throws KlvParseException, URISyntaxException
     {
-        VObjectLS vObjectLS = new VObjectLS(mergedBytes);
+        VObjectLS vObjectLS = new VObjectLS(mergedBytes, 0, mergedBytes.length);
         assertNotNull(vObjectLS);
         assertEquals(vObjectLS.getTags().size(), 4);
         checkOntologyExample(vObjectLS);
@@ -137,7 +137,7 @@ public class VObjectLSTest extends LoggerChecks
             0x01, 0x02
         };
         verifyNoLoggerMessages();
-        VObjectLS vObjectLS = new VObjectLS(bytes);
+        VObjectLS vObjectLS = new VObjectLS(bytes, 0, bytes.length);
         verifySingleLoggerMessage("Unknown VMTI VObject Metadata tag: 5");
         assertNotNull(vObjectLS);
         assertEquals(vObjectLS.getTags().size(), 3);
@@ -146,7 +146,7 @@ public class VObjectLSTest extends LoggerChecks
         checkOntologyIdExample(vObjectLS);
     }
 
-    private void checkOntologyExample(VObjectLS vObjectLS) throws URISyntaxException
+    public static void checkOntologyExample(VObjectLS vObjectLS) throws URISyntaxException
     {
         final String stringVal = "https://raw.githubusercontent.com/owlcs/pizza-ontology/master/pizza.owl";
         assertTrue(vObjectLS.getTags().contains(VObjectMetadataKey.ontology));
@@ -159,7 +159,7 @@ public class VObjectLSTest extends LoggerChecks
         assertEquals(uri.getUri().toString(), stringVal);
     }
 
-    private void checkOntologyClassExample(VObjectLS vObjectLS)
+    public static void checkOntologyClassExample(VObjectLS vObjectLS)
     {
         assertTrue(vObjectLS.getTags().contains(VObjectMetadataKey.ontologyClass));
         IVmtiMetadataValue v = vObjectLS.getField(VObjectMetadataKey.ontologyClass);
@@ -171,7 +171,7 @@ public class VObjectLSTest extends LoggerChecks
         assertEquals(textString.getValue(), "Mushroom");
     }
 
-    private void checkOntologyIdExample(VObjectLS vObjectLS)
+    public static void checkOntologyIdExample(VObjectLS vObjectLS)
     {
         assertTrue(vObjectLS.getTags().contains(VObjectMetadataKey.ontologyId));
         IVmtiMetadataValue v = vObjectLS.getField(VObjectMetadataKey.ontologyId);
@@ -182,7 +182,7 @@ public class VObjectLSTest extends LoggerChecks
         assertEquals(id.getValue(), 258);
     }
 
-    private void checkConfidenceExample(VObjectLS vObjectLS)
+    public static void checkConfidenceExample(VObjectLS vObjectLS)
     {
         assertTrue(vObjectLS.getTags().contains(VObjectMetadataKey.confidence));
         IVmtiMetadataValue v = vObjectLS.getField(VObjectMetadataKey.confidence);

@@ -57,7 +57,7 @@ public class TargetBoundarySeries implements IVmtiMetadataValue
         int index = 0;
         while (index < bytes.length - 1)
         {
-            BerField lengthField = BerDecoder.decode(bytes, index, true);
+            BerField lengthField = BerDecoder.decode(bytes, index, false);
             index += lengthField.getLength();
             byte[] packBytes = Arrays.copyOfRange(bytes, index, index + lengthField.getValue());
             LocationPack location = TargetLocation.targetLocationPackFromBytes(packBytes);

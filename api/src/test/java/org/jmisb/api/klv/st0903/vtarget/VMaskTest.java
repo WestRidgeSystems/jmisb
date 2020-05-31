@@ -51,7 +51,7 @@ public class VMaskTest {
         });
         assertEquals(mask.getDisplayName(), "Target Pixel Mask");
         assertEquals(mask.getDisplayableValue(), "[VMask]");
-        VMaskLS feature = mask.getFeature();
+        VMaskLS feature = mask.getMask();
         VMaskLSTest.checkPolygonExample(feature);
         VMaskLSTest.checkBitmaskExample(feature);
     }
@@ -87,7 +87,7 @@ public class VMaskTest {
         assertEquals(mask.getDisplayableValue(), "[VMask]");
         assertEquals(mask.getDisplayName(), "Target Pixel Mask");
         assertEquals(mask.getDisplayableValue(), "[VMask]");
-        VMaskLS feature = mask.getFeature();
+        VMaskLS feature = mask.getMask();
         VMaskLSTest.checkPolygonExample(feature);
         VMaskLSTest.checkBitmaskExample(feature);
     }
@@ -125,7 +125,7 @@ public class VMaskTest {
         assertEquals(mask.getDisplayableValue(), "[VMask]");
         assertEquals(mask.getDisplayName(), "Target Pixel Mask");
         assertEquals(mask.getDisplayableValue(), "[VMask]");
-        VMaskLS feature = mask.getFeature();
+        VMaskLS feature = mask.getMask();
         VMaskLSTest.checkPolygonExample(feature);
         VMaskLSTest.checkBitmaskExample(feature);
     }

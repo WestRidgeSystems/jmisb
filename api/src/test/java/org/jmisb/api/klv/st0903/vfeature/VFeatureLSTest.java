@@ -9,7 +9,6 @@ import org.jmisb.api.common.KlvParseException;
 import org.jmisb.api.klv.st0903.IVmtiMetadataValue;
 import org.jmisb.api.klv.st0903.shared.VmtiTextString;
 import org.jmisb.api.klv.st0903.shared.VmtiUri;
-import org.testng.Assert;
 import static org.testng.Assert.*;
 import org.testng.annotations.Test;
 
@@ -158,7 +157,7 @@ public class VFeatureLSTest extends LoggerChecks
         checkSchemaFeatureExample(localSet);
     }
 
-    public void checkSchemaExample(VFeatureLS localSet) throws URISyntaxException
+    public static void checkSchemaExample(VFeatureLS localSet) throws URISyntaxException
     {
         final String stringVal = "urn:uuid:f81d4fae-7dec-11d0-a765-00a0c91e6bf6";
         assertTrue(localSet.getTags().contains(VFeatureMetadataKey.schema));
@@ -171,7 +170,7 @@ public class VFeatureLSTest extends LoggerChecks
         assertEquals(text.getUri().toString(), stringVal);
     }
 
-    public void checkSchemaFeatureExample(VFeatureLS localSet) throws URISyntaxException
+    public static void checkSchemaFeatureExample(VFeatureLS localSet) throws URISyntaxException
     {
         final String stringVal = "<gml:DataBlock><gml:rangeParameters><gml:CompositeValue><gml:valueComponents><Temperature uom=\"urn:x-si:v1999:uom:degreesC\">template</Temperature><Pressure uom=\"urn:x-si:v1999:uom:kPa\">template</Pressure></gml:valueComponents></gml:CompositeValue></gml:rangeParameters><gml:tupleList>3,101.2</gml:tupleList></gml:DataBlock>";
         assertTrue(localSet.getTags().contains(VFeatureMetadataKey.schemaFeature));

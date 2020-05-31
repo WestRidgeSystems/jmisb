@@ -25,7 +25,7 @@ public class VChipLSTest extends LoggerChecks
     public void parseTag1() throws KlvParseException
     {
         byte[] bytes = new byte[]{0x01, 0x04, 0x6A, 0x70, 0x65, 0x67};
-        VChipLS vChipLS = new VChipLS(bytes);
+        VChipLS vChipLS = new VChipLS(bytes, 0, bytes.length);
         assertNotNull(vChipLS);
         assertEquals(vChipLS.getTags().size(), 1);
         checkImageTypeExample(vChipLS);
@@ -35,7 +35,7 @@ public class VChipLSTest extends LoggerChecks
     public void parseTag2() throws KlvParseException, URISyntaxException
     {
         final byte[] bytes = new byte[]{0x02, 46, 0x68, 0x74, 0x74, 0x70, 0x73, 0x3A, 0x2F, 0x2F, 0x77, 0x77, 0x77, 0x2E, 0x67, 0x77, 0x67, 0x2E, 0x6E, 0x67, 0x61, 0x2E, 0x6D, 0x69, 0x6C, 0x2F, 0x6D, 0x69, 0x73, 0x62, 0x2F, 0x69, 0x6D, 0x61, 0x67, 0x65, 0x73, 0x2F, 0x62, 0x61, 0x6E, 0x6E, 0x65, 0x72, 0x2E, 0x6A, 0x70, 0x67};
-        VChipLS vChipLS = new VChipLS(bytes);
+        VChipLS vChipLS = new VChipLS(bytes, 0, bytes.length);
         assertNotNull(vChipLS);
         assertEquals(vChipLS.getTags().size(), 1);
         checkImageUriExample(vChipLS);
@@ -56,7 +56,7 @@ public class VChipLSTest extends LoggerChecks
             (byte) 0x3F, (byte) 0x00, (byte) 0x05, (byte) 0x1A, (byte) 0x02, (byte) 0xB1, (byte) 0x49, (byte) 0xC5,
             (byte) 0x4C, (byte) 0x37, (byte) 0x00, (byte) 0x00, (byte) 0x00, (byte) 0x00, (byte) 0x49, (byte) 0x45,
             (byte) 0x4E, (byte) 0x44, (byte) 0xAE, (byte) 0x42, (byte) 0x60, (byte) 0x82};
-        VChipLS vChipLS = new VChipLS(bytes);
+        VChipLS vChipLS = new VChipLS(bytes, 0, bytes.length);
         assertNotNull(vChipLS);
         assertEquals(vChipLS.getTags().size(), 1);
         checkEmbeddedImageExample(vChipLS);
@@ -66,7 +66,7 @@ public class VChipLSTest extends LoggerChecks
     public void parseTag1andTag2() throws KlvParseException, URISyntaxException
     {
         final byte[] bytes = new byte[]{0x01, 0x04, 0x6A, 0x70, 0x65, 0x67, 0x02, 46, 0x68, 0x74, 0x74, 0x70, 0x73, 0x3A, 0x2F, 0x2F, 0x77, 0x77, 0x77, 0x2E, 0x67, 0x77, 0x67, 0x2E, 0x6E, 0x67, 0x61, 0x2E, 0x6D, 0x69, 0x6C, 0x2F, 0x6D, 0x69, 0x73, 0x62, 0x2F, 0x69, 0x6D, 0x61, 0x67, 0x65, 0x73, 0x2F, 0x62, 0x61, 0x6E, 0x6E, 0x65, 0x72, 0x2E, 0x6A, 0x70, 0x67};
-        VChipLS vChipLS = new VChipLS(bytes);
+        VChipLS vChipLS = new VChipLS(bytes, 0, bytes.length);
         assertNotNull(vChipLS);
         assertEquals(vChipLS.getTags().size(), 2);
         checkImageTypeExample(vChipLS);
@@ -89,7 +89,7 @@ public class VChipLSTest extends LoggerChecks
             (byte) 0x3F, (byte) 0x00, (byte) 0x05, (byte) 0x1A, (byte) 0x02, (byte) 0xB1, (byte) 0x49, (byte) 0xC5,
             (byte) 0x4C, (byte) 0x37, (byte) 0x00, (byte) 0x00, (byte) 0x00, (byte) 0x00, (byte) 0x49, (byte) 0x45,
             (byte) 0x4E, (byte) 0x44, (byte) 0xAE, (byte) 0x42, (byte) 0x60, (byte) 0x82};
-        VChipLS vChipLS = new VChipLS(bytes);
+        VChipLS vChipLS = new VChipLS(bytes, 0, bytes.length);
         assertNotNull(vChipLS);
         assertEquals(vChipLS.getTags().size(), 2);
         checkImageTypeExample(vChipLS);
@@ -114,7 +114,7 @@ public class VChipLSTest extends LoggerChecks
             (byte) 0x4C, (byte) 0x37, (byte) 0x00, (byte) 0x00, (byte) 0x00, (byte) 0x00, (byte) 0x49, (byte) 0x45,
             (byte) 0x4E, (byte) 0x44, (byte) 0xAE, (byte) 0x42, (byte) 0x60, (byte) 0x82};
         verifyNoLoggerMessages();
-        VChipLS vChipLS = new VChipLS(bytes);
+        VChipLS vChipLS = new VChipLS(bytes, 0, bytes.length);
         verifySingleLoggerMessage("Unknown VMTI VChip Metadata tag: 4");
         assertNotNull(vChipLS);
         assertEquals(vChipLS.getTags().size(), 2);

@@ -37,7 +37,6 @@ public class VMaskLS
         map.putAll(values);
     }
 
-    // TODO consider refactoring to pass in the original array instead of a copy
     public VMaskLS(byte[] bytes) throws KlvParseException
     {
         int offset = 0;

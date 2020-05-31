@@ -62,7 +62,7 @@ public class PixelPolygon implements IVmtiMetadataValue
         int index = 0;
         while (index < bytes.length - 1)
         {
-            BerField lengthField = BerDecoder.decode(bytes, index, true);
+            BerField lengthField = BerDecoder.decode(bytes, index, false);
             index += lengthField.getLength();
             byte[] polygonPointBytes = Arrays.copyOfRange(bytes, index, index + lengthField.getValue());
             Long location = parseV6(polygonPointBytes);

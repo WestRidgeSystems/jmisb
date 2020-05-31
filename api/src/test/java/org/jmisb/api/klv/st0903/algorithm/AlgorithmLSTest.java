@@ -24,7 +24,7 @@ public class AlgorithmLSTest extends LoggerChecks
     public void parseTag1() throws KlvParseException
     {
         final byte[] bytes = new byte[]{0x01, 0x03, 0x01, 0x03, (byte)0x98};
-        AlgorithmLS algorithmLS = new AlgorithmLS(bytes);
+        AlgorithmLS algorithmLS = new AlgorithmLS(bytes, 0, bytes.length);
         assertNotNull(algorithmLS);
         assertEquals(algorithmLS.getTags().size(), 1);
         checkIdExample(algorithmLS);
@@ -34,7 +34,7 @@ public class AlgorithmLSTest extends LoggerChecks
     public void parseTag2() throws KlvParseException
     {
         final byte[] bytes = new byte[]{0x02, 0x14, 0x6B, 0x36, 0x5F, 0x79, 0x6F, 0x6C, 0x6F, 0x5F, 0x39, 0x30, 0x30, 0x30, 0x5F, 0x74, 0x72, 0x61, 0x63, 0x6B, 0x65, 0x72};
-        AlgorithmLS algorithmLS = new AlgorithmLS(bytes);
+        AlgorithmLS algorithmLS = new AlgorithmLS(bytes, 0, bytes.length);
         assertNotNull(algorithmLS);
         assertEquals(algorithmLS.getTags().size(), 1);
         checkNameExample(algorithmLS);
@@ -44,7 +44,7 @@ public class AlgorithmLSTest extends LoggerChecks
     public void parseTag3() throws KlvParseException
     {
         final byte[] bytes = new byte[]{0x03, 0x04, 0x32, 0x2E, 0x36, 0x61};
-        AlgorithmLS algorithmLS = new AlgorithmLS(bytes);
+        AlgorithmLS algorithmLS = new AlgorithmLS(bytes, 0, bytes.length);
         assertNotNull(algorithmLS);
         assertEquals(algorithmLS.getTags().size(), 1);
         checkVersionExample(algorithmLS);
@@ -54,7 +54,7 @@ public class AlgorithmLSTest extends LoggerChecks
     public void parseTag4() throws KlvParseException
     {
         final byte[] bytes = new byte[]{0x04, 0x07, 0x6B, 0x61, 0x6C, 0x6D, 0x61, 0x6E, 0x6E};
-        AlgorithmLS algorithmLS = new AlgorithmLS(bytes);
+        AlgorithmLS algorithmLS = new AlgorithmLS(bytes, 0, bytes.length);
         assertNotNull(algorithmLS);
         assertEquals(algorithmLS.getTags().size(), 1);
         checkClassExample(algorithmLS);
@@ -64,7 +64,7 @@ public class AlgorithmLSTest extends LoggerChecks
     public void parseTag5() throws KlvParseException
     {
         final byte[] bytes = new byte[]{0x05, 0x01, 0x0A};
-        AlgorithmLS algorithmLS = new AlgorithmLS(bytes);
+        AlgorithmLS algorithmLS = new AlgorithmLS(bytes, 0, bytes.length);
         assertNotNull(algorithmLS);
         assertEquals(algorithmLS.getTags().size(), 1);
         checkNumFramesExample(algorithmLS);
@@ -81,7 +81,7 @@ public class AlgorithmLSTest extends LoggerChecks
             0x04, 0x07, 0x6B, 0x61, 0x6C, 0x6D, 0x61, 0x6E, 0x6E,
             0x05, 0x01, 0x0A};
         verifyNoLoggerMessages();
-        AlgorithmLS algorithmLS = new AlgorithmLS(bytes);
+        AlgorithmLS algorithmLS = new AlgorithmLS(bytes, 0, bytes.length);
         this.verifySingleLoggerMessage("Unknown VMTI Algorithm Metadata tag: 6");
         assertNotNull(algorithmLS);
         assertEquals(algorithmLS.getTags().size(), 5);

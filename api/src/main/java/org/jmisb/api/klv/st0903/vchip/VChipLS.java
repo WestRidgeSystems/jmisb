@@ -39,11 +39,9 @@ public class VChipLS
         map.putAll(values);
     }
 
-    // TODO consider refactoring to pass in the original array instead of a copy
-    public VChipLS(byte[] bytes) throws KlvParseException
+    public VChipLS(byte[] bytes, int offset, int length) throws KlvParseException
     {
-        int offset = 0;
-        List<LdsField> fields = LdsParser.parseFields(bytes, offset, bytes.length - offset);
+        List<LdsField> fields = LdsParser.parseFields(bytes, offset, length);
         for (LdsField field : fields) {
             VChipMetadataKey key = VChipMetadataKey.getKey(field.getTag());
             if (key == VChipMetadataKey.Undefined) {

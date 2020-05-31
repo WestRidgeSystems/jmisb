@@ -47,10 +47,9 @@ public class VObjectSeries implements IVmtiMetadataValue
         int index = 0;
         while (index < bytes.length - 1)
         {
-            BerField lengthField = BerDecoder.decode(bytes, index, true);
+            BerField lengthField = BerDecoder.decode(bytes, index, false);
             index += lengthField.getLength();
-            byte[] vObjectBytes = Arrays.copyOfRange(bytes, index, index + lengthField.getValue());
-            VObjectLS objectLocalSet = new VObjectLS(vObjectBytes);
+            VObjectLS objectLocalSet = new VObjectLS(bytes, index, lengthField.getValue());
             vobjects.add(objectLocalSet);
             index += lengthField.getValue();
         }

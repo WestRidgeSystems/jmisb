@@ -41,11 +41,9 @@ public class AlgorithmLS {
         map.putAll(values);
     }
 
-    // TODO consider refactoring to pass in the original array instead of a copy
-    public AlgorithmLS(byte[] bytes) throws KlvParseException
+    public AlgorithmLS(byte[] bytes, int offset, int length) throws KlvParseException
     {
-        int offset = 0;
-        List<LdsField> fields = LdsParser.parseFields(bytes, offset, bytes.length - offset);
+        List<LdsField> fields = LdsParser.parseFields(bytes, offset, length);
         for (LdsField field : fields)
         {
             AlgorithmMetadataKey key = AlgorithmMetadataKey.getKey(field.getTag());

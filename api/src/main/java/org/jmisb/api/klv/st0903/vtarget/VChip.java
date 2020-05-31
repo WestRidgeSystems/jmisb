@@ -40,7 +40,7 @@ public class VChip implements IVmtiMetadataValue
      */
     public VChip(byte[] bytes) throws KlvParseException
     {
-        value = new VChipLS(bytes);
+        value = new VChipLS(bytes, 0, bytes.length);
     }
 
     @Override
