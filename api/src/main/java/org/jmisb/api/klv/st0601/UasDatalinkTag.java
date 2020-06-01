@@ -151,7 +151,7 @@ public enum UasDatalinkTag
     AlternatePlatformName(70),
     /** Tag 71; Heading angle of alternate platform connected to UAS; Value is an {@link AlternatePlatformHeading} */
     AlternatePlatformHeading(71),
-    /** Tag 72; Start time of scene, project, event, mission, editing event, license, publication, etc; Value is a {@link OpaqueValue} */
+    /** Tag 72; Start time of scene, project, event, mission, editing event, license, publication, etc; Value is a {@link EventStartTimeUtc} */
     EventStartTimeUtc(72),
     /** Tag 73; MISB ST 0806 RVT Local Set metadata items; Value is a {@link OpaqueValue} */
     RvtLocalDataSet(73),
