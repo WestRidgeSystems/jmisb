@@ -1,5 +1,6 @@
 package org.jmisb.api.klv;
 
+import org.jmisb.api.klv.eg0104.PredatorUavMessage;
 import org.jmisb.api.common.KlvParseException;
 import org.jmisb.api.klv.st0102.localset.SecurityMetadataLocalSet;
 import org.jmisb.api.klv.st0102.universalset.SecurityMetadataUniversalSet;
@@ -71,6 +72,12 @@ public class KlvParser
                     if (logger.isDebugEnabled())
                         logger.debug("Security Metadata Local Set message");
                     SecurityMetadataLocalSet message = new SecurityMetadataLocalSet(nextMessage, true);
+                    messages.add(message);
+                } else if (ul.equals(KlvConstants.PredatorMetadataLocalSetUl))
+                {
+                    if (logger.isDebugEnabled())
+                        logger.debug("Predator UAV Metadata Local Set message");
+                    PredatorUavMessage message = new PredatorUavMessage(nextMessage);
                     messages.add(message);
                 } else
                 {
