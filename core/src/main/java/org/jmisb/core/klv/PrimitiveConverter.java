@@ -191,7 +191,7 @@ public class PrimitiveConverter
     public static byte[] int16ToBytes(short val)
     {
         shortBuffer.get().putShort(0, val);
-        return shortBuffer.get().array();
+        return shortBuffer.get().array().clone();
     }
 
     /**
@@ -203,7 +203,7 @@ public class PrimitiveConverter
     public static byte[] int32ToBytes(int val)
     {
         intBuffer.get().putInt(0, val);
-        return intBuffer.get().array();
+        return intBuffer.get().array().clone();
     }
 
     /**
@@ -428,7 +428,7 @@ public class PrimitiveConverter
     public static byte[] int64ToBytes(long val)
     {
         longBuffer.get().putLong(0, val);
-        return longBuffer.get().array();
+        return longBuffer.get().array().clone();
     }
 
     /**
@@ -473,7 +473,7 @@ public class PrimitiveConverter
     public static byte[] float32ToBytes(float val)
     {
         floatBuffer.get().putFloat(0, val);
-        return floatBuffer.get().array();
+        return floatBuffer.get().array().clone();
     }
 
     /**
@@ -507,6 +507,6 @@ public class PrimitiveConverter
     public static byte[] float64ToBytes(double val)
     {
         doubleBuffer.get().putDouble(0, val);
-        return doubleBuffer.get().array();
+        return doubleBuffer.get().array().clone();
     }
 }
