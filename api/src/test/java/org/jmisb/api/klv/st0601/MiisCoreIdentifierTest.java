@@ -26,7 +26,7 @@ public class MiisCoreIdentifierTest {
         assertEquals(identifier.getCoreIdentifier().getVersion(), 1);
         assertTrue(identifier.getCoreIdentifier().hasValidCheckValue());
     }
-    
+
     @Test
     public void verifyFromBytes() {
         // ST0601 example
@@ -38,7 +38,7 @@ public class MiisCoreIdentifierTest {
         assertEquals(identifier.getCoreIdentifier().getVersion(), 1);
         assertTrue(identifier.getCoreIdentifier().hasValidCheckValue());
     }
-    
+
     @Test
     public void verifyFromFactory() throws KlvParseException {
         // ST0601 example
@@ -51,5 +51,17 @@ public class MiisCoreIdentifierTest {
         assertNotNull(identifier.getCoreIdentifier());
         assertEquals(identifier.getCoreIdentifier().getVersion(), 1);
         assertTrue(identifier.getCoreIdentifier().hasValidCheckValue());
+    }
+
+    @Test
+    public void verifyBadCoreIdentifierHandling() throws KlvParseException
+    {
+        IUasDatalinkValue v = UasDatalinkFactory.createValue(UasDatalinkTag.MiisCoreIdentifier, new byte[]{0x01, 0x10, 0x00});
+        Assert.assertTrue(v instanceof MiisCoreIdentifier);
+        MiisCoreIdentifier identifier = (MiisCoreIdentifier) v;
+        assertEquals(identifier.getDisplayableValue(), "[NULL]");
+        assertEquals(identifier.getDisplayName(), "MIIS Core Identifier");
+        assertNull(identifier.getBytes());
+        assertNull(identifier.getCoreIdentifier());
     }
 }

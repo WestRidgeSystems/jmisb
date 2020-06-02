@@ -61,4 +61,34 @@ public class CoreIdentifierTortureTest {
         CoreIdentifier coreIdentifier = CoreIdentifier.fromString("0154:C7D1-6253-98A2-41C2-BA6E-90F8-FCC7-3914/E047-AB3E-81BE-41ED-9664-09B0-2F44-5FAB:C8");
         assertNull(coreIdentifier);
     }
+
+    @Test
+    public void badByteLengthHeader() {
+        CoreIdentifier coreIdentifier = CoreIdentifier.fromBytes(new byte[] {0x01});
+        assertNull(coreIdentifier);
+    }
+
+    @Test
+    public void badByteLengthSensorId() {
+        CoreIdentifier coreIdentifier = CoreIdentifier.fromBytes(new byte[] {0x01, 0x40, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15});
+        assertNull(coreIdentifier);
+    }
+
+    @Test
+    public void badByteLengthPlatformId() {
+        CoreIdentifier coreIdentifier = CoreIdentifier.fromBytes(new byte[] {0x01, 0x10, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15});
+        assertNull(coreIdentifier);
+    }
+
+    @Test
+    public void badByteLengthWindowId() {
+        CoreIdentifier coreIdentifier = CoreIdentifier.fromBytes(new byte[] {0x01, 0x04, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15});
+        assertNull(coreIdentifier);
+    }
+
+    @Test
+    public void badByteLengthMinorId() {
+        CoreIdentifier coreIdentifier = CoreIdentifier.fromBytes(new byte[] {0x01, 0x02, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15});
+        assertNull(coreIdentifier);
+    }
 }
