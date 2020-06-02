@@ -172,8 +172,7 @@ public class UasDatalinkFactory
             case EventStartTimeUtc:
                 return new EventStartTimeUtc(bytes);
             case RvtLocalDataSet:
-                // TODO Implement ST 0806
-                return new OpaqueValue(bytes);
+                return new NestedRvtLocalSet(bytes);
             case VmtiLocalDataSet:
                 return new NestedVmtiLocalSet(bytes);
             case SensorEllipsoidHeight:
