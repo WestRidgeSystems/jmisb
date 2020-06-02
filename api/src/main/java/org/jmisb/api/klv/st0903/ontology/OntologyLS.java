@@ -48,11 +48,9 @@ public class OntologyLS {
         map.putAll(values);
     }
 
-    // TODO consider refactoring to pass in the original array instead of a copy
-    public OntologyLS(byte[] bytes) throws KlvParseException
+    public OntologyLS(byte[] bytes, int offset, int length) throws KlvParseException
     {
-        int offset = 0;
-        List<LdsField> fields = LdsParser.parseFields(bytes, offset, bytes.length - offset);
+        List<LdsField> fields = LdsParser.parseFields(bytes, offset, length);
         for (LdsField field : fields)
         {
             OntologyMetadataKey key = OntologyMetadataKey.getKey(field.getTag());

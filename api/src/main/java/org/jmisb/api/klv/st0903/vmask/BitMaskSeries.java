@@ -59,7 +59,7 @@ public class BitMaskSeries implements IVmtiMetadataValue
         int index = 0;
         while (index < bytes.length - 1)
         {
-            BerField lengthField = BerDecoder.decode(bytes, index, true);
+            BerField lengthField = BerDecoder.decode(bytes, index, false);
             index += lengthField.getLength();
             byte[] valueBytes = Arrays.copyOfRange(bytes, index, index + lengthField.getValue());
             PixelRunPair run = parsePixelRunPair(valueBytes);
@@ -117,7 +117,7 @@ public class BitMaskSeries implements IVmtiMetadataValue
     private PixelRunPair parsePixelRunPair(byte[] valueBytes)
     {
         int index = 0;
-        BerField lengthField = BerDecoder.decode(valueBytes, 0, true);
+        BerField lengthField = BerDecoder.decode(valueBytes, 0, false);
         index += lengthField.getLength();
         if (lengthField.getValue() > 6)
         {

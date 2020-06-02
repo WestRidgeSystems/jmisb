@@ -38,7 +38,7 @@ public class VObject implements IVmtiMetadataValue
      */
     public VObject(byte[] bytes) throws KlvParseException
     {
-        value = new VObjectLS(bytes);
+        value = new VObjectLS(bytes, 0, bytes.length);
     }
 
     @Override

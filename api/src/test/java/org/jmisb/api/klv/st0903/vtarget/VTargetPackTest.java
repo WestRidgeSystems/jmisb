@@ -33,7 +33,7 @@ public class VTargetPackTest extends LoggerChecks
             0x01, // Target Id
             0x16, 0x03, 0x01, 0x03, (byte)0x98 // Tag 22 - Algorithm Id.
         };
-        VTargetPack localSet = new VTargetPack(bytes);
+        VTargetPack localSet = new VTargetPack(bytes, 0, bytes.length);
         assertNotNull(localSet);
         assertEquals(localSet.getTags().size(), 1);
         assertTrue(localSet.getTags().contains(VTargetMetadataKey.AlgorithmId));
@@ -55,7 +55,7 @@ public class VTargetPackTest extends LoggerChecks
             0x16, 0x03, 0x01, 0x03, (byte)0x98 // Tag 22 - Algorithm Id.
         };
         verifyNoLoggerMessages();
-        VTargetPack localSet = new VTargetPack(bytes);
+        VTargetPack localSet = new VTargetPack(bytes, 0, bytes.length);
         verifySingleLoggerMessage("Unknown VMTI VTarget Metadata tag: 55");
         assertNotNull(localSet);
         assertEquals(localSet.getTags().size(), 1);

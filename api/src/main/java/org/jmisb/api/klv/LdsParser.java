@@ -48,7 +48,6 @@ public class LdsParser
             // Get the Length (BER short or long form-encoded)
             int lengthFieldOffset = offset;
             BerField lengthField = BerDecoder.decode(bytes, lengthFieldOffset, false);
-
             // Get the Value
             int begin = lengthFieldOffset + lengthField.getLength();
             int end = begin + lengthField.getValue();

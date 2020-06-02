@@ -66,7 +66,7 @@ public class VMask implements IVmtiMetadataValue
      *
      * @return the vmask local set.
      */
-    public VMaskLS getFeature()
+    public VMaskLS getMask()
     {
         return value;
     }

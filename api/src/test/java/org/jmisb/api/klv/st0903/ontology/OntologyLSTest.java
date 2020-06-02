@@ -28,7 +28,7 @@ public class OntologyLSTest extends LoggerChecks
         final byte[] bytes = new byte[] {
             0x01, 0x02, 0x01, 0x02
         };
-        OntologyLS ontologyLS = new OntologyLS(bytes);
+        OntologyLS ontologyLS = new OntologyLS(bytes, 0, bytes.length);
         assertNotNull(ontologyLS);
         assertEquals(ontologyLS.getTags().size(), 1);
         checkIdExample(ontologyLS);
@@ -40,7 +40,7 @@ public class OntologyLSTest extends LoggerChecks
         final byte[] bytes = new byte[] {
             0x02, 0x01, 0x0a
         };
-        OntologyLS ontologyLS = new OntologyLS(bytes);
+        OntologyLS ontologyLS = new OntologyLS(bytes, 0, bytes.length);
         assertNotNull(ontologyLS);
         assertEquals(ontologyLS.getTags().size(), 1);
         checkParentIdExample(ontologyLS);
@@ -61,7 +61,7 @@ public class OntologyLSTest extends LoggerChecks
             0x61, 0x73, 0x74, 0x65, 0x72, 0x2F, 0x70, 0x69,
             0x7A, 0x7A, 0x61, 0x2E, 0x6F, 0x77, 0x6C
         };
-        OntologyLS ontologyLS = new OntologyLS(bytes);
+        OntologyLS ontologyLS = new OntologyLS(bytes, 0, bytes.length);
         assertNotNull(ontologyLS);
         assertEquals(ontologyLS.getTags().size(), 1);
         checkOntologyExample(ontologyLS);
@@ -71,7 +71,7 @@ public class OntologyLSTest extends LoggerChecks
     public void parseTag4() throws KlvParseException, URISyntaxException
     {
         final byte[] bytes = new byte[]{0x04, 0x08, 0x4D, 0x75, 0x73, 0x68, 0x72, 0x6F, 0x6F, 0x6D};
-        OntologyLS ontologyLS = new OntologyLS(bytes);
+        OntologyLS ontologyLS = new OntologyLS(bytes, 0, bytes.length);
         assertNotNull(ontologyLS);
         assertEquals(ontologyLS.getTags().size(), 1);
         checkOntologyClassExample(ontologyLS);
@@ -95,7 +95,7 @@ public class OntologyLSTest extends LoggerChecks
             0x04, 0x08,
             0x4D, 0x75, 0x73, 0x68, 0x72, 0x6F, 0x6F, 0x6D};
         verifyNoLoggerMessages();
-        OntologyLS ontologyLS = new OntologyLS(bytes);
+        OntologyLS ontologyLS = new OntologyLS(bytes, 0, bytes.length);
         this.verifySingleLoggerMessage("Unknown VMTI Ontology Metadata tag: 5");
         assertNotNull(ontologyLS);
         assertEquals(ontologyLS.getTags().size(), 2);

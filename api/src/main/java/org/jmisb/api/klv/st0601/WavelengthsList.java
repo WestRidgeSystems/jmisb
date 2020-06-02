@@ -79,7 +79,7 @@ public class WavelengthsList implements IUasDatalinkValue {
         int offset = 0;
         while (offset < bytes.length) {
             Wavelengths wavelengths = new Wavelengths();
-            BerField packLengthField = BerDecoder.decode(bytes, offset, true);
+            BerField packLengthField = BerDecoder.decode(bytes, offset, false);
             offset += packLengthField.getLength();
             int packLength = packLengthField.getValue();
             BerField idField = BerDecoder.decode(bytes, offset, true);

@@ -56,10 +56,9 @@ public class OntologySeries implements IVmtiMetadataValue
         int index = 0;
         while (index < bytes.length - 1)
         {
-            BerField lengthField = BerDecoder.decode(bytes, index, true);
+            BerField lengthField = BerDecoder.decode(bytes, index, false);
             index += lengthField.getLength();
-            byte[] localSetBytes = Arrays.copyOfRange(bytes, index, index + lengthField.getValue());
-            OntologyLS vobjectLS = new OntologyLS(localSetBytes);
+            OntologyLS vobjectLS = new OntologyLS(bytes, index, lengthField.getValue());
             localSets.add(vobjectLS);
             index += lengthField.getValue();
         }

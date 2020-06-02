@@ -31,7 +31,7 @@ public class TargetIntensity extends VmtiV3Value implements IVmtiMetadataValue
     /**
      * Create from encoded bytes.
      *
-     * @param bytes height, encoded as a variable length unsigned int (max 3 bytes)
+     * @param bytes intensity, encoded as a variable length unsigned int (max 3 bytes)
      */
     public TargetIntensity(byte[] bytes)
     {

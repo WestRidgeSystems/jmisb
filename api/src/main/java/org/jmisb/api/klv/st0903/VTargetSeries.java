@@ -46,10 +46,9 @@ public class VTargetSeries implements IVmtiMetadataValue
         int index = 0;
         while (index < bytes.length - 1)
         {
-            BerField lengthField = BerDecoder.decode(bytes, index, true);
+            BerField lengthField = BerDecoder.decode(bytes, index, false);
             index += lengthField.getLength();
-            byte[] targetPackBytes = Arrays.copyOfRange(bytes, index, index + lengthField.getValue());
-            VTargetPack targetPack = new VTargetPack(targetPackBytes);
+            VTargetPack targetPack = new VTargetPack(bytes, index, lengthField.getValue());
             targetPacks.add(targetPack);
             index += lengthField.getValue();
         }

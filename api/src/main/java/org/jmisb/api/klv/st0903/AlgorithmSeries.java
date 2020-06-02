@@ -55,10 +55,9 @@ public class AlgorithmSeries implements IVmtiMetadataValue
         int index = 0;
         while (index < bytes.length - 1)
         {
-            BerField lengthField = BerDecoder.decode(bytes, index, true);
+            BerField lengthField = BerDecoder.decode(bytes, index, false);
             index += lengthField.getLength();
-            byte[] localSetBytes = Arrays.copyOfRange(bytes, index, index + lengthField.getValue());
-            AlgorithmLS algorithmLS = new AlgorithmLS(localSetBytes);
+            AlgorithmLS algorithmLS = new AlgorithmLS(bytes, index, lengthField.getValue());
             localSets.add(algorithmLS);
             index += lengthField.getValue();
         }

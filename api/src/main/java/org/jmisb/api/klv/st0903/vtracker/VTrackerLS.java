@@ -39,11 +39,9 @@ public class VTrackerLS {
         map.putAll(values);
     }
 
-    // TODO consider refactoring to pass in the original array instead of a copy
     public VTrackerLS(byte[] bytes) throws KlvParseException
     {
-        int offset = 0;
-        List<LdsField> fields = LdsParser.parseFields(bytes, offset, bytes.length - offset);
+        List<LdsField> fields = LdsParser.parseFields(bytes, 0, bytes.length);
         for (LdsField field : fields) {
             VTrackerMetadataKey key = VTrackerMetadataKey.getKey(field.getTag());
             if (key == VTrackerMetadataKey.Undefined) {

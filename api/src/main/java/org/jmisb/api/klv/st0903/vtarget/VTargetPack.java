@@ -35,14 +35,12 @@ public class VTargetPack {
         map.putAll(values);
     }
 
-    // TODO consider refactoring to pass in the original array instead of a copy
-    public VTargetPack(byte[] bytes) throws KlvParseException
+    public VTargetPack(byte[] bytes, int offset, int length) throws KlvParseException
     {
-        int offset = 0;
         BerField targetIdField = BerDecoder.decode(bytes, offset, true);
         offset += targetIdField.getLength();
         targetId = targetIdField.getValue();
-        List<LdsField> fields = LdsParser.parseFields(bytes, offset, bytes.length - offset);
+        List<LdsField> fields = LdsParser.parseFields(bytes, offset, length - targetIdField.getLength());
         for (LdsField field : fields)
         {
             VTargetMetadataKey key = VTargetMetadataKey.getKey(field.getTag());
