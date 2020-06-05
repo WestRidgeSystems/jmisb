@@ -70,4 +70,10 @@ public class OcMethod implements ISecurityMetadataValue
     {
         return getMethod().toString();
     }
+
+    @Override
+    public String getDisplayName()
+    {
+        return "Object Country Coding Method";
+    }
 }

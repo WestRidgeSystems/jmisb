@@ -45,4 +45,10 @@ public class CcmDate implements ISecurityMetadataValue
     {
         return date.format(ISO_LOCAL_DATE);
     }
+
+    @Override
+    public String getDisplayName()
+    {
+        return "Country Coding Method Version Date";
+    }
 }

@@ -49,7 +49,7 @@ public class NestedSecurityMetadataTest
     private SecurityMetadataLocalSet makeLocalSet()
     {
         SortedMap<SecurityMetadataKey, ISecurityMetadataValue> securityKeyValuePairs = new TreeMap<>();
-        securityKeyValuePairs.put(SecurityMetadataKey.Caveats, new SecurityMetadataString("TesT1"));
+        securityKeyValuePairs.put(SecurityMetadataKey.Caveats, new SecurityMetadataString(SecurityMetadataString.CAVEATS, "TesT1"));
         SecurityMetadataLocalSet securityMetadataLocalSet = new SecurityMetadataLocalSet(securityKeyValuePairs);
         return securityMetadataLocalSet;
     }

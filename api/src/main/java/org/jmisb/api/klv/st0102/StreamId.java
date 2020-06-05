@@ -61,4 +61,10 @@ public class StreamId implements ISecurityMetadataValue
     {
         return "" + id;
     }
+
+    @Override
+    public String getDisplayName()
+    {
+        return "Stream Identifier";
+    }
 }

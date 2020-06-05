@@ -45,4 +45,10 @@ public class OcmDate implements ISecurityMetadataValue
     {
         return date.format(ISO_LOCAL_DATE);
     }
+
+    @Override
+    public String getDisplayName()
+    {
+        return "Object Country Coding Method Date";
+    }
 }

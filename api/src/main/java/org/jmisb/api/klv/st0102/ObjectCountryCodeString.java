@@ -47,4 +47,10 @@ public class ObjectCountryCodeString implements ISecurityMetadataValue
     {
         return stringValue;
     }
+
+    @Override
+    public String getDisplayName()
+    {
+        return "Object Country Codes";
+    }
 }

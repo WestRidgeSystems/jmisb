@@ -13,6 +13,7 @@ public class OcMethodTest
         Assert.assertEquals(method.getBytes().length, 1);
         Assert.assertEquals(method.getBytes()[0], 15);
         Assert.assertEquals(method.getMethod(), CountryCodingMethod.GENC_NUMERIC);
+        Assert.assertEquals(method.getDisplayName(), "Object Country Coding Method");
         Assert.assertEquals(method.getDisplayableValue(), "GENC_NUMERIC");
     }
 
@@ -23,12 +24,14 @@ public class OcMethodTest
         Assert.assertEquals(method.getMethod(), CountryCodingMethod.ISO3166_NUMERIC);
         Assert.assertEquals(method.getBytes().length, 1);
         Assert.assertEquals(method.getBytes()[0], 0x03);
+        Assert.assertEquals(method.getDisplayName(), "Object Country Coding Method");
         Assert.assertEquals(method.getDisplayableValue(), "ISO3166_NUMERIC");
 
         method = new OcMethod(new byte[]{0x0a});
         Assert.assertEquals(method.getMethod(), CountryCodingMethod.OMITTED_VALUE);
         Assert.assertEquals(method.getBytes().length, 1);
         Assert.assertEquals(method.getBytes()[0], 0x0a);
+        Assert.assertEquals(method.getDisplayName(), "Object Country Coding Method");
         Assert.assertEquals(method.getDisplayableValue(), "OMITTED_VALUE");
     }
 

@@ -53,4 +53,10 @@ public class ClassificationLocal implements ISecurityMetadataValue
     {
         return value.toString();
     }
+
+    @Override
+    public String getDisplayName()
+    {
+        return "Classification";
+    }
 }

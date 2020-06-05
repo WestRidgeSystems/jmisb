@@ -129,7 +129,7 @@ public class SecurityMetadataUniversalSet extends SecurityMetadataMessage
         private DeclassificationDate declassificationDate;
         private SecurityMetadataString markingSystem;
         private SecurityMetadataString ocMethod;
-        private SecurityMetadataString objectCountryCodes;
+        private ObjectCountryCodeString objectCountryCodes;
         private SecurityMetadataString classificationComments;
         private ItemDesignatorId itemDesignatorId;
         private ST0102Version version;
@@ -141,19 +141,19 @@ public class SecurityMetadataUniversalSet extends SecurityMetadataMessage
             this.classification  = classification;
         }
 
-        public Builder ccMethod(String value) { this.ccMethod = new SecurityMetadataString(value); return this; }
-        public Builder classifyingCountry(String value) { this.classifyingCountry = new SecurityMetadataString(value); return this; }
-        public Builder sciShiInfo(String value) { this.sciShiInfo = new SecurityMetadataString(value); return this; }
-        public Builder caveats(String value) { this.caveats = new SecurityMetadataString(value); return this; }
-        public Builder releasingInstructions(String value) { this.releasingInstructions = new SecurityMetadataString(value); return this; }
-        public Builder classifiedBy(String value) { this.classifiedBy = new SecurityMetadataString(value); return this; }
-        public Builder derivedFrom(String value) { this.derivedFrom = new SecurityMetadataString(value); return this; }
-        public Builder classificationReason(String value) { this.classificationReason = new SecurityMetadataString(value); return this; }
+        public Builder ccMethod(String value) { this.ccMethod = new SecurityMetadataString(SecurityMetadataString.COUNTRY_CODING_METHOD, value); return this; }
+        public Builder classifyingCountry(String value) { this.classifyingCountry = new SecurityMetadataString(SecurityMetadataString.CLASSIFYING_COUNTRY, value); return this; }
+        public Builder sciShiInfo(String value) { this.sciShiInfo = new SecurityMetadataString(SecurityMetadataString.SCI_SHI_INFO, value); return this; }
+        public Builder caveats(String value) { this.caveats = new SecurityMetadataString(SecurityMetadataString.CAVEATS, value); return this; }
+        public Builder releasingInstructions(String value) { this.releasingInstructions = new SecurityMetadataString(SecurityMetadataString.RELEASING_INSTRUCTIONS, value); return this; }
+        public Builder classifiedBy(String value) { this.classifiedBy = new SecurityMetadataString(SecurityMetadataString.CLASSIFIED_BY, value); return this; }
+        public Builder derivedFrom(String value) { this.derivedFrom = new SecurityMetadataString(SecurityMetadataString.DERIVED_FROM, value); return this; }
+        public Builder classificationReason(String value) { this.classificationReason = new SecurityMetadataString(SecurityMetadataString.CLASSIFICATION_REASON, value); return this; }
         public Builder declassificationDate(LocalDate value) { this.declassificationDate = new DeclassificationDate(value); return this; }
-        public Builder markingSystem(String value) { this.markingSystem = new SecurityMetadataString(value); return this; }
-        public Builder ocMethod(String value) { this.ocMethod = new SecurityMetadataString(value); return this; }
-        public Builder objectCountryCodes(String value) { this.objectCountryCodes = new SecurityMetadataString(value); return this; }
-        public Builder classificationComments(String value) { this.classificationComments = new SecurityMetadataString(value); return this; }
+        public Builder markingSystem(String value) { this.markingSystem = new SecurityMetadataString(SecurityMetadataString.MARKING_SYSTEM, value); return this; }
+        public Builder ocMethod(String value) { this.ocMethod = new SecurityMetadataString(SecurityMetadataString.OBJECT_COUNTRY_CODING_METHOD, value); return this; }
+        public Builder objectCountryCodes(String value) { this.objectCountryCodes = new ObjectCountryCodeString(value); return this; }
+        public Builder classificationComments(String value) { this.classificationComments = new SecurityMetadataString(SecurityMetadataString.CLASSIFICATION_COMMENTS, value); return this; }
         public Builder itemDesignatorId(byte[] value) { this.itemDesignatorId = new ItemDesignatorId(value); return this; }
         public Builder version(int value) { this.version = new ST0102Version(value); return this; }
         public Builder ccmDate(LocalDate value) { this.ccmDate = new CcmDate(value); return this; }
@@ -179,7 +179,7 @@ public class SecurityMetadataUniversalSet extends SecurityMetadataMessage
         }
         else
         {
-            setField(SecurityMetadataKey.CcCodingMethod, new SecurityMetadataString("GENC Two Letter"));
+            setField(SecurityMetadataKey.CcCodingMethod, new SecurityMetadataString(SecurityMetadataString.COUNTRY_CODING_METHOD, "GENC Two Letter"));
         }
 
         if (builder.classifyingCountry != null)
@@ -206,7 +206,7 @@ public class SecurityMetadataUniversalSet extends SecurityMetadataMessage
         }
         else
         {
-            setField(SecurityMetadataKey.OcCodingMethod, new SecurityMetadataString("GENC Two Letter"));
+            setField(SecurityMetadataKey.OcCodingMethod, new SecurityMetadataString(SecurityMetadataString.OBJECT_COUNTRY_CODING_METHOD, "GENC Two Letter"));
         }
 
         if (builder.objectCountryCodes != null)
