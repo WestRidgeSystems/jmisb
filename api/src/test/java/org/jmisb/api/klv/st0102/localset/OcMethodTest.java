@@ -1,6 +1,8 @@
 package org.jmisb.api.klv.st0102.localset;
 
 import org.jmisb.api.klv.st0102.CountryCodingMethod;
+import org.jmisb.api.klv.st0102.ISecurityMetadataValue;
+import org.jmisb.api.klv.st0102.SecurityMetadataKey;
 import org.testng.Assert;
 import org.testng.annotations.Test;
 
@@ -33,6 +35,19 @@ public class OcMethodTest
         Assert.assertEquals(method.getBytes()[0], 0x0a);
         Assert.assertEquals(method.getDisplayName(), "Object Country Coding Method");
         Assert.assertEquals(method.getDisplayableValue(), "OMITTED_VALUE");
+    }
+
+    @Test
+    public void testConstructFromEncodedFactory()
+    {
+        ISecurityMetadataValue v = LocalSetFactory.createValue(SecurityMetadataKey.OcCodingMethod, new byte[]{0x03});
+        Assert.assertTrue(v instanceof OcMethod);
+        OcMethod method = (OcMethod)v;
+        Assert.assertEquals(method.getMethod(), CountryCodingMethod.ISO3166_NUMERIC);
+        Assert.assertEquals(method.getBytes().length, 1);
+        Assert.assertEquals(method.getBytes()[0], 0x03);
+        Assert.assertEquals(method.getDisplayName(), "Object Country Coding Method");
+        Assert.assertEquals(method.getDisplayableValue(), "ISO3166_NUMERIC");
     }
 
     @Test(expectedExceptions = IllegalArgumentException.class)

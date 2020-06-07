@@ -13,6 +13,7 @@ public class CcMethodTest
         Assert.assertEquals(method.getBytes().length, 1);
         Assert.assertEquals(method.getBytes()[0], 15);
         Assert.assertEquals(method.getDisplayName(), "Country Coding Method");
+        Assert.assertEquals(method.getDisplayableValue(), "GENC_NUMERIC");
         Assert.assertEquals(method.getMethod(), CountryCodingMethod.GENC_NUMERIC);
 
         method = new CcMethod(CountryCodingMethod.FIPS10_4_MIXED);
@@ -30,6 +31,7 @@ public class CcMethodTest
         Assert.assertEquals(method.getBytes().length, 1);
         Assert.assertEquals(method.getBytes()[0], 0x03);
         Assert.assertEquals(method.getDisplayName(), "Country Coding Method");
+        Assert.assertEquals(method.getDisplayableValue(), "FIPS10_4_TWO_LETTER");
 
         method = new CcMethod(new byte[]{0x09});
         Assert.assertEquals(method.getMethod(), CountryCodingMethod.OMITTED_VALUE);
@@ -45,9 +47,21 @@ public class CcMethodTest
     }
 
     @Test(expectedExceptions = IllegalArgumentException.class)
+    public void testIllegalCode0()
+    {
+        new CcMethod(new byte[]{0x00});
+    }
+
+    @Test(expectedExceptions = IllegalArgumentException.class)
     public void testIllegalCode()
     {
         new CcMethod(new byte[]{0x40});
+    }
+
+    @Test(expectedExceptions = IllegalArgumentException.class)
+    public void testIllegalTooLong()
+    {
+        new CcMethod(new byte[]{0x01, 0x02});
     }
 
     @Test

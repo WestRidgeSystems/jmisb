@@ -26,7 +26,9 @@ public enum SecurityMetadataKey implements IKlvKey
     OcCodingMethod(12, SecurityMetadataConstants.ocCodingMethodUl),
     ObjectCountryCodes(13, SecurityMetadataConstants.objectCountryCodesUl),
     ClassificationComments(14, SecurityMetadataConstants.classificationCommentsUl),
+    // TODO: 15 - 18, UMID - this is a difficult case for UL variation.
     StreamId(19, SecurityMetadataConstants.streamIdUl),
+    TransportStreamId(20, SecurityMetadataConstants.transportStreamIdUl),
     ItemDesignatorId(21, SecurityMetadataConstants.itemDesignatorIdUl),
     Version(22, SecurityMetadataConstants.versionUl),
     CcCodingMethodVersionDate(23, SecurityMetadataConstants.ccCodingMethodVersionDateUl),

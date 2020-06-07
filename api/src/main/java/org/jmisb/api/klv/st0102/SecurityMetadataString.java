@@ -16,7 +16,7 @@ public class SecurityMetadataString implements ISecurityMetadataValue
     public final static String MARKING_SYSTEM = "Marking System";
     public final static String OBJECT_COUNTRY_CODING_METHOD = "Object Country Coding Method";
     public final static String RELEASING_INSTRUCTIONS = "Releasing Instructions";
-    public final static String SCI_SHI_INFO = "Security-SCI/SHI information";
+    public final static String SCI_SHI_INFO = "Security-SCI/SHI Information";
     public final static String COUNTRY_CODING_METHOD = "Country Coding Method";
 
     private String stringValue;

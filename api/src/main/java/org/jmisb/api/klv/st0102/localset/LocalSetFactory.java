@@ -54,6 +54,8 @@ public class LocalSetFactory
                 return new SecurityMetadataString(SecurityMetadataString.CLASSIFICATION_COMMENTS, bytes);
             case StreamId:
                 return new StreamId(bytes);
+            case TransportStreamId:
+                return new TransportStreamId(bytes);
             case ItemDesignatorId:
                 return new ItemDesignatorId(bytes);
             case Version:
@@ -62,7 +64,8 @@ public class LocalSetFactory
                 return new CcmDate(bytes);
             case OcCodingMethodVersionDate:
                 return new OcmDate(bytes);
+            default:
+                throw new IllegalArgumentException("Unrecognized tag: " + tag);
         }
-        throw new IllegalArgumentException("Unrecognized tag: " + tag);
     }
 }

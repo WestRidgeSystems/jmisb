@@ -54,7 +54,7 @@ public class SecurityMetadataLocalSetTest extends LoggerChecks
     }
 
     @Test
-    public void testFrameFull()
+    public void testFrameFull() throws KlvParseException
     {
         // Frame a full message
         byte[] bytes = localSet.frameMessage(false);
@@ -74,6 +74,24 @@ public class SecurityMetadataLocalSetTest extends LoggerChecks
         Assert.assertEquals(Arrays.copyOfRange(bytes, 0, 16), KlvConstants.SecurityMetadataLocalSetUl.getBytes());
 
         Assert.assertEquals(bytes, expectedBytes);
+        SecurityMetadataLocalSet localSet = new SecurityMetadataLocalSet(bytes, true);
+        Assert.assertNotNull(localSet.getField(SecurityMetadataKey.SecurityClassification));
+        Assert.assertEquals(localSet.getField(SecurityMetadataKey.SecurityClassification).getDisplayableValue(), "UNCLASSIFIED");
+
+        Assert.assertNotNull(localSet.getField(SecurityMetadataKey.Version));
+        Assert.assertEquals(localSet.getField(SecurityMetadataKey.Version).getDisplayableValue(), "12");
+
+        Assert.assertNotNull(localSet.getField(SecurityMetadataKey.CcCodingMethod));
+        Assert.assertEquals(localSet.getField(SecurityMetadataKey.CcCodingMethod).getDisplayableValue(), "GENC_TWO_LETTER");
+
+        Assert.assertNotNull(localSet.getField(SecurityMetadataKey.ClassifyingCountry));
+        Assert.assertEquals(localSet.getField(SecurityMetadataKey.ClassifyingCountry).getDisplayableValue(), "//US");
+
+        Assert.assertNotNull(localSet.getField(SecurityMetadataKey.OcCodingMethod));
+        Assert.assertEquals(localSet.getField(SecurityMetadataKey.OcCodingMethod).getDisplayableValue(), "GENC_TWO_LETTER");
+
+        Assert.assertNotNull(localSet.getField(SecurityMetadataKey.ObjectCountryCodes));
+        Assert.assertEquals(localSet.getField(SecurityMetadataKey.ObjectCountryCodes).getDisplayableValue(), "US;CA");
     }
 
     @Test
@@ -113,11 +131,20 @@ public class SecurityMetadataLocalSetTest extends LoggerChecks
     }
 
     @Test(expectedExceptions = IllegalArgumentException.class)
-    public void testMissingReqField()
+    public void testMissingReqField1()
     {
         // Missing a required field - Object Country Codes
         new SecurityMetadataLocalSet.Builder(Classification.UNCLASSIFIED)
                 .classifyingCountry("//US")
+                .build();
+    }
+
+    @Test(expectedExceptions = IllegalArgumentException.class)
+    public void testMissingReqField2()
+    {
+        // Missing a required field - Classifying Country
+        new SecurityMetadataLocalSet.Builder(Classification.UNCLASSIFIED)
+                .objectCountryCodes("US;CA")
                 .build();
     }
 
@@ -139,7 +166,6 @@ public class SecurityMetadataLocalSetTest extends LoggerChecks
                 .ocMethod(CountryCodingMethod.ISO3166_TWO_LETTER)
                 .objectCountryCodes("US;CA")
                 .classificationComments("No comment")
-                .itemDesignatorId(ItemDesignatorIdValue)
                 .version(10)
                 .ccmDate(LocalDate.of(2010, 12, 25))
                 .ocmDate(LocalDate.of(1998, 5, 27))
@@ -153,9 +179,6 @@ public class SecurityMetadataLocalSetTest extends LoggerChecks
 
         Assert.assertNotNull(fullMessage.getField(SecurityMetadataKey.CcCodingMethodVersionDate));
         Assert.assertEquals(fullMessage.getField(SecurityMetadataKey.CcCodingMethodVersionDate).getBytes(), "2010-12-25".getBytes());
-
-        Assert.assertNotNull(fullMessage.getField(SecurityMetadataKey.ItemDesignatorId));
-        Assert.assertEquals(fullMessage.getField(SecurityMetadataKey.ItemDesignatorId).getBytes(), ItemDesignatorIdValue);
 
         byte[] bytes = fullMessage.frameMessage(false);
         // System.out.println(ArrayUtils.toHexString(bytes));
