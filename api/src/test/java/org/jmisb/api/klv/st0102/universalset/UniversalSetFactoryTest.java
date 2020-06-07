@@ -12,6 +12,8 @@ import org.jmisb.api.klv.st0102.ISecurityMetadataValue;
 import org.jmisb.api.klv.st0102.ItemDesignatorId;
 import org.jmisb.api.klv.st0102.ObjectCountryCodeString;
 import org.jmisb.api.klv.st0102.OcmDate;
+import org.jmisb.api.klv.st0102.StreamId;
+import org.jmisb.api.klv.st0102.TransportStreamId;
 import org.testng.Assert;
 import static org.testng.Assert.assertEquals;
 import static org.testng.Assert.assertNotNull;
@@ -202,6 +204,32 @@ public class UniversalSetFactoryTest
         assertNotNull(declassificationDate);
         assertEquals(declassificationDate.getValue(), LocalDate.of(2051, Month.MAY, 5));
         assertEquals(declassificationDate.getDisplayableValue(), "20510505");
+    }
+
+    @Test
+    public void testStreamIdCreate()
+    {
+        ISecurityMetadataValue value = UniversalSetFactory.createValue(SecurityMetadataKey.StreamId, new byte[]{0x04});
+        assertNotNull(value);
+        Assert.assertTrue(value instanceof StreamId);
+        StreamId streamId = (StreamId) value;
+        assertEquals(streamId.getDisplayName(), "Stream Identifier");
+        byte[] bytes = streamId.getBytes();
+        assertEquals(bytes, new byte[]{0x04});
+        assertEquals(streamId.getDisplayableValue(), "4");
+    }
+
+    @Test
+    public void testTransportStreamIdCreate()
+    {
+        ISecurityMetadataValue value = UniversalSetFactory.createValue(SecurityMetadataKey.TransportStreamId, new byte[]{0x04, 0x03});
+        assertNotNull(value);
+        Assert.assertTrue(value instanceof TransportStreamId);
+        TransportStreamId transportStreamId = (TransportStreamId) value;
+        assertEquals(transportStreamId.getDisplayName(), "Transport Stream Identifier");
+        byte[] bytes = transportStreamId.getBytes();
+        assertEquals(bytes, new byte[]{0x04, 0x03});
+        assertEquals(transportStreamId.getDisplayableValue(), "1027");
     }
 
     @Test(expectedExceptions = IllegalArgumentException.class)
