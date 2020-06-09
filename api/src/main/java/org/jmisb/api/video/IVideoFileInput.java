@@ -63,4 +63,23 @@ public interface IVideoFileInput extends IVideoInput
      * @return The total number of video frames in the file
      */
     int getNumFrames();
+
+    /**
+     * Add a file event listener.
+     *
+     * @param listener Listener to add
+     */
+    void addFileEventListener(IFileEventListener listener);
+
+    /**
+     * Remove a file event listener.
+     *
+     * @param listener Listener to remove
+     */
+    void removeFileEventListener(IFileEventListener listener);
+
+    /**
+     * Notify consumers that end of file has been reached.
+     */
+    void notifyEOF();
 }

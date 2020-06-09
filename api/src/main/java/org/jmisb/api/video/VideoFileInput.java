@@ -9,6 +9,8 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 import java.io.IOException;
+import java.util.HashSet;
+import java.util.Set;
 
 import static org.bytedeco.ffmpeg.global.avcodec.avcodec_find_decoder;
 import static org.bytedeco.ffmpeg.global.avformat.AVSEEK_FLAG_BACKWARD;
@@ -29,6 +31,7 @@ public class VideoFileInput extends VideoInput implements IVideoFileInput
     private static final Logger logger = LoggerFactory.getLogger(VideoFileInput.class);
     private final VideoFileInputOptions options;
     private FileDemuxer demuxer;
+    private final Set<IFileEventListener> fileEventListeners = new HashSet<>();
     private boolean open = false;
     private boolean playing = false;
     private double position = 0.0;
@@ -340,4 +343,23 @@ public class VideoFileInput extends VideoInput implements IVideoFileInput
             logger.warn("Interrupted while joining demuxer thread", e);
         }
     }
+
+    @Override
+    public void addFileEventListener(IFileEventListener listener)
+    {
+        fileEventListeners.add(listener);
+    }
+
+    @Override
+    public void removeFileEventListener(IFileEventListener listener)
+    {
+        fileEventListeners.remove(listener);
+    }
+
+    @Override
+    public void notifyEOF()
+    {
+        fileEventListeners.forEach(listener -> listener.onEndOfFile());
+    }
+
 }

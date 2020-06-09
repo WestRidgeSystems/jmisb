@@ -34,7 +34,7 @@ class StreamDemuxer extends Demuxer
         while (!isShutdown())
         {
             // Read a packet from the stream
-            if (!DemuxerUtils.readPacket(avFormatContext, packet))
+            if (DemuxerUtils.readPacket(avFormatContext, packet) != DemuxReturnValue.SUCCESS)
             {
                 shortWait(10);
                 continue;

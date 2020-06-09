@@ -56,9 +56,9 @@ class DemuxerUtils
      *
      * @param avFormatContext The format context
      * @param packet The packet
-     * @return True if a packet was read, false otherwise
+     * @return return value corresponding to the read result
      */
-    static boolean readPacket(AVFormatContext avFormatContext, AVPacket packet)
+    static DemuxReturnValue readPacket(AVFormatContext avFormatContext, AVPacket packet)
     {
         int ret;
         if ((ret = av_read_frame(avFormatContext, packet)) < 0)
@@ -66,18 +66,18 @@ class DemuxerUtils
             if (ret == AVERROR_EOF)
             {
                 logger.debug("EOF packet received: " + FfmpegUtils.formatError(ret));
-                return false;
+                return DemuxReturnValue.EOF;
             } else if (ret != -11)
             {
                 logger.error("av_read_frame returned an error: " + FfmpegUtils.formatError(ret));
-                return false;
+                return DemuxReturnValue.ERROR;
             } else
             {
                 // AVERROR(EAGAIN) == -11, just need to wait a moment and try again
-                return false;
+                return DemuxReturnValue.EAGAIN;
             }
         }
-        return true;
+        return DemuxReturnValue.SUCCESS;
     }
 
     /**
