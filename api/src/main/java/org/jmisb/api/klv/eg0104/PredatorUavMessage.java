@@ -30,7 +30,6 @@ public class PredatorUavMessage implements IMisbMessage
 
         // Parse fields out of the array
         List<UdsField> fields = UdsParser.parseFields(bytes, offset, messageLength.getValue());
-        System.out.println("Num Fields: " + fields.size());
 
         // Convert field data based on ST 0104
         for (UdsField field : fields)
