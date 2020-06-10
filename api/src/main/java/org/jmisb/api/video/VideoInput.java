@@ -359,4 +359,14 @@ public abstract class VideoInput extends VideoIO implements IVideoInput
             formatContext = null;
         }
     }
+
+    /**
+     * Check if our decoded data queues are empty.
+     *
+     * @return return true if all queues are empty, otherwise false.
+     */
+    protected boolean queuesAreEmpty()
+    {
+        return (decodedVideo.isEmpty()) && (decodedMetadata.isEmpty());
+    }
 }
