@@ -2,7 +2,6 @@ package org.jmisb.api.klv.st0102;
 
 import java.time.LocalDate;
 import java.time.Month;
-import org.jmisb.api.klv.st0102.localset.CcMethod;
 import static org.testng.Assert.*;
 import org.testng.annotations.Test;
 
@@ -21,6 +20,7 @@ public class CcmDateTest
         byte[] bytes = ccmDate.getBytes();
         assertEquals(bytes, new byte[]{0x32, 0x30, 0x32, 0x30, 0x2d, 0x30, 0x34, 0x2d, 0x32, 0x35});
         assertEquals(ccmDate.getDisplayableValue(), "2020-04-25");
+        assertEquals(ccmDate.getDisplayName(), "Country Coding Method Version Date");
     }
 
     @Test

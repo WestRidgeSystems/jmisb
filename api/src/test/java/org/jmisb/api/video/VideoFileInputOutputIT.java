@@ -248,7 +248,7 @@ public class VideoFileInputOutputIT
         values.put(SecurityMetadataKey.SecurityClassification, new ClassificationLocal(Classification.UNCLASSIFIED));
 
         values.put(SecurityMetadataKey.CcCodingMethod, new CcMethod(CountryCodingMethod.GENC_TWO_LETTER));
-        values.put(SecurityMetadataKey.ClassifyingCountry, new SecurityMetadataString("//US"));
+        values.put(SecurityMetadataKey.ClassifyingCountry, new SecurityMetadataString(SecurityMetadataString.CLASSIFYING_COUNTRY, "//US"));
 
         values.put(SecurityMetadataKey.OcCodingMethod, new CcMethod(CountryCodingMethod.GENC_TWO_LETTER));
         values.put(SecurityMetadataKey.ObjectCountryCodes, new ObjectCountryCodeString("US;CA"));

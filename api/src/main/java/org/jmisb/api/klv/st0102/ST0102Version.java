@@ -51,4 +51,10 @@ public class ST0102Version implements ISecurityMetadataValue
     {
         return "" + version;
     }
+
+    @Override
+    public String getDisplayName()
+    {
+        return "ST0102 Version";
+    }
 }

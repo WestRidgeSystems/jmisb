@@ -3,11 +3,11 @@ package org.jmisb.api.klv.st0102;
 import org.jmisb.core.klv.PrimitiveConverter;
 
 /**
- * Security Stream Id (ST 0102 tag 19).
+ * Security Transport Stream Id (ST 0102 tag 20).
  *
  * <p>
  * This was historically used to link specific security markings to particular
- * streams.
+ * transport streams.
  * </p>
  * <p>
  * As of ST0102.12, this is no longer accepted practice. The current MISB
@@ -19,33 +19,33 @@ import org.jmisb.core.klv.PrimitiveConverter;
  * metadata, or individual metadata elements.
  * </blockquote>
  * <p>
- * StreamId should not be used in newly generated files, and is not valid as of
- * ST0102.12. It is provided for backwards compatibility only. As such, there is
- * no value-based constructor for this class.
+ * TransportStreamId should not be used in newly generated files, and is not
+ * valid as of ST0102.12. It is provided for backwards compatibility only. As
+ * such, there is no value-based constructor for this class.
  * </p>
  */
-public class StreamId implements ISecurityMetadataValue
+public class TransportStreamId implements ISecurityMetadataValue
 {
     private int id;
 
     /**
      * Create from encoded bytes
-     * @param bytes Byte array of length 1
+     * @param bytes Byte array of length 2
      */
-    public StreamId(byte[] bytes)
+    public TransportStreamId(byte[] bytes)
     {
-        if (bytes.length != 1)
+        if (bytes.length != 2)
         {
-            throw new IllegalArgumentException("Stream ID encoding is a one-byte unsigned int");
+            throw new IllegalArgumentException("Transport Stream ID encoding is a two-byte unsigned int");
         }
-        id = PrimitiveConverter.toUint8(bytes);
+        id = PrimitiveConverter.toUint16(bytes);
     }
 
     /**
-     * Get the stream identifier
-     * @return The stream identifier
+     * Get the transport stream identifier
+     * @return The transport stream identifier
      */
-    public int getStreamIdentifier()
+    public int getTransportStreamIdentifier()
     {
         return id;
     }
@@ -53,7 +53,7 @@ public class StreamId implements ISecurityMetadataValue
     @Override
     public byte[] getBytes()
     {
-        return PrimitiveConverter.uint8ToBytes((short)id);
+        return PrimitiveConverter.uint16ToBytes(id);
     }
 
     @Override
@@ -65,6 +65,6 @@ public class StreamId implements ISecurityMetadataValue
     @Override
     public String getDisplayName()
     {
-        return "Stream Identifier";
+        return "Transport Stream Identifier";
     }
 }

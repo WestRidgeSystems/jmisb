@@ -45,4 +45,10 @@ public class DeclassificationDate implements ISecurityMetadataValue
     {
         return date.format(BASIC_ISO_DATE);
     }
+
+    @Override
+    public String getDisplayName()
+    {
+        return "Declassification Date";
+    }
 }

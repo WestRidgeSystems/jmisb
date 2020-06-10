@@ -61,4 +61,10 @@ public class ItemDesignatorId implements ISecurityMetadataValue
     {
         return Arrays.toString(this.itemDesignatorId);
     }
+
+    @Override
+    public String getDisplayName()
+    {
+        return "Item Designator Id";
+    }
 }

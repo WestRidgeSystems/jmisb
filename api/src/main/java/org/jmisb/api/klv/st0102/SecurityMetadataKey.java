@@ -4,11 +4,12 @@ import org.jmisb.api.klv.UniversalLabel;
 
 import java.util.HashMap;
 import java.util.Map;
+import org.jmisb.api.klv.IKlvKey;
 
 /**
  * ST 0102 key
  */
-public enum SecurityMetadataKey
+public enum SecurityMetadataKey implements IKlvKey
 {
     Undefined(0, new UniversalLabel(new byte[]{0x06, 0x0e, 0x2b, 0x34, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00})),
     SecurityClassification(1, SecurityMetadataConstants.securityClassificationUl),
@@ -25,7 +26,9 @@ public enum SecurityMetadataKey
     OcCodingMethod(12, SecurityMetadataConstants.ocCodingMethodUl),
     ObjectCountryCodes(13, SecurityMetadataConstants.objectCountryCodesUl),
     ClassificationComments(14, SecurityMetadataConstants.classificationCommentsUl),
+    // TODO: 15 - 18, UMID - this is a difficult case for UL variation.
     StreamId(19, SecurityMetadataConstants.streamIdUl),
+    TransportStreamId(20, SecurityMetadataConstants.transportStreamIdUl),
     ItemDesignatorId(21, SecurityMetadataConstants.itemDesignatorIdUl),
     Version(22, SecurityMetadataConstants.versionUl),
     CcCodingMethodVersionDate(23, SecurityMetadataConstants.ccCodingMethodVersionDateUl),
@@ -52,6 +55,7 @@ public enum SecurityMetadataKey
         this.ul = ul;
     }
 
+    @Override
     public int getTag()
     {
         return tag;

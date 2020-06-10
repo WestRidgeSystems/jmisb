@@ -13,6 +13,7 @@ public class ItemDesignatorIdTest {
         Assert.assertEquals(uut.getBytes(), bytes);
         Assert.assertEquals(uut.getItemDesignatorId(), bytes);
         Assert.assertEquals(uut.getDisplayableValue(), "[0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15]");
+        Assert.assertEquals(uut.getDisplayName(), "Item Designator Id");
     }
 
     @Test(expectedExceptions = IllegalArgumentException.class)

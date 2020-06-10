@@ -147,4 +147,10 @@ public class CcMethod implements ISecurityMetadataValue
     {
         return getMethod().toString();
     }
+
+    @Override
+    public String getDisplayName()
+    {
+        return "Country Coding Method";
+    }
 }

@@ -14,6 +14,7 @@ public class StreamIdTest {
         assertEquals(uut.getBytes(), bytes);
         assertEquals(uut.getStreamIdentifier(), 8);
         assertEquals(uut.getDisplayableValue(), "8");
+        assertEquals(uut.getDisplayName(), "Stream Identifier");
     }
 
     @Test
