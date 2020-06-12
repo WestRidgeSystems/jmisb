@@ -274,4 +274,13 @@ class VideoDecodeThread extends ProcessingThread
             nativeFrame = null;
         }
     }
+
+    public void notifyEOF()
+    {
+        if (inputStream instanceof IVideoFileInput)
+        {
+            IVideoFileInput fileInputStream = (IVideoFileInput)inputStream;
+            fileInputStream.notifyEOF();
+        }
+    }
 }

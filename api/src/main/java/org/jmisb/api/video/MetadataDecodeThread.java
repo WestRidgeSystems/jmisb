@@ -140,4 +140,13 @@ class MetadataDecodeThread extends ProcessingThread
 
         avcodec_free_context(codecContext);
     }
+
+    public void notifyEOF()
+    {
+        if (inputStream instanceof IVideoFileInput)
+        {
+            IVideoFileInput fileInputStream = (IVideoFileInput)inputStream;
+            fileInputStream.notifyEOF();
+        }
+    }
 }

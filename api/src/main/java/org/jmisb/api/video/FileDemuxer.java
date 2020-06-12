@@ -72,7 +72,13 @@ class FileDemuxer extends Demuxer
             }
 
             // Read a packet from the stream
-            if (!DemuxerUtils.readPacket(avFormatContext, packet))
+            DemuxReturnValue ret = DemuxerUtils.readPacket(avFormatContext, packet);
+            if (ret == DemuxReturnValue.EOF)
+            {
+                if (videoDecodeThread != null) videoDecodeThread.notifyEOF();
+                if (metadataDecodeThread != null) metadataDecodeThread.notifyEOF();
+            }
+            if (ret != DemuxReturnValue.SUCCESS)
             {
                 shortWait(10);
                 continue;
