@@ -55,7 +55,14 @@ public class VideoStreamInput extends VideoInput implements IVideoStreamInput
         // Open the input stream
         AVDictionary openOpts = new AVDictionary(null);
         String timeoutVal = "" + options.getOpenTimeout() * 1000;
-        av_dict_set(openOpts, "timeout", timeoutVal, 0);
+        if (url.startsWith("rtsp://"))
+        {
+            av_dict_set(openOpts, "stimeout", timeoutVal, 0);
+        }
+        else
+        {
+            av_dict_set(openOpts, "timeout", timeoutVal, 0);
+        }
         int ret = avformat_open_input(formatContext, url, null, openOpts);
         av_dict_free(openOpts);
         if (ret < 0)
