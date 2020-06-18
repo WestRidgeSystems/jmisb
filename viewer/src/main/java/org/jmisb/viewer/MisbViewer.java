@@ -91,6 +91,12 @@ public class MisbViewer extends JFrame implements ActionListener {
         streamInfo.addActionListener(this);
         viewMenu.add(streamInfo);
 
+        JCheckBoxMenuItem metadataOverlay = new JCheckBoxMenuItem("Metadata Overlay (ST1909)");
+        metadataOverlay.setName("View|MetadataOverlay");
+        metadataOverlay.setMnemonic(KeyEvent.VK_O);
+        metadataOverlay.addActionListener(this);
+        viewMenu.add(metadataOverlay);
+
         setJMenuBar(menuBar);
 
         setLayout(new MigLayout("fill", "", "[fill][38:38:38]"));
@@ -129,6 +135,10 @@ public class MisbViewer extends JFrame implements ActionListener {
                     break;
                 case "View|StreamInfo":
                     displayStreamInfo();
+                    break;
+                case "View|MetadataOverlay":
+                    JCheckBoxMenuItem cbItem = (JCheckBoxMenuItem) item;
+                    metadataOverlayState(cbItem.getState());
                     break;
                 default:
                     if (item.getName().startsWith("File|Mru|")) {
@@ -182,6 +192,7 @@ public class MisbViewer extends JFrame implements ActionListener {
             setTitle("jmisb - " + filename);
 
             fileInput.addFrameListener(videoPanel);
+            fileInput.addMetadataListener(videoPanel);
             fileInput.addMetadataListener(metadataPanel);
             fileInput.addFrameListener(controlPanel);
 
@@ -202,6 +213,10 @@ public class MisbViewer extends JFrame implements ActionListener {
     private void displayStreamInfo() {
         StreamInfoDialog dialog = new StreamInfoDialog(this, videoInput);
         dialog.setVisible(true);
+    }
+
+    private void metadataOverlayState(boolean state) {
+        videoPanel.setMetadataOverlayState(state);
     }
 
     private void addMruMenuItems() {
