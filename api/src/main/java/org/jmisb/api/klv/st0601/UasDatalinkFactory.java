@@ -2,11 +2,8 @@ package org.jmisb.api.klv.st0601;
 
 import org.jmisb.api.common.KlvParseException;
 
-/**
- * Dynamically create {@link IUasDatalinkValue}s from {@link UasDatalinkTag}s.
- */
-public class UasDatalinkFactory
-{
+/** Dynamically create {@link IUasDatalinkValue}s from {@link UasDatalinkTag}s. */
+public class UasDatalinkFactory {
     private UasDatalinkFactory() {}
 
     /**
@@ -15,16 +12,15 @@ public class UasDatalinkFactory
      * @param tag The tag defining the value type
      * @param bytes Encoded bytes
      * @return The new instance
-     *
      * @throws IllegalArgumentException if input is invalid
      * @throws KlvParseException if a parsing error occurs
      */
-    public static IUasDatalinkValue createValue(UasDatalinkTag tag, byte[] bytes) throws KlvParseException
-    {
-        // Keep the case statements in enum ordinal order so we can keep track of what is implemented. Mark all
+    public static IUasDatalinkValue createValue(UasDatalinkTag tag, byte[] bytes)
+            throws KlvParseException {
+        // Keep the case statements in enum ordinal order so we can keep track of what is
+        // implemented. Mark all
         // unimplemented tags with TODO.
-        switch (tag)
-        {
+        switch (tag) {
             case Undefined:
                 break;
             case PrecisionTimeStamp:

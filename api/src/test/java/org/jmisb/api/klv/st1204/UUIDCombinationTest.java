@@ -1,19 +1,18 @@
 package org.jmisb.api.klv.st1204;
 
+import static org.testng.Assert.*;
+
 import java.util.ArrayList;
 import java.util.List;
 import java.util.UUID;
-import static org.testng.Assert.*;
 import org.testng.annotations.Test;
 
 public class UUIDCombinationTest {
 
-    public UUIDCombinationTest() {
-    }
+    public UUIDCombinationTest() {}
 
     @Test
-    public void checkExample()
-    {
+    public void checkExample() {
         List<String> uuids = new ArrayList<>();
         uuids.add("f81d4fae-7dec-11d0-a765-00a0c91e6bf6");
         uuids.add("1ea5de30-e1d3-40fa-b501-2ca5cb58ca25");
@@ -22,8 +21,7 @@ public class UUIDCombinationTest {
     }
 
     @Test
-    public void checkExampleUppercase()
-    {
+    public void checkExampleUppercase() {
         List<String> uuids = new ArrayList<>();
         uuids.add("F81D4FAE-7DEC-11D0-A765-00A0C91E6BF6");
         uuids.add("1EA5DE30-E1D3-40FA-B501-2CA5CB58CA25");
@@ -32,8 +30,7 @@ public class UUIDCombinationTest {
     }
 
     @Test
-    public void checkExampleMixedCase()
-    {
+    public void checkExampleMixedCase() {
         List<String> uuids = new ArrayList<>();
         uuids.add("f81D4FAE-7dEC-11D0-a765-00A0C91e6Bf6");
         uuids.add("1Ea5de30-e1d3-40FA-b501-2CA5CB58cA25");
@@ -42,8 +39,7 @@ public class UUIDCombinationTest {
     }
 
     @Test
-    public void checkFourUUID()
-    {
+    public void checkFourUUID() {
         List<String> uuids = new ArrayList<>();
         uuids.add("4e0f8130-7ed2-4f38-8278-21c9c3922ef6");
         uuids.add("73eb8d66-4b90-46a3-b107-93678992e240");

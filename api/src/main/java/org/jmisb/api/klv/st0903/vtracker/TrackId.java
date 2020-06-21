@@ -6,14 +6,11 @@ import org.jmisb.core.klv.UuidUtils;
 
 /**
  * Track ID (VTracker LS Tag 1).
- * <p>
- * Uniquely identifies a track, using a 128-bit (16-byte) Universal Unique
- * Identification (UUID) as standardized by the Open Software Foundation
- * according to ISO/IEC 9834-8.
- * </p>
+ *
+ * <p>Uniquely identifies a track, using a 128-bit (16-byte) Universal Unique Identification (UUID)
+ * as standardized by the Open Software Foundation according to ISO/IEC 9834-8.
  */
-public class TrackId implements IVmtiMetadataValue
-{
+public class TrackId implements IVmtiMetadataValue {
     private final UUID id;
 
     /**
@@ -21,23 +18,21 @@ public class TrackId implements IVmtiMetadataValue
      *
      * @param id Microseconds since the epoch
      */
-    public TrackId(UUID id)
-    {
+    public TrackId(UUID id) {
         this.id = id;
     }
 
     /**
      * Create from encoded bytes
+     *
      * @param bytes Encoded byte array
      */
-    public TrackId(byte[] bytes)
-    {
+    public TrackId(byte[] bytes) {
         id = UuidUtils.arrayToUuid(bytes, 0);
     }
 
     @Override
-    public byte[] getBytes()
-    {
+    public byte[] getBytes() {
         return UuidUtils.uuidToArray(id);
     }
 
@@ -47,8 +42,7 @@ public class TrackId implements IVmtiMetadataValue
     }
 
     @Override
-    public String getDisplayName()
-    {
+    public String getDisplayName() {
         return "Track ID";
     }
 
@@ -57,8 +51,7 @@ public class TrackId implements IVmtiMetadataValue
      *
      * @return the UUID for this track.
      */
-    public UUID getUUID()
-    {
+    public UUID getUUID() {
         return id;
     }
 }

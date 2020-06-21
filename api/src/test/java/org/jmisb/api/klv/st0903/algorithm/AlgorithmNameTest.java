@@ -6,13 +6,15 @@ import org.jmisb.api.klv.st0903.shared.VmtiTextString;
 import org.testng.Assert;
 import org.testng.annotations.Test;
 
-public class AlgorithmNameTest
-{
-    private final byte[] bytes = new byte[]{0x6B, 0x36, 0x5F, 0x79, 0x6F, 0x6C, 0x6F, 0x5F, 0x39, 0x30, 0x30, 0x30, 0x5F, 0x74, 0x72, 0x61, 0x63, 0x6B, 0x65, 0x72};
+public class AlgorithmNameTest {
+    private final byte[] bytes =
+            new byte[] {
+                0x6B, 0x36, 0x5F, 0x79, 0x6F, 0x6C, 0x6F, 0x5F, 0x39, 0x30, 0x30, 0x30, 0x5F, 0x74,
+                0x72, 0x61, 0x63, 0x6B, 0x65, 0x72
+            };
 
     @Test
-    public void testFromString()
-    {
+    public void testFromString() {
         // Example from Algorithm Tag 2 Name.
         final String stringVal = "k6_yolo_9000_tracker";
 
@@ -30,11 +32,10 @@ public class AlgorithmNameTest
     }
 
     @Test
-    public void testFactory() throws KlvParseException
-    {
+    public void testFactory() throws KlvParseException {
         IVmtiMetadataValue v = AlgorithmLS.createValue(AlgorithmMetadataKey.name, bytes);
         Assert.assertTrue(v instanceof VmtiTextString);
-        VmtiTextString string = (VmtiTextString)v;
+        VmtiTextString string = (VmtiTextString) v;
         Assert.assertEquals(string.getDisplayName(), VmtiTextString.ALGORITHM_NAME);
         Assert.assertEquals(string.getBytes(), bytes);
         Assert.assertEquals(string.getDisplayableValue(), "k6_yolo_9000_tracker");

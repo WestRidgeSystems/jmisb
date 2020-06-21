@@ -5,35 +5,37 @@ import org.jmisb.api.klv.st0102.localset.SecurityMetadataLocalSet;
 
 /**
  * Security Local Set (ST 0601 tag 48)
- * <p>
- * From ST:
+ *
+ * <p>From ST:
+ *
  * <blockquote>
- * Local set tag to include the ST 0102 Local Set Security Metadata items within ST 0601.
- * Use the MISB ST 0102 Local Set tags within the MISB ST 0601 item 48.
- * <p>
- * The length field is the size of all MISB ST 0102 metadata items to be packaged within item 48.
+ *
+ * Local set tag to include the ST 0102 Local Set Security Metadata items within ST 0601. Use the
+ * MISB ST 0102 Local Set tags within the MISB ST 0601 item 48.
+ *
+ * <p>The length field is the size of all MISB ST 0102 metadata items to be packaged within item 48.
+ *
  * </blockquote>
  */
-public class NestedSecurityMetadata implements IUasDatalinkValue
-{
+public class NestedSecurityMetadata implements IUasDatalinkValue {
     private SecurityMetadataLocalSet localSet;
 
     /**
      * Wrap an existing {@link SecurityMetadataLocalSet}
+     *
      * @param localSet Existing SecurityMetadataLocalSet object
      */
-    public NestedSecurityMetadata(SecurityMetadataLocalSet localSet)
-    {
+    public NestedSecurityMetadata(SecurityMetadataLocalSet localSet) {
         this.localSet = localSet;
     }
 
     /**
      * Create from encoded bytes
+     *
      * @param bytes Encoded bytes representing a nested ST 0102 local set
      * @throws KlvParseException if a parsing error occurs
      */
-    public NestedSecurityMetadata(byte[] bytes) throws KlvParseException
-    {
+    public NestedSecurityMetadata(byte[] bytes) throws KlvParseException {
         this.localSet = new SecurityMetadataLocalSet(bytes, false);
     }
 
@@ -42,26 +44,22 @@ public class NestedSecurityMetadata implements IUasDatalinkValue
      *
      * @return The wrapped object
      */
-    public SecurityMetadataLocalSet getLocalSet()
-    {
+    public SecurityMetadataLocalSet getLocalSet() {
         return localSet;
     }
 
     @Override
-    public byte[] getBytes()
-    {
+    public byte[] getBytes() {
         return localSet.frameMessage(true);
     }
 
     @Override
-    public String getDisplayableValue()
-    {
+    public String getDisplayableValue() {
         return "[Security metadata]";
     }
 
     @Override
-    public String getDisplayName()
-    {
+    public String getDisplayName() {
         return "Security";
     }
 }

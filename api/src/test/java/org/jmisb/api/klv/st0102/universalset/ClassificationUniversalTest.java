@@ -4,12 +4,11 @@ import org.jmisb.api.klv.st0102.Classification;
 import org.testng.Assert;
 import org.testng.annotations.Test;
 
-public class ClassificationUniversalTest
-{
+public class ClassificationUniversalTest {
     @Test
-    public void testCreateFromValue()
-    {
-        ClassificationUniversal classification = new ClassificationUniversal(Classification.UNCLASSIFIED);
+    public void testCreateFromValue() {
+        ClassificationUniversal classification =
+                new ClassificationUniversal(Classification.UNCLASSIFIED);
         Assert.assertEquals(classification.getDisplayName(), "Classification");
         Assert.assertEquals(classification.getDisplayableValue(), "UNCLASSIFIED//");
         byte[] bytes = classification.getBytes();
@@ -51,9 +50,9 @@ public class ClassificationUniversalTest
     }
 
     @Test
-    public void testCreateFromEncoded()
-    {
-        ClassificationUniversal classification = new ClassificationUniversal("UNCLASSIFIED//".getBytes());
+    public void testCreateFromEncoded() {
+        ClassificationUniversal classification =
+                new ClassificationUniversal("UNCLASSIFIED//".getBytes());
         Assert.assertEquals(classification.getClassification(), Classification.UNCLASSIFIED);
         byte[] bytes = classification.getBytes();
         String string = new String(bytes);
@@ -85,15 +84,14 @@ public class ClassificationUniversalTest
     }
 
     @Test(expectedExceptions = IllegalArgumentException.class)
-    public void testIllegalValue()
-    {
+    public void testIllegalValue() {
         new ClassificationUniversal("UNCLASSIFIED/".getBytes());
     }
 
     @Test(expectedExceptions = IllegalArgumentException.class)
-    public void testIllegalValueLookup()
-    {
-        ClassificationUniversal classificationUniversal = new ClassificationUniversal(Classification.UNKNOWN);
+    public void testIllegalValueLookup() {
+        ClassificationUniversal classificationUniversal =
+                new ClassificationUniversal(Classification.UNKNOWN);
         classificationUniversal.getBytes();
     }
 }

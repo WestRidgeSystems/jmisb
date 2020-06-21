@@ -1,41 +1,46 @@
 package org.jmisb.api.klv.st0601;
 
-import org.testng.annotations.Test;
+import static org.testng.Assert.assertEquals;
+import static org.testng.Assert.assertTrue;
 
 import java.time.LocalDateTime;
 import java.time.Month;
 import org.jmisb.api.common.KlvParseException;
-import static org.testng.Assert.assertEquals;
-import static org.testng.Assert.assertTrue;
+import org.testng.annotations.Test;
 
-public class EventStartTimeUtcTest
-{
+public class EventStartTimeUtcTest {
     // Example from MISB ST doc
     @Test
-    public void testExample()
-    {
-        byte[] bytes = new byte[]{(byte)0x00, (byte)0x02, (byte)0xD5, (byte)0xCF, (byte)0x4D, (byte)0xDC, (byte)0x9A, (byte)0x35};
+    public void testExample() {
+        byte[] bytes =
+                new byte[] {
+                    (byte) 0x00,
+                    (byte) 0x02,
+                    (byte) 0xD5,
+                    (byte) 0xCF,
+                    (byte) 0x4D,
+                    (byte) 0xDC,
+                    (byte) 0x9A,
+                    (byte) 0x35
+                };
         EventStartTimeUtc timestamp = new EventStartTimeUtc(bytes);
         checkExampleValue(timestamp);
     }
 
     @Test
-    public void testContructFromValue()
-    {
+    public void testContructFromValue() {
         EventStartTimeUtc timestamp = new EventStartTimeUtc(798036294670901L);
         checkExampleValue(timestamp);
     }
 
     @Test
-    public void testContructFromDateTime()
-    {
+    public void testContructFromDateTime() {
         LocalDateTime ldt = LocalDateTime.of(1995, Month.APRIL, 16, 12, 44, 54, 670901000);
         EventStartTimeUtc timestamp = new EventStartTimeUtc(ldt);
         checkExampleValue(timestamp);
     }
 
-    protected void checkExampleValue(EventStartTimeUtc timestamp)
-    {
+    protected void checkExampleValue(EventStartTimeUtc timestamp) {
         assertEquals(timestamp.getDisplayName(), "Event Start Time UTC");
         // April 16, 1995. 13:44:54
         assertEquals(timestamp.getDisplayableValue(), "1995-04-16T12:44:54.670901");
@@ -48,23 +53,43 @@ public class EventStartTimeUtcTest
         assertEquals(dateTime.getSecond(), 54);
         assertEquals(dateTime.getNano(), 670901000);
         assertEquals(timestamp.getMicroseconds(), 798036294670901L);
-        assertEquals(timestamp.getBytes(), new byte[]{(byte)0x00, (byte)0x02, (byte)0xD5, (byte)0xCF, (byte)0x4D, (byte)0xDC, (byte)0x9A, (byte)0x35});
+        assertEquals(
+                timestamp.getBytes(),
+                new byte[] {
+                    (byte) 0x00,
+                    (byte) 0x02,
+                    (byte) 0xD5,
+                    (byte) 0xCF,
+                    (byte) 0x4D,
+                    (byte) 0xDC,
+                    (byte) 0x9A,
+                    (byte) 0x35
+                });
     }
 
     @Test
-    public void testFactoryExample() throws KlvParseException
-    {
-        byte[] bytes = new byte[]{(byte)0x00, (byte)0x02, (byte)0xD5, (byte)0xCF, (byte)0x4D, (byte)0xDC, (byte)0x9A, (byte)0x35};
-        IUasDatalinkValue v = UasDatalinkFactory.createValue(UasDatalinkTag.EventStartTimeUtc, bytes);
+    public void testFactoryExample() throws KlvParseException {
+        byte[] bytes =
+                new byte[] {
+                    (byte) 0x00,
+                    (byte) 0x02,
+                    (byte) 0xD5,
+                    (byte) 0xCF,
+                    (byte) 0x4D,
+                    (byte) 0xDC,
+                    (byte) 0x9A,
+                    (byte) 0x35
+                };
+        IUasDatalinkValue v =
+                UasDatalinkFactory.createValue(UasDatalinkTag.EventStartTimeUtc, bytes);
         assertTrue(v instanceof EventStartTimeUtc);
         assertEquals(v.getDisplayName(), "Event Start Time UTC");
-        EventStartTimeUtc timestamp = (EventStartTimeUtc)v;
+        EventStartTimeUtc timestamp = (EventStartTimeUtc) v;
         checkExampleValue(timestamp);
     }
 
     @Test
-    public void testMinAndMax()
-    {
+    public void testMinAndMax() {
         EventStartTimeUtc pts = new EventStartTimeUtc(0L);
         assertEquals(pts.getDisplayName(), "Event Start Time UTC");
         assertEquals(pts.getDateTime().getYear(), 1970);
@@ -78,21 +103,18 @@ public class EventStartTimeUtcTest
     }
 
     @Test(expectedExceptions = IllegalArgumentException.class)
-    public void testTooSmall()
-    {
+    public void testTooSmall() {
         new EventStartTimeUtc(-1);
     }
 
     @Test(expectedExceptions = IllegalArgumentException.class)
-    public void testTooBig()
-    {
+    public void testTooBig() {
         // Oct 12, 2263 at 08:30
         new EventStartTimeUtc(LocalDateTime.of(2263, 10, 12, 8, 30));
     }
 
     @Test(expectedExceptions = IllegalArgumentException.class)
-    public void badArrayLength()
-    {
-        new EventStartTimeUtc(new byte[]{0x01, 0x02, 0x03, 0x04, 0x05, 0x06, 0x07, 0x08, 0x09});
+    public void badArrayLength() {
+        new EventStartTimeUtc(new byte[] {0x01, 0x02, 0x03, 0x04, 0x05, 0x06, 0x07, 0x08, 0x09});
     }
 }

@@ -5,29 +5,28 @@ import org.jmisb.core.klv.PrimitiveConverter;
 /**
  * Numeric ID (ST 0806 User Defined Local Set Tag 1).
  *
- * Required when using User Defined Local Set.
+ * <p>Required when using User Defined Local Set.
  */
-public class RvtNumericId implements IRvtUserDefinedMetadataValue
-{
+public class RvtNumericId implements IRvtUserDefinedMetadataValue {
     protected short number;
-    private final static int REQUIRED_BYTE_LENGTH = 1;
+    private static final int REQUIRED_BYTE_LENGTH = 1;
 
     /**
      * Create from value.
-     * @param dataType the datatype (0 for string, 1 for integer, 2 for unsigned integer, 3 for experimental)
+     *
+     * @param dataType the datatype (0 for string, 1 for integer, 2 for unsigned integer, 3 for
+     *     experimental)
      * @param id the numeric id for the user defined data in the range [0,63].
      */
-    public RvtNumericId(int dataType, int id)
-    {
-        if (dataType > 3 || dataType < 0)
-        {
-            throw new IllegalArgumentException(getDisplayName() + " data type must be in range [0, 3]");
+    public RvtNumericId(int dataType, int id) {
+        if (dataType > 3 || dataType < 0) {
+            throw new IllegalArgumentException(
+                    getDisplayName() + " data type must be in range [0, 3]");
         }
-        if (id > 63 || id < 0)
-        {
+        if (id > 63 || id < 0) {
             throw new IllegalArgumentException(getDisplayName() + " id must be in range [0, 64]");
         }
-        number = (short)((dataType << 6) + id);
+        number = (short) ((dataType << 6) + id);
     }
 
     /**
@@ -35,27 +34,24 @@ public class RvtNumericId implements IRvtUserDefinedMetadataValue
      *
      * @param bytes one byte representing 8-bit unsigned integer value.
      */
-    public RvtNumericId(byte[] bytes)
-    {
-        if (bytes.length != REQUIRED_BYTE_LENGTH)
-        {
-            throw new IllegalArgumentException(this.getDisplayName() + " encoding is a one byte unsigned integer");
+    public RvtNumericId(byte[] bytes) {
+        if (bytes.length != REQUIRED_BYTE_LENGTH) {
+            throw new IllegalArgumentException(
+                    this.getDisplayName() + " encoding is a one byte unsigned integer");
         }
-        this.number = (short)PrimitiveConverter.toUint8(bytes);
+        this.number = (short) PrimitiveConverter.toUint8(bytes);
     }
 
     @Override
-    public byte[] getBytes()
-    {
+    public byte[] getBytes() {
         return PrimitiveConverter.uint8ToBytes(number);
     }
 
     @Override
-    public String getDisplayableValue()
-    {
+    public String getDisplayableValue() {
         int dataType = getDataType();
         String dataTypeRepresentation = "";
-        switch(dataType) {
+        switch (dataType) {
             case 0:
                 dataTypeRepresentation = "String: ";
                 break;
@@ -81,24 +77,22 @@ public class RvtNumericId implements IRvtUserDefinedMetadataValue
      *
      * @return index between 0 and 63 (inclusive).
      */
-    public int getId()
-    {
+    public int getId() {
         return this.number & 0x3F;
     }
 
     /**
      * Get the data type part of this numeric identifier.
      *
-     * @return the datatype (0 for string, 1 for integer, 2 for unsigned integer, 3 for experimental)
+     * @return the datatype (0 for string, 1 for integer, 2 for unsigned integer, 3 for
+     *     experimental)
      */
-    public int getDataType()
-    {
+    public int getDataType() {
         return this.number >> 6;
     }
 
     @Override
-    public final String getDisplayName()
-    {
+    public final String getDisplayName() {
         return "Numeric ID";
     }
 
@@ -107,8 +101,7 @@ public class RvtNumericId implements IRvtUserDefinedMetadataValue
      *
      * @return numeric ID as an integer.
      */
-    public int getValue()
-    {
+    public int getValue() {
         return number;
     }
 }

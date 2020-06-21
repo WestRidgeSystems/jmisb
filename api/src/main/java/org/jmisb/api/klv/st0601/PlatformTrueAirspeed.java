@@ -2,25 +2,26 @@ package org.jmisb.api.klv.st0601;
 
 /**
  * Platform True Airspeed (ST 0601 tag 8)
- * <p>
- * From ST:
+ *
+ * <p>From ST:
+ *
  * <blockquote>
+ *
  * True airspeed (TAS) of platform. Indicated Airspeed adjusted for temperature and altitude.
- * <p>
- * Map 0..(2^8-1) to 0..255 meters/second.
- * <p>
- * Resolution: 1 metre/second.
+ *
+ * <p>Map 0..(2^8-1) to 0..255 meters/second.
+ *
+ * <p>Resolution: 1 metre/second.
+ *
  * </blockquote>
  */
-public class PlatformTrueAirspeed extends UasDatalinkSpeed implements IUasDatalinkValue
-{
+public class PlatformTrueAirspeed extends UasDatalinkSpeed implements IUasDatalinkValue {
     /**
      * Create from value
      *
      * @param speed Air speed in meters/second. Legal values are in [0, 255].
      */
-    public PlatformTrueAirspeed(int speed)
-    {
+    public PlatformTrueAirspeed(int speed) {
         super(speed);
     }
 
@@ -29,14 +30,12 @@ public class PlatformTrueAirspeed extends UasDatalinkSpeed implements IUasDatali
      *
      * @param bytes The byte array of length 1
      */
-    public PlatformTrueAirspeed(byte[] bytes)
-    {
+    public PlatformTrueAirspeed(byte[] bytes) {
         super(bytes);
     }
 
     @Override
-    public String getDisplayName()
-    {
+    public String getDisplayName() {
         return "Platform True Airspeed";
     }
 }

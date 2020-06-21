@@ -1,49 +1,59 @@
 package org.jmisb.api.klv.st0903.vtracker;
 
+import static org.testng.Assert.*;
+
 import java.net.URISyntaxException;
 import java.util.ArrayList;
 import java.util.List;
 import org.jmisb.api.common.KlvParseException;
 import org.jmisb.api.klv.st0903.IVmtiMetadataValue;
 import org.jmisb.api.klv.st0903.shared.LocationPack;
-import static org.testng.Assert.*;
 import org.testng.annotations.Test;
 
-/**
- * Tests for Boundary Series
- */
-public class BoundarySeriesTest
-{
-    final byte[] bytesTwoLocations = new byte[]
-    {
-        10, // Location 1 length
-        (byte)0x27, (byte)0xba, (byte)0x90, (byte)0xab,
-        (byte)0x34, (byte)0x4a, (byte)0x1a, (byte)0xdf,
-        (byte)0x10, (byte)0x14,
-        10, // Location 2 length
-        (byte)0x27, (byte)0xba, (byte)0x93, (byte)0x01,
-        (byte)0x34, (byte)0x4a, (byte)0x1b, (byte)0x00,
-        (byte)0x10, (byte)0x14
-    };
+/** Tests for Boundary Series */
+public class BoundarySeriesTest {
+    final byte[] bytesTwoLocations =
+            new byte[] {
+                10, // Location 1 length
+                (byte) 0x27,
+                (byte) 0xba,
+                (byte) 0x90,
+                (byte) 0xab,
+                (byte) 0x34,
+                (byte) 0x4a,
+                (byte) 0x1a,
+                (byte) 0xdf,
+                (byte) 0x10,
+                (byte) 0x14,
+                10, // Location 2 length
+                (byte) 0x27,
+                (byte) 0xba,
+                (byte) 0x93,
+                (byte) 0x01,
+                (byte) 0x34,
+                (byte) 0x4a,
+                (byte) 0x1b,
+                (byte) 0x00,
+                (byte) 0x10,
+                (byte) 0x14
+            };
 
     @Test
-    public void testConstructFromEncodedBytes() throws KlvParseException
-    {
+    public void testConstructFromEncodedBytes() throws KlvParseException {
         BoundarySeries boundarySeries = new BoundarySeries(bytesTwoLocations);
         verifyTwoLocations(boundarySeries);
     }
 
     @Test
-    public void testFactoryEncodedBytes() throws KlvParseException
-    {
-        IVmtiMetadataValue value = VTrackerLS.createValue(VTrackerMetadataKey.boundarySeries , bytesTwoLocations);
-        assertTrue(value instanceof BoundarySeries );
-        BoundarySeries targetBoundarySeries = (BoundarySeries)value;
+    public void testFactoryEncodedBytes() throws KlvParseException {
+        IVmtiMetadataValue value =
+                VTrackerLS.createValue(VTrackerMetadataKey.boundarySeries, bytesTwoLocations);
+        assertTrue(value instanceof BoundarySeries);
+        BoundarySeries targetBoundarySeries = (BoundarySeries) value;
         verifyTwoLocations(targetBoundarySeries);
     }
 
-    private void verifyTwoLocations(BoundarySeries boundarySeries)
-    {
+    private void verifyTwoLocations(BoundarySeries boundarySeries) {
         assertEquals(boundarySeries.getBytes(), bytesTwoLocations);
         assertEquals(boundarySeries.getDisplayName(), "Boundary");
         assertEquals(boundarySeries.getDisplayableValue(), "[Location Series]");
@@ -59,8 +69,7 @@ public class BoundarySeriesTest
     }
 
     @Test
-    public void constructFromValue() throws KlvParseException, URISyntaxException
-    {
+    public void constructFromValue() throws KlvParseException, URISyntaxException {
         List<LocationPack> packs = new ArrayList<>();
         packs.add(new LocationPack(-10.54246008396, 29.15789008141, 3216.0));
         packs.add(new LocationPack(-10.54238867760, 29.15789818763, 3216.0));
@@ -69,8 +78,7 @@ public class BoundarySeriesTest
     }
 
     @Test(expectedExceptions = IllegalArgumentException.class)
-    public void badArrayLength() throws KlvParseException
-    {
-        new BoundarySeries(new byte[]{0x01, 0x02, 0x03});
+    public void badArrayLength() throws KlvParseException {
+        new BoundarySeries(new byte[] {0x01, 0x02, 0x03});
     }
 }

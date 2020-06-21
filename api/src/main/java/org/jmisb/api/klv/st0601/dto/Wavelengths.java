@@ -2,11 +2,10 @@ package org.jmisb.api.klv.st0601.dto;
 
 /**
  * Wavelengths description.
- * <p>
- * This class supports the ST0601 WavelengthsList implementation.
+ *
+ * <p>This class supports the ST0601 WavelengthsList implementation.
  */
-public class Wavelengths
-{
+public class Wavelengths {
     private int id;
     private double min;
     private double max;
@@ -14,19 +13,19 @@ public class Wavelengths
 
     /**
      * Get the numeric identifier for this wavelengths range.
+     *
      * @return the identifier.
      */
-    public int getId()
-    {
+    public int getId() {
         return id;
     }
 
     /**
      * Set the numeric identifier for this wavelengths range.
+     *
      * @param id the identifier, which must be 21 or higher.
      */
-    public void setId(int id)
-    {
+    public void setId(int id) {
         if (id < 21) {
             throw new IllegalArgumentException("Minimum wavelength id is 21");
         }
@@ -35,55 +34,55 @@ public class Wavelengths
 
     /**
      * The minimum wavelength in the range.
+     *
      * @return the wavelength in nanometres (nm).
      */
-    public double getMin()
-    {
+    public double getMin() {
         return min;
     }
 
     /**
      * Set the minimum wavelength
+     *
      * @param min the wavelength in nanometres (nm).
      */
-    public void setMin(double min)
-    {
+    public void setMin(double min) {
         this.min = min;
     }
 
     /**
      * The maximum wavelength in the range.
+     *
      * @return the wavelength in nanometres (nm).
      */
-    public double getMax()
-    {
+    public double getMax() {
         return max;
     }
 
     /**
      * Set the maximum wavelength.
+     *
      * @param max the wavelength in nanometres (nm).
      */
-    public void setMax(double max)
-    {
+    public void setMax(double max) {
         this.max = max;
     }
 
     /**
      * Short name for this range.
+     *
      * @return String containing the name
      */
-    public String getName()
-    {
+    public String getName() {
         return name;
     }
 
     /**
      * Set the short name for this range
+     *
      * @param name the name of the range.
      */
-    public void setName(String name)
-    {
+    public void setName(String name) {
         this.name = name;
     }
 }

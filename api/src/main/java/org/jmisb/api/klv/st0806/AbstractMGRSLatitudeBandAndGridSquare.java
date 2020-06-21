@@ -6,10 +6,11 @@
 package org.jmisb.api.klv.st0806;
 
 /**
- * Shared implementation for AircraftMGRSLatitudeBandAndGridSquare and FrameCentreMGRSLatitudeBandAndGridSquare.
+ * Shared implementation for AircraftMGRSLatitudeBandAndGridSquare and
+ * FrameCentreMGRSLatitudeBandAndGridSquare.
  */
-public abstract class AbstractMGRSLatitudeBandAndGridSquare extends RvtString implements IRvtMetadataValue
-{
+public abstract class AbstractMGRSLatitudeBandAndGridSquare extends RvtString
+        implements IRvtMetadataValue {
     private static final int REQUIRED_LENGTH = 3;
     private static final int REQUIRED_NUM_BYTES = 3;
 
@@ -19,12 +20,11 @@ public abstract class AbstractMGRSLatitudeBandAndGridSquare extends RvtString im
      * @param name the display name for the specific implementation
      * @param value The string value, which can only use the ASCII subset of UTF-8.
      */
-    public AbstractMGRSLatitudeBandAndGridSquare(String name, String value)
-    {
+    public AbstractMGRSLatitudeBandAndGridSquare(String name, String value) {
         super(name, value);
-        if (value.length() != REQUIRED_LENGTH)
-        {
-            throw new IllegalArgumentException(this.getDisplayName() + " is three character string");
+        if (value.length() != REQUIRED_LENGTH) {
+            throw new IllegalArgumentException(
+                    this.getDisplayName() + " is three character string");
         }
     }
 
@@ -34,12 +34,11 @@ public abstract class AbstractMGRSLatitudeBandAndGridSquare extends RvtString im
      * @param name the display name for the specific implementation
      * @param bytes Encoded byte array
      */
-    public AbstractMGRSLatitudeBandAndGridSquare(String name, byte[] bytes)
-    {
+    public AbstractMGRSLatitudeBandAndGridSquare(String name, byte[] bytes) {
         super(name, bytes);
-        if (bytes.length != REQUIRED_NUM_BYTES)
-        {
-            throw new IllegalArgumentException(this.getDisplayName() + " encoding is three byte string");
+        if (bytes.length != REQUIRED_NUM_BYTES) {
+            throw new IllegalArgumentException(
+                    this.getDisplayName() + " encoding is three byte string");
         }
     }
 
@@ -48,8 +47,7 @@ public abstract class AbstractMGRSLatitudeBandAndGridSquare extends RvtString im
      *
      * @return single character string.
      */
-    public String getLatitudeBand()
-    {
+    public String getLatitudeBand() {
         return this.stringValue.substring(0, 1);
     }
 
@@ -58,9 +56,7 @@ public abstract class AbstractMGRSLatitudeBandAndGridSquare extends RvtString im
      *
      * @return two characters specifying the grid square in MGRS.
      */
-    public String getGridSquare()
-    {
+    public String getGridSquare() {
         return this.stringValue.substring(1);
     }
-
 }

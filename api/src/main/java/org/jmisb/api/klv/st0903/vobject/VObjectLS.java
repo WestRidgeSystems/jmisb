@@ -17,16 +17,11 @@ import org.jmisb.core.klv.ArrayUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
-/**
- * VObject Local Set.
- */
-public class VObjectLS
-{
+/** VObject Local Set. */
+public class VObjectLS {
     private static final Logger LOGGER = LoggerFactory.getLogger(VObjectLS.class);
 
-    /**
-     * Map containing all data elements in the message
-     */
+    /** Map containing all data elements in the message */
     private final SortedMap<VObjectMetadataKey, IVmtiMetadataValue> map = new TreeMap<>();
 
     /**
@@ -34,13 +29,11 @@ public class VObjectLS
      *
      * @param values Tag/value pairs to be included in the local set/
      */
-    public VObjectLS(Map<VObjectMetadataKey, IVmtiMetadataValue> values)
-    {
+    public VObjectLS(Map<VObjectMetadataKey, IVmtiMetadataValue> values) {
         map.putAll(values);
     }
 
-    public VObjectLS(byte[] bytes, int offset, int length) throws KlvParseException
-    {
+    public VObjectLS(byte[] bytes, int offset, int length) throws KlvParseException {
         List<LdsField> fields = LdsParser.parseFields(bytes, offset, length);
         for (LdsField field : fields) {
             VObjectMetadataKey key = VObjectMetadataKey.getKey(field.getTag());
@@ -61,10 +54,9 @@ public class VObjectLS
      * @return The new instance
      * @throws KlvParseException if the bytes could not be parsed.
      */
-    public static IVmtiMetadataValue createValue(VObjectMetadataKey tag, byte[] bytes) throws KlvParseException
-    {
-        switch (tag)
-        {
+    public static IVmtiMetadataValue createValue(VObjectMetadataKey tag, byte[] bytes)
+            throws KlvParseException {
+        switch (tag) {
             case ontology:
                 return new VmtiUri(VmtiUri.ONTOLOGY, bytes);
             case ontologyClass:
@@ -84,8 +76,7 @@ public class VObjectLS
      *
      * @return The set of tags for which values have been set
      */
-    public Set<VObjectMetadataKey> getTags()
-    {
+    public Set<VObjectMetadataKey> getTags() {
         return map.keySet();
     }
 
@@ -95,22 +86,20 @@ public class VObjectLS
      * @param tag Tag of the value to retrieve
      * @return The value, or null if no value was set
      */
-    public IVmtiMetadataValue getField(VObjectMetadataKey tag)
-    {
+    public IVmtiMetadataValue getField(VObjectMetadataKey tag) {
         return map.get(tag);
     }
 
     /**
      * Get the byte array corresponding to the value for this Local Set.
+     *
      * @return byte array with the encoded local set.
      */
-    public byte[] getBytes()
-    {
+    public byte[] getBytes() {
         int len = 0;
         List<byte[]> chunks = new ArrayList<>();
-        for (VObjectMetadataKey tag: getTags())
-        {
-            chunks.add(new byte[]{(byte) tag.getTag()});
+        for (VObjectMetadataKey tag : getTags()) {
+            chunks.add(new byte[] {(byte) tag.getTag()});
             len += 1;
             IVmtiMetadataValue value = getField(tag);
             byte[] bytes = value.getBytes();

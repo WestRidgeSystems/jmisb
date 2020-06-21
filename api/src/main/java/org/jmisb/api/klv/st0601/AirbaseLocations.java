@@ -11,24 +11,25 @@ import org.jmisb.core.klv.ArrayUtils;
 
 /**
  * Airbase Locations (ST 0601 tag 130).
- * <p>
- * From ST:
+ *
+ * <p>From ST:
+ *
  * <blockquote>
- * The Airbase Locations item is a Variable Length Pack (VLP) describing either
- * the take-off location, the recovery location or both within a Location
- * Defined Length Pack (DLP).
- * <p>
- * Both the take-off and recovery locations are coordinates with WGS84 Latitude,
- * Longitude and Height Above Ellipsoid (HAE). Each location is described in a
- * DLP containing IMAPB values for latitude, longitude and HAE. The latitude and
- * longitude are each four (4) bytes and the HAE is three (3) bytes.
+ *
+ * The Airbase Locations item is a Variable Length Pack (VLP) describing either the take-off
+ * location, the recovery location or both within a Location Defined Length Pack (DLP).
+ *
+ * <p>Both the take-off and recovery locations are coordinates with WGS84 Latitude, Longitude and
+ * Height Above Ellipsoid (HAE). Each location is described in a DLP containing IMAPB values for
+ * latitude, longitude and HAE. The latitude and longitude are each four (4) bytes and the HAE is
+ * three (3) bytes.
+ *
  * </blockquote>
- * <p>
- * See the Location data transfer object documentation for description of the
- * components within a Location.
+ *
+ * <p>See the Location data transfer object documentation for description of the components within a
+ * Location.
  */
-public class AirbaseLocations implements IUasDatalinkValue
-{
+public class AirbaseLocations implements IUasDatalinkValue {
     private Location takeoffLocation;
     private Location recoveryLocation;
     private boolean takeoffLocationIsUnknown;
@@ -44,8 +45,7 @@ public class AirbaseLocations implements IUasDatalinkValue
      * @param takeoff the takeoff location (latitude/longitude, optional height)
      * @param recovery the recovery location (latitude/longitude, optional height)
      */
-    public AirbaseLocations(Location takeoff, Location recovery)
-    {
+    public AirbaseLocations(Location takeoff, Location recovery) {
         takeoffLocation = takeoff;
         takeoffLocationIsUnknown = false;
         recoveryLocation = recovery;
@@ -54,17 +54,14 @@ public class AirbaseLocations implements IUasDatalinkValue
 
     // Used by the static methods only. At least one of takeoff or recovery must
     // be present.
-    private AirbaseLocations()
-    {
-    }
+    private AirbaseLocations() {}
 
     /**
      * Create from value with a known takeoff location but unknown recovery location.
      *
      * @param takeoff the takeoff location (latitude/longitude, optional height)
      */
-    static AirbaseLocations withUnknownRecovery(Location takeoff)
-    {
+    static AirbaseLocations withUnknownRecovery(Location takeoff) {
         AirbaseLocations airbaseLocations = new AirbaseLocations();
         airbaseLocations.takeoffLocation = takeoff;
         airbaseLocations.takeoffLocationIsUnknown = false;
@@ -78,8 +75,7 @@ public class AirbaseLocations implements IUasDatalinkValue
      *
      * @param recovery the recovery location (latitude/longitude, optional height)
      */
-    static AirbaseLocations withUnknownTakeoff(Location recovery)
-    {
+    static AirbaseLocations withUnknownTakeoff(Location recovery) {
         AirbaseLocations airbaseLocations = new AirbaseLocations();
         airbaseLocations.takeoffLocation = null;
         airbaseLocations.takeoffLocationIsUnknown = true;
@@ -93,8 +89,7 @@ public class AirbaseLocations implements IUasDatalinkValue
      *
      * @param bytes encoded value
      */
-    public AirbaseLocations(byte[] bytes)
-    {
+    public AirbaseLocations(byte[] bytes) {
         int idx = 0;
         BerField takeoffLenField = BerDecoder.decode(bytes, idx, false);
         idx += takeoffLenField.getLength();
@@ -124,19 +119,17 @@ public class AirbaseLocations implements IUasDatalinkValue
                 takeoffLocationIsUnknown = true;
                 break;
             default:
-                throw new IllegalArgumentException(this.getDisplayName() + " has unsupported length.");
+                throw new IllegalArgumentException(
+                        this.getDisplayName() + " has unsupported length.");
         }
-        if (idx == bytes.length)
-        {
+        if (idx == bytes.length) {
             // If we're out of length here, the pack is truncated.
             // That means recovery location == takeoff location.
             recoveryLocation = new Location();
             recoveryLocation.setLatitude(takeoffLocation.getLatitude());
             recoveryLocation.setLongitude(takeoffLocation.getLongitude());
             recoveryLocation.setHAE(takeoffLocation.getHAE());
-        }
-        else
-        {
+        } else {
             BerField recoveryLenField = BerDecoder.decode(bytes, idx, false);
             idx += recoveryLenField.getLength();
             switch (recoveryLenField.getValue()) {
@@ -165,32 +158,28 @@ public class AirbaseLocations implements IUasDatalinkValue
                     recoveryLocationIsUnknown = true;
                     break;
                 default:
-                    throw new IllegalArgumentException(this.getDisplayName() + " has unsupported length.");
+                    throw new IllegalArgumentException(
+                            this.getDisplayName() + " has unsupported length.");
             }
         }
     }
 
     @Override
-    public byte[] getBytes()
-    {
+    public byte[] getBytes() {
         List<byte[]> chunks = new ArrayList<>();
         int totalLength = 0;
-        if (takeoffLocationIsUnknown)
-        {
+        if (takeoffLocationIsUnknown) {
             byte[] takeoffLenBytes = BerEncoder.encode(0);
             chunks.add(takeoffLenBytes);
             totalLength += takeoffLenBytes.length;
-        }
-        else
-        {
+        } else {
             int takeoffLen = 0;
             byte[] latBytes = latDecoder.encode(takeoffLocation.getLatitude());
             takeoffLen += latBytes.length;
             byte[] lonBytes = lonDecoder.encode(takeoffLocation.getLongitude());
             takeoffLen += lonBytes.length;
-            byte[] haeBytes = new byte[]{};
-            if (!(takeoffLocation.getHAE() < -900.0))
-            {
+            byte[] haeBytes = new byte[] {};
+            if (!(takeoffLocation.getHAE() < -900.0)) {
                 haeBytes = haeDecoder.encode(takeoffLocation.getHAE());
                 takeoffLen += haeBytes.length;
             }
@@ -202,26 +191,20 @@ public class AirbaseLocations implements IUasDatalinkValue
             totalLength += takeoffLen;
             totalLength += takeoffLenBytes.length;
         }
-        if (recoveryLocationIsUnknown)
-        {
+        if (recoveryLocationIsUnknown) {
             byte[] recoveryLenBytes = BerEncoder.encode(0);
             chunks.add(recoveryLenBytes);
             totalLength += recoveryLenBytes.length;
-        }
-        else if (takeoffAndRecoveryLocationsAreTheSame())
-        {
+        } else if (takeoffAndRecoveryLocationsAreTheSame()) {
             // Nothing - its just omitted
-        }
-        else
-        {
+        } else {
             int recoveryLen = 0;
             byte[] latBytes = latDecoder.encode(recoveryLocation.getLatitude());
             recoveryLen += latBytes.length;
             byte[] lonBytes = lonDecoder.encode(recoveryLocation.getLongitude());
             recoveryLen += lonBytes.length;
-            byte[] haeBytes = new byte[]{};
-            if (!(recoveryLocation.getHAE() < -900.0))
-            {
+            byte[] haeBytes = new byte[] {};
+            if (!(recoveryLocation.getHAE() < -900.0)) {
                 haeBytes = haeDecoder.encode(recoveryLocation.getHAE());
                 recoveryLen += haeBytes.length;
             }
@@ -238,59 +221,59 @@ public class AirbaseLocations implements IUasDatalinkValue
 
     /**
      * Get the Takeoff Location.
+     *
      * <p>
+     *
      * @return the location, or null if it is not known.
      */
-    public Location getTakeoffLocation()
-    {
+    public Location getTakeoffLocation() {
         return takeoffLocation;
     }
 
     /**
      * Get the Recovery Location.
+     *
      * <p>
+     *
      * @return the location, or null if it is not known.
      */
-    public Location getRecoveryLocation()
-    {
+    public Location getRecoveryLocation() {
         return recoveryLocation;
     }
 
     /**
      * Whether the takeoff location is unknown.
+     *
      * <p>
+     *
      * @return true if its unknown, false if its known
      */
-    public boolean isTakeoffLocationUnknown()
-    {
+    public boolean isTakeoffLocationUnknown() {
         return takeoffLocationIsUnknown;
     }
 
     /**
      * Whether the recovery location is unknown.
+     *
      * <p>
+     *
      * @return true if its unknown, false if its known
      */
-    public boolean isRecoveryLocationUnknown()
-    {
+    public boolean isRecoveryLocationUnknown() {
         return recoveryLocationIsUnknown;
     }
 
     @Override
-    public String getDisplayableValue()
-    {
+    public String getDisplayableValue() {
         return "[Airbase Locations]";
     }
 
     @Override
-    public final String getDisplayName()
-    {
+    public final String getDisplayName() {
         return "Airbase Locations";
     }
 
-    private boolean takeoffAndRecoveryLocationsAreTheSame()
-    {
+    private boolean takeoffAndRecoveryLocationsAreTheSame() {
         return (takeoffLocation != null) && (takeoffLocation.equals(recoveryLocation));
     }
-
 }

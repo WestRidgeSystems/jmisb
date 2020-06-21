@@ -2,11 +2,8 @@ package org.jmisb.api.video;
 
 import java.util.List;
 
-/**
- * Packetized Elementary Stream (PES) information
- */
-public class PesInfo
-{
+/** Packetized Elementary Stream (PES) information */
+public class PesInfo {
     private final int index;
     private final PesType type;
     private final String codecName;
@@ -18,8 +15,7 @@ public class PesInfo
      * @param type The type
      * @param codecName The codec name
      */
-    public PesInfo(int index, PesType type, String codecName)
-    {
+    public PesInfo(int index, PesType type, String codecName) {
         this.index = index;
         this.type = type;
         this.codecName = codecName;
@@ -30,8 +26,7 @@ public class PesInfo
      *
      * @return The stream index
      */
-    public int getIndex()
-    {
+    public int getIndex() {
         return index;
     }
 
@@ -40,8 +35,7 @@ public class PesInfo
      *
      * @return The type
      */
-    public PesType getType()
-    {
+    public PesType getType() {
         return type;
     }
 
@@ -50,8 +44,7 @@ public class PesInfo
      *
      * @return The codec name
      */
-    public String getCodecName()
-    {
+    public String getCodecName() {
         return codecName;
     }
 
@@ -60,8 +53,7 @@ public class PesInfo
      *
      * @return The JSON string
      */
-    public String asJson()
-    {
+    public String asJson() {
         // TODO: this might be tedious to maintain; consider gson
         StringBuilder sb = new StringBuilder();
         sb.append("{ ");
@@ -84,18 +76,15 @@ public class PesInfo
      * @param list The list
      * @return The JSON string
      */
-    public static String asJson(List<PesInfo> list)
-    {
+    public static String asJson(List<PesInfo> list) {
         StringBuilder sb = new StringBuilder();
         sb.append("{\n");
         sb.append("    \"streams\": [\n");
         int i = 0;
-        for (PesInfo pes : list)
-        {
+        for (PesInfo pes : list) {
             sb.append("        ");
             sb.append(pes.asJson());
-            if (++i != list.size())
-                sb.append(",");
+            if (++i != list.size()) sb.append(",");
             sb.append("\n");
         }
         sb.append("    ]\n");

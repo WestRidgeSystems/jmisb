@@ -1,10 +1,7 @@
 package org.jmisb.api.klv.st0102;
 
-/**
- * Country coding methods
- */
-public enum CountryCodingMethod
-{
+/** Country coding methods */
+public enum CountryCodingMethod {
     ISO3166_TWO_LETTER,
     ISO3166_THREE_LETTER,
     ISO3166_MIXED,

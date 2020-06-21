@@ -1,25 +1,68 @@
 package org.jmisb.api.klv.st0601;
 
+import static org.testng.Assert.assertEquals;
+import static org.testng.Assert.assertFalse;
+import static org.testng.Assert.assertTrue;
+
 import java.util.ArrayList;
 import java.util.List;
 import org.jmisb.api.common.KlvParseException;
 import org.jmisb.api.klv.st0601.dto.WeaponStore;
 import org.jmisb.api.klv.st0601.dto.WeaponStoreStatus;
-import static org.testng.Assert.assertEquals;
-import static org.testng.Assert.assertFalse;
-import static org.testng.Assert.assertTrue;
 import org.testng.annotations.Test;
 
-public class WeaponsStoresTest
-{
-    private final byte[] ST_EXAMPLE_BYTES = new byte[]{
-        (byte) 0x0E, (byte) 0x01, (byte) 0x02, (byte) 0x03, (byte) 0x01, (byte) 0x82, (byte) 0x03, (byte) 0x07, (byte) 0x48, (byte) 0x61, (byte) 0x72, (byte) 0x70, (byte) 0x6F, (byte) 0x6F, (byte) 0x6E,
-        (byte) 0x0D, (byte) 0x00, (byte) 0x00, (byte) 0x00, (byte) 0x01, (byte) 0x82, (byte) 0x03, (byte) 0x06, (byte) 0x47, (byte) 0x42, (byte) 0x55, (byte) 0x2D, (byte) 0x31, (byte) 0x35,
-        (byte) 0x0F, (byte) 0x00, (byte) 0x00, (byte) 0x00, (byte) 0x02, (byte) 0x88, (byte) 0x04, (byte) 0x08, (byte) 0x48, (byte) 0x65, (byte) 0x6C, (byte) 0x6C, (byte) 0x66, (byte) 0x69, (byte) 0x72, (byte) 0x65};
+public class WeaponsStoresTest {
+    private final byte[] ST_EXAMPLE_BYTES =
+            new byte[] {
+                (byte) 0x0E,
+                (byte) 0x01,
+                (byte) 0x02,
+                (byte) 0x03,
+                (byte) 0x01,
+                (byte) 0x82,
+                (byte) 0x03,
+                (byte) 0x07,
+                (byte) 0x48,
+                (byte) 0x61,
+                (byte) 0x72,
+                (byte) 0x70,
+                (byte) 0x6F,
+                (byte) 0x6F,
+                (byte) 0x6E,
+                (byte) 0x0D,
+                (byte) 0x00,
+                (byte) 0x00,
+                (byte) 0x00,
+                (byte) 0x01,
+                (byte) 0x82,
+                (byte) 0x03,
+                (byte) 0x06,
+                (byte) 0x47,
+                (byte) 0x42,
+                (byte) 0x55,
+                (byte) 0x2D,
+                (byte) 0x31,
+                (byte) 0x35,
+                (byte) 0x0F,
+                (byte) 0x00,
+                (byte) 0x00,
+                (byte) 0x00,
+                (byte) 0x02,
+                (byte) 0x88,
+                (byte) 0x04,
+                (byte) 0x08,
+                (byte) 0x48,
+                (byte) 0x65,
+                (byte) 0x6C,
+                (byte) 0x6C,
+                (byte) 0x66,
+                (byte) 0x69,
+                (byte) 0x72,
+                (byte) 0x65
+            };
 
     @Test
-    public void testConstructFromValue()
-    {
+    public void testConstructFromValue() {
         // From ST:
         List<WeaponStore> weaponsArrayList = new ArrayList<>();
         WeaponStore w1 = new WeaponStore();
@@ -66,18 +109,17 @@ public class WeaponsStoresTest
     }
 
     @Test
-    public void testConstructFromEncoded()
-    {
+    public void testConstructFromEncoded() {
         WeaponsStores weaponsStores = new WeaponsStores(ST_EXAMPLE_BYTES);
         checkValuesForExample(weaponsStores);
     }
 
     @Test
-    public void testFactory() throws KlvParseException
-    {
-        IUasDatalinkValue v = UasDatalinkFactory.createValue(UasDatalinkTag.WeaponsStores, ST_EXAMPLE_BYTES);
+    public void testFactory() throws KlvParseException {
+        IUasDatalinkValue v =
+                UasDatalinkFactory.createValue(UasDatalinkTag.WeaponsStores, ST_EXAMPLE_BYTES);
         assertTrue(v instanceof WeaponsStores);
-        WeaponsStores weaponsStores = (WeaponsStores)v;
+        WeaponsStores weaponsStores = (WeaponsStores) v;
         checkValuesForExample(weaponsStores);
     }
 
@@ -125,9 +167,26 @@ public class WeaponsStoresTest
     }
 
     @Test
-    public void testConstructFromEncodedEngagementTwoFlags()
-    {
-        WeaponsStores weaponsStores = new WeaponsStores(new byte[]{(byte) 0x0E, (byte) 0x01, (byte) 0x02, (byte) 0x03, (byte) 0x04, (byte) 0x94, (byte) 0x03, (byte) 0x07, (byte) 0x48, (byte) 0x61, (byte) 0x72, (byte) 0x70, (byte) 0x6F, (byte) 0x6F, (byte) 0x6E});
+    public void testConstructFromEncodedEngagementTwoFlags() {
+        WeaponsStores weaponsStores =
+                new WeaponsStores(
+                        new byte[] {
+                            (byte) 0x0E,
+                            (byte) 0x01,
+                            (byte) 0x02,
+                            (byte) 0x03,
+                            (byte) 0x04,
+                            (byte) 0x94,
+                            (byte) 0x03,
+                            (byte) 0x07,
+                            (byte) 0x48,
+                            (byte) 0x61,
+                            (byte) 0x72,
+                            (byte) 0x70,
+                            (byte) 0x6F,
+                            (byte) 0x6F,
+                            (byte) 0x6E
+                        });
         assertEquals(weaponsStores.getWeaponsStores().size(), 1);
         WeaponStore weaponStore0 = weaponsStores.getWeaponsStores().get(0);
         //  (1, 2, 3, 4,(1, 3), "Harpoon")
@@ -141,14 +200,48 @@ public class WeaponsStoresTest
         assertFalse(weaponStore0.isTargetEnabled());
         assertTrue(weaponStore0.isWeaponArmed());
         assertEquals(weaponStore0.getStoreType(), "Harpoon");
-        assertEquals(weaponsStores.getBytes(), new byte[]{(byte) 0x0E, (byte) 0x01, (byte) 0x02, (byte) 0x03, (byte) 0x04, (byte) 0x94, (byte) 0x03, (byte) 0x07, (byte) 0x48, (byte) 0x61, (byte) 0x72, (byte) 0x70, (byte) 0x6F, (byte) 0x6F, (byte) 0x6E});
+        assertEquals(
+                weaponsStores.getBytes(),
+                new byte[] {
+                    (byte) 0x0E,
+                    (byte) 0x01,
+                    (byte) 0x02,
+                    (byte) 0x03,
+                    (byte) 0x04,
+                    (byte) 0x94,
+                    (byte) 0x03,
+                    (byte) 0x07,
+                    (byte) 0x48,
+                    (byte) 0x61,
+                    (byte) 0x72,
+                    (byte) 0x70,
+                    (byte) 0x6F,
+                    (byte) 0x6F,
+                    (byte) 0x6E
+                });
     }
 
     @Test
-    public void testConstructFromEncodedEngagementNoFlags()
-    {
+    public void testConstructFromEncodedEngagementNoFlags() {
         // This checks that the "short form" status encoding works.
-        WeaponsStores weaponsStores = new WeaponsStores(new byte[]{(byte) 0x0D, (byte) 0x01, (byte) 0x02, (byte) 0x03, (byte) 0x04, (byte) 0x01, (byte) 0x07, (byte) 0x48, (byte) 0x61, (byte) 0x72, (byte) 0x70, (byte) 0x6F, (byte) 0x6F, (byte) 0x6E});
+        WeaponsStores weaponsStores =
+                new WeaponsStores(
+                        new byte[] {
+                            (byte) 0x0D,
+                            (byte) 0x01,
+                            (byte) 0x02,
+                            (byte) 0x03,
+                            (byte) 0x04,
+                            (byte) 0x01,
+                            (byte) 0x07,
+                            (byte) 0x48,
+                            (byte) 0x61,
+                            (byte) 0x72,
+                            (byte) 0x70,
+                            (byte) 0x6F,
+                            (byte) 0x6F,
+                            (byte) 0x6E
+                        });
         assertEquals(weaponsStores.getWeaponsStores().size(), 1);
         WeaponStore weaponStore0 = weaponsStores.getWeaponsStores().get(0);
         //  (1, 2, 3, 4,(1, 1), "Harpoon")
@@ -162,6 +255,23 @@ public class WeaponsStoresTest
         assertFalse(weaponStore0.isTargetEnabled());
         assertFalse(weaponStore0.isWeaponArmed());
         assertEquals(weaponStore0.getStoreType(), "Harpoon");
-        assertEquals(weaponsStores.getBytes(), new byte[]{(byte) 0x0D, (byte) 0x01, (byte) 0x02, (byte) 0x03, (byte) 0x04,  (byte) 0x01, (byte) 0x07, (byte) 0x48, (byte) 0x61, (byte) 0x72, (byte) 0x70, (byte) 0x6F, (byte) 0x6F, (byte) 0x6E});
+        assertEquals(
+                weaponsStores.getBytes(),
+                new byte[] {
+                    (byte) 0x0D,
+                    (byte) 0x01,
+                    (byte) 0x02,
+                    (byte) 0x03,
+                    (byte) 0x04,
+                    (byte) 0x01,
+                    (byte) 0x07,
+                    (byte) 0x48,
+                    (byte) 0x61,
+                    (byte) 0x72,
+                    (byte) 0x70,
+                    (byte) 0x6F,
+                    (byte) 0x6F,
+                    (byte) 0x6E
+                });
     }
 }

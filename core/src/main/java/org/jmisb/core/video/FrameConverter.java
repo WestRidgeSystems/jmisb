@@ -1,19 +1,15 @@
 package org.jmisb.core.video;
 
+import static org.bytedeco.ffmpeg.global.avutil.AV_PIX_FMT_BGR24;
+
+import java.awt.image.*;
+import java.nio.ByteBuffer;
 import org.bytedeco.ffmpeg.avutil.AVFrame;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
-import java.awt.image.*;
-import java.nio.ByteBuffer;
-
-import static org.bytedeco.ffmpeg.global.avutil.AV_PIX_FMT_BGR24;
-
-/**
- * Convert video frames between AVFrame and BufferedImage
- */
-public class FrameConverter
-{
+/** Convert video frames between AVFrame and BufferedImage */
+public class FrameConverter {
     private static Logger logger = LoggerFactory.getLogger(FrameConverter.class);
 
     private BufferedImage bufferedImage;
@@ -24,24 +20,22 @@ public class FrameConverter
      * @param frame The AVFrame; must be 3-byte BGR format
      * @return The BufferedImage
      */
-    public BufferedImage convert(AVFrame frame)
-    {
-        if (frame == null)
-        {
+    public BufferedImage convert(AVFrame frame) {
+        if (frame == null) {
             throw new IllegalArgumentException("Input frame cannot be null");
         }
 
-        if (frame.format() != AV_PIX_FMT_BGR24)
-        {
+        if (frame.format() != AV_PIX_FMT_BGR24) {
             throw new IllegalArgumentException("Input format must be BGR24");
         }
 
         // Allocate bufferedImage if needed
-        if (bufferedImage == null || bufferedImage.getWidth() != frame.width()
-                || bufferedImage.getHeight() != frame.height())
-        {
+        if (bufferedImage == null
+                || bufferedImage.getWidth() != frame.width()
+                || bufferedImage.getHeight() != frame.height()) {
             logger.debug("Allocating buffer of size " + frame.width() + "x" + frame.height());
-            bufferedImage = new BufferedImage(frame.width(), frame.height(), BufferedImage.TYPE_3BYTE_BGR);
+            bufferedImage =
+                    new BufferedImage(frame.width(), frame.height(), BufferedImage.TYPE_3BYTE_BGR);
         }
 
         // Output buffer
@@ -64,16 +58,13 @@ public class FrameConverter
         return bufferedImage;
     }
 
-    private static void copy(ByteBuffer srcBuf, int srcStep,
-                             ByteBuffer dstBuf, int dstStep)
-    {
+    private static void copy(ByteBuffer srcBuf, int srcStep, ByteBuffer dstBuf, int dstStep) {
         assert srcBuf != dstBuf;
         int srcLine = srcBuf.position();
         int dstLine = dstBuf.position();
         final int w = Math.min(srcStep, dstStep);
 
-        while (srcLine < srcBuf.capacity() && dstLine < dstBuf.capacity())
-        {
+        while (srcLine < srcBuf.capacity() && dstLine < dstBuf.capacity()) {
             srcBuf.position(srcLine);
             dstBuf.position(dstLine);
 

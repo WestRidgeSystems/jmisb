@@ -3,52 +3,36 @@ package org.jmisb.api.klv.st0903.algorithm;
 import java.util.HashMap;
 import java.util.Map;
 
-/**
- * Metadata tag numbers for ST0903 Algorithm local set.
- */
-public enum AlgorithmMetadataKey
-{
-    /**
-     * Unknown key. This should not be created.
-     */
+/** Metadata tag numbers for ST0903 Algorithm local set. */
+public enum AlgorithmMetadataKey {
+    /** Unknown key. This should not be created. */
     Undefined(0),
-    /**
-     * Identifier for the algorithm used.
-     */
+    /** Identifier for the algorithm used. */
     id(1),
-    /**
-     * Name of algorithm.
-     */
+    /** Name of algorithm. */
     name(2),
-    /**
-     * Version of algorithm.
-     */
+    /** Version of algorithm. */
     version(3),
     /**
      * Type of algorithm.
      *
-     * e.g., detector classifier
+     * <p>e.g., detector classifier
      */
     algorithmClass(4),
-    /**
-     * Number of frames algorithm operates over.
-     */
+    /** Number of frames algorithm operates over. */
     nFrames(5);
 
     private int tag;
 
     private static final Map<Integer, AlgorithmMetadataKey> tagTable = new HashMap<>();
 
-    static
-    {
-        for (AlgorithmMetadataKey key : values())
-        {
+    static {
+        for (AlgorithmMetadataKey key : values()) {
             tagTable.put(key.tag, key);
         }
     }
 
-    AlgorithmMetadataKey(int tag)
-    {
+    AlgorithmMetadataKey(int tag) {
         this.tag = tag;
     }
 
@@ -57,8 +41,7 @@ public enum AlgorithmMetadataKey
      *
      * @return the tag associated with this enumerated value.
      */
-    public int getTag()
-    {
+    public int getTag() {
         return tag;
     }
 
@@ -68,9 +51,7 @@ public enum AlgorithmMetadataKey
      * @param tag the tag number.
      * @return the corresponding Algorithm tag.
      */
-    public static AlgorithmMetadataKey getKey(int tag)
-    {
+    public static AlgorithmMetadataKey getKey(int tag) {
         return tagTable.containsKey(tag) ? tagTable.get(tag) : Undefined;
     }
-
 }

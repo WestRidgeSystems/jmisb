@@ -1,19 +1,18 @@
 package org.jmisb.api.klv.st0601;
 
+import static org.testng.Assert.assertEquals;
+import static org.testng.Assert.assertTrue;
+
 import java.util.ArrayList;
 import java.util.List;
 import org.jmisb.api.common.KlvParseException;
-import static org.testng.Assert.assertEquals;
-import static org.testng.Assert.assertTrue;
 import org.testng.annotations.Test;
 
-public class ControlCommandVerificationTest
-{
-    private final byte[] ST_EXAMPLE_BYTES = new byte[]{(byte)0x03, (byte)0x07};
+public class ControlCommandVerificationTest {
+    private final byte[] ST_EXAMPLE_BYTES = new byte[] {(byte) 0x03, (byte) 0x07};
 
     @Test
-    public void testConstructFromValue()
-    {
+    public void testConstructFromValue() {
         // From ST:
         List<Integer> ids = new ArrayList<>();
         ids.add(3);
@@ -23,23 +22,23 @@ public class ControlCommandVerificationTest
     }
 
     @Test
-    public void testConstructFromEncoded()
-    {
-        ControlCommandVerification controlCommandVerification = new ControlCommandVerification(ST_EXAMPLE_BYTES);
+    public void testConstructFromEncoded() {
+        ControlCommandVerification controlCommandVerification =
+                new ControlCommandVerification(ST_EXAMPLE_BYTES);
         checkValuesForExample(controlCommandVerification);
     }
 
     @Test
-    public void testFactory() throws KlvParseException
-    {
-        IUasDatalinkValue v = UasDatalinkFactory.createValue(UasDatalinkTag.ControlCommandVerification, ST_EXAMPLE_BYTES);
+    public void testFactory() throws KlvParseException {
+        IUasDatalinkValue v =
+                UasDatalinkFactory.createValue(
+                        UasDatalinkTag.ControlCommandVerification, ST_EXAMPLE_BYTES);
         assertTrue(v instanceof ControlCommandVerification);
-        ControlCommandVerification controlCommandVerification = (ControlCommandVerification)v;
+        ControlCommandVerification controlCommandVerification = (ControlCommandVerification) v;
         checkValuesForExample(controlCommandVerification);
     }
 
-    private void checkValuesForExample(ControlCommandVerification controlCommandVerification)
-    {
+    private void checkValuesForExample(ControlCommandVerification controlCommandVerification) {
         assertEquals(controlCommandVerification.getCommandIds().size(), 2);
         assertEquals(controlCommandVerification.getCommandIds().get(0).intValue(), 3);
         assertEquals(controlCommandVerification.getCommandIds().get(1).intValue(), 7);

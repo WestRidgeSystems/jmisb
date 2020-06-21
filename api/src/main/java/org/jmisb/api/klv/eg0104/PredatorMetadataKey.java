@@ -1,17 +1,17 @@
 package org.jmisb.api.klv.eg0104;
 
-import java.util.Arrays;
-import org.jmisb.api.klv.UniversalLabel;
-
 import java.util.HashMap;
 import java.util.Map;
+import org.jmisb.api.klv.UniversalLabel;
 
-/**
- * EG 0104 key
- */
-public enum PredatorMetadataKey
-{
-    Undefined(new UniversalLabel(new byte[]{0x06, 0x0e, 0x2b, 0x34, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00})),
+/** EG 0104 key */
+public enum PredatorMetadataKey {
+    Undefined(
+            new UniversalLabel(
+                    new byte[] {
+                        0x06, 0x0e, 0x2b, 0x34, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00,
+                        0x00, 0x00, 0x00, 0x00
+                    })),
     FrameCenterLatitude(PredatorMetadataConstants.FRAME_CENTRE_LATITUDE),
     FrameCenterLongitude(PredatorMetadataConstants.FRAME_CENTRE_LONGITUDE),
     FrameCenterElevation(PredatorMetadataConstants.FRAME_CENTRE_ELEVATION),
@@ -48,26 +48,21 @@ public enum PredatorMetadataKey
 
     private static final Map<UniversalLabel, PredatorMetadataKey> ulTable = new HashMap<>();
 
-    static
-    {
-        for (PredatorMetadataKey key : values())
-        {
+    static {
+        for (PredatorMetadataKey key : values()) {
             ulTable.put(key.ul, key);
         }
     }
 
-    PredatorMetadataKey(UniversalLabel ul)
-    {
+    PredatorMetadataKey(UniversalLabel ul) {
         this.ul = ul;
     }
 
-    public UniversalLabel getUl()
-    {
+    public UniversalLabel getUl() {
         return ul;
     }
 
-    public static PredatorMetadataKey getKey(UniversalLabel ul)
-    {
+    public static PredatorMetadataKey getKey(UniversalLabel ul) {
         return ulTable.containsKey(ul) ? ulTable.get(ul) : Undefined;
     }
 }

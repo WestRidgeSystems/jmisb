@@ -6,14 +6,12 @@ import org.jmisb.api.klv.st0903.shared.VmtiTextString;
 import org.testng.Assert;
 import org.testng.annotations.Test;
 
-public class AlgorithmTest
-{
+public class AlgorithmTest {
     @Test
-    public void testAlgorithm()
-    {
+    public void testAlgorithm() {
         // Example from VTracker Tag 6 Algorithm.
         final String stringVal = "test";
-        final byte[] bytes = new byte[]{0x74, 0x65, 0x73, 0x74};
+        final byte[] bytes = new byte[] {0x74, 0x65, 0x73, 0x74};
 
         VmtiTextString string = new VmtiTextString(VmtiTextString.ALGORITHM, stringVal);
         Assert.assertEquals(string.getDisplayName(), VmtiTextString.ALGORITHM);
@@ -27,12 +25,11 @@ public class AlgorithmTest
     }
 
     @Test
-    public void testFactoryAlgorithm() throws KlvParseException
-    {
-        byte[] bytes = new byte[]{0x74, 0x65, 0x73, 0x74};
+    public void testFactoryAlgorithm() throws KlvParseException {
+        byte[] bytes = new byte[] {0x74, 0x65, 0x73, 0x74};
         IVmtiMetadataValue v = VTrackerLS.createValue(VTrackerMetadataKey.algorithm, bytes);
         Assert.assertTrue(v instanceof VmtiTextString);
-        VmtiTextString string = (VmtiTextString)v;
+        VmtiTextString string = (VmtiTextString) v;
         Assert.assertEquals(string.getDisplayName(), VmtiTextString.ALGORITHM);
         Assert.assertEquals(string.getBytes(), bytes);
         Assert.assertEquals(string.getDisplayableValue(), "test");

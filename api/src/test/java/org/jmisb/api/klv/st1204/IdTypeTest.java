@@ -1,12 +1,12 @@
 package org.jmisb.api.klv.st1204;
 
 import static org.testng.Assert.*;
+
 import org.testng.annotations.Test;
 
 public class IdTypeTest {
-    
-    public IdTypeTest() {
-    }
+
+    public IdTypeTest() {}
 
     @Test
     public void checkEnumValue() {
@@ -23,7 +23,7 @@ public class IdTypeTest {
         assertEquals(IdType.fromValue(2), IdType.Virtual);
         assertEquals(IdType.fromValue(3), IdType.Physical);
     }
-    
+
     @Test
     public void checkOutOfRangeValue() {
         assertEquals(IdType.fromValue(-1), IdType.None);

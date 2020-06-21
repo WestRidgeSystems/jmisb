@@ -6,18 +6,19 @@ import org.jmisb.api.klv.st0903.vobject.VObjectLS;
 
 /**
  * VObject Ontology (ST0903 VTarget Pack Tag 102).
- * <p>
- * From ST0903:
+ *
+ * <p>From ST0903:
+ *
  * <blockquote>
- * The VObject Local Set describes the class or type of a target (aircraft,
- * watercraft, car, truck, train, dismount, etc.) to an arbitrary level of
- * detail. For example, it might be useful to expand the notion of a “dismount”
- * to include combatant, noncombatant, male, female, etc. This standard mandates
- * the use of the Web Ontology Language (OWL) to define the VObject ontology.
+ *
+ * The VObject Local Set describes the class or type of a target (aircraft, watercraft, car, truck,
+ * train, dismount, etc.) to an arbitrary level of detail. For example, it might be useful to expand
+ * the notion of a “dismount” to include combatant, noncombatant, male, female, etc. This standard
+ * mandates the use of the Web Ontology Language (OWL) to define the VObject ontology.
+ *
  * </blockquote>
  */
-public class VObject implements IVmtiMetadataValue
-{
+public class VObject implements IVmtiMetadataValue {
     private final VObjectLS value;
 
     /**
@@ -25,8 +26,7 @@ public class VObject implements IVmtiMetadataValue
      *
      * @param vObject the VObject Local Set.
      */
-    public VObject(VObjectLS vObject)
-    {
+    public VObject(VObjectLS vObject) {
         value = vObject;
     }
 
@@ -36,26 +36,22 @@ public class VObject implements IVmtiMetadataValue
      * @param bytes Encoded byte array comprising the VObject LS
      * @throws KlvParseException if the byte array could not be parsed.
      */
-    public VObject(byte[] bytes) throws KlvParseException
-    {
+    public VObject(byte[] bytes) throws KlvParseException {
         value = new VObjectLS(bytes, 0, bytes.length);
     }
 
     @Override
-    public byte[] getBytes()
-    {
+    public byte[] getBytes() {
         return value.getBytes();
     }
 
     @Override
-    public String getDisplayableValue()
-    {
+    public String getDisplayableValue() {
         return "[VObject]";
     }
 
     @Override
-    public final String getDisplayName()
-    {
+    public final String getDisplayName() {
         return "VObject Ontology";
     }
 
@@ -64,8 +60,7 @@ public class VObject implements IVmtiMetadataValue
      *
      * @return the chip local set.
      */
-    public VObjectLS getVObject()
-    {
+    public VObjectLS getVObject() {
         return value;
     }
 }

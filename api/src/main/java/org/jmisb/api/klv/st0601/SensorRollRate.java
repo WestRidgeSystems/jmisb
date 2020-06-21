@@ -2,28 +2,28 @@ package org.jmisb.api.klv.st0601;
 
 /**
  * Sensor Roll Rate (ST0601 Tag 119)
- * <p>
- * From ST:
+ *
+ * <p>From ST:
+ *
  * <blockquote>
+ *
  * The rate the sensors roll angle is changing.
- * <p>
- * Resolution: 2 bytes = 0.0625 degrees/second, 3 bytes = 0.000244 degrees/second
- * <p>
- * Uses the same orientation as Sensor Relative Roll Angle (Tag 20). Refer to
- * Tag 20's description: From behind the sensor, when the sensor is moving
- * clockwise the rate is positive and negative when its moving
- * counter-clockwise.
+ *
+ * <p>Resolution: 2 bytes = 0.0625 degrees/second, 3 bytes = 0.000244 degrees/second
+ *
+ * <p>Uses the same orientation as Sensor Relative Roll Angle (Tag 20). Refer to Tag 20's
+ * description: From behind the sensor, when the sensor is moving clockwise the rate is positive and
+ * negative when its moving counter-clockwise.
+ *
  * </blockquote>
  */
-public class SensorRollRate extends SensorAngleRate
-{
+public class SensorRollRate extends SensorAngleRate {
     /**
      * Create from value
      *
      * @param rate Sensor angle rate in degrees per second. Valid range is [-1000,1000]
      */
-    public SensorRollRate(double rate)
-    {
+    public SensorRollRate(double rate) {
         super(rate);
     }
 
@@ -32,15 +32,12 @@ public class SensorRollRate extends SensorAngleRate
      *
      * @param bytes IMAPB Encoded byte array, 4 bytes maximum
      */
-    public SensorRollRate(byte[] bytes)
-    {
+    public SensorRollRate(byte[] bytes) {
         super(bytes);
     }
 
     @Override
-    public String getDisplayName()
-    {
+    public String getDisplayName() {
         return "Sensor Roll Rate";
     }
-
 }

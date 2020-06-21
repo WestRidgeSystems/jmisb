@@ -6,20 +6,21 @@ import org.jmisb.api.klv.st0903.vchip.VChipLS;
 
 /**
  * VChip Image Chip (ST0903 VTarget Pack Tag 105).
- * <p>
- * From ST0903:
+ *
+ * <p>From ST0903:
+ *
  * <blockquote>
- * Allows inclusion of an image “chip” of the target. This LS will find use in
- * bandwidth constrained environments, where the operator does not have access
- * to the underlying Motion Imagery stream. In general, the image chip will
- * simply be “embedded” with the VMTI metadata. However, this specification
- * permits reference to an image using a Uniform Resource Identifier/Locator
- * (URI / URL) to support linking to a previously stored image, obviating the
- * need to include the image data itself in the stream.
+ *
+ * Allows inclusion of an image “chip” of the target. This LS will find use in bandwidth constrained
+ * environments, where the operator does not have access to the underlying Motion Imagery stream. In
+ * general, the image chip will simply be “embedded” with the VMTI metadata. However, this
+ * specification permits reference to an image using a Uniform Resource Identifier/Locator (URI /
+ * URL) to support linking to a previously stored image, obviating the need to include the image
+ * data itself in the stream.
+ *
  * </blockquote>
  */
-public class VChip implements IVmtiMetadataValue
-{
+public class VChip implements IVmtiMetadataValue {
     private final VChipLS value;
 
     /**
@@ -27,8 +28,7 @@ public class VChip implements IVmtiMetadataValue
      *
      * @param vchip the VChip Local Set.
      */
-    public VChip(VChipLS vchip)
-    {
+    public VChip(VChipLS vchip) {
         value = vchip;
     }
 
@@ -38,26 +38,22 @@ public class VChip implements IVmtiMetadataValue
      * @param bytes Encoded byte array comprising the VChip LS
      * @throws KlvParseException if the byte array could not be parsed.
      */
-    public VChip(byte[] bytes) throws KlvParseException
-    {
+    public VChip(byte[] bytes) throws KlvParseException {
         value = new VChipLS(bytes, 0, bytes.length);
     }
 
     @Override
-    public byte[] getBytes()
-    {
+    public byte[] getBytes() {
         return value.getBytes();
     }
 
     @Override
-    public String getDisplayableValue()
-    {
+    public String getDisplayableValue() {
         return "[VChip]";
     }
 
     @Override
-    public final String getDisplayName()
-    {
+    public final String getDisplayName() {
         return "Image Chip";
     }
 
@@ -66,8 +62,7 @@ public class VChip implements IVmtiMetadataValue
      *
      * @return the chip local set.
      */
-    public VChipLS getChip()
-    {
+    public VChipLS getChip() {
         return value;
     }
 }

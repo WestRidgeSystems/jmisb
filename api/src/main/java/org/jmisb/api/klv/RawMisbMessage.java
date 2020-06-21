@@ -1,22 +1,17 @@
 package org.jmisb.api.klv;
 
-/**
- * Represents an unparsed {@link IMisbMessage}
- */
-public class RawMisbMessage implements IMisbMessage
-{
+/** Represents an unparsed {@link IMisbMessage} */
+public class RawMisbMessage implements IMisbMessage {
     private UniversalLabel universalLabel;
     private byte[] bytes;
 
-    public RawMisbMessage(UniversalLabel universalLabel, byte[] bytes)
-    {
+    public RawMisbMessage(UniversalLabel universalLabel, byte[] bytes) {
         this.universalLabel = universalLabel;
         this.bytes = bytes.clone();
     }
 
     @Override
-    public UniversalLabel getUniversalLabel()
-    {
+    public UniversalLabel getUniversalLabel() {
         return universalLabel;
     }
 
@@ -25,14 +20,12 @@ public class RawMisbMessage implements IMisbMessage
      *
      * @return The raw byte array
      */
-    public byte[] getBytes()
-    {
+    public byte[] getBytes() {
         return bytes.clone();
     }
 
     @Override
-    public byte[] frameMessage(boolean isNested)
-    {
+    public byte[] frameMessage(boolean isNested) {
         return getBytes();
     }
 

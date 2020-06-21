@@ -18,17 +18,14 @@ import org.slf4j.LoggerFactory;
 /**
  * ST0806 Remove Video Terminal Area of Interest (AOI) Local Set.
  *
- * Any number of AOI Local Sets (including none) can be embedded in a parent
- * RvtLocalSet instance.
+ * <p>Any number of AOI Local Sets (including none) can be embedded in a parent RvtLocalSet
+ * instance.
  */
-public class RvtAoiLocalSet implements IRvtMetadataValue
-{
+public class RvtAoiLocalSet implements IRvtMetadataValue {
 
     private static final Logger LOGGER = LoggerFactory.getLogger(RvtAoiLocalSet.class);
 
-    /**
-     * Map containing all data elements in the message
-     */
+    /** Map containing all data elements in the message */
     private final SortedMap<RvtAoiMetadataKey, IRvtPoiAoiMetadataValue> map = new TreeMap<>();
 
     /**
@@ -36,8 +33,7 @@ public class RvtAoiLocalSet implements IRvtMetadataValue
      *
      * @param values Tag/value pairs to be included in the local set/
      */
-    public RvtAoiLocalSet(Map<RvtAoiMetadataKey, IRvtPoiAoiMetadataValue> values)
-    {
+    public RvtAoiLocalSet(Map<RvtAoiMetadataKey, IRvtPoiAoiMetadataValue> values) {
         map.putAll(values);
     }
 
@@ -47,21 +43,15 @@ public class RvtAoiLocalSet implements IRvtMetadataValue
      * @param bytes Byte array to parse
      * @param start Index of the first byte to parse
      * @param length Number of bytes to parse
-     *
      * @throws KlvParseException If a parsing error occurs
      */
-    public RvtAoiLocalSet(byte[] bytes, int start, int length) throws KlvParseException
-    {
+    public RvtAoiLocalSet(byte[] bytes, int start, int length) throws KlvParseException {
         List<LdsField> fields = LdsParser.parseFields(bytes, start, length);
-        for (LdsField field : fields)
-        {
+        for (LdsField field : fields) {
             RvtAoiMetadataKey key = RvtAoiMetadataKey.getKey(field.getTag());
-            if (key == RvtAoiMetadataKey.Undefined)
-            {
+            if (key == RvtAoiMetadataKey.Undefined) {
                 LOGGER.info("Unknown RVT AOI Metadata tag: {}", field.getTag());
-            }
-            else
-            {
+            } else {
                 IRvtPoiAoiMetadataValue value = createValue(key, field.getData());
                 map.put(key, value);
             }
@@ -76,10 +66,9 @@ public class RvtAoiLocalSet implements IRvtMetadataValue
      * @return The new instance
      * @throws KlvParseException if the bytes could not be parsed.
      */
-    public static IRvtPoiAoiMetadataValue createValue(RvtAoiMetadataKey tag, byte[] bytes) throws KlvParseException
-    {
-        switch (tag)
-        {
+    public static IRvtPoiAoiMetadataValue createValue(RvtAoiMetadataKey tag, byte[] bytes)
+            throws KlvParseException {
+        switch (tag) {
             case PoiAoiNumber:
                 return new PoiAoiNumber(bytes);
             case CornerLatitudePoint1:
@@ -111,8 +100,7 @@ public class RvtAoiLocalSet implements IRvtMetadataValue
      *
      * @return The set of tags for which values have been set
      */
-    public Set<RvtAoiMetadataKey> getTags()
-    {
+    public Set<RvtAoiMetadataKey> getTags() {
         return map.keySet();
     }
 
@@ -122,23 +110,21 @@ public class RvtAoiLocalSet implements IRvtMetadataValue
      * @param tag Tag of the value to retrieve
      * @return The value, or null if no value was set
      */
-    public IRvtPoiAoiMetadataValue getField(RvtAoiMetadataKey tag)
-    {
+    public IRvtPoiAoiMetadataValue getField(RvtAoiMetadataKey tag) {
         return map.get(tag);
     }
 
     /**
      * Get the byte array corresponding to the value for this Local Set.
+     *
      * @return byte array with the encoded local set.
      */
     @Override
-    public byte[] getBytes()
-    {
+    public byte[] getBytes() {
         int len = 0;
         List<byte[]> chunks = new ArrayList<>();
-        for (RvtAoiMetadataKey tag: getTags())
-        {
-            chunks.add(new byte[]{(byte) tag.getTag()});
+        for (RvtAoiMetadataKey tag : getTags()) {
+            chunks.add(new byte[] {(byte) tag.getTag()});
             len += 1;
             IRvtPoiAoiMetadataValue value = getField(tag);
             byte[] bytes = value.getBytes();
@@ -152,14 +138,12 @@ public class RvtAoiLocalSet implements IRvtMetadataValue
     }
 
     @Override
-    public String getDisplayableValue()
-    {
+    public String getDisplayableValue() {
         return "[AOI Local Set]";
     }
 
     @Override
-    public String getDisplayName()
-    {
+    public String getDisplayName() {
         return "Area of Interest";
     }
 }

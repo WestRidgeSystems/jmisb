@@ -1,26 +1,20 @@
 package org.jmisb.viewer;
 
+import java.awt.Dimension;
+import javax.swing.*;
 import org.jmisb.api.video.IVideoInput;
 import org.jmisb.api.video.PesInfo;
 
-import javax.swing.*;
-import java.awt.Dimension;
-
-/**
- * Dialog to display basic stream information
- */
-class StreamInfoDialog extends JDialog
-{
-    StreamInfoDialog(JFrame owner, IVideoInput videoInput)
-    {
+/** Dialog to display basic stream information */
+class StreamInfoDialog extends JDialog {
+    StreamInfoDialog(JFrame owner, IVideoInput videoInput) {
         super(owner, "Stream Info");
         initComponents(videoInput);
         setLocationRelativeTo(owner);
         setDefaultCloseOperation(DISPOSE_ON_CLOSE);
     }
 
-    private void initComponents(IVideoInput videoInput)
-    {
+    private void initComponents(IVideoInput videoInput) {
         JTextArea textArea = new JTextArea();
         textArea.setEditable(false);
 
@@ -33,8 +27,6 @@ class StreamInfoDialog extends JDialog
         getContentPane().add(panel);
         pack();
 
-        if (videoInput != null)
-            textArea.setText(PesInfo.asJson(videoInput.getPesInfo()));
+        if (videoInput != null) textArea.setText(PesInfo.asJson(videoInput.getPesInfo()));
     }
 }
-

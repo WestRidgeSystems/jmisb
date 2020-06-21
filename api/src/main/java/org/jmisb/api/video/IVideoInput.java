@@ -3,11 +3,8 @@ package org.jmisb.api.video;
 import java.io.IOException;
 import java.util.List;
 
-/**
- * Base interface for reading video and metadata
- */
-public interface IVideoInput extends AutoCloseable
-{
+/** Base interface for reading video and metadata */
+public interface IVideoInput extends AutoCloseable {
     /**
      * Open video for reading
      *

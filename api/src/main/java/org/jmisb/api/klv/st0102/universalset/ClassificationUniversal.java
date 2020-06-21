@@ -1,35 +1,30 @@
 package org.jmisb.api.klv.st0102.universalset;
 
+import java.nio.charset.StandardCharsets;
 import org.jmisb.api.klv.st0102.Classification;
 import org.jmisb.api.klv.st0102.ISecurityMetadataValue;
 
-import java.nio.charset.StandardCharsets;
-
-/**
- * Security classification level as defined by Security Metadata Universal Set (ST 0102 tag 1)
- */
-public class ClassificationUniversal implements ISecurityMetadataValue
-{
+/** Security classification level as defined by Security Metadata Universal Set (ST 0102 tag 1) */
+public class ClassificationUniversal implements ISecurityMetadataValue {
     private Classification value;
 
     /**
      * Create from value
+     *
      * @param classification The classification level
      */
-    public ClassificationUniversal(Classification classification)
-    {
+    public ClassificationUniversal(Classification classification) {
         this.value = classification;
     }
 
     /**
      * Create from encoded bytes
+     *
      * @param bytes The encoded byte array
      */
-    public ClassificationUniversal(byte[] bytes)
-    {
+    public ClassificationUniversal(byte[] bytes) {
         String inputString = new String(bytes, StandardCharsets.US_ASCII);
-        switch (inputString)
-        {
+        switch (inputString) {
             case "TOP SECRET//":
                 this.value = Classification.TOP_SECRET;
                 break;
@@ -46,25 +41,24 @@ public class ClassificationUniversal implements ISecurityMetadataValue
                 this.value = Classification.UNCLASSIFIED;
                 break;
             default:
-                throw new IllegalArgumentException("Invalid security classification: " + inputString);
+                throw new IllegalArgumentException(
+                        "Invalid security classification: " + inputString);
         }
     }
 
     /**
      * Get the classification level
+     *
      * @return The classification level
      */
-    public Classification getClassification()
-    {
+    public Classification getClassification() {
         return value;
     }
 
     @Override
-    public byte[] getBytes()
-    {
+    public byte[] getBytes() {
         String string = "";
-        switch(value)
-        {
+        switch (value) {
             case TOP_SECRET:
                 string = "TOP SECRET//";
                 break;
@@ -87,14 +81,12 @@ public class ClassificationUniversal implements ISecurityMetadataValue
     }
 
     @Override
-    public String getDisplayableValue()
-    {
+    public String getDisplayableValue() {
         return new String(getBytes(), StandardCharsets.US_ASCII);
     }
 
     @Override
-    public String getDisplayName()
-    {
+    public String getDisplayName() {
         return "Classification";
     }
 }

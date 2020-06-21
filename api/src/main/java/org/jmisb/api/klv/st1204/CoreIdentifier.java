@@ -1,6 +1,5 @@
 package org.jmisb.api.klv.st1204;
 
-import org.jmisb.core.klv.UuidUtils;
 import java.security.MessageDigest;
 import java.security.NoSuchAlgorithmException;
 import java.util.ArrayList;
@@ -9,6 +8,7 @@ import java.util.UUID;
 import org.jmisb.api.klv.BerDecoder;
 import org.jmisb.api.klv.BerField;
 import org.jmisb.core.klv.ArrayUtils;
+import org.jmisb.core.klv.UuidUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -65,8 +65,7 @@ import org.slf4j.LoggerFactory;
  * </p>
  * </blockquote>
  */
-public class CoreIdentifier
-{
+public class CoreIdentifier {
     private static final Logger LOGGER = LoggerFactory.getLogger(CoreIdentifier.class);
 
     private static final int UUID_BYTE_LEN = 16;
@@ -84,28 +83,24 @@ public class CoreIdentifier
 
     /**
      * Construct a CoreIdentifier from a text format string.
-     * <p>
-     * The FCID format is:
-     * VersionUsageValue:SensorID/PlatformID/WindowID:CheckValue.
-     * <p>
-     * An example is:
-     * </p>
+     *
+     * <p>The FCID format is: VersionUsageValue:SensorID/PlatformID/WindowID:CheckValue.
+     *
+     * <p>An example is:
+     *
      * <pre>
      * 0170:F592-F023-7336-4AF8-AA91-62C0-0F2E-B2DA/16B7-4341-0008-41A0-BE36-5B5A-B96A-3645:D3
      * </pre>
-     * <p>
-     * The MCID format is: VersionUsageValue:MCID:CheckValue.
-     * </p>
-     * <p>
-     * This method tolerates a missing check value (although this will be
-     * flagged in the resulting identifier).
+     *
+     * <p>The MCID format is: VersionUsageValue:MCID:CheckValue.
+     *
+     * <p>This method tolerates a missing check value (although this will be flagged in the
+     * resulting identifier).
      *
      * @param text the text string.
-     * @return A core identifier, or null if the string was not correctly
-     * formatted.
+     * @return A core identifier, or null if the string was not correctly formatted.
      */
-    public static CoreIdentifier fromString(final String text)
-    {
+    public static CoreIdentifier fromString(final String text) {
         CoreIdentifier coreIdentifier = new CoreIdentifier();
         String[] parts = text.split(":");
         if (parts.length < 2) {
@@ -163,10 +158,8 @@ public class CoreIdentifier
      * @param bytes byte array corresponding to the core identifier.
      * @return core identifier, or null if there are insufficient bytes
      */
-    public static CoreIdentifier fromBytes(byte[] bytes)
-    {
-        if (bytes.length < 2)
-        {
+    public static CoreIdentifier fromBytes(byte[] bytes) {
+        if (bytes.length < 2) {
             LOGGER.error("Insufficient bytes to read MIIS Core Identifer usage");
             return null;
         }
@@ -176,11 +169,10 @@ public class CoreIdentifier
         index += field.getLength();
         coreIdentifier.setVersion(field.getValue());
         byte usage = bytes[index];
-        index ++;
+        index++;
         coreIdentifier.parseUsage(usage);
         if (coreIdentifier.getSensorIdType() != IdType.None) {
-            if (index + UUID_BYTE_LEN > bytes.length)
-            {
+            if (index + UUID_BYTE_LEN > bytes.length) {
                 LOGGER.error("Insufficient bytes to read MIIS Sensor UUID");
                 return null;
             }
@@ -188,8 +180,7 @@ public class CoreIdentifier
             index += UUID_BYTE_LEN;
         }
         if (coreIdentifier.getPlatformIdType() != IdType.None) {
-            if (index + UUID_BYTE_LEN > bytes.length)
-            {
+            if (index + UUID_BYTE_LEN > bytes.length) {
                 LOGGER.error("Insufficient bytes to read MIIS Platform UUID");
                 return null;
             }
@@ -197,8 +188,7 @@ public class CoreIdentifier
             index += UUID_BYTE_LEN;
         }
         if (coreIdentifier.hasWindowId) {
-            if (index + UUID_BYTE_LEN > bytes.length)
-            {
+            if (index + UUID_BYTE_LEN > bytes.length) {
                 LOGGER.error("Insufficient bytes to read MIIS Window UUID");
                 return null;
             }
@@ -206,8 +196,7 @@ public class CoreIdentifier
             index += UUID_BYTE_LEN;
         }
         if (coreIdentifier.hasMinorId) {
-            if (index + UUID_BYTE_LEN > bytes.length)
-            {
+            if (index + UUID_BYTE_LEN > bytes.length) {
                 LOGGER.error("Insufficient bytes to read MIIS Minor UUID");
                 return null;
             }
@@ -221,26 +210,21 @@ public class CoreIdentifier
     /**
      * Construct a UUID from multiple UUID strings.
      *
-     * This corresponds to the ST1204.3 combination algorithm.
+     * <p>This corresponds to the ST1204.3 combination algorithm.
      *
      * @param uuids list of strings containing UUIDs
      * @return UUID corresponding to the combined list of inputs, or null if combining failed.
      */
-    public static UUID combineMultipleUUID(List<String> uuids)
-    {
-        try
-        {
+    public static UUID combineMultipleUUID(List<String> uuids) {
+        try {
             MessageDigest hasher = MessageDigest.getInstance("SHA-1");
-            for (String uuidString: uuids)
-            {
+            for (String uuidString : uuids) {
                 byte[] uuidBytes = UuidUtils.uuidStringToByteArray(uuidString);
                 hasher.update(uuidBytes);
             }
             byte[] uuidBytes = hasher.digest();
             return UuidUtils.convertHashOutputToVersion5UUID(uuidBytes);
-        }
-        catch (NoSuchAlgorithmException ex)
-        {
+        } catch (NoSuchAlgorithmException ex) {
             LOGGER.warn(null, ex);
         }
         return null;
@@ -486,9 +470,9 @@ public class CoreIdentifier
     {
         int len = 0;
         List<byte[]> chunks = new ArrayList<>();
-        chunks.add(new byte[]{(byte) version});
+        chunks.add(new byte[] {(byte) version});
         len += 1;
-        chunks.add(new byte[]{(byte) buildUsage()});
+        chunks.add(new byte[] {(byte) buildUsage()});
         len += 1;
         if (sensorUUID != null) {
             chunks.add(UuidUtils.uuidToArray(sensorUUID));
@@ -508,5 +492,4 @@ public class CoreIdentifier
         }
         return ArrayUtils.arrayFromChunks(chunks, len);
     }
-
 }

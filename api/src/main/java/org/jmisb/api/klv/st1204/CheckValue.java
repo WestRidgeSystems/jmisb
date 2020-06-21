@@ -1,8 +1,6 @@
 package org.jmisb.api.klv.st1204;
 
-/**
- * Implementation of ST1204 Appendix B Check Value calculations.
- */
+/** Implementation of ST1204 Appendix B Check Value calculations. */
 class CheckValue {
 
     static int[][] P_PERMUTATIONS;
@@ -71,7 +69,7 @@ class CheckValue {
         int checkValue = (pCheck << 4) + qCheck;
         return checkValue;
     }
-    
+
     static int checkString(String s) {
         String hex = s.replaceAll("[^0-9a-fA-F]", "");
         return checkHexString(hex);

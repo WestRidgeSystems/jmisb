@@ -42,52 +42,44 @@ package org.jmisb.api.klv.st1204;
  * a higher identifier quality level than a Managed Identifier.
  * </blockquote>
  *
- * Note: The values of these identifier types are those used in the Usage part
- * of the Core Identifier, without any bit shifting. So a Physical Identifier is
- * {@code 0b11}, rather than {@code 0b011xxxx0} for Sensor Physical Identifier or
- * {@code 0b0xx11xx0} for a Platform Physical Identifier.
+ * Note: The values of these identifier types are those used in the Usage part of the Core
+ * Identifier, without any bit shifting. So a Physical Identifier is {@code 0b11}, rather than
+ * {@code 0b011xxxx0} for Sensor Physical Identifier or {@code 0b0xx11xx0} for a Platform Physical
+ * Identifier.
  */
 public enum IdType {
 
     /**
      * Identifier is not present.
-     * <p>
-     * This corresponds to 0x0 (0b00).
+     *
+     * <p>This corresponds to 0x0 (0b00).
      */
     None(0),
     /**
      * Identifier is a Managed Identifier.
-     * <p>
-     * This corresponds to 0x1 (0b01).
+     *
+     * <p>This corresponds to 0x1 (0b01).
      */
     Managed(1),
     /**
      * Identifier is a Virtual Identifier.
-     * <p>
-     * This corresponds to 0x2 (0b10)
+     *
+     * <p>This corresponds to 0x2 (0b10)
      */
     Virtual(2),
     /**
      * Identifier is a Physical Identifier.
-     * <p>
-     * This corresponds to 0x03 (0b11).
+     *
+     * <p>This corresponds to 0x03 (0b11).
      */
     Physical(3);
 
     /**
      * Lookup an identifier by specified value.
-     * <p>
-     * <
-     * pre>{@code
-     * IdType idType = IdType.fromValue(2);
-     * // idType is IdType.Virtual
-     * }</pre>
-     * <p>
-     * <
-     * pre>{@code
-     * IdType idType = IdType.fromValue(0);
-     * // idType is IdType.None
-     * }</pre>
+     *
+     * <p>< pre>{@code IdType idType = IdType.fromValue(2); // idType is IdType.Virtual }</pre>
+     *
+     * <p>< pre>{@code IdType idType = IdType.fromValue(0); // idType is IdType.None }</pre>
      *
      * @param i the integer value of the identifier.
      * @return the equivalent IdType.
@@ -110,5 +102,4 @@ public enum IdType {
     int getValue() {
         return value;
     }
-
 }

@@ -4,12 +4,11 @@ import org.jmisb.api.klv.st0903.IVmtiMetadataValue;
 import org.jmisb.api.klv.st1201.FpEncoder;
 
 /**
- * Shared superclass for TargetLocationOffsetLatitude (Tag 10) and
- * TargetLocationOffsetLongitude (Tag 11).
+ * Shared superclass for TargetLocationOffsetLatitude (Tag 10) and TargetLocationOffsetLongitude
+ * (Tag 11).
  */
-public abstract class AbstractTargetLocationOffset implements IVmtiMetadataValue
-{
-    
+public abstract class AbstractTargetLocationOffset implements IVmtiMetadataValue {
+
     protected static final double MIN_VAL = -19.2;
     protected static final double MAX_VAL = 19.2;
     protected static final int NUM_BYTES = 3;
@@ -20,11 +19,10 @@ public abstract class AbstractTargetLocationOffset implements IVmtiMetadataValue
      *
      * @param offset location offset in degrees. Valid range is [-19.2, 19.2]
      */
-    public AbstractTargetLocationOffset(double offset)
-    {
-        if (offset < MIN_VAL || offset > MAX_VAL)
-        {
-            throw new IllegalArgumentException(this.getDisplayName() + " must be in range [-19.2,19.2]");
+    public AbstractTargetLocationOffset(double offset) {
+        if (offset < MIN_VAL || offset > MAX_VAL) {
+            throw new IllegalArgumentException(
+                    this.getDisplayName() + " must be in range [-19.2,19.2]");
         }
         this.value = offset;
     }
@@ -34,26 +32,23 @@ public abstract class AbstractTargetLocationOffset implements IVmtiMetadataValue
      *
      * @param bytes Encoded byte array
      */
-    public AbstractTargetLocationOffset(byte[] bytes)
-    {
-        if (bytes.length != 3)
-        {
-            throw new IllegalArgumentException(this.getDisplayName() + " encoding is three byte IMAPB as of ST0903.4");
+    public AbstractTargetLocationOffset(byte[] bytes) {
+        if (bytes.length != 3) {
+            throw new IllegalArgumentException(
+                    this.getDisplayName() + " encoding is three byte IMAPB as of ST0903.4");
         }
         FpEncoder decoder = new FpEncoder(MIN_VAL, MAX_VAL, bytes.length);
         this.value = decoder.decode(bytes);
     }
 
     @Override
-    public byte[] getBytes()
-    {
+    public byte[] getBytes() {
         FpEncoder encoder = new FpEncoder(MIN_VAL, MAX_VAL, NUM_BYTES);
         return encoder.encode(this.value);
     }
 
     @Override
-    public String getDisplayableValue()
-    {
+    public String getDisplayableValue() {
         return String.format("%.5f\u00B0", value);
     }
 
@@ -62,8 +57,7 @@ public abstract class AbstractTargetLocationOffset implements IVmtiMetadataValue
      *
      * @return the value in offset degrees.
      */
-    public double getValue()
-    {
+    public double getValue() {
         return this.value;
     }
 }

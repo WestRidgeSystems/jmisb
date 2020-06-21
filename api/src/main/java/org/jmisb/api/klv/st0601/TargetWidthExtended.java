@@ -4,19 +4,21 @@ import org.jmisb.api.klv.st1201.FpEncoder;
 
 /**
  * Target Width Extended (ST 0601 tag 96)
- * <p>
- * From ST:
+ *
+ * <p>From ST:
+ *
  * <blockquote>
+ *
  * Target width within sensor field of view.
- * <p>
- * Resolution: 2 bytes = 64 meters, 3 bytes = 0.25 meters
- * <p>
- * Range of 0 to 1,500,000 m established as maximum distance visible from an
- * altitude of 40,000 m.
+ *
+ * <p>Resolution: 2 bytes = 64 meters, 3 bytes = 0.25 meters
+ *
+ * <p>Range of 0 to 1,500,000 m established as maximum distance visible from an altitude of 40,000
+ * m.
+ *
  * </blockquote>
  */
-public class TargetWidthExtended implements IUasDatalinkValue
-{
+public class TargetWidthExtended implements IUasDatalinkValue {
     private double metres;
     private static double MIN_VAL = 0.0;
     private static double MAX_VAL = 1500000.0;
@@ -28,10 +30,10 @@ public class TargetWidthExtended implements IUasDatalinkValue
      *
      * @param meters Target width, in meters. Valid range is [0,1500000]
      */
-    public TargetWidthExtended(double meters)
-    {
+    public TargetWidthExtended(double meters) {
         if (meters < MIN_VAL || meters > MAX_VAL) {
-            throw new IllegalArgumentException(this.getDisplayName() + " must be in range [0,1500000]");
+            throw new IllegalArgumentException(
+                    this.getDisplayName() + " must be in range [0,1500000]");
         }
         this.metres = meters;
     }
@@ -41,11 +43,10 @@ public class TargetWidthExtended implements IUasDatalinkValue
      *
      * @param bytes IMAPB Encoded byte array, 8 bytes maximum
      */
-    public TargetWidthExtended(byte[] bytes)
-    {
-        if (bytes.length > MAX_BYTES)
-        {
-            throw new IllegalArgumentException(this.getDisplayName() + " cannot be longer than " + MAX_BYTES + " bytes");
+    public TargetWidthExtended(byte[] bytes) {
+        if (bytes.length > MAX_BYTES) {
+            throw new IllegalArgumentException(
+                    this.getDisplayName() + " cannot be longer than " + MAX_BYTES + " bytes");
         }
         FpEncoder decoder = new FpEncoder(MIN_VAL, MAX_VAL, bytes.length);
         metres = decoder.decode(bytes);
@@ -56,28 +57,23 @@ public class TargetWidthExtended implements IUasDatalinkValue
      *
      * @return Target width in meters
      */
-    public double getMeters()
-    {
+    public double getMeters() {
         return metres;
     }
 
     @Override
-    public byte[] getBytes()
-    {
+    public byte[] getBytes() {
         FpEncoder encoder = new FpEncoder(MIN_VAL, MAX_VAL, RECOMMENDED_BYTES);
         return encoder.encode(metres);
     }
 
     @Override
-    public String getDisplayableValue()
-    {
+    public String getDisplayableValue() {
         return String.format("%.1fm", metres);
     }
 
     @Override
-    public final String getDisplayName()
-    {
+    public final String getDisplayName() {
         return "Target Width Extended";
     }
-
 }

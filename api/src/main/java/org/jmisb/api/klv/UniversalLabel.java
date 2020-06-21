@@ -2,11 +2,8 @@ package org.jmisb.api.klv;
 
 import java.util.Arrays;
 
-/**
- * Represents a 16-byte Universal Label (UL)
- */
-public class UniversalLabel
-{
+/** Represents a 16-byte Universal Label (UL) */
+public class UniversalLabel {
     public static final int LENGTH = 16;
     private final byte[] bytes;
     private static final int OID_FIELD = 0;
@@ -18,11 +15,9 @@ public class UniversalLabel
      * Construct a UL from a byte array
      *
      * @param bytes The UL byte array
-     *
      * @throws IllegalArgumentException if the array does not contain a valid UL
      */
-    public UniversalLabel(byte[] bytes)
-    {
+    public UniversalLabel(byte[] bytes) {
         testValidity(bytes);
         this.bytes = bytes.clone();
     }
@@ -32,24 +27,19 @@ public class UniversalLabel
      *
      * @return The 16-byte array
      */
-    public byte[] getBytes()
-    {
+    public byte[] getBytes() {
         return bytes.clone();
     }
 
     @Override
-    public boolean equals(Object obj)
-    {
-        if (this == obj)
-        {
+    public boolean equals(Object obj) {
+        if (this == obj) {
             return true;
         }
-        if (obj == null)
-        {
+        if (obj == null) {
             return false;
         }
-        if (getClass() != obj.getClass())
-        {
+        if (getClass() != obj.getClass()) {
             return false;
         }
         UniversalLabel other = (UniversalLabel) obj;
@@ -58,8 +48,7 @@ public class UniversalLabel
     }
 
     @Override
-    public int hashCode()
-    {
+    public int hashCode() {
         final int prime = 31;
         int result = 1;
         result = prime * result + ((bytes == null) ? 0 : Arrays.hashCode(bytes));
@@ -70,35 +59,28 @@ public class UniversalLabel
      * Test whether an array of bytes contains a valid UL
      *
      * @param bytes The byte array
-     *
      * @throws IllegalArgumentException if the array does not contain a valid UL
      */
-    private static void testValidity(byte[] bytes)
-    {
-        if (bytes.length != LENGTH)
-        {
-            throw new IllegalArgumentException("Invalid UL length (expected 16; got " + bytes.length);
+    private static void testValidity(byte[] bytes) {
+        if (bytes.length != LENGTH) {
+            throw new IllegalArgumentException(
+                    "Invalid UL length (expected 16; got " + bytes.length);
         }
 
-        if (bytes[OID_FIELD] != 0x06)
-        {
+        if (bytes[OID_FIELD] != 0x06) {
             throw new IllegalArgumentException("Invalid OID field");
         }
 
-        if (bytes[UL_LENGTH_FIELD] != 0x0e)
-        {
+        if (bytes[UL_LENGTH_FIELD] != 0x0e) {
             throw new IllegalArgumentException("Invalid UL length field");
         }
 
-        if (bytes[UL_CODE_FIELD] != 0x2b)
-        {
+        if (bytes[UL_CODE_FIELD] != 0x2b) {
             throw new IllegalArgumentException("Invalid UL Code field");
         }
 
-        if (bytes[SMPTE_DESIGNATOR_FIELD] != 0x34)
-        {
+        if (bytes[SMPTE_DESIGNATOR_FIELD] != 0x34) {
             throw new IllegalArgumentException("Invalid SMPTE Designator field");
         }
     }
-
 }

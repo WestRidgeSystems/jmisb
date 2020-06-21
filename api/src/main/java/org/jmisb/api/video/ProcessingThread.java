@@ -2,11 +2,8 @@ package org.jmisb.api.video;
 
 import org.jmisb.core.video.TimingUtils;
 
-/**
- * Thread allowing itself to be paused and unpaused
- */
-class ProcessingThread extends Thread
-{
+/** Thread allowing itself to be paused and unpaused */
+class ProcessingThread extends Thread {
     private final Object pauseLock = new Object();
     private boolean shutdown = false;
     private boolean paused = false;
@@ -17,80 +14,59 @@ class ProcessingThread extends Thread
      *
      * @return True if the thread should shut down
      */
-    protected boolean pauseOrResume()
-    {
-        synchronized (pauseLock)
-        {
-            if (shutdown)
-                return true;
-            if (pauseRequested)
-            {
+    protected boolean pauseOrResume() {
+        synchronized (pauseLock) {
+            if (shutdown) return true;
+            if (pauseRequested) {
                 paused = true;
-                try
-                {
+                try {
                     pauseLock.wait();
-                } catch (InterruptedException e)
-                {
+                } catch (InterruptedException e) {
                     return true;
                 }
 
                 paused = false;
                 pauseRequested = false;
 
-                if (shutdown)
-                    return true;
+                if (shutdown) return true;
             }
         }
         return false;
     }
 
-    protected void shutdown()
-    {
+    protected void shutdown() {
         shutdown = true;
         play(); // to unblock
     }
 
-    protected boolean isShutdown()
-    {
+    protected boolean isShutdown() {
         return shutdown;
     }
 
-    /**
-     * Pause the thread. This method blocks until the processing thread is paused.
-     */
-    protected void pause()
-    {
+    /** Pause the thread. This method blocks until the processing thread is paused. */
+    protected void pause() {
         requestPause();
-        while (!isPaused())
-        {
+        while (!isPaused()) {
             TimingUtils.shortWait(10);
         }
     }
 
-    protected boolean isPaused()
-    {
+    protected boolean isPaused() {
         return paused;
     }
 
-    /**
-     * Request the thread be paused. This is a non-blocking call.
-     */
-    protected void requestPause()
-    {
+    /** Request the thread be paused. This is a non-blocking call. */
+    protected void requestPause() {
         pauseRequested = true;
     }
 
-    protected boolean isPauseRequested()
-    {
+    protected boolean isPauseRequested() {
         return pauseRequested;
     }
 
-    protected void play()
-    {
-        synchronized (pauseLock)
-        {
+    protected void play() {
+        synchronized (pauseLock) {
             pauseLock.notifyAll();
         }
     }
-
 }

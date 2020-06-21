@@ -1,13 +1,8 @@
 package org.jmisb.api.video;
 
-/**
- * Interface for reading video/metadata from a file
- */
-public interface IVideoFileInput extends IVideoInput
-{
-    /**
-     * Play the video file
-     */
+/** Interface for reading video/metadata from a file */
+public interface IVideoFileInput extends IVideoInput {
+    /** Play the video file */
     void play();
 
     /**
@@ -20,7 +15,8 @@ public interface IVideoFileInput extends IVideoInput
     /**
      * Set the playback speed
      *
-     * @param multiplier The rate multiplier (e.g., 2.0 for 2x rate); Double.MAX_VALUE to read file as fast as possible
+     * @param multiplier The rate multiplier (e.g., 2.0 for 2x rate); Double.MAX_VALUE to read file
+     *     as fast as possible
      */
     void setPlaybackSpeed(double multiplier);
 
@@ -31,9 +27,7 @@ public interface IVideoFileInput extends IVideoInput
      */
     double getPlaybackSpeed();
 
-    /**
-     * Pause video file playback
-     */
+    /** Pause video file playback */
     void pause();
 
     /**
@@ -78,8 +72,6 @@ public interface IVideoFileInput extends IVideoInput
      */
     void removeFileEventListener(IFileEventListener listener);
 
-    /**
-     * Notify consumers that end of file has been reached.
-     */
+    /** Notify consumers that end of file has been reached. */
     void notifyEOF();
 }

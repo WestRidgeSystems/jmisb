@@ -7,41 +7,34 @@ import java.util.stream.Collectors;
 
 /**
  * POI/AOI Type (ST 0806 POI Local Set Tag 5, AOI Local Set Tag 6)
- * <p>
- * Target Identifier.
+ *
+ * <p>Target Identifier.
  */
-public class PoiAoiType implements IRvtPoiAoiMetadataValue
-{
-    /**
-     * Friendly.
-     */
+public class PoiAoiType implements IRvtPoiAoiMetadataValue {
+    /** Friendly. */
     static final PoiAoiType FRIENDLY;
-    /**
-     * Hostile.
-     */
+    /** Hostile. */
     static final PoiAoiType HOSTILE;
-    /**
-     * Target.
-     */
+    /** Target. */
     static final PoiAoiType TARGET;
-    /**
-     * Unknown.
-     */
+    /** Unknown. */
     static final PoiAoiType UNKNOWN;
 
-    static final Map<Integer, String> DISPLAY_VALUES = Arrays.stream(new Object[][]{
-        {1, "Friendly"},
-        {2, "Hostile"},
-        {3, "Target"},
-        {4, "Unknown"}
-    }).collect(Collectors.toMap(kv -> (Integer) kv[0], kv -> (String) kv[1]));
+    static final Map<Integer, String> DISPLAY_VALUES =
+            Arrays.stream(
+                            new Object[][] {
+                                {1, "Friendly"},
+                                {2, "Hostile"},
+                                {3, "Target"},
+                                {4, "Unknown"}
+                            })
+                    .collect(Collectors.toMap(kv -> (Integer) kv[0], kv -> (String) kv[1]));
 
-    static
-    {
-        FRIENDLY = new PoiAoiType((byte)0x01);
-        HOSTILE = new PoiAoiType((byte)0x02);
-        TARGET = new PoiAoiType((byte)0x03);
-        UNKNOWN = new PoiAoiType((byte)0x04);
+    static {
+        FRIENDLY = new PoiAoiType((byte) 0x01);
+        HOSTILE = new PoiAoiType((byte) 0x02);
+        TARGET = new PoiAoiType((byte) 0x03);
+        UNKNOWN = new PoiAoiType((byte) 0x04);
     }
 
     protected byte value;
@@ -51,11 +44,16 @@ public class PoiAoiType implements IRvtPoiAoiMetadataValue
      *
      * @param type The value of the POI / AOI type enumeration.
      */
-    public PoiAoiType(byte type)
-    {
-        if (type < Collections.min(DISPLAY_VALUES.keySet()) || type > Collections.max(DISPLAY_VALUES.keySet()))
-        {
-            throw new IllegalArgumentException(getDisplayName() + " must be in range [" + Collections.min(DISPLAY_VALUES.keySet()) + ", " + Collections.max(DISPLAY_VALUES.keySet()) + "]");
+    public PoiAoiType(byte type) {
+        if (type < Collections.min(DISPLAY_VALUES.keySet())
+                || type > Collections.max(DISPLAY_VALUES.keySet())) {
+            throw new IllegalArgumentException(
+                    getDisplayName()
+                            + " must be in range ["
+                            + Collections.min(DISPLAY_VALUES.keySet())
+                            + ", "
+                            + Collections.max(DISPLAY_VALUES.keySet())
+                            + "]");
         }
         value = type;
     }
@@ -65,31 +63,27 @@ public class PoiAoiType implements IRvtPoiAoiMetadataValue
      *
      * @param bytes The byte array of length 1
      */
-    public PoiAoiType(byte[] bytes)
-    {
-        if (bytes.length != 1)
-        {
-            throw new IllegalArgumentException(getDisplayName() + " encoding is a 1-byte enumeration");
+    public PoiAoiType(byte[] bytes) {
+        if (bytes.length != 1) {
+            throw new IllegalArgumentException(
+                    getDisplayName() + " encoding is a 1-byte enumeration");
         }
         value = bytes[0];
     }
 
     @Override
-    public final String getDisplayName()
-    {
+    public final String getDisplayName() {
         return "POI/AOI Type";
     }
 
     @Override
-    public byte[] getBytes()
-    {
-        byte[] bytes = new byte[]{value};
+    public byte[] getBytes() {
+        byte[] bytes = new byte[] {value};
         return bytes;
     }
 
     @Override
-    public String getDisplayableValue()
-    {
+    public String getDisplayableValue() {
         return DISPLAY_VALUES.getOrDefault((int) value, "Unknown");
     }
 
@@ -98,8 +92,7 @@ public class PoiAoiType implements IRvtPoiAoiMetadataValue
      *
      * @return target identifier as an integer value.
      */
-    public int getValue()
-    {
+    public int getValue() {
         return value;
     }
 

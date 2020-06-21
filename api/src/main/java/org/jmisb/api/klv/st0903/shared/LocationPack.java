@@ -3,18 +3,16 @@ package org.jmisb.api.klv.st0903.shared;
 /**
  * Location Pack.
  *
- * This data transfer object supports various Boundary Series and Target Location.
- * <p>
- * Latitude, longitude and HAE are always required.
- * <p>
- * If setting individual components, be aware that the standard deviations are
- * conceptually a single group. Similarly, the correlation values are "grouped".
- * Unless all the elements in a group are set, it won't make sense. Further, if
- * the correlation group values are set, the standard deviation group values
- * also need to be set.
+ * <p>This data transfer object supports various Boundary Series and Target Location.
+ *
+ * <p>Latitude, longitude and HAE are always required.
+ *
+ * <p>If setting individual components, be aware that the standard deviations are conceptually a
+ * single group. Similarly, the correlation values are "grouped". Unless all the elements in a group
+ * are set, it won't make sense. Further, if the correlation group values are set, the standard
+ * deviation group values also need to be set.
  */
-public class LocationPack
-{
+public class LocationPack {
 
     private Double lat;
     private Double lon;
@@ -33,8 +31,7 @@ public class LocationPack
      * @param lon Longitude in degrees of a point with respect to the WGS84 datum.
      * @param hae Height of a point in meters above the WGS84 Ellipsoid (HAE).
      */
-    public LocationPack(Double lat, Double lon, Double hae)
-    {
+    public LocationPack(Double lat, Double lon, Double hae) {
         this(lat, lon, hae, null, null, null);
     }
     /**
@@ -43,12 +40,15 @@ public class LocationPack
      * @param lat Latitude in degrees of a point with respect to the WGS84 datum.
      * @param lon Longitude in degrees of a point with respect to the WGS84 datum.
      * @param hae Height of a point in meters above the WGS84 Ellipsoid (HAE).
-     * @param sigEast Standard deviation of the location of the point with respect to the ENU coordinate system East axis.
-     * @param sigNorth Standard deviation of the location of the point with respect to the ENU coordinate system North axis.
-     * @param sigUp Standard deviation of the location of the point with respect to the ENU coordinate system Up axis.
+     * @param sigEast Standard deviation of the location of the point with respect to the ENU
+     *     coordinate system East axis.
+     * @param sigNorth Standard deviation of the location of the point with respect to the ENU
+     *     coordinate system North axis.
+     * @param sigUp Standard deviation of the location of the point with respect to the ENU
+     *     coordinate system Up axis.
      */
-    public LocationPack(Double lat, Double lon, Double hae, Double sigEast, Double sigNorth, Double sigUp)
-    {
+    public LocationPack(
+            Double lat, Double lon, Double hae, Double sigEast, Double sigNorth, Double sigUp) {
         this(lat, lon, hae, sigEast, sigNorth, sigUp, null, null, null);
     }
 
@@ -58,15 +58,26 @@ public class LocationPack
      * @param lat Latitude in degrees of a point with respect to the WGS84 datum.
      * @param lon Longitude in degrees of a point with respect to the WGS84 datum.
      * @param hae Height of a point in meters above the WGS84 Ellipsoid (HAE).
-     * @param sigEast Standard deviation of the location of the point with respect to the ENU coordinate system East axis.
-     * @param sigNorth Standard deviation of the location of the point with respect to the ENU coordinate system North axis.
-     * @param sigUp Standard deviation of the location of the point with respect to the ENU coordinate system Up axis.
+     * @param sigEast Standard deviation of the location of the point with respect to the ENU
+     *     coordinate system East axis.
+     * @param sigNorth Standard deviation of the location of the point with respect to the ENU
+     *     coordinate system North axis.
+     * @param sigUp Standard deviation of the location of the point with respect to the ENU
+     *     coordinate system Up axis.
      * @param rhoEastNorth Correlation coefficient between the East and North components of error.
      * @param rhoEastUp Correlation coefficient between East and Up components of error.
      * @param rhoNorthUp Correlation coefficient between North and Up components of error.
      */
-    public LocationPack(Double lat, Double lon, Double hae, Double sigEast, Double sigNorth, Double sigUp, Double rhoEastNorth, Double rhoEastUp, Double rhoNorthUp)
-    {
+    public LocationPack(
+            Double lat,
+            Double lon,
+            Double hae,
+            Double sigEast,
+            Double sigNorth,
+            Double sigUp,
+            Double rhoEastNorth,
+            Double rhoEastUp,
+            Double rhoNorthUp) {
         this.lat = lat;
         this.lon = lon;
         this.hae = hae;
@@ -83,8 +94,7 @@ public class LocationPack
      *
      * @return Latitude in degrees of a point with respect to the WGS84 datum.
      */
-    public Double getLat()
-    {
+    public Double getLat() {
         return lat;
     }
 
@@ -93,8 +103,7 @@ public class LocationPack
      *
      * @param lat Latitude in degrees of a point with respect to the WGS84 datum.
      */
-    public void setLat(Double lat)
-    {
+    public void setLat(Double lat) {
         this.lat = lat;
     }
 
@@ -103,8 +112,7 @@ public class LocationPack
      *
      * @return Longitude in degrees of a point with respect to the WGS84 datum.
      */
-    public Double getLon()
-    {
+    public Double getLon() {
         return lon;
     }
 
@@ -113,8 +121,7 @@ public class LocationPack
      *
      * @param lon Longitude in degrees of a point with respect to the WGS84 datum.
      */
-    public void setLon(Double lon)
-    {
+    public void setLon(Double lon) {
         this.lon = lon;
     }
 
@@ -123,8 +130,7 @@ public class LocationPack
      *
      * @return Height of a point in meters above the WGS84 Ellipsoid (HAE).
      */
-    public Double getHae()
-    {
+    public Double getHae() {
         return hae;
     }
 
@@ -133,68 +139,67 @@ public class LocationPack
      *
      * @param hae Height of a point in meters above the WGS84 Ellipsoid (HAE).
      */
-    public void setHae(Double hae)
-    {
+    public void setHae(Double hae) {
         this.hae = hae;
     }
 
     /**
      * Get the standard deviation for the location - East axis.
      *
-     * @return Standard deviation of the location of the point with respect to the ENU coordinate system East axis.
+     * @return Standard deviation of the location of the point with respect to the ENU coordinate
+     *     system East axis.
      */
-    public Double getSigEast()
-    {
+    public Double getSigEast() {
         return sigEast;
     }
 
     /**
      * Set the standard deviation for the location - East axis.
      *
-     * @param sigEast Standard deviation of the location of the point with respect to the ENU coordinate system East axis.
+     * @param sigEast Standard deviation of the location of the point with respect to the ENU
+     *     coordinate system East axis.
      */
-    public void setSigEast(Double sigEast)
-    {
+    public void setSigEast(Double sigEast) {
         this.sigEast = sigEast;
     }
 
     /**
      * Get the standard deviation for the location - North axis.
      *
-     * @return Standard deviation of the location of the point with respect to the ENU coordinate system North axis.
+     * @return Standard deviation of the location of the point with respect to the ENU coordinate
+     *     system North axis.
      */
-    public Double getSigNorth()
-    {
+    public Double getSigNorth() {
         return sigNorth;
     }
 
     /**
      * Set the standard deviation for the location - North axis.
      *
-     * @param sigNorth Standard deviation of the location of the point with respect to the ENU coordinate system North axis.
+     * @param sigNorth Standard deviation of the location of the point with respect to the ENU
+     *     coordinate system North axis.
      */
-    public void setSigNorth(Double sigNorth)
-    {
+    public void setSigNorth(Double sigNorth) {
         this.sigNorth = sigNorth;
     }
 
     /**
      * Get the standard deviation for the location - Up axis.
      *
-     * @return Standard deviation of the location of the point with respect to the ENU coordinate system Up axis.
+     * @return Standard deviation of the location of the point with respect to the ENU coordinate
+     *     system Up axis.
      */
-    public Double getSigUp()
-    {
+    public Double getSigUp() {
         return sigUp;
     }
 
     /**
      * Get the standard deviation for the location - Up axis.
      *
-     * @param sigUp Standard deviation of the location of the point with respect to the ENU coordinate system Up axis.
+     * @param sigUp Standard deviation of the location of the point with respect to the ENU
+     *     coordinate system Up axis.
      */
-    public void setSigUp(Double sigUp)
-    {
+    public void setSigUp(Double sigUp) {
         this.sigUp = sigUp;
     }
 
@@ -203,8 +208,7 @@ public class LocationPack
      *
      * @return Correlation coefficient between the East and North components of error.
      */
-    public Double getRhoEastNorth()
-    {
+    public Double getRhoEastNorth() {
         return rhoEastNorth;
     }
 
@@ -213,8 +217,7 @@ public class LocationPack
      *
      * @param rhoEastNorth Correlation coefficient between the East and North components of error.
      */
-    public void setRhoEastNorth(Double rhoEastNorth)
-    {
+    public void setRhoEastNorth(Double rhoEastNorth) {
         this.rhoEastNorth = rhoEastNorth;
     }
 
@@ -223,8 +226,7 @@ public class LocationPack
      *
      * @return Correlation coefficient between the East and Up components of error.
      */
-    public Double getRhoEastUp()
-    {
+    public Double getRhoEastUp() {
         return rhoEastUp;
     }
 
@@ -233,8 +235,7 @@ public class LocationPack
      *
      * @param rhoEastUp Correlation coefficient between the East and Up components of error.
      */
-    public void setRhoEastUp(Double rhoEastUp)
-    {
+    public void setRhoEastUp(Double rhoEastUp) {
         this.rhoEastUp = rhoEastUp;
     }
 
@@ -243,8 +244,7 @@ public class LocationPack
      *
      * @return Correlation coefficient between the North and Up components of error.
      */
-    public Double getRhoNorthUp()
-    {
+    public Double getRhoNorthUp() {
         return rhoNorthUp;
     }
 
@@ -253,9 +253,7 @@ public class LocationPack
      *
      * @param rhoNorthUp Correlation coefficient between the North and Up components of error.
      */
-    public void setRhoNorthUp(Double rhoNorthUp)
-    {
+    public void setRhoNorthUp(Double rhoNorthUp) {
         this.rhoNorthUp = rhoNorthUp;
     }
-
 }

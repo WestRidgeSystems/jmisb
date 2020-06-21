@@ -1,10 +1,7 @@
 package org.jmisb.api.klv;
 
-/**
- * Identifies the category of a registry as specified by a Universal Label (UL)
- */
-public enum RegistryCategory
-{
+/** Identifies the category of a registry as specified by a Universal Label (UL) */
+public enum RegistryCategory {
     /** Definitions of individual data elements */
     DICTIONARIES,
 

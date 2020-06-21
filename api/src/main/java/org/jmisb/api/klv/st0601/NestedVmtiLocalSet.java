@@ -5,24 +5,24 @@ import org.jmisb.api.klv.st0903.VmtiLocalSet;
 
 /**
  * VMTI Local Set (ST 0601 tag 74)
- * <p>
- * From ST:
+ *
+ * <p>From ST:
+ *
  * <blockquote>
+ *
  * Use the MISB ST 0903 Local Set within the MISB ST 0601 Tag 74.
- * <p>
- * The length field is the size of all VMTI LS metadata items to be packaged
- * within Tag 74.
- * <p>
- * The VMTI Local Set allows users to include, or nest, VMTI LS (MISB ST 0903)
- * metadata items within MISB ST 0601.
- * <p>
- * This provides users who are required to use the VMTI LS a method to leverage
- * the items within MISB ST 0601 (like platform location, and sensor pointing
- * angles, or frame center).
+ *
+ * <p>The length field is the size of all VMTI LS metadata items to be packaged within Tag 74.
+ *
+ * <p>The VMTI Local Set allows users to include, or nest, VMTI LS (MISB ST 0903) metadata items
+ * within MISB ST 0601.
+ *
+ * <p>This provides users who are required to use the VMTI LS a method to leverage the items within
+ * MISB ST 0601 (like platform location, and sensor pointing angles, or frame center).
+ *
  * </blockquote>
  */
-public class NestedVmtiLocalSet implements IUasDatalinkValue
-{
+public class NestedVmtiLocalSet implements IUasDatalinkValue {
     private final VmtiLocalSet vmtiLocalSet;
 
     /**
@@ -30,8 +30,7 @@ public class NestedVmtiLocalSet implements IUasDatalinkValue
      *
      * @param vmti the VMTI data
      */
-    public NestedVmtiLocalSet(VmtiLocalSet vmti)
-    {
+    public NestedVmtiLocalSet(VmtiLocalSet vmti) {
         this.vmtiLocalSet = vmti;
     }
 
@@ -41,26 +40,22 @@ public class NestedVmtiLocalSet implements IUasDatalinkValue
      * @param bytes The byte array
      * @throws KlvParseException if the input is invalid
      */
-    public NestedVmtiLocalSet(byte[] bytes) throws KlvParseException
-    {
+    public NestedVmtiLocalSet(byte[] bytes) throws KlvParseException {
         this.vmtiLocalSet = new VmtiLocalSet(bytes);
     }
 
     @Override
-    public byte[] getBytes()
-    {
+    public byte[] getBytes() {
         return this.vmtiLocalSet.frameMessage(true);
     }
 
     @Override
-    public String getDisplayableValue()
-    {
+    public String getDisplayableValue() {
         return "[VMTI]";
     }
 
     @Override
-    public String getDisplayName()
-    {
+    public String getDisplayName() {
         return "VMTI";
     }
 
@@ -69,8 +64,7 @@ public class NestedVmtiLocalSet implements IUasDatalinkValue
      *
      * @return the VMTI data
      */
-    public VmtiLocalSet getVmti()
-    {
+    public VmtiLocalSet getVmti() {
         return this.vmtiLocalSet;
     }
 }

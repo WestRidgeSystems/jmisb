@@ -17,16 +17,11 @@ import org.jmisb.core.klv.ArrayUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
-/**
- * VFeature Local Set.
- */
-public class VFeatureLS
-{
+/** VFeature Local Set. */
+public class VFeatureLS {
     private static final Logger LOGGER = LoggerFactory.getLogger(VFeatureLS.class);
 
-    /**
-     * Map containing all data elements in the message
-     */
+    /** Map containing all data elements in the message */
     private final SortedMap<VFeatureMetadataKey, IVmtiMetadataValue> map = new TreeMap<>();
 
     /**
@@ -34,13 +29,11 @@ public class VFeatureLS
      *
      * @param values Tag/value pairs to be included in the local set
      */
-    public VFeatureLS(Map<VFeatureMetadataKey, IVmtiMetadataValue> values)
-    {
+    public VFeatureLS(Map<VFeatureMetadataKey, IVmtiMetadataValue> values) {
         map.putAll(values);
     }
 
-    public VFeatureLS(byte[] bytes) throws KlvParseException
-    {
+    public VFeatureLS(byte[] bytes) throws KlvParseException {
         List<LdsField> fields = LdsParser.parseFields(bytes, 0, bytes.length);
         for (LdsField field : fields) {
             VFeatureMetadataKey key = VFeatureMetadataKey.getKey(field.getTag());
@@ -61,10 +54,9 @@ public class VFeatureLS
      * @return The new instance
      * @throws KlvParseException if the bytes could not be parsed.
      */
-    public static IVmtiMetadataValue createValue(VFeatureMetadataKey tag, byte[] bytes) throws KlvParseException
-    {
-        switch (tag)
-        {
+    public static IVmtiMetadataValue createValue(VFeatureMetadataKey tag, byte[] bytes)
+            throws KlvParseException {
+        switch (tag) {
             case schema:
                 return new VmtiUri(VmtiUri.VFEATURE_SCHEMA, bytes);
             case schemaFeature:
@@ -80,8 +72,7 @@ public class VFeatureLS
      *
      * @return The set of tags for which values have been set
      */
-    public Set<VFeatureMetadataKey> getTags()
-    {
+    public Set<VFeatureMetadataKey> getTags() {
         return map.keySet();
     }
 
@@ -91,22 +82,20 @@ public class VFeatureLS
      * @param tag Tag of the value to retrieve
      * @return The value, or null if no value was set
      */
-    public IVmtiMetadataValue getField(VFeatureMetadataKey tag)
-    {
+    public IVmtiMetadataValue getField(VFeatureMetadataKey tag) {
         return map.get(tag);
     }
 
     /**
      * Get the byte array corresponding to the value for this Local Set.
+     *
      * @return byte array with the encoded local set.
      */
-    public byte[] getBytes()
-    {
+    public byte[] getBytes() {
         int len = 0;
         List<byte[]> chunks = new ArrayList<>();
-        for (VFeatureMetadataKey tag: getTags())
-        {
-            chunks.add(new byte[]{(byte) tag.getTag()});
+        for (VFeatureMetadataKey tag : getTags()) {
+            chunks.add(new byte[] {(byte) tag.getTag()});
             len += 1;
             IVmtiMetadataValue value = getField(tag);
             byte[] bytes = value.getBytes();

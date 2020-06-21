@@ -4,27 +4,23 @@ import java.nio.charset.StandardCharsets;
 
 /**
  * Image Source Device value for EG 0104.
- * 
- * This was Sensor Name in the NIMA-MIPO memo.
+ *
+ * <p>This was Sensor Name in the NIMA-MIPO memo.
  */
-public class ImageSourceDevice implements IPredatorMetadataValue
-{
+public class ImageSourceDevice implements IPredatorMetadataValue {
     private final String value;
 
-    public ImageSourceDevice(byte[] bytes)
-    {
+    public ImageSourceDevice(byte[] bytes) {
         value = new String(bytes, StandardCharsets.UTF_8);
     }
 
     @Override
-    public String getDisplayableValue()
-    {
+    public String getDisplayableValue() {
         return value;
     }
 
     @Override
-    public String getDisplayName()
-    {
+    public String getDisplayName() {
         return "Image Source Device";
     }
 }

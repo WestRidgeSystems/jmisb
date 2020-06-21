@@ -1,19 +1,16 @@
 package org.jmisb.api.video;
 
+import static org.bytedeco.ffmpeg.global.avcodec.av_packet_unref;
+import static org.jmisb.core.video.TimingUtils.shortWait;
+
 import org.bytedeco.ffmpeg.avcodec.AVPacket;
 import org.bytedeco.ffmpeg.avformat.AVFormatContext;
 import org.jmisb.core.video.FfmpegUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
-import static org.bytedeco.ffmpeg.global.avcodec.av_packet_unref;
-import static org.jmisb.core.video.TimingUtils.shortWait;
-
-/**
- * Demux video/metadata contained in a file
- */
-class FileDemuxer extends Demuxer
-{
+/** Demux video/metadata contained in a file */
+class FileDemuxer extends Demuxer {
     private static Logger logger = LoggerFactory.getLogger(FileDemuxer.class);
     private final VideoInput inputStream;
 
@@ -22,15 +19,16 @@ class FileDemuxer extends Demuxer
     private boolean seekRequested = false;
     private double seekPosition;
 
-    FileDemuxer(VideoInput inputStream, AVFormatContext avFormatContext, VideoFileInputOptions options)
-    {
+    FileDemuxer(
+            VideoInput inputStream,
+            AVFormatContext avFormatContext,
+            VideoFileInputOptions options) {
         super(avFormatContext, options);
         this.inputStream = inputStream;
     }
 
     @Override
-    public void run()
-    {
+    public void run() {
         Thread.currentThread().setName("Demuxer - " + inputStream.getUrl());
         logger.debug("Starting file demuxer for " + inputStream.getUrl());
 
@@ -39,20 +37,18 @@ class FileDemuxer extends Demuxer
         createDecodeThreads(inputStream);
 
         AVPacket packet = new AVPacket();
-        while (!isShutdown())
-        {
+        while (!isShutdown()) {
             // If paused, sleep until play() or shutdown() is called
-            // TODO: There does not seem to be a good reason to pause this demuxer thread; consider changing
+            // TODO: There does not seem to be a good reason to pause this demuxer thread; consider
+            // changing
             // its superclass
-            if (pauseOrResume())
-            {
+            if (pauseOrResume()) {
                 // Either we were interrupted, or shutdown() was called
                 break;
             }
 
             // Check if we were asked to seek
-            if (seekRequested)
-            {
+            if (seekRequested) {
                 // Pause the decoder threads
                 if (videoDecodeThread != null) videoDecodeThread.pause();
                 if (metadataDecodeThread != null) metadataDecodeThread.pause();
@@ -73,29 +69,25 @@ class FileDemuxer extends Demuxer
 
             // Read a packet from the stream
             DemuxReturnValue ret = DemuxerUtils.readPacket(avFormatContext, packet);
-            if (ret == DemuxReturnValue.EOF)
-            {
+            if (ret == DemuxReturnValue.EOF) {
                 if (videoDecodeThread != null) videoDecodeThread.notifyEOF();
                 if (metadataDecodeThread != null) metadataDecodeThread.notifyEOF();
             }
-            if (ret != DemuxReturnValue.SUCCESS)
-            {
+            if (ret != DemuxReturnValue.SUCCESS) {
                 shortWait(10);
                 continue;
             }
 
-//            double pts = packet.pts() * av_q2d(avFormatContext.streams(packet.stream_index()).time_base());
+            //            double pts = packet.pts() *
+            // av_q2d(avFormatContext.streams(packet.stream_index()).time_base());
 
             // Pass packet to the appropriate decoder
             boolean queued = false;
-            while (shouldDecode(packet) && !queued && !isShutdown() && !seekRequested)
-            {
-                if (packet.stream_index() == videoStreamIndex)
-                {
+            while (shouldDecode(packet) && !queued && !isShutdown() && !seekRequested) {
+                if (packet.stream_index() == videoStreamIndex) {
                     queued = videoDecodeThread.enqueue(packet);
-                } else if (packet.stream_index() == dataStreamIndex)
-                {
-//                    logger.debug("Data PTS: " + pts);
+                } else if (packet.stream_index() == dataStreamIndex) {
+                    //                    logger.debug("Data PTS: " + pts);
                     queued = metadataDecodeThread.enqueue(packet);
                 }
             }
@@ -104,56 +96,45 @@ class FileDemuxer extends Demuxer
             av_packet_unref(packet);
         }
 
-        if (logger.isDebugEnabled())
-            logger.debug("Demuxer exiting");
+        if (logger.isDebugEnabled()) logger.debug("Demuxer exiting");
 
         // Clean up resources
         shutdownThreads();
     }
 
     @Override
-    protected void pause()
-    {
-        if (videoDecodeThread != null)
-        {
+    protected void pause() {
+        if (videoDecodeThread != null) {
             videoDecodeThread.pause();
         }
-        if (metadataDecodeThread != null)
-        {
+        if (metadataDecodeThread != null) {
             metadataDecodeThread.pause();
         }
         super.pause();
     }
 
     @Override
-    protected void play()
-    {
+    protected void play() {
         super.play();
-        if (videoDecodeThread != null)
-        {
+        if (videoDecodeThread != null) {
             videoDecodeThread.play();
         }
-        if (metadataDecodeThread != null)
-        {
+        if (metadataDecodeThread != null) {
             metadataDecodeThread.play();
         }
     }
 
-    void seek(double position)
-    {
+    void seek(double position) {
         // Notify our thread that a seek has been requested
         seekRequested = true;
         seekPosition = position;
 
         // Block until seek has been performed
         // TODO: this seems potentially dangerous
-        while (seekRequested)
-        {
-            try
-            {
+        while (seekRequested) {
+            try {
                 Thread.sleep(10);
-            } catch (InterruptedException ignored)
-            {
+            } catch (InterruptedException ignored) {
             }
         }
     }
@@ -163,8 +144,7 @@ class FileDemuxer extends Demuxer
      *
      * @return The video frame rate, in frames/second
      */
-    double getVideoFrameRate()
-    {
+    double getVideoFrameRate() {
         return videoFrameRate;
     }
 }

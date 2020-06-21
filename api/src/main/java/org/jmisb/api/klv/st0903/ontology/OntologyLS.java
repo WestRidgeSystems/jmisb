@@ -19,23 +19,23 @@ import org.slf4j.LoggerFactory;
 
 /**
  * Ontology Local Set.
- * <p>
- * From ST0903:
+ *
+ * <p>From ST0903:
+ *
  * <blockquote>
- * The Ontology LS describes the class or type of a target (aircraft,
- * watercraft, car, truck, train, dismount, etc.) to an arbitrary level of
- * detail. For example, it might be useful to expand the notion of a “dismount”
- * to include combatant, noncombatant, male, female, etc. This standard mandates
- * the use of the Web Ontology Language (OWL) to define the ontology.
+ *
+ * The Ontology LS describes the class or type of a target (aircraft, watercraft, car, truck, train,
+ * dismount, etc.) to an arbitrary level of detail. For example, it might be useful to expand the
+ * notion of a “dismount” to include combatant, noncombatant, male, female, etc. This standard
+ * mandates the use of the Web Ontology Language (OWL) to define the ontology.
+ *
  * </blockquote>
  */
 public class OntologyLS {
 
     private static final Logger LOGGER = LoggerFactory.getLogger(OntologyLS.class);
 
-    /**
-     * Map containing all data elements in the message
-     */
+    /** Map containing all data elements in the message */
     private final SortedMap<OntologyMetadataKey, IVmtiMetadataValue> map = new TreeMap<>();
 
     /**
@@ -43,23 +43,17 @@ public class OntologyLS {
      *
      * @param values Tag/value pairs to be included in the local set/
      */
-    public OntologyLS(Map<OntologyMetadataKey, IVmtiMetadataValue> values)
-    {
+    public OntologyLS(Map<OntologyMetadataKey, IVmtiMetadataValue> values) {
         map.putAll(values);
     }
 
-    public OntologyLS(byte[] bytes, int offset, int length) throws KlvParseException
-    {
+    public OntologyLS(byte[] bytes, int offset, int length) throws KlvParseException {
         List<LdsField> fields = LdsParser.parseFields(bytes, offset, length);
-        for (LdsField field : fields)
-        {
+        for (LdsField field : fields) {
             OntologyMetadataKey key = OntologyMetadataKey.getKey(field.getTag());
-            if (key == OntologyMetadataKey.Undefined)
-            {
+            if (key == OntologyMetadataKey.Undefined) {
                 LOGGER.info("Unknown VMTI Ontology Metadata tag: {}", field.getTag());
-            }
-            else
-            {
+            } else {
                 IVmtiMetadataValue value = createValue(key, field.getData());
                 map.put(key, value);
             }
@@ -74,10 +68,9 @@ public class OntologyLS {
      * @return The new instance
      * @throws KlvParseException if the bytes could not be parsed.
      */
-    public static IVmtiMetadataValue createValue(OntologyMetadataKey tag, byte[] bytes) throws KlvParseException
-    {
-        switch (tag)
-        {
+    public static IVmtiMetadataValue createValue(OntologyMetadataKey tag, byte[] bytes)
+            throws KlvParseException {
+        switch (tag) {
             case id:
                 return new OntologyId(bytes);
             case parentId:
@@ -97,8 +90,7 @@ public class OntologyLS {
      *
      * @return The set of tags for which values have been set
      */
-    public Set<OntologyMetadataKey> getTags()
-    {
+    public Set<OntologyMetadataKey> getTags() {
         return map.keySet();
     }
 
@@ -108,28 +100,27 @@ public class OntologyLS {
      * @param tag Tag of the value to retrieve
      * @return The value, or null if no value was set
      */
-    public IVmtiMetadataValue getField(OntologyMetadataKey tag)
-    {
+    public IVmtiMetadataValue getField(OntologyMetadataKey tag) {
         return map.get(tag);
     }
 
     /**
      * Get the byte array corresponding to the value for this Local Set.
+     *
      * @return byte array with the encoded local set.
      */
-    public byte[] getBytes()
-    {
+    public byte[] getBytes() {
         int len = 0;
         List<byte[]> chunks = new ArrayList<>();
-        for (OntologyMetadataKey tag: getTags())
-        {
-            chunks.add(new byte[]{(byte) tag.getTag()});
+        for (OntologyMetadataKey tag : getTags()) {
+            chunks.add(new byte[] {(byte) tag.getTag()});
             len += 1;
             IVmtiMetadataValue value = getField(tag);
             byte[] bytes = value.getBytes();
             byte[] lengthBytes = BerEncoder.encode(bytes.length);
             chunks.add(lengthBytes);
-            len += lengthBytes.length;;
+            len += lengthBytes.length;
+            ;
             chunks.add(bytes);
             len += bytes.length;
         }
