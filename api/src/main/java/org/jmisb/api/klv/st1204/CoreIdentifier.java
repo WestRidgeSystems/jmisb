@@ -15,8 +15,9 @@ import org.slf4j.LoggerFactory;
 /**
  * ST1204 Core Identifier.
  * <p>
- * Adapted from ST1204.2:
+ * Adapted from ST1204.3:
  * </p>
+ * <blockquote>
  * <p>
  * A Core Identifier is a collection of up to three Identifier Components
  * combined to form a unique name for the Motion Imagery Data. An Identifier
@@ -25,7 +26,7 @@ import org.slf4j.LoggerFactory;
  * points during the creation and/or dissemination of the Motion Imagery Data.
  * </p>
  * <p>
- * “Generated” means to create a UUID either from unique device information such
+ * "Generated" means to create a UUID either from unique device information such
  * as serial numbers, model numbers, etc., or from a random number generator.
  * Inserting Identifier Components means to include the Identifier Components
  * into the Motion Imagery Data consistent with the format of the Motion Imagery
@@ -62,7 +63,7 @@ import org.slf4j.LoggerFactory;
  * Identifier Components include one of these four identifier quality values, so
  * that end users have knowledge on the origin of the identifier.
  * </p>
- *
+ * </blockquote>
  */
 public class CoreIdentifier
 {
@@ -245,50 +246,130 @@ public class CoreIdentifier
         return null;
     }
 
-    public int getVersion() {
+    /**
+     * Get the version of the core identifier format.
+     *
+     * As of ST1204.3, the only recognised format is 1.
+     *
+     * @return integer value for the format.
+     */
+    public int getVersion()
+    {
         return version;
     }
 
-    public void setVersion(int version) {
+    /**
+     * Set the version of the core identifier format.
+     *
+     * As of ST1204.3, the only recognised format is 1.
+     *
+     * @param version integer value for the format.
+     */
+    public void setVersion(int version)
+    {
         this.version = version;
     }
 
-    public IdType getSensorIdType() {
+    /**
+     * Get the sensor identifier type.
+     *
+     * @return the type of sensor ID used, which can be None.
+     */
+    public IdType getSensorIdType()
+    {
         return sensorIdType;
     }
 
-    public IdType getPlatformIdType() {
+    /**
+     * Get the platform identifier type.
+     * 
+     * Not all sensors are mounted on platforms, so this can be None.
+     *
+     * @return the type of platform ID used, which can be None.
+     */
+    public IdType getPlatformIdType()
+    {
         return platformIdType;
     }
 
-    public UUID getSensorUUID() {
+    /**
+     * Get the sensor UUID.
+     * 
+     * @return sensor UUID, or null if this is not a valid FCID, or sensor identifier is not specified.
+     */
+    public UUID getSensorUUID()
+    {
         return sensorUUID;
     }
 
-    public void setSensorUUID(IdType idType, UUID uuid) {
+    /**
+     * Set the sensor identifier and type.
+     *
+     * @param idType the type of sensor ID used.
+     * @param uuid the uuid of the sensor identifier.
+     */
+    public void setSensorUUID(IdType idType, UUID uuid)
+    {
         this.sensorIdType = idType;
         this.sensorUUID = uuid;
     }
 
-    public UUID getPlatformUUID() {
+    /**
+     * Get the platform UUID.
+     * 
+     * @return platform UUID, or null if this is not a valid FCID, or platform identifier is not specified.
+     */
+    public UUID getPlatformUUID()
+    {
         return platformUUID;
     }
 
-    public void setPlatformUUID(IdType idType, UUID uuid) {
+    /**
+     * Set the platform identifier and type.
+     *
+     * @param idType the type of platform ID used.
+     * @param uuid the uuid of the platform identifier.
+     */
+    public void setPlatformUUID(IdType idType, UUID uuid)
+    {
         this.platformIdType = idType;
         this.platformUUID = uuid;
     }
 
-    public UUID getWindowUUID() {
+    /**
+     * Get the window UUID for this core identifier.
+     *
+     * Window UUIDs are only used for combinations of sensors (e.g. LVMI). This value
+     * is often null, corresponding to no window identification.
+     *
+     * @return window UUID, or null
+     */
+    public UUID getWindowUUID()
+    {
         return windowUUID;
     }
 
-    public void setWindowUUID(final UUID uuid) {
+    /**
+     * Set the window UUID for this core identifier.
+     *
+     * Window UUIDs are only used for combinations of sensors (e.g. LVMI). This value
+     * is often null, corresponding to no window identification.
+     *
+     * @param uuid window UUID, or null
+     */
+    public void setWindowUUID(final UUID uuid)
+    {
         this.hasWindowId = uuid != null;
         this.windowUUID = uuid;
     }
 
-    public String getTextRepresentation() {
+    /**
+     * Get the standard text representation of this core identifier.
+     *
+     * @return string representation of this identifier.
+     */
+    public String getTextRepresentation()
+    {
         StringBuilder sb = new StringBuilder();
         sb.append(String.format("%02X", version));
         int usage = buildUsage();
@@ -322,49 +403,87 @@ public class CoreIdentifier
         return sb.toString();
     }
 
-    private void parseVersionAndUsage(String versionAndUsage) {
+    private void parseVersionAndUsage(String versionAndUsage)
+    {
         Integer versionAndUsageValue = Integer.parseInt(versionAndUsage, 16);
         setVersion(versionAndUsageValue >> 8);
         int usage = versionAndUsageValue & 0xFF;
         parseUsage(usage);
     }
 
-    private void parseUsage(int usage) {
+    private void parseUsage(int usage)
+    {
         sensorIdType = IdType.fromValue((usage >> 5) & 0x03);
         platformIdType = IdType.fromValue((usage >> 3) & 0x03);
         hasWindowId = (((usage >> 2) & 0x01) == 0x01);
         hasMinorId = (((usage >> 1) & 0x01) == 0x01);
     }
 
-    public UUID getMinorUUID() {
+    /**
+     * Get the Minor UUID for this core identifier.
+     *
+     * Note that the minor UUID can be null, and will be if this not a valid MCID.
+     *
+     * @return UUID, or null.
+     */
+    public UUID getMinorUUID()
+    {
         return minorUUID;
     }
 
-    public void setMinorUUID(final UUID minorUUID) {
+    /**
+     * Set the Minor UUID for this core identifier.
+     *
+     * Note that the minor UUID can be null, and will be if this not a valid MCID.
+     *
+     * @param minorUUID minor UUID, or null.
+     */
+    public void setMinorUUID(final UUID minorUUID)
+    {
         this.hasMinorId = minorUUID != null;
         this.minorUUID = minorUUID;
     }
 
-    public boolean hasValidCheckValue() {
+    /**
+     * Get whether this core identifier has a valid check value.
+     *
+     * @return true if the check value is valid, otherwise false
+     */
+    public boolean hasValidCheckValue()
+    {
         return this.hasValidCheckValue;
     }
 
-    public void setHasValidCheckValue(boolean b) {
+    /**
+     * Set whether this core identifier has a valid check value.
+     *
+     * @param b true if the check value is valid, otherwise false
+     */
+    public void setHasValidCheckValue(boolean b)
+    {
         this.hasValidCheckValue = b;
     }
 
-    private int buildUsage() {
+    private int buildUsage()
+    {
         int usage = 0;
         usage += (sensorIdType.getValue() << 5);
         usage += (platformIdType.getValue() << 3);
         usage += ((windowUUID != null) ? 0x4 : 0x0);
-        if (usage == 0) {
+        if (usage == 0)
+        {
             usage = ((minorUUID != null) ? 0x2 : 0x0);
         }
         return usage;
     }
 
-    public byte[] getRawBytesRepresentation() {
+    /**
+     * Get the standard binary representation of this core identifier.
+     *
+     * @return byte array representation of this identifier.
+     */
+    public byte[] getRawBytesRepresentation()
+    {
         int len = 0;
         List<byte[]> chunks = new ArrayList<>();
         chunks.add(new byte[]{(byte) version});
