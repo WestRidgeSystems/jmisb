@@ -3,10 +3,9 @@ package org.jmisb.api.klv.st0903.vtarget;
 /**
  * Focal Plane Array Index Pack.
  *
- * This data transfer object supports the ST0903 VTarget Tag 21 value.
+ * <p>This data transfer object supports the ST0903 VTarget Tag 21 value.
  */
-public class FpaIndexPack
-{
+public class FpaIndexPack {
 
     private short fpaRow;
     private short fpaColumn;
@@ -57,5 +56,4 @@ public class FpaIndexPack
     public void setFpaColumn(short fpaColumn) {
         this.fpaColumn = fpaColumn;
     }
-
 }

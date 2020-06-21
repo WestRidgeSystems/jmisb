@@ -3,14 +3,9 @@ package org.jmisb.api.klv.st0806;
 import java.util.HashMap;
 import java.util.Map;
 
-/**
- * ST 0806 tags - description and numbers.
- */
-public enum RvtMetadataKey
-{
-    /**
-     * Unknown key. This should not be created.
-     */
+/** ST 0806 tags - description and numbers. */
+public enum RvtMetadataKey {
+    /** Unknown key. This should not be created. */
     Undefined(0),
     CRC32(1),
     UserDefinedTimeStampMicroseconds(2),
@@ -38,26 +33,21 @@ public enum RvtMetadataKey
 
     private static final Map<Integer, RvtMetadataKey> tagTable = new HashMap<>();
 
-    static
-    {
-        for (RvtMetadataKey key : values())
-        {
+    static {
+        for (RvtMetadataKey key : values()) {
             tagTable.put(key.tag, key);
         }
     }
 
-    RvtMetadataKey(int tag)
-    {
+    RvtMetadataKey(int tag) {
         this.tag = tag;
     }
 
-    public int getTag()
-    {
+    public int getTag() {
         return tag;
     }
 
-    public static RvtMetadataKey getKey(int tag)
-    {
+    public static RvtMetadataKey getKey(int tag) {
         return tagTable.containsKey(tag) ? tagTable.get(tag) : Undefined;
     }
 }

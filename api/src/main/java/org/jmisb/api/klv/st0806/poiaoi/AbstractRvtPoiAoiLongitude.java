@@ -6,9 +6,9 @@ import org.jmisb.core.klv.PrimitiveConverter;
 /**
  * Shared implementation of Longitude (PoiLongitude, CornerLongitudePoint1, CornerLongitudePoint3).
  */
-public abstract class AbstractRvtPoiAoiLongitude implements IRvtPoiAoiMetadataValue
-{
-    private static final byte[] INVALID_BYTES = new byte[]{(byte) 0x80, (byte) 0x00, (byte) 0x00, (byte) 0x00};
+public abstract class AbstractRvtPoiAoiLongitude implements IRvtPoiAoiMetadataValue {
+    private static final byte[] INVALID_BYTES =
+            new byte[] {(byte) 0x80, (byte) 0x00, (byte) 0x00, (byte) 0x00};
     private static final double FLOAT_RANGE = 180.0;
     private static final double MAX_INT = 2147483647.0;
     private double degrees;
@@ -16,13 +16,11 @@ public abstract class AbstractRvtPoiAoiLongitude implements IRvtPoiAoiMetadataVa
     /**
      * Create from value.
      *
-     * @param degrees Longitude, in degrees [-180,180], or
-     * {@code Double.POSITIVE_INFINITY} to represent an error condition
+     * @param degrees Longitude, in degrees [-180,180], or {@code Double.POSITIVE_INFINITY} to
+     *     represent an error condition
      */
-    public AbstractRvtPoiAoiLongitude(double degrees)
-    {
-        if (degrees != Double.POSITIVE_INFINITY && (degrees < -180 || degrees > 180))
-        {
+    public AbstractRvtPoiAoiLongitude(double degrees) {
+        if (degrees != Double.POSITIVE_INFINITY && (degrees < -180 || degrees > 180)) {
             throw new IllegalArgumentException(getDisplayName() + " must be in range [-180,180]");
         }
         this.degrees = degrees;
@@ -33,18 +31,14 @@ public abstract class AbstractRvtPoiAoiLongitude implements IRvtPoiAoiMetadataVa
      *
      * @param bytes Longitude, encoded as a 4-byte integer
      */
-    public AbstractRvtPoiAoiLongitude(byte[] bytes)
-    {
-        if (bytes.length != 4)
-        {
+    public AbstractRvtPoiAoiLongitude(byte[] bytes) {
+        if (bytes.length != 4) {
             throw new IllegalArgumentException(getDisplayName() + " encoding is a 4-byte int");
         }
 
-        if (Arrays.equals(bytes, INVALID_BYTES))
-        {
+        if (Arrays.equals(bytes, INVALID_BYTES)) {
             degrees = Double.POSITIVE_INFINITY;
-        } else
-        {
+        } else {
             int intVal = PrimitiveConverter.toInt32(bytes);
             this.degrees = (intVal / MAX_INT) * FLOAT_RANGE;
         }
@@ -53,18 +47,16 @@ public abstract class AbstractRvtPoiAoiLongitude implements IRvtPoiAoiMetadataVa
     /**
      * Get the longitude in degrees
      *
-     * @return Degrees in range [-180,180], or Double.POSITIVE_INFINITY if error condition was specified.
+     * @return Degrees in range [-180,180], or Double.POSITIVE_INFINITY if error condition was
+     *     specified.
      */
-    public double getDegrees()
-    {
+    public double getDegrees() {
         return degrees;
     }
 
     @Override
-    public byte[] getBytes()
-    {
-        if (degrees == Double.POSITIVE_INFINITY)
-        {
+    public byte[] getBytes() {
+        if (degrees == Double.POSITIVE_INFINITY) {
             return INVALID_BYTES.clone();
         }
         int intVal = (int) Math.round((degrees / FLOAT_RANGE) * MAX_INT);
@@ -72,8 +64,7 @@ public abstract class AbstractRvtPoiAoiLongitude implements IRvtPoiAoiMetadataVa
     }
 
     @Override
-    public String getDisplayableValue()
-    {
+    public String getDisplayableValue() {
         return String.format("%.4f\u00B0", degrees);
     }
 

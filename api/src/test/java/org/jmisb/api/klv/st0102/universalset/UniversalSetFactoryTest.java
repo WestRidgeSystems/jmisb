@@ -1,38 +1,39 @@
 package org.jmisb.api.klv.st0102.universalset;
 
+import static org.testng.Assert.assertEquals;
+import static org.testng.Assert.assertNotNull;
+
 import java.nio.charset.StandardCharsets;
 import java.time.LocalDate;
 import java.time.Month;
 import org.jmisb.api.klv.st0102.CcmDate;
 import org.jmisb.api.klv.st0102.Classification;
 import org.jmisb.api.klv.st0102.DeclassificationDate;
-import org.jmisb.api.klv.st0102.SecurityMetadataKey;
-import org.jmisb.api.klv.st0102.SecurityMetadataString;
 import org.jmisb.api.klv.st0102.ISecurityMetadataValue;
 import org.jmisb.api.klv.st0102.ItemDesignatorId;
 import org.jmisb.api.klv.st0102.ObjectCountryCodeString;
 import org.jmisb.api.klv.st0102.OcmDate;
+import org.jmisb.api.klv.st0102.SecurityMetadataKey;
+import org.jmisb.api.klv.st0102.SecurityMetadataString;
 import org.jmisb.api.klv.st0102.StreamId;
 import org.jmisb.api.klv.st0102.TransportStreamId;
 import org.testng.Assert;
-import static org.testng.Assert.assertEquals;
-import static org.testng.Assert.assertNotNull;
 import org.testng.annotations.Test;
 
-public class UniversalSetFactoryTest
-{
+public class UniversalSetFactoryTest {
     @Test
-    public void testCreate()
-    {
-        ISecurityMetadataValue value = UniversalSetFactory.createValue(SecurityMetadataKey.SecurityClassification,
-                "UNCLASSIFIED//".getBytes());
+    public void testCreate() {
+        ISecurityMetadataValue value =
+                UniversalSetFactory.createValue(
+                        SecurityMetadataKey.SecurityClassification, "UNCLASSIFIED//".getBytes());
         Assert.assertTrue(value instanceof ClassificationUniversal);
         ClassificationUniversal classification = (ClassificationUniversal) value;
         Assert.assertEquals(classification.getClassification(), Classification.UNCLASSIFIED);
 
         String ccMethod = "GENC Two Letter";
-        value = UniversalSetFactory.createValue(SecurityMetadataKey.CcCodingMethod,
-                ccMethod.getBytes());
+        value =
+                UniversalSetFactory.createValue(
+                        SecurityMetadataKey.CcCodingMethod, ccMethod.getBytes());
         Assert.assertTrue(value instanceof SecurityMetadataString);
         SecurityMetadataString string = (SecurityMetadataString) value;
         Assert.assertEquals(string.getValue(), ccMethod);
@@ -40,18 +41,53 @@ public class UniversalSetFactoryTest
 
     @Test
     public void testCreateItemDesignatorId() {
-        byte[] itemDesignatorId = new byte[]{(byte) 0x00, (byte) 0x01, (byte) 0x02, (byte) 0x03, (byte) 0x04, (byte) 0x05, (byte) 0x06, (byte) 0x07, (byte) 0x08, (byte) 0x09, (byte) 0x0A, (byte) 0x0B, (byte) 0x0C, (byte) 0x0D, (byte) 0x0E, (byte) 0x0F};
-        ISecurityMetadataValue value = UniversalSetFactory.createValue(SecurityMetadataKey.ItemDesignatorId, itemDesignatorId);
+        byte[] itemDesignatorId =
+                new byte[] {
+                    (byte) 0x00,
+                    (byte) 0x01,
+                    (byte) 0x02,
+                    (byte) 0x03,
+                    (byte) 0x04,
+                    (byte) 0x05,
+                    (byte) 0x06,
+                    (byte) 0x07,
+                    (byte) 0x08,
+                    (byte) 0x09,
+                    (byte) 0x0A,
+                    (byte) 0x0B,
+                    (byte) 0x0C,
+                    (byte) 0x0D,
+                    (byte) 0x0E,
+                    (byte) 0x0F
+                };
+        ISecurityMetadataValue value =
+                UniversalSetFactory.createValue(
+                        SecurityMetadataKey.ItemDesignatorId, itemDesignatorId);
         Assert.assertTrue(value instanceof ItemDesignatorId);
         ItemDesignatorId id = (ItemDesignatorId) value;
         Assert.assertEquals(id.getItemDesignatorId(), itemDesignatorId);
     }
 
     @Test
-    public void testSciShiCreate()
-    {
-        byte[] bytes = new byte[]{(byte)0x48, (byte)0x65, (byte)0x6c, (byte)0x6c, (byte)0x6f, (byte)0x2c, (byte)0x20, (byte)0x57, (byte)0x6f, (byte)0x72, (byte)0x6c, (byte)0x64, (byte)0x21};
-        ISecurityMetadataValue value = UniversalSetFactory.createValue(SecurityMetadataKey.SciShiInfo, bytes);
+    public void testSciShiCreate() {
+        byte[] bytes =
+                new byte[] {
+                    (byte) 0x48,
+                    (byte) 0x65,
+                    (byte) 0x6c,
+                    (byte) 0x6c,
+                    (byte) 0x6f,
+                    (byte) 0x2c,
+                    (byte) 0x20,
+                    (byte) 0x57,
+                    (byte) 0x6f,
+                    (byte) 0x72,
+                    (byte) 0x6c,
+                    (byte) 0x64,
+                    (byte) 0x21
+                };
+        ISecurityMetadataValue value =
+                UniversalSetFactory.createValue(SecurityMetadataKey.SciShiInfo, bytes);
         Assert.assertTrue(value instanceof SecurityMetadataString);
         SecurityMetadataString s = (SecurityMetadataString) value;
         Assert.assertEquals(s.getDisplayName(), "Security-SCI/SHI Information");
@@ -60,10 +96,25 @@ public class UniversalSetFactoryTest
     }
 
     @Test
-    public void testDerivedFromCreate()
-    {
-        byte[] bytes = new byte[]{(byte)0x48, (byte)0x65, (byte)0x6c, (byte)0x6c, (byte)0x6f, (byte)0x2c, (byte)0x20, (byte)0x57, (byte)0x6f, (byte)0x72, (byte)0x6c, (byte)0x64, (byte)0x21};
-        ISecurityMetadataValue value = UniversalSetFactory.createValue(SecurityMetadataKey.DerivedFrom, bytes);
+    public void testDerivedFromCreate() {
+        byte[] bytes =
+                new byte[] {
+                    (byte) 0x48,
+                    (byte) 0x65,
+                    (byte) 0x6c,
+                    (byte) 0x6c,
+                    (byte) 0x6f,
+                    (byte) 0x2c,
+                    (byte) 0x20,
+                    (byte) 0x57,
+                    (byte) 0x6f,
+                    (byte) 0x72,
+                    (byte) 0x6c,
+                    (byte) 0x64,
+                    (byte) 0x21
+                };
+        ISecurityMetadataValue value =
+                UniversalSetFactory.createValue(SecurityMetadataKey.DerivedFrom, bytes);
         Assert.assertTrue(value instanceof SecurityMetadataString);
         SecurityMetadataString s = (SecurityMetadataString) value;
         Assert.assertEquals(s.getDisplayName(), "Derived From");
@@ -72,10 +123,25 @@ public class UniversalSetFactoryTest
     }
 
     @Test
-    public void testCaveatsCreate()
-    {
-        byte[] bytes = new byte[]{(byte)0x48, (byte)0x65, (byte)0x6c, (byte)0x6c, (byte)0x6f, (byte)0x2c, (byte)0x20, (byte)0x57, (byte)0x6f, (byte)0x72, (byte)0x6c, (byte)0x64, (byte)0x21};
-        ISecurityMetadataValue value = UniversalSetFactory.createValue(SecurityMetadataKey.Caveats, bytes);
+    public void testCaveatsCreate() {
+        byte[] bytes =
+                new byte[] {
+                    (byte) 0x48,
+                    (byte) 0x65,
+                    (byte) 0x6c,
+                    (byte) 0x6c,
+                    (byte) 0x6f,
+                    (byte) 0x2c,
+                    (byte) 0x20,
+                    (byte) 0x57,
+                    (byte) 0x6f,
+                    (byte) 0x72,
+                    (byte) 0x6c,
+                    (byte) 0x64,
+                    (byte) 0x21
+                };
+        ISecurityMetadataValue value =
+                UniversalSetFactory.createValue(SecurityMetadataKey.Caveats, bytes);
         Assert.assertTrue(value instanceof SecurityMetadataString);
         SecurityMetadataString s = (SecurityMetadataString) value;
         Assert.assertEquals(s.getDisplayName(), "Caveats");
@@ -84,10 +150,25 @@ public class UniversalSetFactoryTest
     }
 
     @Test
-    public void testReleasingInstructionsCreate()
-    {
-        byte[] bytes = new byte[]{(byte)0x48, (byte)0x65, (byte)0x6c, (byte)0x6c, (byte)0x6f, (byte)0x2c, (byte)0x20, (byte)0x57, (byte)0x6f, (byte)0x72, (byte)0x6c, (byte)0x64, (byte)0x21};
-        ISecurityMetadataValue value = UniversalSetFactory.createValue(SecurityMetadataKey.ReleasingInstructions, bytes);
+    public void testReleasingInstructionsCreate() {
+        byte[] bytes =
+                new byte[] {
+                    (byte) 0x48,
+                    (byte) 0x65,
+                    (byte) 0x6c,
+                    (byte) 0x6c,
+                    (byte) 0x6f,
+                    (byte) 0x2c,
+                    (byte) 0x20,
+                    (byte) 0x57,
+                    (byte) 0x6f,
+                    (byte) 0x72,
+                    (byte) 0x6c,
+                    (byte) 0x64,
+                    (byte) 0x21
+                };
+        ISecurityMetadataValue value =
+                UniversalSetFactory.createValue(SecurityMetadataKey.ReleasingInstructions, bytes);
         Assert.assertTrue(value instanceof SecurityMetadataString);
         SecurityMetadataString s = (SecurityMetadataString) value;
         Assert.assertEquals(s.getDisplayName(), "Releasing Instructions");
@@ -96,10 +177,25 @@ public class UniversalSetFactoryTest
     }
 
     @Test
-    public void testClassificationReasonCreate()
-    {
-        byte[] bytes = new byte[]{(byte)0x48, (byte)0x65, (byte)0x6c, (byte)0x6c, (byte)0x6f, (byte)0x2c, (byte)0x20, (byte)0x57, (byte)0x6f, (byte)0x72, (byte)0x6c, (byte)0x64, (byte)0x21};
-        ISecurityMetadataValue value = UniversalSetFactory.createValue(SecurityMetadataKey.ClassificationReason, bytes);
+    public void testClassificationReasonCreate() {
+        byte[] bytes =
+                new byte[] {
+                    (byte) 0x48,
+                    (byte) 0x65,
+                    (byte) 0x6c,
+                    (byte) 0x6c,
+                    (byte) 0x6f,
+                    (byte) 0x2c,
+                    (byte) 0x20,
+                    (byte) 0x57,
+                    (byte) 0x6f,
+                    (byte) 0x72,
+                    (byte) 0x6c,
+                    (byte) 0x64,
+                    (byte) 0x21
+                };
+        ISecurityMetadataValue value =
+                UniversalSetFactory.createValue(SecurityMetadataKey.ClassificationReason, bytes);
         Assert.assertTrue(value instanceof SecurityMetadataString);
         SecurityMetadataString s = (SecurityMetadataString) value;
         Assert.assertEquals(s.getDisplayName(), "Classification Reason");
@@ -108,10 +204,25 @@ public class UniversalSetFactoryTest
     }
 
     @Test
-    public void testClassificationCommentsCreate()
-    {
-        byte[] bytes = new byte[]{(byte)0x48, (byte)0x65, (byte)0x6c, (byte)0x6c, (byte)0x6f, (byte)0x2c, (byte)0x20, (byte)0x57, (byte)0x6f, (byte)0x72, (byte)0x6c, (byte)0x64, (byte)0x21};
-        ISecurityMetadataValue value = UniversalSetFactory.createValue(SecurityMetadataKey.ClassificationComments, bytes);
+    public void testClassificationCommentsCreate() {
+        byte[] bytes =
+                new byte[] {
+                    (byte) 0x48,
+                    (byte) 0x65,
+                    (byte) 0x6c,
+                    (byte) 0x6c,
+                    (byte) 0x6f,
+                    (byte) 0x2c,
+                    (byte) 0x20,
+                    (byte) 0x57,
+                    (byte) 0x6f,
+                    (byte) 0x72,
+                    (byte) 0x6c,
+                    (byte) 0x64,
+                    (byte) 0x21
+                };
+        ISecurityMetadataValue value =
+                UniversalSetFactory.createValue(SecurityMetadataKey.ClassificationComments, bytes);
         Assert.assertTrue(value instanceof SecurityMetadataString);
         SecurityMetadataString s = (SecurityMetadataString) value;
         Assert.assertEquals(s.getDisplayName(), "Classification Comments");
@@ -120,10 +231,25 @@ public class UniversalSetFactoryTest
     }
 
     @Test
-    public void testMarkingSystemCreate()
-    {
-        byte[] bytes = new byte[]{(byte)0x48, (byte)0x65, (byte)0x6c, (byte)0x6c, (byte)0x6f, (byte)0x2c, (byte)0x20, (byte)0x57, (byte)0x6f, (byte)0x72, (byte)0x6c, (byte)0x64, (byte)0x21};
-        ISecurityMetadataValue value = UniversalSetFactory.createValue(SecurityMetadataKey.MarkingSystem, bytes);
+    public void testMarkingSystemCreate() {
+        byte[] bytes =
+                new byte[] {
+                    (byte) 0x48,
+                    (byte) 0x65,
+                    (byte) 0x6c,
+                    (byte) 0x6c,
+                    (byte) 0x6f,
+                    (byte) 0x2c,
+                    (byte) 0x20,
+                    (byte) 0x57,
+                    (byte) 0x6f,
+                    (byte) 0x72,
+                    (byte) 0x6c,
+                    (byte) 0x64,
+                    (byte) 0x21
+                };
+        ISecurityMetadataValue value =
+                UniversalSetFactory.createValue(SecurityMetadataKey.MarkingSystem, bytes);
         Assert.assertTrue(value instanceof SecurityMetadataString);
         SecurityMetadataString s = (SecurityMetadataString) value;
         Assert.assertEquals(s.getDisplayName(), "Marking System");
@@ -132,10 +258,25 @@ public class UniversalSetFactoryTest
     }
 
     @Test
-    public void testClassifiedByCreate()
-    {
-        byte[] bytes = new byte[]{(byte)0x48, (byte)0x65, (byte)0x6c, (byte)0x6c, (byte)0x6f, (byte)0x2c, (byte)0x20, (byte)0x57, (byte)0x6f, (byte)0x72, (byte)0x6c, (byte)0x64, (byte)0x21};
-        ISecurityMetadataValue value = UniversalSetFactory.createValue(SecurityMetadataKey.ClassifiedBy, bytes);
+    public void testClassifiedByCreate() {
+        byte[] bytes =
+                new byte[] {
+                    (byte) 0x48,
+                    (byte) 0x65,
+                    (byte) 0x6c,
+                    (byte) 0x6c,
+                    (byte) 0x6f,
+                    (byte) 0x2c,
+                    (byte) 0x20,
+                    (byte) 0x57,
+                    (byte) 0x6f,
+                    (byte) 0x72,
+                    (byte) 0x6c,
+                    (byte) 0x64,
+                    (byte) 0x21
+                };
+        ISecurityMetadataValue value =
+                UniversalSetFactory.createValue(SecurityMetadataKey.ClassifiedBy, bytes);
         Assert.assertTrue(value instanceof SecurityMetadataString);
         SecurityMetadataString s = (SecurityMetadataString) value;
         Assert.assertEquals(s.getDisplayName(), "Classified By");
@@ -144,9 +285,11 @@ public class UniversalSetFactoryTest
     }
 
     @Test
-    public void testOcMethodCreate()
-    {
-        ISecurityMetadataValue value = UniversalSetFactory.createValue(SecurityMetadataKey.OcCodingMethod, "GENC Two Letter".getBytes(StandardCharsets.UTF_8));
+    public void testOcMethodCreate() {
+        ISecurityMetadataValue value =
+                UniversalSetFactory.createValue(
+                        SecurityMetadataKey.OcCodingMethod,
+                        "GENC Two Letter".getBytes(StandardCharsets.UTF_8));
         Assert.assertTrue(value instanceof SecurityMetadataString);
         SecurityMetadataString string = (SecurityMetadataString) value;
         Assert.assertEquals(string.getValue(), "GENC Two Letter");
@@ -155,50 +298,80 @@ public class UniversalSetFactoryTest
     }
 
     @Test
-    public void testCcMethodDateCreate()
-    {
-        ISecurityMetadataValue value = UniversalSetFactory.createValue(SecurityMetadataKey.CcCodingMethodVersionDate, new byte[]{0x32, 0x30, 0x32, 0x30, 0x2d, 0x30, 0x34, 0x2d, 0x32, 0x35});
+    public void testCcMethodDateCreate() {
+        ISecurityMetadataValue value =
+                UniversalSetFactory.createValue(
+                        SecurityMetadataKey.CcCodingMethodVersionDate,
+                        new byte[] {0x32, 0x30, 0x32, 0x30, 0x2d, 0x30, 0x34, 0x2d, 0x32, 0x35});
         assertNotNull(value);
         Assert.assertTrue(value instanceof CcmDate);
         CcmDate ccmDate = (CcmDate) value;
         assertEquals(ccmDate.getValue(), LocalDate.of(2020, Month.APRIL, 25));
         byte[] bytes = ccmDate.getBytes();
-        assertEquals(bytes, new byte[]{0x32, 0x30, 0x32, 0x30, 0x2d, 0x30, 0x34, 0x2d, 0x32, 0x35});
+        assertEquals(
+                bytes, new byte[] {0x32, 0x30, 0x32, 0x30, 0x2d, 0x30, 0x34, 0x2d, 0x32, 0x35});
         assertEquals(ccmDate.getDisplayableValue(), "2020-04-25");
     }
 
     @Test
-    public void testOcmDateCreate()
-    {
-        byte[] bytes = new byte[]{0x32, 0x30, 0x32, 0x30, 0x2d, 0x30, 0x31, 0x2d, 0x32, 0x35};
-        ISecurityMetadataValue value = UniversalSetFactory.createValue(SecurityMetadataKey.OcCodingMethodVersionDate, bytes);
+    public void testOcmDateCreate() {
+        byte[] bytes = new byte[] {0x32, 0x30, 0x32, 0x30, 0x2d, 0x30, 0x31, 0x2d, 0x32, 0x35};
+        ISecurityMetadataValue value =
+                UniversalSetFactory.createValue(
+                        SecurityMetadataKey.OcCodingMethodVersionDate, bytes);
         Assert.assertTrue(value instanceof OcmDate);
         OcmDate ocmDate = (OcmDate) value;
         assertNotNull(ocmDate);
         assertEquals(ocmDate.getValue(), LocalDate.of(2020, Month.JANUARY, 25));
         byte[] bytesOut = ocmDate.getBytes();
-        assertEquals(bytesOut, new byte[]{0x32, 0x30, 0x32, 0x30, 0x2d, 0x30, 0x31, 0x2d, 0x32, 0x35});
+        assertEquals(
+                bytesOut, new byte[] {0x32, 0x30, 0x32, 0x30, 0x2d, 0x30, 0x31, 0x2d, 0x32, 0x35});
         assertEquals(ocmDate.getDisplayableValue(), "2020-01-25");
     }
 
     @Test
-    public void testObjectCountryCodeCreate()
-    {
-        byte[] bytes = new byte[]{(byte) 0x00, (byte) 0x55, (byte) 0x00, (byte) 0x53, (byte) 0x00, (byte) 0x3b, (byte) 0x00, (byte) 0x43, (byte) 0x00, (byte) 0x41};
-        ISecurityMetadataValue value = UniversalSetFactory.createValue(SecurityMetadataKey.ObjectCountryCodes, bytes);
+    public void testObjectCountryCodeCreate() {
+        byte[] bytes =
+                new byte[] {
+                    (byte) 0x00,
+                    (byte) 0x55,
+                    (byte) 0x00,
+                    (byte) 0x53,
+                    (byte) 0x00,
+                    (byte) 0x3b,
+                    (byte) 0x00,
+                    (byte) 0x43,
+                    (byte) 0x00,
+                    (byte) 0x41
+                };
+        ISecurityMetadataValue value =
+                UniversalSetFactory.createValue(SecurityMetadataKey.ObjectCountryCodes, bytes);
         Assert.assertTrue(value instanceof ObjectCountryCodeString);
         ObjectCountryCodeString objectCountryCode = (ObjectCountryCodeString) value;
         Assert.assertEquals(objectCountryCode.getValue(), "US;CA");
         Assert.assertEquals(objectCountryCode.getDisplayableValue(), "US;CA");
         Assert.assertEquals(objectCountryCode.getDisplayName(), "Object Country Codes");
-        Assert.assertEquals(objectCountryCode.getBytes(), new byte[]{(byte) 0x00, (byte) 0x55, (byte) 0x00, (byte) 0x53, (byte) 0x00, (byte) 0x3b, (byte) 0x00, (byte) 0x43, (byte) 0x00, (byte) 0x41});
+        Assert.assertEquals(
+                objectCountryCode.getBytes(),
+                new byte[] {
+                    (byte) 0x00,
+                    (byte) 0x55,
+                    (byte) 0x00,
+                    (byte) 0x53,
+                    (byte) 0x00,
+                    (byte) 0x3b,
+                    (byte) 0x00,
+                    (byte) 0x43,
+                    (byte) 0x00,
+                    (byte) 0x41
+                });
     }
 
     @Test
-    public void testConstructFromEncodedBytes()
-    {
-        byte[] bytes = new byte[]{0x32, 0x30, 0x35, 0x31, 0x30, 0x35, 0x30, 0x35};
-        ISecurityMetadataValue value = UniversalSetFactory.createValue(SecurityMetadataKey.DeclassificationDate, bytes);
+    public void testConstructFromEncodedBytes() {
+        byte[] bytes = new byte[] {0x32, 0x30, 0x35, 0x31, 0x30, 0x35, 0x30, 0x35};
+        ISecurityMetadataValue value =
+                UniversalSetFactory.createValue(SecurityMetadataKey.DeclassificationDate, bytes);
         Assert.assertTrue(value instanceof DeclassificationDate);
         DeclassificationDate declassificationDate = (DeclassificationDate) value;
         assertNotNull(declassificationDate);
@@ -207,33 +380,34 @@ public class UniversalSetFactoryTest
     }
 
     @Test
-    public void testStreamIdCreate()
-    {
-        ISecurityMetadataValue value = UniversalSetFactory.createValue(SecurityMetadataKey.StreamId, new byte[]{0x04});
+    public void testStreamIdCreate() {
+        ISecurityMetadataValue value =
+                UniversalSetFactory.createValue(SecurityMetadataKey.StreamId, new byte[] {0x04});
         assertNotNull(value);
         Assert.assertTrue(value instanceof StreamId);
         StreamId streamId = (StreamId) value;
         assertEquals(streamId.getDisplayName(), "Stream Identifier");
         byte[] bytes = streamId.getBytes();
-        assertEquals(bytes, new byte[]{0x04});
+        assertEquals(bytes, new byte[] {0x04});
         assertEquals(streamId.getDisplayableValue(), "4");
     }
 
     @Test
-    public void testTransportStreamIdCreate()
-    {
-        ISecurityMetadataValue value = UniversalSetFactory.createValue(SecurityMetadataKey.TransportStreamId, new byte[]{0x04, 0x03});
+    public void testTransportStreamIdCreate() {
+        ISecurityMetadataValue value =
+                UniversalSetFactory.createValue(
+                        SecurityMetadataKey.TransportStreamId, new byte[] {0x04, 0x03});
         assertNotNull(value);
         Assert.assertTrue(value instanceof TransportStreamId);
         TransportStreamId transportStreamId = (TransportStreamId) value;
         assertEquals(transportStreamId.getDisplayName(), "Transport Stream Identifier");
         byte[] bytes = transportStreamId.getBytes();
-        assertEquals(bytes, new byte[]{0x04, 0x03});
+        assertEquals(bytes, new byte[] {0x04, 0x03});
         assertEquals(transportStreamId.getDisplayableValue(), "1027");
     }
 
     @Test(expectedExceptions = IllegalArgumentException.class)
     public void noSuchTag() {
-        UniversalSetFactory.createValue(SecurityMetadataKey.Undefined, new byte[]{0x00});
+        UniversalSetFactory.createValue(SecurityMetadataKey.Undefined, new byte[] {0x00});
     }
 }

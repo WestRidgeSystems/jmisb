@@ -7,21 +7,40 @@ import org.jmisb.api.klv.st0601.dto.Wavelengths;
 import org.testng.Assert;
 import org.testng.annotations.Test;
 
-public class WavelengthsListTest
-{
-    private final byte[] ST_EXAMPLE_BYTES = new byte[]{(byte)0x0D, (byte)0x15, (byte)0x00, (byte)0x00, (byte)0x07, (byte)0xD0, (byte)0x00, (byte)0x00, (byte)0x0F, (byte)0xA0, (byte)0x4E, (byte)0x4E, (byte)0x49, (byte)0x52};
-    private final byte[] TWO_ENTRY_BYTES = new byte[]{
-            (byte)0x0D, (byte)0x15, (byte)0x00, (byte)0x00, (byte)0x07, (byte)0xD0, (byte)0x00, (byte)0x00, (byte)0x0F, (byte)0xA0, (byte)0x4E, (byte)0x4E, (byte)0x49, (byte)0x52,
-            (byte)0x0D, (byte)0x16, (byte)0x00, (byte)0x00, (byte)0x02, (byte)0xF8, (byte)0x00, (byte)0x00, (byte)0x03, (byte)0xe8, (byte)0x42, (byte)0x4C, (byte)0x55, (byte)0x45,
-    };
+public class WavelengthsListTest {
+    private final byte[] ST_EXAMPLE_BYTES =
+            new byte[] {
+                (byte) 0x0D,
+                (byte) 0x15,
+                (byte) 0x00,
+                (byte) 0x00,
+                (byte) 0x07,
+                (byte) 0xD0,
+                (byte) 0x00,
+                (byte) 0x00,
+                (byte) 0x0F,
+                (byte) 0xA0,
+                (byte) 0x4E,
+                (byte) 0x4E,
+                (byte) 0x49,
+                (byte) 0x52
+            };
+    private final byte[] TWO_ENTRY_BYTES =
+            new byte[] {
+                (byte) 0x0D, (byte) 0x15, (byte) 0x00, (byte) 0x00, (byte) 0x07, (byte) 0xD0,
+                        (byte) 0x00, (byte) 0x00, (byte) 0x0F, (byte) 0xA0, (byte) 0x4E,
+                        (byte) 0x4E, (byte) 0x49, (byte) 0x52,
+                (byte) 0x0D, (byte) 0x16, (byte) 0x00, (byte) 0x00, (byte) 0x02, (byte) 0xF8,
+                        (byte) 0x00, (byte) 0x00, (byte) 0x03, (byte) 0xe8, (byte) 0x42,
+                        (byte) 0x4C, (byte) 0x55, (byte) 0x45,
+            };
     private final int ST_EXAMPLE_ID = 21;
     private final double ST_EXAMPLE_MIN_WAVELENGTH = 1000;
     private final double ST_EXAMPLE_MAX_WAVELENGTH = 2000;
     private final String ST_EXAMPLE_NAME = "NNIR";
 
     @Test
-    public void testConstructFromValue()
-    {
+    public void testConstructFromValue() {
         // From ST:
         List<Wavelengths> wavelengthsArrayList = new ArrayList<>();
         Wavelengths wavelengths = new Wavelengths();
@@ -35,18 +54,17 @@ public class WavelengthsListTest
     }
 
     @Test
-    public void testConstructFromEncoded()
-    {
+    public void testConstructFromEncoded() {
         WavelengthsList wavelengthsList = new WavelengthsList(ST_EXAMPLE_BYTES);
         checkValuesForExample(wavelengthsList);
     }
 
     @Test
-    public void testFactory() throws KlvParseException
-    {
-        IUasDatalinkValue v = UasDatalinkFactory.createValue(UasDatalinkTag.WavelengthsList, ST_EXAMPLE_BYTES);
+    public void testFactory() throws KlvParseException {
+        IUasDatalinkValue v =
+                UasDatalinkFactory.createValue(UasDatalinkTag.WavelengthsList, ST_EXAMPLE_BYTES);
         Assert.assertTrue(v instanceof WavelengthsList);
-        WavelengthsList wavelengthsList = (WavelengthsList)v;
+        WavelengthsList wavelengthsList = (WavelengthsList) v;
         checkValuesForExample(wavelengthsList);
     }
 
@@ -64,8 +82,7 @@ public class WavelengthsListTest
     }
 
     @Test
-    public void testConstructFromEncodedTwoEntries()
-    {
+    public void testConstructFromEncodedTwoEntries() {
         WavelengthsList wavelengthsList = new WavelengthsList(TWO_ENTRY_BYTES);
         Assert.assertEquals(wavelengthsList.getWavelengthsList().size(), 2);
         Wavelengths wavelengths0 = wavelengthsList.getWavelengthsList().get(0);

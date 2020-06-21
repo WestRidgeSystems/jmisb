@@ -22,34 +22,27 @@ public class VTargetPack {
 
     private static final Logger LOGGER = LoggerFactory.getLogger(VTargetPack.class);
 
-    /**
-     * Map containing all data elements in the message
-     */
+    /** Map containing all data elements in the message */
     private final SortedMap<VTargetMetadataKey, IVmtiMetadataValue> map = new TreeMap<>();
 
     private final int targetId;
 
-    public VTargetPack(int targetId, Map<VTargetMetadataKey, IVmtiMetadataValue> values)
-    {
+    public VTargetPack(int targetId, Map<VTargetMetadataKey, IVmtiMetadataValue> values) {
         this.targetId = targetId;
         map.putAll(values);
     }
 
-    public VTargetPack(byte[] bytes, int offset, int length) throws KlvParseException
-    {
+    public VTargetPack(byte[] bytes, int offset, int length) throws KlvParseException {
         BerField targetIdField = BerDecoder.decode(bytes, offset, true);
         offset += targetIdField.getLength();
         targetId = targetIdField.getValue();
-        List<LdsField> fields = LdsParser.parseFields(bytes, offset, length - targetIdField.getLength());
-        for (LdsField field : fields)
-        {
+        List<LdsField> fields =
+                LdsParser.parseFields(bytes, offset, length - targetIdField.getLength());
+        for (LdsField field : fields) {
             VTargetMetadataKey key = VTargetMetadataKey.getKey(field.getTag());
-            if (key == VTargetMetadataKey.Undefined)
-            {
+            if (key == VTargetMetadataKey.Undefined) {
                 LOGGER.info("Unknown VMTI VTarget Metadata tag: {}", field.getTag());
-            }
-            else
-            {
+            } else {
                 IVmtiMetadataValue value = createValue(key, field.getData());
                 map.put(key, value);
             }
@@ -64,8 +57,8 @@ public class VTargetPack {
      * @return The new instance
      * @throws KlvParseException if the bytes could not be parsed.
      */
-    public static IVmtiMetadataValue createValue(VTargetMetadataKey tag, byte[] bytes) throws KlvParseException
-    {
+    public static IVmtiMetadataValue createValue(VTargetMetadataKey tag, byte[] bytes)
+            throws KlvParseException {
         switch (tag) {
             case TargetCentroid:
                 return new TargetCentroid(bytes);
@@ -136,8 +129,7 @@ public class VTargetPack {
      *
      * @return target identifier.
      */
-    public int getTargetIdentifier()
-    {
+    public int getTargetIdentifier() {
         return targetId;
     }
 
@@ -146,8 +138,7 @@ public class VTargetPack {
      *
      * @return The set of tags for which values have been set
      */
-    public Set<VTargetMetadataKey> getTags()
-    {
+    public Set<VTargetMetadataKey> getTags() {
         return map.keySet();
     }
 
@@ -157,17 +148,16 @@ public class VTargetPack {
      * @param tag Tag of the value to retrieve
      * @return The value, or null if no value was set
      */
-    public IVmtiMetadataValue getField(VTargetMetadataKey tag)
-    {
+    public IVmtiMetadataValue getField(VTargetMetadataKey tag) {
         return map.get(tag);
     }
 
     /**
      * Get the byte array corresponding to the value for this Local Set.
+     *
      * @return byte array with the encoded local set.
      */
-    public byte[] getBytes()
-    {
+    public byte[] getBytes() {
         int len = 0;
         List<byte[]> chunks = new ArrayList<>();
 
@@ -175,9 +165,8 @@ public class VTargetPack {
         chunks.add(targetIdBytes);
         len += targetIdBytes.length;
 
-        for (VTargetMetadataKey tag: getTags())
-        {
-            chunks.add(new byte[]{(byte) tag.getTag()});
+        for (VTargetMetadataKey tag : getTags()) {
+            chunks.add(new byte[] {(byte) tag.getTag()});
             len += 1;
             IVmtiMetadataValue value = getField(tag);
             byte[] bytes = value.getBytes();

@@ -17,16 +17,12 @@ import org.jmisb.core.klv.ArrayUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
-/**
- * VTracker Local Set.
- */
+/** VTracker Local Set. */
 public class VTrackerLS {
 
     private static final Logger LOGGER = LoggerFactory.getLogger(VTrackerLS.class);
 
-    /**
-     * Map containing all data elements in the message
-     */
+    /** Map containing all data elements in the message */
     private final SortedMap<VTrackerMetadataKey, IVmtiMetadataValue> map = new TreeMap<>();
 
     /**
@@ -34,13 +30,11 @@ public class VTrackerLS {
      *
      * @param values Tag/value pairs to be included in the local set
      */
-    public VTrackerLS(Map<VTrackerMetadataKey, IVmtiMetadataValue> values)
-    {
+    public VTrackerLS(Map<VTrackerMetadataKey, IVmtiMetadataValue> values) {
         map.putAll(values);
     }
 
-    public VTrackerLS(byte[] bytes) throws KlvParseException
-    {
+    public VTrackerLS(byte[] bytes) throws KlvParseException {
         List<LdsField> fields = LdsParser.parseFields(bytes, 0, bytes.length);
         for (LdsField field : fields) {
             VTrackerMetadataKey key = VTrackerMetadataKey.getKey(field.getTag());
@@ -61,8 +55,8 @@ public class VTrackerLS {
      * @return The new instance
      * @throws KlvParseException if the bytes could not be parsed.
      */
-    public static IVmtiMetadataValue createValue(VTrackerMetadataKey tag, byte[] bytes) throws KlvParseException
-    {
+    public static IVmtiMetadataValue createValue(VTrackerMetadataKey tag, byte[] bytes)
+            throws KlvParseException {
         switch (tag) {
             case trackId:
                 return new TrackId(bytes);
@@ -96,15 +90,14 @@ public class VTrackerLS {
 
     /**
      * Get the byte array corresponding to the value for this Local Set.
+     *
      * @return byte array with the encoded local set.
      */
-    public byte[] getBytes()
-    {
+    public byte[] getBytes() {
         int len = 0;
         List<byte[]> chunks = new ArrayList<>();
-        for (VTrackerMetadataKey tag: getTags())
-        {
-            chunks.add(new byte[]{(byte) tag.getTag()});
+        for (VTrackerMetadataKey tag : getTags()) {
+            chunks.add(new byte[] {(byte) tag.getTag()});
             len += 1;
             IVmtiMetadataValue value = getField(tag);
             byte[] bytes = value.getBytes();
@@ -122,8 +115,7 @@ public class VTrackerLS {
      *
      * @return The set of tags for which values have been set
      */
-    public Set<VTrackerMetadataKey> getTags()
-    {
+    public Set<VTrackerMetadataKey> getTags() {
         return map.keySet();
     }
 
@@ -133,8 +125,7 @@ public class VTrackerLS {
      * @param tag Tag of the value to retrieve
      * @return The value, or null if no value was set
      */
-    public IVmtiMetadataValue getField(VTrackerMetadataKey tag)
-    {
+    public IVmtiMetadataValue getField(VTrackerMetadataKey tag) {
         return map.get(tag);
     }
 }

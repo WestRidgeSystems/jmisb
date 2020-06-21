@@ -4,11 +4,9 @@ import org.jmisb.api.klv.st0102.CountryCodingMethod;
 import org.testng.Assert;
 import org.testng.annotations.Test;
 
-public class CcMethodTest
-{
+public class CcMethodTest {
     @Test
-    public void testConstructFromValue()
-    {
+    public void testConstructFromValue() {
         CcMethod method = new CcMethod(CountryCodingMethod.GENC_NUMERIC);
         Assert.assertEquals(method.getBytes().length, 1);
         Assert.assertEquals(method.getBytes()[0], 15);
@@ -24,16 +22,15 @@ public class CcMethodTest
     }
 
     @Test
-    public void testConstructFromEncoded()
-    {
-        CcMethod method = new CcMethod(new byte[]{0x03});
+    public void testConstructFromEncoded() {
+        CcMethod method = new CcMethod(new byte[] {0x03});
         Assert.assertEquals(method.getMethod(), CountryCodingMethod.FIPS10_4_TWO_LETTER);
         Assert.assertEquals(method.getBytes().length, 1);
         Assert.assertEquals(method.getBytes()[0], 0x03);
         Assert.assertEquals(method.getDisplayName(), "Country Coding Method");
         Assert.assertEquals(method.getDisplayableValue(), "FIPS10_4_TWO_LETTER");
 
-        method = new CcMethod(new byte[]{0x09});
+        method = new CcMethod(new byte[] {0x09});
         Assert.assertEquals(method.getMethod(), CountryCodingMethod.OMITTED_VALUE);
         Assert.assertEquals(method.getBytes().length, 1);
         Assert.assertEquals(method.getBytes()[0], 0x09);
@@ -41,32 +38,27 @@ public class CcMethodTest
     }
 
     @Test(expectedExceptions = IllegalArgumentException.class)
-    public void testIllegalValue()
-    {
+    public void testIllegalValue() {
         new CcMethod(CountryCodingMethod.GENC_ADMINSUB);
     }
 
     @Test(expectedExceptions = IllegalArgumentException.class)
-    public void testIllegalCode0()
-    {
-        new CcMethod(new byte[]{0x00});
+    public void testIllegalCode0() {
+        new CcMethod(new byte[] {0x00});
     }
 
     @Test(expectedExceptions = IllegalArgumentException.class)
-    public void testIllegalCode()
-    {
-        new CcMethod(new byte[]{0x40});
+    public void testIllegalCode() {
+        new CcMethod(new byte[] {0x40});
     }
 
     @Test(expectedExceptions = IllegalArgumentException.class)
-    public void testIllegalTooLong()
-    {
-        new CcMethod(new byte[]{0x01, 0x02});
+    public void testIllegalTooLong() {
+        new CcMethod(new byte[] {0x01, 0x02});
     }
 
     @Test
-    public void testMethods()
-    {
+    public void testMethods() {
         CcMethod method1 = new CcMethod(CountryCodingMethod.ISO3166_TWO_LETTER);
         Assert.assertEquals(method1.getMethod(), CountryCodingMethod.ISO3166_TWO_LETTER);
         CcMethod method2 = new CcMethod(CountryCodingMethod.ISO3166_THREE_LETTER);

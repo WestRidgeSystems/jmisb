@@ -17,16 +17,11 @@ import org.jmisb.core.klv.ArrayUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
-/**
- * VChip Local Set.
- */
-public class VChipLS
-{
+/** VChip Local Set. */
+public class VChipLS {
     private static final Logger LOGGER = LoggerFactory.getLogger(VChipLS.class);
 
-    /**
-     * Map containing all data elements in the message
-     */
+    /** Map containing all data elements in the message */
     private final SortedMap<VChipMetadataKey, IVmtiMetadataValue> map = new TreeMap<>();
 
     /**
@@ -34,13 +29,11 @@ public class VChipLS
      *
      * @param values Tag/value pairs to be included in the local set
      */
-    public VChipLS(Map<VChipMetadataKey, IVmtiMetadataValue> values)
-    {
+    public VChipLS(Map<VChipMetadataKey, IVmtiMetadataValue> values) {
         map.putAll(values);
     }
 
-    public VChipLS(byte[] bytes, int offset, int length) throws KlvParseException
-    {
+    public VChipLS(byte[] bytes, int offset, int length) throws KlvParseException {
         List<LdsField> fields = LdsParser.parseFields(bytes, offset, length);
         for (LdsField field : fields) {
             VChipMetadataKey key = VChipMetadataKey.getKey(field.getTag());
@@ -61,10 +54,9 @@ public class VChipLS
      * @return The new instance
      * @throws KlvParseException if the bytes could not be parsed.
      */
-    public static IVmtiMetadataValue createValue(VChipMetadataKey tag, byte[] bytes) throws KlvParseException
-    {
-        switch (tag)
-        {
+    public static IVmtiMetadataValue createValue(VChipMetadataKey tag, byte[] bytes)
+            throws KlvParseException {
+        switch (tag) {
             case imageType:
                 return new VmtiTextString(VmtiTextString.IMAGE_TYPE, bytes);
             case imageUri:
@@ -82,8 +74,7 @@ public class VChipLS
      *
      * @return The set of tags for which values have been set
      */
-    public Set<VChipMetadataKey> getTags()
-    {
+    public Set<VChipMetadataKey> getTags() {
         return map.keySet();
     }
 
@@ -93,28 +84,27 @@ public class VChipLS
      * @param tag Tag of the value to retrieve
      * @return The value, or null if no value was set
      */
-    public IVmtiMetadataValue getField(VChipMetadataKey tag)
-    {
+    public IVmtiMetadataValue getField(VChipMetadataKey tag) {
         return map.get(tag);
     }
 
     /**
      * Get the byte array corresponding to the value for this Local Set.
+     *
      * @return byte array with the encoded local set.
      */
-    public byte[] getBytes()
-    {
+    public byte[] getBytes() {
         int len = 0;
         List<byte[]> chunks = new ArrayList<>();
-        for (VChipMetadataKey tag: getTags())
-        {
-            chunks.add(new byte[]{(byte) tag.getTag()});
+        for (VChipMetadataKey tag : getTags()) {
+            chunks.add(new byte[] {(byte) tag.getTag()});
             len += 1;
             IVmtiMetadataValue value = getField(tag);
             byte[] bytes = value.getBytes();
             byte[] lengthBytes = BerEncoder.encode(bytes.length);
             chunks.add(lengthBytes);
-            len += lengthBytes.length;;
+            len += lengthBytes.length;
+            ;
             chunks.add(bytes);
             len += bytes.length;
         }

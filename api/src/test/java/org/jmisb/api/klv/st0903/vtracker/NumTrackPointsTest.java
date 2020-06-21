@@ -1,82 +1,75 @@
 package org.jmisb.api.klv.st0903.vtracker;
 
+import static org.testng.Assert.*;
+
 import org.jmisb.api.common.KlvParseException;
 import org.jmisb.api.klv.st0903.IVmtiMetadataValue;
-import static org.testng.Assert.*;
 import org.testng.annotations.Test;
 
-/**
- * Tests for Number of Track Points (VTracker LS Tag 8)
- */
+/** Tests for Number of Track Points (VTracker LS Tag 8) */
 public class NumTrackPointsTest {
 
     @Test
-    public void testConstructFromValue()
-    {
-        NumTrackPoints num = new NumTrackPoints((short)27);
-        assertEquals(num.getBytes(), new byte[]{(byte)0x1B});
+    public void testConstructFromValue() {
+        NumTrackPoints num = new NumTrackPoints((short) 27);
+        assertEquals(num.getBytes(), new byte[] {(byte) 0x1B});
         assertEquals(num.getDisplayName(), "Num Track Points");
         assertEquals(num.getDisplayableValue(), "27");
         assertEquals(num.getNumberOfTrackPoints(), 27);
     }
 
     @Test
-    public void testConstructFromValue2()
-    {
-        NumTrackPoints num = new NumTrackPoints((short)539);
-        assertEquals(num.getBytes(), new byte[]{(byte)0x02, (byte)0x1B});
+    public void testConstructFromValue2() {
+        NumTrackPoints num = new NumTrackPoints((short) 539);
+        assertEquals(num.getBytes(), new byte[] {(byte) 0x02, (byte) 0x1B});
         assertEquals(num.getDisplayName(), "Num Track Points");
         assertEquals(num.getDisplayableValue(), "539");
         assertEquals(num.getNumberOfTrackPoints(), 539);
     }
 
     @Test
-    public void testConstructFromEncodedBytes()
-    {
-        NumTrackPoints num = new NumTrackPoints(new byte[]{(byte)0x1B});
-        assertEquals(num.getBytes(), new byte[]{(byte)0x1B});
+    public void testConstructFromEncodedBytes() {
+        NumTrackPoints num = new NumTrackPoints(new byte[] {(byte) 0x1B});
+        assertEquals(num.getBytes(), new byte[] {(byte) 0x1B});
         assertEquals(num.getDisplayName(), "Num Track Points");
         assertEquals(num.getDisplayableValue(), "27");
         assertEquals(num.getNumberOfTrackPoints(), 27);
     }
 
     @Test
-    public void testConstructFromEncodedBytes2()
-    {
-        NumTrackPoints num = new NumTrackPoints(new byte[]{(byte)0x02, (byte)0x1B});
-        assertEquals(num.getBytes(), new byte[]{(byte)0x02, (byte)0x1B});
+    public void testConstructFromEncodedBytes2() {
+        NumTrackPoints num = new NumTrackPoints(new byte[] {(byte) 0x02, (byte) 0x1B});
+        assertEquals(num.getBytes(), new byte[] {(byte) 0x02, (byte) 0x1B});
         assertEquals(num.getDisplayName(), "Num Track Points");
         assertEquals(num.getDisplayableValue(), "539");
         assertEquals(num.getNumberOfTrackPoints(), 539);
     }
 
     @Test
-    public void testFactory() throws KlvParseException
-    {
-        IVmtiMetadataValue value = VTrackerLS.createValue(VTrackerMetadataKey.numTrackPoints, new byte[]{(byte)0x1B});
+    public void testFactory() throws KlvParseException {
+        IVmtiMetadataValue value =
+                VTrackerLS.createValue(
+                        VTrackerMetadataKey.numTrackPoints, new byte[] {(byte) 0x1B});
         assertTrue(value instanceof NumTrackPoints);
-        NumTrackPoints num = (NumTrackPoints)value;
-        assertEquals(num.getBytes(), new byte[]{(byte)0x1B});
+        NumTrackPoints num = (NumTrackPoints) value;
+        assertEquals(num.getBytes(), new byte[] {(byte) 0x1B});
         assertEquals(num.getDisplayName(), "Num Track Points");
         assertEquals(num.getDisplayableValue(), "27");
         assertEquals(num.getNumberOfTrackPoints(), 27);
     }
 
     @Test(expectedExceptions = IllegalArgumentException.class)
-    public void testTooSmall()
-    {
-        new NumTrackPoints((short)0);
+    public void testTooSmall() {
+        new NumTrackPoints((short) 0);
     }
 
     @Test(expectedExceptions = IllegalArgumentException.class)
-    public void testTooBig()
-    {
+    public void testTooBig() {
         new NumTrackPoints(65536);
     }
 
     @Test(expectedExceptions = IllegalArgumentException.class)
-    public void badArrayLength()
-    {
-        new NumTrackPoints(new byte[]{0x01, 0x02, 0x03});
+    public void badArrayLength() {
+        new NumTrackPoints(new byte[] {0x01, 0x02, 0x03});
     }
 }

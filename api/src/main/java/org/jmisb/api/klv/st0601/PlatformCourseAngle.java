@@ -4,22 +4,25 @@ import org.jmisb.api.klv.st1201.FpEncoder;
 
 /**
  * Platform Course Angle (ST 0601 tag 112)
- * <p>
- * From ST:
+ *
+ * <p>From ST:
+ *
  * <blockquote>
+ *
  * Direction the aircraft is moving relative to True North.
- * <p>
- * Resolution: 2 bytes = 16.625 milli-degrees
- * <p>
- * Length is variable based on users desired accuracy.
- * <p>
- * 0 (or 360) is true north, east is 90, south is 180, west is 270
- * <p>
- * The Platform Course is the direction the platform is moving (not necessarily
- * the direction the platform is pointing).
- * <p>
- * Platform Course is directly measurable by on-board navigation or estimated
- * computationally by comparing the last known position to current position.
+ *
+ * <p>Resolution: 2 bytes = 16.625 milli-degrees
+ *
+ * <p>Length is variable based on users desired accuracy.
+ *
+ * <p>0 (or 360) is true north, east is 90, south is 180, west is 270
+ *
+ * <p>The Platform Course is the direction the platform is moving (not necessarily the direction the
+ * platform is pointing).
+ *
+ * <p>Platform Course is directly measurable by on-board navigation or estimated computationally by
+ * comparing the last known position to current position.
+ *
  * </blockquote>
  */
 public class PlatformCourseAngle implements IUasDatalinkValue {
@@ -35,10 +38,8 @@ public class PlatformCourseAngle implements IUasDatalinkValue {
      *
      * @param angle the course angle in degrees. Valid range is [0, 360]
      */
-    public PlatformCourseAngle(double angle)
-    {
-        if (angle < MIN_VAL || angle > MAX_VAL)
-        {
+    public PlatformCourseAngle(double angle) {
+        if (angle < MIN_VAL || angle > MAX_VAL) {
             throw new IllegalArgumentException(this.getDisplayName() + " must be in range [0,360]");
         }
         this.angle = angle;
@@ -49,11 +50,10 @@ public class PlatformCourseAngle implements IUasDatalinkValue {
      *
      * @param bytes IMAPB Encoded byte array
      */
-    public PlatformCourseAngle(byte[] bytes)
-    {
-        if (bytes.length > MAX_BYTES)
-        {
-            throw new IllegalArgumentException(this.getDisplayName() + " cannot be longer than " + MAX_BYTES + " bytes");
+    public PlatformCourseAngle(byte[] bytes) {
+        if (bytes.length > MAX_BYTES) {
+            throw new IllegalArgumentException(
+                    this.getDisplayName() + " cannot be longer than " + MAX_BYTES + " bytes");
         }
         FpEncoder decoder = new FpEncoder(MIN_VAL, MAX_VAL, bytes.length);
         this.angle = decoder.decode(bytes);
@@ -61,29 +61,26 @@ public class PlatformCourseAngle implements IUasDatalinkValue {
 
     /**
      * Get the platform course angle
+     *
      * @return The platform course angle in degrees
      */
-    public double getAngle()
-    {
+    public double getAngle() {
         return this.angle;
     }
 
     @Override
-    public byte[] getBytes()
-    {
+    public byte[] getBytes() {
         FpEncoder encoder = new FpEncoder(MIN_VAL, MAX_VAL, RECOMMENDED_BYTES);
         return encoder.encode(this.angle);
     }
 
     @Override
-    public String getDisplayableValue()
-    {
+    public String getDisplayableValue() {
         return String.format("%.3f\u00B0", this.angle);
     }
 
     @Override
-    public final String getDisplayName()
-    {
+    public final String getDisplayName() {
         return "Platform Course Angle";
     }
 }

@@ -3,13 +3,13 @@ package org.jmisb.api.klv.st0806;
 /**
  * Frame Center MGRS Easting (ST0806 Tag 2).
  *
- * Sixth through tenth character of Frame Center MGRS coordinates. Range is from
- * 0 to 99,999 representing the 5-digit Easting value in meters.
- * <p>
- * Resolution: 1 meter
+ * <p>Sixth through tenth character of Frame Center MGRS coordinates. Range is from 0 to 99,999
+ * representing the 5-digit Easting value in meters.
+ *
+ * <p>Resolution: 1 meter
  */
-public class FrameCentreMGRSEasting extends AbstractMGRSEastingOrNorthing implements IRvtMetadataValue
-{
+public class FrameCentreMGRSEasting extends AbstractMGRSEastingOrNorthing
+        implements IRvtMetadataValue {
     public static final String FRAME_CENTRE_MGRS_EASTING = "Frame Center MGRS Easting";
 
     /**
@@ -17,8 +17,7 @@ public class FrameCentreMGRSEasting extends AbstractMGRSEastingOrNorthing implem
      *
      * @param value integer value, in the range 1 to 60.
      */
-    public FrameCentreMGRSEasting(int value)
-    {
+    public FrameCentreMGRSEasting(int value) {
         super(FRAME_CENTRE_MGRS_EASTING, value);
     }
 
@@ -27,8 +26,7 @@ public class FrameCentreMGRSEasting extends AbstractMGRSEastingOrNorthing implem
      *
      * @param bytes Encoded byte array, of length 3 bytes.
      */
-    public FrameCentreMGRSEasting(byte[] bytes)
-    {
+    public FrameCentreMGRSEasting(byte[] bytes) {
         super(FRAME_CENTRE_MGRS_EASTING, bytes);
     }
 }

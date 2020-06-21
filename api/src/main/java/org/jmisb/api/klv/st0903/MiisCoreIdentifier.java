@@ -4,20 +4,21 @@ import org.jmisb.api.klv.st1204.CoreIdentifier;
 
 /**
  * MIIS Core Identifier (ST0903 VMTI LS Tag 13)
- * <p>
- * From ST:
+ *
+ * <p>From ST:
+ *
  * <blockquote>
- * Provides a unique identifier for the Motion Imagery stream. Appearance of
- * this item in the metadata stream is desirable but not mandatory. If the VMTI
- * LS is subordinate to a MISB ST 0601 LS under Tag 74, a MIIS Core Identifier
- * may already be present in the ST 0601 LS. In this case, omit this item in the
- * VMTI LS.
- * <p>
- * Valid Values: A value conformant with MISB ST 1204.
+ *
+ * Provides a unique identifier for the Motion Imagery stream. Appearance of this item in the
+ * metadata stream is desirable but not mandatory. If the VMTI LS is subordinate to a MISB ST 0601
+ * LS under Tag 74, a MIIS Core Identifier may already be present in the ST 0601 LS. In this case,
+ * omit this item in the VMTI LS.
+ *
+ * <p>Valid Values: A value conformant with MISB ST 1204.
+ *
  * </blockquote>
  */
-public class MiisCoreIdentifier implements IVmtiMetadataValue
-{
+public class MiisCoreIdentifier implements IVmtiMetadataValue {
 
     private final CoreIdentifier coreIdentifier;
 
@@ -26,8 +27,7 @@ public class MiisCoreIdentifier implements IVmtiMetadataValue
      *
      * @param identifier a valid ST1204 Core Identifier
      */
-    public MiisCoreIdentifier(CoreIdentifier identifier)
-    {
+    public MiisCoreIdentifier(CoreIdentifier identifier) {
         coreIdentifier = identifier;
     }
 
@@ -36,8 +36,7 @@ public class MiisCoreIdentifier implements IVmtiMetadataValue
      *
      * @param bytes The byte array containing the raw values.
      */
-    public MiisCoreIdentifier(byte[] bytes)
-    {
+    public MiisCoreIdentifier(byte[] bytes) {
         coreIdentifier = CoreIdentifier.fromBytes(bytes);
     }
 
@@ -46,26 +45,22 @@ public class MiisCoreIdentifier implements IVmtiMetadataValue
      *
      * @return The identifier
      */
-    public CoreIdentifier getCoreIdentifier()
-    {
+    public CoreIdentifier getCoreIdentifier() {
         return coreIdentifier;
     }
 
     @Override
-    public byte[] getBytes()
-    {
+    public byte[] getBytes() {
         return coreIdentifier.getRawBytesRepresentation();
     }
 
     @Override
-    public String getDisplayableValue()
-    {
+    public String getDisplayableValue() {
         return coreIdentifier.getTextRepresentation();
     }
 
     @Override
-    public String getDisplayName()
-    {
+    public String getDisplayName() {
         return "MIIS Core Identifier";
     }
 }

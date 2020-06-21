@@ -3,14 +3,9 @@ package org.jmisb.api.klv.st0806.poiaoi;
 import java.util.HashMap;
 import java.util.Map;
 
-/**
- * ST 0806 Area Of Interest tags - description and numbers.
- */
-public enum RvtAoiMetadataKey
-{
-    /**
-     * Unknown key. This should not be created.
-     */
+/** ST 0806 Area Of Interest tags - description and numbers. */
+public enum RvtAoiMetadataKey {
+    /** Unknown key. This should not be created. */
     Undefined(0),
     PoiAoiNumber(1),
     CornerLatitudePoint1(2),
@@ -27,26 +22,21 @@ public enum RvtAoiMetadataKey
 
     private static final Map<Integer, RvtAoiMetadataKey> tagTable = new HashMap<>();
 
-    static
-    {
-        for (RvtAoiMetadataKey key : values())
-        {
+    static {
+        for (RvtAoiMetadataKey key : values()) {
             tagTable.put(key.tag, key);
         }
     }
 
-    RvtAoiMetadataKey(int tag)
-    {
+    RvtAoiMetadataKey(int tag) {
         this.tag = tag;
     }
 
-    public int getTag()
-    {
+    public int getTag() {
         return tag;
     }
 
-    public static RvtAoiMetadataKey getKey(int tag)
-    {
+    public static RvtAoiMetadataKey getKey(int tag) {
         return tagTable.containsKey(tag) ? tagTable.get(tag) : Undefined;
     }
 }

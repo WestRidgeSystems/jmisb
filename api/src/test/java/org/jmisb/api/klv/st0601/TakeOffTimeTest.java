@@ -1,41 +1,46 @@
 package org.jmisb.api.klv.st0601;
 
-import org.testng.annotations.Test;
+import static org.testng.Assert.assertEquals;
+import static org.testng.Assert.assertTrue;
 
 import java.time.LocalDateTime;
 import java.time.Month;
 import org.jmisb.api.common.KlvParseException;
-import static org.testng.Assert.assertEquals;
-import static org.testng.Assert.assertTrue;
+import org.testng.annotations.Test;
 
-public class TakeOffTimeTest
-{
+public class TakeOffTimeTest {
     // Example from MISB ST doc
     @Test
-    public void testExample()
-    {
-        byte[] bytes = new byte[]{(byte)0x00, (byte)0x05, (byte)0x6F, (byte)0x27, (byte)0x1B, (byte)0x5E, (byte)0x41, (byte)0xB7};
+    public void testExample() {
+        byte[] bytes =
+                new byte[] {
+                    (byte) 0x00,
+                    (byte) 0x05,
+                    (byte) 0x6F,
+                    (byte) 0x27,
+                    (byte) 0x1B,
+                    (byte) 0x5E,
+                    (byte) 0x41,
+                    (byte) 0xB7
+                };
         TakeOffTime timestamp = new TakeOffTime(bytes);
         checkExampleValue(timestamp);
     }
 
     @Test
-    public void testContructFromValue()
-    {
+    public void testContructFromValue() {
         TakeOffTime timestamp = new TakeOffTime(1529588637122999L);
         checkExampleValue(timestamp);
     }
 
     @Test
-    public void testContructFromDateTime()
-    {
+    public void testContructFromDateTime() {
         LocalDateTime ldt = LocalDateTime.of(2018, Month.JUNE, 21, 13, 43, 57, 122999000);
         TakeOffTime timestamp = new TakeOffTime(ldt);
         checkExampleValue(timestamp);
     }
 
-    protected void checkExampleValue(TakeOffTime timestamp)
-    {
+    protected void checkExampleValue(TakeOffTime timestamp) {
         assertEquals(timestamp.getDisplayName(), "Take Off Time");
         assertEquals(timestamp.getDisplayableValue(), "2018-06-21T13:43:57.122999");
         LocalDateTime dateTime = timestamp.getDateTime();
@@ -47,32 +52,58 @@ public class TakeOffTimeTest
         assertEquals(dateTime.getSecond(), 57);
         assertEquals(dateTime.getNano(), 122999000);
         assertEquals(timestamp.getMicroseconds(), 1529588637122999L);
-        assertEquals(timestamp.getBytes(), new byte[]{(byte)0x05, (byte)0x6F, (byte)0x27, (byte)0x1B, (byte)0x5E, (byte)0x41, (byte)0xB7});
+        assertEquals(
+                timestamp.getBytes(),
+                new byte[] {
+                    (byte) 0x05,
+                    (byte) 0x6F,
+                    (byte) 0x27,
+                    (byte) 0x1B,
+                    (byte) 0x5E,
+                    (byte) 0x41,
+                    (byte) 0xB7
+                });
     }
 
     @Test
-    public void testFactoryExample() throws KlvParseException
-    {
-        byte[] bytes = new byte[]{(byte)0x00, (byte)0x05, (byte)0x6F, (byte)0x27, (byte)0x1B, (byte)0x5E, (byte)0x41, (byte)0xB7};
+    public void testFactoryExample() throws KlvParseException {
+        byte[] bytes =
+                new byte[] {
+                    (byte) 0x00,
+                    (byte) 0x05,
+                    (byte) 0x6F,
+                    (byte) 0x27,
+                    (byte) 0x1B,
+                    (byte) 0x5E,
+                    (byte) 0x41,
+                    (byte) 0xB7
+                };
         IUasDatalinkValue v = UasDatalinkFactory.createValue(UasDatalinkTag.TakeOffTime, bytes);
         assertTrue(v instanceof TakeOffTime);
         assertEquals(v.getDisplayName(), "Take Off Time");
-        TakeOffTime timestamp = (TakeOffTime)v;
+        TakeOffTime timestamp = (TakeOffTime) v;
         checkExampleValue(timestamp);
     }
 
     @Test
-    public void testExampleWithShortArray()
-    {
+    public void testExampleWithShortArray() {
         // Convert byte[] -> value
-        byte[] bytes = new byte[]{(byte)0x05, (byte)0x6F, (byte)0x27, (byte)0x1B, (byte)0x5E, (byte)0x41, (byte)0xB7};
+        byte[] bytes =
+                new byte[] {
+                    (byte) 0x05,
+                    (byte) 0x6F,
+                    (byte) 0x27,
+                    (byte) 0x1B,
+                    (byte) 0x5E,
+                    (byte) 0x41,
+                    (byte) 0xB7
+                };
         TakeOffTime timestamp = new TakeOffTime(bytes);
         checkExampleValue(timestamp);
     }
 
     @Test
-    public void testMinAndMax()
-    {
+    public void testMinAndMax() {
         TakeOffTime pts = new TakeOffTime(0L);
         assertEquals(pts.getDisplayName(), "Take Off Time");
         assertEquals(pts.getDateTime().getYear(), 1970);
@@ -86,21 +117,18 @@ public class TakeOffTimeTest
     }
 
     @Test(expectedExceptions = IllegalArgumentException.class)
-    public void testTooSmall()
-    {
+    public void testTooSmall() {
         new TakeOffTime(-1);
     }
 
     @Test(expectedExceptions = IllegalArgumentException.class)
-    public void testTooBig()
-    {
+    public void testTooBig() {
         // Oct 12, 2263 at 08:30
         new TakeOffTime(LocalDateTime.of(2263, 10, 12, 8, 30));
     }
 
     @Test(expectedExceptions = IllegalArgumentException.class)
-    public void badArrayLength()
-    {
-        new TakeOffTime(new byte[]{0x01, 0x02, 0x03, 0x04, 0x05, 0x06, 0x07, 0x08, 0x09});
+    public void badArrayLength() {
+        new TakeOffTime(new byte[] {0x01, 0x02, 0x03, 0x04, 0x05, 0x06, 0x07, 0x08, 0x09});
     }
 }

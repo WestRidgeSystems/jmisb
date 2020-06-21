@@ -1,13 +1,11 @@
 package org.jmisb.api.video;
 
 import static org.testng.Assert.*;
+
 import org.testng.annotations.Test;
 
-/**
- * IFileEventListener tests.
- */
-public class IFileEventListenerTest
-{
+/** IFileEventListener tests. */
+public class IFileEventListenerTest {
     class TestListener implements IFileEventListener {
         boolean gotNotify = false;
 
@@ -17,13 +15,10 @@ public class IFileEventListenerTest
         }
     }
 
-    public IFileEventListenerTest()
-    {
-    }
+    public IFileEventListenerTest() {}
 
     @Test
-    public void checkListener()
-    {
+    public void checkListener() {
         TestListener testListener = new TestListener();
         IVideoFileInput fileInput = new VideoFileInput();
         fileInput.addFileEventListener(testListener);
@@ -34,8 +29,7 @@ public class IFileEventListenerTest
     }
 
     @Test
-    public void checkListenerRemoval()
-    {
+    public void checkListenerRemoval() {
         TestListener testListener = new TestListener();
         IVideoFileInput fileInput = new VideoFileInput();
         fileInput.addFileEventListener(testListener);

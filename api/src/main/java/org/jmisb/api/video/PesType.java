@@ -3,11 +3,8 @@ package org.jmisb.api.video;
 import java.util.HashMap;
 import java.util.Map;
 
-/**
- * Packetized Elementary Stream (PES) type
- */
-public enum PesType
-{
+/** Packetized Elementary Stream (PES) type */
+public enum PesType {
     UNKNOWN(-1),
     VIDEO(0),
     AUDIO(1),
@@ -19,26 +16,21 @@ public enum PesType
 
     private static final Map<Integer, PesType> lookupTable = new HashMap<>();
 
-    static
-    {
-        for (PesType type : values())
-        {
+    static {
+        for (PesType type : values()) {
             lookupTable.put(type.code, type);
         }
     }
 
-    private PesType(int c)
-    {
+    private PesType(int c) {
         code = c;
     }
 
-    public int getCode()
-    {
+    public int getCode() {
         return code;
     }
 
-    public static PesType getType(int typeCode)
-    {
+    public static PesType getType(int typeCode) {
         return lookupTable.containsKey(typeCode) ? lookupTable.get(typeCode) : UNKNOWN;
     }
 }

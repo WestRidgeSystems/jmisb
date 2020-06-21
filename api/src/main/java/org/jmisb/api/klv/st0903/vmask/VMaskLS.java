@@ -15,16 +15,11 @@ import org.jmisb.core.klv.ArrayUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
-/**
- * VMask Local Set.
- */
-public class VMaskLS
-{
+/** VMask Local Set. */
+public class VMaskLS {
     private static final Logger LOGGER = LoggerFactory.getLogger(VMaskLS.class);
 
-    /**
-     * Map containing all data elements in the message
-     */
+    /** Map containing all data elements in the message */
     private final SortedMap<VMaskMetadataKey, IVmtiMetadataValue> map = new TreeMap<>();
 
     /**
@@ -32,13 +27,11 @@ public class VMaskLS
      *
      * @param values Tag/value pairs to be included in the local set
      */
-    public VMaskLS(Map<VMaskMetadataKey, IVmtiMetadataValue> values)
-    {
+    public VMaskLS(Map<VMaskMetadataKey, IVmtiMetadataValue> values) {
         map.putAll(values);
     }
 
-    public VMaskLS(byte[] bytes) throws KlvParseException
-    {
+    public VMaskLS(byte[] bytes) throws KlvParseException {
         int offset = 0;
         List<LdsField> fields = LdsParser.parseFields(bytes, offset, bytes.length - offset);
         for (LdsField field : fields) {
@@ -60,10 +53,9 @@ public class VMaskLS
      * @return The new instance
      * @throws KlvParseException if the bytes could not be parsed.
      */
-    public static IVmtiMetadataValue createValue(VMaskMetadataKey tag, byte[] bytes) throws KlvParseException
-    {
-        switch (tag)
-        {
+    public static IVmtiMetadataValue createValue(VMaskMetadataKey tag, byte[] bytes)
+            throws KlvParseException {
+        switch (tag) {
             case polygon:
                 return new PixelPolygon(bytes);
             case bitMaskSeries:
@@ -79,8 +71,7 @@ public class VMaskLS
      *
      * @return The set of tags for which values have been set
      */
-    public Set<VMaskMetadataKey> getTags()
-    {
+    public Set<VMaskMetadataKey> getTags() {
         return map.keySet();
     }
 
@@ -90,22 +81,20 @@ public class VMaskLS
      * @param tag Tag of the value to retrieve
      * @return The value, or null if no value was set
      */
-    public IVmtiMetadataValue getField(VMaskMetadataKey tag)
-    {
+    public IVmtiMetadataValue getField(VMaskMetadataKey tag) {
         return map.get(tag);
     }
 
     /**
      * Get the byte array corresponding to the value for this Local Set.
+     *
      * @return byte array with the encoded local set.
      */
-    public byte[] getBytes()
-    {
+    public byte[] getBytes() {
         int len = 0;
         List<byte[]> chunks = new ArrayList<>();
-        for (VMaskMetadataKey tag: getTags())
-        {
-            chunks.add(new byte[]{(byte) tag.getTag()});
+        for (VMaskMetadataKey tag : getTags()) {
+            chunks.add(new byte[] {(byte) tag.getTag()});
             len += 1;
             IVmtiMetadataValue value = getField(tag);
             byte[] bytes = value.getBytes();

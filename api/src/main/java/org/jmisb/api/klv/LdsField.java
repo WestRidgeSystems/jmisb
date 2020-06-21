@@ -1,10 +1,7 @@
 package org.jmisb.api.klv;
 
-/**
- * Local Data Set field, comprised of a tag (the key) and its value
- */
-public class LdsField
-{
+/** Local Data Set field, comprised of a tag (the key) and its value */
+public class LdsField {
     private final int tag;
 
     private final byte[] data;
@@ -15,8 +12,7 @@ public class LdsField
      * @param tag The integer tag
      * @param data Byte array containing the value
      */
-    public LdsField(int tag, byte[] data)
-    {
+    public LdsField(int tag, byte[] data) {
         this.tag = tag;
         this.data = data.clone();
     }
@@ -26,8 +22,7 @@ public class LdsField
      *
      * @return The integer tag
      */
-    public int getTag()
-    {
+    public int getTag() {
         return tag;
     }
 
@@ -36,8 +31,7 @@ public class LdsField
      *
      * @return The value stored as a byte array
      */
-    public byte[] getData()
-    {
+    public byte[] getData() {
         return data.clone();
     }
 }

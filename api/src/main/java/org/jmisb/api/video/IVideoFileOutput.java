@@ -2,11 +2,8 @@ package org.jmisb.api.video;
 
 import java.io.IOException;
 
-/**
- * Interface for writing video/metadata to a file
- */
-public interface IVideoFileOutput extends AutoCloseable
-{
+/** Interface for writing video/metadata to a file */
+public interface IVideoFileOutput extends AutoCloseable {
     /**
      * Open a new file for writing
      *
@@ -17,6 +14,7 @@ public interface IVideoFileOutput extends AutoCloseable
 
     /**
      * Check if a file is open
+     *
      * @return True if a file is open
      */
     boolean isOpen();

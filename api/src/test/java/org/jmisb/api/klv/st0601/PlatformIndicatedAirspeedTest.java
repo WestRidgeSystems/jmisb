@@ -4,91 +4,85 @@ import org.jmisb.api.common.KlvParseException;
 import org.testng.Assert;
 import org.testng.annotations.Test;
 
-public class PlatformIndicatedAirspeedTest
-{
+public class PlatformIndicatedAirspeedTest {
     @Test
-    public void testConstructFromValue()
-    {
+    public void testConstructFromValue() {
         // Min
         PlatformIndicatedAirspeed speed = new PlatformIndicatedAirspeed(0);
-        Assert.assertEquals(speed.getBytes(), new byte[]{(byte)0x00});
+        Assert.assertEquals(speed.getBytes(), new byte[] {(byte) 0x00});
 
         // Max
         speed = new PlatformIndicatedAirspeed(255);
-        Assert.assertEquals(speed.getBytes(), new byte[]{(byte)0xff});
+        Assert.assertEquals(speed.getBytes(), new byte[] {(byte) 0xff});
 
         // From ST:
         speed = new PlatformIndicatedAirspeed(159);
-        Assert.assertEquals(speed.getBytes(), new byte[]{(byte)0x9f});
+        Assert.assertEquals(speed.getBytes(), new byte[] {(byte) 0x9f});
 
         Assert.assertEquals(speed.getDisplayName(), "Platform Indicated Airspeed");
     }
 
     @Test
-    public void testConstructFromEncoded()
-    {
+    public void testConstructFromEncoded() {
         // Min
-        PlatformIndicatedAirspeed speed = new PlatformIndicatedAirspeed(new byte[]{(byte)0x00});
+        PlatformIndicatedAirspeed speed = new PlatformIndicatedAirspeed(new byte[] {(byte) 0x00});
         Assert.assertEquals(speed.getMetersPerSecond(), 0.0);
-        Assert.assertEquals(speed.getBytes(), new byte[]{(byte)0x00});
+        Assert.assertEquals(speed.getBytes(), new byte[] {(byte) 0x00});
         Assert.assertEquals(speed.getDisplayableValue(), "0m/s");
 
         // Max
-        speed = new PlatformIndicatedAirspeed(new byte[]{(byte)0xff});
+        speed = new PlatformIndicatedAirspeed(new byte[] {(byte) 0xff});
         Assert.assertEquals(speed.getMetersPerSecond(), 255);
-        Assert.assertEquals(speed.getBytes(), new byte[]{(byte)0xff});
+        Assert.assertEquals(speed.getBytes(), new byte[] {(byte) 0xff});
         Assert.assertEquals(speed.getDisplayableValue(), "255m/s");
 
         // From ST:
-        speed = new PlatformIndicatedAirspeed(new byte[]{(byte)0x9f});
+        speed = new PlatformIndicatedAirspeed(new byte[] {(byte) 0x9f});
         Assert.assertEquals(speed.getMetersPerSecond(), 159);
-        Assert.assertEquals(speed.getBytes(), new byte[]{(byte)0x9f});
+        Assert.assertEquals(speed.getBytes(), new byte[] {(byte) 0x9f});
         Assert.assertEquals(speed.getDisplayableValue(), "159m/s");
     }
 
     @Test
-    public void testFactory() throws KlvParseException
-    {
-        byte[] bytes = new byte[]{(byte)0x00};
-        IUasDatalinkValue v = UasDatalinkFactory.createValue(UasDatalinkTag.PlatformIndicatedAirspeed, bytes);
+    public void testFactory() throws KlvParseException {
+        byte[] bytes = new byte[] {(byte) 0x00};
+        IUasDatalinkValue v =
+                UasDatalinkFactory.createValue(UasDatalinkTag.PlatformIndicatedAirspeed, bytes);
         Assert.assertTrue(v instanceof PlatformIndicatedAirspeed);
-        PlatformIndicatedAirspeed speed = (PlatformIndicatedAirspeed)v;
+        PlatformIndicatedAirspeed speed = (PlatformIndicatedAirspeed) v;
         Assert.assertEquals(speed.getMetersPerSecond(), 0.0);
-        Assert.assertEquals(speed.getBytes(), new byte[]{(byte)0x00});
+        Assert.assertEquals(speed.getBytes(), new byte[] {(byte) 0x00});
         Assert.assertEquals(speed.getDisplayableValue(), "0m/s");
 
-        bytes = new byte[]{(byte)0xff};
+        bytes = new byte[] {(byte) 0xff};
         v = UasDatalinkFactory.createValue(UasDatalinkTag.PlatformIndicatedAirspeed, bytes);
         Assert.assertTrue(v instanceof PlatformIndicatedAirspeed);
-        speed = (PlatformIndicatedAirspeed)v;
+        speed = (PlatformIndicatedAirspeed) v;
         Assert.assertEquals(speed.getMetersPerSecond(), 255);
-        Assert.assertEquals(speed.getBytes(), new byte[]{(byte)0xff});
+        Assert.assertEquals(speed.getBytes(), new byte[] {(byte) 0xff});
         Assert.assertEquals(speed.getDisplayableValue(), "255m/s");
 
-        bytes = new byte[]{(byte)0x9f};
+        bytes = new byte[] {(byte) 0x9f};
         v = UasDatalinkFactory.createValue(UasDatalinkTag.PlatformIndicatedAirspeed, bytes);
         Assert.assertTrue(v instanceof PlatformIndicatedAirspeed);
-        speed = (PlatformIndicatedAirspeed)v;
+        speed = (PlatformIndicatedAirspeed) v;
         Assert.assertEquals(speed.getMetersPerSecond(), 159);
-        Assert.assertEquals(speed.getBytes(), new byte[]{(byte)0x9f});
+        Assert.assertEquals(speed.getBytes(), new byte[] {(byte) 0x9f});
         Assert.assertEquals(speed.getDisplayableValue(), "159m/s");
     }
 
     @Test(expectedExceptions = IllegalArgumentException.class)
-    public void testTooSmall()
-    {
+    public void testTooSmall() {
         new PlatformIndicatedAirspeed(-1);
     }
 
     @Test(expectedExceptions = IllegalArgumentException.class)
-    public void testTooBig()
-    {
+    public void testTooBig() {
         new PlatformIndicatedAirspeed(256);
     }
 
     @Test(expectedExceptions = IllegalArgumentException.class)
-    public void badArrayLength()
-    {
-        new PlatformIndicatedAirspeed(new byte[]{0x00, 0x00});
+    public void badArrayLength() {
+        new PlatformIndicatedAirspeed(new byte[] {0x00, 0x00});
     }
 }

@@ -3,11 +3,8 @@ package org.jmisb.api.klv.st1201;
 import java.nio.ByteBuffer;
 import org.jmisb.core.klv.PrimitiveConverter;
 
-/**
- * Encoding and decoding of floating point values per ST 1201
- */
-public class FpEncoder
-{
+/** Encoding and decoding of floating point values per ST 1201 */
+public class FpEncoder {
     private double a, b;
     private double bPow, dPow;
     private double sF, sR;
@@ -21,15 +18,12 @@ public class FpEncoder
      * @param min The minimum floating point value to be encoded
      * @param max The maximum floating point value to be encoded
      * @param length The field length, in bytes (1, 2, 3, 4, or 8)
-     *
      * @throws IllegalArgumentException if the length is not supported
      */
-    public FpEncoder(double min, double max, int length)
-    {
+    public FpEncoder(double min, double max, int length) {
         if (length == 1 || length == 2 || length == 3 || length == 4 || length == 8)
             computeConstants(min, max, length);
-        else
-            throw new IllegalArgumentException("Only 1, 2, 3, 4, and 8 are valid field lengths");
+        else throw new IllegalArgumentException("Only 1, 2, 3, 4, and 8 are valid field lengths");
     }
 
     /**
@@ -38,23 +32,20 @@ public class FpEncoder
      * @param min The minimum floating point value to be encoded
      * @param max The maximum floating point value to be encoded
      * @param precision The required precision
-     *
-     * @throws IllegalArgumentException if the range/precision is too large to represent within 64 bits
+     * @throws IllegalArgumentException if the range/precision is too large to represent within 64
+     *     bits
      */
-    public FpEncoder(double min, double max, double precision)
-    {
-        double bits = Math.ceil(log2((max - min)/precision)+1);
+    public FpEncoder(double min, double max, double precision) {
+        double bits = Math.ceil(log2((max - min) / precision) + 1);
         int length = (int) Math.ceil(bits / 8);
 
         // Only support length of 1/2/4/8
-        if (length <= 2)
-            computeConstants(min, max, length);
-        else if (length <= 4)
-            computeConstants(min, max, 4);
-        else if (length <= 8)
-            computeConstants(min, max, 8);
+        if (length <= 2) computeConstants(min, max, length);
+        else if (length <= 4) computeConstants(min, max, 4);
+        else if (length <= 8) computeConstants(min, max, 8);
         else
-            throw new IllegalArgumentException(("The specified range and precision cannot be represented using a 64-bit integer"));
+            throw new IllegalArgumentException(
+                    ("The specified range and precision cannot be represented using a 64-bit integer"));
     }
 
     /**
@@ -62,55 +53,43 @@ public class FpEncoder
      *
      * @return The length, in bytes
      */
-    public int getFieldLength()
-    {
+    public int getFieldLength() {
         return fieldLength;
     }
 
     /**
      * Encode a floating point value as a byte array
      *
-     * Note: Positive and negative infinity and NaN will be encoded by setting special flags defined by the ST.
-     * To send other special value bit patterns, use the encodeSpecial method.
+     * <p>Note: Positive and negative infinity and NaN will be encoded by setting special flags
+     * defined by the ST. To send other special value bit patterns, use the encodeSpecial method.
      *
      * @param val The value to encode
      * @return The encoded byte array
-     *
      * @throws IllegalArgumentException if the value is not within the specified range
      */
-    public byte[] encode(double val)
-    {
+    public byte[] encode(double val) {
         byte[] encoded = null;
 
         // Special values defined by the ST
         //
-        if (val == Double.POSITIVE_INFINITY)
-        {
+        if (val == Double.POSITIVE_INFINITY) {
             encoded = new byte[fieldLength];
-            encoded[0] = (byte)0xc8;
-        }
-        else if (val == Double.NEGATIVE_INFINITY)
-        {
+            encoded[0] = (byte) 0xc8;
+        } else if (val == Double.NEGATIVE_INFINITY) {
             encoded = new byte[fieldLength];
-            encoded[0] = (byte)0xe8;
-        }
-        else if (Double.isNaN(val))
-        {
-            // Send +QNaN as defined by the ST; to send other NaN values defined by the ST, use encodeSpecial method
+            encoded[0] = (byte) 0xe8;
+        } else if (Double.isNaN(val)) {
+            // Send +QNaN as defined by the ST; to send other NaN values defined by the ST, use
+            // encodeSpecial method
             //
             encoded = new byte[fieldLength];
-            encoded[0] = (byte)0xd0;
-        }
-        else if (val < a || val > b)
-        {
+            encoded[0] = (byte) 0xd0;
+        } else if (val < a || val > b) {
             throw new IllegalArgumentException("Value must be in range [" + a + "," + b + "]");
-        }
-        else
-        {
+        } else {
             // Value is normal and in range
             double d = Math.floor(sF * (val - a) + zOffset);
-            switch (fieldLength)
-            {
+            switch (fieldLength) {
                 case 1:
                     byte b = (byte) d;
                     encoded = ByteBuffer.allocate(1).put(b).array();
@@ -124,7 +103,7 @@ public class FpEncoder
                     byte[] bytes = PrimitiveConverter.int32ToBytes(i3);
                     ByteBuffer bb = ByteBuffer.allocate(3);
                     for (int lv = 0; lv < bb.capacity(); ++lv) {
-                        bb.put(lv, bytes[lv+1]);
+                        bb.put(lv, bytes[lv + 1]);
                     }
                     encoded = bb.array();
                     break;
@@ -137,7 +116,8 @@ public class FpEncoder
                     encoded = ByteBuffer.allocate(8).putLong(l).array();
                     break;
                 default:
-                    throw new UnsupportedOperationException("Only field lengths of [1,2,3,4,8] are supported");
+                    throw new UnsupportedOperationException(
+                            "Only field lengths of [1,2,3,4,8] are supported");
             }
         }
         return encoded;
@@ -148,15 +128,12 @@ public class FpEncoder
      *
      * @param bytes The encoded array
      * @return The floating point value
-     *
      * @throws IllegalArgumentException if the array is invalid
      */
-    public double decode(byte[] bytes) throws IllegalArgumentException
-    {
+    public double decode(byte[] bytes) throws IllegalArgumentException {
         int offset = 0;
 
-        if (bytes.length != fieldLength)
-        {
+        if (bytes.length != fieldLength) {
             throw new IllegalArgumentException("Array length does not match expected field length");
         }
         return decode(bytes, offset);
@@ -168,30 +145,20 @@ public class FpEncoder
      * @param bytes The encoded array
      * @param offset the offset into the byte array to decode from
      * @return The floating point value
-     *
      * @throws IllegalArgumentException if the array is invalid
      */
-    public double decode(byte[] bytes, int offset) throws IllegalArgumentException
-    {
+    public double decode(byte[] bytes, int offset) throws IllegalArgumentException {
         double val = 0.0;
-        if (bytes[offset] == (byte)0xc8)
-        {
+        if (bytes[offset] == (byte) 0xc8) {
             val = Double.POSITIVE_INFINITY;
-        }
-        else if (bytes[offset] == (byte)0xe8)
-        {
+        } else if (bytes[offset] == (byte) 0xe8) {
             val = Double.NEGATIVE_INFINITY;
-        }
-        else if (bytes[offset] == (byte)0xd0)
-        {
+        } else if (bytes[offset] == (byte) 0xd0) {
             val = Double.NaN;
-        }
-        else
-        {
+        } else {
             // Normal floating point value
             ByteBuffer wrapped = ByteBuffer.wrap(bytes, offset, fieldLength);
-            switch (fieldLength)
-            {
+            switch (fieldLength) {
                 case 1:
                     byte b = wrapped.get();
                     val = sR * (b - zOffset) + a;
@@ -215,11 +182,12 @@ public class FpEncoder
                     val = sR * (l - zOffset) + a;
                     break;
                 default:
-                    throw new UnsupportedOperationException("Only field lengths of [1,2,3,4,8] are supported");
+                    throw new UnsupportedOperationException(
+                            "Only field lengths of [1,2,3,4,8] are supported");
             }
-            if (val < a || val > b)
-            {
-                throw new IllegalArgumentException("Error decoding floating point value; out of range");
+            if (val < a || val > b) {
+                throw new IllegalArgumentException(
+                        "Error decoding floating point value; out of range");
             }
         }
 
@@ -233,8 +201,7 @@ public class FpEncoder
      * @param max The maximum floating point value to be encoded
      * @param length The field length, in bytes
      */
-    private void computeConstants(double min, double max, int length)
-    {
+    private void computeConstants(double min, double max, int length) {
         fieldLength = length;
         a = min;
         b = max;
@@ -243,8 +210,7 @@ public class FpEncoder
         sF = Math.pow(2, dPow - bPow);
         sR = Math.pow(2, bPow - dPow);
         zOffset = 0.0;
-        if (a < 0 && b > 0)
-        {
+        if (a < 0 && b > 0) {
             zOffset = sF * a - Math.floor(sF * a);
         }
     }
@@ -255,8 +221,7 @@ public class FpEncoder
      * @param val Input value
      * @return Log value
      */
-    private static double log2(double val)
-    {
+    private static double log2(double val) {
         return Math.log(val) / logOf2;
     }
 }

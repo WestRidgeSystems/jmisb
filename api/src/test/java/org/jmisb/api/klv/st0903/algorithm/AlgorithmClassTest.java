@@ -6,13 +6,11 @@ import org.jmisb.api.klv.st0903.shared.VmtiTextString;
 import org.testng.Assert;
 import org.testng.annotations.Test;
 
-public class AlgorithmClassTest
-{
-    private final byte[] bytes = new byte[]{0x6B, 0x61, 0x6C, 0x6D, 0x61, 0x6E, 0x6E};
+public class AlgorithmClassTest {
+    private final byte[] bytes = new byte[] {0x6B, 0x61, 0x6C, 0x6D, 0x61, 0x6E, 0x6E};
 
     @Test
-    public void testFromString()
-    {
+    public void testFromString() {
         // Example from Algorithm Tag 4 Class.
         final String stringVal = "kalmann"; /* sic */
 
@@ -30,11 +28,10 @@ public class AlgorithmClassTest
     }
 
     @Test
-    public void testFactory() throws KlvParseException
-    {
+    public void testFactory() throws KlvParseException {
         IVmtiMetadataValue v = AlgorithmLS.createValue(AlgorithmMetadataKey.algorithmClass, bytes);
         Assert.assertTrue(v instanceof VmtiTextString);
-        VmtiTextString string = (VmtiTextString)v;
+        VmtiTextString string = (VmtiTextString) v;
         Assert.assertEquals(string.getDisplayName(), VmtiTextString.ALGORITHM_CLASS);
         Assert.assertEquals(string.getBytes(), bytes);
         Assert.assertEquals(string.getDisplayableValue(), "kalmann");

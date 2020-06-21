@@ -5,9 +5,7 @@ import java.nio.charset.Charset;
 import java.util.Arrays;
 import java.util.UUID;
 
-/**
- * Internal utility methods for UUID conversions.
- */
+/** Internal utility methods for UUID conversions. */
 public class UuidUtils {
 
     /**
@@ -53,6 +51,7 @@ public class UuidUtils {
 
     /**
      * Convert part of a byte array to a UUID.
+     *
      * @param bytes the byte array
      * @param index the offset into the byte array where the UUID should be read from
      * @return UUID
@@ -68,15 +67,20 @@ public class UuidUtils {
      * @param uuid the UUID to format as text
      * @return text equivalent to the UUID
      */
-    public static String formatUUID(UUID uuid)
-    {
+    public static String formatUUID(UUID uuid) {
         String standardFormatUUID = uuid.toString().toUpperCase();
-        String misbFormatUUID = standardFormatUUID.substring(0, 4) + "-" + standardFormatUUID.substring(4, 28) + "-" + standardFormatUUID.substring(28, 32) + "-" + standardFormatUUID.substring(32);
+        String misbFormatUUID =
+                standardFormatUUID.substring(0, 4)
+                        + "-"
+                        + standardFormatUUID.substring(4, 28)
+                        + "-"
+                        + standardFormatUUID.substring(28, 32)
+                        + "-"
+                        + standardFormatUUID.substring(32);
         return misbFormatUUID;
     }
 
-    public static UUID convertHashOutputToVersion5UUID(byte[] uuidBytes)
-    {
+    public static UUID convertHashOutputToVersion5UUID(byte[] uuidBytes) {
         byte[] truncatedBytes = Arrays.copyOf(uuidBytes, 16);
         truncatedBytes[6] &= 15; // clear version
         truncatedBytes[6] |= 80; // set to version 5
@@ -87,14 +91,13 @@ public class UuidUtils {
 
     /**
      * Convert a hex String (in UUID format) to a byte array.
-     * <p>
-     * Per ST1204 algorithm, the separators are ignored.
+     *
+     * <p>Per ST1204 algorithm, the separators are ignored.
+     *
      * @param uuidString the string to convert
      * @return corresponding byte array.
      */
-    public static byte[] uuidStringToByteArray(String uuidString)
-    {
+    public static byte[] uuidStringToByteArray(String uuidString) {
         return uuidString.replaceAll("-", "").toUpperCase().getBytes(Charset.forName("US-ASCII"));
     }
-
 }

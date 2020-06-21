@@ -1,26 +1,22 @@
 package org.jmisb.api.klv.st0903.vtracker;
 
+import static org.testng.Assert.*;
+
 import org.jmisb.api.common.KlvParseException;
+import org.jmisb.api.klv.LoggerChecks;
 import org.jmisb.api.klv.st0903.IVmtiMetadataValue;
 import org.jmisb.api.klv.st0903.shared.AlgorithmId;
-import org.jmisb.api.klv.LoggerChecks;
-import static org.testng.Assert.*;
 import org.testng.annotations.Test;
 
-/**
- * Tests for the ST0903 VTracker LS.
- */
-public class VTrackerLSTest extends LoggerChecks
-{
-    public VTrackerLSTest()
-    {
+/** Tests for the ST0903 VTracker LS. */
+public class VTrackerLSTest extends LoggerChecks {
+    public VTrackerLSTest() {
         super(VTrackerLS.class);
     }
 
     @Test
-    public void createUnknownTag() throws KlvParseException
-    {
-        final byte[] bytes = new byte[]{0x6A, 0x70};
+    public void createUnknownTag() throws KlvParseException {
+        final byte[] bytes = new byte[] {0x6A, 0x70};
         this.verifyNoLoggerMessages();
         IVmtiMetadataValue value = VTrackerLS.createValue(VTrackerMetadataKey.Undefined, bytes);
         this.verifySingleLoggerMessage("Unrecognized VTracker tag: Undefined");
@@ -28,9 +24,8 @@ public class VTrackerLSTest extends LoggerChecks
     }
 
     @Test
-    public void parseAlgorithmId() throws KlvParseException
-    {
-        final byte[] bytes = new byte[]{0x0C, 0x01, 0x03};
+    public void parseAlgorithmId() throws KlvParseException {
+        final byte[] bytes = new byte[] {0x0C, 0x01, 0x03};
         VTrackerLS localSet = new VTrackerLS(bytes);
         assertNotNull(localSet);
         assertEquals(localSet.getTags().size(), 1);

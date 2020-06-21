@@ -1,21 +1,15 @@
 package org.jmisb.api.video;
 
-/**
- * Options to be specified when opening an input stream
- */
-public class VideoStreamInputOptions extends VideoInputOptions
-{
+/** Options to be specified when opening an input stream */
+public class VideoStreamInputOptions extends VideoInputOptions {
     /** Timeout before failing when opening a stream, in milliseconds */
     private long openTimeout;
 
     /** Maximum analyze duration, in milliseconds */
     private long maxAnalyzeDuration;
 
-    /**
-     * Constructor specifying default options
-     */
-    public VideoStreamInputOptions()
-    {
+    /** Constructor specifying default options */
+    public VideoStreamInputOptions() {
         this.openTimeout = 10_000;
         this.maxAnalyzeDuration = 15_000;
     }
@@ -29,9 +23,12 @@ public class VideoStreamInputOptions extends VideoInputOptions
      * @param openTimeout Timeout before failing when opening a stream, in milliseconds
      * @param maxAnalyzeDuration Max analyze duration, in milliseconds
      */
-    public VideoStreamInputOptions(boolean decodeAudio, boolean decodeMetadata, boolean decodeVideo,
-                                   long openTimeout, long maxAnalyzeDuration)
-    {
+    public VideoStreamInputOptions(
+            boolean decodeAudio,
+            boolean decodeMetadata,
+            boolean decodeVideo,
+            long openTimeout,
+            long maxAnalyzeDuration) {
         super(decodeAudio, decodeMetadata, decodeVideo);
         this.openTimeout = openTimeout;
         this.maxAnalyzeDuration = maxAnalyzeDuration;
@@ -42,8 +39,7 @@ public class VideoStreamInputOptions extends VideoInputOptions
      *
      * @return Failure timeout, in milliseconds
      */
-    public long getOpenTimeout()
-    {
+    public long getOpenTimeout() {
         return openTimeout;
     }
 
@@ -52,8 +48,7 @@ public class VideoStreamInputOptions extends VideoInputOptions
      *
      * @return Max analyze duration, in microseconds
      */
-    public long getMaxAnalyzeDuration()
-    {
+    public long getMaxAnalyzeDuration() {
         return maxAnalyzeDuration;
     }
 }

@@ -3,13 +3,13 @@ package org.jmisb.api.klv.st0806;
 /**
  * Frame Center MGRS Northing (ST0806 Tag 2).
  *
- * Eleventh through fifteenth character of Frame Center MGRS coordinates. Range
- * is from 0 to 99,999 representing the 5-digit Northing value in meters.
- * <p>
- * Resolution: 1 meter
+ * <p>Eleventh through fifteenth character of Frame Center MGRS coordinates. Range is from 0 to
+ * 99,999 representing the 5-digit Northing value in meters.
+ *
+ * <p>Resolution: 1 meter
  */
-public class FrameCentreMGRSNorthing extends AbstractMGRSEastingOrNorthing implements IRvtMetadataValue
-{
+public class FrameCentreMGRSNorthing extends AbstractMGRSEastingOrNorthing
+        implements IRvtMetadataValue {
     public static final String FRAME_CENTRE_MGRS_NORTHING = "Frame Center MGRS Northing";
 
     /**
@@ -17,8 +17,7 @@ public class FrameCentreMGRSNorthing extends AbstractMGRSEastingOrNorthing imple
      *
      * @param value integer value, in the range 1 to 60.
      */
-    public FrameCentreMGRSNorthing(int value)
-    {
+    public FrameCentreMGRSNorthing(int value) {
         super(FRAME_CENTRE_MGRS_NORTHING, value);
     }
 
@@ -27,8 +26,7 @@ public class FrameCentreMGRSNorthing extends AbstractMGRSEastingOrNorthing imple
      *
      * @param bytes Encoded byte array, of length 3 bytes.
      */
-    public FrameCentreMGRSNorthing(byte[] bytes)
-    {
+    public FrameCentreMGRSNorthing(byte[] bytes) {
         super(FRAME_CENTRE_MGRS_NORTHING, bytes);
     }
 }

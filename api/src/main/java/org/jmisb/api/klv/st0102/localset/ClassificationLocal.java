@@ -3,30 +3,26 @@ package org.jmisb.api.klv.st0102.localset;
 import org.jmisb.api.klv.st0102.Classification;
 import org.jmisb.api.klv.st0102.ISecurityMetadataValue;
 
-/**
- * Security classification level as defined by Security Metadata Local Set (ST 0102 tag 1)
- */
-public class ClassificationLocal implements ISecurityMetadataValue
-{
+/** Security classification level as defined by Security Metadata Local Set (ST 0102 tag 1) */
+public class ClassificationLocal implements ISecurityMetadataValue {
     private Classification value;
 
     /**
      * Create from value
+     *
      * @param classification The classification level
      */
-    public ClassificationLocal(Classification classification)
-    {
+    public ClassificationLocal(Classification classification) {
         this.value = classification;
     }
 
     /**
      * Create from encoded bytes
+     *
      * @param bytes The encoded byte array
      */
-    public ClassificationLocal(byte[] bytes)
-    {
-        if (bytes.length != 1)
-        {
+    public ClassificationLocal(byte[] bytes) {
+        if (bytes.length != 1) {
             throw new IllegalArgumentException("Security Classification is encoded as one byte");
         }
 
@@ -35,28 +31,25 @@ public class ClassificationLocal implements ISecurityMetadataValue
 
     /**
      * Get the classification level
+     *
      * @return The classification level
      */
-    public Classification getClassification()
-    {
+    public Classification getClassification() {
         return value;
     }
 
     @Override
-    public byte[] getBytes()
-    {
-        return new byte[]{value.getCode()};
+    public byte[] getBytes() {
+        return new byte[] {value.getCode()};
     }
 
     @Override
-    public String getDisplayableValue()
-    {
+    public String getDisplayableValue() {
         return value.toString();
     }
 
     @Override
-    public String getDisplayName()
-    {
+    public String getDisplayName() {
         return "Classification";
     }
 }

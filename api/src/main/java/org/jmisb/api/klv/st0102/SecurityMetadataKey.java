@@ -1,17 +1,19 @@
 package org.jmisb.api.klv.st0102;
 
-import org.jmisb.api.klv.UniversalLabel;
-
 import java.util.HashMap;
 import java.util.Map;
 import org.jmisb.api.klv.IKlvKey;
+import org.jmisb.api.klv.UniversalLabel;
 
-/**
- * ST 0102 key
- */
-public enum SecurityMetadataKey implements IKlvKey
-{
-    Undefined(0, new UniversalLabel(new byte[]{0x06, 0x0e, 0x2b, 0x34, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00})),
+/** ST 0102 key */
+public enum SecurityMetadataKey implements IKlvKey {
+    Undefined(
+            0,
+            new UniversalLabel(
+                    new byte[] {
+                        0x06, 0x0e, 0x2b, 0x34, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00,
+                        0x00, 0x00, 0x00, 0x00
+                    })),
     SecurityClassification(1, SecurityMetadataConstants.securityClassificationUl),
     CcCodingMethod(2, SecurityMetadataConstants.ccCodingMethodUl),
     ClassifyingCountry(3, SecurityMetadataConstants.classifyingCountryUl),
@@ -40,39 +42,32 @@ public enum SecurityMetadataKey implements IKlvKey
     private static final Map<Integer, SecurityMetadataKey> tagTable = new HashMap<>();
     private static final Map<UniversalLabel, SecurityMetadataKey> ulTable = new HashMap<>();
 
-    static
-    {
-        for (SecurityMetadataKey key : values())
-        {
+    static {
+        for (SecurityMetadataKey key : values()) {
             tagTable.put(key.tag, key);
             ulTable.put(key.ul, key);
         }
     }
 
-    SecurityMetadataKey(int tag, UniversalLabel ul)
-    {
+    SecurityMetadataKey(int tag, UniversalLabel ul) {
         this.tag = tag;
         this.ul = ul;
     }
 
     @Override
-    public int getTag()
-    {
+    public int getTag() {
         return tag;
     }
 
-    public UniversalLabel getUl()
-    {
+    public UniversalLabel getUl() {
         return ul;
     }
 
-    public static SecurityMetadataKey getKey(int tag)
-    {
+    public static SecurityMetadataKey getKey(int tag) {
         return tagTable.containsKey(tag) ? tagTable.get(tag) : Undefined;
     }
 
-    public static SecurityMetadataKey getKey(UniversalLabel ul)
-    {
+    public static SecurityMetadataKey getKey(UniversalLabel ul) {
         return ulTable.containsKey(ul) ? ulTable.get(ul) : Undefined;
     }
 }

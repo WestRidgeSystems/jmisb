@@ -4,107 +4,103 @@ import org.jmisb.api.common.KlvParseException;
 import org.testng.Assert;
 import org.testng.annotations.Test;
 
-public class PositioningMethodSourceTest
-{
+public class PositioningMethodSourceTest {
     @Test
-    public void testConstructFromValue()
-    {
+    public void testConstructFromValue() {
         // Min
         PositioningMethodSource source = new PositioningMethodSource(1);
-        Assert.assertEquals(source.getBytes(), new byte[]{(byte)0x01});
+        Assert.assertEquals(source.getBytes(), new byte[] {(byte) 0x01});
 
         // Max
         source = new PositioningMethodSource(255);
-        Assert.assertEquals(source.getBytes(), new byte[]{(byte)0xff});
+        Assert.assertEquals(source.getBytes(), new byte[] {(byte) 0xff});
 
         // From ST:
         source = new PositioningMethodSource(3);
-        Assert.assertEquals(source.getBytes(), new byte[]{(byte)0x03});
-        Assert.assertEquals(source.getPositioningSource(), PositioningMethodSource.GPS|PositioningMethodSource.INS);
+        Assert.assertEquals(source.getBytes(), new byte[] {(byte) 0x03});
+        Assert.assertEquals(
+                source.getPositioningSource(),
+                PositioningMethodSource.GPS | PositioningMethodSource.INS);
 
         Assert.assertEquals(source.getDisplayName(), "Positioning Method Source");
     }
 
     @Test
-    public void testConstructFromEncoded()
-    {
+    public void testConstructFromEncoded() {
         // Min
-        PositioningMethodSource source = new PositioningMethodSource(new byte[]{(byte)0x01});
+        PositioningMethodSource source = new PositioningMethodSource(new byte[] {(byte) 0x01});
         Assert.assertEquals(source.getPositioningSource(), PositioningMethodSource.INS);
         Assert.assertEquals(source.getPositioningSource(), 1);
-        Assert.assertEquals(source.getBytes(), new byte[]{(byte)0x01});
+        Assert.assertEquals(source.getBytes(), new byte[] {(byte) 0x01});
         Assert.assertEquals(source.getDisplayableValue(), "INS [1]");
 
         // Max
-        source = new PositioningMethodSource(new byte[]{(byte)0xff});
+        source = new PositioningMethodSource(new byte[] {(byte) 0xff});
         Assert.assertEquals(source.getPositioningSource(), 255);
-        Assert.assertEquals(source.getBytes(), new byte[]{(byte)0xff});
+        Assert.assertEquals(source.getBytes(), new byte[] {(byte) 0xff});
         Assert.assertEquals(source.getDisplayableValue(), "Mixed/INS [255]");
 
         // From ST:
-        source = new PositioningMethodSource(new byte[]{(byte)0x03});
+        source = new PositioningMethodSource(new byte[] {(byte) 0x03});
         Assert.assertEquals(source.getPositioningSource(), 3);
-        Assert.assertEquals(source.getBytes(), new byte[]{(byte)0x03});
+        Assert.assertEquals(source.getBytes(), new byte[] {(byte) 0x03});
         Assert.assertEquals(source.getDisplayableValue(), "GPS/INS [3]");
 
         // No INS:
-        source = new PositioningMethodSource(new byte[]{(byte)0x02});
+        source = new PositioningMethodSource(new byte[] {(byte) 0x02});
         Assert.assertEquals(source.getPositioningSource(), 2);
         Assert.assertEquals(source.getPositioningSource(), PositioningMethodSource.GPS);
-        Assert.assertEquals(source.getBytes(), new byte[]{(byte)0x02});
+        Assert.assertEquals(source.getBytes(), new byte[] {(byte) 0x02});
         Assert.assertEquals(source.getDisplayableValue(), "GPS [2]");
 
         // Other Satellite
-        source = new PositioningMethodSource(new byte[]{(byte)0x08});
+        source = new PositioningMethodSource(new byte[] {(byte) 0x08});
         Assert.assertEquals(source.getPositioningSource(), 8);
         Assert.assertEquals(source.getPositioningSource(), PositioningMethodSource.QZSS);
-        Assert.assertEquals(source.getBytes(), new byte[]{(byte)0x08});
+        Assert.assertEquals(source.getBytes(), new byte[] {(byte) 0x08});
         Assert.assertEquals(source.getDisplayableValue(), "Satellite [8]");
     }
 
     @Test
-    public void testFactory() throws KlvParseException
-    {
-        byte[] bytes = new byte[]{(byte)0x01};
-        IUasDatalinkValue v = UasDatalinkFactory.createValue(UasDatalinkTag.PositioningMethodSource, bytes);
+    public void testFactory() throws KlvParseException {
+        byte[] bytes = new byte[] {(byte) 0x01};
+        IUasDatalinkValue v =
+                UasDatalinkFactory.createValue(UasDatalinkTag.PositioningMethodSource, bytes);
         Assert.assertTrue(v instanceof PositioningMethodSource);
-        PositioningMethodSource source = (PositioningMethodSource)v;
+        PositioningMethodSource source = (PositioningMethodSource) v;
         Assert.assertEquals(source.getPositioningSource(), 1);
-        Assert.assertEquals(source.getBytes(), new byte[]{(byte)0x01});
+        Assert.assertEquals(source.getBytes(), new byte[] {(byte) 0x01});
         Assert.assertEquals(source.getDisplayableValue(), "INS [1]");
 
-        bytes = new byte[]{(byte)0xff};
+        bytes = new byte[] {(byte) 0xff};
         v = UasDatalinkFactory.createValue(UasDatalinkTag.PositioningMethodSource, bytes);
         Assert.assertTrue(v instanceof PositioningMethodSource);
-        source = (PositioningMethodSource)v;
+        source = (PositioningMethodSource) v;
         Assert.assertEquals(source.getPositioningSource(), 255);
-        Assert.assertEquals(source.getBytes(), new byte[]{(byte)0xff});
+        Assert.assertEquals(source.getBytes(), new byte[] {(byte) 0xff});
         Assert.assertEquals(source.getDisplayableValue(), "Mixed/INS [255]");
 
-        bytes = new byte[]{(byte)0x03};
+        bytes = new byte[] {(byte) 0x03};
         v = UasDatalinkFactory.createValue(UasDatalinkTag.PositioningMethodSource, bytes);
         Assert.assertTrue(v instanceof PositioningMethodSource);
-        source = (PositioningMethodSource)v;
+        source = (PositioningMethodSource) v;
         Assert.assertEquals(source.getPositioningSource(), 3);
-        Assert.assertEquals(source.getBytes(), new byte[]{(byte)0x03});
+        Assert.assertEquals(source.getBytes(), new byte[] {(byte) 0x03});
         Assert.assertEquals(source.getDisplayableValue(), "GPS/INS [3]");
     }
 
     @Test(expectedExceptions = IllegalArgumentException.class)
-    public void testTooSmall()
-    {
+    public void testTooSmall() {
         new PositioningMethodSource(0);
     }
 
     @Test(expectedExceptions = IllegalArgumentException.class)
-    public void testTooBig()
-    {
+    public void testTooBig() {
         new PositioningMethodSource(256);
     }
 
     @Test(expectedExceptions = IllegalArgumentException.class)
-    public void badArrayLength()
-    {
-        new PositioningMethodSource(new byte[]{0x00, 0x00});
+    public void badArrayLength() {
+        new PositioningMethodSource(new byte[] {0x00, 0x00});
     }
 }

@@ -1,12 +1,5 @@
 package org.jmisb.viewer;
 
-import net.miginfocom.swing.MigLayout;
-import org.jmisb.api.video.*;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
-
-import javax.swing.*;
-import javax.swing.filechooser.FileNameExtensionFilter;
 import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
@@ -16,12 +9,15 @@ import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.prefs.Preferences;
+import javax.swing.*;
+import javax.swing.filechooser.FileNameExtensionFilter;
+import net.miginfocom.swing.MigLayout;
+import org.jmisb.api.video.*;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
-/**
- * Main window for a sample Swing-based video player application
- */
-public class MisbViewer extends JFrame implements ActionListener
-{
+/** Main window for a sample Swing-based video player application */
+public class MisbViewer extends JFrame implements ActionListener {
     private static Logger logger = LoggerFactory.getLogger(MisbViewer.class);
     private IVideoInput videoInput;
     private VideoPanel videoPanel;
@@ -32,8 +28,7 @@ public class MisbViewer extends JFrame implements ActionListener
     private List<JMenuItem> mruFiles;
     private int mruStartPos;
 
-    private MisbViewer()
-    {
+    private MisbViewer() {
         initComponents();
         setDefaultCloseOperation(WindowConstants.EXIT_ON_CLOSE);
         setPreferredSize(new Dimension(900, 500));
@@ -42,8 +37,7 @@ public class MisbViewer extends JFrame implements ActionListener
         setVisible(true);
     }
 
-    public static void main(String[] args)
-    {
+    public static void main(String[] args) {
         // Side effect of decorated look and feel is that the JFrame's layout manager will respect
         // the minimum size of its components
         //
@@ -52,8 +46,7 @@ public class MisbViewer extends JFrame implements ActionListener
         new MisbViewer().setVisible(true);
     }
 
-    private void initComponents()
-    {
+    private void initComponents() {
         setTitle("MISB Viewer");
         JMenuBar menuBar = new JMenuBar();
 
@@ -100,18 +93,15 @@ public class MisbViewer extends JFrame implements ActionListener
 
         setJMenuBar(menuBar);
 
-        setLayout(new MigLayout(
-                "fill",
-                "",
-                "[fill][38:38:38]")
-        );
+        setLayout(new MigLayout("fill", "", "[fill][38:38:38]"));
 
         videoPanel = new VideoPanel();
         metadataPanel = new MetadataPanel();
         metadataPanelScroll = new JScrollPane(metadataPanel);
 
         // Create split pane
-        JSplitPane splitPane = new JSplitPane(JSplitPane.HORIZONTAL_SPLIT, videoPanel, metadataPanelScroll);
+        JSplitPane splitPane =
+                new JSplitPane(JSplitPane.HORIZONTAL_SPLIT, videoPanel, metadataPanelScroll);
         splitPane.setDividerLocation(640 + splitPane.getInsets().left);
         splitPane.setResizeWeight(0.5);
         add(splitPane, "grow, wrap");
@@ -121,13 +111,10 @@ public class MisbViewer extends JFrame implements ActionListener
     }
 
     @Override
-    public void actionPerformed(ActionEvent e)
-    {
-        if (e.getSource() instanceof JMenuItem)
-        {
-            JMenuItem item = (JMenuItem)e.getSource();
-            switch (item.getName())
-            {
+    public void actionPerformed(ActionEvent e) {
+        if (e.getSource() instanceof JMenuItem) {
+            JMenuItem item = (JMenuItem) e.getSource();
+            switch (item.getName()) {
                 case "File|OpenFile":
                     openFile();
                     break;
@@ -144,8 +131,7 @@ public class MisbViewer extends JFrame implements ActionListener
                     displayStreamInfo();
                     break;
                 default:
-                    if (item.getName().startsWith("File|Mru|"))
-                    {
+                    if (item.getName().startsWith("File|Mru|")) {
                         String[] parts = item.getName().split("\\|");
                         openFile(parts[2]);
                     }
@@ -154,22 +140,16 @@ public class MisbViewer extends JFrame implements ActionListener
         }
     }
 
-    /**
-     * Show file chooser to open a file
-     */
-    private void openFile()
-    {
+    /** Show file chooser to open a file */
+    private void openFile() {
         JFileChooser fileChooser;
 
         // Starting directory for file chooser should be that of the last manually-opened file
         Preferences prefs = Preferences.userNodeForPackage(MisbViewer.class);
         String directoryName = prefs.get("openFileDir", "");
-        if (!directoryName.isEmpty())
-        {
+        if (!directoryName.isEmpty()) {
             fileChooser = new JFileChooser(new File(directoryName));
-        }
-        else
-        {
+        } else {
             fileChooser = new JFileChooser();
         }
 
@@ -177,12 +157,12 @@ public class MisbViewer extends JFrame implements ActionListener
         fileChooser.setMultiSelectionEnabled(false);
         fileChooser.setDialogTitle("Select Media File");
 
-        fileChooser.setFileFilter(new FileNameExtensionFilter("Media Files", ViewerConstants.VIDEO_FORMATS));
+        fileChooser.setFileFilter(
+                new FileNameExtensionFilter("Media Files", ViewerConstants.VIDEO_FORMATS));
 
         int returnVal = fileChooser.showOpenDialog(JFrame.getFrames()[0]);
 
-        if (returnVal == JFileChooser.APPROVE_OPTION)
-        {
+        if (returnVal == JFileChooser.APPROVE_OPTION) {
             File file = fileChooser.getSelectedFile();
             openFile(file.getAbsolutePath());
 
@@ -192,10 +172,8 @@ public class MisbViewer extends JFrame implements ActionListener
         }
     }
 
-    private void openFile(String filename)
-    {
-        try
-        {
+    private void openFile(String filename) {
+        try {
             closeVideo();
 
             IVideoFileInput fileInput = new VideoFileInput(new VideoFileInputOptions());
@@ -211,24 +189,22 @@ public class MisbViewer extends JFrame implements ActionListener
             videoInput = fileInput;
 
             updateFileMruList(filename);
-        }
-        catch (IOException ex)
-        {
+        } catch (IOException ex) {
             logger.error("Could not open file: " + filename, ex);
-            JOptionPane.showMessageDialog(this,
-                    "Could not open file: " + ex.getMessage(), "Error",
+            JOptionPane.showMessageDialog(
+                    this,
+                    "Could not open file: " + ex.getMessage(),
+                    "Error",
                     JOptionPane.ERROR_MESSAGE);
         }
     }
 
-    private void displayStreamInfo()
-    {
+    private void displayStreamInfo() {
         StreamInfoDialog dialog = new StreamInfoDialog(this, videoInput);
         dialog.setVisible(true);
     }
 
-    private void addMruMenuItems()
-    {
+    private void addMruMenuItems() {
         mruFiles = new ArrayList<>();
 
         // Record the position in the file menu where MRU entries should start
@@ -238,15 +214,12 @@ public class MisbViewer extends JFrame implements ActionListener
         updateFileMruList(null);
     }
 
-    private void updateFileMruList(String filename)
-    {
-        for (JMenuItem mruItem : mruFiles)
-        {
+    private void updateFileMruList(String filename) {
+        for (JMenuItem mruItem : mruFiles) {
             fileMenu.remove(mruItem);
         }
 
-        if (filename != null)
-        {
+        if (filename != null) {
             MruFileList.add(filename);
         }
 
@@ -254,40 +227,31 @@ public class MisbViewer extends JFrame implements ActionListener
 
         int pos = mruStartPos;
 
-        for (JMenuItem mruItem : mruFiles)
-        {
+        for (JMenuItem mruItem : mruFiles) {
             mruItem.addActionListener(this);
             fileMenu.insert(mruItem, pos++);
         }
     }
 
-    /**
-     * Show dialog to connect to URL
-     */
-    private void openUrl()
-    {
+    /** Show dialog to connect to URL */
+    private void openUrl() {
         UrlDialog urlDialog = new UrlDialog(this, "Connect to Stream");
         urlDialog.setVisible(true);
     }
 
-    /**
-     * Close the file or stream
-     */
-    private void closeVideo()
-    {
+    /** Close the file or stream */
+    private void closeVideo() {
         controlPanel.close();
-        if (videoInput != null)
-        {
+        if (videoInput != null) {
             videoInput.removeFrameListener(videoPanel);
             videoInput.removeMetadataListener(metadataPanel);
             videoInput.removeFrameListener(controlPanel);
-            try
-            {
+            try {
                 videoInput.close();
-            } catch (IOException ex)
-            {
+            } catch (IOException ex) {
                 logger.error("An exception was thrown attempting to close the input", ex);
-                JOptionPane.showMessageDialog(this,
+                JOptionPane.showMessageDialog(
+                        this,
                         "An exception was thrown attempting to close the input: " + ex.getMessage(),
                         "Error",
                         JOptionPane.ERROR_MESSAGE);
@@ -297,30 +261,24 @@ public class MisbViewer extends JFrame implements ActionListener
         metadataPanel.clear();
     }
 
-    /**
-     * Close the application
-     */
-    private void closeApplication()
-    {
+    /** Close the application */
+    private void closeApplication() {
         closeVideo();
         System.exit(0);
     }
 
-    private class UrlDialog extends JDialog
-    {
+    private class UrlDialog extends JDialog {
         private JTextField urlField;
         private JButton btnConnect;
         private JButton btnCancel;
         private String url = "";
 
-        UrlDialog(Frame owner, String title)
-        {
+        UrlDialog(Frame owner, String title) {
             super(owner, title);
             initComponents(owner);
         }
 
-        private void initComponents(Frame owner)
-        {
+        private void initComponents(Frame owner) {
             urlField = new JTextField();
             urlField.setEditable(true);
             // TODO: MRU for URLs
@@ -347,32 +305,30 @@ public class MisbViewer extends JFrame implements ActionListener
             btnConnect = new JButton("Connect");
             btnCancel = new JButton("Cancel");
 
-            btnConnect.addActionListener(e ->
-            {
-                url = urlField.getText();
-                if (url != null)
-                {
-                    try
-                    {
-                        VideoStreamInputOptions options = new VideoStreamInputOptions();
+            btnConnect.addActionListener(
+                    e -> {
+                        url = urlField.getText();
+                        if (url != null) {
+                            try {
+                                VideoStreamInputOptions options = new VideoStreamInputOptions();
 
-                        videoInput = new VideoStreamInput(options);
+                                videoInput = new VideoStreamInput(options);
 
-                        videoInput.open(url);
-                        owner.setTitle("jmisb - " + url);
-                        videoInput.addFrameListener(videoPanel);
-                        videoInput.addMetadataListener(metadataPanel);
-                        dispose();
-                    }
-                    catch (IOException ex)
-                    {
-                        logger.error("Could not connect to url: " + url, ex);
-                        JOptionPane.showMessageDialog(UrlDialog.this,
-                                "Could not connect to stream: " + ex.getMessage(), "Error",
-                                JOptionPane.ERROR_MESSAGE);
-                    }
-                }
-            });
+                                videoInput.open(url);
+                                owner.setTitle("jmisb - " + url);
+                                videoInput.addFrameListener(videoPanel);
+                                videoInput.addMetadataListener(metadataPanel);
+                                dispose();
+                            } catch (IOException ex) {
+                                logger.error("Could not connect to url: " + url, ex);
+                                JOptionPane.showMessageDialog(
+                                        UrlDialog.this,
+                                        "Could not connect to stream: " + ex.getMessage(),
+                                        "Error",
+                                        JOptionPane.ERROR_MESSAGE);
+                            }
+                        }
+                    });
 
             btnCancel.addActionListener(e -> dispose());
 

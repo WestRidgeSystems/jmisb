@@ -14,19 +14,20 @@ import org.jmisb.core.klv.ArrayUtils;
 
 /**
  * Track History Series (ST0903 VTracker Local Set Tag 9).
- * <p>
- * From ST0903:
+ *
+ * <p>From ST0903:
+ *
  * <blockquote>
- * A Series of points that represent the locations of entity VMTI detections.
- * Each point is an element of type Location. Points are chronologically in
- * order from start to end of the VMTI detections.
+ *
+ * A Series of points that represent the locations of entity VMTI detections. Each point is an
+ * element of type Location. Points are chronologically in order from start to end of the VMTI
+ * detections.
+ *
  * </blockquote>
- * <p>
- * This item was called Locus in ST0903.4, the name changed in ST0903.5.
- * </p>
+ *
+ * <p>This item was called Locus in ST0903.4, the name changed in ST0903.5.
  */
-public class TrackHistorySeries implements IVmtiMetadataValue
-{
+public class TrackHistorySeries implements IVmtiMetadataValue {
     private final List<LocationPack> history = new ArrayList<>();
 
     /**
@@ -34,8 +35,7 @@ public class TrackHistorySeries implements IVmtiMetadataValue
      *
      * @param locations the Location Packs to add.
      */
-    public TrackHistorySeries(List<LocationPack> locations)
-    {
+    public TrackHistorySeries(List<LocationPack> locations) {
         history.addAll(locations);
     }
 
@@ -45,11 +45,9 @@ public class TrackHistorySeries implements IVmtiMetadataValue
      * @param bytes Encoded byte array comprising the Track History Series
      * @throws KlvParseException if the byte array could not be parsed.
      */
-    public TrackHistorySeries(byte[] bytes) throws KlvParseException
-    {
+    public TrackHistorySeries(byte[] bytes) throws KlvParseException {
         int index = 0;
-        while (index < bytes.length - 1)
-        {
+        while (index < bytes.length - 1) {
             BerField lengthField = BerDecoder.decode(bytes, index, false);
             index += lengthField.getLength();
             byte[] packBytes = Arrays.copyOfRange(bytes, index, index + lengthField.getValue());
@@ -60,12 +58,10 @@ public class TrackHistorySeries implements IVmtiMetadataValue
     }
 
     @Override
-    public byte[] getBytes()
-    {
+    public byte[] getBytes() {
         int len = 0;
         List<byte[]> chunks = new ArrayList<>();
-        for (LocationPack location: getTrackHistory())
-        {
+        for (LocationPack location : getTrackHistory()) {
             byte[] localSetBytes = TargetLocation.serialiseLocationPack(location);
             byte[] lengthBytes = BerEncoder.encode(localSetBytes.length);
             chunks.add(lengthBytes);
@@ -77,14 +73,12 @@ public class TrackHistorySeries implements IVmtiMetadataValue
     }
 
     @Override
-    public String getDisplayableValue()
-    {
+    public String getDisplayableValue() {
         return "[Location Series]";
     }
 
     @Override
-    public String getDisplayName()
-    {
+    public String getDisplayName() {
         return "Track History";
     }
 
@@ -93,8 +87,7 @@ public class TrackHistorySeries implements IVmtiMetadataValue
      *
      * @return the list of Locations.
      */
-    public List<LocationPack> getTrackHistory()
-    {
+    public List<LocationPack> getTrackHistory() {
         return history;
     }
 }

@@ -1,15 +1,13 @@
 package org.jmisb.api.klv.st1204;
 
-import java.util.UUID;
 import static org.testng.Assert.*;
+
+import java.util.UUID;
 import org.testng.annotations.Test;
 
-public class CoreIdentifierTest
-{
+public class CoreIdentifierTest {
 
-    public CoreIdentifierTest()
-    {
-    }
+    public CoreIdentifierTest() {}
 
     @Test
     public void sensorSetter() {

@@ -6,13 +6,11 @@ import org.jmisb.api.common.KlvParseException;
 import org.testng.Assert;
 import org.testng.annotations.Test;
 
-public class ActiveWavelengthListTest
-{
-    private final byte[] ST_EXAMPLE_BYTES = new byte[]{(byte)0x01, (byte)0x03};
+public class ActiveWavelengthListTest {
+    private final byte[] ST_EXAMPLE_BYTES = new byte[] {(byte) 0x01, (byte) 0x03};
 
     @Test
-    public void testConstructFromValue()
-    {
+    public void testConstructFromValue() {
         List<Integer> activeWavelengths = new ArrayList<>();
         activeWavelengths.add(1);
         activeWavelengths.add(3);
@@ -21,23 +19,22 @@ public class ActiveWavelengthListTest
     }
 
     @Test
-    public void testConstructFromEncoded()
-    {
+    public void testConstructFromEncoded() {
         ActiveWavelengthList activeWavelengthList = new ActiveWavelengthList(ST_EXAMPLE_BYTES);
         checkValuesForExample(activeWavelengthList);
     }
 
     @Test
-    public void testFactory() throws KlvParseException
-    {
-        IUasDatalinkValue v = UasDatalinkFactory.createValue(UasDatalinkTag.ActiveWavelengthList, ST_EXAMPLE_BYTES);
+    public void testFactory() throws KlvParseException {
+        IUasDatalinkValue v =
+                UasDatalinkFactory.createValue(
+                        UasDatalinkTag.ActiveWavelengthList, ST_EXAMPLE_BYTES);
         Assert.assertTrue(v instanceof ActiveWavelengthList);
-        ActiveWavelengthList activeWavelengthList = (ActiveWavelengthList)v;
+        ActiveWavelengthList activeWavelengthList = (ActiveWavelengthList) v;
         checkValuesForExample(activeWavelengthList);
     }
 
-    private void checkValuesForExample(ActiveWavelengthList activeWavelengthList)
-    {
+    private void checkValuesForExample(ActiveWavelengthList activeWavelengthList) {
         Assert.assertEquals(activeWavelengthList.getWavelengthIdentifiers().size(), 2);
         int identifier0 = activeWavelengthList.getWavelengthIdentifiers().get(0);
         Assert.assertEquals(identifier0, 1);

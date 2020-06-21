@@ -12,24 +12,23 @@ import org.jmisb.api.klv.st1201.FpEncoder;
 
 /**
  * Wavelengths List (Tag 128).
- * <p>
- * From ST0601:
+ *
+ * <p>From ST0601:
+ *
  * <blockquote>
+ *
  * List of wavelength bands provided by sensor(s).
- * <p>
- * The Wavelengths List is a list of information used by the on-board sensors
- * which collect Motion Imagery. This item is a companion to Active Wavelength
- * List (Tag 121).
- * <p>
- * Table 14 shows predefined sensor records which support a set of common
- * wavelengths used by sensors. The Active Wavelength List (Tag 121) can use
- * these predefined wavelength bands if they are sufficient for the given
- * platform’s sensors. If a platform/sensor requires more specific or customized
- * wavelength records, this item enables their definition. Any custom
- * Wavelengths List records are sent at a minimum of once every 30 seconds. If
- * the predefined wavelengths are sufficient for the platforms sensors there is
- * no need to send a Wavelengths List item.
- * </p>
+ *
+ * <p>The Wavelengths List is a list of information used by the on-board sensors which collect
+ * Motion Imagery. This item is a companion to Active Wavelength List (Tag 121).
+ *
+ * <p>Table 14 shows predefined sensor records which support a set of common wavelengths used by
+ * sensors. The Active Wavelength List (Tag 121) can use these predefined wavelength bands if they
+ * are sufficient for the given platform’s sensors. If a platform/sensor requires more specific or
+ * customized wavelength records, this item enables their definition. Any custom Wavelengths List
+ * records are sent at a minimum of once every 30 seconds. If the predefined wavelengths are
+ * sufficient for the platforms sensors there is no need to send a Wavelengths List item.
+ *
  * <table border="1">
  * <caption>Table 14: Predefined Wavelength Information Records</caption>
  * <tr><th>ID</th><th>Min (nm)</th><th>Max (nm)</th><th>Name</th><th>Description</th></tr>
@@ -40,30 +39,30 @@ import org.jmisb.api.klv.st1201.FpEncoder;
  * <tr><td>5</td><td>8000</td><td>14000</td><td>LIR</td><td>Long-wave Infrared</td></tr>
  * <tr><td>6</td><td>14000</td><td>100,000</td><td>FIR</td><td>Far-Infrared</td></tr>
  * </table>
- * <p>
- * A sensor wavelength record contains a numeric identifier (ID), min/max
- * wavelengths, and a unique name for display on remote terminals, etc. The ID
- * is a unique number for the wavelength record. Custom wavelength records begin
- * at ID 21 and increment as needed. A custom wavelength record persists only
- * for a given flight. The “Min” and “Max” wavelengths define the range of the
- * band. The “Name” is a unique string describing the band. The sensor
- * wavelength record does not include the “Description,” it is only in the table
- * for informational purposes.
- * <p>
- * See the Motion Imagery Handbook Section 3.1 for information on these
- * wavelengths and descriptions.
+ *
+ * <p>A sensor wavelength record contains a numeric identifier (ID), min/max wavelengths, and a
+ * unique name for display on remote terminals, etc. The ID is a unique number for the wavelength
+ * record. Custom wavelength records begin at ID 21 and increment as needed. A custom wavelength
+ * record persists only for a given flight. The “Min” and “Max” wavelengths define the range of the
+ * band. The “Name” is a unique string describing the band. The sensor wavelength record does not
+ * include the “Description,” it is only in the table for informational purposes.
+ *
+ * <p>See the Motion Imagery Handbook Section 3.1 for information on these wavelengths and
+ * descriptions.
+ *
  * </blockquote>
  */
 public class WavelengthsList implements IUasDatalinkValue {
 
     private final List<Wavelengths> wavelengthsList = new ArrayList<>();
-    private final static double MIN_VAL = 0.0;
-    private final static double MAX_VAL = 1e9;
-    private final static int IMAPB_BYTES = 4;
-    private final static FpEncoder decoder = new FpEncoder(MIN_VAL, MAX_VAL, IMAPB_BYTES);
+    private static final double MIN_VAL = 0.0;
+    private static final double MAX_VAL = 1e9;
+    private static final int IMAPB_BYTES = 4;
+    private static final FpEncoder decoder = new FpEncoder(MIN_VAL, MAX_VAL, IMAPB_BYTES);
 
     /**
      * Create from value.
+     *
      * @param wavelengths the list of wavelengths objects.
      */
     public WavelengthsList(List<Wavelengths> wavelengths) {
@@ -72,10 +71,10 @@ public class WavelengthsList implements IUasDatalinkValue {
 
     /**
      * Create from encoded bytes.
+     *
      * @param bytes The byte array containing the variable length pack.
      */
-    public WavelengthsList(byte[] bytes)
-    {
+    public WavelengthsList(byte[] bytes) {
         int offset = 0;
         while (offset < bytes.length) {
             Wavelengths wavelengths = new Wavelengths();
@@ -91,7 +90,7 @@ public class WavelengthsList implements IUasDatalinkValue {
             double max = decoder.decode(bytes, offset);
             offset += IMAPB_BYTES;
             wavelengths.setMax(max);
-            int nameLength = packLength - (2* IMAPB_BYTES + idField.getLength());
+            int nameLength = packLength - (2 * IMAPB_BYTES + idField.getLength());
             String name = new String(bytes, offset, nameLength, StandardCharsets.UTF_8);
             wavelengths.setName(name);
             offset += nameLength;
@@ -101,21 +100,21 @@ public class WavelengthsList implements IUasDatalinkValue {
 
     /**
      * Get the list of wavelengths.
+     *
+     * <p>This gets the live list, so it can also be used to add an entry, or to clear the list.
+     *
      * <p>
-     * This gets the live list, so it can also be used to add an entry, or to clear the list.
-     * <p>
+     *
      * @return the known wavelengths, as a list.
      */
-    public List<Wavelengths> getWavelengthsList()
-    {
+    public List<Wavelengths> getWavelengthsList() {
         return wavelengthsList;
     }
 
     @Override
-    public byte[] getBytes()
-    {
+    public byte[] getBytes() {
         ByteArrayOutputStream baos = new ByteArrayOutputStream();
-        for (Wavelengths wavelengths: wavelengthsList) {
+        for (Wavelengths wavelengths : wavelengthsList) {
             int packLength = 0;
             byte[] idBytes = BerEncoder.encode(wavelengths.getId());
             packLength += idBytes.length;
@@ -136,14 +135,12 @@ public class WavelengthsList implements IUasDatalinkValue {
     }
 
     @Override
-    public String getDisplayableValue()
-    {
+    public String getDisplayableValue() {
         return "[Wavelengths]";
     }
 
     @Override
-    public String getDisplayName()
-    {
+    public String getDisplayName() {
         return "Wavelengths List";
     }
 }

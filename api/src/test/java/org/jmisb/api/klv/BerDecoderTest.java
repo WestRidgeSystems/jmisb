@@ -3,11 +3,9 @@ package org.jmisb.api.klv;
 import org.testng.Assert;
 import org.testng.annotations.Test;
 
-public class BerDecoderTest
-{
+public class BerDecoderTest {
     @Test
-    public void testShortFormLengthField()
-    {
+    public void testShortFormLengthField() {
         // BER Short Form is always encoded in a single byte, and has its high order bit set to 0
         byte[] data = {0x00, 0x05, 0x7f}; // 1, 5, 127
         BerField l1 = BerDecoder.decode(data, 0, false);
@@ -24,9 +22,10 @@ public class BerDecoderTest
     }
 
     @Test
-    public void testLongFormLengthField()
-    {
-        byte[] data = {(byte)0x81, 0x05, (byte)0x82, 0x01, (byte)0x80, (byte)0x84, 0x01, 0x01, 0x01, 0x01};
+    public void testLongFormLengthField() {
+        byte[] data = {
+            (byte) 0x81, 0x05, (byte) 0x82, 0x01, (byte) 0x80, (byte) 0x84, 0x01, 0x01, 0x01, 0x01
+        };
 
         BerField l1 = BerDecoder.decode(data, 0, false);
         BerField l2 = BerDecoder.decode(data, 2, false);

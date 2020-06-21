@@ -1,29 +1,29 @@
 package org.jmisb.api.klv.st0903;
 
-import org.jmisb.api.klv.st0903.vtarget.VTargetPack;
 import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.List;
 import org.jmisb.api.common.KlvParseException;
 import org.jmisb.api.klv.BerDecoder;
 import org.jmisb.api.klv.BerEncoder;
 import org.jmisb.api.klv.BerField;
+import org.jmisb.api.klv.st0903.vtarget.VTargetPack;
 import org.jmisb.core.klv.ArrayUtils;
 
 /**
  * VMTI LS VTarget Series (ST 0903 VMTI LS Tag 101).
- * <p>
- * From ST0903:
+ *
+ * <p>From ST0903:
+ *
  * <blockquote>
- * VTargetSeries is a Series type which contains VTarget Packs only. The Length
- * field for the series is the sum of all the data in the VTargetSeries Value
- * field. The Value field is comprised of one or more VTarget Packs, each of
- * which can be of a different size (thereby including different information)
- * parsed according to the Length provided for each VTarget Pack.
+ *
+ * VTargetSeries is a Series type which contains VTarget Packs only. The Length field for the series
+ * is the sum of all the data in the VTargetSeries Value field. The Value field is comprised of one
+ * or more VTarget Packs, each of which can be of a different size (thereby including different
+ * information) parsed according to the Length provided for each VTarget Pack.
+ *
  * </blockquote>
  */
-public class VTargetSeries implements IVmtiMetadataValue
-{
+public class VTargetSeries implements IVmtiMetadataValue {
     private final List<VTargetPack> targetPacks = new ArrayList<>();
 
     /**
@@ -31,8 +31,7 @@ public class VTargetSeries implements IVmtiMetadataValue
      *
      * @param values the target packs to include in the series.
      */
-    public VTargetSeries(List<VTargetPack> values)
-    {
+    public VTargetSeries(List<VTargetPack> values) {
         targetPacks.addAll(values);
     }
     /**
@@ -41,11 +40,9 @@ public class VTargetSeries implements IVmtiMetadataValue
      * @param bytes Encoded byte array
      * @throws KlvParseException if there is a parsing error on the byte array.
      */
-    public VTargetSeries(byte[] bytes) throws KlvParseException
-    {
+    public VTargetSeries(byte[] bytes) throws KlvParseException {
         int index = 0;
-        while (index < bytes.length - 1)
-        {
+        while (index < bytes.length - 1) {
             BerField lengthField = BerDecoder.decode(bytes, index, false);
             index += lengthField.getLength();
             VTargetPack targetPack = new VTargetPack(bytes, index, lengthField.getValue());
@@ -55,16 +52,15 @@ public class VTargetSeries implements IVmtiMetadataValue
     }
 
     @Override
-    public byte[] getBytes()
-    {
+    public byte[] getBytes() {
         int len = 0;
         List<byte[]> chunks = new ArrayList<>();
-        for (VTargetPack vtargetPack : targetPacks)
-        {
+        for (VTargetPack vtargetPack : targetPacks) {
             byte[] localSetBytes = vtargetPack.getBytes();
             byte[] lengthBytes = BerEncoder.encode(localSetBytes.length);
             chunks.add(lengthBytes);
-            len += lengthBytes.length;;
+            len += lengthBytes.length;
+            ;
             chunks.add(localSetBytes);
             len += localSetBytes.length;
         }
@@ -72,14 +68,12 @@ public class VTargetSeries implements IVmtiMetadataValue
     }
 
     @Override
-    public String getDisplayableValue()
-    {
+    public String getDisplayableValue() {
         return "[Targets]";
     }
 
     @Override
-    public String getDisplayName()
-    {
+    public String getDisplayName() {
         return "Target Series";
     }
 
@@ -88,9 +82,7 @@ public class VTargetSeries implements IVmtiMetadataValue
      *
      * @return the VTargets as a List
      */
-    public List<VTargetPack> getVTargets()
-    {
+    public List<VTargetPack> getVTargets() {
         return targetPacks;
     }
-
 }

@@ -1,18 +1,18 @@
 package org.jmisb.api.video;
 
+import static org.bytedeco.ffmpeg.global.avutil.setLogCallback;
+
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
-import static org.bytedeco.ffmpeg.global.avutil.setLogCallback;
-
 /**
  * Central class used to instantiate all streams
- * <p>
- * When possible, it is recommended that <i>try-with-resources</i> blocks be used when creating instances
- * using any of the {@code create*} methods of this class to ensure that the instance's close() method will
- * be called and its resources released. For example,
- * <pre>
- * {@code
+ *
+ * <p>When possible, it is recommended that <i>try-with-resources</i> blocks be used when creating
+ * instances using any of the {@code create*} methods of this class to ensure that the instance's
+ * close() method will be called and its resources released. For example,
+ *
+ * <pre>{@code
  * try (IVideoFileInput input = VideoSystem.createInputFile())
  * {
  *     input.open("file.ts");
@@ -22,25 +22,20 @@ import static org.bytedeco.ffmpeg.global.avutil.setLogCallback;
  * {
  *     // handle file open failure
  * }
- * }
- * </pre>
+ * }</pre>
+ *
  * @deprecated Use the Video IO classes constructors directly
  */
-public class VideoSystem
-{
+public class VideoSystem {
     private static final Logger logger = LoggerFactory.getLogger(VideoSystem.class);
 
     private VideoSystem() {}
 
-    static
-    {
-        try
-        {
+    static {
+        try {
             // Redirect ffmpeg's log to slf4j
             setLogCallback(FfmpegLog.INSTANCE);
-        }
-        catch (Exception ex)
-        {
+        } catch (Exception ex) {
             logger.error(ex.getLocalizedMessage());
         }
     }
@@ -50,8 +45,7 @@ public class VideoSystem
      *
      * @return The created stream
      */
-    public static IVideoStreamInput createInputStream()
-    {
+    public static IVideoStreamInput createInputStream() {
         VideoStreamInputOptions options = new VideoStreamInputOptions();
         return new VideoStreamInput(options);
     }
@@ -62,8 +56,7 @@ public class VideoSystem
      * @param options Input stream options
      * @return The created instance
      */
-    public static IVideoStreamInput createInputStream(VideoStreamInputOptions options)
-    {
+    public static IVideoStreamInput createInputStream(VideoStreamInputOptions options) {
         return new VideoStreamInput(options);
     }
 
@@ -72,8 +65,7 @@ public class VideoSystem
      *
      * @return The created instance
      */
-    public static IVideoFileInput createInputFile()
-    {
+    public static IVideoFileInput createInputFile() {
         VideoFileInputOptions options = new VideoFileInputOptions();
         return new VideoFileInput(options);
     }
@@ -84,8 +76,7 @@ public class VideoSystem
      * @param options Input file options
      * @return The created instance
      */
-    public static IVideoFileInput createInputFile(VideoFileInputOptions options)
-    {
+    public static IVideoFileInput createInputFile(VideoFileInputOptions options) {
         return new VideoFileInput(options);
     }
 
@@ -95,8 +86,7 @@ public class VideoSystem
      * @param options Output options
      * @return The created instance
      */
-    public static IVideoFileOutput createOutputFile(VideoOutputOptions options)
-    {
+    public static IVideoFileOutput createOutputFile(VideoOutputOptions options) {
         return new VideoFileOutput(options);
     }
 
@@ -106,9 +96,7 @@ public class VideoSystem
      * @param options Output options
      * @return The created instance
      */
-    public static IVideoStreamOutput createOutputStream(VideoOutputOptions options)
-    {
+    public static IVideoStreamOutput createOutputStream(VideoOutputOptions options) {
         return new VideoStreamOutput(options);
     }
 }
-

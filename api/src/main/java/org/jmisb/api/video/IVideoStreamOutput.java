@@ -1,25 +1,22 @@
 package org.jmisb.api.video;
 
-import org.jmisb.api.common.Beta;
-
 import java.io.IOException;
+import org.jmisb.api.common.Beta;
 
 /**
  * Interface for writing video/metadata to a UDP/IP network stream
- * <p>
- * It is the caller's responsibility to enqueue frames at a rate on average equal to the
- * frame rate specified in the stream's {@link VideoOutputOptions}, and set the PTS values
- * of the frames to provide timing information. The stream itself will output packets as
- * soon as they are available from the encoder.
- * </p>
+ *
+ * <p>It is the caller's responsibility to enqueue frames at a rate on average equal to the frame
+ * rate specified in the stream's {@link VideoOutputOptions}, and set the PTS values of the frames
+ * to provide timing information. The stream itself will output packets as soon as they are
+ * available from the encoder.
  */
 @Beta
-public interface IVideoStreamOutput extends AutoCloseable
-{
+public interface IVideoStreamOutput extends AutoCloseable {
     /**
      * Open a stream for writing
-     * <p>
-     * The required syntax for the URL is <code>udp://hostname:port</code>.
+     *
+     * <p>The required syntax for the URL is <code>udp://hostname:port</code>.
      *
      * @param url The URL to open
      * @throws IllegalArgumentException if the URL format is invalid or protocol is unsupported
@@ -53,8 +50,8 @@ public interface IVideoStreamOutput extends AutoCloseable
 
     /**
      * Queue a {@link MetadataFrame} for output
-     * <p>
-     * Note that metadata frames will be buffered internally based pts values. Queued metadata
+     *
+     * <p>Note that metadata frames will be buffered internally based pts values. Queued metadata
      * frames will be sent once a video frame with greater or equal pts has been sent.
      *
      * @param frame The metadata frame to send

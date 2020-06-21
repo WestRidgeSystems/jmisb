@@ -20,15 +20,14 @@ import org.slf4j.LoggerFactory;
 /**
  * Algorithm Local Set.
  *
- * The Algorithm LS documents attributes of the algorithm used for detection and tracking of targets.
+ * <p>The Algorithm LS documents attributes of the algorithm used for detection and tracking of
+ * targets.
  */
 public class AlgorithmLS {
 
     private static final Logger LOGGER = LoggerFactory.getLogger(AlgorithmLS.class);
 
-    /**
-     * Map containing all data elements in the message
-     */
+    /** Map containing all data elements in the message */
     private final SortedMap<AlgorithmMetadataKey, IVmtiMetadataValue> map = new TreeMap<>();
 
     /**
@@ -36,23 +35,17 @@ public class AlgorithmLS {
      *
      * @param values Tag/value pairs to be included in the local set/
      */
-    public AlgorithmLS(Map<AlgorithmMetadataKey, IVmtiMetadataValue> values)
-    {
+    public AlgorithmLS(Map<AlgorithmMetadataKey, IVmtiMetadataValue> values) {
         map.putAll(values);
     }
 
-    public AlgorithmLS(byte[] bytes, int offset, int length) throws KlvParseException
-    {
+    public AlgorithmLS(byte[] bytes, int offset, int length) throws KlvParseException {
         List<LdsField> fields = LdsParser.parseFields(bytes, offset, length);
-        for (LdsField field : fields)
-        {
+        for (LdsField field : fields) {
             AlgorithmMetadataKey key = AlgorithmMetadataKey.getKey(field.getTag());
-            if (key == AlgorithmMetadataKey.Undefined)
-            {
+            if (key == AlgorithmMetadataKey.Undefined) {
                 LOGGER.info("Unknown VMTI Algorithm Metadata tag: {}", field.getTag());
-            }
-            else
-            {
+            } else {
                 IVmtiMetadataValue value = createValue(key, field.getData());
                 map.put(key, value);
             }
@@ -67,10 +60,9 @@ public class AlgorithmLS {
      * @return The new instance
      * @throws KlvParseException if the bytes could not be parsed.
      */
-    public static IVmtiMetadataValue createValue(AlgorithmMetadataKey tag, byte[] bytes) throws KlvParseException
-    {
-        switch (tag)
-        {
+    public static IVmtiMetadataValue createValue(AlgorithmMetadataKey tag, byte[] bytes)
+            throws KlvParseException {
+        switch (tag) {
             case id:
                 return new AlgorithmId(bytes);
             case name:
@@ -92,8 +84,7 @@ public class AlgorithmLS {
      *
      * @return The set of tags for which values have been set
      */
-    public Set<AlgorithmMetadataKey> getTags()
-    {
+    public Set<AlgorithmMetadataKey> getTags() {
         return map.keySet();
     }
 
@@ -103,28 +94,27 @@ public class AlgorithmLS {
      * @param tag Tag of the value to retrieve
      * @return The value, or null if no value was set
      */
-    public IVmtiMetadataValue getField(AlgorithmMetadataKey tag)
-    {
+    public IVmtiMetadataValue getField(AlgorithmMetadataKey tag) {
         return map.get(tag);
     }
 
     /**
      * Get the byte array corresponding to the value for this Local Set.
+     *
      * @return byte array with the encoded local set.
      */
-    public byte[] getBytes()
-    {
+    public byte[] getBytes() {
         int len = 0;
         List<byte[]> chunks = new ArrayList<>();
-        for (AlgorithmMetadataKey tag: getTags())
-        {
-            chunks.add(new byte[]{(byte) tag.getTag()});
+        for (AlgorithmMetadataKey tag : getTags()) {
+            chunks.add(new byte[] {(byte) tag.getTag()});
             len += 1;
             IVmtiMetadataValue value = getField(tag);
             byte[] bytes = value.getBytes();
             byte[] lengthBytes = BerEncoder.encode(bytes.length);
             chunks.add(lengthBytes);
-            len += lengthBytes.length;;
+            len += lengthBytes.length;
+            ;
             chunks.add(bytes);
             len += bytes.length;
         }

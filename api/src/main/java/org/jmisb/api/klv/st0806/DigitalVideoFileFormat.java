@@ -3,13 +3,12 @@ package org.jmisb.api.klv.st0806;
 /**
  * Digital Video File Format (ST 0806 Tag 10).
  *
- * Video Compression being used. Maximum 127 characters.
- * <p>
- * Examples: MPEG2, MPEG4, H.264, Analog FM (non-compressed). As this list is
- * not exhaustive, other values or variants are also acceptable.
+ * <p>Video Compression being used. Maximum 127 characters.
+ *
+ * <p>Examples: MPEG2, MPEG4, H.264, Analog FM (non-compressed). As this list is not exhaustive,
+ * other values or variants are also acceptable.
  */
-public class DigitalVideoFileFormat extends RvtString implements IRvtMetadataValue
-{
+public class DigitalVideoFileFormat extends RvtString implements IRvtMetadataValue {
     public static final String DIGITAL_VIDEO_FILE_FORMAT = "Digital Video File Format";
 
     /**
@@ -17,8 +16,7 @@ public class DigitalVideoFileFormat extends RvtString implements IRvtMetadataVal
      *
      * @param value The string value, which can only use the ASCII subset of UTF-8.
      */
-    public DigitalVideoFileFormat(String value)
-    {
+    public DigitalVideoFileFormat(String value) {
         super(DIGITAL_VIDEO_FILE_FORMAT, value);
     }
 
@@ -27,8 +25,7 @@ public class DigitalVideoFileFormat extends RvtString implements IRvtMetadataVal
      *
      * @param bytes Encoded byte array
      */
-    public DigitalVideoFileFormat(byte[] bytes)
-    {
+    public DigitalVideoFileFormat(byte[] bytes) {
         super(DIGITAL_VIDEO_FILE_FORMAT, bytes);
     }
 }

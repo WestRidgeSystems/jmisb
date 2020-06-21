@@ -3,10 +3,9 @@ package org.jmisb.api.klv.st0903.vmask;
 /**
  * Pixel Number plus pixel run.
  *
- * This data transfer object supports the ST0903 VMask Tag 2 value.
+ * <p>This data transfer object supports the ST0903 VMask Tag 2 value.
  */
-public class PixelRunPair
-{
+public class PixelRunPair {
     private long pixelNumber;
     private int run;
 
@@ -50,10 +49,10 @@ public class PixelRunPair
 
     /**
      * Set the run length.
+     *
      * @param run the run length in pixels.
      */
     public void setRun(int run) {
         this.run = run;
     }
-
 }

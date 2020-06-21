@@ -1,15 +1,12 @@
 package org.jmisb.api.video;
 
+import java.awt.image.BufferedImage;
 import org.testng.Assert;
 import org.testng.annotations.Test;
 
-import java.awt.image.BufferedImage;
-
-public class VideoFrameTest
-{
+public class VideoFrameTest {
     @Test
-    public void testBasic()
-    {
+    public void testBasic() {
         BufferedImage image1 = new BufferedImage(640, 480, BufferedImage.TYPE_3BYTE_BGR);
         BufferedImage image2 = new BufferedImage(640, 480, BufferedImage.TYPE_3BYTE_BGR);
 

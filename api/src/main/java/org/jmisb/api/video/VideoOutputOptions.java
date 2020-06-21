@@ -1,10 +1,7 @@
 package org.jmisb.api.video;
 
-/**
- * Options to be specified when opening an output file or stream
- */
-public class VideoOutputOptions
-{
+/** Options to be specified when opening an output file or stream */
+public class VideoOutputOptions {
     private final int width;
     private final int height;
     private final double frameRate;
@@ -18,8 +15,7 @@ public class VideoOutputOptions
      * @param width Video frame width, in pixels
      * @param height Video frame height, in pixels
      */
-    public VideoOutputOptions(int width, int height)
-    {
+    public VideoOutputOptions(int width, int height) {
         this(width, height, 1500000, 30.0, 30, true);
     }
 
@@ -33,8 +29,13 @@ public class VideoOutputOptions
      * @param gopSize Group of Picture size, i.e., the I-frame interval
      * @param hasKlvStream True to include a KLV data stream
      */
-    public VideoOutputOptions(int width, int height, int bitRate, double frameRate, int gopSize, boolean hasKlvStream)
-    {
+    public VideoOutputOptions(
+            int width,
+            int height,
+            int bitRate,
+            double frameRate,
+            int gopSize,
+            boolean hasKlvStream) {
         this.width = width;
         this.height = height;
         this.bitRate = bitRate;
@@ -45,37 +46,55 @@ public class VideoOutputOptions
 
     /**
      * Get the image width
+     *
      * @return Width in pixels
      */
-    public int getWidth() { return width; }
+    public int getWidth() {
+        return width;
+    }
 
     /**
      * Get the image height
+     *
      * @return Height in pixels
      */
-    public int getHeight() { return height; }
+    public int getHeight() {
+        return height;
+    }
 
     /**
      * Get the stream bit rate
+     *
      * @return Bit rate in bits/second
      */
-    public int getBitRate() { return bitRate; }
+    public int getBitRate() {
+        return bitRate;
+    }
 
     /**
      * Get the stream frame rate
+     *
      * @return Frame rate in frames/second
      */
-    public double getFrameRate() { return frameRate; }
+    public double getFrameRate() {
+        return frameRate;
+    }
 
     /**
      * Get the Group of pictures (GOP) size
+     *
      * @return GOP size, i.e., the I-frame interval
      */
-    public int getGopSize() { return gopSize; }
+    public int getGopSize() {
+        return gopSize;
+    }
 
     /**
      * Check if the output has a KLV data stream
+     *
      * @return True if the output has a KLV stream
      */
-    public boolean hasKlvStream() { return klvStream; }
+    public boolean hasKlvStream() {
+        return klvStream;
+    }
 }

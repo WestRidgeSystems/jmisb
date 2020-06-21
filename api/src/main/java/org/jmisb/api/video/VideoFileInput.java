@@ -1,17 +1,5 @@
 package org.jmisb.api.video;
 
-import org.bytedeco.ffmpeg.avcodec.AVCodec;
-import org.bytedeco.ffmpeg.avcodec.AVPacket;
-import org.bytedeco.ffmpeg.avformat.AVStream;
-import org.bytedeco.javacpp.PointerPointer;
-import org.jmisb.core.video.FfmpegUtils;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
-
-import java.io.IOException;
-import java.util.HashSet;
-import java.util.Set;
-
 import static org.bytedeco.ffmpeg.global.avcodec.avcodec_find_decoder;
 import static org.bytedeco.ffmpeg.global.avformat.AVSEEK_FLAG_BACKWARD;
 import static org.bytedeco.ffmpeg.global.avformat.av_read_frame;
@@ -23,11 +11,19 @@ import static org.bytedeco.ffmpeg.global.avformat.avformat_seek_file;
 import static org.bytedeco.ffmpeg.global.avutil.AVERROR_EOF;
 import static org.jmisb.core.video.TimingUtils.shortWait;
 
-/**
- * Read video/metadata from a file
- */
-public class VideoFileInput extends VideoInput implements IVideoFileInput
-{
+import java.io.IOException;
+import java.util.HashSet;
+import java.util.Set;
+import org.bytedeco.ffmpeg.avcodec.AVCodec;
+import org.bytedeco.ffmpeg.avcodec.AVPacket;
+import org.bytedeco.ffmpeg.avformat.AVStream;
+import org.bytedeco.javacpp.PointerPointer;
+import org.jmisb.core.video.FfmpegUtils;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+
+/** Read video/metadata from a file */
+public class VideoFileInput extends VideoInput implements IVideoFileInput {
     private static final Logger logger = LoggerFactory.getLogger(VideoFileInput.class);
     private final VideoFileInputOptions options;
     private FileDemuxer demuxer;
@@ -45,26 +41,22 @@ public class VideoFileInput extends VideoInput implements IVideoFileInput
     private double prevVideoPts;
     private long videoDelay;
 
-    /**
-     * Construct with default options
-     */
-    public VideoFileInput()
-    {
+    /** Construct with default options */
+    public VideoFileInput() {
         this(new VideoFileInputOptions());
     }
 
     /**
      * Construct with options
+     *
      * @param options Options for video input
      */
-    public VideoFileInput(VideoFileInputOptions options)
-    {
+    public VideoFileInput(VideoFileInputOptions options) {
         this.options = options;
     }
 
     @Override
-    public void open(String url) throws IOException
-    {
+    public void open(String url) throws IOException {
         this.url = url;
         logger.debug("Opening " + url + "...");
 
@@ -72,19 +64,20 @@ public class VideoFileInput extends VideoInput implements IVideoFileInput
 
         // Open the file
         int ret = avformat_open_input(formatContext, url, null, null);
-        if (ret < 0)
-        {
+        if (ret < 0) {
             freeContext();
             throw new IOException("Could not open input " + url);
         }
 
-        // Retrieve stream information- this scans the stream and tries to pull out stuff like codec,
+        // Retrieve stream information- this scans the stream and tries to pull out stuff like
+        // codec,
         // frame rate, etc.
-        if ((ret = avformat_find_stream_info(formatContext, (PointerPointer) null)) < 0)
-        {
+        if ((ret = avformat_find_stream_info(formatContext, (PointerPointer) null)) < 0) {
             freeContext();
             throw new IOException(
-                    "avformat_find_stream_info() error " + ret + ": Could not find stream information.");
+                    "avformat_find_stream_info() error "
+                            + ret
+                            + ": Could not find stream information.");
         }
 
         // Dump information about the format onto standard error
@@ -96,20 +89,19 @@ public class VideoFileInput extends VideoInput implements IVideoFileInput
         duration = FfmpegUtils.getDuration(formatContext);
 
         // Require a valid video stream
-        if (videoStream == null)
-        {
+        if (videoStream == null) {
             freeContext();
             throw new IOException("Did not find a video stream within URL: " + url);
         }
 
         // Find the decoder for the video stream to ensure we can decode it
         AVCodec codec = avcodec_find_decoder(videoStream.codecpar().codec_id());
-        if (codec == null)
-        {
+        if (codec == null) {
             freeContext();
             throw new IOException(
                     "avcodec_find_decoder() error: Unsupported video format or codec not found: "
-                            + videoStream.codecpar().codec_id() + ".");
+                            + videoStream.codecpar().codec_id()
+                            + ".");
         }
 
         // Analyze frames
@@ -126,32 +118,27 @@ public class VideoFileInput extends VideoInput implements IVideoFileInput
         open = true;
     }
 
-    private int countFrames(AVStream videoStream)
-    {
+    private int countFrames(AVStream videoStream) {
         // Loop through all frames, counting only video frames
         int numFrames = 0;
         AVPacket packet = new AVPacket();
-        while (true)
-        {
+        while (true) {
             int ret;
-            if ((ret = av_read_frame(formatContext, packet)) < 0)
-            {
-                if (ret != AVERROR_EOF)
-                {
+            if ((ret = av_read_frame(formatContext, packet)) < 0) {
+                if (ret != AVERROR_EOF) {
                     logger.error("Error reading frame before EOF");
                 }
                 break;
             }
-            if (packet.stream_index() == videoStream.index())
-            {
+            if (packet.stream_index() == videoStream.index()) {
                 numFrames++;
             }
         }
 
         // Seek back to start of file
-        if (avformat_seek_file(formatContext, -1, Long.MIN_VALUE, 0, Long.MAX_VALUE,
-                AVSEEK_FLAG_BACKWARD) < 0)
-        {
+        if (avformat_seek_file(
+                        formatContext, -1, Long.MIN_VALUE, 0, Long.MAX_VALUE, AVSEEK_FLAG_BACKWARD)
+                < 0) {
             logger.error("Error seeking to start of file");
         }
         avformat_flush(formatContext);
@@ -160,18 +147,15 @@ public class VideoFileInput extends VideoInput implements IVideoFileInput
     }
 
     @Override
-    public boolean isOpen()
-    {
+    public boolean isOpen() {
         return open;
     }
 
     @Override
-    public void close()
-    {
+    public void close() {
         logger.debug("Closing " + url);
 
-        if (isOpen())
-        {
+        if (isOpen()) {
             stopFileDemuxer();
             stopNotifiers();
             freeContext();
@@ -180,10 +164,8 @@ public class VideoFileInput extends VideoInput implements IVideoFileInput
     }
 
     @Override
-    public void play()
-    {
-        if (logger.isDebugEnabled())
-            logger.debug("Playing " + url);
+    public void play() {
+        if (logger.isDebugEnabled()) logger.debug("Playing " + url);
 
         // Cause videoDelay to be reset back to default
         prevVideoTime = 0;
@@ -195,32 +177,26 @@ public class VideoFileInput extends VideoInput implements IVideoFileInput
     }
 
     @Override
-    public boolean isPlaying()
-    {
+    public boolean isPlaying() {
         return playing;
     }
 
     @Override
-    public void setPlaybackSpeed(double multiplier)
-    {
-        if (multiplier <= 0)
-        {
+    public void setPlaybackSpeed(double multiplier) {
+        if (multiplier <= 0) {
             throw new IllegalArgumentException("Multiplier must be greater than zero");
         }
         this.rateMultiplier = multiplier;
     }
 
     @Override
-    public double getPlaybackSpeed()
-    {
+    public double getPlaybackSpeed() {
         return this.rateMultiplier;
     }
 
     @Override
-    public void pause()
-    {
-        if (logger.isDebugEnabled())
-            logger.debug("Pausing " + url);
+    public void pause() {
+        if (logger.isDebugEnabled()) logger.debug("Pausing " + url);
 
         videoNotifier.pauseOutput();
         metadataNotifier.pauseOutput();
@@ -229,27 +205,22 @@ public class VideoFileInput extends VideoInput implements IVideoFileInput
     }
 
     @Override
-    public double getDuration()
-    {
+    public double getDuration() {
         return duration;
     }
 
     @Override
-    public double getPosition()
-    {
+    public double getPosition() {
         return position;
     }
 
     @Override
-    public void seek(double pos)
-    {
-        if (pos < 0 || pos > getDuration())
-        {
+    public void seek(double pos) {
+        if (pos < 0 || pos > getDuration()) {
             throw new IllegalArgumentException("Invalid position");
         }
 
-        if (logger.isDebugEnabled())
-            logger.debug("Seeking to " + pos + "s");
+        if (logger.isDebugEnabled()) logger.debug("Seeking to " + pos + "s");
 
         // Seek the demuxer, this will also cause packet queues to be cleared
         demuxer.seek(pos);
@@ -268,25 +239,21 @@ public class VideoFileInput extends VideoInput implements IVideoFileInput
     }
 
     @Override
-    public int getNumFrames()
-    {
+    public int getNumFrames() {
         return numFrames;
     }
 
     @Override
-    protected void delayVideo(double pts)
-    {
+    protected void delayVideo(double pts) {
         // No delay if ripping
-        if (rateMultiplier == Double.MAX_VALUE)
-            return;
+        if (rateMultiplier == Double.MAX_VALUE) return;
 
         // TODO: deal with discontinuities, e.g., from seeking
         long time = System.currentTimeMillis();
 
         long frameDuration = Math.round(1000.0 / (demuxer.getVideoFrameRate() * rateMultiplier));
 
-        if (prevVideoTime != 0)
-        {
+        if (prevVideoTime != 0) {
             long elapsedTimeMs = time - prevVideoTime;
 
             long diff = frameDuration - elapsedTimeMs;
@@ -294,14 +261,12 @@ public class VideoFileInput extends VideoInput implements IVideoFileInput
 
             videoDelay = Math.min(frameDuration, videoDelay);
             videoDelay = Math.max(0, videoDelay);
-        } else
-        {
+        } else {
             videoDelay = frameDuration;
         }
 
-//        logger.debug("delay: " + videoDelay);
-        if (videoDelay > 0)
-            shortWait(videoDelay);
+        //        logger.debug("delay: " + videoDelay);
+        if (videoDelay > 0) shortWait(videoDelay);
 
         prevVideoPts = pts;
         prevVideoTime = time;
@@ -309,60 +274,46 @@ public class VideoFileInput extends VideoInput implements IVideoFileInput
         // TODO: good?
         position = prevVideoPts;
 
-        //logger.debug("Setting position = " + prevVideoPts);
+        // logger.debug("Setting position = " + prevVideoPts);
     }
 
     @Override
-    protected void delayMetadata(double pts) throws InterruptedException
-    {
+    protected void delayMetadata(double pts) throws InterruptedException {
         // No delay if ripping
-        if (rateMultiplier == Double.MAX_VALUE)
-            return;
+        if (rateMultiplier == Double.MAX_VALUE) return;
 
-        if (options.isDecodeVideo())
-        {
+        if (options.isDecodeVideo()) {
             // Just sync to the video based on PTS
-            while (pts > prevVideoPts)
-            {
+            while (pts > prevVideoPts) {
                 Thread.sleep(10);
             }
         }
     }
 
-    /**
-     * Stop the demuxer thread
-     */
-    private void stopFileDemuxer()
-    {
+    /** Stop the demuxer thread */
+    private void stopFileDemuxer() {
         demuxer.shutdown();
-        try
-        {
+        try {
             demuxer.join();
-        } catch (InterruptedException e)
-        {
+        } catch (InterruptedException e) {
             logger.warn("Interrupted while joining demuxer thread", e);
         }
     }
 
     @Override
-    public void addFileEventListener(IFileEventListener listener)
-    {
+    public void addFileEventListener(IFileEventListener listener) {
         fileEventListeners.add(listener);
     }
 
     @Override
-    public void removeFileEventListener(IFileEventListener listener)
-    {
+    public void removeFileEventListener(IFileEventListener listener) {
         fileEventListeners.remove(listener);
     }
 
     @Override
-    public void notifyEOF()
-    {
-        if (queuesAreEmpty())
-        {
+    public void notifyEOF() {
+        if (queuesAreEmpty()) {
             fileEventListeners.forEach(listener -> listener.onEndOfFile());
         }
     }
-
 }

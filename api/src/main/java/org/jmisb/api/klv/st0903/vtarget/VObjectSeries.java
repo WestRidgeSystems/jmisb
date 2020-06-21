@@ -1,7 +1,6 @@
 package org.jmisb.api.klv.st0903.vtarget;
 
 import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.List;
 import org.jmisb.api.common.KlvParseException;
 import org.jmisb.api.klv.BerDecoder;
@@ -13,17 +12,19 @@ import org.jmisb.core.klv.ArrayUtils;
 
 /**
  * VObject Ontology Series (ST0903 VTarget Pack Tag 107).
- * <p>
- * From ST0903:
+ *
+ * <p>From ST0903:
+ *
  * <blockquote>
- * A Series of one or more VObject LS associated with a specific target. Each LS
- * contains ontology information. When using the VObject LS within a
- * VObjectSeries, omit the VObject LS Tag 102 because all values are of the same
- * type. Just specify the Length and Value for each VObject LS represented.
+ *
+ * A Series of one or more VObject LS associated with a specific target. Each LS contains ontology
+ * information. When using the VObject LS within a VObjectSeries, omit the VObject LS Tag 102
+ * because all values are of the same type. Just specify the Length and Value for each VObject LS
+ * represented.
+ *
  * </blockquote>
  */
-public class VObjectSeries implements IVmtiMetadataValue
-{
+public class VObjectSeries implements IVmtiMetadataValue {
     private final List<VObjectLS> vobjects = new ArrayList<>();
 
     /**
@@ -31,8 +32,7 @@ public class VObjectSeries implements IVmtiMetadataValue
      *
      * @param objects the VObject Local Sets to add.
      */
-    public VObjectSeries(List<VObjectLS> objects)
-    {
+    public VObjectSeries(List<VObjectLS> objects) {
         vobjects.addAll(objects);
     }
 
@@ -42,11 +42,9 @@ public class VObjectSeries implements IVmtiMetadataValue
      * @param bytes Encoded byte array comprising the VObjectSeries
      * @throws KlvParseException if the byte array could not be parsed.
      */
-    public VObjectSeries(byte[] bytes) throws KlvParseException
-    {
+    public VObjectSeries(byte[] bytes) throws KlvParseException {
         int index = 0;
-        while (index < bytes.length - 1)
-        {
+        while (index < bytes.length - 1) {
             BerField lengthField = BerDecoder.decode(bytes, index, false);
             index += lengthField.getLength();
             VObjectLS objectLocalSet = new VObjectLS(bytes, index, lengthField.getValue());
@@ -56,15 +54,15 @@ public class VObjectSeries implements IVmtiMetadataValue
     }
 
     @Override
-    public byte[] getBytes()
-    {
+    public byte[] getBytes() {
         int len = 0;
         List<byte[]> chunks = new ArrayList<>();
         for (VObjectLS vobject : getVObjects()) {
             byte[] localSetBytes = vobject.getBytes();
             byte[] lengthBytes = BerEncoder.encode(localSetBytes.length);
             chunks.add(lengthBytes);
-            len += lengthBytes.length;;
+            len += lengthBytes.length;
+            ;
             chunks.add(localSetBytes);
             len += localSetBytes.length;
         }
@@ -72,14 +70,12 @@ public class VObjectSeries implements IVmtiMetadataValue
     }
 
     @Override
-    public String getDisplayableValue()
-    {
+    public String getDisplayableValue() {
         return "[VObject Series]";
     }
 
     @Override
-    public String getDisplayName()
-    {
+    public String getDisplayName() {
         return "Ontologies";
     }
 
@@ -88,8 +84,7 @@ public class VObjectSeries implements IVmtiMetadataValue
      *
      * @return the list of VObject local sets.
      */
-    public List<VObjectLS> getVObjects()
-    {
+    public List<VObjectLS> getVObjects() {
         return vobjects;
     }
 }

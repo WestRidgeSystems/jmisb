@@ -1,33 +1,30 @@
 package org.jmisb.api.klv.st0102;
 
 /**
- * Utilities methods for converting country coding methods between enumeration
- * and encoded values.
+ * Utilities methods for converting country coding methods between enumeration and encoded values.
  *
- * These methods are only valid for "Tag 12" values, such as Object Country
- * Coding in ST0102 and Country Codes in ST0601.
+ * <p>These methods are only valid for "Tag 12" values, such as Object Country Coding in ST0102 and
+ * Country Codes in ST0601.
  *
- * They are not valid for ST0102 Tag 2 "Classifying Country and Releasing
- * Instructions Country Coding Method".
+ * <p>They are not valid for ST0102 Tag 2 "Classifying Country and Releasing Instructions Country
+ * Coding Method".
  */
-public class CountryCodingMethodUtilities
-{
+public class CountryCodingMethodUtilities {
     /**
      * Convert the given country coding method to an encoded value.
      *
-     * This method is only valid for "Tag 12" values, such as Object Country
-     * Coding in ST0102 and Country Codes in ST0601.
+     * <p>This method is only valid for "Tag 12" values, such as Object Country Coding in ST0102 and
+     * Country Codes in ST0601.
      *
-     * It is not valid for ST0102 Tag 2 "Classifying Country and Releasing
-     * Instructions Country Coding Method".
+     * <p>It is not valid for ST0102 Tag 2 "Classifying Country and Releasing Instructions Country
+     * Coding Method".
      *
      * @param method the country coding method
      * @return the equivalent integer value (as a byte)
-     * @throws IllegalArgumentException if the country coding method is not
-     * valid
+     * @throws IllegalArgumentException if the country coding method is not valid
      */
-    public static byte getValueForCodingMethod(CountryCodingMethod method) throws IllegalArgumentException
-    {
+    public static byte getValueForCodingMethod(CountryCodingMethod method)
+            throws IllegalArgumentException {
         switch (method) {
             case ISO3166_TWO_LETTER:
                 return 0x01;
@@ -61,17 +58,16 @@ public class CountryCodingMethodUtilities
     /**
      * Convert the given country coding method to an enumerated value.
      *
-     * This method is only valid for "Tag 12" values, such as Object Country
-     * Coding in ST0102 and Country Codes in ST0601.
+     * <p>This method is only valid for "Tag 12" values, such as Object Country Coding in ST0102 and
+     * Country Codes in ST0601.
      *
-     * It is not valid for ST0102 Tag 2 "Classifying Country and Releasing
-     * Instructions Country Coding Method".
+     * <p>It is not valid for ST0102 Tag 2 "Classifying Country and Releasing Instructions Country
+     * Coding Method".
      *
      * @param value the encoded country coding method, or OMITTED_VALUE for unknown.
      * @return the equivalent enumeration value
      */
-    public static CountryCodingMethod getMethodForValue(int value)
-    {
+    public static CountryCodingMethod getMethodForValue(int value) {
         switch (value) {
             case 0x01:
                 return CountryCodingMethod.ISO3166_TWO_LETTER;
@@ -98,5 +94,4 @@ public class CountryCodingMethodUtilities
         }
         return CountryCodingMethod.OMITTED_VALUE;
     }
-
 }

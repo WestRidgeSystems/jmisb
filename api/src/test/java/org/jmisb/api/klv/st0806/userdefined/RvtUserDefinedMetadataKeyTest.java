@@ -1,40 +1,35 @@
 package org.jmisb.api.klv.st0806.userdefined;
 
 import static org.testng.Assert.*;
+
 import org.testng.annotations.Test;
 
-/**
- * Unit tests for RvtUserDefinedMetadataKey.
- */
+/** Unit tests for RvtUserDefinedMetadataKey. */
 public class RvtUserDefinedMetadataKeyTest {
 
     @Test
-    public void Enum0Test()
-    {
+    public void Enum0Test() {
         RvtUserDefinedMetadataKey key = RvtUserDefinedMetadataKey.getKey(0);
         assertEquals(key, RvtUserDefinedMetadataKey.Undefined);
         assertEquals(key.getTag(), 0);
     }
 
     @Test
-    public void EnumUnknownTest()
-    {
+    public void EnumUnknownTest() {
         RvtUserDefinedMetadataKey key = RvtUserDefinedMetadataKey.getKey(999);
         assertEquals(key, RvtUserDefinedMetadataKey.Undefined);
         assertEquals(key.getTag(), 0);
     }
 
     @Test
-    public void Enum1Test()
-    {
+    public void Enum1Test() {
         RvtUserDefinedMetadataKey key = RvtUserDefinedMetadataKey.getKey(1);
         assertEquals(key, RvtUserDefinedMetadataKey.NumericId);
         assertEquals(key.getTag(), 1);
     }
 
     @Test
-    public void Enum2Test()
-    {
+    public void Enum2Test() {
         RvtUserDefinedMetadataKey key = RvtUserDefinedMetadataKey.getKey(2);
         assertEquals(key, RvtUserDefinedMetadataKey.UserData);
         assertEquals(key.getTag(), 2);

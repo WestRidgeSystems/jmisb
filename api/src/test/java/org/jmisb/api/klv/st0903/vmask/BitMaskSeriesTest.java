@@ -1,42 +1,37 @@
 package org.jmisb.api.klv.st0903.vmask;
 
+import static org.testng.Assert.*;
+
 import java.util.ArrayList;
 import java.util.List;
 import org.jmisb.api.common.KlvParseException;
 import org.jmisb.api.klv.st0903.IVmtiMetadataValue;
-import static org.testng.Assert.*;
 import org.testng.annotations.Test;
 
-/**
- * Tests for BitMaskSeries.
- */
-public class BitMaskSeriesTest
-{
-    final byte[] stBytes = new byte[]
-    {
-        0x03, 0x01, 0x4A, 0x02,
-        0x03, 0x01, 0x59, 0x04,
-        0x03, 0x01, 0x6A, 0x02
-    };
+/** Tests for BitMaskSeries. */
+public class BitMaskSeriesTest {
+    final byte[] stBytes =
+            new byte[] {
+                0x03, 0x01, 0x4A, 0x02,
+                0x03, 0x01, 0x59, 0x04,
+                0x03, 0x01, 0x6A, 0x02
+            };
 
     @Test
-    public void testConstructFromEncodedBytes() throws KlvParseException
-    {
+    public void testConstructFromEncodedBytes() throws KlvParseException {
         BitMaskSeries series = new BitMaskSeries(stBytes);
         verifyStExample(series);
     }
 
     @Test
-    public void testFactoryEncodedBytes() throws KlvParseException
-    {
+    public void testFactoryEncodedBytes() throws KlvParseException {
         IVmtiMetadataValue value = VMaskLS.createValue(VMaskMetadataKey.bitMaskSeries, stBytes);
-        assertTrue(value instanceof BitMaskSeries );
-        BitMaskSeries bitmask = (BitMaskSeries)value;
+        assertTrue(value instanceof BitMaskSeries);
+        BitMaskSeries bitmask = (BitMaskSeries) value;
         verifyStExample(bitmask);
     }
 
-    private void verifyStExample(BitMaskSeries series)
-    {
+    private void verifyStExample(BitMaskSeries series) {
         assertEquals(series.getBytes(), stBytes);
         assertEquals(series.getDisplayName(), "BitMask");
         assertEquals(series.getDisplayableValue(), "[Pixel / Run Pairs]");
@@ -50,8 +45,7 @@ public class BitMaskSeriesTest
     }
 
     @Test
-    public void constructFromValue() throws KlvParseException
-    {
+    public void constructFromValue() throws KlvParseException {
         List<PixelRunPair> runs = new ArrayList<>();
         runs.add(new PixelRunPair(74L, 2));
         runs.add(new PixelRunPair(89L, 4));
@@ -61,8 +55,7 @@ public class BitMaskSeriesTest
     }
 
     @Test
-    public void constructFromValueMultipleLengths() throws KlvParseException
-    {
+    public void constructFromValueMultipleLengths() throws KlvParseException {
         List<PixelRunPair> runs = new ArrayList<>();
         runs.add(new PixelRunPair(1L, 0x01));
         runs.add(new PixelRunPair(255L, 0x01));
@@ -77,31 +70,97 @@ public class BitMaskSeriesTest
         runs.add(new PixelRunPair(1099511627776L, 0x01));
         runs.add(new PixelRunPair(281474976710655L, 0x01));
         BitMaskSeries bitmask = new BitMaskSeries(runs);
-        assertEquals(bitmask.getBytes(), new byte[] {
-            (byte)0x03, (byte)0x01, (byte)0x01, (byte)0x01,
-            (byte)0x03, (byte)0x01, (byte)0xFF, (byte)0x01,
-            (byte)0x04, (byte)0x02, (byte)0x01, (byte)0x00, (byte)0x01,
-            (byte)0x04, (byte)0x02, (byte)0xFF, (byte)0xFF, (byte)0x01,
-            (byte)0x05, (byte)0x03, (byte)0x01, (byte)0x00, (byte)0x00, (byte)0x01,
-            (byte)0x05, (byte)0x03, (byte)0xFF, (byte)0xFF, (byte)0xFF, (byte)0x01,
-            (byte)0x06, (byte)0x04, (byte)0x01, (byte)0x00, (byte)0x00, (byte)0x00, (byte)0x01,
-            (byte)0x06, (byte)0x04, (byte)0xFF, (byte)0xFF, (byte)0xFF, (byte)0xFF, (byte)0x01,
-            (byte)0x07, (byte)0x05, (byte)0x01, (byte)0x00, (byte)0x00, (byte)0x00, (byte)0x00, (byte)0x01,
-            (byte)0x07, (byte)0x05, (byte)0xFF, (byte)0xFF, (byte)0xFF, (byte)0xFF, (byte)0xFF, (byte)0x01,
-            (byte)0x08, (byte)0x06, (byte)0x01, (byte)0x00, (byte)0x00, (byte)0x00, (byte)0x00, (byte)0x00, (byte)0x01,
-            (byte)0x08, (byte)0x06, (byte)0xFF, (byte)0xFF, (byte)0xFF, (byte)0xFF, (byte)0xFF, (byte)0xFF, (byte)0x01
-        });
+        assertEquals(
+                bitmask.getBytes(),
+                new byte[] {
+                    (byte) 0x03,
+                    (byte) 0x01,
+                    (byte) 0x01,
+                    (byte) 0x01,
+                    (byte) 0x03,
+                    (byte) 0x01,
+                    (byte) 0xFF,
+                    (byte) 0x01,
+                    (byte) 0x04,
+                    (byte) 0x02,
+                    (byte) 0x01,
+                    (byte) 0x00,
+                    (byte) 0x01,
+                    (byte) 0x04,
+                    (byte) 0x02,
+                    (byte) 0xFF,
+                    (byte) 0xFF,
+                    (byte) 0x01,
+                    (byte) 0x05,
+                    (byte) 0x03,
+                    (byte) 0x01,
+                    (byte) 0x00,
+                    (byte) 0x00,
+                    (byte) 0x01,
+                    (byte) 0x05,
+                    (byte) 0x03,
+                    (byte) 0xFF,
+                    (byte) 0xFF,
+                    (byte) 0xFF,
+                    (byte) 0x01,
+                    (byte) 0x06,
+                    (byte) 0x04,
+                    (byte) 0x01,
+                    (byte) 0x00,
+                    (byte) 0x00,
+                    (byte) 0x00,
+                    (byte) 0x01,
+                    (byte) 0x06,
+                    (byte) 0x04,
+                    (byte) 0xFF,
+                    (byte) 0xFF,
+                    (byte) 0xFF,
+                    (byte) 0xFF,
+                    (byte) 0x01,
+                    (byte) 0x07,
+                    (byte) 0x05,
+                    (byte) 0x01,
+                    (byte) 0x00,
+                    (byte) 0x00,
+                    (byte) 0x00,
+                    (byte) 0x00,
+                    (byte) 0x01,
+                    (byte) 0x07,
+                    (byte) 0x05,
+                    (byte) 0xFF,
+                    (byte) 0xFF,
+                    (byte) 0xFF,
+                    (byte) 0xFF,
+                    (byte) 0xFF,
+                    (byte) 0x01,
+                    (byte) 0x08,
+                    (byte) 0x06,
+                    (byte) 0x01,
+                    (byte) 0x00,
+                    (byte) 0x00,
+                    (byte) 0x00,
+                    (byte) 0x00,
+                    (byte) 0x00,
+                    (byte) 0x01,
+                    (byte) 0x08,
+                    (byte) 0x06,
+                    (byte) 0xFF,
+                    (byte) 0xFF,
+                    (byte) 0xFF,
+                    (byte) 0xFF,
+                    (byte) 0xFF,
+                    (byte) 0xFF,
+                    (byte) 0x01
+                });
     }
 
     @Test(expectedExceptions = IllegalArgumentException.class)
-    public void testConstructFromEncodedBytesTooLong() throws KlvParseException
-    {
-        final byte[] bytes = new byte[]
-        {
-            0x03, 0x01, 0x39, 0x03,
-            0x09, 0x07, 0x01, 0x02, 0x03, 0x04, 0x05, 0x06, 0x07, 0x03,
-            0x03, 0x01, 0x0B, 0x03
-        };
+    public void testConstructFromEncodedBytesTooLong() throws KlvParseException {
+        final byte[] bytes =
+                new byte[] {
+                    0x03, 0x01, 0x39, 0x03, 0x09, 0x07, 0x01, 0x02, 0x03, 0x04, 0x05, 0x06, 0x07,
+                    0x03, 0x03, 0x01, 0x0B, 0x03
+                };
         new BitMaskSeries(bytes);
     }
 }

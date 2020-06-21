@@ -1,5 +1,13 @@
 package org.jmisb.api.video;
 
+import java.awt.image.BufferedImage;
+import java.io.File;
+import java.io.IOException;
+import java.time.LocalDateTime;
+import java.util.List;
+import java.util.SortedMap;
+import java.util.TreeMap;
+import javax.imageio.ImageIO;
 import org.jmisb.api.klv.IMisbMessage;
 import org.jmisb.api.klv.st0102.*;
 import org.jmisb.api.klv.st0102.localset.CcMethod;
@@ -12,21 +20,9 @@ import org.slf4j.LoggerFactory;
 import org.testng.Assert;
 import org.testng.annotations.Test;
 
-import javax.imageio.ImageIO;
-import java.awt.image.BufferedImage;
-import java.io.File;
-import java.io.IOException;
-import java.time.LocalDateTime;
-import java.util.List;
-import java.util.SortedMap;
-import java.util.TreeMap;
-
-/**
- * Integration test for {@link VideoFileInput} and {@link VideoFileOutput}
- */
-@Test(groups={"integration-tests"})
-public class VideoFileInputOutputIT
-{
+/** Integration test for {@link VideoFileInput} and {@link VideoFileOutput} */
+@Test(groups = {"integration-tests"})
+public class VideoFileInputOutputIT {
     private static final Logger logger = LoggerFactory.getLogger(VideoFileInputOutputIT.class);
     private final double sensorLatitude = 42.4036;
     private final double sensorLongitude = -71.1284;
@@ -36,12 +32,9 @@ public class VideoFileInputOutputIT
     private final byte version0601 = 11;
     private final byte version0102 = 12;
 
-    /**
-     * Video stream only test
-     */
+    /** Video stream only test */
     @Test
-    public void testSimple()
-    {
+    public void testSimple() {
         final String filename = "testSimple.ts";
         final int width = 640;
         final int height = 480;
@@ -52,9 +45,10 @@ public class VideoFileInputOutputIT
         final double frameDuration = 1.0 / frameRate;
         final int numFrames = 300;
 
-        try (IVideoFileOutput output = new VideoFileOutput(
-                new VideoOutputOptions(width, height, bitRate, frameRate, gopSize, hasKlv)))
-        {
+        try (IVideoFileOutput output =
+                new VideoFileOutput(
+                        new VideoOutputOptions(
+                                width, height, bitRate, frameRate, gopSize, hasKlv))) {
             output.open(filename);
 
             // Write some frames
@@ -66,17 +60,15 @@ public class VideoFileInputOutputIT
             }
 
             double pts = 0.0;
-            for (int i = 0; i < numFrames; ++i)
-            {
+            for (int i = 0; i < numFrames; ++i) {
                 output.addVideoFrame(new VideoFrame(image, pts));
                 pts += frameDuration;
             }
 
             // Note: output.close() is automatically called by using try-with-resources
 
-        } catch (IOException e)
-        {
-            logger.error("Failed to write file" , e);
+        } catch (IOException e) {
+            logger.error("Failed to write file", e);
             Assert.fail("Failed to write file");
         }
 
@@ -85,8 +77,7 @@ public class VideoFileInputOutputIT
     }
 
     @Test
-    public void testWithData()
-    {
+    public void testWithData() {
         final double frameRate = 15.0;
         final int numFrames = 120;
         final String filename = "testWithData.ts";
@@ -95,8 +86,7 @@ public class VideoFileInputOutputIT
         checkFileDuration(filename, frameRate, numFrames);
 
         // Check metadata contents
-        try (IVideoFileInput input = new VideoFileInput())
-        {
+        try (IVideoFileInput input = new VideoFileInput()) {
             input.open(filename);
             List<PesInfo> pesList = input.getPesInfo();
             Assert.assertEquals(pesList.size(), 2);
@@ -108,8 +98,7 @@ public class VideoFileInputOutputIT
             Assert.assertTrue(input.isPlaying());
             TimingUtils.shortWait(1000);
 
-        } catch (IOException e)
-        {
+        } catch (IOException e) {
             logger.error("Failed to read file", e);
             Assert.fail("Failed to read file");
         }
@@ -118,8 +107,7 @@ public class VideoFileInputOutputIT
     }
 
     @Test
-    private void testRipKlv()
-    {
+    private void testRipKlv() {
         // Disable video decoding, verify all metadata can be pulled out
         final double frameRate = 15.0;
         final int numFrames = 120;
@@ -127,9 +115,8 @@ public class VideoFileInputOutputIT
 
         createFile(filename, frameRate, numFrames);
 
-        try (IVideoFileInput input = new VideoFileInput(
-            new VideoFileInputOptions(false, true, false, true)))
-        {
+        try (IVideoFileInput input =
+                new VideoFileInput(new VideoFileInputOptions(false, true, false, true))) {
             input.open(filename);
 
             MetadataCounter counter = new MetadataCounter();
@@ -146,15 +133,13 @@ public class VideoFileInputOutputIT
             int count = counter.getCount();
             Assert.assertTrue(count >= frameRate);
 
-        } catch (IOException e)
-        {
+        } catch (IOException e) {
             logger.error("Failed to read file", e);
             Assert.fail("Failed to read file");
         }
     }
 
-    private void createFile(String filename, double frameRate, int numFrames)
-    {
+    private void createFile(String filename, double frameRate, int numFrames) {
         final int width = 640;
         final int height = 480;
         final int bitRate = 500_000;
@@ -162,9 +147,10 @@ public class VideoFileInputOutputIT
         final boolean hasKlv = true;
         final double frameDuration = 1.0 / frameRate;
 
-        try (IVideoFileOutput output = new VideoFileOutput(
-            new VideoOutputOptions(width, height, bitRate, frameRate, gopSize, hasKlv)))
-        {
+        try (IVideoFileOutput output =
+                new VideoFileOutput(
+                        new VideoOutputOptions(
+                                width, height, bitRate, frameRate, gopSize, hasKlv))) {
             output.open(filename);
 
             // Write some frames
@@ -176,27 +162,43 @@ public class VideoFileInputOutputIT
             }
 
             double pts = 0.0;
-            for (int i = 0; i < numFrames; ++i)
-            {
+            for (int i = 0; i < numFrames; ++i) {
                 SortedMap<UasDatalinkTag, IUasDatalinkValue> values = new TreeMap<>();
 
-                values.put(UasDatalinkTag.PrecisionTimeStamp, new PrecisionTimeStamp(LocalDateTime.now()));
+                values.put(
+                        UasDatalinkTag.PrecisionTimeStamp,
+                        new PrecisionTimeStamp(LocalDateTime.now()));
 
-                values.put(UasDatalinkTag.MissionId, new UasDatalinkString(UasDatalinkString.MISSION_ID, missionId));
-                values.put(UasDatalinkTag.PlatformDesignation, new UasDatalinkString(UasDatalinkString.PLATFORM_DESIGNATION, "Thunderbolt"));
-                values.put(UasDatalinkTag.ImageSourceSensor, new UasDatalinkString(UasDatalinkString.IMAGE_SOURCE_SENSOR, "DTV"));
-                values.put(UasDatalinkTag.ImageCoordinateSystem, new UasDatalinkString(UasDatalinkString.IMAGE_SOURCE_SENSOR, "Geodetic WGS84"));
+                values.put(
+                        UasDatalinkTag.MissionId,
+                        new UasDatalinkString(UasDatalinkString.MISSION_ID, missionId));
+                values.put(
+                        UasDatalinkTag.PlatformDesignation,
+                        new UasDatalinkString(
+                                UasDatalinkString.PLATFORM_DESIGNATION, "Thunderbolt"));
+                values.put(
+                        UasDatalinkTag.ImageSourceSensor,
+                        new UasDatalinkString(UasDatalinkString.IMAGE_SOURCE_SENSOR, "DTV"));
+                values.put(
+                        UasDatalinkTag.ImageCoordinateSystem,
+                        new UasDatalinkString(
+                                UasDatalinkString.IMAGE_SOURCE_SENSOR, "Geodetic WGS84"));
 
                 values.put(UasDatalinkTag.SensorLatitude, new SensorLatitude(sensorLatitude));
                 values.put(UasDatalinkTag.SensorLongitude, new SensorLongitude(sensorLongitude));
-                values.put(UasDatalinkTag.SensorTrueAltitude, new SensorTrueAltitude(sensorAltitude));
+                values.put(
+                        UasDatalinkTag.SensorTrueAltitude, new SensorTrueAltitude(sensorAltitude));
 
                 values.put(UasDatalinkTag.PlatformHeadingAngle, new PlatformHeadingAngle(10.0));
                 values.put(UasDatalinkTag.PlatformPitchAngle, new PlatformPitchAngle(1.0));
                 values.put(UasDatalinkTag.PlatformRollAngle, new PlatformRollAngle(-1.0));
 
-                values.put(UasDatalinkTag.SensorRelativeAzimuthAngle, new SensorRelativeAzimuth(330.0));
-                values.put(UasDatalinkTag.SensorRelativeElevationAngle, new SensorRelativeElevation(-70.0));
+                values.put(
+                        UasDatalinkTag.SensorRelativeAzimuthAngle,
+                        new SensorRelativeAzimuth(330.0));
+                values.put(
+                        UasDatalinkTag.SensorRelativeElevationAngle,
+                        new SensorRelativeElevation(-70.0));
                 values.put(UasDatalinkTag.SensorRelativeRollAngle, new SensorRelativeRoll(0.0));
 
                 values.put(UasDatalinkTag.SensorHorizontalFov, new HorizontalFov(8.0));
@@ -209,7 +211,9 @@ public class VideoFileInputOutputIT
                 values.put(UasDatalinkTag.FrameCenterLongitude, new FrameCenterLongitude(-71.2382));
                 values.put(UasDatalinkTag.FrameCenterElevation, new FrameCenterElevation(12.0));
 
-                values.put(UasDatalinkTag.SecurityLocalMetadataSet, new NestedSecurityMetadata(getSecurityLs()));
+                values.put(
+                        UasDatalinkTag.SecurityLocalMetadataSet,
+                        new NestedSecurityMetadata(getSecurityLs()));
                 values.put(UasDatalinkTag.UasLdsVersionNumber, new ST0601Version(version0601));
 
                 UasDatalinkMessage message = new UasDatalinkMessage(values);
@@ -219,38 +223,41 @@ public class VideoFileInputOutputIT
                 pts += frameDuration;
             }
 
-        } catch (IOException e)
-        {
-            logger.error("Failed to write file" , e);
+        } catch (IOException e) {
+            logger.error("Failed to write file", e);
             Assert.fail("Failed to write file");
         }
     }
 
-    private void checkFileDuration(String filename, double frameRate, int numFrames)
-    {
-        try (IVideoFileInput input = new VideoFileInput())
-        {
+    private void checkFileDuration(String filename, double frameRate, int numFrames) {
+        try (IVideoFileInput input = new VideoFileInput()) {
             input.open(filename);
             Assert.assertTrue(input.isOpen());
             Assert.assertEquals(input.getDuration(), numFrames / frameRate);
             Assert.assertEquals(input.getNumFrames(), numFrames);
 
-        } catch (IOException e)
-        {
+        } catch (IOException e) {
             logger.error("Failed to read file", e);
             Assert.fail("Failed to read file");
         }
     }
 
-    private SecurityMetadataLocalSet getSecurityLs()
-    {
+    private SecurityMetadataLocalSet getSecurityLs() {
         SortedMap<SecurityMetadataKey, ISecurityMetadataValue> values = new TreeMap<>();
-        values.put(SecurityMetadataKey.SecurityClassification, new ClassificationLocal(Classification.UNCLASSIFIED));
+        values.put(
+                SecurityMetadataKey.SecurityClassification,
+                new ClassificationLocal(Classification.UNCLASSIFIED));
 
-        values.put(SecurityMetadataKey.CcCodingMethod, new CcMethod(CountryCodingMethod.GENC_TWO_LETTER));
-        values.put(SecurityMetadataKey.ClassifyingCountry, new SecurityMetadataString(SecurityMetadataString.CLASSIFYING_COUNTRY, "//US"));
+        values.put(
+                SecurityMetadataKey.CcCodingMethod,
+                new CcMethod(CountryCodingMethod.GENC_TWO_LETTER));
+        values.put(
+                SecurityMetadataKey.ClassifyingCountry,
+                new SecurityMetadataString(SecurityMetadataString.CLASSIFYING_COUNTRY, "//US"));
 
-        values.put(SecurityMetadataKey.OcCodingMethod, new CcMethod(CountryCodingMethod.GENC_TWO_LETTER));
+        values.put(
+                SecurityMetadataKey.OcCodingMethod,
+                new CcMethod(CountryCodingMethod.GENC_TWO_LETTER));
         values.put(SecurityMetadataKey.ObjectCountryCodes, new ObjectCountryCodeString("US;CA"));
 
         values.put(SecurityMetadataKey.Version, new ST0102Version(version0102));
@@ -258,78 +265,85 @@ public class VideoFileInputOutputIT
         return new SecurityMetadataLocalSet(values);
     }
 
-    private static class DisallowedListener implements IVideoListener
-    {
+    private static class DisallowedListener implements IVideoListener {
         @Override
-        public void onVideoReceived(VideoFrame image)
-        {
+        public void onVideoReceived(VideoFrame image) {
             Assert.fail("Received an unexpected video frame");
         }
     }
 
-    private static class MetadataCounter implements IMetadataListener
-    {
+    private static class MetadataCounter implements IMetadataListener {
         private int count = 0;
 
         @Override
-        public void onMetadataReceived(MetadataFrame metadataFrame)
-        {
+        public void onMetadataReceived(MetadataFrame metadataFrame) {
             count++;
         }
 
-        int getCount()
-        {
+        int getCount() {
             return count;
         }
     }
 
-    private class MetadataListener implements IMetadataListener
-    {
+    private class MetadataListener implements IMetadataListener {
         @Override
-        public void onMetadataReceived(MetadataFrame metadataFrame)
-        {
+        public void onMetadataReceived(MetadataFrame metadataFrame) {
             IMisbMessage misbMessage = metadataFrame.getMisbMessage();
-            if (misbMessage instanceof UasDatalinkMessage)
-            {
+            if (misbMessage instanceof UasDatalinkMessage) {
                 UasDatalinkMessage datalinkMessage = (UasDatalinkMessage) misbMessage;
 
-                UasDatalinkString decMissionId = (UasDatalinkString) datalinkMessage.getField(UasDatalinkTag.MissionId);
+                UasDatalinkString decMissionId =
+                        (UasDatalinkString) datalinkMessage.getField(UasDatalinkTag.MissionId);
                 Assert.assertEquals(decMissionId.getDisplayableValue(), missionId);
 
-                UasDatalinkLatitude decSensorLatitude = (UasDatalinkLatitude) datalinkMessage.getField((UasDatalinkTag.SensorLatitude));
-                Assert.assertEquals(decSensorLatitude.getDegrees(), sensorLatitude, UasDatalinkLatitude.DELTA);
+                UasDatalinkLatitude decSensorLatitude =
+                        (UasDatalinkLatitude)
+                                datalinkMessage.getField((UasDatalinkTag.SensorLatitude));
+                Assert.assertEquals(
+                        decSensorLatitude.getDegrees(), sensorLatitude, UasDatalinkLatitude.DELTA);
 
-                UasDatalinkLongitude decSensorLongitude = (UasDatalinkLongitude) datalinkMessage.getField((UasDatalinkTag.SensorLongitude));
-                Assert.assertEquals(decSensorLongitude.getDegrees(), sensorLongitude, UasDatalinkLongitude.DELTA);
+                UasDatalinkLongitude decSensorLongitude =
+                        (UasDatalinkLongitude)
+                                datalinkMessage.getField((UasDatalinkTag.SensorLongitude));
+                Assert.assertEquals(
+                        decSensorLongitude.getDegrees(),
+                        sensorLongitude,
+                        UasDatalinkLongitude.DELTA);
 
-                UasDatalinkAltitude decSensorAltitude = (UasDatalinkAltitude) datalinkMessage.getField((UasDatalinkTag.SensorTrueAltitude));
-                Assert.assertEquals(decSensorAltitude.getMeters(), sensorAltitude, UasDatalinkAltitude.DELTA);
+                UasDatalinkAltitude decSensorAltitude =
+                        (UasDatalinkAltitude)
+                                datalinkMessage.getField((UasDatalinkTag.SensorTrueAltitude));
+                Assert.assertEquals(
+                        decSensorAltitude.getMeters(), sensorAltitude, UasDatalinkAltitude.DELTA);
 
-                SlantRange decSlantRange = (SlantRange) datalinkMessage.getField(UasDatalinkTag.SlantRange);
+                SlantRange decSlantRange =
+                        (SlantRange) datalinkMessage.getField(UasDatalinkTag.SlantRange);
                 Assert.assertEquals(decSlantRange.getMeters(), slantRange, SlantRange.DELTA);
 
-                ST0601Version decVersion = (ST0601Version) datalinkMessage.getField(UasDatalinkTag.UasLdsVersionNumber);
+                ST0601Version decVersion =
+                        (ST0601Version)
+                                datalinkMessage.getField(UasDatalinkTag.UasLdsVersionNumber);
                 Assert.assertEquals(decVersion.getVersion(), version0601);
 
-                IUasDatalinkValue value = datalinkMessage.getField(UasDatalinkTag.SecurityLocalMetadataSet);
-                if (value instanceof NestedSecurityMetadata)
-                {
+                IUasDatalinkValue value =
+                        datalinkMessage.getField(UasDatalinkTag.SecurityLocalMetadataSet);
+                if (value instanceof NestedSecurityMetadata) {
                     NestedSecurityMetadata nestedData = (NestedSecurityMetadata) value;
                     SecurityMetadataLocalSet localSet = nestedData.getLocalSet();
 
-                    ClassificationLocal decClassification = (ClassificationLocal) localSet.getField(SecurityMetadataKey.SecurityClassification);
-                    Assert.assertEquals(decClassification.getClassification(), Classification.UNCLASSIFIED);
+                    ClassificationLocal decClassification =
+                            (ClassificationLocal)
+                                    localSet.getField(SecurityMetadataKey.SecurityClassification);
+                    Assert.assertEquals(
+                            decClassification.getClassification(), Classification.UNCLASSIFIED);
 
-                    ST0102Version dec0102Version = (ST0102Version) localSet.getField(SecurityMetadataKey.Version);
+                    ST0102Version dec0102Version =
+                            (ST0102Version) localSet.getField(SecurityMetadataKey.Version);
                     Assert.assertEquals(dec0102Version.getVersion(), version0102);
-                }
-                else
-                {
+                } else {
                     Assert.fail("Found an invalid Security Metadata message");
                 }
-            }
-            else
-            {
+            } else {
                 Assert.fail("Found an invalid UAS Datalink message");
             }
         }

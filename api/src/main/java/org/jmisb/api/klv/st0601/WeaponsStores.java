@@ -2,7 +2,6 @@ package org.jmisb.api.klv.st0601;
 
 import java.nio.charset.StandardCharsets;
 import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.List;
 import org.jmisb.api.klv.Ber;
 import org.jmisb.api.klv.BerDecoder;
@@ -14,23 +13,24 @@ import org.jmisb.core.klv.ArrayUtils;
 
 /**
  * Weapons Stores (ST 0601 tag 140).
- * <p>
- * From ST:
+ *
+ * <p>From ST:
+ *
  * <blockquote>
+ *
  * List of weapon stores and status.
- * <p>
- * The Weapons Stores is a list of Weapons Records. Each record contains Weapon
- * Location, Weapons Status, and Weapons Identity encoded as a Variable Length
- * Pack (VLP). The Weapon Location is a physical address on the platform using
- * Station Number, Hardpoint ID, Carriage ID and Store ID. The Weapon Status
- * contains two parts: General Status and Engagement Status of the weapon.
+ *
+ * <p>The Weapons Stores is a list of Weapons Records. Each record contains Weapon Location, Weapons
+ * Status, and Weapons Identity encoded as a Variable Length Pack (VLP). The Weapon Location is a
+ * physical address on the platform using Station Number, Hardpoint ID, Carriage ID and Store ID.
+ * The Weapon Status contains two parts: General Status and Engagement Status of the weapon.
+ *
  * </blockquote>
- * <p>
- * See the WeaponStore data transfer object documentation for description of the
- * components for a specific weapon / store.
+ *
+ * <p>See the WeaponStore data transfer object documentation for description of the components for a
+ * specific weapon / store.
  */
-public class WeaponsStores implements IUasDatalinkValue
-{
+public class WeaponsStores implements IUasDatalinkValue {
     private final List<WeaponStore> weaponStores = new ArrayList<>();
 
     /**
@@ -38,8 +38,7 @@ public class WeaponsStores implements IUasDatalinkValue
      *
      * @param weapons list of WeaponStore values
      */
-    public WeaponsStores(List<WeaponStore> weapons)
-    {
+    public WeaponsStores(List<WeaponStore> weapons) {
         this.weaponStores.clear();
         this.weaponStores.addAll(weapons);
     }
@@ -49,8 +48,7 @@ public class WeaponsStores implements IUasDatalinkValue
      *
      * @param bytes WeaponStore list - byte array with Variable Length Pack encoding
      */
-    public WeaponsStores(byte[] bytes)
-    {
+    public WeaponsStores(byte[] bytes) {
         int idx = 0;
         while (idx < bytes.length) {
             BerField lengthField = BerDecoder.decode(bytes, idx, false);
@@ -71,7 +69,7 @@ public class WeaponsStores implements IUasDatalinkValue
             BerField statusField = BerDecoder.decode(bytes, idx, true);
             idx += statusField.getLength();
             int statusValue = statusField.getValue();
-            byte generalStatus = (byte)(statusValue & 0x7F);
+            byte generalStatus = (byte) (statusValue & 0x7F);
             WeaponStoreStatus status = WeaponStoreStatus.getStatus(generalStatus);
             weaponStore.setStatus(status);
             weaponStore.setFuzeEnabled((statusValue & 0x0100) == 0x0100);
@@ -92,18 +90,15 @@ public class WeaponsStores implements IUasDatalinkValue
      *
      * @return the ordered list of weapon stores.
      */
-    public List<WeaponStore> getWeaponsStores()
-    {
+    public List<WeaponStore> getWeaponsStores() {
         return this.weaponStores;
     }
 
     @Override
-    public byte[] getBytes()
-    {
+    public byte[] getBytes() {
         List<byte[]> chunks = new ArrayList<>();
         int totalLength = 0;
-        for (WeaponStore weaponStore: getWeaponsStores())
-        {
+        for (WeaponStore weaponStore : getWeaponsStores()) {
             int len = 0;
             byte[] stationIdBytes = BerEncoder.encode(weaponStore.getStationId(), Ber.OID);
             len += stationIdBytes.length;
@@ -148,15 +143,12 @@ public class WeaponsStores implements IUasDatalinkValue
     }
 
     @Override
-    public String getDisplayableValue()
-    {
+    public String getDisplayableValue() {
         return "[Weapons Stores List]";
     }
 
     @Override
-    public String getDisplayName()
-    {
+    public String getDisplayName() {
         return "Weapons Stores";
     }
-
 }

@@ -1,10 +1,7 @@
 package org.jmisb.api.klv.eg0104;
 
-/**
- * Dynamically create {@link IPredatorMetadataValue}s from {@link PredatorMetadataKey}s.
- */
-public class PredatorUniversalSetFactory
-{
+/** Dynamically create {@link IPredatorMetadataValue}s from {@link PredatorMetadataKey}s. */
+public class PredatorUniversalSetFactory {
     private PredatorUniversalSetFactory() {}
 
     /**
@@ -13,15 +10,13 @@ public class PredatorUniversalSetFactory
      * @param key Key defining the value type
      * @param bytes Encoded bytes
      * @return The new instance
-     *
      * @throws IllegalArgumentException if input is invalid
      */
-    public static IPredatorMetadataValue createValue(PredatorMetadataKey key, byte[] bytes)
-    {
-        // Keep the case statements in enum ordinal order so we can keep track of what is implemented. Mark all
+    public static IPredatorMetadataValue createValue(PredatorMetadataKey key, byte[] bytes) {
+        // Keep the case statements in enum ordinal order so we can keep track of what is
+        // implemented. Mark all
         // unimplemented tags with TODO.
-        switch (key)
-        {
+        switch (key) {
             case Undefined:
                 return new OpaqueValue(bytes, "Undefined");
             case FrameCenterLatitude:

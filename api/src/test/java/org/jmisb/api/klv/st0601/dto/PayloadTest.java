@@ -1,17 +1,14 @@
 package org.jmisb.api.klv.st0601.dto;
 
 import static org.testng.Assert.*;
+
 import org.testng.annotations.Test;
 
-/**
- * Tests for Payload DTO
- */
-public class PayloadTest
-{
+/** Tests for Payload DTO */
+public class PayloadTest {
 
     @Test
-    public void hashTest()
-    {
+    public void hashTest() {
         Payload payload = makePayload();
         assertEquals(payload.hashCode(), 0x193ceaf2);
         payload.setIdentifier(4);
@@ -19,15 +16,13 @@ public class PayloadTest
     }
 
     @Test
-    public void equalsSameObject()
-    {
+    public void equalsSameObject() {
         Payload payload = makePayload();
         assertTrue(payload.equals(payload));
     }
 
     @Test
-    public void equalsSameValues()
-    {
+    public void equalsSameValues() {
         Payload payload1 = makePayload();
         Payload payload2 = makePayload();
         assertTrue(payload1.equals(payload2));
@@ -36,28 +31,24 @@ public class PayloadTest
     }
 
     @Test
-    public void equalsNull()
-    {
+    public void equalsNull() {
         Payload payload = makePayload();
         assertFalse(payload.equals(null));
     }
 
     @Test
-    public void equalsDifferentClass()
-    {
+    public void equalsDifferentClass() {
         Payload payload = makePayload();
         assertFalse(payload.equals(new String("blah")));
     }
 
-    protected Payload makePayload()
-    {
+    protected Payload makePayload() {
         Payload payload = new Payload(1, 4, "Test Sensor");
         return payload;
     }
 
     @Test
-    public void equalsDifferentId()
-    {
+    public void equalsDifferentId() {
         Payload payload1 = makePayload();
         Payload payload2 = makePayload();
         assertTrue(payload1.equals(payload2));
@@ -66,8 +57,7 @@ public class PayloadTest
     }
 
     @Test
-    public void equalsDifferentType()
-    {
+    public void equalsDifferentType() {
         Payload payload1 = makePayload();
         Payload payload2 = makePayload();
         assertTrue(payload1.equals(payload2));
@@ -76,8 +66,7 @@ public class PayloadTest
     }
 
     @Test
-    public void equalsDifferentName()
-    {
+    public void equalsDifferentName() {
         Payload payload1 = makePayload();
         Payload payload2 = makePayload();
         assertTrue(payload1.equals(payload2));
@@ -86,8 +75,7 @@ public class PayloadTest
     }
 
     @Test
-    public void equalsOperations()
-    {
+    public void equalsOperations() {
         Payload payload1 = makePayload();
         Payload payload2 = makePayload();
         assertEquals(payload1, payload2);

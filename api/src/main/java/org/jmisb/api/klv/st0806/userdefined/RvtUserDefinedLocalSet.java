@@ -18,26 +18,24 @@ import org.slf4j.LoggerFactory;
 /**
  * ST0806 Remove Video Terminal User Defined Local Set.
  *
- * Any number of User Defined Local Sets (including none) can be embedded in a
- * parent RvtLocalSet instance.
+ * <p>Any number of User Defined Local Sets (including none) can be embedded in a parent RvtLocalSet
+ * instance.
  */
-public class RvtUserDefinedLocalSet implements IRvtMetadataValue
-{
+public class RvtUserDefinedLocalSet implements IRvtMetadataValue {
 
     private static final Logger LOGGER = LoggerFactory.getLogger(RvtUserDefinedLocalSet.class);
 
-    /**
-     * Map containing all data elements in the message
-     */
-    private final SortedMap<RvtUserDefinedMetadataKey, IRvtUserDefinedMetadataValue> map = new TreeMap<>();
+    /** Map containing all data elements in the message */
+    private final SortedMap<RvtUserDefinedMetadataKey, IRvtUserDefinedMetadataValue> map =
+            new TreeMap<>();
 
     /**
      * Create the message from the given key/value pairs
      *
      * @param values Tag/value pairs to be included in the local set/
      */
-    public RvtUserDefinedLocalSet(Map<RvtUserDefinedMetadataKey, IRvtUserDefinedMetadataValue> values)
-    {
+    public RvtUserDefinedLocalSet(
+            Map<RvtUserDefinedMetadataKey, IRvtUserDefinedMetadataValue> values) {
         map.putAll(values);
     }
 
@@ -47,21 +45,15 @@ public class RvtUserDefinedLocalSet implements IRvtMetadataValue
      * @param bytes Byte array to parse
      * @param start Index of the first byte to parse
      * @param length Number of bytes to parse
-     *
      * @throws KlvParseException If a parsing error occurs
      */
-    public RvtUserDefinedLocalSet(byte[] bytes, int start, int length) throws KlvParseException
-    {
+    public RvtUserDefinedLocalSet(byte[] bytes, int start, int length) throws KlvParseException {
         List<LdsField> fields = LdsParser.parseFields(bytes, start, length);
-        for (LdsField field : fields)
-        {
+        for (LdsField field : fields) {
             RvtUserDefinedMetadataKey key = RvtUserDefinedMetadataKey.getKey(field.getTag());
-            if (key == RvtUserDefinedMetadataKey.Undefined)
-            {
+            if (key == RvtUserDefinedMetadataKey.Undefined) {
                 LOGGER.info("Unknown RVT User Defined Metadata tag: {}", field.getTag());
-            }
-            else
-            {
+            } else {
                 IRvtUserDefinedMetadataValue value = createValue(key, field.getData());
                 map.put(key, value);
             }
@@ -76,8 +68,8 @@ public class RvtUserDefinedLocalSet implements IRvtMetadataValue
      * @return The new instance
      * @throws KlvParseException if the bytes could not be parsed.
      */
-    public static IRvtUserDefinedMetadataValue createValue(RvtUserDefinedMetadataKey tag, byte[] bytes) throws KlvParseException
-    {
+    public static IRvtUserDefinedMetadataValue createValue(
+            RvtUserDefinedMetadataKey tag, byte[] bytes) throws KlvParseException {
         switch (tag) {
             case NumericId:
                 return new RvtNumericId(bytes);
@@ -94,8 +86,7 @@ public class RvtUserDefinedLocalSet implements IRvtMetadataValue
      *
      * @return The set of tags for which values have been set
      */
-    public Set<RvtUserDefinedMetadataKey> getTags()
-    {
+    public Set<RvtUserDefinedMetadataKey> getTags() {
         return map.keySet();
     }
 
@@ -105,23 +96,21 @@ public class RvtUserDefinedLocalSet implements IRvtMetadataValue
      * @param tag Tag of the value to retrieve
      * @return The value, or null if no value was set
      */
-    public IRvtUserDefinedMetadataValue getField(RvtUserDefinedMetadataKey tag)
-    {
+    public IRvtUserDefinedMetadataValue getField(RvtUserDefinedMetadataKey tag) {
         return map.get(tag);
     }
 
     /**
      * Get the byte array corresponding to the value for this Local Set.
+     *
      * @return byte array with the encoded local set.
      */
     @Override
-    public byte[] getBytes()
-    {
+    public byte[] getBytes() {
         int len = 0;
         List<byte[]> chunks = new ArrayList<>();
-        for (RvtUserDefinedMetadataKey tag: getTags())
-        {
-            chunks.add(new byte[]{(byte) tag.getTag()});
+        for (RvtUserDefinedMetadataKey tag : getTags()) {
+            chunks.add(new byte[] {(byte) tag.getTag()});
             len += 1;
             IRvtUserDefinedMetadataValue value = getField(tag);
             byte[] bytes = value.getBytes();
@@ -135,14 +124,12 @@ public class RvtUserDefinedLocalSet implements IRvtMetadataValue
     }
 
     @Override
-    public String getDisplayableValue()
-    {
+    public String getDisplayableValue() {
         return "[User Defined Local Set]";
     }
 
     @Override
-    public String getDisplayName()
-    {
+    public String getDisplayName() {
         return "User Data";
     }
 }

@@ -1,25 +1,21 @@
 package org.jmisb.api.klv.st0102.localset;
 
+import static org.jmisb.api.klv.st0102.CountryCodingMethod.ISO3166_MIXED;
+
 import org.jmisb.api.klv.st0102.CountryCodingMethod;
 import org.jmisb.api.klv.st0102.ISecurityMetadataValue;
 
-import static org.jmisb.api.klv.st0102.CountryCodingMethod.ISO3166_MIXED;
-
-/**
- * Classifying Country and Releasing Instructions Country Coding Method (ST 0102 tag 2)
- */
-public class CcMethod implements ISecurityMetadataValue
-{
+/** Classifying Country and Releasing Instructions Country Coding Method (ST 0102 tag 2) */
+public class CcMethod implements ISecurityMetadataValue {
     private byte method;
 
     /**
      * Create from value
+     *
      * @param method The country coding method
      */
-    public CcMethod(CountryCodingMethod method)
-    {
-        switch (method)
-        {
+    public CcMethod(CountryCodingMethod method) {
+        switch (method) {
             case ISO3166_TWO_LETTER:
                 this.method = 1;
                 break;
@@ -66,41 +62,40 @@ public class CcMethod implements ISecurityMetadataValue
                 this.method = 16;
                 break;
             default:
-                throw new IllegalArgumentException("Invalid classifying country coding method: " + method);
+                throw new IllegalArgumentException(
+                        "Invalid classifying country coding method: " + method);
         }
     }
 
     /**
      * Create from encoded bytes
+     *
      * @param bytes Encoded byte array
      */
-    public CcMethod(byte[] bytes)
-    {
-        if (bytes.length != 1)
-        {
+    public CcMethod(byte[] bytes) {
+        if (bytes.length != 1) {
             throw new IllegalArgumentException("Country coding method must be one byte");
         }
 
-        if (bytes[0] >= 1 && bytes[0] <= 16)
-        {
+        if (bytes[0] >= 1 && bytes[0] <= 16) {
             method = bytes[0];
-        }
-        else
-        {
-            throw new IllegalArgumentException("Invalid classifying country coding method: " + bytes[0]);
+        } else {
+            throw new IllegalArgumentException(
+                    "Invalid classifying country coding method: " + bytes[0]);
         }
     }
 
     /**
      * Get the country coding method
+     *
      * @return The country coding method
      */
-    public CountryCodingMethod getMethod()
-    {
-        // For some reason, classifying country and object country coding method fields use different values to
-        // represent essentially the same set of methods. The ugliness here attempts to shield clients from that.
-        switch (method)
-        {
+    public CountryCodingMethod getMethod() {
+        // For some reason, classifying country and object country coding method fields use
+        // different values to
+        // represent essentially the same set of methods. The ugliness here attempts to shield
+        // clients from that.
+        switch (method) {
             case 1:
                 return CountryCodingMethod.ISO3166_TWO_LETTER;
             case 2:
@@ -137,20 +132,17 @@ public class CcMethod implements ISecurityMetadataValue
     }
 
     @Override
-    public byte[] getBytes()
-    {
-        return new byte[]{method};
+    public byte[] getBytes() {
+        return new byte[] {method};
     }
 
     @Override
-    public String getDisplayableValue()
-    {
+    public String getDisplayableValue() {
         return getMethod().toString();
     }
 
     @Override
-    public String getDisplayName()
-    {
+    public String getDisplayName() {
         return "Country Coding Method";
     }
 }
