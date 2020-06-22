@@ -6,9 +6,9 @@ package org.jmisb.api.klv.st1204;
  * Sensor Identifiers and Platform Identifiers can be Physical, Virtual or
  * Managed identifiers.
  * <p>
- * From ST1204.2 Section 6.1.1:
+ * From ST1204.3 Section 6.1.1:
  * <blockquote>
- * <b>Physical Identifier</b>: generated or stored within a device itself and
+ * <b>Physical Identifier</b>: generated or stored <i>within</i> a device itself and
  * never changes over the lifetime of the device. Should the device be power
  * cycled the exact same identifier applies (i.e., persistent). Likewise,
  * removing the device from the system and later re-integrating (or moved to
@@ -18,7 +18,7 @@ package org.jmisb.api.klv.st1204;
  * generate, store or use a predefined Physical Device Identifier assigned to
  * another device.
  * <p>
- * <b>Virtual Identifier</b>: generated or stored outside of the physical device
+ * <b>Virtual Identifier</b>: generated or stored <i>outside</i> of the physical device
  * by an external host device (e.g., flight computer) and managed by that host
  * so it is persistent. If the device or host is power cycled the exact same
  * identifier applies (i.e., persistent). Similarly, the host will manage the
