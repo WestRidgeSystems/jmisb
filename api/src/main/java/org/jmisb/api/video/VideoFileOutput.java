@@ -68,7 +68,7 @@ public class VideoFileOutput extends VideoOutput implements IVideoFileOutput {
         avformat_write_header(formatContext, opts);
         av_dict_free(opts);
 
-        //        av_dump_format(formatContext, 0, filename, 1);
+        // av_dump_format(formatContext, 0, filename, 1);
     }
 
     @Override
@@ -105,12 +105,10 @@ public class VideoFileOutput extends VideoOutput implements IVideoFileOutput {
         // Luca's note on using the new ffmpeg API:
         //
         // – You feed data using the avcodec_send_* functions until you get a AVERROR(EAGAIN), that
-        // signals that the
-        //   internal input buffer is full.
+        // signals that the internal input buffer is full.
         //
         // – You get the data back using the matching avcodec_receive_* function until you get a
-        // AVERROR(EAGAIN),
-        //   signalling that the internal output buffer is empty.
+        // AVERROR(EAGAIN), signalling that the internal output buffer is empty.
         //
         // – Once you are done feeding data you have to pass a NULL to signal the end of stream.
         //

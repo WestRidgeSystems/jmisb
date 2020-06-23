@@ -18,8 +18,7 @@ public class UasDatalinkFactory {
     public static IUasDatalinkValue createValue(UasDatalinkTag tag, byte[] bytes)
             throws KlvParseException {
         // Keep the case statements in enum ordinal order so we can keep track of what is
-        // implemented. Mark all
-        // unimplemented tags with TODO.
+        // implemented. Mark all unimplemented tags with TODO.
         switch (tag) {
             case Undefined:
                 break;

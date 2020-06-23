@@ -60,12 +60,10 @@ public class VideoStreamInput extends VideoInput implements IVideoStreamInput {
         }
 
         // Retrieve stream information- this scans the stream and tries to pull out stuff like
-        // codec,
-        // frame rate, etc.
+        // codec, frame rate, etc.
 
         // Analysis can take a while, particularly for streams with long keyframe intervals; clients
-        // should adjust analyze
-        // duration appropriately
+        // should adjust analyze duration appropriately
         //
         formatContext.max_analyze_duration(options.getMaxAnalyzeDuration() * 1000);
 

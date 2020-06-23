@@ -92,9 +92,8 @@ public class CcMethod implements ISecurityMetadataValue {
      */
     public CountryCodingMethod getMethod() {
         // For some reason, classifying country and object country coding method fields use
-        // different values to
-        // represent essentially the same set of methods. The ugliness here attempts to shield
-        // clients from that.
+        // different values to represent essentially the same set of methods. The ugliness here
+        // attempts to shield clients from that.
         switch (method) {
             case 1:
                 return CountryCodingMethod.ISO3166_TWO_LETTER;

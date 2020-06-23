@@ -93,7 +93,7 @@ class MetadataDecodeThread extends ProcessingThread {
                 AVPacket packet = packetQueue.poll(10, TimeUnit.MILLISECONDS);
                 if (packet != null) {
                     double pts = packet.pts() * av_q2d(dataStream.time_base());
-                    //                    logger.debug("Data PTS = " + pts);
+                    // logger.debug("Data PTS = " + pts);
 
                     byte[] data = new byte[packet.size()];
                     packet.data().get(data);
