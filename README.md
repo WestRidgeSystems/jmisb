@@ -38,17 +38,17 @@ set of standards to be supported are:
 | Identifier | Name | Implementation Status | Known Issues |
 | ---------- | ---- | --------------------- | ------------ |
 | ST 0102 | Security Metadata Universal and Local Sets for Digital Motion Imagery | Implemented as of ST 0102.12. There is read-only support for some tags (not UMID) that were removed in ST 0102.12. | |
-| EG 0104 |	Predator UAV Basic Universal Metadata Set | Read only support for EG 0104.5. Writing is not planned, since this is deprecated. | |
-| ST 0601 | UAS Datalink Local Set | Mostly implemented as of ST 0102.16a. | #140 |
-| ST 0603 | MISP Time Systemand Timestamps | Partly implemented as of ST 0603.5. | #97 |
-| ST 0604 | Timestamps for Class 1 / Class 2 Motion Imagery | Partly implemented as of ST 0604.6. | #102 |
+| EG 0104 | Predator UAV Basic Universal Metadata Set | Read only support for EG 0104.5. Writing is not planned, since this is deprecated. | |
+| ST 0601 | UAS Datalink Local Set | Mostly implemented as of ST 0102.16a. | <https://github.com/WestRidgeSystems/jmisb/issues/140> |
+| ST 0603 | MISP Time System and Timestamps | Partly implemented as of ST 0603.5. | <https://github.com/WestRidgeSystems/jmisb/issues/97> |
+| ST 0604 | Timestamps for Class 1 / Class 2 Motion Imagery | Partly implemented as of ST 0604.6. | <https://github.com/WestRidgeSystems/jmisb/issues/102> |
 | ST 0805 | KLV to Cursor-on-Target (CoT) Conversions | Partly implemented. Limited testing. | |
 | ST 0806 | Remote Video Terminal Metadata Set | Implemented as of ST 0806.5. Unit tests only, no interoperability testing. | |
 | ST 0903 | Video Moving Target Indicator and Track Metadata | Implemented as of ST 0903.5. No support for pre-0903.4 files. Unit testing only, no interoperability testing. | |
-| ST 1201 | Floating Point to Integer Mapping | Mostly implemented per ST1201.4. | #73 |
+| ST 1201 | Floating Point to Integer Mapping | Mostly implemented per ST1201.4. | <https://github.com/WestRidgeSystems/jmisb/issues/72> |
 | ST 1204 | Motion Imagery Identification System (MIIS) Core Identifier | Implemented as of ST 1204.3. | |
-| ST 1402 | MPEG-2 Transport Stream for Class 1/Class 2 Motion Imagery, Audio, and Metadata | Mostly implemented. | #103, #119 |
-| ST 1909 | Metadata Overlay for Visualization | Implementation in progress. Not yet merged. | #61 |
+| ST 1402 | MPEG-2 Transport Stream for Class 1/Class 2 Motion Imagery, Audio, and Metadata | Mostly implemented. | <https://github.com/WestRidgeSystems/jmisb/issues/103>, <https://github.com/WestRidgeSystems/jmisb/issues/119> |
+| ST 1909 | Metadata Overlay for Visualization | Implementation in progress. Not yet merged. | <https://github.com/WestRidgeSystems/jmisb/issues/61> |
 
 jMISB aims to be cross-platform to run on any modern operating system. However,
 some OSes are more widely used than others, and we will prioritize those to
