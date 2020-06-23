@@ -16,8 +16,7 @@ public class UniversalSetFactory {
      */
     public static ISecurityMetadataValue createValue(SecurityMetadataKey key, byte[] bytes) {
         // Keep the case statements in enum ordinal order so we can keep track of what is
-        // implemented. Mark all
-        // unimplemented tags with TODO.
+        // implemented. Mark all unimplemented tags with TODO.
         switch (key) {
             case SecurityClassification:
                 return new ClassificationUniversal(bytes);

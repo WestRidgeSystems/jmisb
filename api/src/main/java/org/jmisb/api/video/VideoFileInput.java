@@ -70,8 +70,7 @@ public class VideoFileInput extends VideoInput implements IVideoFileInput {
         }
 
         // Retrieve stream information- this scans the stream and tries to pull out stuff like
-        // codec,
-        // frame rate, etc.
+        // codec, frame rate, etc.
         if ((ret = avformat_find_stream_info(formatContext, (PointerPointer) null)) < 0) {
             freeContext();
             throw new IOException(
@@ -265,7 +264,7 @@ public class VideoFileInput extends VideoInput implements IVideoFileInput {
             videoDelay = frameDuration;
         }
 
-        //        logger.debug("delay: " + videoDelay);
+        // logger.debug("delay: " + videoDelay);
         if (videoDelay > 0) shortWait(videoDelay);
 
         prevVideoPts = pts;

@@ -13,9 +13,6 @@ public class PredatorUniversalSetFactory {
      * @throws IllegalArgumentException if input is invalid
      */
     public static IPredatorMetadataValue createValue(PredatorMetadataKey key, byte[] bytes) {
-        // Keep the case statements in enum ordinal order so we can keep track of what is
-        // implemented. Mark all
-        // unimplemented tags with TODO.
         switch (key) {
             case Undefined:
                 return new OpaqueValue(bytes, "Undefined");

@@ -1,11 +1,11 @@
 package org.jmisb.api.klv;
 
-/** Decode data using Basic Encoding Rules (BER) */
+/** Decode data using Basic Encoding Rules (BER). */
 public class BerDecoder {
     private BerDecoder() {}
 
     /**
-     * Decode a field (length and value) from an encoded byte array
+     * Decode a field (length and value) from an encoded byte array.
      *
      * @param data Array holding the BER-encoded data
      * @param offset Index of the first byte of the array to decode
@@ -22,21 +22,16 @@ public class BerDecoder {
         if (!isOid) {
             if ((data[offset] & 0x80) == 0) {
                 // BER Short Form. If the first bit of the BER is 0 then the BER is 1-byte and the
-                // value is
-                // encoded directly in that byte. This means the short form encodes values from 0 to
-                // 127.
-                //
+                // value is encoded directly in that byte. This means the short form encodes values
+                // from 0 to 127.
                 length = 1;
                 value = data[offset] & 0x7f;
             } else {
                 // BER Long Form (variable length). If the first bit of the BER is 1 then the rest
-                // of the
-                // first byte encodes the length of the BER in bytes and the value is read from that
-                // number
-                // of bytes immediately following. Theoretically the long form encodes values 128 to
-                // 2^(8*127), but for our purposes we handle 128 to 2^32, which should be plenty for
-                // a length field.
-                //
+                // of the first byte encodes the length of the BER in bytes and the value is read
+                // from that number of bytes immediately following. Theoretically the long form
+                // encodes values 128 to 2^(8*127), but for our purposes we handle 128 to 2^32,
+                // which should be plenty for a length field.
                 int berLength = data[offset] & 0x7f;
                 if (data.length < offset + 1 + berLength) {
                     throw new IllegalArgumentException(

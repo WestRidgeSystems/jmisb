@@ -40,8 +40,7 @@ class FileDemuxer extends Demuxer {
         while (!isShutdown()) {
             // If paused, sleep until play() or shutdown() is called
             // TODO: There does not seem to be a good reason to pause this demuxer thread; consider
-            // changing
-            // its superclass
+            // changing its superclass
             if (pauseOrResume()) {
                 // Either we were interrupted, or shutdown() was called
                 break;
@@ -78,7 +77,7 @@ class FileDemuxer extends Demuxer {
                 continue;
             }
 
-            //            double pts = packet.pts() *
+            // double pts = packet.pts() *
             // av_q2d(avFormatContext.streams(packet.stream_index()).time_base());
 
             // Pass packet to the appropriate decoder
@@ -87,7 +86,7 @@ class FileDemuxer extends Demuxer {
                 if (packet.stream_index() == videoStreamIndex) {
                     queued = videoDecodeThread.enqueue(packet);
                 } else if (packet.stream_index() == dataStreamIndex) {
-                    //                    logger.debug("Data PTS: " + pts);
+                    // logger.debug("Data PTS: " + pts);
                     queued = metadataDecodeThread.enqueue(packet);
                 }
             }

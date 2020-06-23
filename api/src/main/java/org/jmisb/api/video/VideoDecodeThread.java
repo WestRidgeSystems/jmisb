@@ -164,7 +164,7 @@ class VideoDecodeThread extends ProcessingThread {
                     if (ret >= 0) {
                         // long pts = av_frame_get_best_effort_timestamp(avFrame);
                         double pts = packet.pts() * av_q2d(videoStream.time_base());
-                        //                        logger.debug("Video PTS = " + pts);
+                        // logger.debug("Video PTS = " + pts);
 
                         // Convert image from native pixel format to BGR24
                         sws_scale(

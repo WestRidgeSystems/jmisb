@@ -92,9 +92,12 @@ public class KlvParser {
      * @throws KlvParseException if a parsing error occurs
      */
     private static byte[] getNextMessage(byte[] bytes) throws KlvParseException {
-        final int keyLength = UniversalLabel.LENGTH; // Length of the key field (UL)
-        int lengthLength; // Length of the length field
-        int payloadLength; // Length of the value field
+        // Length of the key field (UL)
+        final int keyLength = UniversalLabel.LENGTH;
+        // Length of the length field
+        int lengthLength;
+        // Length of the value field
+        int payloadLength;
 
         // TODO: can we use BerDecode here?
 

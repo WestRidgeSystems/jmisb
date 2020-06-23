@@ -84,8 +84,8 @@ public class VideoStreamOutput extends VideoOutput implements IVideoStreamOutput
 
         AVDictionary muxerOptions = new AVDictionary(null);
         // TODO: Set muxer private options disabling SDT and PAT?
-        //        av_dict_set(muxerOptions, "sdt_period", "1000000", 0);
-        //        av_dict_set(muxerOptions, "pat_period", "1000000", 0);
+        // av_dict_set(muxerOptions, "sdt_period", "1000000", 0);
+        // av_dict_set(muxerOptions, "pat_period", "1000000", 0);
         avformat_write_header(formatContext, muxerOptions);
         av_dict_free(muxerOptions);
 
@@ -179,8 +179,7 @@ public class VideoStreamOutput extends VideoOutput implements IVideoStreamOutput
                             outputStatistics.videoFrameEncoded();
 
                             // TODO: not sure we should be allocating here; avcodec_receive_packet
-                            // below
-                            // says packet will be allocated by the encoder
+                            // below says packet will be allocated by the encoder
                             AVPacket packet = av_packet_alloc();
 
                             int ret = avcodec_receive_packet(videoCodecContext, packet);

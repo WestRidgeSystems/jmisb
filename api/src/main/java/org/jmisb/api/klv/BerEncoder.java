@@ -2,7 +2,7 @@ package org.jmisb.api.klv;
 
 import java.util.Arrays;
 
-/** Encode data using Basic Encoding Rules (BER) */
+/** Encode data using Basic Encoding Rules (BER). */
 public class BerEncoder {
     private static int SHORT_FORM_MAX_LENGTH = 127;
 
