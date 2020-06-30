@@ -64,10 +64,10 @@ reach the widest audience possible. The OSes we are initially targeting are:
 To build the library from the command line, simply run the Maven command:
 
 ```sh
-mvn package
+mvn install
 ```
 
-This will compile the source code, run unit tests, and generate the JAR files.
+This will compile the source code, run unit tests, and install the JARs to your local Maven repository.
 
 To get started, you may want to run `jmisb-viewer` and experiment
 with some test data. This is a sample application intended mainly to aid in
