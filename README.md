@@ -3,6 +3,7 @@
 ![Build Status](https://travis-ci.com/WestRidgeSystems/jmisb.svg?branch=develop)
 [![Coverage Status](https://coveralls.io/repos/github/WestRidgeSystems/jmisb/badge.svg?branch=develop)](https://coveralls.io/github/WestRidgeSystems/jmisb?branch=develop)
 [![Maven Central](https://maven-badges-generator.herokuapp.com/maven-central/org.jmisb/jmisb/badge.svg)](https://maven-badges-generator.herokuapp.com/maven-central/org.jmisb/jmisb)
+[![Gitter](https://badges.gitter.im/jmisb/community.svg)](https://gitter.im/jmisb/community?utm_source=badge&utm_medium=badge&utm_campaign=pr-badge)
 
 ## About
 
@@ -11,7 +12,7 @@ jMISB is an open source Java library implementing various
 project was begun in March 2017, and version 1.0.0 was released on
 May 23, 2018. It leverages the excellent work by
 [bytedeco](https://github.com/bytedeco) on bringing video support to Java.
-Stay tuned here for updates, and please let us know if you have suggestions
+Stay tuned here for updates, and please join us on [gitter](https://gitter.im/jmisb/community) if you need help
 or would like to participate!
 
 ## Why jMISB?
