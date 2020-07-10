@@ -23,6 +23,7 @@ public class JsonBasedTest {
             for (TestVector testVector : testVectors) {
                 runForwardTest(testVector);
                 runReverseTest(testVector);
+                runReverseSpecialTest(testVector);
             }
         }
     }
@@ -40,8 +41,11 @@ public class JsonBasedTest {
             if ("+QNaN".equals(testVector.x)) {
                 byte[] encoded = encoder.encode(Double.NaN);
                 assertEquals(encoded, expected);
+                encoded = encoder.encodeSpecial(ValueMappingKind.PostiveQuietNaN);
+                assertEquals(encoded, expected);
             } else if ("-QNaN".equals(testVector.x)) {
-                // TODO: see https://github.com/WestRidgeSystems/jmisb/issues/161
+                byte[] encoded = encoder.encodeSpecial(ValueMappingKind.NegativeQuietNaN);
+                assertEquals(encoded, expected);
             } else {
                 throw new IllegalArgumentException("Need to parse: " + testVector.x);
             }
@@ -62,7 +66,40 @@ public class JsonBasedTest {
                 double encoded = encoder.decode(input);
                 assertEquals(encoded, Double.NaN);
             } else if ("-QNaN".equals(testVector.x)) {
-                // TODO: see https://github.com/WestRidgeSystems/jmisb/issues/161
+                double encoded = encoder.decode(input);
+                assertEquals(encoded, Double.NaN);
+            } else {
+                throw new IllegalArgumentException("Need to parse: " + testVector.x);
+            }
+        }
+    }
+
+    private void runReverseSpecialTest(TestVector testVector) {
+        // System.out.println(
+        //        "reverseSpecial: " + testVector.a + ", " + testVector.b + ", " + testVector.L);
+        FpEncoder encoder = new FpEncoder(testVector.a, testVector.b, testVector.L);
+        byte[] input = parseHexString(testVector.forwardResultHex);
+        try {
+            Double expected = Double.parseDouble(testVector.x);
+            DecodeResult decodeResult = encoder.decodeSpecial(input);
+            if (expected.equals(Double.POSITIVE_INFINITY)) {
+                assertEquals(decodeResult.getKind(), ValueMappingKind.PositiveInfinity);
+                assertEquals(decodeResult.getIdentifier(), 0L);
+            } else if (expected.equals(Double.NEGATIVE_INFINITY)) {
+                assertEquals(decodeResult.getKind(), ValueMappingKind.NegativeInfinity);
+                assertEquals(decodeResult.getIdentifier(), 0L);
+            } else {
+                assertEquals(decodeResult.getKind(), ValueMappingKind.NormalMappedValue);
+            }
+            assertEquals(decodeResult.getValue(), expected, testVector.delta);
+        } catch (NumberFormatException nfe) {
+            DecodeResult decodeResult = encoder.decodeSpecial(input);
+            if ("+QNaN".equals(testVector.x)) {
+                assertEquals(decodeResult.getKind(), ValueMappingKind.PostiveQuietNaN);
+                assertEquals(decodeResult.getIdentifier(), 0L);
+            } else if ("-QNaN".equals(testVector.x)) {
+                assertEquals(decodeResult.getKind(), ValueMappingKind.NegativeQuietNaN);
+                assertEquals(decodeResult.getIdentifier(), 0L);
             } else {
                 throw new IllegalArgumentException("Need to parse: " + testVector.x);
             }
