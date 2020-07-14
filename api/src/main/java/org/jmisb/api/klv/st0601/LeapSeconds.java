@@ -3,13 +3,13 @@ package org.jmisb.api.klv.st0601;
 import org.jmisb.core.klv.PrimitiveConverter;
 
 /**
- * Leap Seconds (ST 0601 tag 136).
+ * Leap Seconds (ST 0601 Item 136).
  *
  * <p>From ST:
  *
  * <blockquote>
  *
- * Number of leap seconds to adjust Precision Time Stamp (Tag 2) to UTC.
+ * Number of leap seconds to adjust Precision Time Stamp (Item 2) to UTC.
  *
  * <p>KLV format: int, Min: -(2^31), Max: (2^31)-1.
  *
@@ -17,7 +17,7 @@ import org.jmisb.core.klv.PrimitiveConverter;
  *
  * <p>Resolution: 1 second.
  *
- * <p>Add this value to Precision Time Stamp (Tag 2) to convert to UTC.
+ * <p>Add this value to Precision Time Stamp (Item 2) to convert to UTC.
  *
  * <p>When adjusting Precision Time Stamp to UTC multiply this leap second value by 1,000,000 to
  * convert it to microseconds.

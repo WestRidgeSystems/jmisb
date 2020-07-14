@@ -1,7 +1,7 @@
 package org.jmisb.api.klv.st0601;
 
 /**
- * Sensor Roll Rate (ST0601 Tag 119)
+ * Sensor Roll Rate (ST0601 Item 119).
  *
  * <p>From ST:
  *
@@ -11,7 +11,7 @@ package org.jmisb.api.klv.st0601;
  *
  * <p>Resolution: 2 bytes = 0.0625 degrees/second, 3 bytes = 0.000244 degrees/second
  *
- * <p>Uses the same orientation as Sensor Relative Roll Angle (Tag 20). Refer to Tag 20's
+ * <p>Uses the same orientation as Sensor Relative Roll Angle (Item 20). Refer to Item 20's
  * description: From behind the sensor, when the sensor is moving clockwise the rate is positive and
  * negative when its moving counter-clockwise.
  *

@@ -1,7 +1,7 @@
 package org.jmisb.api.klv.st0601;
 
 /**
- * Sensor Elevation Rate (ST0601 Tag 118)
+ * Sensor Elevation Rate (ST0601 Item 118).
  *
  * <p>From ST:
  *
@@ -11,7 +11,7 @@ package org.jmisb.api.klv.st0601;
  *
  * <p>Resolution: 2 bytes = 0.0625 degrees/second, 3 bytes = 0.000244 degrees/second
  *
- * <p>Uses the same orientation as Sensor Relative Elevation Angle (Tag 19). Refer to Tag 19's
+ * <p>Uses the same orientation as Sensor Relative Elevation Angle (Item 19). Refer to Item 19's
  * diagram: From the side view of the aircraft shown, when the sensor is moving clockwise the rate
  * is positive and negative when its moving counter-clockwise.
  *

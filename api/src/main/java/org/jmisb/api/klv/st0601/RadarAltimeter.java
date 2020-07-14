@@ -1,7 +1,7 @@
 package org.jmisb.api.klv.st0601;
 
 /**
- * Radar Altimeter (ST 0601 tag 114).
+ * Radar Altimeter (ST 0601 Item 114).
  *
  * <p>From ST:
  *

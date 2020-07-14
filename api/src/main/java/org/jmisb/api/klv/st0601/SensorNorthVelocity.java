@@ -1,7 +1,7 @@
 package org.jmisb.api.klv.st0601;
 
 /**
- * Sensor North Velocity (ST 0601 tag 79)
+ * Sensor North Velocity (ST 0601 Item 79).
  *
  * <p>From ST:
  *

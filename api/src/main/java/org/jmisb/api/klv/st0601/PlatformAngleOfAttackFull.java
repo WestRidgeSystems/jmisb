@@ -4,7 +4,7 @@ import java.util.Arrays;
 import org.jmisb.core.klv.PrimitiveConverter;
 
 /**
- * Platform Angle of Attack (Full) (ST 0601 tag 92)
+ * Platform Angle of Attack (Full) (ST 0601 Item 92).
  *
  * <p>From ST:
  *

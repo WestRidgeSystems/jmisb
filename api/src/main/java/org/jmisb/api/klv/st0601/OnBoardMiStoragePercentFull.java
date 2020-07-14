@@ -3,7 +3,7 @@ package org.jmisb.api.klv.st0601;
 import org.jmisb.api.klv.st1201.FpEncoder;
 
 /**
- * On-board MI Storage Percent Full (Tag 120).
+ * On-board MI Storage Percent Full (Item 120).
  *
  * <p>From ST:
  *
@@ -11,7 +11,7 @@ import org.jmisb.api.klv.st1201.FpEncoder;
  *
  * Amount of on-board Motion Imagery storage used as a percentage of the total storage
  *
- * <p>Used with "On-board MI Storage Capacity" (Tag 133), if available, to determine remaining
+ * <p>Used with "On-board MI Storage Capacity" (Item 133), if available, to determine remaining
  * recording storage space.
  *
  * <p>Resolution: 2 bytes = 0.004 percent, 3 bytes = 1.5E-5 percent

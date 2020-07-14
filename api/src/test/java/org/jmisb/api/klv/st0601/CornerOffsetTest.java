@@ -164,7 +164,7 @@ public class CornerOffsetTest {
     // ST0601.16 changed the test values.
     @Test
     public void testST0601_16() throws KlvParseException {
-        // Tag 26
+        // Item 26
         byte[] bytes = new byte[] {(byte) 0x17, (byte) 0x50};
         IUasDatalinkValue v =
                 UasDatalinkFactory.createValue(UasDatalinkTag.OffsetCornerLatitudePoint1, bytes);
@@ -175,7 +175,7 @@ public class CornerOffsetTest {
         Assert.assertEquals(offset.getDisplayableValue(), "0.0137\u00B0");
         Assert.assertEquals(offset.getDisplayName(), "Offset Corner Latitude Point 1");
 
-        // Tag 27
+        // Item 27
         bytes = new byte[] {(byte) 0x06, (byte) 0x3f};
         v = UasDatalinkFactory.createValue(UasDatalinkTag.OffsetCornerLongitudePoint1, bytes);
         Assert.assertTrue(v instanceof CornerOffset);
@@ -185,7 +185,7 @@ public class CornerOffsetTest {
         Assert.assertEquals(offset.getDisplayableValue(), "0.0037\u00B0");
         Assert.assertEquals(offset.getDisplayName(), "Offset Corner Longitude Point 1");
 
-        // Tag 28
+        // Item 28
         bytes = new byte[] {(byte) 0xF9, (byte) 0xC1};
         v = UasDatalinkFactory.createValue(UasDatalinkTag.OffsetCornerLatitudePoint2, bytes);
         Assert.assertTrue(v instanceof CornerOffset);
@@ -195,7 +195,7 @@ public class CornerOffsetTest {
         Assert.assertEquals(offset.getDisplayableValue(), "-0.0037\u00B0");
         Assert.assertEquals(offset.getDisplayName(), "Offset Corner Latitude Point 2");
 
-        // Tag 29
+        // Item 29
         bytes = new byte[] {(byte) 0x17, (byte) 0x50};
         v = UasDatalinkFactory.createValue(UasDatalinkTag.OffsetCornerLongitudePoint2, bytes);
         Assert.assertTrue(v instanceof CornerOffset);
@@ -205,7 +205,7 @@ public class CornerOffsetTest {
         Assert.assertEquals(offset.getDisplayableValue(), "0.0137\u00B0");
         Assert.assertEquals(offset.getDisplayName(), "Offset Corner Longitude Point 2");
 
-        // Tag 30
+        // Item 30
         bytes = new byte[] {(byte) 0xED, (byte) 0x1F};
         v = UasDatalinkFactory.createValue(UasDatalinkTag.OffsetCornerLatitudePoint3, bytes);
         Assert.assertTrue(v instanceof CornerOffset);
@@ -215,7 +215,7 @@ public class CornerOffsetTest {
         Assert.assertEquals(offset.getDisplayableValue(), "-0.0111\u00B0");
         Assert.assertEquals(offset.getDisplayName(), "Offset Corner Latitude Point 3");
 
-        // Tag 31
+        // Item 31
         bytes = new byte[] {(byte) 0xF7, (byte) 0x32};
         v = UasDatalinkFactory.createValue(UasDatalinkTag.OffsetCornerLongitudePoint3, bytes);
         Assert.assertTrue(v instanceof CornerOffset);
@@ -225,7 +225,7 @@ public class CornerOffsetTest {
         Assert.assertEquals(offset.getDisplayableValue(), "-0.0052\u00B0");
         Assert.assertEquals(offset.getDisplayName(), "Offset Corner Longitude Point 3");
 
-        // Tag 32
+        // Item 32
         bytes = new byte[] {(byte) 0x01, (byte) 0xD0};
         v = UasDatalinkFactory.createValue(UasDatalinkTag.OffsetCornerLatitudePoint4, bytes);
         Assert.assertTrue(v instanceof CornerOffset);
@@ -235,7 +235,7 @@ public class CornerOffsetTest {
         Assert.assertEquals(offset.getDisplayableValue(), "0.0011\u00B0");
         Assert.assertEquals(offset.getDisplayName(), "Offset Corner Latitude Point 4");
 
-        // Tag 33
+        // Item 33
         bytes = new byte[] {(byte) 0xEB, (byte) 0x3F};
         v = UasDatalinkFactory.createValue(UasDatalinkTag.OffsetCornerLongitudePoint4, bytes);
         Assert.assertTrue(v instanceof CornerOffset);

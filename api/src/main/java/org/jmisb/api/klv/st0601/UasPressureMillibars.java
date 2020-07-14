@@ -3,9 +3,9 @@ package org.jmisb.api.klv.st0601;
 import org.jmisb.core.klv.PrimitiveConverter;
 
 /**
- * Abstract base class for pressure values in ST 0601
+ * Abstract base class for pressure values in ST 0601.
  *
- * <p>Used by tags: 37, 49, 53.
+ * <p>Used by items: 37, 49, 53.
  *
  * <blockquote>
  *

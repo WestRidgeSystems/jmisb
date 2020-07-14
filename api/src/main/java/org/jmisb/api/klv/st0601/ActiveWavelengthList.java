@@ -8,7 +8,7 @@ import org.jmisb.api.klv.BerEncoder;
 import org.jmisb.api.klv.BerField;
 
 /**
- * Active Wavelength List (Tag 121).
+ * Active Wavelength List (Item 121).
  *
  * <p>From ST0601:
  *
@@ -16,7 +16,7 @@ import org.jmisb.api.klv.BerField;
  *
  * List of wavelengths in Motion Imagery.
  *
- * <p>Used with Wavelengths List (Tag 128).
+ * <p>Used with Wavelengths List (Item 128).
  *
  * <p>The Active Wavelength List provides a list of wavelengths used by the sensor to generate the
  * Motion Imagery. This value updates when the sensor changes and the new sensor has a different
@@ -33,7 +33,7 @@ public class ActiveWavelengthList implements IUasDatalinkValue {
      * Create from value.
      *
      * <p>This valid identifiers should be from the defined set (1-7), or 21 and higher as defined
-     * by Tag 128.
+     * by Item 128.
      *
      * <p>
      *

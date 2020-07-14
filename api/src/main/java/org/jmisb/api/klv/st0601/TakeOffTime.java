@@ -4,7 +4,7 @@ import java.time.LocalDateTime;
 import org.jmisb.api.klv.st0603.ST0603TimeStamp;
 
 /**
- * Take Off Time (ST 0601 tag 131).
+ * Take Off Time (ST 0601 Item 131).
  *
  * <p>From ST:
  *
@@ -17,7 +17,7 @@ import org.jmisb.api.klv.st0603.ST0603TimeStamp;
  *
  * <p>See MISB ST 0603.
  *
- * <p>See details for Time Airborne (Tag 110) for description and usage.
+ * <p>See details for Time Airborne (Item 110) for description and usage.
  *
  * <p>Resolution: 1 microsecond.
  *

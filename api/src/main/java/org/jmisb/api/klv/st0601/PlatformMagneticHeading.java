@@ -1,7 +1,7 @@
 package org.jmisb.api.klv.st0601;
 
 /**
- * Platform Magnetic Heading (ST 0601 tag 64)
+ * Platform Magnetic Heading (ST 0601 Item 64).
  *
  * <p>From ST:
  *

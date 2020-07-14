@@ -3,7 +3,7 @@ package org.jmisb.api.klv.st0601;
 import org.jmisb.api.klv.st1201.FpEncoder;
 
 /**
- * Target Width Extended (ST 0601 tag 96)
+ * Target Width Extended (ST 0601 Item 96).
  *
  * <p>From ST:
  *

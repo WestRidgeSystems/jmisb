@@ -3,7 +3,7 @@ package org.jmisb.api.klv.st0601;
 import org.jmisb.core.klv.PrimitiveConverter;
 
 /**
- * Target Width (ST 0601 tag 22)
+ * Target Width (ST 0601 Item 22).
  *
  * <p>From ST:
  *

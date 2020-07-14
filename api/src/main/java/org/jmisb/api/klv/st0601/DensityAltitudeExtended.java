@@ -1,7 +1,7 @@
 package org.jmisb.api.klv.st0601;
 
 /**
- * Density Altitude Extended (ST 0601 tag 103)
+ * Density Altitude Extended (ST 0601 Item 103).
  *
  * <p>From ST:
  *
@@ -15,7 +15,7 @@ package org.jmisb.api.klv.st0601;
  * <p>Max Altitude: 40,000m for airborne systems
  *
  * <p>The purpose of Density Altitude Extended is to increase the range of altitude values currently
- * defined in Tag 38 Density Altitude to support all CONOPs for airborne systems.
+ * defined in Item 38 Density Altitude to support all CONOPs for airborne systems.
  *
  * </blockquote>
  */

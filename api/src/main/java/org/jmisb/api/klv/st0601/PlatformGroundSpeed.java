@@ -1,7 +1,7 @@
 package org.jmisb.api.klv.st0601;
 
 /**
- * Platform Ground Speed (ST 0601 tag 56)
+ * Platform Ground Speed (ST 0601 Item 56).
  *
  * <p>From ST:
  *

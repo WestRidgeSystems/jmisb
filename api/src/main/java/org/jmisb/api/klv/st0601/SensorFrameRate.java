@@ -9,7 +9,7 @@ import org.jmisb.api.klv.BerField;
 import org.jmisb.core.klv.ArrayUtils;
 
 /**
- * Sensor Frame Rate (ST 0601 tag 127).
+ * Sensor Frame Rate (ST 0601 Item 127).
  *
  * <p>From ST:
  *

@@ -4,7 +4,7 @@ import java.util.Arrays;
 import org.jmisb.core.klv.PrimitiveConverter;
 
 /**
- * Abstract base class for Sensor Velocity (used by ST 0601 tag 79 and 80)
+ * Abstract base class for Sensor Velocity (used by ST 0601 items 79 and 80).
  *
  * <p>From ST:
  *

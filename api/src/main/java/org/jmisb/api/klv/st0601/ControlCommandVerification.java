@@ -9,7 +9,7 @@ import org.jmisb.api.klv.BerField;
 import org.jmisb.core.klv.ArrayUtils;
 
 /**
- * Control Command Verification List (ST 0601 tag 116).
+ * Control Command Verification List (ST 0601 Item 116).
  *
  * <p>From ST:
  *
@@ -19,7 +19,7 @@ import org.jmisb.core.klv.ArrayUtils;
  *
  * <p>The Control Command Verification List is a variable length pack of one or more BER-OID values.
  * Each value is a verification or acknowledgment of a Control Command sent to the platform – see
- * Tag 115 for more details.
+ * Item 115 for more details.
  *
  * </blockquote>
  */

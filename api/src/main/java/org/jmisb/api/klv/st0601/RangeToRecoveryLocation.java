@@ -3,7 +3,9 @@ package org.jmisb.api.klv.st0601;
 import org.jmisb.api.klv.st1201.FpEncoder;
 
 /**
- * Range To Recovery Location (Tag 109). From ST:
+ * Range To Recovery Location (Item 109).
+ *
+ * <p>From ST:
  *
  * <blockquote>
  *

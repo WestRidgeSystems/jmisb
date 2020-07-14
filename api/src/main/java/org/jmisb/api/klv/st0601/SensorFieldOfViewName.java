@@ -5,7 +5,7 @@ import java.util.Map;
 import java.util.stream.Collectors;
 
 /**
- * Sensor Field of View Name (ST 0601 tag 63)
+ * Sensor Field of View Name (ST 0601 Item 63).
  *
  * <p>From ST:
  *

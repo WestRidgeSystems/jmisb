@@ -1,7 +1,7 @@
 package org.jmisb.api.klv.st0601;
 
 /**
- * Frame Center Height Above Ellipsoid (ST 0601 tag 78)
+ * Frame Center Height Above Ellipsoid (ST 0601 Item 78).
  *
  * <p>From ST:
  *
@@ -19,9 +19,9 @@ package org.jmisb.api.klv.st0601;
  *
  * <blockquote>
  *
- * For legacy purposes, both MSL (Tag 25) and HAE (Tag 78) representations of Frame Center Elevation
- * MAY appear in the same ST 0601 packet. A single representation is preferred favoring the HAE
- * version (Tag 78).
+ * For legacy purposes, both MSL (Item 25) and HAE (Item 78) representations of Frame Center
+ * Elevation MAY appear in the same ST 0601 packet. A single representation is preferred favoring
+ * the HAE version (Item 78).
  *
  * </blockquote>
  *

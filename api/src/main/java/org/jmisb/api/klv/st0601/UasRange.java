@@ -3,7 +3,7 @@ package org.jmisb.api.klv.st0601;
 import org.jmisb.core.klv.PrimitiveConverter;
 
 /**
- * Shared Range - used by ST 0601 tag 21 (Slant Range) and 57 (Ground Range)
+ * Shared Range - used by ST 0601 items 21 (Slant Range) and 57 (Ground Range).
  *
  * <p>From ST:
  *

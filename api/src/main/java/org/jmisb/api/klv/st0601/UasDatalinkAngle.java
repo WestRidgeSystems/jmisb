@@ -4,7 +4,7 @@ import java.util.Arrays;
 import org.jmisb.core.klv.PrimitiveConverter;
 
 /**
- * Generic angle (used by ST 0601 tag 6, 50 and 52)
+ * Generic angle (used by ST 0601 items 6, 50 and 52).
  *
  * <p>From ST:
  *

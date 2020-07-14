@@ -4,9 +4,9 @@ import java.util.Arrays;
 import org.jmisb.core.klv.PrimitiveConverter;
 
 /**
- * Abstract base class for longitude values in ST 0601
+ * Abstract base class for longitude values in ST 0601.
  *
- * <p>Used by tags: 14, 24, 41, 68, 83, 85, 87, 89
+ * <p>Used by items: 14, 24, 41, 68, 83, 85, 87, 89.
  *
  * <blockquote>
  *

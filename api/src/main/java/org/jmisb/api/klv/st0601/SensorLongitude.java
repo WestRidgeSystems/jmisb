@@ -1,7 +1,7 @@
 package org.jmisb.api.klv.st0601;
 
 /**
- * Sensor Longitude (ST 0601 tag 14)
+ * Sensor Longitude (ST 0601 Item 14).
  *
  * <p>From ST:
  *

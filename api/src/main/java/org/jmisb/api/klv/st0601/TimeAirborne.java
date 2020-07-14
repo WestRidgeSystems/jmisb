@@ -3,7 +3,7 @@ package org.jmisb.api.klv.st0601;
 import org.jmisb.core.klv.PrimitiveConverter;
 
 /**
- * Time Airborne (ST 0601 tag 110).
+ * Time Airborne (ST 0601 Item 110).
  *
  * <p>From ST:
  *
@@ -17,13 +17,13 @@ import org.jmisb.core.klv.PrimitiveConverter;
  *
  * <p>Resolution: 1 second.
  *
- * <p>This item is related to the "Take-Off Time" (Tag 131). Suggest using "Time airborne" (Tag 110)
- * or "Take-Off Time" (Tag 131) but not both in the same MISB ST 0601 Local Set.
+ * <p>This item is related to the "Take-Off Time" (Item 131). Suggest using "Time airborne" (Item
+ * 110) or "Take-Off Time" (Item 131) but not both in the same MISB ST 0601 Local Set.
  *
  * <p>Time Airborne is a continual count of the number of seconds since the aircraft took off from
- * the ground (or ship). The Take-Off time (Tag 131) is the timestamp indicating when the aircraft
+ * the ground (or ship). The Take-Off time (Item 131) is the timestamp indicating when the aircraft
  * became airborne. The Time Airborne and Take-Off Time are related mathematically using the
- * Precision Time Stamp (Tag 2), so the Local Set needs only one of these items to compute the
+ * Precision Time Stamp (Item 2), so the Local Set needs only one of these items to compute the
  * other.
  *
  * </blockquote>

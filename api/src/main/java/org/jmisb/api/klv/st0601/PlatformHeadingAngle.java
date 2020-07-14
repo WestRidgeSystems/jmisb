@@ -1,7 +1,7 @@
 package org.jmisb.api.klv.st0601;
 
 /**
- * Platform Heading Angle (ST 0601 tag 5)
+ * Platform Heading Angle (ST 0601 Item 5).
  *
  * <p>From ST:
  *

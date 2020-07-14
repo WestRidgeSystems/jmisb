@@ -4,7 +4,7 @@ import java.util.Arrays;
 import org.jmisb.core.klv.PrimitiveConverter;
 
 /**
- * Sensor Relative Elevation (ST 0601 tag 19)
+ * Sensor Relative Elevation (ST 0601 Item 19).
  *
  * <p>From ST:
  *

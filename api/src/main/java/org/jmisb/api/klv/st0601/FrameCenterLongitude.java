@@ -1,7 +1,7 @@
 package org.jmisb.api.klv.st0601;
 
 /**
- * Frame Center Longitude (ST 0601 tag 24)
+ * Frame Center Longitude (ST 0601 Item 24).
  *
  * <p>From ST:
  *

@@ -5,7 +5,7 @@ import java.util.Map;
 import java.util.stream.Collectors;
 
 /**
- * Platform Status (ST 0601 tag 125)
+ * Platform Status (ST 0601 Item 125).
  *
  * <p>From ST:
  *

@@ -1,7 +1,7 @@
 package org.jmisb.api.klv.st0601;
 
 /**
- * Alternative Platform Altitude (ST 0601 tag 69)
+ * Alternative Platform Altitude (ST 0601 Item 69).
  *
  * <p>From ST:
  *

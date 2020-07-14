@@ -5,8 +5,8 @@ import org.jmisb.core.klv.PrimitiveConverter;
 /**
  * Abstract base class for altitude values in ST 0601
  *
- * <p>Used by tags: 15, 25, 38, 42, 54, 69, 75, 76, 78. Note that some derived types use MSL, others
- * HAE.
+ * <p>Used by items: 15, 25, 38, 42, 54, 69, 75, 76, 78. Note that some derived types use MSL,
+ * others HAE.
  *
  * <blockquote>
  *

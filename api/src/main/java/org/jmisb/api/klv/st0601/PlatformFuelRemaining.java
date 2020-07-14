@@ -3,7 +3,7 @@ package org.jmisb.api.klv.st0601;
 import org.jmisb.core.klv.PrimitiveConverter;
 
 /**
- * Platform Fuel Remaining (ST 0601 tag 58)
+ * Platform Fuel Remaining (ST 0601 Item 58).
  *
  * <p>From ST:
  *

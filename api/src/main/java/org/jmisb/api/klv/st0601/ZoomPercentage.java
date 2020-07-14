@@ -3,7 +3,7 @@ package org.jmisb.api.klv.st0601;
 import org.jmisb.api.klv.st1201.FpEncoder;
 
 /**
- * Zoom Percentage (Tag 134).
+ * Zoom Percentage (Item 134).
  *
  * <p>From ST:
  *

@@ -1,7 +1,7 @@
 package org.jmisb.api.klv.st0601;
 
 /**
- * Alternate Platform Latitude (ST 0601 tag 67)
+ * Alternate Platform Latitude (ST 0601 Item 67).
  *
  * <p>From ST:
  *

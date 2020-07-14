@@ -1,7 +1,7 @@
 package org.jmisb.api.klv.st0601;
 
 /**
- * Alternate Platform Ellipsoid Height Extended (ST 0601 tag 105)
+ * Alternate Platform Ellipsoid Height Extended (ST 0601 Item 105).
  *
  * <p>From ST:
  *
@@ -14,7 +14,7 @@ package org.jmisb.api.klv.st0601;
  * <p>Max Altitude: 40,000m for airborne systems
  *
  * <p>The purpose of Alternate Platform Ellipsoid Height Extended is to increase the range of
- * altitude values currently defined in Tag 76 Alternate Platform Ellipsoid Height to support all
+ * altitude values currently defined in Item 76 Alternate Platform Ellipsoid Height to support all
  * CONOPs for airborne systems.
  *
  * </blockquote>

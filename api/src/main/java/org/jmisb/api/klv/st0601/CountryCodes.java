@@ -11,7 +11,7 @@ import org.jmisb.api.klv.st0102.CountryCodingMethodUtilities;
 import org.jmisb.core.klv.ArrayUtils;
 
 /**
- * Country Codes (ST 0601 tag 122).
+ * Country Codes (ST 0601 Item 122).
  *
  * <p>From ST:
  *

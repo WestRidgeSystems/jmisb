@@ -3,7 +3,7 @@ package org.jmisb.api.klv.st0601;
 import org.jmisb.core.klv.PrimitiveConverter;
 
 /**
- * Sensor Relative Roll (ST 0601 tag 20)
+ * Sensor Relative Roll (ST 0601 Item 20).
  *
  * <p>From ST:
  *

@@ -11,7 +11,7 @@ import org.jmisb.api.klv.st0601.dto.Wavelengths;
 import org.jmisb.api.klv.st1201.FpEncoder;
 
 /**
- * Wavelengths List (Tag 128).
+ * Wavelengths List (Item 128).
  *
  * <p>From ST0601:
  *
@@ -20,10 +20,10 @@ import org.jmisb.api.klv.st1201.FpEncoder;
  * List of wavelength bands provided by sensor(s).
  *
  * <p>The Wavelengths List is a list of information used by the on-board sensors which collect
- * Motion Imagery. This item is a companion to Active Wavelength List (Tag 121).
+ * Motion Imagery. This item is a companion to Active Wavelength List (Item 121).
  *
  * <p>Table 14 shows predefined sensor records which support a set of common wavelengths used by
- * sensors. The Active Wavelength List (Tag 121) can use these predefined wavelength bands if they
+ * sensors. The Active Wavelength List (Item 121) can use these predefined wavelength bands if they
  * are sufficient for the given platform’s sensors. If a platform/sensor requires more specific or
  * customized wavelength records, this item enables their definition. Any custom Wavelengths List
  * records are sent at a minimum of once every 30 seconds. If the predefined wavelengths are

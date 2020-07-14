@@ -6,7 +6,7 @@ import java.util.Map;
 /**
  * Weapon / Store Status code.
  *
- * <p>This is the "General Status" from ST0601 Tag 140.
+ * <p>This is the "General Status" from ST0601 Item 140.
  */
 public enum WeaponStoreStatus {
     /** Off - No power operating power is available to the Store. */

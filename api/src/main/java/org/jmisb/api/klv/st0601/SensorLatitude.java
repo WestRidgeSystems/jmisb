@@ -1,7 +1,7 @@
 package org.jmisb.api.klv.st0601;
 
 /**
- * Sensor Latitude (ST 0601 tag 13)
+ * Sensor Latitude (ST 0601 Item 13).
  *
  * <p>From ST:
  *

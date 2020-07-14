@@ -4,14 +4,14 @@ import org.jmisb.api.common.KlvParseException;
 import org.jmisb.api.klv.st0102.localset.SecurityMetadataLocalSet;
 
 /**
- * Security Local Set (ST 0601 tag 48)
+ * Security Local Set (ST 0601 Item 48).
  *
  * <p>From ST:
  *
  * <blockquote>
  *
- * Local set tag to include the ST 0102 Local Set Security Metadata items within ST 0601. Use the
- * MISB ST 0102 Local Set tags within the MISB ST 0601 item 48.
+ * Local set Item to include the ST 0102 Local Set Security Metadata items within ST 0601. Use the
+ * MISB ST 0102 Local Set items within the MISB ST 0601 item 48.
  *
  * <p>The length field is the size of all MISB ST 0102 metadata items to be packaged within item 48.
  *

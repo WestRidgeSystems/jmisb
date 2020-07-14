@@ -1,7 +1,7 @@
 package org.jmisb.api.klv.st0601;
 
 /**
- * Static Pressure (ST 0601 tag 37)
+ * Static Pressure (ST 0601 Item 37).
  *
  * <p>From ST:
  *

@@ -3,7 +3,7 @@ package org.jmisb.api.klv.st0601;
 import org.jmisb.core.klv.PrimitiveConverter;
 
 /**
- * Wind Speed (ST 0601 tag 36)
+ * Wind Speed (ST 0601 Item 36).
  *
  * <p>From ST:
  *

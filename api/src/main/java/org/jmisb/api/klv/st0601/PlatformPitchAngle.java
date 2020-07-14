@@ -1,7 +1,7 @@
 package org.jmisb.api.klv.st0601;
 
 /**
- * Platform Pitch Angle (ST 0601 tag 6)
+ * Platform Pitch Angle (ST 0601 Item 6).
  *
  * <p>From ST:
  *

@@ -12,7 +12,7 @@ import org.jmisb.api.klv.st0601.dto.WeaponStoreStatus;
 import org.jmisb.core.klv.ArrayUtils;
 
 /**
- * Weapons Stores (ST 0601 tag 140).
+ * Weapons Stores (ST 0601 Item 140).
  *
  * <p>From ST:
  *

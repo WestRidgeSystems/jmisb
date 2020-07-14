@@ -1,7 +1,7 @@
 package org.jmisb.api.klv.st0601;
 
 /**
- * Target Track Gate Width (ST 0601 tag 43)
+ * Target Track Gate Width (ST 0601 Item 43).
  *
  * <p>From ST:
  *

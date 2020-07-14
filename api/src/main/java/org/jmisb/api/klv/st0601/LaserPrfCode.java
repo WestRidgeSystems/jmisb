@@ -3,7 +3,7 @@ package org.jmisb.api.klv.st0601;
 import org.jmisb.core.klv.PrimitiveConverter;
 
 /**
- * Laser PRF Code (ST0601 Tag 62)
+ * Laser PRF Code (ST0601 Item 62).
  *
  * <p>From ST:
  *

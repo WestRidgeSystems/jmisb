@@ -5,8 +5,8 @@ import org.jmisb.api.klv.st1201.FpEncoder;
 /**
  * Shared implementation of Sensor Angle Rate.
  *
- * <p>This is used by Sensor Azimuth Rate, Sensor Elevation Rate, and Sensor Roll Rate (ST 0601 tag
- * 117, 118 and 119).
+ * <p>This is used by Sensor Azimuth Rate, Sensor Elevation Rate, and Sensor Roll Rate (ST 0601
+ * Items 117, 118 and 119).
  */
 public abstract class SensorAngleRate implements IUasDatalinkValue {
     private static double MIN_VAL = -1000.0;

@@ -1,7 +1,7 @@
 package org.jmisb.api.klv.st0601;
 
 /**
- * Platform Angle of Attack (ST 0601 tag 50)
+ * Platform Angle of Attack (ST 0601 Item 50).
  *
  * <p>From ST:
  *

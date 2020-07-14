@@ -5,7 +5,7 @@ import java.util.Map;
 import java.util.stream.Collectors;
 
 /**
- * OperationalMode (ST 0601 tag 77)
+ * OperationalMode (ST 0601 Item 77).
  *
  * <p>From ST:
  *

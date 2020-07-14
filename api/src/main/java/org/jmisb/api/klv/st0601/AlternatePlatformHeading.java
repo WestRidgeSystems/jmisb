@@ -1,7 +1,7 @@
 package org.jmisb.api.klv.st0601;
 
 /**
- * Alternate Platform Heading (ST 0601 tag 71)
+ * Alternate Platform Heading (ST 0601 Item 71).
  *
  * <p>From ST:
  *

@@ -1,7 +1,7 @@
 package org.jmisb.api.klv.st0601;
 
 /**
- * Platform Sideslip Angle (ST 0601 tag 52)
+ * Platform Sideslip Angle (ST 0601 Item 52).
  *
  * <p>From ST:
  *

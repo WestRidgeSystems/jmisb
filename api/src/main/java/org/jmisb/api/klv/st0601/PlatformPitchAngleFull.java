@@ -4,7 +4,7 @@ import java.util.Arrays;
 import org.jmisb.core.klv.PrimitiveConverter;
 
 /**
- * Platform Pitch Angle (Full) (ST 0601 tag 90)
+ * Platform Pitch Angle (Full) (ST 0601 Item 90).
  *
  * <p>From ST:
  *

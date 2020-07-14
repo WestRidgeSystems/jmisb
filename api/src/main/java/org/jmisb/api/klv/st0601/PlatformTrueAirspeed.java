@@ -1,7 +1,7 @@
 package org.jmisb.api.klv.st0601;
 
 /**
- * Platform True Airspeed (ST 0601 tag 8)
+ * Platform True Airspeed (ST 0601 Item 8).
  *
  * <p>From ST:
  *
