@@ -113,8 +113,7 @@ public class UasDatalinkFactory {
             case TargetErrorLe90:
                 return new TargetErrorEstimateLe90(bytes);
             case GenericFlagData01:
-                // TODO
-                return new OpaqueValue(bytes);
+                return new GenericFlagData01(bytes);
             case SecurityLocalMetadataSet:
                 return new NestedSecurityMetadata(bytes);
             case DifferentialPressure:

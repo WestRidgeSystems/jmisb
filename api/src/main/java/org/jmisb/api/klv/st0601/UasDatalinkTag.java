@@ -133,10 +133,10 @@ public enum UasDatalinkTag {
      * direction; Value is a {@link TargetErrorEstimateLe90}
      */
     TargetErrorLe90(46),
-    /** Tag 47; Generic metadata flags; Value is a {@link OpaqueValue} */
+    /** Tag 47; Generic metadata flags; Value is a {@link GenericFlagData01} */
     GenericFlagData01(47),
     /**
-     * Tag 48; MISB ST 0102 local let Security Metadata items; Value is a {@link
+     * Tag 48; MISB ST 0102 local set Security Metadata items; Value is a {@link
      * NestedSecurityMetadata}
      */
     SecurityLocalMetadataSet(48),
