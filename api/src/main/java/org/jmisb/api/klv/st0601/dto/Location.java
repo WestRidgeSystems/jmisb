@@ -3,7 +3,7 @@ package org.jmisb.api.klv.st0601.dto;
 /**
  * Data transfer object for Location.
  *
- * <p>This is used by Airbase Locations (ST0601 Tag 130) and Waypoint List (ST0601 Tag 141).
+ * <p>This is used by Airbase Locations (ST0601 Item 130) and Waypoint List (ST0601 Item 141).
  */
 public class Location {
     private double latitude;

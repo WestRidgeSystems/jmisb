@@ -3,7 +3,7 @@ package org.jmisb.api.klv.st0601;
 import org.jmisb.api.klv.st1201.FpEncoder;
 
 /**
- * Platform Course Angle (ST 0601 tag 112)
+ * Platform Course Angle (ST 0601 Item 112).
  *
  * <p>From ST:
  *

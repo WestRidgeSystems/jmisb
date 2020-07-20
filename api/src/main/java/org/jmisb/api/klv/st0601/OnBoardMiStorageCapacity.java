@@ -3,7 +3,7 @@ package org.jmisb.api.klv.st0601;
 import org.jmisb.core.klv.PrimitiveConverter;
 
 /**
- * On-Board MI Storage Capacity (ST 0601 tag 133)
+ * On-Board MI Storage Capacity (ST 0601 Item 133).
  *
  * <p>From ST:
  *

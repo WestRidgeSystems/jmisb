@@ -4,7 +4,7 @@ import java.time.LocalDateTime;
 import org.jmisb.api.klv.st0603.ST0603TimeStamp;
 
 /**
- * Event Start Time - UTC (ST 0601 tag 72).
+ * Event Start Time - UTC (ST 0601 Item 72).
  *
  * <p>From ST:
  *
@@ -20,7 +20,7 @@ import org.jmisb.api.klv.st0603.ST0603TimeStamp;
  *
  * </blockquote>
  *
- * Note: if you are looking to represent takeoff time, see TakeOffTime (Tag 131).
+ * Note: if you are looking to represent takeoff time, see TakeOffTime (Item 131).
  */
 public class EventStartTimeUtc extends ST0603TimeStamp implements IUasDatalinkValue {
     /**

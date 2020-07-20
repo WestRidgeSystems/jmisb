@@ -4,9 +4,9 @@ import java.util.Arrays;
 import org.jmisb.core.klv.PrimitiveConverter;
 
 /**
- * Abstract base class for latitude values in ST 0601
+ * Abstract base class for latitude values in ST 0601.
  *
- * <p>Used by tags: 13, 23, 40, 67, 82, 84, 86, 88
+ * <p>Used by items: 13, 23, 40, 67, 82, 84, 86, 88
  *
  * <blockquote>
  *

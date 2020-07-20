@@ -1,7 +1,7 @@
 package org.jmisb.api.klv.st0601;
 
 /**
- * Density Altitude (ST 0601 tag 38)
+ * Density Altitude (ST 0601 Item 38).
  *
  * <p>From ST:
  *

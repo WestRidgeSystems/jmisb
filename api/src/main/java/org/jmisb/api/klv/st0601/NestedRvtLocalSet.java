@@ -4,7 +4,7 @@ import org.jmisb.api.common.KlvParseException;
 import org.jmisb.api.klv.st0806.RvtLocalSet;
 
 /**
- * Remote Video Terminal Local Set (ST 0601 tag 73).
+ * Remote Video Terminal Local Set (ST 0601 Item 73).
  *
  * <p>From ST:
  *

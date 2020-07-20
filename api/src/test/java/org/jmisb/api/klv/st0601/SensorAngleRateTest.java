@@ -6,7 +6,7 @@ import org.testng.annotations.Test;
 
 public class SensorAngleRateTest {
     @Test
-    public void testConstructFromValueTag117() {
+    public void testConstructFromValueItem117() {
         // From ST
         SensorAngleRate rate = new SensorAzimuthRate(1);
         Assert.assertEquals(rate.getBytes(), new byte[] {(byte) 0x3E, (byte) 0x90, (byte) 0x00});
@@ -15,7 +15,7 @@ public class SensorAngleRateTest {
     }
 
     @Test
-    public void testConstructFromEncodedTag117() {
+    public void testConstructFromEncodedItem117() {
         // From ST
         SensorAngleRate rate = new SensorAzimuthRate(new byte[] {(byte) 0x3E, (byte) 0x90});
         Assert.assertEquals(rate.getAngleRate(), 1.0, 0.01);
@@ -24,7 +24,7 @@ public class SensorAngleRateTest {
     }
 
     @Test
-    public void testFactoryTag117() throws KlvParseException {
+    public void testFactoryItem117() throws KlvParseException {
         byte[] bytes = new byte[] {(byte) 0x3E, (byte) 0x90};
         IUasDatalinkValue v =
                 UasDatalinkFactory.createValue(UasDatalinkTag.SensorAzimuthRate, bytes);
@@ -36,7 +36,7 @@ public class SensorAngleRateTest {
     }
 
     @Test
-    public void testConstructFromValueTag118() {
+    public void testConstructFromValueItem118() {
         // From ST
         SensorAngleRate rate = new SensorElevationRate(0.004176);
         Assert.assertEquals(rate.getBytes(), new byte[] {(byte) 0x3E, (byte) 0x80, (byte) 0x11});
@@ -45,7 +45,7 @@ public class SensorAngleRateTest {
     }
 
     @Test
-    public void testConstructFromEncodedTag118() {
+    public void testConstructFromEncodedItem118() {
         // From ST:
         SensorAngleRate rate =
                 new SensorElevationRate(new byte[] {(byte) 0x3E, (byte) 0x80, (byte) 0x11});
@@ -55,7 +55,7 @@ public class SensorAngleRateTest {
     }
 
     @Test
-    public void testFactoryTag118() throws KlvParseException {
+    public void testFactoryItem118() throws KlvParseException {
         byte[] bytes = new byte[] {(byte) 0x3E, (byte) 0x80, (byte) 0x11};
         IUasDatalinkValue v =
                 UasDatalinkFactory.createValue(UasDatalinkTag.SensorElevationRate, bytes);
@@ -67,7 +67,7 @@ public class SensorAngleRateTest {
     }
 
     @Test
-    public void testConstructFromValueTag119() {
+    public void testConstructFromValueItem119() {
         // From ST
         SensorAngleRate rate = new SensorRollRate(-50);
         Assert.assertEquals(rate.getBytes(), new byte[] {(byte) 0x3B, (byte) 0x60, (byte) 0x00});
@@ -76,7 +76,7 @@ public class SensorAngleRateTest {
     }
 
     @Test
-    public void testConstructFromEncodedTag119() {
+    public void testConstructFromEncodedItem119() {
         // From ST:
         SensorAngleRate rate = new SensorRollRate(new byte[] {(byte) 0x3B, (byte) 0x60});
         Assert.assertEquals(rate.getAngleRate(), -50.0, 0.001);
@@ -85,7 +85,7 @@ public class SensorAngleRateTest {
     }
 
     @Test
-    public void testFactoryTag119() throws KlvParseException {
+    public void testFactoryItem119() throws KlvParseException {
         byte[] bytes = new byte[] {(byte) 0x3B, (byte) 0x60};
         IUasDatalinkValue v = UasDatalinkFactory.createValue(UasDatalinkTag.SensorRollRate, bytes);
         Assert.assertTrue(v instanceof SensorRollRate);

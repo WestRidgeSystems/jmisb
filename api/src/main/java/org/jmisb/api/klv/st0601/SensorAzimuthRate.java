@@ -1,7 +1,7 @@
 package org.jmisb.api.klv.st0601;
 
 /**
- * Sensor Azimuth Rate (ST0601 Tag 117)
+ * Sensor Azimuth Rate (ST0601 Item 117).
  *
  * <p>From ST:
  *
@@ -11,9 +11,9 @@ package org.jmisb.api.klv.st0601;
  *
  * <p>Resolution: 2 bytes = 0.0625 degrees/second, 3 bytes = 0.000244 degrees/second
  *
- * <p>Uses the same orientation as Sensor Relative Azimuth Angle (Tag 18) Refer to Tag 18's diagram:
- * From above the aircraft looking down, when the sensor is moving clockwise the rate is positive
- * and negative when its moving counter-clockwise.
+ * <p>Uses the same orientation as Sensor Relative Azimuth Angle (Item 18) Refer to Item 18's
+ * diagram: From above the aircraft looking down, when the sensor is moving clockwise the rate is
+ * positive and negative when its moving counter-clockwise.
  *
  * </blockquote>
  */

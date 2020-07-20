@@ -4,15 +4,15 @@ import org.jmisb.api.common.KlvParseException;
 import org.jmisb.api.klv.st0903.VmtiLocalSet;
 
 /**
- * VMTI Local Set (ST 0601 tag 74)
+ * VMTI Local Set (ST 0601 Item 74).
  *
  * <p>From ST:
  *
  * <blockquote>
  *
- * Use the MISB ST 0903 Local Set within the MISB ST 0601 Tag 74.
+ * Use the MISB ST 0903 Local Set within the MISB ST 0601 Item 74.
  *
- * <p>The length field is the size of all VMTI LS metadata items to be packaged within Tag 74.
+ * <p>The length field is the size of all VMTI LS metadata items to be packaged within Item 74.
  *
  * <p>The VMTI Local Set allows users to include, or nest, VMTI LS (MISB ST 0903) metadata items
  * within MISB ST 0601.

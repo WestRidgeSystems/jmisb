@@ -3,7 +3,7 @@ package org.jmisb.api.klv.st0601;
 import org.jmisb.core.klv.PrimitiveConverter;
 
 /**
- * Number of NAVSATs in View (ST 0601 tag 123)
+ * Number of NAVSATs in View (ST 0601 Item 123).
  *
  * <p>From ST:
  *
@@ -13,7 +13,7 @@ import org.jmisb.core.klv.PrimitiveConverter;
  *
  * <p>Number of satellites used to determine position.
  *
- * <p>Used with Positioning Method Source (Tag 124) for NAVSAT Types
+ * <p>Used with Positioning Method Source (Item 124) for NAVSAT Types
  *
  * <p>Map 0..(2^8-1) to 0..255.
  *

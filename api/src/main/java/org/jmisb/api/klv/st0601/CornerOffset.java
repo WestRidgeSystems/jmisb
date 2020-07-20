@@ -4,11 +4,12 @@ import java.util.Arrays;
 import org.jmisb.core.klv.PrimitiveConverter;
 
 /**
- * Corner Offset (ST 0601 tags 26-33)
+ * Corner Offset (ST 0601 Items 26-33).
  *
- * <p>Tags 26-33 encode the corner locations of the sensor footprint as offsets from the frame
- * center (tag 23/24). These values use only two bytes each, so their resolution is limited (~0.25m
- * at equator). For higher precision, see tags 82-89, Corner Latitude/Longitude Points (Full).
+ * <p>Items 26-33 encode the corner locations of the sensor footprint as offsets from the frame
+ * center (Items 23 and 24). These values use only two bytes each, so their resolution is limited
+ * (~0.25m at equator). For higher precision, see Items 82-89, Corner Latitude/Longitude Points
+ * (Full).
  *
  * <p>From ST:
  *

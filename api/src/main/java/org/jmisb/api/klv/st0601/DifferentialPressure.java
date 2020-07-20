@@ -1,7 +1,7 @@
 package org.jmisb.api.klv.st0601;
 
 /**
- * Differential Pressure (ST 0601 tag 49)
+ * Differential Pressure (ST 0601 Item 49).
  *
  * <p>From ST:
  *

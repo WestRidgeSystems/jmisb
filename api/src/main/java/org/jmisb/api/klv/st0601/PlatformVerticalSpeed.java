@@ -4,7 +4,7 @@ import java.util.Arrays;
 import org.jmisb.core.klv.PrimitiveConverter;
 
 /**
- * Platform Vertical Speed (ST 0601 tag 51)
+ * Platform Vertical Speed (ST 0601 Item 51).
  *
  * <p>From ST:
  *

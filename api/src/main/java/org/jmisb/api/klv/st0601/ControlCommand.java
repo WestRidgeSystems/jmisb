@@ -11,7 +11,7 @@ import org.jmisb.core.klv.ArrayUtils;
 import org.jmisb.core.klv.PrimitiveConverter;
 
 /**
- * Control Command (ST 0601 tag 115).
+ * Control Command (ST 0601 Item 115).
  *
  * <p>From ST:
  *
@@ -21,16 +21,16 @@ import org.jmisb.core.klv.PrimitiveConverter;
  *
  * <p>A copy of the command and control values used to request platform/sensor to perform an action.
  *
- * <p>Tag 116 uses the Command ID to signal validation.
+ * <p>Item 116 uses the Command ID to signal validation.
  *
  * <p>Command is a "string" format defined by platform vendor.
  *
- * <p>Control Command Verification (Tag 116) shows acknowledgment of the command
+ * <p>Control Command Verification (Item 116) shows acknowledgment of the command
  *
- * <p>The purpose of the Control Command (Tag 115) and Command Acknowledgement (Tag 116) items are
+ * <p>The purpose of the Control Command (Item 115) and Command Acknowledgement (Item 116) items are
  * to report the commands issued to the platform/sensor and the acknowledgment of those commands.
  * The Control Command defines a command ID and the command string which describes the command or
- * action to perform. At some later time, the command is acknowledged by the platform and Tag 116
+ * action to perform. At some later time, the command is acknowledged by the platform and Item 116
  * records the acknowledgment, by just restating the Command ID.
  *
  * </blockquote>

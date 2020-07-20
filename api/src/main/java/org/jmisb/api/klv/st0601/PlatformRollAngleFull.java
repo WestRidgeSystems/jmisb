@@ -4,7 +4,7 @@ import java.util.Arrays;
 import org.jmisb.core.klv.PrimitiveConverter;
 
 /**
- * Platform Roll Angle (Full) (ST 0601 tag 91)
+ * Platform Roll Angle (Full) (ST 0601 Item 91).
  *
  * <p>From ST:
  *

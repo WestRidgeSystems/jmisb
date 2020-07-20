@@ -464,20 +464,20 @@ public enum UasDatalinkTag {
     /** Tag 135; Type of communications used with platform; Value is a {@link UasDatalinkString} */
     CommunicationsMethod(135),
     /**
-     * Tag 136; Number of leap seconds to adjust Precision Time Stamp (Tag 2) to UTC; Value is a
+     * Tag 136; Number of leap seconds to adjust Precision Time Stamp (Item 2) to UTC; Value is a
      * {@link LeapSeconds}
      */
     LeapSeconds(136),
     /**
-     * Tag 137; Post-flight time adjustment to correct Precision Time Stamp (Tag 2) as needed; Value
-     * is a {@link CorrectionOffset}
+     * Tag 137; Post-flight time adjustment to correct Precision Time Stamp (Item 2) as needed;
+     * Value is a {@link CorrectionOffset}
      */
     CorrectionOffset(137),
     /** Tag 138; List of payloads available on the Platform; Value is a {@link PayloadList} */
     PayloadList(138),
     /**
-     * Tag 139; List of currently active payloads from the payload list (Tag 138); Value is a {@link
-     * ActivePayloads}
+     * Tag 139; List of currently active payloads from the payload list (Item 138); Value is a
+     * {@link ActivePayloads}
      */
     ActivePayloads(139),
     /** Tag 140; List of weapon stores and status; Value is a {@link WeaponsStores} */

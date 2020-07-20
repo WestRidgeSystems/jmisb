@@ -3,7 +3,7 @@ package org.jmisb.api.klv.st0601;
 import org.jmisb.api.klv.st1201.FpEncoder;
 
 /**
- * Transmission Frequency (Tag 132).
+ * Transmission Frequency (Item 132).
  *
  * <p>From ST:
  *

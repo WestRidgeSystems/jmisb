@@ -1,7 +1,7 @@
 package org.jmisb.api.klv.st0601;
 
 /**
- * Target Error Estimate - CE90 (ST 0601 tag 45)
+ * Target Error Estimate - CE90 (ST 0601 Item 45).
  *
  * <p>From ST:
  *

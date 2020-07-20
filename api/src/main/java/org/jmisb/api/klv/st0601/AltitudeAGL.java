@@ -1,7 +1,7 @@
 package org.jmisb.api.klv.st0601;
 
 /**
- * Altitude AGL (ST 0601 tag 113).
+ * Altitude AGL (ST 0601 Item 113).
  *
  * <p>From ST:
  *

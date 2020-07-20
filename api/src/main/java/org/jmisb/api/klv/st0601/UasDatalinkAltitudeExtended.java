@@ -5,9 +5,9 @@ import org.jmisb.api.klv.st1201.FpEncoder;
 /**
  * Shared implementation of IMAPB encoded altitude.
  *
- * <p>Used by Alternate Platform Ellipsoid Height Extended (ST 0601 tag 105), Altitude AGL (ST 0601
- * tag 113), Density Altitude Extended (ST 0601 tag 103), Radar Altimeter (ST 0601 tag 114) and
- * Sensor Ellipsoid Height Extended (ST 0601 tag 104).
+ * <p>Used by Alternate Platform Ellipsoid Height Extended (ST 0601 Item 105), Altitude AGL (ST 0601
+ * Item 113), Density Altitude Extended (ST 0601 Item 103), Radar Altimeter (ST 0601 Item 114) and
+ * Sensor Ellipsoid Height Extended (ST 0601 Item 104).
  */
 public abstract class UasDatalinkAltitudeExtended implements IUasDatalinkValue {
     protected static final double MIN_VAL = -900.0;

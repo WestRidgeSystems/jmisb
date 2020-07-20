@@ -1,7 +1,7 @@
 package org.jmisb.api.klv.st0601;
 
 /**
- * Wind Direction (ST 0601 tag 35)
+ * Wind Direction (ST 0601 Item 35).
  *
  * <p>From ST:
  *

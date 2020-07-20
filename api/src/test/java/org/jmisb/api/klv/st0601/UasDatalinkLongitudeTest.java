@@ -146,7 +146,7 @@ public class UasDatalinkLongitudeTest {
 
     // Test values changed in ST0601.16
     @Test
-    public void testST0601_16_Tag83() throws KlvParseException {
+    public void testST0601_16_Item83() throws KlvParseException {
         byte[] bytes = new byte[] {(byte) 0x14, (byte) 0xbc, (byte) 0xb2, (byte) 0xc0};
         IUasDatalinkValue v = UasDatalinkFactory.createValue(UasDatalinkTag.CornerLonPt1, bytes);
         Assert.assertTrue(v instanceof FullCornerLongitude);
@@ -158,7 +158,7 @@ public class UasDatalinkLongitudeTest {
     }
 
     @Test
-    public void testST0601_16_Tag85() throws KlvParseException {
+    public void testST0601_16_Item85() throws KlvParseException {
         byte[] bytes = new byte[] {(byte) 0x14, (byte) 0xbe, (byte) 0x84, (byte) 0xc8};
         IUasDatalinkValue v = UasDatalinkFactory.createValue(UasDatalinkTag.CornerLonPt2, bytes);
         Assert.assertTrue(v instanceof FullCornerLongitude);
@@ -170,7 +170,7 @@ public class UasDatalinkLongitudeTest {
     }
 
     @Test
-    public void testST0601_16_Tag87() throws KlvParseException {
+    public void testST0601_16_Item87() throws KlvParseException {
         byte[] bytes = new byte[] {(byte) 0x14, (byte) 0xBB, (byte) 0x17, (byte) 0xAF};
         IUasDatalinkValue v = UasDatalinkFactory.createValue(UasDatalinkTag.CornerLonPt3, bytes);
         Assert.assertTrue(v instanceof FullCornerLongitude);
@@ -182,7 +182,7 @@ public class UasDatalinkLongitudeTest {
     }
 
     @Test
-    public void testST0601_16_Tag89() throws KlvParseException {
+    public void testST0601_16_Item89() throws KlvParseException {
         byte[] bytes = new byte[] {(byte) 0x14, (byte) 0xB9, (byte) 0xD1, (byte) 0x76};
         IUasDatalinkValue v = UasDatalinkFactory.createValue(UasDatalinkTag.CornerLonPt4, bytes);
         Assert.assertTrue(v instanceof FullCornerLongitude);

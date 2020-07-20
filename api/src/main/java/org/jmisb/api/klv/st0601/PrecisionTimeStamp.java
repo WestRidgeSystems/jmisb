@@ -4,7 +4,7 @@ import java.time.LocalDateTime;
 import org.jmisb.api.klv.st0603.ST0603TimeStamp;
 
 /**
- * Precision Time Stamp (ST 0601 tag 2)
+ * Precision Time Stamp (ST 0601 Item 2).
  *
  * <p>From ST:
  *

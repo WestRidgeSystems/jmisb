@@ -1,7 +1,7 @@
 package org.jmisb.api.klv.st0601;
 
 /**
- * Sensor Ellipsoid Height Extended (ST 0601 tag 104)
+ * Sensor Ellipsoid Height Extended (ST 0601 Item 104).
  *
  * <p>From ST:
  *
@@ -14,7 +14,7 @@ package org.jmisb.api.klv.st0601;
  * <p>Resolution: 2 bytes = 2 meters, 3 bytes = 78.125 mm
  *
  * <p>The purpose of Sensor Ellipsoid Height Extended is to increase the range of altitude values
- * currently defined in Tag 75 Sensor Ellipsoid Height to support all CONOPs for airborne systems.
+ * currently defined in Item 75 Sensor Ellipsoid Height to support all CONOPs for airborne systems.
  *
  * </blockquote>
  */

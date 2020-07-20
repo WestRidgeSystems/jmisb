@@ -3,7 +3,7 @@ package org.jmisb.api.klv.st0601;
 import org.jmisb.core.klv.PrimitiveConverter;
 
 /**
- * Target Error Estimate (used by ST 0601 tag 45 and 46)
+ * Target Error Estimate (used by ST 0601 items 45 and 46).
  *
  * <blockquote>
  *

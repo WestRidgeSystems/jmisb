@@ -1,7 +1,7 @@
 package org.jmisb.api.klv.st0601;
 
 /**
- * Ground Range (ST 0601 tag 57)
+ * Ground Range (ST 0601 Item 57).
  *
  * <p>From ST:
  *

@@ -1,7 +1,7 @@
 package org.jmisb.api.klv.st0601;
 
 /**
- * Sensor East Velocity (ST 0601 tag 80)
+ * Sensor East Velocity (ST 0601 Item 80).
  *
  * <p>From ST:
  *

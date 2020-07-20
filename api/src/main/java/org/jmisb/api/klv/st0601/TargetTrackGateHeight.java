@@ -1,7 +1,7 @@
 package org.jmisb.api.klv.st0601;
 
 /**
- * Target Track Gate Height (ST 0601 tag 44)
+ * Target Track Gate Height (ST 0601 Item 44).
  *
  * <p>From ST:
  *

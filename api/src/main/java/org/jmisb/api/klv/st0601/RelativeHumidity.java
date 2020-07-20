@@ -3,7 +3,7 @@ package org.jmisb.api.klv.st0601;
 import org.jmisb.core.klv.PrimitiveConverter;
 
 /**
- * Relative Humidity (ST 0601 tag 55)
+ * Relative Humidity (ST 0601 Item 55).
  *
  * <p>From ST:
  *

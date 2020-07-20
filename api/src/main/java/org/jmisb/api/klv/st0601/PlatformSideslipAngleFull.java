@@ -4,7 +4,7 @@ import java.util.Arrays;
 import org.jmisb.core.klv.PrimitiveConverter;
 
 /**
- * Platform Sideslip Angle (Full) (ST 0601 tag 93)
+ * Platform Sideslip Angle (Full) (ST 0601 Item 93).
  *
  * <p>From ST:
  *

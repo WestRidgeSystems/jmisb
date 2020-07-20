@@ -1,7 +1,7 @@
 package org.jmisb.api.klv.st0601;
 
 /**
- * Target Location Longitude (ST 0601 tag 41)
+ * Target Location Longitude (ST 0601 Item 41).
  *
  * <p>From ST:
  *

@@ -5,7 +5,7 @@ import java.util.Objects;
 /**
  * Data transfer object for Payload.
  *
- * <p>This is used by Payload List (ST0601 Tag 138).
+ * <p>This is used by Payload List (ST0601 Item 138).
  */
 public class Payload {
     private int identifier;
@@ -29,7 +29,7 @@ public class Payload {
      * The identifier for this payload.
      *
      * <p>The Payload Identifier is a unique BER-OID integer sequentially assigned starting with the
-     * number zero (0). The Active Payload (Tag 139) uses the Payload Identifier to specify which
+     * number zero (0). The Active Payload (Item 139) uses the Payload Identifier to specify which
      * payloads are active.
      *
      * @return the identifier.
@@ -42,7 +42,7 @@ public class Payload {
      * Set the identifier for this payload.
      *
      * <p>The Payload Identifier is a unique BER-OID integer sequentially assigned starting with the
-     * number zero (0). The Active Payload (Tag 139) uses the Payload Identifier to specify which
+     * number zero (0). The Active Payload (Item 139) uses the Payload Identifier to specify which
      * payloads are active.
      *
      * @param identifier the zero index payload identifier.

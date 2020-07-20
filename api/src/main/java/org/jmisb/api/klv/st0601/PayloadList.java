@@ -11,7 +11,7 @@ import org.jmisb.api.klv.st0601.dto.Payload;
 import org.jmisb.core.klv.ArrayUtils;
 
 /**
- * Payload List (Tag 138).
+ * Payload List (Item 138).
  *
  * <p>From ST0601:
  *
@@ -20,11 +20,11 @@ import org.jmisb.core.klv.ArrayUtils;
  * The Payload List provides type and name of all relevant payloads on the platform. The Payload
  * List may contain optical sensors and non-optical payload packages such as SIGINT, LIDAR, or RADAR
  * systems. Some of the items in the Payload List will have further wavelength information provided
- * in the Wavelengths List when they become active. This list does not contain any weapons, see Tag
+ * in the Wavelengths List when they become active. This list does not contain any weapons, see Item
  * 140 for listing platform weapons. The Payload List is a Floating Length Pack (FLP) which contains
  * a Payload Record. A Payload Record consists of four elements: Payload Identifier, Payload Type,
  * Name Length and Payload Name. The Payload Identifier is a unique BER-OID integer sequentially
- * assigned starting with the number zero (0). The Active Payload (Tag 139) uses the Payload
+ * assigned starting with the number zero (0). The Active Payload (Item 139) uses the Payload
  * Identifier to specify which payloads are active. The Name Length encodes the length of the
  * Payload Name in BER short or long form. The Payload Name is a descriptive name of the payload
  * defined by the metadata encoder.

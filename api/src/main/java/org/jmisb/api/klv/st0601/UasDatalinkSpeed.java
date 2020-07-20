@@ -3,7 +3,7 @@ package org.jmisb.api.klv.st0601;
 import org.jmisb.core.klv.PrimitiveConverter;
 
 /**
- * UAS Datalink Speed (used by ST 0601 tag 8, 9 and 56)
+ * UAS Datalink Speed (used by ST 0601 items 8, 9 and 56).
  *
  * <p>Map 0..(2^8-1) to 0..255 meters/second.
  *

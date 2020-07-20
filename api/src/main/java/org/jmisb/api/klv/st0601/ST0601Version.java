@@ -3,7 +3,7 @@ package org.jmisb.api.klv.st0601;
 import org.jmisb.core.klv.PrimitiveConverter;
 
 /**
- * UAS Datalink LS Version Number (ST 0601 tag 65).
+ * UAS Datalink LS Version Number (ST 0601 Item 65).
  *
  * <p>From ST:
  *

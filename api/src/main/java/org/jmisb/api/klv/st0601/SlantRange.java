@@ -1,7 +1,7 @@
 package org.jmisb.api.klv.st0601;
 
 /**
- * Slant Range (ST 0601 tag 21)
+ * Slant Range (ST 0601 Item 21).
  *
  * <p>From ST:
  *

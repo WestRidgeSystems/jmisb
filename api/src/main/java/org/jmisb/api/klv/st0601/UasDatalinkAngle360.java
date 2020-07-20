@@ -5,8 +5,8 @@ import org.jmisb.core.klv.PrimitiveConverter;
 /**
  * Heading-style Angle.
  *
- * <p>Used by ST 0601 tag 5 (Platform Heading Angle), tag 35 (Wind Direction), tag 64 (Platform
- * Magnetic Heading) and tag 71 (Alternate Platform Heading).
+ * <p>Used by ST 0601 Item 5 (Platform Heading Angle), Item 35 (Wind Direction), Item 64 (Platform
+ * Magnetic Heading) and Item 71 (Alternate Platform Heading).
  *
  * <p>From ST:
  *

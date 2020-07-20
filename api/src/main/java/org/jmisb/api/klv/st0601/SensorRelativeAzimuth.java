@@ -3,7 +3,7 @@ package org.jmisb.api.klv.st0601;
 import org.jmisb.core.klv.PrimitiveConverter;
 
 /**
- * Sensor Relative Azimuth (ST 0601 tag 18)
+ * Sensor Relative Azimuth (ST 0601 Item 18).
  *
  * <p>From ST:
  *

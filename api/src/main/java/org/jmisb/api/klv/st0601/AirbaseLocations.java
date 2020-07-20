@@ -10,7 +10,7 @@ import org.jmisb.api.klv.st1201.FpEncoder;
 import org.jmisb.core.klv.ArrayUtils;
 
 /**
- * Airbase Locations (ST 0601 tag 130).
+ * Airbase Locations (ST 0601 Item 130).
  *
  * <p>From ST:
  *

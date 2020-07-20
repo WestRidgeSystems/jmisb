@@ -1,7 +1,7 @@
 package org.jmisb.api.klv.st0601;
 
 /**
- * Weapon Fired (ST 0601 tag 61).
+ * Weapon Fired (ST 0601 Item 61).
  *
  * <p>From ST:
  *
@@ -9,8 +9,8 @@ package org.jmisb.api.klv.st0601;
  *
  * Indication when a particular weapon is released.
  *
- * <p>Note: the Weapon Stores (Tag 140) replaces the Weapon Load (Tag 60) and Weapon Fired (Tag 61)
- * for providing information about Weapons and their status.
+ * <p>Note: the Weapon Stores (Item 140) replaces the Weapon Load (Item 60) and Weapon Fired (Item
+ * 61) for providing information about Weapons and their status.
  *
  * <p>The Weapon Fired metadata item has the same format as the first byte of the Weapon Load
  * metadata item indicating station and substation location of a store. Byte 1 is composed of two

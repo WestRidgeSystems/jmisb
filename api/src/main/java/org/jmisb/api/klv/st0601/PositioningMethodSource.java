@@ -3,7 +3,7 @@ package org.jmisb.api.klv.st0601;
 import org.jmisb.core.klv.PrimitiveConverter;
 
 /**
- * Positioning Method Source (ST 0601 tag 124)
+ * Positioning Method Source (ST 0601 Item 124).
  *
  * <p>From ST:
  *

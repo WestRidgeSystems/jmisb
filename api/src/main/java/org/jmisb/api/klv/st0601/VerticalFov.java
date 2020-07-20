@@ -3,7 +3,7 @@ package org.jmisb.api.klv.st0601;
 import org.jmisb.core.klv.PrimitiveConverter;
 
 /**
- * Sensor Vertical field of view (ST 0601 tag 17)
+ * Sensor Vertical field of view (ST 0601 Item 17).
  *
  * <p>From ST:
  *

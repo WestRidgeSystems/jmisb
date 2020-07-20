@@ -14,7 +14,7 @@ import org.jmisb.core.klv.ArrayUtils;
 import org.jmisb.core.klv.PrimitiveConverter;
 
 /**
- * Waypoint List (ST 0601 tag 141).
+ * Waypoint List (ST 0601 Item 141).
  *
  * <p>From ST:
  *

@@ -5,7 +5,7 @@ import java.util.Map;
 import java.util.stream.Collectors;
 
 /**
- * Sensor Control Mode (ST 0601 tag 126)
+ * Sensor Control Mode (ST 0601 Item 126).
  *
  * <p>From ST:
  *

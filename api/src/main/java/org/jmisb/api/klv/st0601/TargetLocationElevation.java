@@ -1,7 +1,7 @@
 package org.jmisb.api.klv.st0601;
 
 /**
- * Target Location Elevation (ST 0601 tag 42)
+ * Target Location Elevation (ST 0601 Item 42).
  *
  * <p>From ST:
  *

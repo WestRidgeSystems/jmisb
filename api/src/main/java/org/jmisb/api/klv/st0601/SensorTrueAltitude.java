@@ -1,7 +1,7 @@
 package org.jmisb.api.klv.st0601;
 
 /**
- * Sensor True Altitude (ST 0601 tag 15)
+ * Sensor True Altitude (ST 0601 Item 15).
  *
  * <p>From ST:
  *

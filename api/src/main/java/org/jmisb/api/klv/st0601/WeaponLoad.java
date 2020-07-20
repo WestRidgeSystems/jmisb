@@ -1,7 +1,7 @@
 package org.jmisb.api.klv.st0601;
 
 /**
- * Weapon Load (ST 0601 tag 60).
+ * Weapon Load (ST 0601 Item 60).
  *
  * <p>From ST:
  *
@@ -9,8 +9,8 @@ package org.jmisb.api.klv.st0601;
  *
  * Current weapons stored on aircraft.
  *
- * <p>Note: the Weapon Stores (Tag 140) replaces the Weapon Load (Tag 60) and Weapon Fired (Tag 61)
- * for providing information about Weapons and their status.
+ * <p>Note: the Weapon Stores (Item 140) replaces the Weapon Load (Item 60) and Weapon Fired (Item
+ * 61) for providing information about Weapons and their status.
  *
  * <p>The Weapon Load item is composed of two bytes: the first byte indicates the aircraft store
  * location, and the second byte indicates the store type. Each byte is composed of two nibbles with

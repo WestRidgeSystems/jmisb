@@ -1,7 +1,7 @@
 package org.jmisb.api.klv.st0601;
 
 /**
- * Corner Latitude Point (ST 0601 tags 82/84/86/88)
+ * Corner Latitude Point (ST 0601 Items 82/84/86/88).
  *
  * <p>From ST:
  *

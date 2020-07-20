@@ -3,7 +3,7 @@ package org.jmisb.api.klv.st0601;
 import org.jmisb.core.klv.PrimitiveConverter;
 
 /**
- * Propulsion Unit Speed (ST 0601 tag 111).
+ * Propulsion Unit Speed (ST 0601 Item 111).
  *
  * <p>From ST:
  *

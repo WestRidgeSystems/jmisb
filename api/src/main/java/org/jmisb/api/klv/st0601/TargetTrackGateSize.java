@@ -3,7 +3,7 @@ package org.jmisb.api.klv.st0601;
 import org.jmisb.core.klv.PrimitiveConverter;
 
 /**
- * Target Track Gate Size (used by ST 0601 tag 43 and 44)
+ * Target Track Gate Size (used by ST 0601 Items 43 and 44).
  *
  * <p>Map 0..(2^8-1) to 0..510 pixels.
  *

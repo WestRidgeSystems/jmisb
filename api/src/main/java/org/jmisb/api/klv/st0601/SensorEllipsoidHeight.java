@@ -1,7 +1,7 @@
 package org.jmisb.api.klv.st0601;
 
 /**
- * Sensor Ellipsoid Height (ST 0601 tag 75)
+ * Sensor Ellipsoid Height (ST 0601 Item 75).
  *
  * <p>From ST:
  *

@@ -3,7 +3,7 @@ package org.jmisb.api.klv.st0601.dto;
 /**
  * Data transfer object for Waypoint information.
  *
- * <p>This is used by Waypoint List (ST0601 Tag 141).
+ * <p>This is used by Waypoint List (ST0601 Item 141).
  */
 public class Waypoint {
     private int waypointID;

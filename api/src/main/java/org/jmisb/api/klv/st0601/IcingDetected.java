@@ -5,7 +5,7 @@ import java.util.Map;
 import java.util.stream.Collectors;
 
 /**
- * Icing Detected (ST 0601 tag 34)
+ * Icing Detected (ST 0601 Item 34).
  *
  * <p>From ST:
  *
