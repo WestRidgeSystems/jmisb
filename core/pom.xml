@@ -93,7 +93,7 @@
                         <artifactId>dependency-check-maven</artifactId>
                         <version>${owasp.version}</version>
                         <configuration>
-                            <failBuildOnCVSS>8</failBuildOnCVSS>
+                            <failBuildOnAnyVulnerability>true</failBuildOnAnyVulnerability>
                             <assemblyAnalyzerEnabled>false</assemblyAnalyzerEnabled>
                         </configuration>
                         <executions>
