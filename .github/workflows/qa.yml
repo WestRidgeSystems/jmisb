@@ -17,4 +17,4 @@ jobs:
         with:
           java-version: 1.11
       - name: Build and check dependencies
-        run: mvn -B package --file pom.xml -Pdependencycheck
+        run: mvn -B install --file pom.xml -Pdependencycheck
