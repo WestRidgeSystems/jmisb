@@ -5,20 +5,33 @@ import java.awt.event.ComponentEvent;
 import java.awt.event.ComponentListener;
 import java.awt.image.BufferedImage;
 import javax.swing.*;
+import org.jmisb.api.klv.st0601.UasDatalinkMessage;
+import org.jmisb.api.klv.st1909.MetadataItems;
+import org.jmisb.api.klv.st1909.OverlayRenderer;
+import org.jmisb.api.klv.st1909.ST0601Converter;
+import org.jmisb.api.video.IMetadataListener;
 import org.jmisb.api.video.IVideoListener;
+import org.jmisb.api.video.MetadataFrame;
 import org.jmisb.api.video.VideoFrame;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 /** Simple JPanel to display video content */
-public class VideoPanel extends JPanel implements IVideoListener, ComponentListener {
+public class VideoPanel extends JPanel
+        implements IVideoListener, IMetadataListener, ComponentListener {
+
     private static Logger logger = LoggerFactory.getLogger(VideoPanel.class);
     private BufferedImage bufferedImage;
     private int x, y, width, height;
     private boolean resized = false;
+    private final OverlayRenderer overlayRenderer = new OverlayRenderer();
+    private final MetadataItems metadata = new MetadataItems();
+    private boolean metadataOverlayEnabled = false;
 
     VideoPanel() {
-        if (logger.isDebugEnabled()) logger.debug("Creating video panel");
+        if (logger.isDebugEnabled()) {
+            logger.debug("Creating video panel");
+        }
 
         addComponentListener(this);
     }
@@ -63,13 +76,27 @@ public class VideoPanel extends JPanel implements IVideoListener, ComponentListe
         }
 
         bufferedImage = frame.getImage();
+        if (metadataOverlayEnabled && metadata.isValid()) {
+            overlayRenderer.render(bufferedImage, metadata);
+        }
 
         // Need to repaint on the EDT
         SwingUtilities.invokeLater(() -> repaint(0, 0, getWidth(), getHeight()));
     }
 
+    @Override
+    public void onMetadataReceived(MetadataFrame metadataFrame) {
+        if (metadataOverlayEnabled) {
+            if (metadataFrame.getMisbMessage() instanceof UasDatalinkMessage) {
+                UasDatalinkMessage message = (UasDatalinkMessage) metadataFrame.getMisbMessage();
+                ST0601Converter.convertST0601(message, this.metadata);
+            }
+        }
+    }
+
     public void clear() {
         bufferedImage = null;
+        this.metadata.clear();
         repaint(0, 0, getWidth(), getHeight());
     }
 
@@ -111,5 +138,9 @@ public class VideoPanel extends JPanel implements IVideoListener, ComponentListe
                         : (int) Math.floor(panelWidth / imageAspect);
         x = (panelWidth - width) / 2;
         y = (panelHeight - height) / 2;
+    }
+
+    void setMetadataOverlayState(boolean state) {
+        this.metadataOverlayEnabled = state;
     }
 }
