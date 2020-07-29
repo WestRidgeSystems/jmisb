@@ -2,12 +2,12 @@ package org.jmisb.api.klv.st0102;
 
 import java.nio.charset.StandardCharsets;
 
-/** Represents an Object Country Code value in ST 0102 */
+/** Represents an Object Country Code value in ST 0102. */
 public class ObjectCountryCodeString implements ISecurityMetadataValue {
     private String stringValue;
 
     /**
-     * Create from value
+     * Create from value.
      *
      * @param value The string value
      */
@@ -16,7 +16,7 @@ public class ObjectCountryCodeString implements ISecurityMetadataValue {
     }
 
     /**
-     * Create from encoded bytes
+     * Create from encoded bytes.
      *
      * @param bytes Encoded byte array
      */
@@ -25,7 +25,7 @@ public class ObjectCountryCodeString implements ISecurityMetadataValue {
     }
 
     /**
-     * Get the value
+     * Get the value.
      *
      * @return The string value
      */

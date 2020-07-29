@@ -2,7 +2,12 @@ package org.jmisb.api.klv.st0102;
 
 import java.nio.charset.StandardCharsets;
 
-/** Represents a string value in ST 0102 */
+/**
+ * Represents a string value in ST 0102.
+ *
+ * <p>Strings are used across a range of security metadata items. This class represents the various
+ * kinds of strings.
+ */
 public class SecurityMetadataString implements ISecurityMetadataValue {
     public static final String CAVEATS = "Caveats";
     public static final String CLASSIFICATION_COMMENTS = "Classification Comments";
@@ -20,7 +25,7 @@ public class SecurityMetadataString implements ISecurityMetadataValue {
     private String displayName;
 
     /**
-     * Create from value
+     * Create from value.
      *
      * @param displayName the display name for this particular string (see static values)
      * @param value The string value
@@ -31,7 +36,7 @@ public class SecurityMetadataString implements ISecurityMetadataValue {
     }
 
     /**
-     * Create from encoded bytes
+     * Create from encoded bytes.
      *
      * @param displayName the display name for this particular string (see static values)
      * @param bytes Encoded byte array
@@ -42,7 +47,7 @@ public class SecurityMetadataString implements ISecurityMetadataValue {
     }
 
     /**
-     * Get the value
+     * Get the value.
      *
      * @return The string value
      */

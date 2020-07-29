@@ -4,12 +4,12 @@ import java.nio.charset.StandardCharsets;
 import org.jmisb.api.klv.st0102.Classification;
 import org.jmisb.api.klv.st0102.ISecurityMetadataValue;
 
-/** Security classification level as defined by Security Metadata Universal Set (ST 0102 tag 1) */
+/** Security classification level as defined by Security Metadata Universal Set (ST 0102 tag 1). */
 public class ClassificationUniversal implements ISecurityMetadataValue {
     private Classification value;
 
     /**
-     * Create from value
+     * Create from value.
      *
      * @param classification The classification level
      */
@@ -18,7 +18,7 @@ public class ClassificationUniversal implements ISecurityMetadataValue {
     }
 
     /**
-     * Create from encoded bytes
+     * Create from encoded bytes.
      *
      * @param bytes The encoded byte array
      */
@@ -47,7 +47,7 @@ public class ClassificationUniversal implements ISecurityMetadataValue {
     }
 
     /**
-     * Get the classification level
+     * Get the classification level.
      *
      * @return The classification level
      */

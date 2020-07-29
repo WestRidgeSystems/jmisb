@@ -3,12 +3,12 @@ package org.jmisb.api.klv.st0102.localset;
 import org.jmisb.api.klv.st0102.Classification;
 import org.jmisb.api.klv.st0102.ISecurityMetadataValue;
 
-/** Security classification level as defined by Security Metadata Local Set (ST 0102 tag 1) */
+/** Security classification level as defined by Security Metadata Local Set (ST 0102 tag 1). */
 public class ClassificationLocal implements ISecurityMetadataValue {
     private Classification value;
 
     /**
-     * Create from value
+     * Create from value.
      *
      * @param classification The classification level
      */
@@ -17,7 +17,7 @@ public class ClassificationLocal implements ISecurityMetadataValue {
     }
 
     /**
-     * Create from encoded bytes
+     * Create from encoded bytes.
      *
      * @param bytes The encoded byte array
      */
@@ -30,7 +30,7 @@ public class ClassificationLocal implements ISecurityMetadataValue {
     }
 
     /**
-     * Get the classification level
+     * Get the classification level.
      *
      * @return The classification level
      */

@@ -5,12 +5,12 @@ import static org.jmisb.api.klv.st0102.CountryCodingMethod.ISO3166_MIXED;
 import org.jmisb.api.klv.st0102.CountryCodingMethod;
 import org.jmisb.api.klv.st0102.ISecurityMetadataValue;
 
-/** Classifying Country and Releasing Instructions Country Coding Method (ST 0102 tag 2) */
+/** Classifying Country and Releasing Instructions Country Coding Method (ST 0102 tag 2). */
 public class CcMethod implements ISecurityMetadataValue {
     private byte method;
 
     /**
-     * Create from value
+     * Create from value.
      *
      * @param method The country coding method
      */
@@ -68,7 +68,7 @@ public class CcMethod implements ISecurityMetadataValue {
     }
 
     /**
-     * Create from encoded bytes
+     * Create from encoded bytes.
      *
      * @param bytes Encoded byte array
      */
@@ -86,7 +86,7 @@ public class CcMethod implements ISecurityMetadataValue {
     }
 
     /**
-     * Get the country coding method
+     * Get the country coding method.
      *
      * @return The country coding method
      */

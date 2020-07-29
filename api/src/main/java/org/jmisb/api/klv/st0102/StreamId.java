@@ -24,7 +24,7 @@ public class StreamId implements ISecurityMetadataValue {
     private int id;
 
     /**
-     * Create from encoded bytes
+     * Create from encoded bytes.
      *
      * @param bytes Byte array of length 1
      */
@@ -36,7 +36,7 @@ public class StreamId implements ISecurityMetadataValue {
     }
 
     /**
-     * Get the stream identifier
+     * Get the stream identifier.
      *
      * @return The stream identifier
      */

@@ -2,12 +2,12 @@ package org.jmisb.api.klv.st0102;
 
 import org.jmisb.core.klv.PrimitiveConverter;
 
-/** Security Metadata version number (ST 0102 tag 22) */
+/** Security Metadata version number (ST 0102 tag 22). */
 public class ST0102Version implements ISecurityMetadataValue {
     private int version;
 
     /**
-     * Create from value
+     * Create from value.
      *
      * @param version The version number
      */
@@ -16,7 +16,7 @@ public class ST0102Version implements ISecurityMetadataValue {
     }
 
     /**
-     * Create from encoded bytes
+     * Create from encoded bytes.
      *
      * @param bytes Byte array of length 2
      */
@@ -29,7 +29,7 @@ public class ST0102Version implements ISecurityMetadataValue {
     }
 
     /**
-     * Get the version number
+     * Get the version number.
      *
      * @return The version number
      */

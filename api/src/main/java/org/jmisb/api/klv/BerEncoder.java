@@ -9,7 +9,7 @@ public class BerEncoder {
     private BerEncoder() {}
 
     /**
-     * Encode an integer using Basic Encoding Rules (BER)
+     * Encode an integer using Basic Encoding Rules (BER).
      *
      * @param value The value to encode (must be non-negative)
      * @param ber Encoding type
@@ -76,7 +76,7 @@ public class BerEncoder {
     }
 
     /**
-     * Encode an integer using short or long form, whichever is more compact
+     * Encode an integer using short or long form, whichever is more compact.
      *
      * @param value The value to encode (must be non-negative)
      * @return The encoded value

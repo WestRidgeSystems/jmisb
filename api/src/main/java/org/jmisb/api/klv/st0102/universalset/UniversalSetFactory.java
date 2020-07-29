@@ -7,7 +7,7 @@ public class UniversalSetFactory {
     private UniversalSetFactory() {}
 
     /**
-     * Create a {@link ISecurityMetadataValue} instance from encoded bytes
+     * Create a {@link ISecurityMetadataValue} instance from encoded bytes.
      *
      * @param key Tag defining the value type
      * @param bytes Encoded bytes

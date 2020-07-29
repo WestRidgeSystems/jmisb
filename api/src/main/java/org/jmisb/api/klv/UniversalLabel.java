@@ -2,7 +2,7 @@ package org.jmisb.api.klv;
 
 import java.util.Arrays;
 
-/** Represents a 16-byte Universal Label (UL) */
+/** Represents a 16-byte Universal Label (UL). */
 public class UniversalLabel {
     public static final int LENGTH = 16;
     private final byte[] bytes;
@@ -12,7 +12,7 @@ public class UniversalLabel {
     private static final int SMPTE_DESIGNATOR_FIELD = 3;
 
     /**
-     * Construct a UL from a byte array
+     * Construct a UL from a byte array.
      *
      * @param bytes The UL byte array
      * @throws IllegalArgumentException if the array does not contain a valid UL
@@ -23,7 +23,7 @@ public class UniversalLabel {
     }
 
     /**
-     * Get the byte array
+     * Get the byte array.
      *
      * @return The 16-byte array
      */
@@ -56,7 +56,7 @@ public class UniversalLabel {
     }
 
     /**
-     * Test whether an array of bytes contains a valid UL
+     * Test whether an array of bytes contains a valid UL.
      *
      * @param bytes The byte array
      * @throws IllegalArgumentException if the array does not contain a valid UL

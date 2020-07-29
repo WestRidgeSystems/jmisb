@@ -2,9 +2,9 @@ package org.jmisb.api.klv.st0102;
 
 import org.jmisb.api.klv.UniversalLabel;
 
-/** Constants used by ST 0102 */
+/** Constants used by ST 0102. */
 public class SecurityMetadataConstants {
-    /** The currently-supported revision is 0102.12 */
+    /** The currently-supported revision of ST0102. */
     public static final short ST_VERSION_NUMBER = 12;
 
     private SecurityMetadataConstants() {}

@@ -11,14 +11,14 @@ import org.jmisb.api.klv.st0601.UasDatalinkMessage;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
-/** Parse metadata to extract individual {@link IMisbMessage} packets */
+/** Parse metadata to extract individual {@link IMisbMessage} packets. */
 public class KlvParser {
     private static Logger logger = LoggerFactory.getLogger(KlvParser.class);
 
     private KlvParser() {}
 
     /**
-     * Parse a byte array containing one or more {@link IMisbMessage}s
+     * Parse a byte array containing one or more {@link IMisbMessage}s.
      *
      * <p>This is the main interface for parsing KLV metadata. It assumes that {@code bytes}
      * contains one or more top-level messages, i.e., byte sequences starting with a Universal Label
@@ -85,7 +85,7 @@ public class KlvParser {
     }
 
     /**
-     * Extract the next top-level message
+     * Extract the next top-level message.
      *
      * @param bytes The original byte array, assumed to begin with 16-byte UL
      * @return Byte array containing the full top-level message, including UL key, length, and value

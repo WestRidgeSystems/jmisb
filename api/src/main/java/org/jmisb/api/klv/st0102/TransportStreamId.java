@@ -24,7 +24,7 @@ public class TransportStreamId implements ISecurityMetadataValue {
     private int id;
 
     /**
-     * Create from encoded bytes
+     * Create from encoded bytes.
      *
      * @param bytes Byte array of length 2
      */
@@ -37,7 +37,7 @@ public class TransportStreamId implements ISecurityMetadataValue {
     }
 
     /**
-     * Get the transport stream identifier
+     * Get the transport stream identifier.
      *
      * @return The transport stream identifier
      */

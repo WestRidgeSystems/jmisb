@@ -7,14 +7,14 @@ import org.jmisb.api.common.KlvParseException;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
-/** Parse fields from a Local Data Set (LDS) */
+/** Parse fields from a Local Data Set (LDS). */
 public class LdsParser {
     private static Logger logger = LoggerFactory.getLogger(LdsParser.class);
 
     private LdsParser() {}
 
     /**
-     * Parse {@link LdsField}s from a byte array
+     * Parse {@link LdsField}s from a byte array.
      *
      * @param bytes Byte array to parse
      * @param start Index of the first byte to parse

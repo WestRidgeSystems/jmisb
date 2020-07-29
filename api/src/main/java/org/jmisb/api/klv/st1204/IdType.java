@@ -75,9 +75,17 @@ public enum IdType {
     /**
      * Lookup an identifier by specified value.
      *
-     * <p>< pre>{@code IdType idType = IdType.fromValue(2); // idType is IdType.Virtual }</pre>
+     * <p>For {@code IdType.Virtual}:
      *
-     * <p>< pre>{@code IdType idType = IdType.fromValue(0); // idType is IdType.None }</pre>
+     * <p>
+     *
+     * <pre>{@code IdType idType = IdType.fromValue(2);}</pre>
+     *
+     * <p>For {@code IdType.None}:
+     *
+     * <p>
+     *
+     * <pre>{@code IdType idType = IdType.fromValue(0);}</pre>
      *
      * @param i the integer value of the identifier.
      * @return the equivalent IdType.

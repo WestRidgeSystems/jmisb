@@ -7,7 +7,7 @@ import org.jmisb.api.klv.st0102.CountryCodingMethod;
 import org.jmisb.api.klv.st0102.CountryCodingMethodUtilities;
 import org.jmisb.api.klv.st0102.ISecurityMetadataValue;
 
-/** Object Country Coding Method (ST 0102 tag 12) */
+/** Object Country Coding Method (ST 0102 tag 12). */
 public class OcMethod implements ISecurityMetadataValue {
     private byte method;
     private static Set<Byte> legal =
@@ -31,7 +31,7 @@ public class OcMethod implements ISecurityMetadataValue {
                             (byte) 0x40));
 
     /**
-     * Create from value
+     * Create from value.
      *
      * @param method Country coding method
      */
@@ -40,7 +40,7 @@ public class OcMethod implements ISecurityMetadataValue {
     }
 
     /**
-     * Create from encoded bytes
+     * Create from encoded bytes.
      *
      * @param bytes Encoded byte array
      */
@@ -57,7 +57,7 @@ public class OcMethod implements ISecurityMetadataValue {
     }
 
     /**
-     * Get the country coding method
+     * Get the country coding method.
      *
      * @return The country coding method
      */
