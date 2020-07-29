@@ -1,0 +1,15 @@
+<?xml version="1.0"?>
+
+<!DOCTYPE suppressions PUBLIC "-//Puppy Crawl//DTD Suppressions 1.1//EN" "http://www.puppycrawl.com/dtds/suppressions_1_1.dtd">
+
+<suppressions>
+    <suppress files="[\\/]api[\\/]common[\\/]" checks="[a-zA-Z0-9]*"/>
+    <suppress files="[\\/]api[\\/]klv[\\/]eg0104[\\/]" checks="[a-zA-Z0-9]*"/>
+    <suppress files="[\\/]api[\\/]klv[\\/]st0601[\\/]" checks="[a-zA-Z0-9]*"/>
+    <suppress files="[\\/]api[\\/]klv[\\/]st0603[\\/]" checks="[a-zA-Z0-9]*"/>
+    <suppress files="[\\/]api[\\/]klv[\\/]st0805[\\/]" checks="[a-zA-Z0-9]*"/>
+    <suppress files="[\\/]api[\\/]klv[\\/]st0806[\\/]" checks="[a-zA-Z0-9]*"/>
+    <suppress files="[\\/]api[\\/]klv[\\/]st0903[\\/]" checks="[a-zA-Z0-9]*"/>
+    <suppress files="[\\/]api[\\/]klv[\\/]st1201[\\/]" checks="[a-zA-Z0-9]*"/>
+    <suppress files="[\\/]api[\\/]video[\\/]" checks="[a-zA-Z0-9]*"/>
+</suppressions>
