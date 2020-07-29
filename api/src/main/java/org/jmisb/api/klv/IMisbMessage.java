@@ -1,16 +1,16 @@
 package org.jmisb.api.klv;
 
-/** A packet containing MISB-compliant metadata */
+/** A packet containing MISB-compliant metadata. */
 public interface IMisbMessage {
     /**
-     * Get the Universal Label (UL) identifying the message type
+     * Get the Universal Label (UL) identifying the message type.
      *
      * @return The {@link UniversalLabel}
      */
     UniversalLabel getUniversalLabel();
 
     /**
-     * Frame the message into a byte array
+     * Frame the message into a byte array.
      *
      * @param isNested If true, the key and length field are omitted, and only the value will be
      *     written
@@ -19,7 +19,9 @@ public interface IMisbMessage {
     byte[] frameMessage(boolean isNested);
 
     /**
-     * A display header for the message type (e.g. which standard it conforms to).
+     * A display header for the message type.
+     *
+     * <p>This will typically identify which standard the message conforms to.
      *
      * @return String containing human-readable metadata message label.
      */

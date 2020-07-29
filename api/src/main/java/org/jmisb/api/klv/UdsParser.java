@@ -5,12 +5,12 @@ import java.util.Arrays;
 import java.util.List;
 import org.jmisb.api.common.KlvParseException;
 
-/** Parse fields from a Universal Data Set (UDS) */
+/** Parse fields from a Universal Data Set (UDS). */
 public class UdsParser {
     private UdsParser() {}
 
     /**
-     * Parse {@link UdsField}s from a byte array
+     * Parse {@link UdsField}s from a byte array.
      *
      * @param bytes Array representing encoded UDS bytes
      * @param start Offset location to start parsing (must be at the start of a 16-byte UL)

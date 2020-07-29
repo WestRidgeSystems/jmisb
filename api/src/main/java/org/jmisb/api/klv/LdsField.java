@@ -1,13 +1,13 @@
 package org.jmisb.api.klv;
 
-/** Local Data Set field, comprised of a tag (the key) and its value */
+/** Local Data Set field, comprised of a tag (the key) and its value. */
 public class LdsField {
     private final int tag;
 
     private final byte[] data;
 
     /**
-     * Create an LDS field
+     * Create an LDS field.
      *
      * @param tag The integer tag
      * @param data Byte array containing the value
@@ -18,7 +18,7 @@ public class LdsField {
     }
 
     /**
-     * Get the tag
+     * Get the tag.
      *
      * @return The integer tag
      */
@@ -27,7 +27,7 @@ public class LdsField {
     }
 
     /**
-     * Get the value
+     * Get the value.
      *
      * @return The value stored as a byte array
      */
