@@ -482,7 +482,7 @@ public class FpEncoder {
     }
 
     /**
-     * Compute constants used for encoding and decoding
+     * Compute constants used for encoding and decoding.
      *
      * @param min The minimum floating point value to be encoded
      * @param max The maximum floating point value to be encoded
@@ -503,7 +503,7 @@ public class FpEncoder {
     }
 
     /**
-     * Base-2 logarithm
+     * Base-2 logarithm.
      *
      * @param val Input value
      * @return Log value
