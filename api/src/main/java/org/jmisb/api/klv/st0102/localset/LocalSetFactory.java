@@ -7,7 +7,7 @@ public class LocalSetFactory {
     private LocalSetFactory() {}
 
     /**
-     * Create a {@link ISecurityMetadataValue} instance from encoded bytes
+     * Create a {@link ISecurityMetadataValue} instance from encoded bytes.
      *
      * @param tag The tag defining the value type
      * @param bytes Encoded bytes

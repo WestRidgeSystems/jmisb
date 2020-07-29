@@ -25,7 +25,7 @@ public class ItemDesignatorId implements ISecurityMetadataValue {
     private byte[] itemDesignatorId;
 
     /**
-     * Create from encoded bytes or value
+     * Create from encoded bytes or value.
      *
      * @param bytes Byte array of length 16
      */
@@ -37,7 +37,7 @@ public class ItemDesignatorId implements ISecurityMetadataValue {
     }
 
     /**
-     * Get the item designator id
+     * Get the item designator id.
      *
      * @return The id as an array
      */
