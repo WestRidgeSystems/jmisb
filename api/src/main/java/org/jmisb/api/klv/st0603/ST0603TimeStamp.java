@@ -41,7 +41,7 @@ public class ST0603TimeStamp {
     }
 
     /**
-     * Create from {@code DateTime}
+     * Create from {@code DateTime}.
      *
      * @param dateTime The date and time
      */
@@ -88,7 +88,7 @@ public class ST0603TimeStamp {
     }
 
     /**
-     * Get the value as a {@code LocalDateTime}
+     * Get the value as a {@code LocalDateTime}.
      *
      * @return The date and time
      */
