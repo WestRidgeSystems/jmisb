@@ -9,6 +9,7 @@ public class OverlayRendererConfiguration {
     private Font font = new Font("Monospaced", Font.PLAIN, 20);
     private int northCircleSize = 40;
 
+    /** Constructor. */
     public OverlayRendererConfiguration() {}
 
     /**
