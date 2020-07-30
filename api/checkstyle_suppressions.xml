@@ -6,7 +6,6 @@
     <suppress files="[\\/]api[\\/]common[\\/]" checks="[a-zA-Z0-9]*"/>
     <suppress files="[\\/]api[\\/]klv[\\/]eg0104[\\/]" checks="[a-zA-Z0-9]*"/>
     <suppress files="[\\/]api[\\/]klv[\\/]st0601[\\/]" checks="[a-zA-Z0-9]*"/>
-    <suppress files="[\\/]api[\\/]klv[\\/]st0603[\\/]" checks="[a-zA-Z0-9]*"/>
     <suppress files="[\\/]api[\\/]klv[\\/]st0805[\\/]" checks="[a-zA-Z0-9]*"/>
     <suppress files="[\\/]api[\\/]klv[\\/]st0806[\\/]" checks="[a-zA-Z0-9]*"/>
     <suppress files="[\\/]api[\\/]klv[\\/]st0903[\\/]" checks="[a-zA-Z0-9]*"/>
