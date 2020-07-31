@@ -7,6 +7,12 @@ public class DateTimeUTC implements IPredatorMetadataValue {
     private final String label;
     private final String value;
 
+    /**
+     * Create from encoded bytes.
+     *
+     * @param bytes Byte array containing the Date Time UTC string value
+     * @param label Human-readable label
+     */
     public DateTimeUTC(byte[] bytes, String label) {
         this.value = new String(bytes, StandardCharsets.UTF_8);
         this.label = label;

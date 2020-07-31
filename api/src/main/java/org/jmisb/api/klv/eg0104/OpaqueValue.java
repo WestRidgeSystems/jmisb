@@ -2,12 +2,12 @@ package org.jmisb.api.klv.eg0104;
 
 import org.jmisb.api.klv.st0601.*;
 
-/** Represents a value that is not interpreted by the library yet */
+/** Represents a value that is not interpreted by the library yet. */
 public class OpaqueValue implements IPredatorMetadataValue {
     private String displayName;
 
     /**
-     * Create from encoded bytes
+     * Create from encoded bytes.
      *
      * @param bytes The byte array
      * @param label display label

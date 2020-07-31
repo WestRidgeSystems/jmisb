@@ -15,9 +15,15 @@ import org.jmisb.api.klv.UniversalLabel;
 
 /** Represents a Predator UAV Metadata Message (EG0104.5). */
 public class PredatorUavMessage implements IMisbMessage {
-    /** Map containing all data elements in the message */
+    /** Map containing all data elements in the message. */
     protected SortedMap<PredatorMetadataKey, IPredatorMetadataValue> map = new TreeMap<>();
 
+    /**
+     * Create from encoded bytes.
+     *
+     * @param bytes Byte array containing the EG0104-encoded data
+     * @throws KlvParseException if a parsing error occurs
+     */
     public PredatorUavMessage(byte[] bytes) throws KlvParseException {
         // Parse the length field
         int offset = UniversalLabel.LENGTH;
@@ -53,10 +59,21 @@ public class PredatorUavMessage implements IMisbMessage {
         return "Predator EG0104.5";
     }
 
+    /**
+     * Get all keys present in the message.
+     *
+     * @return Set containing all EG0104 keys contained in the message
+     */
     public Set<PredatorMetadataKey> getKeys() {
         return map.keySet();
     }
 
+    /**
+     * Get the value of a specified key.
+     *
+     * @param key The key to retrieve
+     * @return The value, or null if not present
+     */
     public IPredatorMetadataValue getField(PredatorMetadataKey key) {
         return map.get(key);
     }

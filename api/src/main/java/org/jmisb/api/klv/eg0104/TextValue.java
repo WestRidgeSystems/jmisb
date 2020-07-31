@@ -7,6 +7,12 @@ public class TextValue implements IPredatorMetadataValue {
     private final String label;
     private final String value;
 
+    /**
+     * Create from encoded bytes.
+     *
+     * @param bytes Byte array containing the text value
+     * @param label Human-readable label
+     */
     public TextValue(byte[] bytes, String label) {
         this.value = new String(bytes, StandardCharsets.UTF_8);
         this.label = label;

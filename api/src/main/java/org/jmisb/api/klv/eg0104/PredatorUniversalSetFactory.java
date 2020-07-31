@@ -5,7 +5,7 @@ public class PredatorUniversalSetFactory {
     private PredatorUniversalSetFactory() {}
 
     /**
-     * Create a {@link IPredatorMetadataValue} instance from encoded bytes
+     * Create a {@link IPredatorMetadataValue} instance from encoded bytes.
      *
      * @param key Key defining the value type
      * @param bytes Encoded bytes

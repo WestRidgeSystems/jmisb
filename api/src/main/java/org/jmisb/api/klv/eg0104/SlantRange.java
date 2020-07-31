@@ -6,6 +6,11 @@ import org.jmisb.core.klv.PrimitiveConverter;
 public class SlantRange implements IPredatorMetadataValue {
     private final float value;
 
+    /**
+     * Create from encoded bytes.
+     *
+     * @param bytes Byte array of length 4
+     */
     public SlantRange(byte[] bytes) {
         value = PrimitiveConverter.toFloat32(bytes);
     }

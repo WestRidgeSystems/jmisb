@@ -11,6 +11,11 @@ public class TargetWidth implements IPredatorMetadataValue {
 
     private final float width;
 
+    /**
+     * Create from encoded bytes.
+     *
+     * @param bytes Byte array of length 4
+     */
     public TargetWidth(byte[] bytes) {
         width = PrimitiveConverter.toFloat32(bytes);
     }

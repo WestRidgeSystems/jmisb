@@ -10,6 +10,11 @@ import java.nio.charset.StandardCharsets;
 public class ImageSourceDevice implements IPredatorMetadataValue {
     private final String value;
 
+    /**
+     * Create from encoded bytes.
+     *
+     * @param bytes Byte array containing the Image Source Device value.
+     */
     public ImageSourceDevice(byte[] bytes) {
         value = new String(bytes, StandardCharsets.UTF_8);
     }

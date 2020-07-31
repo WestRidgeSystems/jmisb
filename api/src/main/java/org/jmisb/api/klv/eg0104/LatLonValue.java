@@ -7,6 +7,12 @@ public class LatLonValue implements IPredatorMetadataValue {
     private final String label;
     private final double degrees;
 
+    /**
+     * Create from encoded bytes.
+     *
+     * @param bytes Byte array of length 8
+     * @param label Human-readable label
+     */
     public LatLonValue(byte[] bytes, String label) {
         this.degrees = PrimitiveConverter.toFloat64(bytes);
         this.label = label;

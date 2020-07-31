@@ -4,7 +4,7 @@ import java.util.HashMap;
 import java.util.Map;
 import org.jmisb.api.klv.UniversalLabel;
 
-/** EG 0104 key */
+/** EG 0104 key. */
 public enum PredatorMetadataKey {
     Undefined(
             new UniversalLabel(
@@ -54,14 +54,30 @@ public enum PredatorMetadataKey {
         }
     }
 
+    /**
+     * Constructor.
+     *
+     * @param ul The key's universal label
+     */
     PredatorMetadataKey(UniversalLabel ul) {
         this.ul = ul;
     }
 
+    /**
+     * Get the universal label.
+     *
+     * @return The universal label for this key
+     */
     public UniversalLabel getUl() {
         return ul;
     }
 
+    /**
+     * Get the key for a given universal label.
+     *
+     * @param ul Universal label
+     * @return The PredatorMetadataKey
+     */
     public static PredatorMetadataKey getKey(UniversalLabel ul) {
         return ulTable.containsKey(ul) ? ulTable.get(ul) : Undefined;
     }
