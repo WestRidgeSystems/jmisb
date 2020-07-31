@@ -27,7 +27,7 @@ public class VTargetSeries implements IVmtiMetadataValue {
     private final List<VTargetPack> targetPacks = new ArrayList<>();
 
     /**
-     * Create the message from a list of VTargetPacks
+     * Create the message from a list of VTargetPacks.
      *
      * @param values the target packs to include in the series.
      */

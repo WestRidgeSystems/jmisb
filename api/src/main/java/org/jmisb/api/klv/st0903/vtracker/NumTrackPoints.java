@@ -39,7 +39,7 @@ public class NumTrackPoints implements IVmtiMetadataValue {
     }
 
     /**
-     * Create from encoded bytes
+     * Create from encoded bytes.
      *
      * @param bytes Byte array of variable length, maximum 2
      */

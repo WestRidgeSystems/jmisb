@@ -27,7 +27,7 @@ public class Velocity implements IVmtiMetadataValue {
     private VelocityPack value;
 
     /**
-     * Create from value
+     * Create from value.
      *
      * @param velocity the velocity DLP (truncation) pack.
      */
@@ -36,7 +36,7 @@ public class Velocity implements IVmtiMetadataValue {
     }
 
     /**
-     * Create from encoded bytes
+     * Create from encoded bytes.
      *
      * @param bytes The byte array of length 1
      */

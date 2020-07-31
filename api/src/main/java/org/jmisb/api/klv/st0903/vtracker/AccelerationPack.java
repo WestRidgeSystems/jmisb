@@ -131,7 +131,7 @@ public class AccelerationPack {
     }
 
     /**
-     * Get the vertical component of acceleration
+     * Get the vertical component of acceleration.
      *
      * @return Acceleration in metres per second per second (up positive).
      */

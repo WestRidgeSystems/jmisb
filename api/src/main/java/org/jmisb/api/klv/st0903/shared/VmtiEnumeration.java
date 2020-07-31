@@ -4,19 +4,19 @@ import java.util.Collections;
 import java.util.Map;
 import org.jmisb.api.klv.st0903.IVmtiMetadataValue;
 
-/** Abstract base class for single-byte enumeration values in ST 0903 */
+/** Abstract base class for single-byte enumeration values in ST 0903. */
 public abstract class VmtiEnumeration implements IVmtiMetadataValue {
     protected byte value;
 
     /**
-     * Get a map of all possible values
+     * Get a map of all possible values.
      *
      * @return Map of all enumeration values
      */
     public abstract Map<Integer, String> getDisplayValues();
 
     /**
-     * Create from value
+     * Create from value.
      *
      * @param enumeratedValue The value of the enumeration
      */
@@ -35,7 +35,7 @@ public abstract class VmtiEnumeration implements IVmtiMetadataValue {
     }
 
     /**
-     * Create from encoded bytes
+     * Create from encoded bytes.
      *
      * @param bytes The byte array of length 1
      */

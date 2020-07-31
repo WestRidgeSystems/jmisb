@@ -21,11 +21,11 @@ import org.slf4j.LoggerFactory;
 public class VFeatureLS {
     private static final Logger LOGGER = LoggerFactory.getLogger(VFeatureLS.class);
 
-    /** Map containing all data elements in the message */
+    /** Map containing all data elements in the message. */
     private final SortedMap<VFeatureMetadataKey, IVmtiMetadataValue> map = new TreeMap<>();
 
     /**
-     * Create the message from the given key/value pairs
+     * Create the message from the given key/value pairs.
      *
      * @param values Tag/value pairs to be included in the local set
      */
@@ -33,6 +33,15 @@ public class VFeatureLS {
         map.putAll(values);
     }
 
+    /**
+     * Create the local set from encoded bytes.
+     *
+     * <p>This is effectively the parser logic for the VFeature Local Set to extract the message
+     * from part of a byte array.
+     *
+     * @param bytes Encoded bytes
+     * @throws KlvParseException if the bytes could not be parsed.
+     */
     public VFeatureLS(byte[] bytes) throws KlvParseException {
         List<LdsField> fields = LdsParser.parseFields(bytes, 0, bytes.length);
         for (LdsField field : fields) {
@@ -47,7 +56,7 @@ public class VFeatureLS {
     }
 
     /**
-     * Create a {@link IVmtiMetadataValue} instance from encoded bytes
+     * Create a {@link IVmtiMetadataValue} instance from encoded bytes.
      *
      * @param tag The tag defining the value type
      * @param bytes Encoded bytes
@@ -68,7 +77,7 @@ public class VFeatureLS {
     }
 
     /**
-     * Get the set of tags with populated values
+     * Get the set of tags with populated values.
      *
      * @return The set of tags for which values have been set
      */
@@ -77,7 +86,7 @@ public class VFeatureLS {
     }
 
     /**
-     * Get the value of a given tag
+     * Get the value of a given tag.
      *
      * @param tag Tag of the value to retrieve
      * @return The value, or null if no value was set

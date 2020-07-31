@@ -54,7 +54,7 @@ public class PrecisionTimeStamp extends ST0603TimeStamp implements IVmtiMetadata
     }
 
     /**
-     * Create from {@code LocalDateTime}
+     * Create from {@code LocalDateTime}.
      *
      * @param dateTime The date and time
      */

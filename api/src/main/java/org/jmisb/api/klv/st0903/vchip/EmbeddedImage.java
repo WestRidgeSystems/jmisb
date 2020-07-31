@@ -61,7 +61,7 @@ public class EmbeddedImage implements IVmtiMetadataValue {
     }
 
     /**
-     * Get the encoded bytes
+     * Get the encoded bytes.
      *
      * @param format the output format (e.g. "png" or "jpeg")
      * @return The encoded byte array

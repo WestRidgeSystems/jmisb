@@ -18,20 +18,42 @@ import org.jmisb.core.klv.ArrayUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
+/**
+ * VMTI Target Pack.
+ *
+ * <p>The target pack represents a single VMTI target. It consists of a target id (integer value,
+ * always required) and a set of variable values that can be considered as attributes of the target.
+ */
 public class VTargetPack {
 
     private static final Logger LOGGER = LoggerFactory.getLogger(VTargetPack.class);
 
-    /** Map containing all data elements in the message */
+    /** Map containing all data elements in the message. */
     private final SortedMap<VTargetMetadataKey, IVmtiMetadataValue> map = new TreeMap<>();
 
     private final int targetId;
 
+    /**
+     * Construct from target values.
+     *
+     * @param targetId the target identifier
+     * @param values the VTarget metadata as a Map.
+     */
     public VTargetPack(int targetId, Map<VTargetMetadataKey, IVmtiMetadataValue> values) {
         this.targetId = targetId;
         map.putAll(values);
     }
 
+    /**
+     * Construct from encoded bytes.
+     *
+     * <p>This is used to parse out a single VTargetPack from the KLV-encoded byte array.
+     *
+     * @param bytes the byte array
+     * @param offset the offset into the {@code bytes} array to start parsing.
+     * @param length the number of bytes to parse
+     * @throws KlvParseException if there is a problem during parsing
+     */
     public VTargetPack(byte[] bytes, int offset, int length) throws KlvParseException {
         BerField targetIdField = BerDecoder.decode(bytes, offset, true);
         offset += targetIdField.getLength();
@@ -50,7 +72,7 @@ public class VTargetPack {
     }
 
     /**
-     * Create a {@link IVmtiMetadataValue} instance from encoded bytes
+     * Create a {@link IVmtiMetadataValue} instance from encoded bytes.
      *
      * @param tag The tag defining the value type
      * @param bytes Encoded bytes
@@ -134,7 +156,7 @@ public class VTargetPack {
     }
 
     /**
-     * Get the set of tags with populated values
+     * Get the set of tags with populated values.
      *
      * @return The set of tags for which values have been set
      */
@@ -143,7 +165,7 @@ public class VTargetPack {
     }
 
     /**
-     * Get the value of a given tag
+     * Get the value of a given tag.
      *
      * @param tag Tag of the value to retrieve
      * @return The value, or null if no value was set

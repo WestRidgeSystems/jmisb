@@ -130,7 +130,7 @@ public class VelocityPack {
     }
 
     /**
-     * Get the vertical component of velocity
+     * Get the vertical component of velocity.
      *
      * @return Velocity in metres per second (up positive).
      */

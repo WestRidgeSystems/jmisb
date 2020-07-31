@@ -64,6 +64,15 @@ public class TargetLocation implements IVmtiMetadataValue {
         }
     }
 
+    /**
+     * Parse a LocationPack from a byte array.
+     *
+     * <p>This static utility method is provided to support Series types that embed the LocationPack
+     * within other structures.
+     *
+     * @param bytes the byte array to parse, length 10, 16 or 22
+     * @return LocationPack data from the {@code bytes} array.
+     */
     public static LocationPack targetLocationPackFromBytes(byte[] bytes) {
         switch (bytes.length) {
             case COORDINATES_GROUP_LEN:
@@ -116,6 +125,15 @@ public class TargetLocation implements IVmtiMetadataValue {
         return serialiseLocationPack(value);
     }
 
+    /**
+     * Serialise a LocationPack to a byte array.
+     *
+     * <p>This static utility method is provided to support Series types that embed the LocationPack
+     * within other structures.
+     *
+     * @param targetLocationPack the LocationPack to serialise
+     * @return the byte array containing the serialised LocationPack.
+     */
     public static byte[] serialiseLocationPack(LocationPack targetLocationPack) {
         int len = 0;
         List<byte[]> chunks = new ArrayList<>();

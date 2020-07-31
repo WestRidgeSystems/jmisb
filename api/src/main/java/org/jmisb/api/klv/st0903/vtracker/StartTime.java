@@ -39,7 +39,7 @@ public class StartTime extends ST0603TimeStamp implements IVmtiMetadataValue {
     }
 
     /**
-     * Create from {@code LocalDateTime}
+     * Create from {@code LocalDateTime}.
      *
      * @param dateTime The date and time
      */

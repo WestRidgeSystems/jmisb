@@ -22,7 +22,7 @@ package org.jmisb.api.klv.st0903.vtarget;
  */
 public class BoundaryBottomRightLonOffset extends AbstractTargetLocationOffset {
     /**
-     * Create from value
+     * Create from value.
      *
      * @param offset longitude offset in degrees. Valid range is [-19.2, 19.2]
      */

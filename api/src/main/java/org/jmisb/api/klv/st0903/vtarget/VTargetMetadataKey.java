@@ -90,14 +90,34 @@ public enum VTargetMetadataKey {
         }
     }
 
+    /**
+     * Constructor.
+     *
+     * <p>Internal use only.
+     *
+     * @param tag the tag value to initialise the enumeration value.
+     */
     VTargetMetadataKey(int tag) {
         this.tag = tag;
     }
 
+    /**
+     * Get the tag value associated with the metadata key.
+     *
+     * <p>This is the value used in the Key part of the KLV encoding.
+     *
+     * @return metadata key tag value as an integer
+     */
     public int getTag() {
         return tag;
     }
 
+    /**
+     * Look up a metadata key from its tag value.
+     *
+     * @param tag the tag value (Key part of KLV encoding).
+     * @return the corresponding metadata key.
+     */
     public static VTargetMetadataKey getKey(int tag) {
         return tagTable.containsKey(tag) ? tagTable.get(tag) : Undefined;
     }

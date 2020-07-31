@@ -17,7 +17,7 @@ import org.jmisb.api.klv.st0903.shared.VmtiV3Value;
  */
 public class FrameHeight extends VmtiV3Value implements IVmtiMetadataValue {
     /**
-     * Create from value
+     * Create from value.
      *
      * @param frameHeight the height of the motion imagery frame, in pixels.
      */
@@ -30,7 +30,7 @@ public class FrameHeight extends VmtiV3Value implements IVmtiMetadataValue {
     }
 
     /**
-     * Create from encoded bytes
+     * Create from encoded bytes.
      *
      * @param bytes height, encoded as a variable length unsigned int (max 3 bytes)
      */

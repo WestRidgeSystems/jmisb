@@ -27,7 +27,7 @@ import org.jmisb.api.klv.st0903.shared.VmtiV3Value;
  */
 public class FrameWidth extends VmtiV3Value implements IVmtiMetadataValue {
     /**
-     * Create from value
+     * Create from value.
      *
      * @param frameWidth the width of the motion imagery frame, in pixels.
      */

@@ -16,7 +16,7 @@ import org.jmisb.api.klv.st0903.shared.VmtiV3Value;
  */
 public class FrameNumber extends VmtiV3Value implements IVmtiMetadataValue {
     /**
-     * Create from value
+     * Create from value.
      *
      * @param frameNumber the frame number the motion imagery frame.
      */

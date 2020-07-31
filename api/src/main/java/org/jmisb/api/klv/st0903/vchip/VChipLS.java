@@ -21,11 +21,11 @@ import org.slf4j.LoggerFactory;
 public class VChipLS {
     private static final Logger LOGGER = LoggerFactory.getLogger(VChipLS.class);
 
-    /** Map containing all data elements in the message */
+    /** Map containing all data elements in the message. */
     private final SortedMap<VChipMetadataKey, IVmtiMetadataValue> map = new TreeMap<>();
 
     /**
-     * Create the message from the given key/value pairs
+     * Create the message from the given key/value pairs.
      *
      * @param values Tag/value pairs to be included in the local set
      */
@@ -33,6 +33,17 @@ public class VChipLS {
         map.putAll(values);
     }
 
+    /**
+     * Create the local set from encoded bytes.
+     *
+     * <p>This is effectively the parser logic for the VChip Local Set to extract the message from
+     * part of a byte array.
+     *
+     * @param bytes Encoded bytes
+     * @param offset the offset into the {@code bytes} array to start parsing
+     * @param length the number of bytes to parse
+     * @throws KlvParseException if the bytes could not be parsed.
+     */
     public VChipLS(byte[] bytes, int offset, int length) throws KlvParseException {
         List<LdsField> fields = LdsParser.parseFields(bytes, offset, length);
         for (LdsField field : fields) {
@@ -47,7 +58,7 @@ public class VChipLS {
     }
 
     /**
-     * Create a {@link IVmtiMetadataValue} instance from encoded bytes
+     * Create a {@link IVmtiMetadataValue} instance from encoded bytes.
      *
      * @param tag The tag defining the value type
      * @param bytes Encoded bytes
@@ -70,7 +81,7 @@ public class VChipLS {
     }
 
     /**
-     * Get the set of tags with populated values
+     * Get the set of tags with populated values.
      *
      * @return The set of tags for which values have been set
      */
@@ -79,7 +90,7 @@ public class VChipLS {
     }
 
     /**
-     * Get the value of a given tag
+     * Get the value of a given tag.
      *
      * @param tag Tag of the value to retrieve
      * @return The value, or null if no value was set

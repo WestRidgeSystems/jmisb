@@ -10,7 +10,7 @@ public abstract class VmtiFieldOfView implements IVmtiMetadataValue {
     private double value;
 
     /**
-     * Create from value
+     * Create from value.
      *
      * @param fov field of view in degrees.
      */

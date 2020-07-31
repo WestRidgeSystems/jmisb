@@ -19,11 +19,11 @@ import org.slf4j.LoggerFactory;
 public class VMaskLS {
     private static final Logger LOGGER = LoggerFactory.getLogger(VMaskLS.class);
 
-    /** Map containing all data elements in the message */
+    /** Map containing all data elements in the message. */
     private final SortedMap<VMaskMetadataKey, IVmtiMetadataValue> map = new TreeMap<>();
 
     /**
-     * Create the message from the given key/value pairs
+     * Create the message from the given key/value pairs.
      *
      * @param values Tag/value pairs to be included in the local set
      */
@@ -31,6 +31,12 @@ public class VMaskLS {
         map.putAll(values);
     }
 
+    /**
+     * Create from encoded bytes.
+     *
+     * @param bytes Encoded byte array comprising the VMask local set
+     * @throws KlvParseException if the byte array could not be parsed.
+     */
     public VMaskLS(byte[] bytes) throws KlvParseException {
         int offset = 0;
         List<LdsField> fields = LdsParser.parseFields(bytes, offset, bytes.length - offset);
@@ -46,7 +52,7 @@ public class VMaskLS {
     }
 
     /**
-     * Create a {@link IVmtiMetadataValue} instance from encoded bytes
+     * Create a {@link IVmtiMetadataValue} instance from encoded bytes.
      *
      * @param tag The tag defining the value type
      * @param bytes Encoded bytes
@@ -67,7 +73,7 @@ public class VMaskLS {
     }
 
     /**
-     * Get the set of tags with populated values
+     * Get the set of tags with populated values.
      *
      * @return The set of tags for which values have been set
      */
@@ -76,7 +82,7 @@ public class VMaskLS {
     }
 
     /**
-     * Get the value of a given tag
+     * Get the value of a given tag.
      *
      * @param tag Tag of the value to retrieve
      * @return The value, or null if no value was set

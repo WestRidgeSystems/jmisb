@@ -3,7 +3,7 @@ package org.jmisb.api.klv.st0903;
 import org.jmisb.api.klv.st1204.CoreIdentifier;
 
 /**
- * MIIS Core Identifier (ST0903 VMTI LS Tag 13)
+ * MIIS Core Identifier (ST0903 VMTI LS Tag 13).
  *
  * <p>From ST:
  *
@@ -23,7 +23,7 @@ public class MiisCoreIdentifier implements IVmtiMetadataValue {
     private final CoreIdentifier coreIdentifier;
 
     /**
-     * Create from value
+     * Create from value.
      *
      * @param identifier a valid ST1204 Core Identifier
      */

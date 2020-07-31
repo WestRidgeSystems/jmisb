@@ -34,7 +34,7 @@ public class OntologySeries implements IVmtiMetadataValue {
     private final List<OntologyLS> localSets = new ArrayList<>();
 
     /**
-     * Create the message from a list of VObject Local Sets
+     * Create the message from a list of VObject Local Sets.
      *
      * @param values the local sets to include in the series.
      */
