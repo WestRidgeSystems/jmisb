@@ -3,6 +3,7 @@ package org.jmisb.api.klv;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
+import org.jmisb.api.common.InvalidDataHandler;
 import org.jmisb.api.common.KlvParseException;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -45,9 +46,8 @@ public class LdsParser {
             int begin = lengthFieldOffset + lengthField.getLength();
             int end = begin + lengthField.getValue();
             if (end > bytes.length) {
-                // TODO: we will probably need a non-strict option to return the fields that were
-                // actually parsed
-                throw new KlvParseException("Overrun encountered while parsing LDS fields");
+                InvalidDataHandler.getInstance()
+                        .handleOverrun(logger, "Overrun encountered while parsing LDS fields");
             }
 
             byte[] value = Arrays.copyOfRange(bytes, begin, end);

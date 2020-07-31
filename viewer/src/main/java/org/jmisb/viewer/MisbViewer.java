@@ -12,6 +12,8 @@ import java.util.prefs.Preferences;
 import javax.swing.*;
 import javax.swing.filechooser.FileNameExtensionFilter;
 import net.miginfocom.swing.MigLayout;
+import org.jmisb.api.common.InvalidDataHandler;
+import org.jmisb.api.common.LogOnInvalidDataStrategy;
 import org.jmisb.api.video.*;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -185,7 +187,10 @@ public class MisbViewer extends JFrame implements ActionListener {
     private void openFile(String filename) {
         try {
             closeVideo();
-
+            InvalidDataHandler.getInstance()
+                    .setInvalidFieldEncodingStrategy(new LogOnInvalidDataStrategy());
+            InvalidDataHandler.getInstance()
+                    .setInvalidChecksumStrategy(new LogOnInvalidDataStrategy());
             IVideoFileInput fileInput = new VideoFileInput(new VideoFileInputOptions());
             fileInput.open(filename);
 

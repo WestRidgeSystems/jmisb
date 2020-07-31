@@ -9,6 +9,7 @@ import java.util.Map;
 import java.util.Set;
 import java.util.SortedMap;
 import java.util.TreeMap;
+import org.jmisb.api.common.InvalidDataHandler;
 import org.jmisb.api.common.KlvParseException;
 import org.jmisb.api.klv.Ber;
 import org.jmisb.api.klv.BerEncoder;
@@ -105,12 +106,18 @@ public class VmtiLocalSet implements IMisbMessage {
                     byte[] expected = Checksum.compute(bytes, false);
                     byte[] actual = Arrays.copyOfRange(bytes, bytes.length - 2, bytes.length);
                     if (!Arrays.equals(expected, actual)) {
-                        throw new KlvParseException("Bad checksum");
+                        InvalidDataHandler.getInstance()
+                                .handleInvalidChecksum(LOGGER, "Bad checksum");
                     }
                     break;
                 default:
-                    IVmtiMetadataValue value = createValue(key, field.getData());
-                    map.put(key, value);
+                    try {
+                        IVmtiMetadataValue value = createValue(key, field.getData());
+                        map.put(key, value);
+                    } catch (KlvParseException | IllegalArgumentException ex) {
+                        InvalidDataHandler.getInstance()
+                                .handleInvalidFieldEncoding(LOGGER, ex.getMessage());
+                    }
                     break;
             }
         }

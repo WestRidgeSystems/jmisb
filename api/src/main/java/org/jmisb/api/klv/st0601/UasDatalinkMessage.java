@@ -4,6 +4,7 @@ import static org.jmisb.api.klv.KlvConstants.UasDatalinkLocalUl;
 import static org.jmisb.core.klv.ArrayUtils.arrayFromChunks;
 
 import java.util.*;
+import org.jmisb.api.common.InvalidDataHandler;
 import org.jmisb.api.common.KlvParseException;
 import org.jmisb.api.klv.*;
 import org.slf4j.Logger;
@@ -59,17 +60,22 @@ public class UasDatalinkMessage implements IMisbMessage {
                 byte[] expected = Checksum.compute(bytes, false);
                 byte[] actual = Arrays.copyOfRange(bytes, bytes.length - 2, bytes.length);
                 if (!Arrays.equals(expected, actual)) {
-                    throw new KlvParseException("Bad checksum");
+                    InvalidDataHandler.getInstance().handleInvalidChecksum(logger, "Bad checksum");
                 }
             } else {
-                IUasDatalinkValue value = UasDatalinkFactory.createValue(tag, field.getData());
-                setField(tag, value);
+                try {
+                    IUasDatalinkValue value = UasDatalinkFactory.createValue(tag, field.getData());
+                    setField(tag, value);
+                } catch (KlvParseException | IllegalArgumentException ex) {
+                    InvalidDataHandler.getInstance()
+                            .handleInvalidFieldEncoding(logger, ex.getMessage());
+                }
             }
         }
 
-        // Throw if checksum is missing
+        // Handle the case where the mandatory checksum is missing
         if (!checksumFound) {
-            throw new KlvParseException("Missing checksum");
+            InvalidDataHandler.getInstance().handleMissingChecksum(logger, "Missing checksum");
         }
     }
 

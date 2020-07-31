@@ -4,12 +4,18 @@ import static org.jmisb.core.klv.ArrayUtils.arrayFromChunks;
 
 import java.time.LocalDate;
 import java.util.*;
+import org.jmisb.api.common.InvalidDataHandler;
 import org.jmisb.api.common.KlvParseException;
 import org.jmisb.api.klv.*;
 import org.jmisb.api.klv.st0102.*;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 /** Security Metadata Universal Set message packet defined by ST 0102. */
 public class SecurityMetadataUniversalSet extends SecurityMetadataMessage {
+
+    private static Logger logger = LoggerFactory.getLogger(SecurityMetadataUniversalSet.class);
+
     /**
      * Create the message from the given key/value pairs.
      *
@@ -38,11 +44,16 @@ public class SecurityMetadataUniversalSet extends SecurityMetadataMessage {
 
         // Convert field data based on ST 0102
         for (UdsField field : fields) {
-            SecurityMetadataKey key = SecurityMetadataKey.getKey(field.getKey());
-            ISecurityMetadataValue value =
-                    UniversalSetFactory.createValue(
-                            SecurityMetadataKey.getKey(field.getKey()), field.getValue());
-            setField(key, value);
+            try {
+                SecurityMetadataKey key = SecurityMetadataKey.getKey(field.getKey());
+                ISecurityMetadataValue value =
+                        UniversalSetFactory.createValue(
+                                SecurityMetadataKey.getKey(field.getKey()), field.getValue());
+                setField(key, value);
+            } catch (IllegalArgumentException ex) {
+                InvalidDataHandler.getInstance()
+                        .handleInvalidFieldEncoding(logger, ex.getMessage());
+            }
         }
     }
 
