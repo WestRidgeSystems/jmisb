@@ -31,7 +31,7 @@ public class CorrectionOffset implements IUasDatalinkValue {
     private static int MAX_BYTES = 8;
 
     /**
-     * Create from value
+     * Create from value.
      *
      * @param microseconds time in microseconds. Legal values are in [-2^63,2^63-1].
      */
@@ -40,7 +40,7 @@ public class CorrectionOffset implements IUasDatalinkValue {
     }
 
     /**
-     * Create from encoded bytes
+     * Create from encoded bytes.
      *
      * @param bytes Byte array, maximum eight bytes
      */

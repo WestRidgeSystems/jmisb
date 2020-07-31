@@ -20,7 +20,7 @@ package org.jmisb.api.klv.st0601;
  */
 public class SensorEllipsoidHeightExtended extends UasDatalinkAltitudeExtended {
     /**
-     * Create from value
+     * Create from value.
      *
      * @param meters Ellipsoid height in meters. Valid range is [-900,40000]
      */
@@ -29,7 +29,7 @@ public class SensorEllipsoidHeightExtended extends UasDatalinkAltitudeExtended {
     }
 
     /**
-     * Create from encoded bytes
+     * Create from encoded bytes.
      *
      * @param bytes IMAPB Encoded byte array, 8 bytes maximum
      */

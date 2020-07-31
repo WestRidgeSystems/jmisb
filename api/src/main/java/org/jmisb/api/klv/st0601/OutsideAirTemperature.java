@@ -23,7 +23,7 @@ public class OutsideAirTemperature implements IUasDatalinkValue {
     private static double MAX_VAL = 127;
 
     /**
-     * Create from value
+     * Create from value.
      *
      * @param temp temperature in degrees Celcius
      */
@@ -35,9 +35,9 @@ public class OutsideAirTemperature implements IUasDatalinkValue {
     }
 
     /**
-     * Create from encoded bytes
+     * Create from encoded bytes.
      *
-     * @param bytes Encoded byte array
+     * @param bytes Encoded byte array of length 1
      */
     public OutsideAirTemperature(byte[] bytes) {
         if (bytes.length != 1) {
@@ -48,7 +48,7 @@ public class OutsideAirTemperature implements IUasDatalinkValue {
     }
 
     /**
-     * Get the value as temperature
+     * Get the value as temperature.
      *
      * @return Temperature in degrees Celcius
      */

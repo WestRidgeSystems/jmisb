@@ -23,7 +23,7 @@ public class MiisCoreIdentifier implements IUasDatalinkValue {
     private CoreIdentifier coreIdentifier;
 
     /**
-     * Create from value
+     * Create from value.
      *
      * @param identifier a valid ST1204 Core Identifier
      */

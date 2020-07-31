@@ -21,7 +21,7 @@ public abstract class UasPressureMillibars implements IUasDatalinkValue {
     private static double MAXINT = 65535.0; // 2^16 - 1
 
     /**
-     * Create from value
+     * Create from value.
      *
      * @param pressureMillibars pressure in millibars
      */
@@ -33,9 +33,9 @@ public abstract class UasPressureMillibars implements IUasDatalinkValue {
     }
 
     /**
-     * Create from encoded bytes
+     * Create from encoded bytes.
      *
-     * @param bytes Encoded byte array
+     * @param bytes Encoded byte array of length 2
      */
     public UasPressureMillibars(byte[] bytes) {
         if (bytes.length != 2) {
@@ -48,7 +48,7 @@ public abstract class UasPressureMillibars implements IUasDatalinkValue {
     }
 
     /**
-     * Get the value in millibars
+     * Get the value in millibars.
      *
      * @return pressure, in millibars
      */

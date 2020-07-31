@@ -16,7 +16,7 @@ public abstract class UasDatalinkAltitudeExtended implements IUasDatalinkValue {
     private double metres;
 
     /**
-     * Create from value
+     * Create from value.
      *
      * @param meters Altitude in meters. Valid range is [-900,40000]
      */
@@ -29,7 +29,7 @@ public abstract class UasDatalinkAltitudeExtended implements IUasDatalinkValue {
     }
 
     /**
-     * Create from encoded bytes
+     * Create from encoded bytes.
      *
      * @param bytes IMAPB Encoded byte array
      * @param maxBytes the maximum length of the array that is allowed (typically 8, sometimes 4)
@@ -44,7 +44,7 @@ public abstract class UasDatalinkAltitudeExtended implements IUasDatalinkValue {
     }
 
     /**
-     * Get the altitude
+     * Get the altitude.
      *
      * @return The density altitude in meters
      */

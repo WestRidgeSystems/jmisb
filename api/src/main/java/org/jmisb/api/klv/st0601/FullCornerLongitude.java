@@ -28,7 +28,7 @@ public class FullCornerLongitude extends UasDatalinkLongitude {
     private final String displayName;
 
     /**
-     * Create from value
+     * Create from value.
      *
      * @param degrees Longitude, in degrees [-180,180], or {@code Double.POSITIVE_INFINITY} to
      *     represent an error condition
@@ -40,7 +40,7 @@ public class FullCornerLongitude extends UasDatalinkLongitude {
     }
 
     /**
-     * Create from encoded bytes
+     * Create from encoded bytes.
      *
      * @param bytes Longitude, encoded as a 4-byte int
      * @param displayName human readable (display) name for this type - see static values

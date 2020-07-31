@@ -30,7 +30,7 @@ public class PropulsionUnitSpeed implements IUasDatalinkValue {
     private static int MAX_BYTES = 4;
 
     /**
-     * Create from value
+     * Create from value.
      *
      * @param speed speed in revolutions per minute (RPM). Legal values are in [0,2^31-1].
      */
@@ -43,7 +43,7 @@ public class PropulsionUnitSpeed implements IUasDatalinkValue {
     }
 
     /**
-     * Create from encoded bytes
+     * Create from encoded bytes.
      *
      * @param bytes Byte array, maximum four bytes
      */

@@ -21,7 +21,7 @@ public class NestedSecurityMetadata implements IUasDatalinkValue {
     private SecurityMetadataLocalSet localSet;
 
     /**
-     * Wrap an existing {@link SecurityMetadataLocalSet}
+     * Wrap an existing {@link SecurityMetadataLocalSet}.
      *
      * @param localSet Existing SecurityMetadataLocalSet object
      */
@@ -30,7 +30,7 @@ public class NestedSecurityMetadata implements IUasDatalinkValue {
     }
 
     /**
-     * Create from encoded bytes
+     * Create from encoded bytes.
      *
      * @param bytes Encoded bytes representing a nested ST 0102 local set
      * @throws KlvParseException if a parsing error occurs
@@ -40,7 +40,7 @@ public class NestedSecurityMetadata implements IUasDatalinkValue {
     }
 
     /**
-     * Get the wrapped {@link SecurityMetadataLocalSet} object
+     * Get the wrapped {@link SecurityMetadataLocalSet} object.
      *
      * @return The wrapped object
      */

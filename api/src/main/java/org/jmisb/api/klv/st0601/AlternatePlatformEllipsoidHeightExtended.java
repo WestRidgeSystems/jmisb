@@ -21,7 +21,7 @@ package org.jmisb.api.klv.st0601;
  */
 public class AlternatePlatformEllipsoidHeightExtended extends UasDatalinkAltitudeExtended {
     /**
-     * Create from value
+     * Create from value.
      *
      * @param meters Ellipsoid height in meters. Valid range is [-900,40000]
      */
@@ -30,7 +30,7 @@ public class AlternatePlatformEllipsoidHeightExtended extends UasDatalinkAltitud
     }
 
     /**
-     * Create from encoded bytes
+     * Create from encoded bytes.
      *
      * @param bytes IMAPB Encoded byte array, 8 bytes maximum
      */

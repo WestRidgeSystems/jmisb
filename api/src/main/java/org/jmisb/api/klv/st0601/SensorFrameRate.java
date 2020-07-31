@@ -52,7 +52,7 @@ public class SensorFrameRate implements IUasDatalinkValue {
     }
 
     /**
-     * Create from encoded bytes
+     * Create from encoded bytes.
      *
      * @param bytes encoded value
      */

@@ -40,7 +40,7 @@ public class AirbaseLocations implements IUasDatalinkValue {
     private final FpEncoder haeDecoder = new FpEncoder(-900, 9000, 3);
 
     /**
-     * Create from values
+     * Create from values.
      *
      * @param takeoff the takeoff location (latitude/longitude, optional height)
      * @param recovery the recovery location (latitude/longitude, optional height)
@@ -60,6 +60,7 @@ public class AirbaseLocations implements IUasDatalinkValue {
      * Create from value with a known takeoff location but unknown recovery location.
      *
      * @param takeoff the takeoff location (latitude/longitude, optional height)
+     * @return the new object instance
      */
     static AirbaseLocations withUnknownRecovery(Location takeoff) {
         AirbaseLocations airbaseLocations = new AirbaseLocations();
@@ -74,6 +75,7 @@ public class AirbaseLocations implements IUasDatalinkValue {
      * Create from value with a known recovery location but unknown takeoff location.
      *
      * @param recovery the recovery location (latitude/longitude, optional height)
+     * @return the new object instance
      */
     static AirbaseLocations withUnknownTakeoff(Location recovery) {
         AirbaseLocations airbaseLocations = new AirbaseLocations();
@@ -85,7 +87,7 @@ public class AirbaseLocations implements IUasDatalinkValue {
     }
 
     /**
-     * Create from encoded bytes
+     * Create from encoded bytes.
      *
      * @param bytes encoded value
      */

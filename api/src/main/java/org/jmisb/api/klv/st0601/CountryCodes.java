@@ -60,7 +60,7 @@ public class CountryCodes implements IUasDatalinkValue {
     private final String countryOfManufacture;
 
     /**
-     * Create from values
+     * Create from values.
      *
      * @param countryCodingMethod the coding method (country code namespace)
      * @param overflightCountryCode the code for the country being overflown, or an empty string if
@@ -82,7 +82,7 @@ public class CountryCodes implements IUasDatalinkValue {
     }
 
     /**
-     * Create from encoded bytes
+     * Create from encoded bytes.
      *
      * @param bytes encoded value
      */

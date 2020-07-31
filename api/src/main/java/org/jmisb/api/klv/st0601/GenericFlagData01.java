@@ -232,6 +232,12 @@ public class GenericFlagData01 implements IUasDatalinkValue {
         return "[Flag data]";
     }
 
+    /**
+     * Get the value of a specific field.
+     *
+     * @param tag The field to retrieve
+     * @return The value of the field
+     */
     public UasDatalinkString getField(IKlvKey tag) {
         if (tag instanceof FlagDataKey) {
             return map.get((FlagDataKey) tag);
@@ -239,6 +245,11 @@ public class GenericFlagData01 implements IUasDatalinkValue {
         return null;
     }
 
+    /**
+     * Get the set all available fields.
+     *
+     * @return The set of keys for all fields
+     */
     public Set<? extends IKlvKey> getTags() {
         return map.keySet();
     }

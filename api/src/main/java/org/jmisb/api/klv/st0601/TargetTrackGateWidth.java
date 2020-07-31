@@ -16,10 +16,20 @@ package org.jmisb.api.klv.st0601;
  * </blockquote>
  */
 public class TargetTrackGateWidth extends TargetTrackGateSize {
+    /**
+     * Create from value.
+     *
+     * @param px Size in pixels. Legal values are in [0, 510].
+     */
     public TargetTrackGateWidth(short px) {
         super(px);
     }
 
+    /**
+     * Create from encoded bytes.
+     *
+     * @param bytes The byte array of length 1
+     */
     public TargetTrackGateWidth(byte[] bytes) {
         super(bytes);
     }

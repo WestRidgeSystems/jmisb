@@ -37,7 +37,7 @@ public class ControlCommandVerification implements IUasDatalinkValue {
     }
 
     /**
-     * Create from encoded bytes
+     * Create from encoded bytes.
      *
      * @param bytes encoded command identifiers list
      */

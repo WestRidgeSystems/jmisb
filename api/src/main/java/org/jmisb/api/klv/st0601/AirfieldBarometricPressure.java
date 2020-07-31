@@ -16,10 +16,20 @@ package org.jmisb.api.klv.st0601;
  * </blockquote>
  */
 public class AirfieldBarometricPressure extends UasPressureMillibars {
+    /**
+     * Create from value.
+     *
+     * @param pressureMillibars pressure in millibars
+     */
     public AirfieldBarometricPressure(double pressureMillibars) {
         super(pressureMillibars);
     }
 
+    /**
+     * Create from encoded bytes.
+     *
+     * @param bytes Encoded byte array of length 2
+     */
     public AirfieldBarometricPressure(byte[] bytes) {
         super(bytes);
     }

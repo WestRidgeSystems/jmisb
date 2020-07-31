@@ -47,7 +47,7 @@ public class WaypointList implements IUasDatalinkValue {
     private final FpEncoder haeDecoder = new FpEncoder(-900, 9000, 3);
 
     /**
-     * Create from value
+     * Create from value.
      *
      * @param waypoints list of Waypoint values
      */
@@ -57,7 +57,7 @@ public class WaypointList implements IUasDatalinkValue {
     }
 
     /**
-     * Create from encoded bytes
+     * Create from encoded bytes.
      *
      * @param bytes Waypoint List, byte array with Variable Length Pack encoding
      */

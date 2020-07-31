@@ -24,9 +24,9 @@ public abstract class UasDatalinkAngle360 implements IUasDatalinkValue {
     protected double degrees;
 
     /**
-     * Create from value
+     * Create from value.
      *
-     * @param degrees angle, in degrees
+     * @param degrees Angle in degrees, in range [0, 360]
      */
     public UasDatalinkAngle360(double degrees) {
         if (degrees < 0 || degrees > 360) {
@@ -36,7 +36,7 @@ public abstract class UasDatalinkAngle360 implements IUasDatalinkValue {
     }
 
     /**
-     * Create from encoded bytes
+     * Create from encoded bytes.
      *
      * @param bytes Encoded byte array
      */
@@ -52,7 +52,7 @@ public abstract class UasDatalinkAngle360 implements IUasDatalinkValue {
     }
 
     /**
-     * Get the value in degrees
+     * Get the value in degrees.
      *
      * @return angle, in degrees
      */

@@ -26,7 +26,7 @@ public class TargetWidthExtended implements IUasDatalinkValue {
     private static int MAX_BYTES = 8;
 
     /**
-     * Create from value
+     * Create from value.
      *
      * @param meters Target width, in meters. Valid range is [0,1500000]
      */
@@ -39,7 +39,7 @@ public class TargetWidthExtended implements IUasDatalinkValue {
     }
 
     /**
-     * Create from encoded bytes
+     * Create from encoded bytes.
      *
      * @param bytes IMAPB Encoded byte array, 8 bytes maximum
      */
@@ -53,7 +53,7 @@ public class TargetWidthExtended implements IUasDatalinkValue {
     }
 
     /**
-     * Get the value in meters
+     * Get the value in meters.
      *
      * @return Target width in meters
      */

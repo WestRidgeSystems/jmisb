@@ -7,7 +7,7 @@ public class UasDatalinkFactory {
     private UasDatalinkFactory() {}
 
     /**
-     * Create a {@link IUasDatalinkValue} instance from encoded bytes
+     * Create a {@link IUasDatalinkValue} instance from encoded bytes.
      *
      * @param tag The tag defining the value type
      * @param bytes Encoded bytes

@@ -3,7 +3,7 @@ package org.jmisb.api.klv.st0601;
 import org.jmisb.core.klv.PrimitiveConverter;
 
 /**
- * Abstract base class for altitude values in ST 0601
+ * Abstract base class for altitude values in ST 0601.
  *
  * <p>Used by items: 15, 25, 38, 42, 54, 69, 75, 76, 78. Note that some derived types use MSL,
  * others HAE.
@@ -25,7 +25,7 @@ public abstract class UasDatalinkAltitude implements IUasDatalinkValue {
     public static final double DELTA = 0.15; // +/- 0.15 meters
 
     /**
-     * Create from value
+     * Create from value.
      *
      * @param meters Altitude in meters. Legal values are in [-900,19000].
      */
@@ -37,7 +37,7 @@ public abstract class UasDatalinkAltitude implements IUasDatalinkValue {
     }
 
     /**
-     * Create from encoded bytes
+     * Create from encoded bytes.
      *
      * @param bytes The byte array of length 2
      */
@@ -52,7 +52,7 @@ public abstract class UasDatalinkAltitude implements IUasDatalinkValue {
     }
 
     /**
-     * Get the altitude
+     * Get the altitude.
      *
      * @return The altitude in meters
      */

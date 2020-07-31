@@ -26,7 +26,7 @@ public class OnBoardMiStorageCapacity implements IUasDatalinkValue {
     private static int MAX_BYTES = 4;
 
     /**
-     * Create from value
+     * Create from value.
      *
      * @param gigabytes Capacity in gigabytes. Legal values are in [0,2^31-1].
      */
@@ -38,7 +38,7 @@ public class OnBoardMiStorageCapacity implements IUasDatalinkValue {
     }
 
     /**
-     * Create from encoded bytes
+     * Create from encoded bytes.
      *
      * @param bytes Byte array, maximum four bytes
      */
@@ -50,7 +50,7 @@ public class OnBoardMiStorageCapacity implements IUasDatalinkValue {
     }
 
     /**
-     * Get the capacity
+     * Get the capacity.
      *
      * @return The capacity, in gigabytes
      */

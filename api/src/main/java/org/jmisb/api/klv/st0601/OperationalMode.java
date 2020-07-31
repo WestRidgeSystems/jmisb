@@ -31,7 +31,7 @@ public class OperationalMode extends UasEnumeration {
                     .collect(Collectors.toMap(kv -> (Integer) kv[0], kv -> (String) kv[1]));
 
     /**
-     * Create from value
+     * Create from value.
      *
      * @param mode The value of the operational mode enumeration.
      */
@@ -40,7 +40,7 @@ public class OperationalMode extends UasEnumeration {
     }
 
     /**
-     * Create from encoded bytes
+     * Create from encoded bytes.
      *
      * @param bytes The byte array of length 1
      */
@@ -49,7 +49,7 @@ public class OperationalMode extends UasEnumeration {
     }
 
     /**
-     * Get the operational mode
+     * Get the operational mode.
      *
      * @return The value as an enumeration
      */

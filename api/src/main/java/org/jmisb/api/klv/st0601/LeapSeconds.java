@@ -35,7 +35,7 @@ public class LeapSeconds implements IUasDatalinkValue {
     private static int MAX_BYTES = 4;
 
     /**
-     * Create from value
+     * Create from value.
      *
      * @param seconds time in seconds. Legal values are in [-2^31,2^31-1].
      */
@@ -44,7 +44,7 @@ public class LeapSeconds implements IUasDatalinkValue {
     }
 
     /**
-     * Create from encoded bytes
+     * Create from encoded bytes.
      *
      * @param bytes Byte array, maximum four bytes
      */
@@ -57,7 +57,7 @@ public class LeapSeconds implements IUasDatalinkValue {
     }
 
     /**
-     * Get the number of leap seconds
+     * Get the number of leap seconds.
      *
      * @return The leap second offset, in seconds
      */

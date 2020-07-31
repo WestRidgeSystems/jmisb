@@ -27,7 +27,7 @@ public class PlatformAngleOfAttackFull implements IUasDatalinkValue {
     private static final double INT_RANGE = 2147483647.0; // 2^31-1
 
     /**
-     * Create from value
+     * Create from value.
      *
      * @param degrees The value in degrees, or {@code Double.POSITIVE_INFINITY} to represent an
      *     error condition
@@ -41,7 +41,7 @@ public class PlatformAngleOfAttackFull implements IUasDatalinkValue {
     }
 
     /**
-     * Create from encoded bytes
+     * Create from encoded bytes.
      *
      * @param bytes The byte array of length 4
      */
@@ -60,7 +60,7 @@ public class PlatformAngleOfAttackFull implements IUasDatalinkValue {
     }
 
     /**
-     * Get the value in degrees
+     * Get the value in degrees.
      *
      * @return The value in degrees, or {@code Double.POSITIVE_INFINITY} to indicate an error
      *     condition

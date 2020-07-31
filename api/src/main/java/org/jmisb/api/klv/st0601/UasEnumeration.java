@@ -3,19 +3,19 @@ package org.jmisb.api.klv.st0601;
 import java.util.Collections;
 import java.util.Map;
 
-/** Abstract base class for single-byte enumeration values in ST 0601 */
+/** Abstract base class for single-byte enumeration values in ST 0601. */
 public abstract class UasEnumeration implements IUasDatalinkValue {
     protected byte value;
 
     /**
-     * Get a map of all possible values
+     * Get a map of all possible values.
      *
      * @return Map of all enumeration values
      */
     abstract Map<Integer, String> getDisplayValues();
 
     /**
-     * Create from value
+     * Create from value.
      *
      * @param enumeratedValue The value of the enumeration
      */
@@ -34,7 +34,7 @@ public abstract class UasEnumeration implements IUasDatalinkValue {
     }
 
     /**
-     * Create from encoded bytes
+     * Create from encoded bytes.
      *
      * @param bytes The byte array of length 1
      */

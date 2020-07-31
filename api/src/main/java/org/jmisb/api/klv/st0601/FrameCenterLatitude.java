@@ -16,10 +16,21 @@ package org.jmisb.api.klv.st0601;
  * </blockquote>
  */
 public class FrameCenterLatitude extends UasDatalinkLatitude {
+    /**
+     * Create from value.
+     *
+     * @param degrees Latitude, in degrees [-90,90], or {@code Double.POSITIVE_INFINITY} to
+     *     represent an error condition
+     */
     public FrameCenterLatitude(double degrees) {
         super(degrees);
     }
 
+    /**
+     * Create from encoded bytes.
+     *
+     * @param bytes Latitude, encoded as a 4-byte int
+     */
     public FrameCenterLatitude(byte[] bytes) {
         super(bytes);
     }

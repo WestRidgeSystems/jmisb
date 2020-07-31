@@ -25,7 +25,7 @@ public class HorizontalFov implements IUasDatalinkValue {
     private static double MAXINT = 65535.0; // 2^16 - 1
 
     /**
-     * Create from value
+     * Create from value.
      *
      * @param degrees Sensor Horizontal field of view, in degrees. Legal values are in [0,180].
      */
@@ -37,7 +37,7 @@ public class HorizontalFov implements IUasDatalinkValue {
     }
 
     /**
-     * Create from encoded bytes
+     * Create from encoded bytes.
      *
      * @param bytes The byte array of length 2
      */
@@ -52,7 +52,7 @@ public class HorizontalFov implements IUasDatalinkValue {
     }
 
     /**
-     * Get the horizontal field of view
+     * Get the horizontal field of view.
      *
      * @return The horizontal field of view, in degrees
      */

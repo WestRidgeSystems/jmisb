@@ -38,7 +38,7 @@ public class PlatformStatus extends UasEnumeration {
                     .collect(Collectors.toMap(kv -> (Integer) kv[0], kv -> (String) kv[1]));
 
     /**
-     * Create from value
+     * Create from value.
      *
      * @param status The value of the platform status enumeration.
      */
@@ -47,7 +47,7 @@ public class PlatformStatus extends UasEnumeration {
     }
 
     /**
-     * Create from encoded bytes
+     * Create from encoded bytes.
      *
      * @param bytes The byte array of length 1
      */
@@ -56,7 +56,7 @@ public class PlatformStatus extends UasEnumeration {
     }
 
     /**
-     * Get the platform status
+     * Get the platform status.
      *
      * @return The value as an enumeration
      */

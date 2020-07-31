@@ -11,7 +11,7 @@ public class Location {
     private double hae = -1000;
 
     /**
-     * Get the location latitude
+     * Get the location latitude.
      *
      * @return the latitude of the location in degrees
      */
@@ -20,7 +20,7 @@ public class Location {
     }
 
     /**
-     * Set the location latitude
+     * Set the location latitude.
      *
      * @param latitude the latitude of the location in degrees
      */
@@ -29,7 +29,7 @@ public class Location {
     }
 
     /**
-     * Get the location longitude
+     * Get the location longitude.
      *
      * @return the longitude of the location in degrees
      */
@@ -38,7 +38,7 @@ public class Location {
     }
 
     /**
-     * Set the location longitude
+     * Set the location longitude.
      *
      * @param longitude the longitude of the location in degrees
      */
@@ -47,7 +47,7 @@ public class Location {
     }
 
     /**
-     * Get the elevation of the location
+     * Get the elevation of the location.
      *
      * @return the elevation in metres above the WGS84 ellipsoid, or -1000 for invalid / unknown
      */
@@ -56,7 +56,7 @@ public class Location {
     }
 
     /**
-     * Set the elevation of the location
+     * Set the elevation of the location.
      *
      * @param hae the elevation in metres above the WGS84 ellipsoid, or -1000 for invalid / unknown
      */

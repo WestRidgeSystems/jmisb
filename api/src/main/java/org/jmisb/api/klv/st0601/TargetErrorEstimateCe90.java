@@ -19,7 +19,7 @@ package org.jmisb.api.klv.st0601;
  */
 public class TargetErrorEstimateCe90 extends UasDatalinkTargetErrorEstimate {
     /**
-     * Create from value
+     * Create from value.
      *
      * @param metres The value in metres, in the range [0..4095]
      */
@@ -28,7 +28,7 @@ public class TargetErrorEstimateCe90 extends UasDatalinkTargetErrorEstimate {
     }
 
     /**
-     * Create from encoded bytes
+     * Create from encoded bytes.
      *
      * @param bytes The byte array of length 2
      */

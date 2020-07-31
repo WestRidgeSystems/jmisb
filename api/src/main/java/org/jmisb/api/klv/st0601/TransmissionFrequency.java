@@ -26,7 +26,7 @@ public class TransmissionFrequency implements IUasDatalinkValue {
     private double frequency;
 
     /**
-     * Create from value
+     * Create from value.
      *
      * @param frequency transmission frequency in MHz. Valid range is [1,99999]
      */
@@ -39,7 +39,7 @@ public class TransmissionFrequency implements IUasDatalinkValue {
     }
 
     /**
-     * Create from encoded bytes
+     * Create from encoded bytes.
      *
      * @param bytes IMAPB Encoded byte array
      */

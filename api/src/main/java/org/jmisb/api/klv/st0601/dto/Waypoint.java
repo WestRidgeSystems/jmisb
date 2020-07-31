@@ -49,7 +49,7 @@ public class Waypoint {
      * to indicate cancellation; this is the only value where multiple Waypoint Records can use the
      * same Prosecution Order.
      *
-     * @return the prosecution order.
+     * @return the prosecution order
      */
     public short getProsecutionOrder() {
         return prosecutionOrder;
@@ -68,7 +68,7 @@ public class Waypoint {
      * to indicate cancellation; this is the only value where multiple Waypoint Records can use the
      * same Prosecution Order.
      *
-     * @param prosecutionOrder the prosecution order value.
+     * @param prosecutionOrder the prosecution order value
      */
     public void setProsecutionOrder(short prosecutionOrder) {
         this.prosecutionOrder = prosecutionOrder;
@@ -95,7 +95,7 @@ public class Waypoint {
     /**
      * Get whether this waypoint has an ad-hoc source.
      *
-     * @return true if the waypoint is ad-hoc, false if the waypoint is pre-planned.
+     * @return true if the waypoint is ad-hoc, false if the waypoint is pre-planned
      */
     public boolean isAdhocSource() {
         return adhocSource;
@@ -104,7 +104,7 @@ public class Waypoint {
     /**
      * Set whether this waypoint has an ad-hoc source.
      *
-     * @param adhocSource true if the waypoint is ad-hoc, false if the waypoint is pre-planned.
+     * @param adhocSource true if the waypoint is ad-hoc, false if the waypoint is pre-planned
      */
     public void setAdhocSource(boolean adhocSource) {
         this.adhocSource = adhocSource;
@@ -113,7 +113,7 @@ public class Waypoint {
     /**
      * Get the waypoint location.
      *
-     * @return the waypoint location.
+     * @return the waypoint location
      */
     public Location getLocation() {
         return location;
@@ -122,7 +122,7 @@ public class Waypoint {
     /**
      * Set the waypoint location.
      *
-     * @param location the waypoint location.
+     * @param location the waypoint location
      */
     public void setLocation(Location location) {
         this.location = location;

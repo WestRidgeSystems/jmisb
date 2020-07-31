@@ -25,7 +25,7 @@ import org.jmisb.api.klv.st0603.ST0603TimeStamp;
  */
 public class TakeOffTime extends ST0603TimeStamp implements IUasDatalinkValue {
     /**
-     * Create from value
+     * Create from value.
      *
      * @param microseconds Microseconds since the epoch.
      */
@@ -43,7 +43,7 @@ public class TakeOffTime extends ST0603TimeStamp implements IUasDatalinkValue {
     }
 
     /**
-     * Create from {@code LocalDateTime}
+     * Create from {@code LocalDateTime}.
      *
      * @param localDateTime The date and time
      */

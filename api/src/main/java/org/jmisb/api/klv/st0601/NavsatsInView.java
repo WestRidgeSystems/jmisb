@@ -27,7 +27,7 @@ public class NavsatsInView implements IUasDatalinkValue {
     private static int MAX_VALUE = 255;
 
     /**
-     * Create from value
+     * Create from value.
      *
      * @param navsats The count of navigation satellites. Legal values are in [0, 255].
      */
@@ -39,7 +39,7 @@ public class NavsatsInView implements IUasDatalinkValue {
     }
 
     /**
-     * Create from encoded bytes
+     * Create from encoded bytes.
      *
      * @param bytes The byte array of length 1
      */

@@ -17,10 +17,21 @@ package org.jmisb.api.klv.st0601;
  * </blockquote>
  */
 public class AlternatePlatformLongitude extends UasDatalinkLongitude {
+    /**
+     * Construct from value.
+     *
+     * @param degrees Platform longitude in decimal degrees [-180,180], or {@code
+     *     Double.POSITIVE_INFINITY} to represent an error condition
+     */
     public AlternatePlatformLongitude(double degrees) {
         super(degrees);
     }
 
+    /**
+     * Construct from encoded bytes.
+     *
+     * @param bytes The byte array of length 4
+     */
     public AlternatePlatformLongitude(byte[] bytes) {
         super(bytes);
     }

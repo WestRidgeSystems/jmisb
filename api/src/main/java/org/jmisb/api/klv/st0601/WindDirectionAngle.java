@@ -18,7 +18,7 @@ package org.jmisb.api.klv.st0601;
  */
 public class WindDirectionAngle extends UasDatalinkAngle360 implements IUasDatalinkValue {
     /**
-     * Create from value
+     * Create from value.
      *
      * @param degrees wind direction, in degrees
      */
@@ -27,9 +27,9 @@ public class WindDirectionAngle extends UasDatalinkAngle360 implements IUasDatal
     }
 
     /**
-     * Create from encoded bytes
+     * Create from encoded bytes.
      *
-     * @param bytes Encoded byte array
+     * @param bytes Encoded byte array of length 2
      */
     public WindDirectionAngle(byte[] bytes) {
         super(bytes);

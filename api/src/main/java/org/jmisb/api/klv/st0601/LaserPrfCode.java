@@ -30,7 +30,7 @@ public class LaserPrfCode implements IUasDatalinkValue {
     private static double MAX_VALUE = 8888;
 
     /**
-     * Create from value
+     * Create from value.
      *
      * @param prfCode The PRF code. Legal values are in [111, 8888]. No use of 0's or 9s in the
      *     code.
@@ -49,7 +49,7 @@ public class LaserPrfCode implements IUasDatalinkValue {
     }
 
     /**
-     * Create from encoded bytes
+     * Create from encoded bytes.
      *
      * @param bytes The byte array of length 2
      */
@@ -63,7 +63,7 @@ public class LaserPrfCode implements IUasDatalinkValue {
     }
 
     /**
-     * Get the code
+     * Get the code.
      *
      * @return The PRF code
      */

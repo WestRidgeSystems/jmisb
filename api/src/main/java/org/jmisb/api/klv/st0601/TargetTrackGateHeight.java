@@ -16,10 +16,20 @@ package org.jmisb.api.klv.st0601;
  * </blockquote>
  */
 public class TargetTrackGateHeight extends TargetTrackGateSize {
+    /**
+     * Create from value.
+     *
+     * @param px The gate height in pixels, in range [0, 510]
+     */
     public TargetTrackGateHeight(short px) {
         super(px);
     }
 
+    /**
+     * Create from encoded bytes.
+     *
+     * @param bytes The byte array of length 1
+     */
     public TargetTrackGateHeight(byte[] bytes) {
         super(bytes);
     }

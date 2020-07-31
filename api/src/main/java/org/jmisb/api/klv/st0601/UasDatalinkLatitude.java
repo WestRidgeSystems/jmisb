@@ -25,7 +25,7 @@ public abstract class UasDatalinkLatitude implements IUasDatalinkValue {
     public static final double DELTA = 21e-9; // +/- 21 nano degrees
 
     /**
-     * Create from value
+     * Create from value.
      *
      * @param degrees Latitude, in degrees [-90,90], or {@code Double.POSITIVE_INFINITY} to
      *     represent an error condition
@@ -38,7 +38,7 @@ public abstract class UasDatalinkLatitude implements IUasDatalinkValue {
     }
 
     /**
-     * Create from encoded bytes
+     * Create from encoded bytes.
      *
      * @param bytes Latitude, encoded as a 4-byte int
      */
@@ -56,7 +56,7 @@ public abstract class UasDatalinkLatitude implements IUasDatalinkValue {
     }
 
     /**
-     * Get the latitude in degrees
+     * Get the latitude in degrees.
      *
      * @return Latitude, in range [-90,90], or Double.POSITIVE_INFINITY if error condition was
      *     specified.

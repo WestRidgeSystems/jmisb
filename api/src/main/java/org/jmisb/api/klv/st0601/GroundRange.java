@@ -17,7 +17,7 @@ package org.jmisb.api.klv.st0601;
  */
 public class GroundRange extends UasRange {
     /**
-     * Create from value
+     * Create from value.
      *
      * @param meters Ground range, in meters
      */
@@ -26,7 +26,7 @@ public class GroundRange extends UasRange {
     }
 
     /**
-     * Create from encoded bytes
+     * Create from encoded bytes.
      *
      * @param bytes Ground range, encoded as a 4-byte unsigned int
      */

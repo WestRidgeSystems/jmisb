@@ -17,10 +17,20 @@ package org.jmisb.api.klv.st0601;
  * </blockquote>
  */
 public class DifferentialPressure extends UasPressureMillibars {
+    /**
+     * Create from value.
+     *
+     * @param pressureMillibars The pressure in millibars, in range [0, 5000]
+     */
     public DifferentialPressure(double pressureMillibars) {
         super(pressureMillibars);
     }
 
+    /**
+     * Create from encoded bytes.
+     *
+     * @param bytes The byte array of length 2
+     */
     public DifferentialPressure(byte[] bytes) {
         super(bytes);
     }

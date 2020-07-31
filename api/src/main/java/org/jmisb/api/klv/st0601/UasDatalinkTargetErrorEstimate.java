@@ -21,7 +21,7 @@ public abstract class UasDatalinkTargetErrorEstimate implements IUasDatalinkValu
     protected double metres;
 
     /**
-     * Create from value
+     * Create from value.
      *
      * @param metres The value in metres
      */
@@ -34,7 +34,7 @@ public abstract class UasDatalinkTargetErrorEstimate implements IUasDatalinkValu
     }
 
     /**
-     * Create from encoded bytes
+     * Create from encoded bytes.
      *
      * @param bytes The byte array of length 2
      */
@@ -49,7 +49,7 @@ public abstract class UasDatalinkTargetErrorEstimate implements IUasDatalinkValu
     }
 
     /**
-     * Get the value in metres
+     * Get the value in metres.
      *
      * @return The error value in metres
      */

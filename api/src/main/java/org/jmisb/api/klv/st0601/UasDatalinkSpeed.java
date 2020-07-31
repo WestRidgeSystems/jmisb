@@ -15,7 +15,7 @@ public abstract class UasDatalinkSpeed implements IUasDatalinkValue {
     private static double MAX_VALUE = 255;
 
     /**
-     * Create from value
+     * Create from value.
      *
      * @param speed speed in meters/second. Legal values are in [0, 255].
      */
@@ -27,7 +27,7 @@ public abstract class UasDatalinkSpeed implements IUasDatalinkValue {
     }
 
     /**
-     * Create from encoded bytes
+     * Create from encoded bytes.
      *
      * @param bytes The byte array of length 1
      */
@@ -42,7 +42,7 @@ public abstract class UasDatalinkSpeed implements IUasDatalinkValue {
     }
 
     /**
-     * Get the speed
+     * Get the speed.
      *
      * @return The speed in meters/second
      */

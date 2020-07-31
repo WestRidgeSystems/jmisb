@@ -24,9 +24,9 @@ public abstract class UasRange implements IUasDatalinkValue {
     protected double meters;
 
     /**
-     * Create from value
+     * Create from value.
      *
-     * @param meters Range, in meters
+     * @param meters Range in meters, in [0,5000000]
      */
     public UasRange(double meters) {
         if (meters < MIN_VAL || meters > MAX_VAL) {
@@ -37,7 +37,7 @@ public abstract class UasRange implements IUasDatalinkValue {
     }
 
     /**
-     * Create from encoded bytes
+     * Create from encoded bytes.
      *
      * @param bytes Range, encoded as a 4-byte unsigned int
      */
@@ -51,7 +51,7 @@ public abstract class UasRange implements IUasDatalinkValue {
     }
 
     /**
-     * Get the value in meters
+     * Get the value in meters.
      *
      * @return Meters in range [0,5000000]
      */

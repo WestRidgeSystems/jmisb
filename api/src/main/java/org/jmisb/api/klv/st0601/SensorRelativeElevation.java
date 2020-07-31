@@ -27,7 +27,7 @@ public class SensorRelativeElevation implements IUasDatalinkValue {
     private static final double MAX_INT = 2147483647.0;
 
     /**
-     * Create from value
+     * Create from value.
      *
      * @param degrees Sensor Relative Elevation, in degrees [-180,180], or {@code
      *     Double.POSITIVE_INFINITY} to represent "out of range"
@@ -41,7 +41,7 @@ public class SensorRelativeElevation implements IUasDatalinkValue {
     }
 
     /**
-     * Create from encoded bytes
+     * Create from encoded bytes.
      *
      * @param bytes Sensor Relative Elevation, encoded as a 4-byte int
      */
@@ -60,7 +60,7 @@ public class SensorRelativeElevation implements IUasDatalinkValue {
     }
 
     /**
-     * Get the value in degrees
+     * Get the value in degrees.
      *
      * @return Degrees in range [-180,180], or Double.POSITIVE_INFINITY if error condition was
      *     specified.

@@ -34,7 +34,7 @@ public class WeaponsStores implements IUasDatalinkValue {
     private final List<WeaponStore> weaponStores = new ArrayList<>();
 
     /**
-     * Create from value
+     * Create from value.
      *
      * @param weapons list of WeaponStore values
      */
@@ -44,7 +44,7 @@ public class WeaponsStores implements IUasDatalinkValue {
     }
 
     /**
-     * Create from encoded bytes
+     * Create from encoded bytes.
      *
      * @param bytes WeaponStore list - byte array with Variable Length Pack encoding
      */

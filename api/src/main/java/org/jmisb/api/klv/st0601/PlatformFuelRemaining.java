@@ -27,7 +27,7 @@ public class PlatformFuelRemaining implements IUasDatalinkValue {
     private static double INT_RANGE = 65535.0;
 
     /**
-     * Create from value
+     * Create from value.
      *
      * @param mass The value in kilograms.
      */
@@ -41,7 +41,7 @@ public class PlatformFuelRemaining implements IUasDatalinkValue {
     }
 
     /**
-     * Create from encoded bytes
+     * Create from encoded bytes.
      *
      * @param bytes The byte array of length 2
      */
@@ -56,7 +56,7 @@ public class PlatformFuelRemaining implements IUasDatalinkValue {
     }
 
     /**
-     * Get the value in kilograms
+     * Get the value in kilograms.
      *
      * @return The value in kilograms
      */

@@ -24,7 +24,7 @@ public class WeaponStore {
      * station" in the sense used by STANAG 4586 (see AEP-84) for the stores management system
      * (SMS).
      *
-     * @return integer identifier for the station identifier.
+     * @return integer identifier for the station identifier
      */
     public int getStationId() {
         return stationId;
@@ -37,7 +37,7 @@ public class WeaponStore {
      * station" in the sense used by STANAG 4586 (see AEP-84) for the stores management system
      * (SMS).
      *
-     * @param stationId integer identifier for the station identifier.
+     * @param stationId integer identifier for the station identifier
      */
     public void setStationId(int stationId) {
         this.stationId = stationId;
@@ -49,7 +49,7 @@ public class WeaponStore {
      * <p>This corresponds to the aircraft hardpoint where the stores suspension equipment starts
      * (e.g. a wing pylon, or bay location). Some platforms would call this a weapons station.
      *
-     * @return the hardpoint identifier.
+     * @return the hardpoint identifier
      */
     public int getHardpointId() {
         return hardpointId;
@@ -61,7 +61,7 @@ public class WeaponStore {
      * <p>This corresponds to the aircraft hardpoint where the stores suspension equipment starts
      * (e.g. a wing pylon, or bay location). Some platforms would call this a weapons station.
      *
-     * @param hardpointId the hardpoint identifier.
+     * @param hardpointId the hardpoint identifier
      */
     public void setHardpointId(int hardpointId) {
         this.hardpointId = hardpointId;
@@ -73,7 +73,7 @@ public class WeaponStore {
      * <p>This corresponds to something between the hardpoint and the store-specific suspension
      * equipment, such as a dual-position rack (e.g. BRU-55/A).
      *
-     * @return the carrriage identifier.
+     * @return the carriage identifier
      */
     public int getCarriageId() {
         return carriageId;
@@ -85,7 +85,7 @@ public class WeaponStore {
      * <p>This corresponds to something between the hardpoint and the store-specific suspension
      * equipment, such as a dual-position rack (e.g. BRU-55/A).
      *
-     * @param carriageId the carrriage identifier.
+     * @param carriageId the carriage identifier
      */
     public void setCarriageId(int carriageId) {
         this.carriageId = carriageId;
@@ -97,7 +97,7 @@ public class WeaponStore {
      * <p>This corresponds to a position on store-specific suspension equipment, such as a launcher
      * or miniature store rack.
      *
-     * @return the store identifier.
+     * @return the store identifier
      */
     public int getStoreId() {
         return storeId;
@@ -109,7 +109,7 @@ public class WeaponStore {
      * <p>This corresponds to a position on store-specific suspension equipment, such as a launcher
      * or miniature store rack.
      *
-     * @param storeId the store identifier.
+     * @param storeId the store identifier
      */
     public void setStoreId(int storeId) {
         this.storeId = storeId;
@@ -118,7 +118,7 @@ public class WeaponStore {
     /**
      * Get the general status of the store.
      *
-     * @return store status (enumerated value).
+     * @return store status (enumerated value)
      */
     public WeaponStoreStatus getStatus() {
         return status;
@@ -127,7 +127,7 @@ public class WeaponStore {
     /**
      * Set the general status of the store.
      *
-     * @param status store status (enumerated value).
+     * @param status store status (enumerated value)
      */
     public void setStatus(WeaponStoreStatus status) {
         this.status = status;
@@ -136,7 +136,7 @@ public class WeaponStore {
     /**
      * Check if fuze engagement status is set.
      *
-     * @return true if Fuze functions are set, otherwise false.
+     * @return true if Fuze functions are set, otherwise false
      */
     public boolean isFuzeEnabled() {
         return fuzeEnabled;
@@ -145,7 +145,7 @@ public class WeaponStore {
     /**
      * Set fuze engagement status.
      *
-     * @param fuzeEnabled true if Fuze functions are set, otherwise false.
+     * @param fuzeEnabled true if Fuze functions are set, otherwise false
      */
     public void setFuzeEnabled(boolean fuzeEnabled) {
         this.fuzeEnabled = fuzeEnabled;
@@ -154,7 +154,7 @@ public class WeaponStore {
     /**
      * Check if laser engagement status is set.
      *
-     * @return true if Laser functions are set, otherwise false.
+     * @return true if Laser functions are set, otherwise false
      */
     public boolean isLaserEnabled() {
         return laserEnabled;
@@ -163,7 +163,7 @@ public class WeaponStore {
     /**
      * Set laser engagement status.
      *
-     * @param laserEnabled true if Laser functions are set, otherwise false.
+     * @param laserEnabled true if Laser functions are set, otherwise false
      */
     public void setLaserEnabled(boolean laserEnabled) {
         this.laserEnabled = laserEnabled;
@@ -172,7 +172,7 @@ public class WeaponStore {
     /**
      * Check if target engagement status is set.
      *
-     * @return true if target functions are set, otherwise false.
+     * @return true if target functions are set, otherwise false
      */
     public boolean isTargetEnabled() {
         return targetEnabled;
@@ -181,7 +181,7 @@ public class WeaponStore {
     /**
      * Set target engagement status.
      *
-     * @param targetEnabled true if target functions are set, otherwise false.
+     * @param targetEnabled true if target functions are set, otherwise false
      */
     public void setTargetEnabled(boolean targetEnabled) {
         this.targetEnabled = targetEnabled;
@@ -192,7 +192,7 @@ public class WeaponStore {
      *
      * <p>ST0601 suggests this is "master arm", but it probably is intended to be weapon specific.
      *
-     * @return true if weapon is armed, otherwise false.
+     * @return true if weapon is armed, otherwise false
      */
     public boolean isWeaponArmed() {
         return weaponArmed;
@@ -203,7 +203,7 @@ public class WeaponStore {
      *
      * <p>ST0601 suggests this is "master arm", but it probably is intended to be weapon specific.
      *
-     * @param weaponArmed true if weapon is armed, otherwise false.
+     * @param weaponArmed true if weapon is armed, otherwise false
      */
     public void setWeaponArmed(boolean weaponArmed) {
         this.weaponArmed = weaponArmed;
@@ -214,7 +214,7 @@ public class WeaponStore {
      *
      * <p>This is the "name" of the store or weapon type (e.g. "Harpoon", or "GBU-15").
      *
-     * @return string representing the store type.
+     * @return string representing the store type
      */
     public String getStoreType() {
         return storeType;
@@ -225,7 +225,7 @@ public class WeaponStore {
      *
      * <p>This is the "name" of the store or weapon type (e.g. "Harpoon", or "GBU-15").
      *
-     * @param storeType string representing the store type.
+     * @param storeType string representing the store type
      */
     public void setStoreType(String storeType) {
         this.storeType = storeType;

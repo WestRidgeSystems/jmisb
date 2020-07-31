@@ -18,7 +18,7 @@ package org.jmisb.api.klv.st0601;
  */
 public class PlatformSideslipAngle extends UasDatalinkAngle {
     /**
-     * Create from value
+     * Create from value.
      *
      * @param degrees The value in degrees, or {@code Double.POSITIVE_INFINITY} to represent an
      *     error condition
@@ -28,7 +28,7 @@ public class PlatformSideslipAngle extends UasDatalinkAngle {
     }
 
     /**
-     * Create from encoded bytes
+     * Create from encoded bytes.
      *
      * @param bytes The byte array of length 2
      */

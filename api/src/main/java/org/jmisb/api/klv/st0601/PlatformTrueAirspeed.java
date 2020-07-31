@@ -17,7 +17,7 @@ package org.jmisb.api.klv.st0601;
  */
 public class PlatformTrueAirspeed extends UasDatalinkSpeed implements IUasDatalinkValue {
     /**
-     * Create from value
+     * Create from value.
      *
      * @param speed Air speed in meters/second. Legal values are in [0, 255].
      */
@@ -26,7 +26,7 @@ public class PlatformTrueAirspeed extends UasDatalinkSpeed implements IUasDatali
     }
 
     /**
-     * Create from encoded bytes
+     * Create from encoded bytes.
      *
      * @param bytes The byte array of length 1
      */

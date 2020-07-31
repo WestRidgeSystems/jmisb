@@ -55,7 +55,7 @@ public class PositioningMethodSource implements IUasDatalinkValue {
     public static final int BIEDOU2 = 128;
 
     /**
-     * Create from value
+     * Create from value.
      *
      * @param flags The positioning source flags. Legal values are in [0, 255].
      */
@@ -67,7 +67,7 @@ public class PositioningMethodSource implements IUasDatalinkValue {
     }
 
     /**
-     * Create from encoded bytes
+     * Create from encoded bytes.
      *
      * @param bytes The byte array of length 1
      */

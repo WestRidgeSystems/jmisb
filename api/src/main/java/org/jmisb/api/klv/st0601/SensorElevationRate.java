@@ -19,7 +19,7 @@ package org.jmisb.api.klv.st0601;
  */
 public class SensorElevationRate extends SensorAngleRate {
     /**
-     * Create from value
+     * Create from value.
      *
      * @param rate Sensor angle rate in degrees per second. Valid range is [-1000,1000]
      */
@@ -28,7 +28,7 @@ public class SensorElevationRate extends SensorAngleRate {
     }
 
     /**
-     * Create from encoded bytes
+     * Create from encoded bytes.
      *
      * @param bytes IMAPB Encoded byte array, 4 bytes maximum
      */

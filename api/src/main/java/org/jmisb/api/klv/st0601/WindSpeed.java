@@ -25,7 +25,7 @@ public class WindSpeed implements IUasDatalinkValue {
     private static double MAXINT = 255.0; // 2^8 - 1
 
     /**
-     * Create from value
+     * Create from value.
      *
      * @param speed Wind speed in meters/second. Legal values are in [0, 100].
      */
@@ -37,7 +37,7 @@ public class WindSpeed implements IUasDatalinkValue {
     }
 
     /**
-     * Create from encoded bytes
+     * Create from encoded bytes.
      *
      * @param bytes The byte array of length 1
      */
@@ -51,7 +51,7 @@ public class WindSpeed implements IUasDatalinkValue {
     }
 
     /**
-     * Get the wind speed
+     * Get the wind speed.
      *
      * @return The wind speed in meters/second
      */

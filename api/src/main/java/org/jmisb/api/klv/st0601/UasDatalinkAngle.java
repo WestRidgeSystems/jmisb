@@ -23,7 +23,7 @@ public abstract class UasDatalinkAngle implements IUasDatalinkValue {
     protected double degrees;
 
     /**
-     * Create from value
+     * Create from value.
      *
      * @param degrees The value in degrees, or {@code Double.POSITIVE_INFINITY} to represent an
      *     error condition
@@ -37,7 +37,7 @@ public abstract class UasDatalinkAngle implements IUasDatalinkValue {
     }
 
     /**
-     * Create from encoded bytes
+     * Create from encoded bytes.
      *
      * @param bytes The byte array of length 2
      */
@@ -56,7 +56,7 @@ public abstract class UasDatalinkAngle implements IUasDatalinkValue {
     }
 
     /**
-     * Get the value in degrees
+     * Get the value in degrees.
      *
      * @return The value in degrees, or {@code Double.POSITIVE_INFINITY} to indicate an error
      *     condition

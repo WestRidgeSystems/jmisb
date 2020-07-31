@@ -32,7 +32,7 @@ public class PlatformVerticalSpeed implements IUasDatalinkValue {
     private static final double INT_RANGE = 65534.0;
 
     /**
-     * Create from value
+     * Create from value.
      *
      * @param speed The value in metres per second, or {@code Double.POSITIVE_INFINITY} to represent
      *     "out of range"
@@ -47,7 +47,7 @@ public class PlatformVerticalSpeed implements IUasDatalinkValue {
     }
 
     /**
-     * Create from encoded bytes
+     * Create from encoded bytes.
      *
      * @param bytes The byte array of length 2
      */
@@ -66,7 +66,7 @@ public class PlatformVerticalSpeed implements IUasDatalinkValue {
     }
 
     /**
-     * Get the value in metres per second
+     * Get the value in metres per second.
      *
      * @return The value in metres per second, or {@code Double.POSITIVE_INFINITY} if "out of range"
      */

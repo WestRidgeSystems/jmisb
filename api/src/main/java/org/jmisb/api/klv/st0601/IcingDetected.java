@@ -29,7 +29,7 @@ public class IcingDetected extends UasEnumeration {
                     .collect(Collectors.toMap(kv -> (Integer) kv[0], kv -> (String) kv[1]));
 
     /**
-     * Create from value
+     * Create from value.
      *
      * @param icingDetected The value of the icing enumeration (0: Detector off, 1: No icing
      *     Detected, 2: Icing Detected)
@@ -39,7 +39,7 @@ public class IcingDetected extends UasEnumeration {
     }
 
     /**
-     * Create from encoded bytes
+     * Create from encoded bytes.
      *
      * @param bytes The byte array of length 1
      */
@@ -48,7 +48,7 @@ public class IcingDetected extends UasEnumeration {
     }
 
     /**
-     * Get the icing detected value
+     * Get the icing detected value.
      *
      * @return The value as an enumeration (0: Detector off, 1: No icing Detected, 2: Icing
      *     Detected)

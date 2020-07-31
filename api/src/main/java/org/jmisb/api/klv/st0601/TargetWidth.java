@@ -25,7 +25,7 @@ public class TargetWidth implements IUasDatalinkValue {
     public static double DELTA = 0.08; // +/- .08 meters
 
     /**
-     * Create from value
+     * Create from value.
      *
      * @param meters Target width, in meters
      */
@@ -37,7 +37,7 @@ public class TargetWidth implements IUasDatalinkValue {
     }
 
     /**
-     * Create from encoded bytes
+     * Create from encoded bytes.
      *
      * @param bytes Encoded byte array
      */
@@ -51,7 +51,7 @@ public class TargetWidth implements IUasDatalinkValue {
     }
 
     /**
-     * Get the value in meters
+     * Get the value in meters.
      *
      * @return Target width in meters
      */

@@ -17,10 +17,21 @@ package org.jmisb.api.klv.st0601;
  * </blockquote>
  */
 public class TargetLocationLongitude extends UasDatalinkLongitude {
+    /**
+     * Create from value.
+     *
+     * @param degrees Longitude, in degrees [-180,180], or {@code Double.POSITIVE_INFINITY} to
+     *     represent an error condition
+     */
     public TargetLocationLongitude(double degrees) {
         super(degrees);
     }
 
+    /**
+     * Create from encoded bytes.
+     *
+     * @param bytes Longitude, encoded as a 4-byte int
+     */
     public TargetLocationLongitude(byte[] bytes) {
         super(bytes);
     }

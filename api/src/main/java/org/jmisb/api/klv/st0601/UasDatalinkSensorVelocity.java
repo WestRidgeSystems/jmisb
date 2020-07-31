@@ -24,7 +24,7 @@ public abstract class UasDatalinkSensorVelocity implements IUasDatalinkValue {
     private static final double INT_RANGE = 65534.0; // 2^15-1
 
     /**
-     * Create from value
+     * Create from value.
      *
      * @param velocity The value in m/sec, or {@code Double.POSITIVE_INFINITY} to represent an error
      *     condition
@@ -38,7 +38,7 @@ public abstract class UasDatalinkSensorVelocity implements IUasDatalinkValue {
     }
 
     /**
-     * Create from encoded bytes
+     * Create from encoded bytes.
      *
      * @param bytes The byte array of length 2
      */
@@ -57,7 +57,7 @@ public abstract class UasDatalinkSensorVelocity implements IUasDatalinkValue {
     }
 
     /**
-     * Get the velocity
+     * Get the velocity.
      *
      * @return The value in m/sec, or {@code Double.POSITIVE_INFINITY} to indicate an error
      *     condition

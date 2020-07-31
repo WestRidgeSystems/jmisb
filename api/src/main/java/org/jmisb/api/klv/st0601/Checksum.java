@@ -2,12 +2,12 @@ package org.jmisb.api.klv.st0601;
 
 import java.nio.ByteBuffer;
 
-/** Compute checksum for ST 0601 packet */
+/** Compute checksum for ST 0601 packet. */
 public class Checksum {
     private Checksum() {}
 
     /**
-     * Compute checksum
+     * Compute checksum.
      *
      * <p>The checksum is computed by summing the full message buffer up to and including the
      * checksum's length field. The reference algorithm as listed in the ST takes two bytes at a

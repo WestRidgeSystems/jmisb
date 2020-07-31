@@ -2,7 +2,7 @@ package org.jmisb.api.klv.st0601;
 
 import java.nio.charset.StandardCharsets;
 
-/** Represents a string value in ST 0601 */
+/** Represents a string value in ST 0601. */
 public class UasDatalinkString implements IUasDatalinkValue {
     public static final String ALTERNATE_PLATFORM_NAME = "Alternate Platform Name";
     public static final String BROADCAST_SOURCE = "Broadcast Source";
@@ -21,7 +21,7 @@ public class UasDatalinkString implements IUasDatalinkValue {
     private String stringValue;
 
     /**
-     * Create from value
+     * Create from value.
      *
      * @param name The display name for the datalink string
      * @param value The string value
@@ -32,7 +32,7 @@ public class UasDatalinkString implements IUasDatalinkValue {
     }
 
     /**
-     * Create from encoded bytes
+     * Create from encoded bytes.
      *
      * @param name The display name for the datalink string
      * @param bytes Encoded byte array
@@ -43,7 +43,7 @@ public class UasDatalinkString implements IUasDatalinkValue {
     }
 
     /**
-     * Get the value
+     * Get the value.
      *
      * @return The string value
      */

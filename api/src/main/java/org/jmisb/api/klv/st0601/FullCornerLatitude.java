@@ -28,7 +28,7 @@ public class FullCornerLatitude extends UasDatalinkLatitude {
     private final String displayName;
 
     /**
-     * Create from value
+     * Create from value.
      *
      * @param degrees Latitude, in degrees [-90,90], or {@code Double.POSITIVE_INFINITY} to
      *     represent an error condition
@@ -40,7 +40,7 @@ public class FullCornerLatitude extends UasDatalinkLatitude {
     }
 
     /**
-     * Create from encoded bytes
+     * Create from encoded bytes.
      *
      * @param bytes Latitude, encoded as a 4-byte int
      * @param displayName human readable (display) name for this type - see static values

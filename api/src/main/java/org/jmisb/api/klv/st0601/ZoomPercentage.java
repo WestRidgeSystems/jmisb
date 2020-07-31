@@ -29,7 +29,7 @@ public class ZoomPercentage implements IUasDatalinkValue {
     private double percentage;
 
     /**
-     * Create from value
+     * Create from value.
      *
      * @param percentage Zoom percentage. Valid range is [0,100]
      */
@@ -41,7 +41,7 @@ public class ZoomPercentage implements IUasDatalinkValue {
     }
 
     /**
-     * Create from encoded bytes
+     * Create from encoded bytes.
      *
      * @param bytes IMAPB Encoded byte array, 4 bytes maximum
      */

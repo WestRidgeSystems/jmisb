@@ -24,18 +24,18 @@ package org.jmisb.api.klv.st0601;
  */
 public class AlternatePlatformHeading extends UasDatalinkAngle360 {
     /**
-     * Create from value
+     * Create from value.
      *
-     * @param degrees angle, in degrees
+     * @param degrees Angle in degrees in range [0, 360]
      */
     public AlternatePlatformHeading(double degrees) {
         super(degrees);
     }
 
     /**
-     * Create from encoded bytes
+     * Create from encoded bytes.
      *
-     * @param bytes Encoded byte array
+     * @param bytes Encoded byte array of length 2
      */
     public AlternatePlatformHeading(byte[] bytes) {
         super(bytes);

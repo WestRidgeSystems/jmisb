@@ -17,7 +17,7 @@ package org.jmisb.api.klv.st0601;
  */
 public class PlatformMagneticHeading extends UasDatalinkAngle360 {
     /**
-     * Create from value
+     * Create from value.
      *
      * @param degrees angle, in degrees
      */
@@ -26,7 +26,7 @@ public class PlatformMagneticHeading extends UasDatalinkAngle360 {
     }
 
     /**
-     * Create from encoded bytes
+     * Create from encoded bytes.
      *
      * @param bytes Encoded byte array
      */

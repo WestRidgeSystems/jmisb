@@ -24,7 +24,7 @@ public class SensorRelativeRoll implements IUasDatalinkValue {
     private static double MAXINT = 4294967295.0;
 
     /**
-     * Create from value
+     * Create from value.
      *
      * @param degrees Sensor Relative Roll, in degrees [0,360]
      */
@@ -37,7 +37,7 @@ public class SensorRelativeRoll implements IUasDatalinkValue {
     }
 
     /**
-     * Create from encoded bytes
+     * Create from encoded bytes.
      *
      * @param bytes Sensor Relative Roll, encoded as a 4-byte unsigned int
      */
@@ -51,7 +51,7 @@ public class SensorRelativeRoll implements IUasDatalinkValue {
     }
 
     /**
-     * Get the value in degrees
+     * Get the value in degrees.
      *
      * @return Degrees in range [0,360]
      */

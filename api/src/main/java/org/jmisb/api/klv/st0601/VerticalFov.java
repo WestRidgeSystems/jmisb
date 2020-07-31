@@ -25,7 +25,7 @@ public class VerticalFov implements IUasDatalinkValue {
     private static double MAXINT = 65535.0; // 2^16 - 1
 
     /**
-     * Create from value
+     * Create from value.
      *
      * @param degrees Sensor Vertical field of view, in degrees. Legal values are in [0,180].
      */
@@ -37,7 +37,7 @@ public class VerticalFov implements IUasDatalinkValue {
     }
 
     /**
-     * Create from encoded bytes
+     * Create from encoded bytes.
      *
      * @param bytes The byte array of length 2
      */
@@ -52,7 +52,7 @@ public class VerticalFov implements IUasDatalinkValue {
     }
 
     /**
-     * Get the vertical field of view
+     * Get the vertical field of view.
      *
      * @return The vertical field of view, in degrees
      */

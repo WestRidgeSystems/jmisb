@@ -26,7 +26,7 @@ public class PlatformRollAngle implements IUasDatalinkValue {
     private static final double INT_RANGE = 65534.0;
 
     /**
-     * Create from value
+     * Create from value.
      *
      * @param degrees The value in degrees, or {@code Double.POSITIVE_INFINITY} to represent "out of
      *     range"
@@ -40,7 +40,7 @@ public class PlatformRollAngle implements IUasDatalinkValue {
     }
 
     /**
-     * Create from encoded bytes
+     * Create from encoded bytes.
      *
      * @param bytes The byte array of length 2
      */
@@ -59,7 +59,7 @@ public class PlatformRollAngle implements IUasDatalinkValue {
     }
 
     /**
-     * Get the value in degrees
+     * Get the value in degrees.
      *
      * @return The value in degrees, or {@code Double.POSITIVE_INFINITY} if "out of range"
      */

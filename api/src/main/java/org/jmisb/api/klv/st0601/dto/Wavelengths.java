@@ -14,7 +14,7 @@ public class Wavelengths {
     /**
      * Get the numeric identifier for this wavelengths range.
      *
-     * @return the identifier.
+     * @return the identifier
      */
     public int getId() {
         return id;
@@ -23,7 +23,7 @@ public class Wavelengths {
     /**
      * Set the numeric identifier for this wavelengths range.
      *
-     * @param id the identifier, which must be 21 or higher.
+     * @param id the identifier, which must be 21 or higher
      */
     public void setId(int id) {
         if (id < 21) {
@@ -35,16 +35,16 @@ public class Wavelengths {
     /**
      * The minimum wavelength in the range.
      *
-     * @return the wavelength in nanometres (nm).
+     * @return the wavelength in nanometres (nm)
      */
     public double getMin() {
         return min;
     }
 
     /**
-     * Set the minimum wavelength
+     * Set the minimum wavelength.
      *
-     * @param min the wavelength in nanometres (nm).
+     * @param min the wavelength in nanometres (nm)
      */
     public void setMin(double min) {
         this.min = min;
@@ -53,7 +53,7 @@ public class Wavelengths {
     /**
      * The maximum wavelength in the range.
      *
-     * @return the wavelength in nanometres (nm).
+     * @return the wavelength in nanometres (nm)
      */
     public double getMax() {
         return max;
@@ -78,9 +78,9 @@ public class Wavelengths {
     }
 
     /**
-     * Set the short name for this range
+     * Set the short name for this range.
      *
-     * @param name the name of the range.
+     * @param name the name of the range
      */
     public void setName(String name) {
         this.name = name;

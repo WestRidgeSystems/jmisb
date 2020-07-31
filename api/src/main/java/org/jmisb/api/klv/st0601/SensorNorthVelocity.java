@@ -18,10 +18,20 @@ package org.jmisb.api.klv.st0601;
  * </blockquote>
  */
 public class SensorNorthVelocity extends UasDatalinkSensorVelocity {
+    /**
+     * Create from value.
+     *
+     * @param velocity Northing velocity, in meters/second, in range [-327,327]
+     */
     public SensorNorthVelocity(double velocity) {
         super(velocity);
     }
 
+    /**
+     * Create from encoded bytes.
+     *
+     * @param bytes The byte array of length 2
+     */
     public SensorNorthVelocity(byte[] bytes) {
         super(bytes);
     }

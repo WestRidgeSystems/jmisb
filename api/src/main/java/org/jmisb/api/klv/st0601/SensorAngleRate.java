@@ -16,7 +16,7 @@ public abstract class SensorAngleRate implements IUasDatalinkValue {
     private double angleRate;
 
     /**
-     * Create from value
+     * Create from value.
      *
      * @param rate Sensor angle rate in degrees per second. Valid range is [-1000,1000]
      */
@@ -29,7 +29,7 @@ public abstract class SensorAngleRate implements IUasDatalinkValue {
     }
 
     /**
-     * Create from encoded bytes
+     * Create from encoded bytes.
      *
      * @param bytes IMAPB Encoded byte array, 4 bytes maximum
      */
@@ -43,7 +43,7 @@ public abstract class SensorAngleRate implements IUasDatalinkValue {
     }
 
     /**
-     * Get the sensor angle rate
+     * Get the sensor angle rate.
      *
      * @return The density altitude in meters
      */

@@ -17,7 +17,7 @@ package org.jmisb.api.klv.st0601;
  */
 public class SlantRange extends UasRange {
     /**
-     * Create from value
+     * Create from value.
      *
      * @param meters Slant range, in meters
      */
@@ -26,7 +26,7 @@ public class SlantRange extends UasRange {
     }
 
     /**
-     * Create from encoded bytes
+     * Create from encoded bytes.
      *
      * @param bytes Slant range, encoded as a 4-byte unsigned int
      */

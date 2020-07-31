@@ -59,7 +59,7 @@ public enum WeaponStoreStatus {
     /**
      * Get the encoded form of this enumerated value.
      *
-     * @return byte corresponding to enumeration value.
+     * @return byte corresponding to enumeration value
      */
     public byte getCode() {
         return code;
@@ -69,8 +69,8 @@ public enum WeaponStoreStatus {
      * Get the store status corresponding to this encoded value.
      *
      * @param code the encoded value
-     * @return the corresponding enumeration.
-     * @throws IllegalArgumentException if the code is not valid.
+     * @return the corresponding enumeration
+     * @throws IllegalArgumentException if the code is not valid
      */
     public static WeaponStoreStatus getStatus(byte code) {
         if (lookupTable.containsKey(code)) {

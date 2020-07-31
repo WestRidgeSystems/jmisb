@@ -49,7 +49,7 @@ public class CornerOffset implements IUasDatalinkValue {
     private final String displayName;
 
     /**
-     * Create from value
+     * Create from value.
      *
      * @param degrees The value in degrees, in range [-0.075,0.075]
      * @param displayName human readable (display) name for this type - see static values
@@ -63,7 +63,7 @@ public class CornerOffset implements IUasDatalinkValue {
     }
 
     /**
-     * Create from encoded bytes
+     * Create from encoded bytes.
      *
      * @param bytes The byte array of length 2
      * @param displayName human readable (display) name for this type - see static values
@@ -82,7 +82,7 @@ public class CornerOffset implements IUasDatalinkValue {
     }
 
     /**
-     * Get the value in degrees
+     * Get the value in degrees.
      *
      * @return The value in degrees, or {@code Double.POSITIVE_INFINITY} to indicate an error
      *     condition

@@ -10,7 +10,7 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 /**
- * UAS Datalink Local Set message packet as defined by ST 0601
+ * UAS Datalink Local Set message packet as defined by ST 0601.
  *
  * <p>For guidance on which items are mandatory to include in ST 0601 messages, refer to ST 0902 for
  * a list of the minimum set of UAS Datalink LS metadata items.
@@ -21,11 +21,11 @@ public class UasDatalinkMessage implements IMisbMessage {
     // TODO: should we make this class immutable? May have benefits for stability in multi-threaded
     // environments.
 
-    /** Map containing all data elements in the message (except, normally, the checksum) */
+    /** Map containing all data elements in the message (except, normally, the checksum). */
     private SortedMap<UasDatalinkTag, IUasDatalinkValue> map = new TreeMap<>();
 
     /**
-     * Create the message from the given key/value pairs
+     * Create the message from the given key/value pairs.
      *
      * @param values Tag/value pairs to be included in the message
      */
@@ -34,7 +34,7 @@ public class UasDatalinkMessage implements IMisbMessage {
     }
 
     /**
-     * Create the message by parsing the given byte array
+     * Create the message by parsing the given byte array.
      *
      * @param bytes Byte array containing a UAS Datalink message
      * @throws KlvParseException if a parsing error occurs, or checksum is missing/invalid
@@ -78,7 +78,7 @@ public class UasDatalinkMessage implements IMisbMessage {
     }
 
     /**
-     * Get the value of a given tag
+     * Get the value of a given tag.
      *
      * @param tag Tag of the value to retrieve
      * @return The value, or null if no value was set
@@ -88,7 +88,7 @@ public class UasDatalinkMessage implements IMisbMessage {
     }
 
     /**
-     * Get the set of tags with populated values
+     * Get the set of tags with populated values.
      *
      * @return The set of tags for which values have been set
      */

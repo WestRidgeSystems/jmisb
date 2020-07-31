@@ -15,7 +15,7 @@ public abstract class TargetTrackGateSize implements IUasDatalinkValue {
     private static short MAX_VALUE = 510;
 
     /**
-     * Create from value
+     * Create from value.
      *
      * @param px Size in pixels. Legal values are in [0, 510].
      */
@@ -27,7 +27,7 @@ public abstract class TargetTrackGateSize implements IUasDatalinkValue {
     }
 
     /**
-     * Create from encoded bytes
+     * Create from encoded bytes.
      *
      * @param bytes The byte array of length 1
      */
@@ -41,7 +41,7 @@ public abstract class TargetTrackGateSize implements IUasDatalinkValue {
     }
 
     /**
-     * Get the size in pixels
+     * Get the size in pixels.
      *
      * @return The size in pixels
      */

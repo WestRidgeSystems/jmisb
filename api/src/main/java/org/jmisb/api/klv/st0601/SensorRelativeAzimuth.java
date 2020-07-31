@@ -24,7 +24,7 @@ public class SensorRelativeAzimuth implements IUasDatalinkValue {
     private static double MAXINT = 4294967295.0; // 2^32-1
 
     /**
-     * Create from value
+     * Create from value.
      *
      * @param degrees Sensor Relative Azimuth, in degrees [0,360]
      */
@@ -37,7 +37,7 @@ public class SensorRelativeAzimuth implements IUasDatalinkValue {
     }
 
     /**
-     * Create from encoded bytes
+     * Create from encoded bytes.
      *
      * @param bytes Sensor Relative Azimuth, encoded as a 4-byte unsigned int
      */
@@ -51,7 +51,7 @@ public class SensorRelativeAzimuth implements IUasDatalinkValue {
     }
 
     /**
-     * Get the value in degrees
+     * Get the value in degrees.
      *
      * @return Degrees in range [0,360]
      */

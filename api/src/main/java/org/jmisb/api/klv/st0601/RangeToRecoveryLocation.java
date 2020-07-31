@@ -29,7 +29,7 @@ public class RangeToRecoveryLocation implements IUasDatalinkValue {
     private double range;
 
     /**
-     * Create from value
+     * Create from value.
      *
      * @param range range to recovery location in km. Valid range is [0..21000]
      */
@@ -42,7 +42,7 @@ public class RangeToRecoveryLocation implements IUasDatalinkValue {
     }
 
     /**
-     * Create from encoded bytes
+     * Create from encoded bytes.
      *
      * @param bytes IMAPB Encoded byte array
      */

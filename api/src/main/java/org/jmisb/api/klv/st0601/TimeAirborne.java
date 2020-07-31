@@ -35,7 +35,7 @@ public class TimeAirborne implements IUasDatalinkValue {
     private static int MAX_BYTES = 4;
 
     /**
-     * Create from value
+     * Create from value.
      *
      * @param seconds time in seconds. Legal values are in [0,2^31-1].
      */
@@ -48,7 +48,7 @@ public class TimeAirborne implements IUasDatalinkValue {
     }
 
     /**
-     * Create from encoded bytes
+     * Create from encoded bytes.
      *
      * @param bytes Byte array, maximum four bytes
      */
@@ -61,7 +61,7 @@ public class TimeAirborne implements IUasDatalinkValue {
     }
 
     /**
-     * Get the time airborne
+     * Get the time airborne.
      *
      * @return The time airborne, in seconds
      */

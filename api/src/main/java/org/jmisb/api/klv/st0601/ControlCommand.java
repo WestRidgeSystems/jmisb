@@ -42,7 +42,7 @@ public class ControlCommand implements IUasDatalinkValue {
     private boolean timestampIsValid = false;
 
     /**
-     * Create from values
+     * Create from values.
      *
      * @param commandId the value to track the command. This is an increasing and unique number
      *     assigned to each command as it is issued.
@@ -82,7 +82,7 @@ public class ControlCommand implements IUasDatalinkValue {
     }
 
     /**
-     * Create from encoded bytes
+     * Create from encoded bytes.
      *
      * @param bytes encoded value
      */

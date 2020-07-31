@@ -18,10 +18,21 @@ package org.jmisb.api.klv.st0601;
  * </blockquote>
  */
 public class SensorEastVelocity extends UasDatalinkSensorVelocity {
+    /**
+     * Create from value.
+     *
+     * @param velocity The value in m/sec, or {@code Double.POSITIVE_INFINITY} to represent an error
+     *     condition
+     */
     public SensorEastVelocity(double velocity) {
         super(velocity);
     }
 
+    /**
+     * Create from encoded bytes.
+     *
+     * @param bytes The byte array of length 2
+     */
     public SensorEastVelocity(byte[] bytes) {
         super(bytes);
     }

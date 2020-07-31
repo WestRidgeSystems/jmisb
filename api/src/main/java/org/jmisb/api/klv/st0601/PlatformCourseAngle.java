@@ -34,7 +34,7 @@ public class PlatformCourseAngle implements IUasDatalinkValue {
     private double angle;
 
     /**
-     * Create from value
+     * Create from value.
      *
      * @param angle the course angle in degrees. Valid range is [0, 360]
      */
@@ -46,7 +46,7 @@ public class PlatformCourseAngle implements IUasDatalinkValue {
     }
 
     /**
-     * Create from encoded bytes
+     * Create from encoded bytes.
      *
      * @param bytes IMAPB Encoded byte array
      */
@@ -60,7 +60,7 @@ public class PlatformCourseAngle implements IUasDatalinkValue {
     }
 
     /**
-     * Get the platform course angle
+     * Get the platform course angle.
      *
      * @return The platform course angle in degrees
      */

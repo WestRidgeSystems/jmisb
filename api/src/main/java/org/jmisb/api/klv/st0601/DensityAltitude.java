@@ -18,7 +18,7 @@ package org.jmisb.api.klv.st0601;
  */
 public class DensityAltitude extends UasDatalinkAltitude {
     /**
-     * Create from value
+     * Create from value.
      *
      * @param meters Altitude in meters. Legal values are in [-900,19000].
      */
@@ -27,7 +27,7 @@ public class DensityAltitude extends UasDatalinkAltitude {
     }
 
     /**
-     * Create from encoded bytes
+     * Create from encoded bytes.
      *
      * @param bytes The byte array of length 2
      */

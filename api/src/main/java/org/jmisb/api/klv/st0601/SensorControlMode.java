@@ -32,7 +32,7 @@ public class SensorControlMode extends UasEnumeration {
                     .collect(Collectors.toMap(kv -> (Integer) kv[0], kv -> (String) kv[1]));
 
     /**
-     * Create from value
+     * Create from value.
      *
      * @param status The value of the sensor control operational status enumeration.
      */
@@ -41,7 +41,7 @@ public class SensorControlMode extends UasEnumeration {
     }
 
     /**
-     * Create from encoded bytes
+     * Create from encoded bytes.
      *
      * @param bytes The byte array of length 1
      */
@@ -50,7 +50,7 @@ public class SensorControlMode extends UasEnumeration {
     }
 
     /**
-     * Get the sensor control operational status
+     * Get the sensor control operational status.
      *
      * @return The value as an enumeration
      */

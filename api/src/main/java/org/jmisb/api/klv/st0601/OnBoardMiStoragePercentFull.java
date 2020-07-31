@@ -26,7 +26,7 @@ public class OnBoardMiStoragePercentFull implements IUasDatalinkValue {
     private double percentage;
 
     /**
-     * Create from value
+     * Create from value.
      *
      * @param percentage MI storage level. Valid range is [0,100]
      */
@@ -38,7 +38,7 @@ public class OnBoardMiStoragePercentFull implements IUasDatalinkValue {
     }
 
     /**
-     * Create from encoded bytes
+     * Create from encoded bytes.
      *
      * @param bytes IMAPB Encoded byte array, max length three bytes
      */

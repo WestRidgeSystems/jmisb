@@ -26,7 +26,7 @@ public class RelativeHumidity implements IUasDatalinkValue {
     private static double MAXINT = 255.0; // 2^8 - 1
 
     /**
-     * Create from value
+     * Create from value.
      *
      * @param humidity relative humidity as a percentage. Legal values are in [0, 100].
      */
@@ -38,7 +38,7 @@ public class RelativeHumidity implements IUasDatalinkValue {
     }
 
     /**
-     * Create from encoded bytes
+     * Create from encoded bytes.
      *
      * @param bytes The byte array of length 1
      */
@@ -53,7 +53,7 @@ public class RelativeHumidity implements IUasDatalinkValue {
     }
 
     /**
-     * Get the relative humidity
+     * Get the relative humidity.
      *
      * @return The relative humidity as a percentage
      */
