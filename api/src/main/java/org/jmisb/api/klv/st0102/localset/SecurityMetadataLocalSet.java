@@ -5,6 +5,7 @@ import static org.jmisb.core.klv.ArrayUtils.arrayFromChunks;
 
 import java.time.LocalDate;
 import java.util.*;
+import org.jmisb.api.common.InvalidDataHandler;
 import org.jmisb.api.common.KlvParseException;
 import org.jmisb.api.klv.*;
 import org.jmisb.api.klv.st0102.*;
@@ -59,8 +60,14 @@ public class SecurityMetadataLocalSet extends SecurityMetadataMessage {
             if (key == SecurityMetadataKey.Undefined) {
                 logger.info("Unknown Security Metadata tag: {}", field.getTag());
             } else {
-                ISecurityMetadataValue value = LocalSetFactory.createValue(key, field.getData());
-                setField(key, value);
+                try {
+                    ISecurityMetadataValue value =
+                            LocalSetFactory.createValue(key, field.getData());
+                    setField(key, value);
+                } catch (IllegalArgumentException ex) {
+                    InvalidDataHandler.getInstance()
+                            .handleInvalidFieldEncoding(logger, ex.getMessage());
+                }
             }
         }
     }

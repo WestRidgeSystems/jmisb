@@ -6,6 +6,7 @@ import java.util.Map;
 import java.util.Set;
 import java.util.SortedMap;
 import java.util.TreeMap;
+import org.jmisb.api.common.InvalidDataHandler;
 import org.jmisb.api.common.KlvParseException;
 import org.jmisb.api.klv.BerDecoder;
 import org.jmisb.api.klv.BerEncoder;
@@ -43,8 +44,13 @@ public class VTargetPack {
             if (key == VTargetMetadataKey.Undefined) {
                 LOGGER.info("Unknown VMTI VTarget Metadata tag: {}", field.getTag());
             } else {
-                IVmtiMetadataValue value = createValue(key, field.getData());
-                map.put(key, value);
+                try {
+                    IVmtiMetadataValue value = createValue(key, field.getData());
+                    map.put(key, value);
+                } catch (KlvParseException | IllegalArgumentException ex) {
+                    InvalidDataHandler.getInstance()
+                            .handleInvalidFieldEncoding(LOGGER, ex.getMessage());
+                }
             }
         }
     }
