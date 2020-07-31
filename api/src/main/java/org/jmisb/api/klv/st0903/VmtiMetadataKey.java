@@ -21,7 +21,7 @@ public enum VmtiMetadataKey {
     VersionNumber(4),
     /** Total number of targets detected in a frame. 0 represents no targets detected. */
     TotalTargetsInFrame(5),
-    /** Number of targets reported following a culling process */
+    /** Number of targets reported following a culling process. */
     NumberOfReportedTargets(6),
     /** Frame number identifying detected targets. Use Precision Time Stamp when available. */
     FrameNumber(7),
@@ -56,14 +56,34 @@ public enum VmtiMetadataKey {
         }
     }
 
+    /**
+     * Constructor.
+     *
+     * <p>Internal use only.
+     *
+     * @param tag the tag value to initialise the enumeration value.
+     */
     VmtiMetadataKey(int tag) {
         this.tag = tag;
     }
 
+    /**
+     * Get the tag value associated with the metadata key.
+     *
+     * <p>This is the value used in the Key part of the KLV encoding.
+     *
+     * @return metadata key tag value as an integer
+     */
     public int getTag() {
         return tag;
     }
 
+    /**
+     * Look up a metadata key from its tag value.
+     *
+     * @param tag the tag value (Key part of KLV encoding).
+     * @return the corresponding metadata key.
+     */
     public static VmtiMetadataKey getKey(int tag) {
         return tagTable.containsKey(tag) ? tagTable.get(tag) : Undefined;
     }

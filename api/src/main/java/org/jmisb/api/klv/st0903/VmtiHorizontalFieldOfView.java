@@ -19,7 +19,7 @@ package org.jmisb.api.klv.st0903;
 public class VmtiHorizontalFieldOfView extends VmtiFieldOfView {
 
     /**
-     * Create from value
+     * Create from value.
      *
      * @param fov horizontal field of view in degrees.
      */

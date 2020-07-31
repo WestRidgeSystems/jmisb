@@ -87,7 +87,7 @@ public class VmtiTextString extends VmtiUtf8 implements IVmtiMetadataValue {
     public static final String VFEATURE_SCHEMA_FEATURE = "Schema Feature";
 
     /**
-     * Create from value
+     * Create from value.
      *
      * @param name The display name for the string
      * @param value The string value
@@ -97,7 +97,7 @@ public class VmtiTextString extends VmtiUtf8 implements IVmtiMetadataValue {
     }
 
     /**
-     * Create from encoded bytes
+     * Create from encoded bytes.
      *
      * @param name The display name for the string
      * @param bytes Encoded byte array

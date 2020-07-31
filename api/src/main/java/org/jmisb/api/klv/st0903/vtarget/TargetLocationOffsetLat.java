@@ -1,7 +1,7 @@
 package org.jmisb.api.klv.st0903.vtarget;
 
 /**
- * Target Location Offset Latitude (ST0903 VTarget Pack Tag 10)
+ * Target Location Offset Latitude (ST0903 VTarget Pack Tag 10).
  *
  * <p>From ST0903:
  *
@@ -25,7 +25,7 @@ package org.jmisb.api.klv.st0903.vtarget;
 public class TargetLocationOffsetLat extends AbstractTargetLocationOffset {
 
     /**
-     * Create from value
+     * Create from value.
      *
      * @param offset latitude offset in degrees. Valid range is [-19.2, 19.2]
      */

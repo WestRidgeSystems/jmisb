@@ -27,7 +27,7 @@ public class Acceleration implements IVmtiMetadataValue {
     private AccelerationPack value;
 
     /**
-     * Create from value
+     * Create from value.
      *
      * @param acceleration the acceleration DLP (truncation) pack.
      */
@@ -36,7 +36,7 @@ public class Acceleration implements IVmtiMetadataValue {
     }
 
     /**
-     * Create from encoded bytes
+     * Create from encoded bytes.
      *
      * @param bytes The byte array of length 1
      */

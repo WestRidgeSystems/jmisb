@@ -12,6 +12,11 @@ public abstract class VmtiV3Value implements IVmtiMetadataValue {
     private static int MIN_VALUE = 0;
     private static int MAX_VALUE = 16777215;
 
+    /**
+     * Construct from integer value.
+     *
+     * @param intValue the integer value, in the range [0,16777215]
+     */
     public VmtiV3Value(final int intValue) {
         if (intValue < MIN_VALUE || intValue > MAX_VALUE) {
             throw new IllegalArgumentException(
@@ -21,6 +26,11 @@ public abstract class VmtiV3Value implements IVmtiMetadataValue {
         this.value = intValue;
     }
 
+    /**
+     * Construct from encoded bytes.
+     *
+     * @param bytes the value encoded as a byte array (at most three bytes).
+     */
     public VmtiV3Value(final byte[] bytes) {
         if (bytes.length > 3) {
             throw new IllegalArgumentException(

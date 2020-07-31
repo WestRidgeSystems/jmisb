@@ -3,7 +3,7 @@ package org.jmisb.api.klv.st0903.vtracker;
 import org.jmisb.api.klv.st0903.shared.Confidence;
 
 /**
- * Tracker Confidence Level (ST0903 VTracker Pack Tag 7)
+ * Tracker Confidence Level (ST0903 VTracker Pack Tag 7).
  *
  * <p>From ST0903:
  *

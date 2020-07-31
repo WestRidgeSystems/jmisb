@@ -34,7 +34,7 @@ public class AlgorithmSeries implements IVmtiMetadataValue {
     private final List<AlgorithmLS> localSets = new ArrayList<>();
 
     /**
-     * Create the message from a list of Algorithm Local Sets
+     * Create the message from a list of Algorithm Local Sets.
      *
      * @param values the local sets to include in the series.
      */

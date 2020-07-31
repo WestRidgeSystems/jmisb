@@ -21,7 +21,7 @@ import org.jmisb.api.klv.st0903.shared.*;
  */
 public class OntologyParentId extends VmtiV3Value implements IVmtiMetadataValue {
     /**
-     * Create from value
+     * Create from value.
      *
      * @param id the ontology identifier.
      */
@@ -30,7 +30,7 @@ public class OntologyParentId extends VmtiV3Value implements IVmtiMetadataValue 
     }
 
     /**
-     * Create from encoded bytes
+     * Create from encoded bytes.
      *
      * @param bytes identifier, encoded as a variable length unsigned int (max 3 bytes)
      */

@@ -15,7 +15,7 @@ public abstract class AbstractTargetLocationOffset implements IVmtiMetadataValue
     protected double value;
 
     /**
-     * Create from value
+     * Create from value.
      *
      * @param offset location offset in degrees. Valid range is [-19.2, 19.2]
      */

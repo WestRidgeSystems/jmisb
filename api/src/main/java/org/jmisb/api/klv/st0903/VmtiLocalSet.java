@@ -26,7 +26,7 @@ public class VmtiLocalSet implements IMisbMessage {
     private static final Logger LOGGER = LoggerFactory.getLogger(VmtiLocalSet.class);
 
     /**
-     * Create a {@link IVmtiMetadataValue} instance from encoded bytes
+     * Create a {@link IVmtiMetadataValue} instance from encoded bytes.
      *
      * @param tag The tag defining the value type
      * @param bytes Encoded bytes
@@ -74,11 +74,11 @@ public class VmtiLocalSet implements IMisbMessage {
         return null;
     }
 
-    /** Map containing all data elements in the message */
+    /** Map containing all data elements in the message. */
     private final SortedMap<VmtiMetadataKey, IVmtiMetadataValue> map = new TreeMap<>();
 
     /**
-     * Create the local set from the given key/value pairs
+     * Create the local set from the given key/value pairs.
      *
      * @param values Tag/value pairs to be included in the local set
      */
@@ -169,7 +169,7 @@ public class VmtiLocalSet implements IMisbMessage {
     }
 
     /**
-     * Get the set of tags with populated values
+     * Get the set of tags with populated values.
      *
      * @return The set of tags for which values have been set
      */
@@ -178,7 +178,7 @@ public class VmtiLocalSet implements IMisbMessage {
     }
 
     /**
-     * Get the value of a given tag
+     * Get the value of a given tag.
      *
      * @param tag Tag of the value to retrieve
      * @return The value, or null if no value was set

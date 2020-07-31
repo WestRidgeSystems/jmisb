@@ -22,7 +22,7 @@ public class TargetHAE implements IVmtiMetadataValue {
     protected double value;
 
     /**
-     * Create from value
+     * Create from value.
      *
      * @param altitude height above ellipsoid in metres [-900, 19000]
      */

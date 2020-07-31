@@ -77,7 +77,7 @@ public class DetectionStatus extends VmtiEnumeration implements IVmtiMetadataVal
     }
 
     /**
-     * Create from value
+     * Create from value.
      *
      * @param state The value of the detection state enumeration.
      */
@@ -86,7 +86,7 @@ public class DetectionStatus extends VmtiEnumeration implements IVmtiMetadataVal
     }
 
     /**
-     * Create from encoded bytes
+     * Create from encoded bytes.
      *
      * @param bytes The byte array of length 1
      */

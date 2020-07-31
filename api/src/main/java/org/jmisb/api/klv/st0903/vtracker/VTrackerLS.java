@@ -22,11 +22,11 @@ public class VTrackerLS {
 
     private static final Logger LOGGER = LoggerFactory.getLogger(VTrackerLS.class);
 
-    /** Map containing all data elements in the message */
+    /** Map containing all data elements in the message. */
     private final SortedMap<VTrackerMetadataKey, IVmtiMetadataValue> map = new TreeMap<>();
 
     /**
-     * Create the local set from the given key/value pairs
+     * Create the local set from the given key/value pairs.
      *
      * @param values Tag/value pairs to be included in the local set
      */
@@ -34,6 +34,12 @@ public class VTrackerLS {
         map.putAll(values);
     }
 
+    /**
+     * Create from encoded bytes.
+     *
+     * @param bytes Encoded byte array comprising the VTracker local set
+     * @throws KlvParseException if the byte array could not be parsed.
+     */
     public VTrackerLS(byte[] bytes) throws KlvParseException {
         List<LdsField> fields = LdsParser.parseFields(bytes, 0, bytes.length);
         for (LdsField field : fields) {
@@ -48,7 +54,7 @@ public class VTrackerLS {
     }
 
     /**
-     * Create a {@link IVmtiMetadataValue} instance from encoded bytes
+     * Create a {@link IVmtiMetadataValue} instance from encoded bytes.
      *
      * @param tag The tag defining the value type
      * @param bytes Encoded bytes
@@ -111,7 +117,7 @@ public class VTrackerLS {
     }
 
     /**
-     * Get the set of tags with populated values
+     * Get the set of tags with populated values.
      *
      * @return The set of tags for which values have been set
      */
@@ -120,7 +126,7 @@ public class VTrackerLS {
     }
 
     /**
-     * Get the value of a given tag
+     * Get the value of a given tag.
      *
      * @param tag Tag of the value to retrieve
      * @return The value, or null if no value was set

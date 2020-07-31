@@ -24,7 +24,7 @@ public class ST0903Version implements IVmtiMetadataValue {
     private static int MAX_VALUE = 65535;
 
     /**
-     * Create from value
+     * Create from value.
      *
      * @param version The version number
      */
@@ -37,7 +37,7 @@ public class ST0903Version implements IVmtiMetadataValue {
     }
 
     /**
-     * Create from encoded bytes
+     * Create from encoded bytes.
      *
      * @param bytes Byte array of variable length, maximum 2
      */
@@ -56,7 +56,7 @@ public class ST0903Version implements IVmtiMetadataValue {
     }
 
     /**
-     * Get the version number
+     * Get the version number.
      *
      * @return The version number
      */

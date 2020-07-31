@@ -9,7 +9,7 @@ public abstract class VmtiUtf8 implements IVmtiMetadataValue {
     protected final String stringValue;
 
     /**
-     * Create from value
+     * Create from value.
      *
      * @param name The display name for the string
      * @param value The string value
@@ -20,7 +20,7 @@ public abstract class VmtiUtf8 implements IVmtiMetadataValue {
     }
 
     /**
-     * Create from encoded bytes
+     * Create from encoded bytes.
      *
      * @param name The display name for the string
      * @param bytes Encoded byte array
@@ -31,7 +31,7 @@ public abstract class VmtiUtf8 implements IVmtiMetadataValue {
     }
 
     /**
-     * Get the value
+     * Get the value.
      *
      * @return The string value
      */

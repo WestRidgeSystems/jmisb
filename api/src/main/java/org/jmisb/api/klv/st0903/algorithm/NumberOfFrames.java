@@ -8,12 +8,10 @@ import org.jmisb.api.klv.st0903.shared.VmtiV3Value;
  *
  * <p>The nFrames is the number of frames the algorithm processes when detecting or tracking the
  * object.
- *
- * <p>This is a tentative implementation, pending decision from MISB on range of this value.
  */
 public class NumberOfFrames extends VmtiV3Value implements IVmtiMetadataValue {
     /**
-     * Create from value
+     * Create from value.
      *
      * @param nFrames the number of frames
      */
@@ -22,7 +20,7 @@ public class NumberOfFrames extends VmtiV3Value implements IVmtiMetadataValue {
     }
 
     /**
-     * Create from encoded bytes
+     * Create from encoded bytes.
      *
      * @param bytes number of frames, encoded as a variable length unsigned int (max 3 bytes)
      */

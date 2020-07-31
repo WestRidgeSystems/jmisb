@@ -18,7 +18,7 @@ import org.jmisb.api.klv.st0903.shared.VmtiV3Value;
  */
 public class VmtiReportedTargetCount extends VmtiV3Value implements IVmtiMetadataValue {
     /**
-     * Create from value
+     * Create from value.
      *
      * @param targetCount the number of targets reported in the frame.
      */
@@ -27,7 +27,7 @@ public class VmtiReportedTargetCount extends VmtiV3Value implements IVmtiMetadat
     }
 
     /**
-     * Create from encoded bytes
+     * Create from encoded bytes.
      *
      * @param bytes count, encoded as a variable length unsigned int (max 3 bytes)
      */
