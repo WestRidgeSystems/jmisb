@@ -13,7 +13,7 @@ public class PoiAoiNumber implements IRvtPoiAoiMetadataValue {
     private static final int REQUIRED_BYTE_LENGTH = 2;
 
     /**
-     * Create from value
+     * Create from value.
      *
      * @param poiaoi the point of interest or area of interest number, in the range [0, 65535].
      */

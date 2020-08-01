@@ -40,7 +40,7 @@ public class PoiAoiType implements IRvtPoiAoiMetadataValue {
     protected byte value;
 
     /**
-     * Create from value
+     * Create from value.
      *
      * @param type The value of the POI / AOI type enumeration.
      */
@@ -59,7 +59,7 @@ public class PoiAoiType implements IRvtPoiAoiMetadataValue {
     }
 
     /**
-     * Create from encoded bytes
+     * Create from encoded bytes.
      *
      * @param bytes The byte array of length 1
      */

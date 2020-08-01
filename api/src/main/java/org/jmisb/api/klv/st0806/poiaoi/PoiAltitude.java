@@ -3,7 +3,7 @@ package org.jmisb.api.klv.st0806.poiaoi;
 import org.jmisb.core.klv.PrimitiveConverter;
 
 /**
- * POI Altitude (ST 0806 POI tag 4)
+ * POI Altitude (ST 0806 POI tag 4).
  *
  * <p>Altitude of POI as measured from Mean Sea Level (MSL).
  *
@@ -19,7 +19,7 @@ public class PoiAltitude implements IRvtPoiAoiMetadataValue {
     private static final double MAXINT = 65535.0; // 2^16 - 1
 
     /**
-     * Create from value
+     * Create from value.
      *
      * @param meters Altitude in meters. Legal values are in [-900,19000].
      */
@@ -31,7 +31,7 @@ public class PoiAltitude implements IRvtPoiAoiMetadataValue {
     }
 
     /**
-     * Create from encoded bytes
+     * Create from encoded bytes.
      *
      * @param bytes The byte array of length 2
      */

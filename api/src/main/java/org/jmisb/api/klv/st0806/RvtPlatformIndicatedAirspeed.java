@@ -19,7 +19,7 @@ public class RvtPlatformIndicatedAirspeed implements IRvtMetadataValue {
     private static final int REQUIRED_BYTE_LENGTH = 2;
 
     /**
-     * Create from value
+     * Create from value.
      *
      * @param speed airspeed in meters/second. Legal values are in [0, 65535].
      */
