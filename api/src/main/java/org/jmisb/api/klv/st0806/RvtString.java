@@ -8,7 +8,7 @@ public abstract class RvtString implements IRvtMetadataValue {
     protected final String stringValue;
 
     /**
-     * Create from value
+     * Create from value.
      *
      * @param name The display name for the string
      * @param value The string value
@@ -19,7 +19,7 @@ public abstract class RvtString implements IRvtMetadataValue {
     }
 
     /**
-     * Create from encoded bytes
+     * Create from encoded bytes.
      *
      * @param name The display name for the string
      * @param bytes Encoded byte array

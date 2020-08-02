@@ -15,7 +15,7 @@ public class FrameCode implements IRvtMetadataValue {
     private static final int REQUIRED_BYTE_LENGTH = 4;
 
     /**
-     * Create from value
+     * Create from value.
      *
      * @param frameCode frameCode.
      */

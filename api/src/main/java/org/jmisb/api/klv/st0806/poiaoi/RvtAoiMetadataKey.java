@@ -28,14 +28,32 @@ public enum RvtAoiMetadataKey {
         }
     }
 
+    /**
+     * Constructor.
+     *
+     * <p>Internal use only.
+     *
+     * @param tag the tag value to initialise the enumeration value.
+     */
     RvtAoiMetadataKey(int tag) {
         this.tag = tag;
     }
 
+    /**
+     * Get the tag value associated with this enumeration value.
+     *
+     * @return integer tag value for the metadata key
+     */
     public int getTag() {
         return tag;
     }
 
+    /**
+     * Look up the metadata key by tag identifier.
+     *
+     * @param tag the integer tag value to look up
+     * @return corresponding metadata key
+     */
     public static RvtAoiMetadataKey getKey(int tag) {
         return tagTable.containsKey(tag) ? tagTable.get(tag) : Undefined;
     }

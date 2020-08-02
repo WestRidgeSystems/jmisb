@@ -45,7 +45,7 @@ public abstract class AbstractRvtPoiAoiLongitude implements IRvtPoiAoiMetadataVa
     }
 
     /**
-     * Get the longitude in degrees
+     * Get the longitude in degrees.
      *
      * @return Degrees in range [-180,180], or Double.POSITIVE_INFINITY if error condition was
      *     specified.

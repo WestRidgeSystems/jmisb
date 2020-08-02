@@ -20,7 +20,7 @@ public class TelemetryAccuracyIndicator implements IRvtMetadataValue {
     private static final int REQUIRED_BYTES = 1;
 
     /**
-     * Create from value
+     * Create from value.
      *
      * @param value the value
      */
@@ -33,7 +33,7 @@ public class TelemetryAccuracyIndicator implements IRvtMetadataValue {
     }
 
     /**
-     * Create from encoded bytes
+     * Create from encoded bytes.
      *
      * @param bytes Byte array of length 1
      */
@@ -46,7 +46,7 @@ public class TelemetryAccuracyIndicator implements IRvtMetadataValue {
     }
 
     /**
-     * Get the value
+     * Get the value.
      *
      * @return The value
      */

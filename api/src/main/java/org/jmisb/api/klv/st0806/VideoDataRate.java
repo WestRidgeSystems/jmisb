@@ -17,7 +17,7 @@ public class VideoDataRate implements IRvtMetadataValue {
     private static final int REQUIRED_BYTE_LENGTH = 4;
 
     /**
-     * Create from value
+     * Create from value.
      *
      * @param rate Data Rate (bps or Hz).
      */

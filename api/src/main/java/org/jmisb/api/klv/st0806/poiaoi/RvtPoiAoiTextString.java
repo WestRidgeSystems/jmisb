@@ -49,7 +49,7 @@ public class RvtPoiAoiTextString implements IRvtPoiAoiMetadataValue {
     public static final String OPERATION_ID = "Operation ID";
 
     /**
-     * Create from value
+     * Create from value.
      *
      * @param name The display name for the string
      * @param value The string value
@@ -60,7 +60,7 @@ public class RvtPoiAoiTextString implements IRvtPoiAoiMetadataValue {
     }
 
     /**
-     * Create from encoded bytes
+     * Create from encoded bytes.
      *
      * @param name The display name for the string
      * @param bytes Encoded byte array
@@ -71,7 +71,7 @@ public class RvtPoiAoiTextString implements IRvtPoiAoiMetadataValue {
     }
 
     /**
-     * Get the value
+     * Get the value.
      *
      * @return The string value
      */

@@ -42,7 +42,7 @@ public abstract class AbstractRvtPoiAoiLatitude implements IRvtPoiAoiMetadataVal
     }
 
     /**
-     * Get the latitude in degrees
+     * Get the latitude in degrees.
      *
      * @return Latitude, in range [-90,90], or Double.POSITIVE_INFINITY if error condition was
      *     specified.

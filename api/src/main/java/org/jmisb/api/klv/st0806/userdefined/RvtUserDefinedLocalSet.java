@@ -25,12 +25,12 @@ public class RvtUserDefinedLocalSet implements IRvtMetadataValue {
 
     private static final Logger LOGGER = LoggerFactory.getLogger(RvtUserDefinedLocalSet.class);
 
-    /** Map containing all data elements in the message */
+    /** Map containing all data elements in the message. */
     private final SortedMap<RvtUserDefinedMetadataKey, IRvtUserDefinedMetadataValue> map =
             new TreeMap<>();
 
     /**
-     * Create the message from the given key/value pairs
+     * Create the message from the given key/value pairs.
      *
      * @param values Tag/value pairs to be included in the local set/
      */
@@ -40,7 +40,7 @@ public class RvtUserDefinedLocalSet implements IRvtMetadataValue {
     }
 
     /**
-     * Parse {@link LdsField}s from a byte array
+     * Parse {@link LdsField}s from a byte array.
      *
      * @param bytes Byte array to parse
      * @param start Index of the first byte to parse
@@ -61,7 +61,7 @@ public class RvtUserDefinedLocalSet implements IRvtMetadataValue {
     }
 
     /**
-     * Create a {@link IRvtUserDefinedMetadataValue} instance from encoded bytes
+     * Create a {@link IRvtUserDefinedMetadataValue} instance from encoded bytes.
      *
      * @param tag The tag defining the value type
      * @param bytes Encoded bytes
@@ -82,7 +82,7 @@ public class RvtUserDefinedLocalSet implements IRvtMetadataValue {
     }
 
     /**
-     * Get the set of tags with populated values
+     * Get the set of tags with populated values.
      *
      * @return The set of tags for which values have been set
      */
@@ -91,7 +91,7 @@ public class RvtUserDefinedLocalSet implements IRvtMetadataValue {
     }
 
     /**
-     * Get the value of a given tag
+     * Get the value of a given tag.
      *
      * @param tag Tag of the value to retrieve
      * @return The value, or null if no value was set

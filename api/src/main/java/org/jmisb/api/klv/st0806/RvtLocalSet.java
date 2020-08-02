@@ -32,7 +32,7 @@ public class RvtLocalSet implements IMisbMessage {
     private static final Logger LOGGER = LoggerFactory.getLogger(RvtLocalSet.class);
 
     /**
-     * Create a {@link IRvtMetadataValue} instance from encoded bytes
+     * Create a {@link IRvtMetadataValue} instance from encoded bytes.
      *
      * @param tag The tag defining the value type
      * @param bytes Encoded bytes
@@ -90,20 +90,20 @@ public class RvtLocalSet implements IMisbMessage {
         return null;
     }
 
-    /** Map containing all non-repeating elements in the message */
+    /** Map containing all non-repeating elements in the message. */
     private final SortedMap<RvtMetadataKey, IRvtMetadataValue> map = new TreeMap<>();
 
-    /** Map containing User Defined Local sets */
+    /** Map containing User Defined Local sets. */
     private final Map<Integer, RvtUserDefinedLocalSet> userDefined = new TreeMap<>();
 
-    /** Map containing POI Local sets */
+    /** Map containing POI Local sets. */
     private final Map<Integer, RvtPoiLocalSet> pois = new TreeMap<>();
 
-    /** Map containing AOI Local sets */
+    /** Map containing AOI Local sets. */
     private final Map<Integer, RvtAoiLocalSet> aois = new TreeMap<>();
 
     /**
-     * Create the local set from the given key/value pairs
+     * Create the local set from the given key/value pairs.
      *
      * @param values Tag/value pairs to be included in the local set
      */
@@ -290,6 +290,16 @@ public class RvtLocalSet implements IMisbMessage {
         return "ST0806 Remote Video Terminal";
     }
 
+    /**
+     * Add a user defined local set to this {@code RvtLocalSet}.
+     *
+     * <p>The user defined local set must contain a {@link
+     * org.jmisb.api.klv.st0806.userdefined.RvtUserDefinedMetadataKey#NumericId}. This is required
+     * by ST0806, and is used to differentiate between the various user defined local sets nested
+     * within this RVT local set.
+     *
+     * @param localset the user defined local set to add
+     */
     public void addUserDefinedLocalSet(RvtUserDefinedLocalSet localset) {
         if (localset == null) {
             throw new IllegalArgumentException(
@@ -322,6 +332,16 @@ public class RvtLocalSet implements IMisbMessage {
         return userDefined.get(index);
     }
 
+    /**
+     * Add a Point of Interest (POI) local set to this {@code RvtLocalSet}.
+     *
+     * <p>The POI local set must contain a {@link
+     * org.jmisb.api.klv.st0806.poiaoi.RvtPoiMetadataKey#PoiAoiNumber}. This is required by ST0806,
+     * and is used to differentiate between the various POI local sets nested within this RVT local
+     * set.
+     *
+     * @param localset the POI local set to add
+     */
     public void addPointOfInterestLocalSet(RvtPoiLocalSet localset) {
         if (localset == null) {
             throw new IllegalArgumentException("Cannot add null POI local set to RVT parent");
@@ -352,6 +372,16 @@ public class RvtLocalSet implements IMisbMessage {
         return pois.get(index);
     }
 
+    /**
+     * Add an Area of Interest (AOI) local set to this {@code RvtLocalSet}.
+     *
+     * <p>The AOI local set must contain a {@link
+     * org.jmisb.api.klv.st0806.poiaoi.RvtAoiMetadataKey#PoiAoiNumber}. This is required by ST0806,
+     * and is used to differentiate between the various AOI local sets nested within this RVT local
+     * set.
+     *
+     * @param localset the AOI local set to add
+     */
     public void addAreaOfInterestLocalSet(RvtAoiLocalSet localset) {
         if (localset == null) {
             throw new IllegalArgumentException("Cannot add null AOI local set to RVT parent");

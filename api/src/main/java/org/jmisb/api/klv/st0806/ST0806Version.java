@@ -21,7 +21,7 @@ public class ST0806Version implements IRvtMetadataValue {
     private static final int REQUIRED_BYTES = 1;
 
     /**
-     * Create from value
+     * Create from value.
      *
      * @param version The version number
      */
@@ -34,7 +34,7 @@ public class ST0806Version implements IRvtMetadataValue {
     }
 
     /**
-     * Create from encoded bytes
+     * Create from encoded bytes.
      *
      * @param bytes Byte array of length 1 byte.
      */
@@ -47,7 +47,7 @@ public class ST0806Version implements IRvtMetadataValue {
     }
 
     /**
-     * Get the version number
+     * Get the version number.
      *
      * @return The version number
      */
