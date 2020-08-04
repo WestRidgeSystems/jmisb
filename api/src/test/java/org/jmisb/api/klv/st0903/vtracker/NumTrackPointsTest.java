@@ -4,6 +4,7 @@ import static org.testng.Assert.*;
 
 import org.jmisb.api.common.KlvParseException;
 import org.jmisb.api.klv.st0903.IVmtiMetadataValue;
+import org.jmisb.api.klv.st0903.shared.EncodingMode;
 import org.testng.annotations.Test;
 
 /** Tests for Number of Track Points (VTracker LS Tag 8) */
@@ -49,7 +50,9 @@ public class NumTrackPointsTest {
     public void testFactory() throws KlvParseException {
         IVmtiMetadataValue value =
                 VTrackerLS.createValue(
-                        VTrackerMetadataKey.numTrackPoints, new byte[] {(byte) 0x1B});
+                        VTrackerMetadataKey.numTrackPoints,
+                        new byte[] {(byte) 0x1B},
+                        EncodingMode.IMAPB);
         assertTrue(value instanceof NumTrackPoints);
         NumTrackPoints num = (NumTrackPoints) value;
         assertEquals(num.getBytes(), new byte[] {(byte) 0x1B});

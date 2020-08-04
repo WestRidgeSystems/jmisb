@@ -3,6 +3,7 @@ package org.jmisb.api.klv.st0903;
 import static org.testng.Assert.*;
 
 import org.jmisb.api.common.KlvParseException;
+import org.jmisb.api.klv.st0903.shared.EncodingMode;
 import org.testng.annotations.Test;
 
 /** Tests for FrameWidth (ST0903 Tag 8). */
@@ -47,7 +48,9 @@ public class FrameWidthTest {
     public void testFactoryEncodedBytes() throws KlvParseException {
         IVmtiMetadataValue value =
                 VmtiLocalSet.createValue(
-                        VmtiMetadataKey.FrameWidth, new byte[] {(byte) 0x07, (byte) 0x80});
+                        VmtiMetadataKey.FrameWidth,
+                        new byte[] {(byte) 0x07, (byte) 0x80},
+                        EncodingMode.IMAPB);
         assertTrue(value instanceof FrameWidth);
         FrameWidth width = (FrameWidth) value;
         assertEquals(width.getBytes(), new byte[] {(byte) 0x07, (byte) 0x80});

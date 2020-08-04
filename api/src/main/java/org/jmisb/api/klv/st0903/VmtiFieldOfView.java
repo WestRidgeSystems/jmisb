@@ -1,11 +1,14 @@
 package org.jmisb.api.klv.st0903;
 
+import org.jmisb.api.klv.st0903.shared.EncodingMode;
 import org.jmisb.api.klv.st1201.FpEncoder;
+import org.jmisb.core.klv.PrimitiveConverter;
 
 /** Shard base class for horizontal and vertical field of view. */
 public abstract class VmtiFieldOfView implements IVmtiMetadataValue {
     private static double MIN_VAL = 0;
     private static double MAX_VAL = 180;
+    protected static final double LEGACY_INT_RANGE = 65535.0; // 2^16-1
     private static int NUM_BYTES = 2;
     private double value;
 
@@ -24,9 +27,45 @@ public abstract class VmtiFieldOfView implements IVmtiMetadataValue {
     /**
      * Create from encoded bytes.
      *
+     * <p>Note this constructor only supports ST0903.4 and later.
+     *
      * @param bytes Encoded byte array
+     * @deprecated use {@link #VmtiFieldOfView(byte[], EncodingMode)} instead to specify the
+     *     encoding mode
      */
+    @Deprecated
     public VmtiFieldOfView(byte[] bytes) {
+        this(bytes, EncodingMode.IMAPB);
+    }
+
+    /**
+     * Create from encoded bytes.
+     *
+     * <p>ST0903 changed the encoding to 2-byte IMAPB in ST0903.4. Earlier versions used a two-byte
+     * unsigned integer structure in the range [0, 2^16-1]that was then mapped into the range [0,
+     * 180.0] degrees. Which formatting applies can only be determined from the ST0903 version in
+     * this {@link org.jmisb.api.klv.st0903.VmtiLocalSet}. The {@code compatibilityMode} parameter
+     * determines whether to parse using the legacy encoding or current encoding.
+     *
+     * <p>Note that this only affects parsing. Output encoding is always IMAPB (ST0903.4 or later).
+     *
+     * @param bytes Encoded byte array
+     * @param encodingMode which encoding mode the {@code bytes} parameter uses.
+     */
+    public VmtiFieldOfView(byte[] bytes, EncodingMode encodingMode) {
+        if (encodingMode.equals(EncodingMode.LEGACY)) {
+            parseAsLegacy(bytes);
+        } else {
+            parseAsIMAPB(bytes);
+        }
+    }
+
+    private void parseAsLegacy(byte[] bytes) throws IllegalArgumentException {
+        int v = PrimitiveConverter.variableBytesToUint16(bytes);
+        this.value = v * MAX_VAL / LEGACY_INT_RANGE;
+    }
+
+    private void parseAsIMAPB(byte[] bytes) throws IllegalArgumentException {
         if (bytes.length != NUM_BYTES) {
             throw new IllegalArgumentException(
                     this.getDisplayName() + " encoding is two byte IMAPB as of ST0903.4");

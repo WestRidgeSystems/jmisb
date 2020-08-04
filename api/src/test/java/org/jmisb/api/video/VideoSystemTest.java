@@ -6,11 +6,13 @@ import org.testng.Assert;
 import org.testng.annotations.Test;
 
 public class VideoSystemTest extends LoggerChecks {
+    @SuppressWarnings("deprecation")
     public VideoSystemTest() {
         super(VideoSystem.class);
     }
 
     @Test
+    @SuppressWarnings("deprecation")
     public void createStream() {
         try (IVideoStreamInput stream = VideoSystem.createInputStream()) {
             Assert.assertFalse(stream.isOpen());

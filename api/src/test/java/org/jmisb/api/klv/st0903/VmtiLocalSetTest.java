@@ -9,6 +9,7 @@ import org.jmisb.api.common.KlvParseException;
 import org.jmisb.api.klv.IMisbMessage;
 import org.jmisb.api.klv.KlvConstants;
 import org.jmisb.api.klv.LoggerChecks;
+import org.jmisb.api.klv.st0903.shared.EncodingMode;
 import org.jmisb.api.klv.st0903.shared.VmtiTextString;
 import org.testng.annotations.Test;
 
@@ -40,6 +41,31 @@ public class VmtiLocalSetTest extends LoggerChecks {
         assertEquals(localSet.getTags().size(), 1);
         checkVersionNumberExample(localSet);
         assertEquals(localSet.frameMessage(true), bytes);
+    }
+
+    @Test
+    public void parseLegacyEncoding() throws KlvParseException {
+        final byte[] bytes = new byte[] {0x0c, 0x02, 0x0e, 0x39, 0x04, 0x01, 0x03};
+        VmtiLocalSet localSet = new VmtiLocalSet(bytes);
+        assertNotNull(localSet);
+        assertEquals(localSet.getTags().size(), 2);
+        assertTrue(localSet.getTags().contains(VmtiMetadataKey.VersionNumber));
+        IVmtiMetadataValue v = localSet.getField(VmtiMetadataKey.VersionNumber);
+        assertEquals(v.getDisplayName(), "Version Number");
+        assertEquals(v.getDisplayableValue(), "ST0903.3");
+        assertEquals(v.getBytes(), new byte[] {0x03});
+        assertTrue(v instanceof ST0903Version);
+        ST0903Version version = (ST0903Version) localSet.getField(VmtiMetadataKey.VersionNumber);
+        assertEquals(version.getVersion(), 3);
+        assertTrue(localSet.getTags().contains(VmtiMetadataKey.VerticalFieldOfView));
+        IVmtiMetadataValue f = localSet.getField(VmtiMetadataKey.VerticalFieldOfView);
+        assertEquals(f.getDisplayName(), "Vertical Field of View");
+        assertEquals(f.getDisplayableValue(), "10.0\u00B0");
+        assertTrue(f instanceof VmtiVerticalFieldOfView);
+        VmtiVerticalFieldOfView fov = (VmtiVerticalFieldOfView) f;
+        assertEquals(fov.getDisplayName(), "Vertical Field of View");
+        assertEquals(fov.getDisplayableValue(), "10.0\u00B0");
+        assertEquals(fov.getFieldOfView(), 10.0, 0.003);
     }
 
     @Test
@@ -310,7 +336,8 @@ public class VmtiLocalSetTest extends LoggerChecks {
     public void constructUnknown() throws KlvParseException {
         verifyNoLoggerMessages();
         IVmtiMetadataValue unknown =
-                VmtiLocalSet.createValue(VmtiMetadataKey.Undefined, new byte[] {0x01, 0x02});
+                VmtiLocalSet.createValue(
+                        VmtiMetadataKey.Undefined, new byte[] {0x01, 0x02}, EncodingMode.IMAPB);
         this.verifySingleLoggerMessage("Unknown VMTI Metadata tag: Undefined");
         assertNull(unknown);
     }

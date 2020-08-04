@@ -250,6 +250,25 @@ public class PrimitiveConverterTest {
     }
 
     @Test
+    public void testVariableBytesToUint16_1() {
+        int intVal = PrimitiveConverter.variableBytesToUint16(new byte[] {(byte) 0xff});
+        Assert.assertEquals(intVal, Math.pow(2, 8) - 1);
+    }
+
+    @Test
+    public void testVariableBytesToUint16_2() {
+        int intVal =
+                PrimitiveConverter.variableBytesToUint16(new byte[] {(byte) 0xff, (byte) 0xff});
+        Assert.assertEquals(intVal, Math.pow(2, 16) - 1);
+    }
+
+    @Test(expectedExceptions = IllegalArgumentException.class)
+    public void testVariableBytesToUint16BadLength() {
+        PrimitiveConverter.variableBytesToUint16(
+                new byte[] {(byte) 0xff, (byte) 0xff, (byte) 0x00});
+    }
+
+    @Test
     public void checkUintInternalVsStandard_1() {
         byte[] bytes = new byte[] {(byte) 0x9c};
         long standard = PrimitiveConverter.toUint8(bytes);
@@ -1272,6 +1291,7 @@ public class PrimitiveConverterTest {
                 });
     }
 
+    @Test
     public void testToUint24() {
         long val = PrimitiveConverter.toUint24(new byte[] {0x00, 0x00, 0x00});
         Assert.assertEquals(val, 0);

@@ -7,6 +7,7 @@ import java.util.HashMap;
 import java.util.Map;
 import org.jmisb.api.common.KlvParseException;
 import org.jmisb.api.klv.st0903.IVmtiMetadataValue;
+import org.jmisb.api.klv.st0903.shared.EncodingMode;
 import org.jmisb.api.klv.st0903.vfeature.VFeatureLS;
 import org.jmisb.api.klv.st0903.vfeature.VFeatureMetadataKey;
 import org.testng.annotations.Test;
@@ -32,7 +33,8 @@ public class VFeatureTest {
     @Test
     public void testFactoryEncodedBytes() throws KlvParseException {
         IVmtiMetadataValue value =
-                VTargetPack.createValue(VTargetMetadataKey.VFeature, featureBytes);
+                VTargetPack.createValue(
+                        VTargetMetadataKey.VFeature, featureBytes, EncodingMode.IMAPB);
         assertTrue(value instanceof VFeature);
         VFeature vFeature = (VFeature) value;
         assertEquals(vFeature.getBytes(), featureBytes);

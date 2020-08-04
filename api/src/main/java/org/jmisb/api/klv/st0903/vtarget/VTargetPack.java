@@ -15,6 +15,7 @@ import org.jmisb.api.klv.LdsField;
 import org.jmisb.api.klv.LdsParser;
 import org.jmisb.api.klv.st0903.IVmtiMetadataValue;
 import org.jmisb.api.klv.st0903.shared.AlgorithmId;
+import org.jmisb.api.klv.st0903.shared.EncodingMode;
 import org.jmisb.core.klv.ArrayUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -50,12 +51,36 @@ public class VTargetPack {
      *
      * <p>This is used to parse out a single VTargetPack from the KLV-encoded byte array.
      *
+     * <p>This constructor only supports ST0903.4 and later.
+     *
      * @param bytes the byte array
      * @param offset the offset into the {@code bytes} array to start parsing.
      * @param length the number of bytes to parse
      * @throws KlvParseException if there is a problem during parsing
+     * @deprecated use {@link #VTargetPack(byte[], int, int, EncodingMode)} instead
      */
+    @Deprecated
     public VTargetPack(byte[] bytes, int offset, int length) throws KlvParseException {
+        this(bytes, offset, length, EncodingMode.IMAPB);
+    }
+
+    /**
+     * Construct from encoded bytes.
+     *
+     * <p>This is used to parse out a single VTargetPack from the KLV-encoded byte array.
+     *
+     * <p>This constructor allows selection of which encoding rules (according to the ST903 version)
+     * to apply for floating point data.
+     *
+     * @param bytes the byte array
+     * @param offset the offset into the {@code bytes} array to start parsing.
+     * @param length the number of bytes to parse
+     * @param encodingMode which encoding mode the {@code bytes} parameter uses for floating point
+     *     data
+     * @throws KlvParseException if there is a problem during parsing
+     */
+    public VTargetPack(byte[] bytes, int offset, int length, EncodingMode encodingMode)
+            throws KlvParseException {
         BerField targetIdField = BerDecoder.decode(bytes, offset, true);
         offset += targetIdField.getLength();
         targetId = targetIdField.getValue();
@@ -67,7 +92,7 @@ public class VTargetPack {
                 LOGGER.info("Unknown VMTI VTarget Metadata tag: {}", field.getTag());
             } else {
                 try {
-                    IVmtiMetadataValue value = createValue(key, field.getData());
+                    IVmtiMetadataValue value = createValue(key, field.getData(), encodingMode);
                     map.put(key, value);
                 } catch (KlvParseException | IllegalArgumentException ex) {
                     InvalidDataHandler.getInstance()
@@ -80,12 +105,35 @@ public class VTargetPack {
     /**
      * Create a {@link IVmtiMetadataValue} instance from encoded bytes.
      *
+     * <p>This method only supports ST0903.4 and later.
+     *
      * @param tag The tag defining the value type
      * @param bytes Encoded bytes
      * @return The new instance
      * @throws KlvParseException if the bytes could not be parsed.
+     * @deprecated Use {@link #createValue(VTargetMetadataKey, byte[], EncodingMode)} to explicitly
+     *     identify the encoding format.
      */
+    @Deprecated
     public static IVmtiMetadataValue createValue(VTargetMetadataKey tag, byte[] bytes)
+            throws KlvParseException {
+        return createValue(tag, bytes, EncodingMode.IMAPB);
+    }
+
+    /**
+     * Create a {@link IVmtiMetadataValue} instance from encoded bytes.
+     *
+     * <p>This method allows selection of which encoding rules (according to the ST903 version) to
+     * apply.
+     *
+     * @param tag The tag defining the value type
+     * @param bytes Encoded bytes
+     * @param encodingMode which encoding mode the {@code bytes} parameter uses.
+     * @return The new instance
+     * @throws KlvParseException if the bytes could not be parsed.
+     */
+    public static IVmtiMetadataValue createValue(
+            VTargetMetadataKey tag, byte[] bytes, EncodingMode encodingMode)
             throws KlvParseException {
         switch (tag) {
             case TargetCentroid:
@@ -107,23 +155,23 @@ public class VTargetPack {
             case TargetIntensity:
                 return new TargetIntensity(bytes);
             case TargetLocationOffsetLat:
-                return new TargetLocationOffsetLat(bytes);
+                return new TargetLocationOffsetLat(bytes, encodingMode);
             case TargetLocationOffsetLon:
-                return new TargetLocationOffsetLon(bytes);
+                return new TargetLocationOffsetLon(bytes, encodingMode);
             case TargetHAE:
-                return new TargetHAE(bytes);
+                return new TargetHAE(bytes, encodingMode);
             case BoundaryTopLeftLatOffset:
-                return new BoundaryTopLeftLatOffset(bytes);
+                return new BoundaryTopLeftLatOffset(bytes, encodingMode);
             case BoundaryTopLeftLonOffset:
-                return new BoundaryTopLeftLonOffset(bytes);
+                return new BoundaryTopLeftLonOffset(bytes, encodingMode);
             case BoundaryBottomRightLatOffset:
-                return new BoundaryBottomRightLatOffset(bytes);
+                return new BoundaryBottomRightLatOffset(bytes, encodingMode);
             case BoundaryBottomRightLonOffset:
-                return new BoundaryBottomRightLonOffset(bytes);
+                return new BoundaryBottomRightLonOffset(bytes, encodingMode);
             case TargetLocation:
-                return new TargetLocation(bytes);
+                return new TargetLocation(bytes, encodingMode);
             case TargetBoundarySeries:
-                return new TargetBoundarySeries(bytes);
+                return new TargetBoundarySeries(bytes, encodingMode);
             case CentroidPixRow:
                 return new CentroidPixelRow(bytes);
             case CentroidPixColumn:
@@ -139,7 +187,7 @@ public class VTargetPack {
             case VFeature:
                 return new VFeature(bytes);
             case VTracker:
-                return new VTracker(bytes);
+                return new VTracker(bytes, encodingMode);
             case VChip:
                 return new VChip(bytes);
             case VChipSeries:

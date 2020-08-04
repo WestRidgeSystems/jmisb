@@ -4,6 +4,7 @@ import static org.testng.Assert.*;
 
 import org.jmisb.api.common.KlvParseException;
 import org.jmisb.api.klv.st0903.IVmtiMetadataValue;
+import org.jmisb.api.klv.st0903.shared.EncodingMode;
 import org.testng.annotations.Test;
 
 /** Tests for Target History (Tag 6) */
@@ -42,7 +43,9 @@ public class TargetHistoryTest {
     public void testFactory() throws KlvParseException {
         IVmtiMetadataValue value =
                 VTargetPack.createValue(
-                        VTargetMetadataKey.TargetHistory, new byte[] {(byte) 0x0A, (byte) 0xCD});
+                        VTargetMetadataKey.TargetHistory,
+                        new byte[] {(byte) 0x0A, (byte) 0xCD},
+                        EncodingMode.IMAPB);
         assertTrue(value instanceof TargetHistory);
         TargetHistory history = (TargetHistory) value;
         assertEquals(history.getBytes(), new byte[] {(byte) 0x0A, (byte) 0xCD});
@@ -54,7 +57,10 @@ public class TargetHistoryTest {
     @Test
     public void testFactory0() throws KlvParseException {
         IVmtiMetadataValue value =
-                VTargetPack.createValue(VTargetMetadataKey.TargetHistory, new byte[] {(byte) 0x00});
+                VTargetPack.createValue(
+                        VTargetMetadataKey.TargetHistory,
+                        new byte[] {(byte) 0x00},
+                        EncodingMode.IMAPB);
         assertTrue(value instanceof TargetHistory);
         TargetHistory history = (TargetHistory) value;
         assertEquals(history.getBytes(), new byte[] {(byte) 0x00});
@@ -67,7 +73,9 @@ public class TargetHistoryTest {
     public void testFactoryMax() throws KlvParseException {
         IVmtiMetadataValue value =
                 VTargetPack.createValue(
-                        VTargetMetadataKey.TargetHistory, new byte[] {(byte) 0xFF, (byte) 0xFF});
+                        VTargetMetadataKey.TargetHistory,
+                        new byte[] {(byte) 0xFF, (byte) 0xFF},
+                        EncodingMode.IMAPB);
         assertTrue(value instanceof TargetHistory);
         TargetHistory history = (TargetHistory) value;
         assertEquals(history.getBytes(), new byte[] {(byte) 0xFF, (byte) 0xFF});

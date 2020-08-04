@@ -7,6 +7,7 @@ import java.util.HashMap;
 import java.util.Map;
 import org.jmisb.api.common.KlvParseException;
 import org.jmisb.api.klv.st0903.IVmtiMetadataValue;
+import org.jmisb.api.klv.st0903.shared.EncodingMode;
 import org.jmisb.api.klv.st0903.vobject.VObjectLS;
 import org.jmisb.api.klv.st0903.vobject.VObjectMetadataKey;
 import org.testng.annotations.Test;
@@ -34,7 +35,8 @@ public class VObjectTest {
     @Test
     public void testFactoryEncodedBytes() throws KlvParseException {
         IVmtiMetadataValue value =
-                VTargetPack.createValue(VTargetMetadataKey.VObject, ontologyBytes);
+                VTargetPack.createValue(
+                        VTargetMetadataKey.VObject, ontologyBytes, EncodingMode.IMAPB);
         assertTrue(value instanceof VObject);
         VObject vObject = (VObject) value;
         assertEquals(vObject.getBytes(), ontologyBytes);

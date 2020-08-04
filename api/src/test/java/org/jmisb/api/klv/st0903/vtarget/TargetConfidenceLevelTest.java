@@ -4,6 +4,7 @@ import static org.testng.Assert.*;
 
 import org.jmisb.api.common.KlvParseException;
 import org.jmisb.api.klv.st0903.IVmtiMetadataValue;
+import org.jmisb.api.klv.st0903.shared.EncodingMode;
 import org.testng.annotations.Test;
 
 /** Tests for Target Confidence Level (Tag 5) */
@@ -33,7 +34,9 @@ public class TargetConfidenceLevelTest {
     public void testFactory() throws KlvParseException {
         IVmtiMetadataValue value =
                 VTargetPack.createValue(
-                        VTargetMetadataKey.TargetConfidenceLevel, new byte[] {(byte) 0x50});
+                        VTargetMetadataKey.TargetConfidenceLevel,
+                        new byte[] {(byte) 0x50},
+                        EncodingMode.IMAPB);
         assertTrue(value instanceof TargetConfidenceLevel);
         TargetConfidenceLevel confidence = (TargetConfidenceLevel) value;
         assertEquals(confidence.getBytes(), new byte[] {(byte) 0x50});

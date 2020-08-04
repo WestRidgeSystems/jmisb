@@ -3,6 +3,7 @@ package org.jmisb.api.klv.st0903;
 import static org.testng.Assert.*;
 
 import org.jmisb.api.common.KlvParseException;
+import org.jmisb.api.klv.st0903.shared.EncodingMode;
 import org.testng.annotations.Test;
 
 /** Tests for FrameHeight (ST0903 Tag 9). */
@@ -47,7 +48,9 @@ public class FrameHeightTest {
     public void testFactoryEncodedBytes() throws KlvParseException {
         IVmtiMetadataValue value =
                 VmtiLocalSet.createValue(
-                        VmtiMetadataKey.FrameHeight, new byte[] {(byte) 0x04, (byte) 0x38});
+                        VmtiMetadataKey.FrameHeight,
+                        new byte[] {(byte) 0x04, (byte) 0x38},
+                        EncodingMode.IMAPB);
         assertTrue(value instanceof FrameHeight);
         FrameHeight height = (FrameHeight) value;
         assertEquals(height.getBytes(), new byte[] {(byte) 0x04, (byte) 0x38});

@@ -9,6 +9,7 @@ import java.util.TreeMap;
 import org.jmisb.api.common.KlvParseException;
 import org.jmisb.api.klv.st0903.ontology.OntologyLS;
 import org.jmisb.api.klv.st0903.ontology.OntologyMetadataKey;
+import org.jmisb.api.klv.st0903.shared.EncodingMode;
 import org.jmisb.api.klv.st0903.shared.VmtiTextString;
 import org.jmisb.api.klv.st0903.shared.VmtiUri;
 import org.testng.annotations.BeforeMethod;
@@ -72,7 +73,8 @@ public class OntologySeriesTest {
     @Test
     public void testFactoryEncodedBytes() throws KlvParseException {
         IVmtiMetadataValue value =
-                VmtiLocalSet.createValue(VmtiMetadataKey.OntologySeries, twoOntologysBytes);
+                VmtiLocalSet.createValue(
+                        VmtiMetadataKey.OntologySeries, twoOntologysBytes, EncodingMode.IMAPB);
         assertNotNull(value);
         assertTrue(value instanceof OntologySeries);
         OntologySeries ontologySeries = (OntologySeries) value;

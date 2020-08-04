@@ -29,9 +29,16 @@ import org.jmisb.api.klv.st0903.vtarget.VTracker;
 import org.jmisb.api.klv.st0903.vtracker.VTrackerMetadataKey;
 import org.testng.annotations.Test;
 
-/** Tests for the ST0903 VMTI Local Set including nested parts */
-public class VmtiLocalSetOneWithTheLotTest extends LoggerChecks {
-    VmtiLocalSetOneWithTheLotTest() {
+/**
+ * Tests for the ST0903 VMTI Local Set including nested parts.
+ *
+ * <p>This is very similar to VmtiLocalSetOneWithTheLotTest, but uses legacy encoding for floating
+ * point values, per ST0903.3.
+ *
+ * <p>Some of the fields here may not be valid in ST0903.3, and are used for testing purposes only.
+ */
+public class VmtiLocalSetOneWithTheLotLegacyModeTest extends LoggerChecks {
+    VmtiLocalSetOneWithTheLotLegacyModeTest() {
         super(VmtiLocalSet.class);
     }
 
@@ -65,9 +72,9 @@ public class VmtiLocalSetOneWithTheLotTest extends LoggerChecks {
                     0x4D,
                     0x54,
                     0x49,
-                    0x04,
+                    0x04, // Version Tag
                     0x01,
-                    0x05,
+                    0x03,
                     0x05,
                     0x01,
                     0x1C,
@@ -96,14 +103,14 @@ public class VmtiLocalSetOneWithTheLotTest extends LoggerChecks {
                     0x6F,
                     0x73,
                     0x65,
-                    0x0B,
+                    0x0B, // Horizontal FOV
                     0x02,
-                    0x06,
-                    0x40,
-                    0x0C,
+                    0x11,
+                    (byte) 0xC7,
+                    0x0C, // Vertical FOV
                     0x02,
-                    0x05,
-                    0x00,
+                    0x0E,
+                    0x39,
                     0x0D,
                     0x22,
                     (byte) 0x01,
@@ -143,10 +150,10 @@ public class VmtiLocalSetOneWithTheLotTest extends LoggerChecks {
                     0x65,
                     (byte) 0x82,
                     (byte) 0x03,
-                    (byte) 0x86, // Key + length
+                    (byte) 0x90, // Key + length
                     (byte) 0x82,
                     (byte) 0x02,
-                    (byte) 0xE1, // Length of first VTarget LS
+                    (byte) 0xEB, // Length of first VTarget LS
                     0x01, // Target identifier
                     0x01,
                     0x03,
@@ -171,22 +178,35 @@ public class VmtiLocalSetOneWithTheLotTest extends LoggerChecks {
                     (byte) 0xDA,
                     (byte) 0xA5,
                     0x20, // target colour
+                    0x0A,
+                    0x03,
+                    (byte) 0x42,
+                    (byte) 0xAA,
+                    (byte) 0xAA, // Target location offset lat
+                    0x0B,
+                    0x03,
+                    (byte) 0x42,
+                    (byte) 0xAA,
+                    (byte) 0xAA, // Target location offset lon
                     0x0C,
                     0x02,
-                    0x2A,
-                    (byte) 0x94,
+                    (byte) 0x8C,
+                    (byte) 0x38, // target height (HAE)
                     0x11,
                     0x0A,
+                    // ST0903.3 B.2.1
+                    (byte) 0xBD,
                     (byte) 0x27,
-                    (byte) 0xba,
-                    (byte) 0x93,
-                    (byte) 0x02,
-                    (byte) 0x34,
-                    (byte) 0x4a,
-                    (byte) 0x1a,
-                    (byte) 0xdf,
-                    (byte) 0x10,
-                    (byte) 0x14, // Target location, basic form
+                    (byte) 0xD2,
+                    (byte) 0x7C,
+                    // ST0903.3 B.2.2
+                    (byte) 0xCE,
+                    (byte) 0x38,
+                    (byte) 0xE3,
+                    (byte) 0x8D,
+                    // ST0903.3 B.2.3
+                    (byte) 0x8C,
+                    (byte) 0x38, // Target location, legacy form
                     0x13,
                     0x02,
                     0x03,
@@ -1205,11 +1225,7 @@ public class VmtiLocalSetOneWithTheLotTest extends LoggerChecks {
                     0x69,
                     0x63,
                     0x61,
-                    0x6e,
-                    0x01,
-                    0x02,
-                    (byte) 0x1d,
-                    (byte) 0xf5 // checksum
+                    0x6e
                 };
         VmtiLocalSet localSet = new VmtiLocalSet(bytes);
         assertNotNull(localSet);
@@ -1224,7 +1240,7 @@ public class VmtiLocalSetOneWithTheLotTest extends LoggerChecks {
                 localSet.getField(VmtiMetadataKey.VersionNumber).getDisplayName(),
                 "Version Number");
         assertEquals(
-                localSet.getField(VmtiMetadataKey.VersionNumber).getDisplayableValue(), "ST0903.5");
+                localSet.getField(VmtiMetadataKey.VersionNumber).getDisplayableValue(), "ST0903.3");
         assertEquals(
                 localSet.getField(VmtiMetadataKey.SystemName).getDisplayName(),
                 "System Name/Description");
@@ -1336,9 +1352,9 @@ public class VmtiLocalSetOneWithTheLotTest extends LoggerChecks {
         TargetLocation targetLocation =
                 (TargetLocation) targetPack1.getField(VTargetMetadataKey.TargetLocation);
         assertEquals(targetLocation.getDisplayableValue(), "[Location]");
-        assertEquals(targetLocation.getTargetLocation().getLat(), -10.5423886331461, 0.0001);
-        assertEquals(targetLocation.getTargetLocation().getLon(), 29.157890122923, 0.0001);
-        assertEquals(targetLocation.getTargetLocation().getHae(), 3216.0, 0.02);
+        assertEquals(targetLocation.getTargetLocation().getLat(), 43.0, 0.0001);
+        assertEquals(targetLocation.getTargetLocation().getLon(), 110.0, 0.0001);
+        assertEquals(targetLocation.getTargetLocation().getHae(), 10000.0, 0.02);
         assertEquals(
                 targetPack1.getField(VTargetMetadataKey.CentroidPixRow).getDisplayName(),
                 "Centroid Pixel Row");
@@ -1356,6 +1372,22 @@ public class VmtiLocalSetOneWithTheLotTest extends LoggerChecks {
         assertEquals(
                 targetPack1.getField(VTargetMetadataKey.FPAIndex).getDisplayableValue(),
                 "Row 2, Col 3");
+        assertEquals(
+                targetPack1.getField(VTargetMetadataKey.TargetLocationOffsetLat).getDisplayName(),
+                "Target Location Offset Latitude");
+        assertEquals(
+                targetPack1
+                        .getField(VTargetMetadataKey.TargetLocationOffsetLat)
+                        .getDisplayableValue(),
+                "10.00000\u00B0");
+        assertEquals(
+                targetPack1.getField(VTargetMetadataKey.TargetLocationOffsetLon).getDisplayName(),
+                "Target Location Offset Longitude");
+        assertEquals(
+                targetPack1
+                        .getField(VTargetMetadataKey.TargetLocationOffsetLon)
+                        .getDisplayableValue(),
+                "10.00000\u00B0");
         assertEquals(
                 targetPack1.getField(VTargetMetadataKey.AlgorithmId).getDisplayName(),
                 "Algorithm Id");

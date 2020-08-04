@@ -4,6 +4,7 @@ import static org.testng.Assert.*;
 
 import org.jmisb.api.common.KlvParseException;
 import org.jmisb.api.klv.st0903.IVmtiMetadataValue;
+import org.jmisb.api.klv.st0903.shared.EncodingMode;
 import org.jmisb.api.klv.st0903.shared.LocationPack;
 import org.testng.annotations.Test;
 
@@ -14,6 +15,16 @@ public class TargetLocationTest {
                 (byte) 0x27, (byte) 0xba, (byte) 0x93, (byte) 0x02,
                 (byte) 0x34, (byte) 0x4a, (byte) 0x1a, (byte) 0xdf,
                 (byte) 0x10, (byte) 0x14
+            };
+
+    private final byte[] coordinateBytesLegacyForm =
+            new byte[] {
+                // ST0903.3 B.2.1
+                (byte) 0xBD, (byte) 0x27, (byte) 0xD2, (byte) 0x7C,
+                // ST0903.3 B.2.2
+                (byte) 0xCE, (byte) 0x38, (byte) 0xE3, (byte) 0x8D,
+                // ST0903.3 B.2.3
+                (byte) 0x8C, (byte) 0x38
             };
 
     private final byte[] coordinatePlusSigmaBytes =
@@ -34,6 +45,30 @@ public class TargetLocationTest {
                 (byte) 0x60,
                 (byte) 0x51,
                 (byte) 0x3C
+            };
+
+    private final byte[] coordinatePlusSigmaBytesLegacyForm =
+            new byte[] {
+                // ST0903.3 B.2.1
+                (byte) 0xBD,
+                (byte) 0x27,
+                (byte) 0xD2,
+                (byte) 0x7C,
+                // ST0903.3 B.2.2
+                (byte) 0xCE,
+                (byte) 0x38,
+                (byte) 0xE3,
+                (byte) 0x8D,
+                // ST0903.3 B.2.3
+                (byte) 0x8C,
+                (byte) 0x38,
+                // ST0903.3 B.2.4
+                (byte) 0x76,
+                (byte) 0x27,
+                (byte) 0x4E,
+                (byte) 0xC5,
+                (byte) 0x27,
+                (byte) 0x62, // Note: 0x67 in the summary appears to be an error
             };
 
     private final byte[] coordinatePlusSigmaAndRhoBytes =
@@ -60,6 +95,37 @@ public class TargetLocationTest {
                 (byte) 0x00,
                 (byte) 0x60,
                 (byte) 0x00
+            };
+
+    private final byte[] coordinatePlusSigmaAndRhoBytesLegacyForm =
+            new byte[] {
+                // ST0903.3 B.2.1
+                (byte) 0xBD,
+                (byte) 0x27,
+                (byte) 0xD2,
+                (byte) 0x7C,
+                // ST0903.3 B.2.2
+                (byte) 0xCE,
+                (byte) 0x38,
+                (byte) 0xE3,
+                (byte) 0x8D,
+                // ST0903.3 B.2.3
+                (byte) 0x8C,
+                (byte) 0x38,
+                // ST0903.3 B.2.4
+                (byte) 0x76,
+                (byte) 0x27,
+                (byte) 0x4E,
+                (byte) 0xC5,
+                (byte) 0x27,
+                (byte) 0x62, // Also shown as 0x67
+                // ST0903.3 B.2.5
+                (byte) 0xDF,
+                (byte) 0xFF,
+                (byte) 0xBF,
+                (byte) 0xFF,
+                (byte) 0x9F,
+                (byte) 0xFF
             };
 
     @Test
@@ -128,6 +194,7 @@ public class TargetLocationTest {
     }
 
     @Test
+    @SuppressWarnings("deprecation")
     public void testConstructFromEncodedBytes() {
         TargetLocation location = new TargetLocation(coordinateBytes);
         assertEquals(location.getBytes(), coordinateBytes);
@@ -145,6 +212,53 @@ public class TargetLocationTest {
     }
 
     @Test
+    @SuppressWarnings("deprecation")
+    public void testLocationPackParseFromEncodedBytes() {
+        LocationPack location = TargetLocation.targetLocationPackFromBytes(coordinateBytes);
+        assertEquals(location.getLat(), -10.5423886331461, 0.0001);
+        assertEquals(location.getLon(), 29.157890122923, 0.0001);
+        assertEquals(location.getHae(), 3216.0, 0.02);
+        assertNull(location.getSigEast());
+        assertNull(location.getSigNorth());
+        assertNull(location.getSigUp());
+        assertNull(location.getRhoEastNorth());
+        assertNull(location.getRhoEastUp());
+        assertNull(location.getRhoNorthUp());
+    }
+
+    @Test
+    public void testLocationPackParseFromEncodedBytesExplicitEncodingIMAP() {
+        LocationPack location =
+                TargetLocation.targetLocationPackFromBytes(coordinateBytes, EncodingMode.IMAPB);
+        assertEquals(location.getLat(), -10.5423886331461, 0.0001);
+        assertEquals(location.getLon(), 29.157890122923, 0.0001);
+        assertEquals(location.getHae(), 3216.0, 0.02);
+        assertNull(location.getSigEast());
+        assertNull(location.getSigNorth());
+        assertNull(location.getSigUp());
+        assertNull(location.getRhoEastNorth());
+        assertNull(location.getRhoEastUp());
+        assertNull(location.getRhoNorthUp());
+    }
+
+    @Test
+    public void testLocationPackParseFromEncodedBytesExplicitEncodingLegacy() {
+        LocationPack location =
+                TargetLocation.targetLocationPackFromBytes(
+                        coordinateBytesLegacyForm, EncodingMode.LEGACY);
+        assertEquals(location.getLat(), 43.0, 0.00001);
+        assertEquals(location.getLon(), 110.0, 0.00001);
+        assertEquals(location.getHae(), 10000.0, 0.4);
+        assertNull(location.getSigEast());
+        assertNull(location.getSigNorth());
+        assertNull(location.getSigUp());
+        assertNull(location.getRhoEastNorth());
+        assertNull(location.getRhoEastUp());
+        assertNull(location.getRhoNorthUp());
+    }
+
+    @Test
+    @SuppressWarnings("deprecation")
     public void testFactory() throws KlvParseException {
         IVmtiMetadataValue value =
                 VTargetPack.createValue(VTargetMetadataKey.TargetLocation, coordinateBytes);
@@ -165,6 +279,50 @@ public class TargetLocationTest {
     }
 
     @Test
+    public void testFactoryWithExplicitEncodingIMAPB() throws KlvParseException {
+        IVmtiMetadataValue value =
+                VTargetPack.createValue(
+                        VTargetMetadataKey.TargetLocation, coordinateBytes, EncodingMode.IMAPB);
+        assertTrue(value instanceof TargetLocation);
+        TargetLocation location = (TargetLocation) value;
+        assertEquals(location.getBytes(), coordinateBytes);
+        assertEquals(location.getTargetLocation().getLat(), -10.5423886331461, 0.0001);
+        assertEquals(location.getTargetLocation().getLon(), 29.157890122923, 0.0001);
+        assertEquals(location.getTargetLocation().getHae(), 3216.0, 0.02);
+        assertNull(location.getTargetLocation().getSigEast());
+        assertNull(location.getTargetLocation().getSigNorth());
+        assertNull(location.getTargetLocation().getSigUp());
+        assertNull(location.getTargetLocation().getRhoEastNorth());
+        assertNull(location.getTargetLocation().getRhoEastUp());
+        assertNull(location.getTargetLocation().getRhoNorthUp());
+        assertEquals(location.getDisplayName(), "Target Location");
+        assertEquals(location.getDisplayableValue(), "[Location]");
+    }
+
+    @Test
+    public void testFactoryWithExplicitEncodingLegacy() throws KlvParseException {
+        IVmtiMetadataValue value =
+                VTargetPack.createValue(
+                        VTargetMetadataKey.TargetLocation,
+                        coordinateBytesLegacyForm,
+                        EncodingMode.LEGACY);
+        assertTrue(value instanceof TargetLocation);
+        TargetLocation location = (TargetLocation) value;
+        assertEquals(location.getTargetLocation().getLat(), 43.0, 0.00001);
+        assertEquals(location.getTargetLocation().getLon(), 110.0, 0.00001);
+        assertEquals(location.getTargetLocation().getHae(), 10000.0, 0.4);
+        assertNull(location.getTargetLocation().getSigEast());
+        assertNull(location.getTargetLocation().getSigNorth());
+        assertNull(location.getTargetLocation().getSigUp());
+        assertNull(location.getTargetLocation().getRhoEastNorth());
+        assertNull(location.getTargetLocation().getRhoEastUp());
+        assertNull(location.getTargetLocation().getRhoNorthUp());
+        assertEquals(location.getDisplayName(), "Target Location");
+        assertEquals(location.getDisplayableValue(), "[Location]");
+    }
+
+    @Test
+    @SuppressWarnings("deprecation")
     public void testFactoryWithSigma() throws KlvParseException {
         IVmtiMetadataValue value =
                 VTargetPack.createValue(
@@ -186,6 +344,52 @@ public class TargetLocationTest {
     }
 
     @Test
+    public void testFactoryWithSigmaWithExpicitEncodingIMAPB() throws KlvParseException {
+        IVmtiMetadataValue value =
+                VTargetPack.createValue(
+                        VTargetMetadataKey.TargetLocation,
+                        coordinatePlusSigmaBytes,
+                        EncodingMode.IMAPB);
+        assertTrue(value instanceof TargetLocation);
+        TargetLocation location = (TargetLocation) value;
+        assertEquals(location.getBytes(), coordinatePlusSigmaBytes);
+        assertEquals(location.getTargetLocation().getLat(), -10.5423886331461, 0.0001);
+        assertEquals(location.getTargetLocation().getLon(), 29.157890122923, 0.0001);
+        assertEquals(location.getTargetLocation().getHae(), 3216.0, 0.02);
+        assertEquals(location.getTargetLocation().getSigEast(), 0.1, 0.03);
+        assertEquals(location.getTargetLocation().getSigNorth(), 3.0, 0.03);
+        assertEquals(location.getTargetLocation().getSigUp(), 649.9, 0.03);
+        assertNull(location.getTargetLocation().getRhoEastNorth());
+        assertNull(location.getTargetLocation().getRhoEastUp());
+        assertNull(location.getTargetLocation().getRhoNorthUp());
+        assertEquals(location.getDisplayName(), "Target Location");
+        assertEquals(location.getDisplayableValue(), "[Location]");
+    }
+
+    @Test
+    public void testFactoryWithSigmaWithExpicitEncodingLegacy() throws KlvParseException {
+        IVmtiMetadataValue value =
+                VTargetPack.createValue(
+                        VTargetMetadataKey.TargetLocation,
+                        coordinatePlusSigmaBytesLegacyForm,
+                        EncodingMode.LEGACY);
+        assertTrue(value instanceof TargetLocation);
+        TargetLocation location = (TargetLocation) value;
+        assertEquals(location.getTargetLocation().getLat(), 43.0, 0.00001);
+        assertEquals(location.getTargetLocation().getLon(), 110.0, 0.00001);
+        assertEquals(location.getTargetLocation().getHae(), 10000.0, 0.4);
+        assertEquals(location.getTargetLocation().getSigEast(), 300, 0.01);
+        assertEquals(location.getTargetLocation().getSigNorth(), 200, 0.01);
+        assertEquals(location.getTargetLocation().getSigUp(), 100, 0.01);
+        assertNull(location.getTargetLocation().getRhoEastNorth());
+        assertNull(location.getTargetLocation().getRhoEastUp());
+        assertNull(location.getTargetLocation().getRhoNorthUp());
+        assertEquals(location.getDisplayName(), "Target Location");
+        assertEquals(location.getDisplayableValue(), "[Location]");
+    }
+
+    @Test
+    @SuppressWarnings("deprecation")
     public void testFactoryWithSigmaAndRho() throws KlvParseException {
         IVmtiMetadataValue value =
                 VTargetPack.createValue(
@@ -206,9 +410,65 @@ public class TargetLocationTest {
         assertEquals(location.getDisplayableValue(), "[Location]");
     }
 
+    @Test
+    public void testFactoryWithSigmaAndRhoWithExplicitEncodingIMAPB() throws KlvParseException {
+        IVmtiMetadataValue value =
+                VTargetPack.createValue(
+                        VTargetMetadataKey.TargetLocation,
+                        coordinatePlusSigmaAndRhoBytes,
+                        EncodingMode.IMAPB);
+        assertTrue(value instanceof TargetLocation);
+        TargetLocation location = (TargetLocation) value;
+        assertEquals(location.getBytes(), coordinatePlusSigmaAndRhoBytes);
+        assertEquals(location.getTargetLocation().getLat(), -10.5423886331461, 0.0001);
+        assertEquals(location.getTargetLocation().getLon(), 29.157890122923, 0.0001);
+        assertEquals(location.getTargetLocation().getHae(), 3216.0, 0.02);
+        assertEquals(location.getTargetLocation().getSigEast(), 0.1, 0.03);
+        assertEquals(location.getTargetLocation().getSigNorth(), 3.0, 0.03);
+        assertEquals(location.getTargetLocation().getSigUp(), 649.9, 0.03);
+        assertEquals(location.getTargetLocation().getRhoEastNorth(), -1.0, 0.001);
+        assertEquals(location.getTargetLocation().getRhoEastUp(), 0.0, 0.001);
+        assertEquals(location.getTargetLocation().getRhoNorthUp(), 0.5, 0.001);
+        assertEquals(location.getDisplayName(), "Target Location");
+        assertEquals(location.getDisplayableValue(), "[Location]");
+    }
+
+    @Test
+    public void testFactoryWithSigmaAndRhoWithExplicitEncodingLegacy() throws KlvParseException {
+        IVmtiMetadataValue value =
+                VTargetPack.createValue(
+                        VTargetMetadataKey.TargetLocation,
+                        coordinatePlusSigmaAndRhoBytesLegacyForm,
+                        EncodingMode.LEGACY);
+        assertTrue(value instanceof TargetLocation);
+        TargetLocation location = (TargetLocation) value;
+        assertEquals(location.getTargetLocation().getLat(), 43.0, 0.00001);
+        assertEquals(location.getTargetLocation().getLon(), 110.0, 0.00001);
+        assertEquals(location.getTargetLocation().getHae(), 10000.0, 0.4);
+        assertEquals(location.getTargetLocation().getSigEast(), 300, 0.01);
+        assertEquals(location.getTargetLocation().getSigNorth(), 200, 0.01);
+        assertEquals(location.getTargetLocation().getSigUp(), 100, 0.01);
+        assertEquals(location.getTargetLocation().getRhoEastNorth(), 0.75, 0.001);
+        assertEquals(location.getTargetLocation().getRhoEastUp(), 0.50, 0.001);
+        assertEquals(location.getTargetLocation().getRhoNorthUp(), 0.25, 0.001);
+        assertEquals(location.getDisplayName(), "Target Location");
+        assertEquals(location.getDisplayableValue(), "[Location]");
+    }
+
     @Test(expectedExceptions = IllegalArgumentException.class)
-    public void badArrayLength() {
-        new TargetLocation(new byte[] {0x01, 0x02, 0x03});
+    public void badArrayLengthIMAPB() {
+        new TargetLocation(new byte[] {0x01, 0x02, 0x03}, EncodingMode.IMAPB);
+    }
+
+    @Test(expectedExceptions = IllegalArgumentException.class)
+    public void badArrayLengthLegacy() {
+        new TargetLocation(new byte[] {0x01, 0x02, 0x03}, EncodingMode.LEGACY);
+    }
+
+    @Test(expectedExceptions = IllegalArgumentException.class)
+    public void badArrayLengthLegacyStaticMethod() {
+        TargetLocation.targetLocationPackFromBytes(
+                new byte[] {0x01, 0x02, 0x03}, EncodingMode.LEGACY);
     }
 
     @Test

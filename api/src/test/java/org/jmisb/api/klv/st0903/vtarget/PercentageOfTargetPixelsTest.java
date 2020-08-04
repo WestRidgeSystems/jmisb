@@ -4,6 +4,7 @@ import static org.testng.Assert.*;
 
 import org.jmisb.api.common.KlvParseException;
 import org.jmisb.api.klv.st0903.IVmtiMetadataValue;
+import org.jmisb.api.klv.st0903.shared.EncodingMode;
 import org.testng.annotations.Test;
 
 /** Tests for Percentage of Target Pixels (Tag 7) */
@@ -34,7 +35,9 @@ public class PercentageOfTargetPixelsTest {
     public void testFactory() throws KlvParseException {
         IVmtiMetadataValue value =
                 VTargetPack.createValue(
-                        VTargetMetadataKey.PercentageOfTargetPixels, new byte[] {(byte) 0x32});
+                        VTargetMetadataKey.PercentageOfTargetPixels,
+                        new byte[] {(byte) 0x32},
+                        EncodingMode.IMAPB);
         assertTrue(value instanceof PercentageOfTargetPixels);
         PercentageOfTargetPixels percentage = (PercentageOfTargetPixels) value;
         assertEquals(percentage.getBytes(), new byte[] {(byte) 0x32});

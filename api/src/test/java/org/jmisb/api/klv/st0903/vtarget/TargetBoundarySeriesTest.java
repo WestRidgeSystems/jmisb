@@ -7,6 +7,7 @@ import java.util.ArrayList;
 import java.util.List;
 import org.jmisb.api.common.KlvParseException;
 import org.jmisb.api.klv.st0903.IVmtiMetadataValue;
+import org.jmisb.api.klv.st0903.shared.EncodingMode;
 import org.jmisb.api.klv.st0903.shared.LocationPack;
 import org.testng.annotations.Test;
 
@@ -39,15 +40,36 @@ public class TargetBoundarySeriesTest {
             };
 
     @Test
+    @SuppressWarnings("deprecation")
     public void testConstructFromEncodedBytes() throws KlvParseException {
         TargetBoundarySeries boundarySeries = new TargetBoundarySeries(bytesTwoLocations);
         verifyTwoLocations(boundarySeries);
     }
 
     @Test
+    public void testConstructFromEncodedBytesExplicitEncodingIMAPB() throws KlvParseException {
+        TargetBoundarySeries boundarySeries =
+                new TargetBoundarySeries(bytesTwoLocations, EncodingMode.IMAPB);
+        verifyTwoLocations(boundarySeries);
+    }
+
+    @Test
+    @SuppressWarnings("deprecation")
     public void testFactoryEncodedBytes() throws KlvParseException {
         IVmtiMetadataValue value =
                 VTargetPack.createValue(VTargetMetadataKey.TargetBoundarySeries, bytesTwoLocations);
+        assertTrue(value instanceof TargetBoundarySeries);
+        TargetBoundarySeries targetBoundarySeries = (TargetBoundarySeries) value;
+        verifyTwoLocations(targetBoundarySeries);
+    }
+
+    @Test
+    public void testFactoryEncodedBytesExplicitEncodingIMAPB() throws KlvParseException {
+        IVmtiMetadataValue value =
+                VTargetPack.createValue(
+                        VTargetMetadataKey.TargetBoundarySeries,
+                        bytesTwoLocations,
+                        EncodingMode.IMAPB);
         assertTrue(value instanceof TargetBoundarySeries);
         TargetBoundarySeries targetBoundarySeries = (TargetBoundarySeries) value;
         verifyTwoLocations(targetBoundarySeries);
@@ -79,6 +101,6 @@ public class TargetBoundarySeriesTest {
 
     @Test(expectedExceptions = IllegalArgumentException.class)
     public void badArrayLength() throws KlvParseException {
-        new TargetBoundarySeries(new byte[] {0x01, 0x02, 0x03});
+        new TargetBoundarySeries(new byte[] {0x01, 0x02, 0x03}, EncodingMode.IMAPB);
     }
 }

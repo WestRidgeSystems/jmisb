@@ -6,6 +6,7 @@ import static org.testng.Assert.assertTrue;
 
 import org.jmisb.api.common.KlvParseException;
 import org.jmisb.api.klv.st0903.IVmtiMetadataValue;
+import org.jmisb.api.klv.st0903.shared.EncodingMode;
 import org.testng.Assert;
 import org.testng.annotations.Test;
 
@@ -84,7 +85,9 @@ public class DetectionStatusTest {
     @Test
     public void testFactory() throws KlvParseException {
         byte[] bytes = new byte[] {(byte) 0x00};
-        IVmtiMetadataValue v = VTrackerLS.createValue(VTrackerMetadataKey.detectionStatus, bytes);
+        IVmtiMetadataValue v =
+                VTrackerLS.createValue(
+                        VTrackerMetadataKey.detectionStatus, bytes, EncodingMode.IMAPB);
         Assert.assertEquals(v.getDisplayName(), "Detection Status");
         Assert.assertTrue(v instanceof DetectionStatus);
         DetectionStatus detectionStatus = (DetectionStatus) v;
@@ -94,7 +97,7 @@ public class DetectionStatusTest {
         Assert.assertEquals(detectionStatus, DetectionStatus.INACTIVE);
 
         bytes = new byte[] {(byte) 0x01};
-        v = VTrackerLS.createValue(VTrackerMetadataKey.detectionStatus, bytes);
+        v = VTrackerLS.createValue(VTrackerMetadataKey.detectionStatus, bytes, EncodingMode.IMAPB);
         Assert.assertEquals(v.getDisplayName(), "Detection Status");
         Assert.assertTrue(v instanceof DetectionStatus);
         detectionStatus = (DetectionStatus) v;
@@ -104,7 +107,7 @@ public class DetectionStatusTest {
         Assert.assertEquals(detectionStatus, DetectionStatus.ACTIVE);
 
         bytes = new byte[] {(byte) 0x02};
-        v = VTrackerLS.createValue(VTrackerMetadataKey.detectionStatus, bytes);
+        v = VTrackerLS.createValue(VTrackerMetadataKey.detectionStatus, bytes, EncodingMode.IMAPB);
         Assert.assertTrue(v instanceof DetectionStatus);
         Assert.assertEquals(v.getDisplayName(), "Detection Status");
         detectionStatus = (DetectionStatus) v;
@@ -114,7 +117,7 @@ public class DetectionStatusTest {
         Assert.assertEquals(detectionStatus, DetectionStatus.DROPPED);
 
         bytes = new byte[] {(byte) 0x03};
-        v = VTrackerLS.createValue(VTrackerMetadataKey.detectionStatus, bytes);
+        v = VTrackerLS.createValue(VTrackerMetadataKey.detectionStatus, bytes, EncodingMode.IMAPB);
         Assert.assertTrue(v instanceof DetectionStatus);
         Assert.assertEquals(v.getDisplayName(), "Detection Status");
         detectionStatus = (DetectionStatus) v;

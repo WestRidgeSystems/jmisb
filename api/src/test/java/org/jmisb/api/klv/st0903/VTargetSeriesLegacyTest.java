@@ -7,6 +7,7 @@ import java.util.List;
 import java.util.SortedMap;
 import java.util.TreeMap;
 import org.jmisb.api.common.KlvParseException;
+import org.jmisb.api.klv.st0903.shared.EncodingMode;
 import org.jmisb.api.klv.st0903.vtarget.CentroidPixelColumn;
 import org.jmisb.api.klv.st0903.vtarget.CentroidPixelRow;
 import org.jmisb.api.klv.st0903.vtarget.TargetHAE;
@@ -17,7 +18,7 @@ import org.testng.annotations.BeforeMethod;
 import org.testng.annotations.Test;
 
 /** Tests for VTargetSeries (Tag 101) */
-public class VTargetSeriesTest {
+public class VTargetSeriesLegacyTest {
     private VTargetSeries vTargetSeriesFromBytes;
     private VTargetSeries vTargetSeriesFromVTargets;
 
@@ -32,8 +33,8 @@ public class VTargetSeriesTest {
                 0x02, // Target ID 2
                 0x0C, // Target HAE Tag
                 0x02, // Target HAE Length
-                0x2a,
-                (byte) 0x94, // Target HAE Value
+                (byte) 0x8C,
+                (byte) 0x38, // Target HAE Value (two bytes, legacy encoding)
                 0x13, // Centroid Pix Row Tag
                 0x02, // Centroid Pix Row Length
                 0x03,
@@ -45,9 +46,8 @@ public class VTargetSeriesTest {
             };
 
     @BeforeMethod
-    @SuppressWarnings("deprecation")
     public void setUpMethod() throws Exception {
-        vTargetSeriesFromBytes = new VTargetSeries(twoVTargetsBytes);
+        vTargetSeriesFromBytes = new VTargetSeries(twoVTargetsBytes, EncodingMode.LEGACY);
 
         List<VTargetPack> targetPacks = new ArrayList<>();
 
@@ -95,10 +95,10 @@ public class VTargetSeriesTest {
     }
 
     @Test
-    @SuppressWarnings("deprecation")
     public void testFactoryEncodedBytes() throws KlvParseException {
         IVmtiMetadataValue value =
-                VmtiLocalSet.createValue(VmtiMetadataKey.VTargetSeries, twoVTargetsBytes);
+                VmtiLocalSet.createValue(
+                        VmtiMetadataKey.VTargetSeries, twoVTargetsBytes, EncodingMode.LEGACY);
         assertNotNull(value);
         assertTrue(value instanceof VTargetSeries);
         VTargetSeries targetSeries = (VTargetSeries) value;
@@ -108,17 +108,6 @@ public class VTargetSeriesTest {
         assertEquals(vtarget1.getTargetIdentifier(), 1);
         VTargetPack vtarget2 = vtargets.get(1);
         assertEquals(vtarget2.getTargetIdentifier(), 2);
-    }
-
-    /** Test of getBytes method, of class VTargetSeries. */
-    @Test
-    public void testGetBytesFromSeriesFromBytes() {
-        assertEquals(vTargetSeriesFromBytes.getBytes(), twoVTargetsBytes);
-    }
-
-    @Test
-    public void testGetBytesFromSeriesFromVTargets() {
-        assertEquals(vTargetSeriesFromVTargets.getBytes(), twoVTargetsBytes);
     }
 
     /** Test of getDisplayableValue method, of class VTargetSeries. */

@@ -3,6 +3,7 @@ package org.jmisb.api.klv.st0903.vtracker;
 import java.util.UUID;
 import org.jmisb.api.common.KlvParseException;
 import org.jmisb.api.klv.st0903.IVmtiMetadataValue;
+import org.jmisb.api.klv.st0903.shared.EncodingMode;
 import org.testng.Assert;
 import org.testng.annotations.Test;
 
@@ -39,7 +40,8 @@ public class TrackIdTest {
 
     @Test
     public void testFactoryAlgorithm() throws KlvParseException {
-        IVmtiMetadataValue v = VTrackerLS.createValue(VTrackerMetadataKey.trackId, bytes);
+        IVmtiMetadataValue v =
+                VTrackerLS.createValue(VTrackerMetadataKey.trackId, bytes, EncodingMode.IMAPB);
         Assert.assertTrue(v instanceof TrackId);
         TrackId id = (TrackId) v;
         Assert.assertEquals(id.getDisplayName(), "Track ID");

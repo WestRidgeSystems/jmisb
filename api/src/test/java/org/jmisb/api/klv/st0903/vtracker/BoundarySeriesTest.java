@@ -7,6 +7,7 @@ import java.util.ArrayList;
 import java.util.List;
 import org.jmisb.api.common.KlvParseException;
 import org.jmisb.api.klv.st0903.IVmtiMetadataValue;
+import org.jmisb.api.klv.st0903.shared.EncodingMode;
 import org.jmisb.api.klv.st0903.shared.LocationPack;
 import org.testng.annotations.Test;
 
@@ -39,15 +40,33 @@ public class BoundarySeriesTest {
             };
 
     @Test
+    @SuppressWarnings("deprecation")
     public void testConstructFromEncodedBytes() throws KlvParseException {
         BoundarySeries boundarySeries = new BoundarySeries(bytesTwoLocations);
         verifyTwoLocations(boundarySeries);
     }
 
     @Test
+    public void testConstructFromEncodedBytesExplicitEncodingIMAP() throws KlvParseException {
+        BoundarySeries boundarySeries = new BoundarySeries(bytesTwoLocations, EncodingMode.IMAPB);
+        verifyTwoLocations(boundarySeries);
+    }
+
+    @Test
+    @SuppressWarnings("deprecation")
     public void testFactoryEncodedBytes() throws KlvParseException {
         IVmtiMetadataValue value =
                 VTrackerLS.createValue(VTrackerMetadataKey.boundarySeries, bytesTwoLocations);
+        assertTrue(value instanceof BoundarySeries);
+        BoundarySeries targetBoundarySeries = (BoundarySeries) value;
+        verifyTwoLocations(targetBoundarySeries);
+    }
+
+    @Test
+    public void testFactoryEncodedBytesExplicitEncodingIMAP() throws KlvParseException {
+        IVmtiMetadataValue value =
+                VTrackerLS.createValue(
+                        VTrackerMetadataKey.boundarySeries, bytesTwoLocations, EncodingMode.IMAPB);
         assertTrue(value instanceof BoundarySeries);
         BoundarySeries targetBoundarySeries = (BoundarySeries) value;
         verifyTwoLocations(targetBoundarySeries);
@@ -79,6 +98,6 @@ public class BoundarySeriesTest {
 
     @Test(expectedExceptions = IllegalArgumentException.class)
     public void badArrayLength() throws KlvParseException {
-        new BoundarySeries(new byte[] {0x01, 0x02, 0x03});
+        new BoundarySeries(new byte[] {0x01, 0x02, 0x03}, EncodingMode.IMAPB);
     }
 }

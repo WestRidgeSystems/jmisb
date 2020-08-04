@@ -1,5 +1,7 @@
 package org.jmisb.api.klv.st0903;
 
+import org.jmisb.api.klv.st0903.shared.EncodingMode;
+
 /**
  * Vertical Field Of View (ST0903 VMTI LS Tag 12).
  *
@@ -30,10 +32,33 @@ public class VmtiVerticalFieldOfView extends VmtiFieldOfView {
     /**
      * Create from encoded bytes.
      *
+     * <p>Note this constructor only supports ST0903.4 and later.
+     *
      * @param bytes Encoded byte array
+     * @deprecated use {@link #VmtiVerticalFieldOfView(byte[], EncodingMode)} instead to specify the
+     *     encoding mode
      */
+    @Deprecated
     public VmtiVerticalFieldOfView(byte[] bytes) {
-        super(bytes);
+        this(bytes, EncodingMode.IMAPB);
+    }
+
+    /**
+     * Create from encoded bytes.
+     *
+     * <p>ST0903 changed the encoding to 2-byte IMAPB in ST0903.4. Earlier versions used a two-byte
+     * unsigned integer structure in the range [0, 2^16-1]that was then mapped into the range [0,
+     * 180.0] degrees. Which formatting applies can only be determined from the ST0903 version in
+     * this {@link org.jmisb.api.klv.st0903.VmtiLocalSet}. The {@code compatibilityMode} parameter
+     * determines whether to parse using the legacy encoding or current encoding.
+     *
+     * <p>Note that this only affects parsing. Output encoding is always IMAPB (ST0903.4 or later).
+     *
+     * @param bytes Encoded byte array
+     * @param encodingMode which encoding mode the {@code bytes} parameter uses.
+     */
+    public VmtiVerticalFieldOfView(byte[] bytes, EncodingMode encodingMode) {
+        super(bytes, encodingMode);
     }
 
     @Override

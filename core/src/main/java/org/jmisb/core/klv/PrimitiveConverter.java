@@ -261,6 +261,23 @@ public class PrimitiveConverter {
     }
 
     /**
+     * Convert a variable length byte array to an unsigned 16-bit integer (int with range of uint16)
+     *
+     * @param bytes The array of length 1-2
+     * @return The unsigned 16-bit integer as a int
+     */
+    public static int variableBytesToUint16(byte[] bytes) {
+        switch (bytes.length) {
+            case 2:
+                return PrimitiveConverter.toUint16(bytes);
+            case 1:
+                return PrimitiveConverter.toUint8(bytes);
+            default:
+                throw new IllegalArgumentException("Invalid buffer length");
+        }
+    }
+
+    /**
      * Convert an unsigned 32-bit unsigned integer (long with range of uint32) to a byte array
      *
      * @param val The unsigned 32-bit integer as long

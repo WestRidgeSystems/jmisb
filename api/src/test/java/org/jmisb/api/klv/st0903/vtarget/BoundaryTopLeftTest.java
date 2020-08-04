@@ -4,6 +4,7 @@ import static org.testng.Assert.*;
 
 import org.jmisb.api.common.KlvParseException;
 import org.jmisb.api.klv.st0903.IVmtiMetadataValue;
+import org.jmisb.api.klv.st0903.shared.EncodingMode;
 import org.testng.annotations.Test;
 
 /** Tests for Boundary Top Left (Tag 2). */
@@ -33,7 +34,8 @@ public class BoundaryTopLeftTest {
         IVmtiMetadataValue value =
                 VTargetPack.createValue(
                         VTargetMetadataKey.BoundaryTopLeft,
-                        new byte[] {(byte) 0x06, (byte) 0x40, (byte) 0x00});
+                        new byte[] {(byte) 0x06, (byte) 0x40, (byte) 0x00},
+                        EncodingMode.IMAPB);
         assertTrue(value instanceof BoundaryTopLeft);
         BoundaryTopLeft index = (BoundaryTopLeft) value;
         assertEquals(index.getBytes(), new byte[] {(byte) 0x06, (byte) 0x40, (byte) 0x00});

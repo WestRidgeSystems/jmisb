@@ -3,6 +3,7 @@ package org.jmisb.api.klv.st0903;
 import static org.testng.Assert.*;
 
 import org.jmisb.api.common.KlvParseException;
+import org.jmisb.api.klv.st0903.shared.EncodingMode;
 import org.jmisb.api.klv.st1204.CoreIdentifier;
 import org.testng.Assert;
 import org.testng.annotations.Test;
@@ -73,7 +74,9 @@ public class MiisCoreIdentifierTest {
 
     @Test
     public void verifyFromFactory() throws KlvParseException {
-        IVmtiMetadataValue v = VmtiLocalSet.createValue(VmtiMetadataKey.MiisId, ST_EXAMPLE_BYTES);
+        IVmtiMetadataValue v =
+                VmtiLocalSet.createValue(
+                        VmtiMetadataKey.MiisId, ST_EXAMPLE_BYTES, EncodingMode.IMAPB);
         Assert.assertTrue(v instanceof MiisCoreIdentifier);
         MiisCoreIdentifier identifier = (MiisCoreIdentifier) v;
         assertEquals(identifier.getDisplayableValue(), ST_EXAMPLE_TEXT);

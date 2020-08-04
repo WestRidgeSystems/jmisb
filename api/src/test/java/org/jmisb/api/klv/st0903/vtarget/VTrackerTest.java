@@ -6,6 +6,7 @@ import java.util.HashMap;
 import java.util.Map;
 import org.jmisb.api.common.KlvParseException;
 import org.jmisb.api.klv.st0903.IVmtiMetadataValue;
+import org.jmisb.api.klv.st0903.shared.EncodingMode;
 import org.jmisb.api.klv.st0903.shared.VmtiTextString;
 import org.jmisb.api.klv.st0903.vtracker.DetectionStatus;
 import org.jmisb.api.klv.st0903.vtracker.VTrackerLS;
@@ -28,6 +29,7 @@ public class VTrackerTest {
             };
 
     @Test
+    @SuppressWarnings("deprecation")
     public void testConstructFromEncodedBytes() throws KlvParseException {
         VTracker tracker = new VTracker(bytes);
         assertEquals(tracker.getBytes(), bytes);
@@ -36,8 +38,29 @@ public class VTrackerTest {
     }
 
     @Test
+    public void testConstructFromEncodedBytesExplicitEncodingIMAP() throws KlvParseException {
+        VTracker tracker = new VTracker(bytes, EncodingMode.IMAPB);
+        assertEquals(tracker.getBytes(), bytes);
+        assertEquals(tracker.getDisplayName(), "VTracker");
+        assertEquals(tracker.getDisplayableValue(), "[VTracker]");
+    }
+
+    @Test
+    @SuppressWarnings("deprecation")
     public void testFactoryEncodedBytes() throws KlvParseException {
         IVmtiMetadataValue value = VTargetPack.createValue(VTargetMetadataKey.VTracker, bytes);
+        assertTrue(value instanceof VTracker);
+        VTracker tracker = (VTracker) value;
+        assertEquals(tracker.getBytes().length, bytes.length);
+        assertEquals(tracker.getDisplayName(), "VTracker");
+        assertEquals(tracker.getDisplayableValue(), "[VTracker]");
+        assertEquals(tracker.getTracker().getTags().size(), 2);
+    }
+
+    @Test
+    public void testFactoryEncodedBytesExplicitEncodingIMAP() throws KlvParseException {
+        IVmtiMetadataValue value =
+                VTargetPack.createValue(VTargetMetadataKey.VTracker, bytes, EncodingMode.IMAPB);
         assertTrue(value instanceof VTracker);
         VTracker tracker = (VTracker) value;
         assertEquals(tracker.getBytes().length, bytes.length);
@@ -65,7 +88,8 @@ public class VTrackerTest {
                     0x74 // Tag 6 - algorithm
                 };
         IVmtiMetadataValue value =
-                VTargetPack.createValue(VTargetMetadataKey.VTracker, bytesWithUnknownTag);
+                VTargetPack.createValue(
+                        VTargetMetadataKey.VTracker, bytesWithUnknownTag, EncodingMode.IMAPB);
         assertTrue(value instanceof VTracker);
         VTracker tracker = (VTracker) value;
         assertEquals(tracker.getBytes().length, bytes.length);
