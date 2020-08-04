@@ -15,14 +15,14 @@ import org.jmisb.core.video.FfmpegUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
-/** Utility methods for demuxing */
+/** Utility methods for demuxing. */
 class DemuxerUtils {
     private static Logger logger = LoggerFactory.getLogger(DemuxerUtils.class);
 
     private DemuxerUtils() {}
 
     /**
-     * Create a VideoDecodeThread
+     * Create a VideoDecodeThread.
      *
      * @param videoStreamIndex Index of the video stream
      * @param avFormatContext The format context
@@ -47,7 +47,7 @@ class DemuxerUtils {
     }
 
     /**
-     * Read the next packet
+     * Read the next packet.
      *
      * @param avFormatContext The format context
      * @param packet The packet
@@ -71,7 +71,7 @@ class DemuxerUtils {
     }
 
     /**
-     * Seek to the specified position
+     * Seek to the specified position.
      *
      * @param avFormatContext The format context
      * @param seekPosition The position

@@ -39,7 +39,7 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 /**
- * Video decoding thread
+ * Video decoding thread.
  *
  * <p>This thread buffers and decodes video data, and sends uncompressed images in BGR24 format back
  * up to the {@link VideoInput}.
@@ -52,10 +52,10 @@ class VideoDecodeThread extends ProcessingThread {
     private AVCodecContext codecContext;
     private BlockingQueue<AVPacket> packetQueue = new LinkedBlockingDeque<>(INPUT_QUEUE_SIZE);
 
-    /** Image buffer in native stream format */
+    /** Image buffer in native stream format. */
     private AVFrame nativeFrame;
 
-    /** Image buffer in BGR24 format */
+    /** Image buffer in BGR24 format. */
     private AVFrame bgrFrame;
 
     private final FrameConverter frameConverter = new FrameConverter();
@@ -67,7 +67,7 @@ class VideoDecodeThread extends ProcessingThread {
     }
 
     /**
-     * Enqueue an incoming packet for decoding
+     * Enqueue an incoming packet for decoding.
      *
      * @param packet The packet to queue
      * @return True if the packet was queued, false if the queue is currently full
@@ -80,7 +80,7 @@ class VideoDecodeThread extends ProcessingThread {
         }
     }
 
-    /** Clear the queue of packets to be decoded and flush codec buffers */
+    /** Clear the queue of packets to be decoded and flush codec buffers. */
     public void clear() {
         packetQueue.clear();
         avcodec_flush_buffers(codecContext);

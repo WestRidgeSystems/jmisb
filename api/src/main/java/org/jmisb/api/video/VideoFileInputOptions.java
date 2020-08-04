@@ -1,17 +1,17 @@
 package org.jmisb.api.video;
 
-/** Options to be specified when opening an input file */
+/** Options to be specified when opening an input file. */
 public class VideoFileInputOptions extends VideoInputOptions {
-    /** Indicates playback will be paused when the file is first opened */
+    /** Indicates playback will be paused when the file is first opened. */
     private boolean initiallyPaused;
 
-    /** Constructor specifying default options */
+    /** Constructor specifying default options. */
     public VideoFileInputOptions() {
         this.initiallyPaused = false;
     }
 
     /**
-     * Constructor specifying custom options
+     * Constructor specifying custom options.
      *
      * @param decodeAudio True to decode audio (currently unsupported)
      * @param decodeMetadata True to decode metadata
@@ -28,7 +28,7 @@ public class VideoFileInputOptions extends VideoInputOptions {
     }
 
     /**
-     * Indicates whether playback will be initially paused
+     * Indicates whether playback will be initially paused.
      *
      * @return True if playback should be initially paused
      */

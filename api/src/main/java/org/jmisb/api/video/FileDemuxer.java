@@ -9,7 +9,7 @@ import org.jmisb.core.video.FfmpegUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
-/** Demux video/metadata contained in a file */
+/** Demux video/metadata contained in a file. */
 class FileDemuxer extends Demuxer {
     private static Logger logger = LoggerFactory.getLogger(FileDemuxer.class);
     private final VideoInput inputStream;
@@ -139,7 +139,7 @@ class FileDemuxer extends Demuxer {
     }
 
     /**
-     * Get the video frame rate
+     * Get the video frame rate.
      *
      * @return The video frame rate, in frames/second
      */

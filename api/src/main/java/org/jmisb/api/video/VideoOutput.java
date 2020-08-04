@@ -55,7 +55,7 @@ import org.jmisb.core.video.FfmpegUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
-/** Abstract base class for video output */
+/** Abstract base class for video output. */
 public abstract class VideoOutput extends VideoIO {
     private static Logger logger = LoggerFactory.getLogger(VideoOutput.class);
     protected VideoOutputOptions options;
@@ -88,7 +88,7 @@ public abstract class VideoOutput extends VideoIO {
     int framesWritten = 0;
 
     /**
-     * Constructor
+     * Constructor.
      *
      * @param options The output options
      */
@@ -97,7 +97,7 @@ public abstract class VideoOutput extends VideoIO {
     }
 
     /**
-     * Initialize the video and metadata codecs
+     * Initialize the video and metadata codecs.
      *
      * @throws IOException if an error occurs
      */
@@ -159,7 +159,7 @@ public abstract class VideoOutput extends VideoIO {
     }
 
     /**
-     * Allocate the format context
+     * Allocate the format context.
      *
      * @throws IOException if the format context could not be allocated
      */
@@ -175,7 +175,7 @@ public abstract class VideoOutput extends VideoIO {
     }
 
     /**
-     * Open the video codec
+     * Open the video codec.
      *
      * @return false if the codec could not be opened (e.g., unsupported by the OS/hardware)
      */
@@ -217,7 +217,7 @@ public abstract class VideoOutput extends VideoIO {
     }
 
     /**
-     * Create the video AVStream
+     * Create the video AVStream.
      *
      * @throws IOException if the AVStream could not be created
      */
@@ -241,7 +241,7 @@ public abstract class VideoOutput extends VideoIO {
         avFrameSrc = av_frame_alloc();
     }
 
-    /** Create the metadata stream */
+    /** Create the metadata stream. */
     void createMetadataStream() {
         metadataStream = avformat_new_stream(formatContext, metadataCodecContext.codec());
         metadataStream.index(METADATA_STREAM_INDEX);
@@ -249,7 +249,7 @@ public abstract class VideoOutput extends VideoIO {
         metadataStream.time_base(videoStream.time_base());
     }
 
-    /** Release any resources (to be called by any subclasses when stream/file is closed) */
+    /** Release any resources (to be called by any subclasses when stream/file is closed). */
     void cleanup() {
         if (formatContext != null && formatContext.pb() != null) {
             avio_close(formatContext.pb());
@@ -288,7 +288,7 @@ public abstract class VideoOutput extends VideoIO {
     }
 
     /**
-     * Copy a BufferedImage to avFrameDst, transforming to the pixel format required by the codec
+     * Copy a BufferedImage to avFrameDst, transforming to the pixel format required by the codec.
      *
      * @param image The input image
      * @throws IOException If the frame could not be written
@@ -382,7 +382,7 @@ public abstract class VideoOutput extends VideoIO {
     }
 
     /**
-     * Convert a MetadataFrame to an AVPacket
+     * Convert a MetadataFrame to an AVPacket.
      *
      * @param frame the MetadataFrame
      * @return The AVPacket
@@ -410,7 +410,7 @@ public abstract class VideoOutput extends VideoIO {
     }
 
     /**
-     * Encode a video frame
+     * Encode a video frame.
      *
      * @param frame The video frame
      * @throws IOException if an error occurs

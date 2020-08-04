@@ -3,7 +3,7 @@ package org.jmisb.api.video;
 import java.util.HashMap;
 import java.util.Map;
 
-/** Packetized Elementary Stream (PES) type */
+/** Packetized Elementary Stream (PES) type. */
 public enum PesType {
     UNKNOWN(-1),
     VIDEO(0),

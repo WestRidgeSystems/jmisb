@@ -4,7 +4,7 @@ import org.bytedeco.ffmpeg.avcodec.AVPacket;
 import org.bytedeco.ffmpeg.avformat.AVFormatContext;
 import org.jmisb.core.video.FfmpegUtils;
 
-/** Abstract base class for Demuxers */
+/** Abstract base class for Demuxers. */
 abstract class Demuxer extends ProcessingThread {
     final AVFormatContext avFormatContext;
     VideoDecodeThread videoDecodeThread;

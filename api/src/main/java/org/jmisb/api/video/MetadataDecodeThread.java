@@ -22,7 +22,7 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 /**
- * Metadata decoding thread
+ * Metadata decoding thread.
  *
  * <p>This thread decodes KLV metadata and sends {@link IMisbMessage}s up to the {@link VideoInput}.
  */
@@ -34,7 +34,7 @@ class MetadataDecodeThread extends ProcessingThread {
     private BlockingQueue<AVPacket> packetQueue = new LinkedBlockingDeque<>(INPUT_QUEUE_SIZE);
 
     /**
-     * Constructor
+     * Constructor.
      *
      * @param inputStream The {@link VideoInput}
      * @param dataStream The metadata stream
@@ -46,7 +46,7 @@ class MetadataDecodeThread extends ProcessingThread {
     }
 
     /**
-     * Enqueue an incoming packet for decoding
+     * Enqueue an incoming packet for decoding.
      *
      * @param packet The packet to queue
      * @return True if the packet was queued, false if the queue is currently full

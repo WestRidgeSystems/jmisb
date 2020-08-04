@@ -28,7 +28,7 @@ import org.jmisb.core.video.FfmpegUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
-/** Write video/metadata to a file */
+/** Write video/metadata to a file. */
 public class VideoFileOutput extends VideoOutput implements IVideoFileOutput {
     private static Logger logger = LoggerFactory.getLogger(VideoFileOutput.class);
     private String filename;
@@ -36,7 +36,7 @@ public class VideoFileOutput extends VideoOutput implements IVideoFileOutput {
     protected static final byte ASYNC_STREAM_ID = (byte) 0xBD;
 
     /**
-     * Constructor
+     * Constructor.
      *
      * @param options Options for video output
      */
@@ -150,7 +150,7 @@ public class VideoFileOutput extends VideoOutput implements IVideoFileOutput {
 
     /**
      * Takes all available packets out of the encoder's internal buffer, then writes them to the
-     * output
+     * output.
      *
      * @param eof If true, expect EOF and throw exception if not found
      * @throws IOException if expected EOF packet is not found
@@ -186,7 +186,7 @@ public class VideoFileOutput extends VideoOutput implements IVideoFileOutput {
     }
 
     /**
-     * Write all available data to the output before closing
+     * Write all available data to the output before closing.
      *
      * @throws IOException if the data could not be written
      */

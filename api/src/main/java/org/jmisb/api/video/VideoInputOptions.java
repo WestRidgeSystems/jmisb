@@ -1,12 +1,12 @@
 package org.jmisb.api.video;
 
-/** Options to be be specified when opening an input file or stream */
+/** Options to be be specified when opening an input file or stream. */
 public class VideoInputOptions {
     private final boolean decodeAudio;
     private final boolean decodeMetadata;
     private final boolean decodeVideo;
 
-    /** Construct with default values */
+    /** Construct with default values. */
     public VideoInputOptions() {
         decodeAudio = false;
         decodeMetadata = true;
@@ -14,7 +14,7 @@ public class VideoInputOptions {
     }
 
     /**
-     * Constructor
+     * Constructor.
      *
      * @param decodeAudio True to decode audio (currently unsupported)
      * @param decodeMetadata True to decode metadata

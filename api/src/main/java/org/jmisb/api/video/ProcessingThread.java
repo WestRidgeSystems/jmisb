@@ -2,7 +2,7 @@ package org.jmisb.api.video;
 
 import org.jmisb.core.video.TimingUtils;
 
-/** Thread allowing itself to be paused and unpaused */
+/** Thread allowing itself to be paused and unpaused. */
 class ProcessingThread extends Thread {
     private final Object pauseLock = new Object();
     private boolean shutdown = false;
@@ -10,7 +10,7 @@ class ProcessingThread extends Thread {
     private boolean pauseRequested = false;
 
     /**
-     * Pause if requested and check whether to shut down
+     * Pause if requested and check whether to shut down.
      *
      * @return True if the thread should shut down
      */
@@ -43,7 +43,11 @@ class ProcessingThread extends Thread {
         return shutdown;
     }
 
-    /** Pause the thread. This method blocks until the processing thread is paused. */
+    /**
+     * Pause the thread.
+     *
+     * <p>This method blocks until the processing thread is paused.
+     */
     protected void pause() {
         requestPause();
         while (!isPaused()) {
@@ -55,7 +59,11 @@ class ProcessingThread extends Thread {
         return paused;
     }
 
-    /** Request the thread be paused. This is a non-blocking call. */
+    /**
+     * Request the thread be paused.
+     *
+     * <p>This is a non-blocking call.
+     */
     protected void requestPause() {
         pauseRequested = true;
     }

@@ -2,10 +2,10 @@ package org.jmisb.api.video;
 
 import org.bytedeco.ffmpeg.avcodec.AVCodecContext;
 
-/** Utility methods for encoding/decoding */
+/** Utility methods for encoding/decoding. */
 public class CodecUtils {
     /**
-     * Get codec parameters as a string
+     * Get codec parameters as a string.
      *
      * @param context The AVCodecContext
      * @return String containing codec parameters
