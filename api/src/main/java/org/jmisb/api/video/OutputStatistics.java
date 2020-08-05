@@ -1,6 +1,6 @@
 package org.jmisb.api.video;
 
-/** Statistics reported by {@link VideoStreamOutput} */
+/** Statistics reported by {@link VideoStreamOutput}. */
 public class OutputStatistics {
     private long numVideoFramesSent;
     private long numVideoFramesQueued;
@@ -10,7 +10,7 @@ public class OutputStatistics {
     private long numMetadataFramesQueued;
 
     /**
-     * Get the total number of video frames sent since opening the stream
+     * Get the total number of video frames sent since opening the stream.
      *
      * @return The total number of video frames
      */
@@ -19,7 +19,7 @@ public class OutputStatistics {
     }
 
     /**
-     * Get the total number of video frames queued since opening the stream
+     * Get the total number of video frames queued since opening the stream.
      *
      * @return The total number of video frames
      */
@@ -28,7 +28,7 @@ public class OutputStatistics {
     }
 
     /**
-     * Get the total number of video frames encoded since opening the stream
+     * Get the total number of video frames encoded since opening the stream.
      *
      * @return The total number of video frames
      */
@@ -37,7 +37,7 @@ public class OutputStatistics {
     }
 
     /**
-     * Get the total number of metadata frames sent since opening the stream
+     * Get the total number of metadata frames sent since opening the stream.
      *
      * @return The total number of metadata frames
      */
@@ -46,7 +46,7 @@ public class OutputStatistics {
     }
 
     /**
-     * Get the total number of metadata frames queued since opening the stream
+     * Get the total number of metadata frames queued since opening the stream.
      *
      * @return The total number of metadata frames
      */
@@ -54,7 +54,7 @@ public class OutputStatistics {
         return numMetadataFramesQueued;
     }
 
-    /** Reset the statistics to zero */
+    /** Reset the statistics to zero. */
     void reset() {
         numVideoFramesSent = 0;
         numVideoFramesQueued = 0;
@@ -62,27 +62,27 @@ public class OutputStatistics {
         numMetadataFramesQueued = 0;
     }
 
-    /** Increment the total number of video frames queued */
+    /** Increment the total number of video frames queued. */
     void videoFrameQueued() {
         numVideoFramesQueued++;
     }
 
-    /** Increment the total number of video frames sent */
+    /** Increment the total number of video frames sent. */
     void videoFrameSent() {
         numVideoFramesSent++;
     }
 
-    /** Increment the total number of frames encoded */
+    /** Increment the total number of frames encoded. */
     void videoFrameEncoded() {
         numVideoFramesEncoded++;
     }
 
-    /** Increment the total number of metadata frames queued */
+    /** Increment the total number of metadata frames queued. */
     void metadataFrameQueued() {
         numMetadataFramesQueued++;
     }
 
-    /** Increment the total number of metadata frames sent */
+    /** Increment the total number of metadata frames sent. */
     void metadataFrameSent() {
         numMetadataFramesSent++;
     }

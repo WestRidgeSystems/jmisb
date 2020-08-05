@@ -1,6 +1,6 @@
 package org.jmisb.api.video;
 
-/** Options to be specified when opening an output file or stream */
+/** Options to be specified when opening an output file or stream. */
 public class VideoOutputOptions {
     private final int width;
     private final int height;
@@ -10,7 +10,7 @@ public class VideoOutputOptions {
     private final boolean klvStream;
 
     /**
-     * Construct with default values
+     * Construct with default values.
      *
      * @param width Video frame width, in pixels
      * @param height Video frame height, in pixels
@@ -20,7 +20,7 @@ public class VideoOutputOptions {
     }
 
     /**
-     * Constructor
+     * Constructor.
      *
      * @param width Video frame width, in pixels
      * @param height Video frame height, in pixels
@@ -45,7 +45,7 @@ public class VideoOutputOptions {
     }
 
     /**
-     * Get the image width
+     * Get the image width.
      *
      * @return Width in pixels
      */
@@ -54,7 +54,7 @@ public class VideoOutputOptions {
     }
 
     /**
-     * Get the image height
+     * Get the image height.
      *
      * @return Height in pixels
      */
@@ -63,7 +63,7 @@ public class VideoOutputOptions {
     }
 
     /**
-     * Get the stream bit rate
+     * Get the stream bit rate.
      *
      * @return Bit rate in bits/second
      */
@@ -72,7 +72,7 @@ public class VideoOutputOptions {
     }
 
     /**
-     * Get the stream frame rate
+     * Get the stream frame rate.
      *
      * @return Frame rate in frames/second
      */
@@ -81,7 +81,7 @@ public class VideoOutputOptions {
     }
 
     /**
-     * Get the Group of pictures (GOP) size
+     * Get the Group of pictures (GOP) size.
      *
      * @return GOP size, i.e., the I-frame interval
      */
@@ -90,7 +90,7 @@ public class VideoOutputOptions {
     }
 
     /**
-     * Check if the output has a KLV data stream
+     * Check if the output has a KLV data stream.
      *
      * @return True if the output has a KLV stream
      */

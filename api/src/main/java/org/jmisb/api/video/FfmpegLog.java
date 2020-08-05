@@ -14,7 +14,7 @@ import org.bytedeco.javacpp.BytePointer;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
-/** Singleton class to redirect FFmpeg's logging to SLF4J */
+/** Singleton class to redirect FFmpeg's logging to SLF4J. */
 class FfmpegLog extends LogCallback {
     private static final Logger logger = LoggerFactory.getLogger(FfmpegLog.class);
     static final FfmpegLog INSTANCE = new FfmpegLog();
@@ -46,7 +46,7 @@ class FfmpegLog extends LogCallback {
     }
 
     /**
-     * Adjust the FFmpeg logging level based on heuristics
+     * Adjust the FFmpeg logging level based on heuristics.
      *
      * @param origLevel The original FFmpeg log level
      * @param message The message string

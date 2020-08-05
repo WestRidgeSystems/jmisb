@@ -2,14 +2,14 @@ package org.jmisb.api.video;
 
 import java.util.List;
 
-/** Packetized Elementary Stream (PES) information */
+/** Packetized Elementary Stream (PES) information. */
 public class PesInfo {
     private final int index;
     private final PesType type;
     private final String codecName;
 
     /**
-     * Constructor
+     * Constructor.
      *
      * @param index The stream index
      * @param type The type
@@ -22,7 +22,7 @@ public class PesInfo {
     }
 
     /**
-     * Get the stream index
+     * Get the stream index.
      *
      * @return The stream index
      */
@@ -31,7 +31,7 @@ public class PesInfo {
     }
 
     /**
-     * Get the type
+     * Get the type.
      *
      * @return The type
      */
@@ -40,7 +40,7 @@ public class PesInfo {
     }
 
     /**
-     * Get the codec name
+     * Get the codec name.
      *
      * @return The codec name
      */
@@ -49,7 +49,7 @@ public class PesInfo {
     }
 
     /**
-     * Return a JSON string representing the value
+     * Return a JSON string representing the value.
      *
      * @return The JSON string
      */
@@ -71,7 +71,7 @@ public class PesInfo {
     }
 
     /**
-     * Return a JSON string containing a list of PesInfo objects
+     * Return a JSON string containing a list of PesInfo objects.
      *
      * @param list The list
      * @return The JSON string

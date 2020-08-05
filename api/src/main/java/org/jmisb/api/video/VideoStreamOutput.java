@@ -22,7 +22,7 @@ import org.jmisb.core.video.FfmpegUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
-/** Manages an outgoing video stream */
+/** Manages an outgoing video stream. */
 public class VideoStreamOutput extends VideoOutput implements IVideoStreamOutput {
     private static Logger logger = LoggerFactory.getLogger(VideoStreamOutput.class);
     private String url;
@@ -41,7 +41,7 @@ public class VideoStreamOutput extends VideoOutput implements IVideoStreamOutput
     private OutputStatistics outputStatistics = new OutputStatistics();
 
     /**
-     * Constructor
+     * Constructor.
      *
      * @param options Options for video output
      */
@@ -166,7 +166,7 @@ public class VideoStreamOutput extends VideoOutput implements IVideoStreamOutput
         return outputStatistics;
     }
 
-    /** Create the video encoder runnable to be run in the background */
+    /** Create the video encoder runnable to be run in the background. */
     private void createVideoEncoder() {
         videoEncoder =
                 () -> {
@@ -209,7 +209,7 @@ public class VideoStreamOutput extends VideoOutput implements IVideoStreamOutput
                 };
     }
 
-    /** Create the packet sender runnable, to be called once every 1/frame_rate seconds */
+    /** Create the packet sender runnable, to be called once every 1/frame_rate seconds. */
     private void createPacketSender() {
         packetSender =
                 () -> {

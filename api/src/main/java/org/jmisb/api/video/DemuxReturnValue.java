@@ -6,7 +6,7 @@ enum DemuxReturnValue {
     SUCCESS,
     /** End of file. */
     EOF,
-    /** Operation needs to be tried again */
+    /** Operation needs to be tried again. */
     EAGAIN,
     /** Some other failure. */
     ERROR

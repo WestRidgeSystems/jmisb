@@ -8,7 +8,7 @@ import org.bytedeco.ffmpeg.avformat.AVFormatContext;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
-/** Demux video/metadata contained in a network stream */
+/** Demux video/metadata contained in a network stream. */
 class StreamDemuxer extends Demuxer {
     private static Logger logger = LoggerFactory.getLogger(StreamDemuxer.class);
     private final VideoInput inputStream;

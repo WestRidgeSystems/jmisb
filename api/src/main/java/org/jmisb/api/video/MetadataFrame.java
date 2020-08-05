@@ -2,13 +2,13 @@ package org.jmisb.api.video;
 
 import org.jmisb.api.klv.IMisbMessage;
 
-/** A timestamped metadata packet containing one {@link IMisbMessage} */
+/** A timestamped metadata packet containing one {@link IMisbMessage}. */
 public class MetadataFrame {
     private final IMisbMessage misbMessage;
     private final double pts;
 
     /**
-     * Create a metadata frame
+     * Create a metadata frame.
      *
      * @param misbMessage The message packet
      * @param pts The presentation timestamp, in seconds
@@ -19,7 +19,7 @@ public class MetadataFrame {
     }
 
     /**
-     * Get the message packet
+     * Get the message packet.
      *
      * @return The message packet
      */
@@ -28,7 +28,7 @@ public class MetadataFrame {
     }
 
     /**
-     * Get the presentation timestamp
+     * Get the presentation timestamp.
      *
      * @return The presentation timestamp, in seconds
      */

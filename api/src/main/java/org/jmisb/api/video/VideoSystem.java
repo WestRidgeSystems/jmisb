@@ -6,7 +6,7 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 /**
- * Central class used to instantiate all streams
+ * Central class used to instantiate all streams.
  *
  * <p>When possible, it is recommended that <i>try-with-resources</i> blocks be used when creating
  * instances using any of the {@code create*} methods of this class to ensure that the instance's
@@ -41,7 +41,7 @@ public class VideoSystem {
     }
 
     /**
-     * Create a VideoStreamInput
+     * Create a VideoStreamInput.
      *
      * @return The created stream
      */
@@ -51,7 +51,7 @@ public class VideoSystem {
     }
 
     /**
-     * Create a VideoStreamInput
+     * Create a VideoStreamInput.
      *
      * @param options Input stream options
      * @return The created instance
@@ -61,7 +61,7 @@ public class VideoSystem {
     }
 
     /**
-     * Create a VideoFileInput
+     * Create a VideoFileInput.
      *
      * @return The created instance
      */
@@ -71,7 +71,7 @@ public class VideoSystem {
     }
 
     /**
-     * Create a VideoFileInput
+     * Create a VideoFileInput.
      *
      * @param options Input file options
      * @return The created instance
@@ -81,7 +81,7 @@ public class VideoSystem {
     }
 
     /**
-     * Create a VideoFileOutput
+     * Create a VideoFileOutput.
      *
      * @param options Output options
      * @return The created instance
@@ -91,7 +91,7 @@ public class VideoSystem {
     }
 
     /**
-     * Create a VideoStreamOutput
+     * Create a VideoStreamOutput.
      *
      * @param options Output options
      * @return The created instance

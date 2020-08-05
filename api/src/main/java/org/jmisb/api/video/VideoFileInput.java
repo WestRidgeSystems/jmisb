@@ -22,7 +22,7 @@ import org.jmisb.core.video.FfmpegUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
-/** Read video/metadata from a file */
+/** Read video/metadata from a file. */
 public class VideoFileInput extends VideoInput implements IVideoFileInput {
     private static final Logger logger = LoggerFactory.getLogger(VideoFileInput.class);
     private final VideoFileInputOptions options;
@@ -41,13 +41,13 @@ public class VideoFileInput extends VideoInput implements IVideoFileInput {
     private double prevVideoPts;
     private long videoDelay;
 
-    /** Construct with default options */
+    /** Construct with default options. */
     public VideoFileInput() {
         this(new VideoFileInputOptions());
     }
 
     /**
-     * Construct with options
+     * Construct with options.
      *
      * @param options Options for video input
      */
@@ -289,7 +289,7 @@ public class VideoFileInput extends VideoInput implements IVideoFileInput {
         }
     }
 
-    /** Stop the demuxer thread */
+    /** Stop the demuxer thread. */
     private void stopFileDemuxer() {
         demuxer.shutdown();
         try {

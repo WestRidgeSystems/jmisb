@@ -17,20 +17,20 @@ import org.jmisb.core.video.FfmpegUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
-/** Manages an incoming video stream */
+/** Manages an incoming video stream. */
 public class VideoStreamInput extends VideoInput implements IVideoStreamInput {
     private static final Logger logger = LoggerFactory.getLogger(VideoStreamInput.class);
     private final VideoStreamInputOptions options;
     private StreamDemuxer demuxer;
     private boolean open = false;
 
-    /** Construct with default options */
+    /** Construct with default options. */
     public VideoStreamInput() {
         this(new VideoStreamInputOptions());
     }
 
     /**
-     * Construct with options
+     * Construct with options.
      *
      * @param options Options for video input
      */
@@ -140,7 +140,7 @@ public class VideoStreamInput extends VideoInput implements IVideoStreamInput {
         // No-op
     }
 
-    /** Stop the demuxer thread */
+    /** Stop the demuxer thread. */
     private void stopStreamDemuxer() {
         demuxer.shutdown();
         try {

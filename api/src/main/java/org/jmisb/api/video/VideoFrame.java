@@ -2,13 +2,13 @@ package org.jmisb.api.video;
 
 import java.awt.image.BufferedImage;
 
-/** An uncompressed video frame */
+/** An uncompressed video frame. */
 public class VideoFrame {
     private final BufferedImage bufferedImage;
     private final double pts;
 
     /**
-     * Create a video frame
+     * Create a video frame.
      *
      * @param image The image
      * @param pts The presentation timestamp, in seconds
@@ -19,7 +19,7 @@ public class VideoFrame {
     }
 
     /**
-     * Get the image
+     * Get the image.
      *
      * @return The image
      */
@@ -28,7 +28,7 @@ public class VideoFrame {
     }
 
     /**
-     * Get the presentation timestamp
+     * Get the presentation timestamp.
      *
      * @return The presentation timestamp, in seconds
      */

@@ -20,16 +20,16 @@ import org.jmisb.core.video.FfmpegUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
-/** Abstract base class for video input */
+/** Abstract base class for video input. */
 public abstract class VideoInput extends VideoIO implements IVideoInput {
     private static Logger logger = LoggerFactory.getLogger(VideoInput.class);
     private Set<IVideoListener> videoListeners = new HashSet<>();
     private Set<IMetadataListener> metadataListeners = new HashSet<>();
 
-    /** Queue of decoded video frames ready to be sent to listeners */
+    /** Queue of decoded video frames ready to be sent to listeners. */
     private BlockingQueue<VideoFrame> decodedVideo = new LinkedBlockingQueue<>(QUEUE_SIZE);
 
-    /** Queue of metadata frames ready to be sent to listeners */
+    /** Queue of metadata frames ready to be sent to listeners. */
     private BlockingQueue<MetadataFrame> decodedMetadata = new LinkedBlockingQueue<>(QUEUE_SIZE);
 
     VideoNotifier videoNotifier;
@@ -50,14 +50,14 @@ public abstract class VideoInput extends VideoIO implements IVideoInput {
     public abstract void close();
 
     /**
-     * Insert a sleep to control playback rate prior to notifying clients
+     * Insert a sleep to control playback rate prior to notifying clients.
      *
      * @param pts PTS of the video frame to be delivered
      */
     protected abstract void delayVideo(double pts);
 
     /**
-     * Insert a sleep to control playback rate prior to notifying clients
+     * Insert a sleep to control playback rate prior to notifying clients.
      *
      * @param pts PTS of the metadata frame to be delivered
      * @throws InterruptedException If the thread is interrupted while waiting
@@ -104,7 +104,7 @@ public abstract class VideoInput extends VideoIO implements IVideoInput {
     }
 
     /**
-     * Attempt to queue a newly decoded video frame for client notification
+     * Attempt to queue a newly decoded video frame for client notification.
      *
      * @param frame The video frame
      * @param timeout Milliseconds to wait for the queue to become available before failing
@@ -121,7 +121,7 @@ public abstract class VideoInput extends VideoIO implements IVideoInput {
     }
 
     /**
-     * Attempt to queue a newly decoded metadata frame for client notification
+     * Attempt to queue a newly decoded metadata frame for client notification.
      *
      * @param frame The metadata frame
      * @param timeout Milliseconds to wait for the queue to become available before failing
@@ -137,7 +137,7 @@ public abstract class VideoInput extends VideoIO implements IVideoInput {
     }
 
     /**
-     * Start up the notifier threads
+     * Start up the notifier threads.
      *
      * @param startPaused True to begin in a paused state
      */
@@ -173,7 +173,7 @@ public abstract class VideoInput extends VideoIO implements IVideoInput {
         decodedMetadata.clear();
     }
 
-    /** Thread to notify clients of new video frames */
+    /** Thread to notify clients of new video frames. */
     protected class VideoNotifier extends Thread {
         private volatile boolean shutdown = false;
         private boolean paused = false;
@@ -230,7 +230,7 @@ public abstract class VideoInput extends VideoIO implements IVideoInput {
         }
     }
 
-    /** Thread to notify clients of new metadata */
+    /** Thread to notify clients of new metadata. */
     protected class MetadataNotifier extends Thread {
         private volatile boolean shutdown = false;
         private boolean paused = false;
@@ -280,7 +280,7 @@ public abstract class VideoInput extends VideoIO implements IVideoInput {
     }
 
     /**
-     * Copy a VideoFrame
+     * Copy a VideoFrame.
      *
      * @param frame The frame to copy
      * @return The newly allocated frame
@@ -293,7 +293,7 @@ public abstract class VideoInput extends VideoIO implements IVideoInput {
                 new BufferedImage(cm, raster, isAlphaPremultiplied, null), frame.getPts());
     }
 
-    /** Free the format context */
+    /** Free the format context. */
     void freeContext() {
         if (formatContext != null) {
             avformat_close_input(formatContext);

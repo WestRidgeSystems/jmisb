@@ -7,5 +7,4 @@
     <suppress files="[\\/]api[\\/]klv[\\/]eg0104[\\/]" checks="[a-zA-Z0-9]*"/>
     <suppress files="[\\/]api[\\/]klv[\\/]st0601[\\/]" checks="[a-zA-Z0-9]*"/>
     <suppress files="[\\/]api[\\/]klv[\\/]st0805[\\/]" checks="[a-zA-Z0-9]*"/>
-    <suppress files="[\\/]api[\\/]video[\\/]" checks="[a-zA-Z0-9]*"/>
 </suppressions>
