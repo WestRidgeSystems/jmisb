@@ -2,14 +2,14 @@ package org.jmisb.api.klv.st0805;
 
 import org.jmisb.api.klv.st0601.*;
 
-/** Perform KLV to CoT conversion as defined by ST 0805 */
+/** Perform KLV to CoT conversion as defined by ST 0805. */
 public class KlvToCot {
     private static String platformType = "a-f-A";
 
     private KlvToCot() {}
 
     /**
-     * Convert a MISB UAS Datalink message to a CoT Sensor Point of Interest (SPI) message
+     * Convert a MISB UAS Datalink message to a CoT Sensor Point of Interest (SPI) message.
      *
      * @param uasMessage The UAS Datalink message to convert
      * @return The CoT message
@@ -103,7 +103,7 @@ public class KlvToCot {
     }
 
     /**
-     * Convert a UAS Datalink message to a CoT Platform Position message
+     * Convert a UAS Datalink message to a CoT Platform Position message.
      *
      * @param uasMessage The UAS Datalink message to convert
      * @return The CoT message
