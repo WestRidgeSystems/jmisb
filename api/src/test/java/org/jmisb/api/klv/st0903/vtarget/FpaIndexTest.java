@@ -4,6 +4,7 @@ import static org.testng.Assert.*;
 
 import org.jmisb.api.common.KlvParseException;
 import org.jmisb.api.klv.st0903.IVmtiMetadataValue;
+import org.jmisb.api.klv.st0903.shared.EncodingMode;
 import org.testng.annotations.Test;
 
 /** Tests for FPA Index (Tag 21) */
@@ -35,7 +36,9 @@ public class FpaIndexTest {
     public void testFactory() throws KlvParseException {
         IVmtiMetadataValue value =
                 VTargetPack.createValue(
-                        VTargetMetadataKey.FPAIndex, new byte[] {(byte) 0x02, (byte) 0x03});
+                        VTargetMetadataKey.FPAIndex,
+                        new byte[] {(byte) 0x02, (byte) 0x03},
+                        EncodingMode.IMAPB);
         assertTrue(value instanceof FpaIndex);
         FpaIndex fpaIndex = (FpaIndex) value;
         assertEquals(fpaIndex.getDisplayName(), "FPA Index");

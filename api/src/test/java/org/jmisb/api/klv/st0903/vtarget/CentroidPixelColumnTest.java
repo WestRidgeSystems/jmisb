@@ -4,6 +4,7 @@ import static org.testng.Assert.*;
 
 import org.jmisb.api.common.KlvParseException;
 import org.jmisb.api.klv.st0903.IVmtiMetadataValue;
+import org.jmisb.api.klv.st0903.shared.EncodingMode;
 import org.testng.annotations.Test;
 
 /** Tests for Centroid Pixel Column (Tag 20) */
@@ -34,7 +35,8 @@ public class CentroidPixelColumnTest {
         IVmtiMetadataValue value =
                 VTargetPack.createValue(
                         VTargetMetadataKey.CentroidPixColumn,
-                        new byte[] {(byte) 0x04, (byte) 0x71});
+                        new byte[] {(byte) 0x04, (byte) 0x71},
+                        EncodingMode.IMAPB);
         assertTrue(value instanceof CentroidPixelColumn);
         CentroidPixelColumn index = (CentroidPixelColumn) value;
         assertEquals(index.getBytes(), new byte[] {(byte) 0x04, (byte) 0x71});

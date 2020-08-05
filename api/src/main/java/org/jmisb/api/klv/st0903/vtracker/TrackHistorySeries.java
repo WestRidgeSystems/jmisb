@@ -8,6 +8,7 @@ import org.jmisb.api.klv.BerDecoder;
 import org.jmisb.api.klv.BerEncoder;
 import org.jmisb.api.klv.BerField;
 import org.jmisb.api.klv.st0903.IVmtiMetadataValue;
+import org.jmisb.api.klv.st0903.shared.EncodingMode;
 import org.jmisb.api.klv.st0903.shared.LocationPack;
 import org.jmisb.api.klv.st0903.vtarget.TargetLocation;
 import org.jmisb.core.klv.ArrayUtils;
@@ -42,16 +43,42 @@ public class TrackHistorySeries implements IVmtiMetadataValue {
     /**
      * Create from encoded bytes.
      *
+     * <p>Note this constructor only supports ST0903.4 and later.
+     *
      * @param bytes Encoded byte array comprising the Track History Series
      * @throws KlvParseException if the byte array could not be parsed.
+     * @deprecated use {@link #TrackHistorySeries(byte[], EncodingMode)} to explicitly specify the
+     *     encoding mode use in the LocationPack floating point values.
      */
+    @Deprecated
     public TrackHistorySeries(byte[] bytes) throws KlvParseException {
+        this(bytes, EncodingMode.IMAPB);
+    }
+
+    /**
+     * Create from encoded bytes.
+     *
+     * <p>ST0903 changed the encoding for the Location to 2-byte IMAPB (4-byte IMAPB for Latitude /
+     * Longitude) in ST0903.4. Earlier versions used a set of unsigned integer encoding that was
+     * then mapped into the same ranges that the IMAPB encoding uses. Which formatting applies can
+     * only be determined from the ST0903 version in the parent {@link
+     * org.jmisb.api.klv.st0903.VmtiLocalSet}. The {@code compatibilityMode} parameter determines
+     * whether to parse using the legacy encoding or current encoding.
+     *
+     * <p>Note that this only affects parsing. Output encoding is IMAPB (ST0903.4 or later).
+     *
+     * @param bytes Encoded byte array comprising the Track History Series
+     * @param encodingMode which encoding mode the {@code bytes} parameter uses.
+     * @throws KlvParseException if the byte array could not be parsed.
+     */
+    public TrackHistorySeries(byte[] bytes, EncodingMode encodingMode) throws KlvParseException {
         int index = 0;
         while (index < bytes.length - 1) {
             BerField lengthField = BerDecoder.decode(bytes, index, false);
             index += lengthField.getLength();
             byte[] packBytes = Arrays.copyOfRange(bytes, index, index + lengthField.getValue());
-            LocationPack location = TargetLocation.targetLocationPackFromBytes(packBytes);
+            LocationPack location =
+                    TargetLocation.targetLocationPackFromBytes(packBytes, encodingMode);
             history.add(location);
             index += lengthField.getValue();
         }

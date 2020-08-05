@@ -9,6 +9,7 @@ import java.util.TreeMap;
 import org.jmisb.api.common.KlvParseException;
 import org.jmisb.api.klv.st0903.algorithm.AlgorithmLS;
 import org.jmisb.api.klv.st0903.algorithm.AlgorithmMetadataKey;
+import org.jmisb.api.klv.st0903.shared.EncodingMode;
 import org.jmisb.api.klv.st0903.shared.VmtiTextString;
 import org.testng.annotations.BeforeMethod;
 import org.testng.annotations.Test;
@@ -69,7 +70,8 @@ public class AlgorithmSeriesTest {
     @Test
     public void testFactoryEncodedBytes() throws KlvParseException {
         IVmtiMetadataValue value =
-                VmtiLocalSet.createValue(VmtiMetadataKey.AlgorithmSeries, twoAlgorithmsBytes);
+                VmtiLocalSet.createValue(
+                        VmtiMetadataKey.AlgorithmSeries, twoAlgorithmsBytes, EncodingMode.IMAPB);
         assertNotNull(value);
         assertTrue(value instanceof AlgorithmSeries);
         AlgorithmSeries algorithmSeries = (AlgorithmSeries) value;

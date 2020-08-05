@@ -2,6 +2,7 @@ package org.jmisb.api.klv.st0903.vtarget;
 
 import org.jmisb.api.common.KlvParseException;
 import org.jmisb.api.klv.st0903.IVmtiMetadataValue;
+import org.jmisb.api.klv.st0903.shared.EncodingMode;
 import org.jmisb.api.klv.st0903.vtracker.VTrackerLS;
 
 /**
@@ -33,11 +34,27 @@ public class VTracker implements IVmtiMetadataValue {
     /**
      * Create from encoded bytes.
      *
+     * <p>This constructor only supports ST0903.4 and later.
+     *
      * @param bytes Encoded byte array comprising the VTracker LS
      * @throws KlvParseException if the byte array could not be parsed.
+     * @deprecated use {@link #VTracker(byte[], org.jmisb.api.klv.st0903.shared.EncodingMode)} to
+     *     specify the encoding format for nested floating point values.
      */
+    @Deprecated
     public VTracker(byte[] bytes) throws KlvParseException {
-        value = new VTrackerLS(bytes);
+        this(bytes, EncodingMode.IMAPB);
+    }
+
+    /**
+     * Create from encoded bytes.
+     *
+     * @param bytes Encoded byte array comprising the VTracker LS
+     * @param encodingMode which encoding mode the {@code bytes} parameter uses.
+     * @throws KlvParseException if the byte array could not be parsed.
+     */
+    public VTracker(byte[] bytes, EncodingMode encodingMode) throws KlvParseException {
+        value = new VTrackerLS(bytes, encodingMode);
     }
 
     @Override

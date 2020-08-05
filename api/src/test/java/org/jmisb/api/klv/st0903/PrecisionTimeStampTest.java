@@ -7,6 +7,7 @@ import java.time.ZoneId;
 import java.time.ZoneOffset;
 import java.time.temporal.ChronoUnit;
 import org.jmisb.api.common.KlvParseException;
+import org.jmisb.api.klv.st0903.shared.EncodingMode;
 import org.testng.Assert;
 import org.testng.annotations.Test;
 
@@ -73,7 +74,9 @@ public class PrecisionTimeStampTest {
                     (byte) 0xCE,
                     (byte) 0x40
                 };
-        IVmtiMetadataValue v = VmtiLocalSet.createValue(VmtiMetadataKey.PrecisionTimeStamp, bytes);
+        IVmtiMetadataValue v =
+                VmtiLocalSet.createValue(
+                        VmtiMetadataKey.PrecisionTimeStamp, bytes, EncodingMode.IMAPB);
         Assert.assertTrue(v instanceof PrecisionTimeStamp);
         Assert.assertEquals(v.getDisplayName(), "Precision Time Stamp");
         PrecisionTimeStamp pts = (PrecisionTimeStamp) v;

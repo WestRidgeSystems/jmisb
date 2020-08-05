@@ -18,6 +18,7 @@ import org.jmisb.api.klv.LdsField;
 import org.jmisb.api.klv.LdsParser;
 import org.jmisb.api.klv.UniversalLabel;
 import org.jmisb.api.klv.st0601.Checksum;
+import org.jmisb.api.klv.st0903.shared.EncodingMode;
 import org.jmisb.api.klv.st0903.shared.VmtiTextString;
 import org.jmisb.core.klv.ArrayUtils;
 import org.slf4j.Logger;
@@ -29,13 +30,36 @@ public class VmtiLocalSet implements IMisbMessage {
     /**
      * Create a {@link IVmtiMetadataValue} instance from encoded bytes.
      *
+     * <p>This method only supports ST0903.4 and later for values that are (or nest) floating point
+     * values.
+     *
      * @param tag The tag defining the value type
      * @param bytes Encoded bytes
-     * @return The new instance
+     * @return the new instance
      * @throws KlvParseException if the byte array could not be parsed.
+     * @deprecated Use {@link #createValue(VmtiMetadataKey, byte[], EncodingMode)} to explicitly
+     *     identify what encoding to use.
      */
-    public static IVmtiMetadataValue createValue(VmtiMetadataKey tag, byte[] bytes)
-            throws KlvParseException {
+    @Deprecated
+    public static org.jmisb.api.klv.st0903.IVmtiMetadataValue createValue(
+            VmtiMetadataKey tag, byte[] bytes) throws org.jmisb.api.common.KlvParseException {
+        return createValue(tag, bytes, EncodingMode.IMAPB);
+    }
+
+    /**
+     * Create a {@link IVmtiMetadataValue} instance from encoded bytes.
+     *
+     * <p>This constructor allows selection of which encoding rules (according to the ST903 version)
+     * to apply.
+     *
+     * @param tag The tag defining the value type
+     * @param bytes Encoded bytes
+     * @param encodingMode which encoding mode the {@code bytes} parameter uses.
+     * @throws KlvParseException if the byte array could not be parsed.
+     * @return the new instance
+     */
+    public static IVmtiMetadataValue createValue(
+            VmtiMetadataKey tag, byte[] bytes, EncodingMode encodingMode) throws KlvParseException {
         // This is fully implemented as of ST0903.5
         switch (tag) {
                 // No Checksum - handled automatically
@@ -58,13 +82,13 @@ public class VmtiLocalSet implements IMisbMessage {
             case SourceSensor:
                 return new VmtiTextString(VmtiTextString.SOURCE_SENSOR, bytes);
             case HorizontalFieldOfView:
-                return new VmtiHorizontalFieldOfView(bytes);
+                return new VmtiHorizontalFieldOfView(bytes, encodingMode);
             case VerticalFieldOfView:
-                return new VmtiVerticalFieldOfView(bytes);
+                return new VmtiVerticalFieldOfView(bytes, encodingMode);
             case MiisId:
                 return new MiisCoreIdentifier(bytes);
             case VTargetSeries:
-                return new VTargetSeries(bytes);
+                return new VTargetSeries(bytes, encodingMode);
             case AlgorithmSeries:
                 return new AlgorithmSeries(bytes);
             case OntologySeries:
@@ -95,7 +119,18 @@ public class VmtiLocalSet implements IMisbMessage {
      */
     public VmtiLocalSet(byte[] bytes) throws KlvParseException {
         int offset = 0;
+        EncodingMode encodingMode = EncodingMode.IMAPB;
         List<LdsField> fields = LdsParser.parseFields(bytes, offset, bytes.length);
+        for (LdsField field : fields) {
+            VmtiMetadataKey key = VmtiMetadataKey.getKey(field.getTag());
+            if (key.equals(VmtiMetadataKey.VersionNumber)) {
+                ST0903Version version = new ST0903Version(field.getData());
+                if (version.getVersion() < 4) {
+                    encodingMode = EncodingMode.LEGACY;
+                }
+                break;
+            }
+        }
         for (LdsField field : fields) {
             VmtiMetadataKey key = VmtiMetadataKey.getKey(field.getTag());
             switch (key) {
@@ -112,7 +147,7 @@ public class VmtiLocalSet implements IMisbMessage {
                     break;
                 default:
                     try {
-                        IVmtiMetadataValue value = createValue(key, field.getData());
+                        IVmtiMetadataValue value = createValue(key, field.getData(), encodingMode);
                         map.put(key, value);
                     } catch (KlvParseException | IllegalArgumentException ex) {
                         InvalidDataHandler.getInstance()

@@ -4,6 +4,7 @@ import static org.testng.Assert.*;
 
 import org.jmisb.api.common.KlvParseException;
 import org.jmisb.api.klv.st0903.IVmtiMetadataValue;
+import org.jmisb.api.klv.st0903.shared.EncodingMode;
 import org.testng.annotations.Test;
 
 /**
@@ -37,7 +38,8 @@ public class TargetCentroidTest {
         IVmtiMetadataValue value =
                 VTargetPack.createValue(
                         VTargetMetadataKey.TargetCentroid,
-                        new byte[] {(byte) 0x06, (byte) 0x40, (byte) 0x00});
+                        new byte[] {(byte) 0x06, (byte) 0x40, (byte) 0x00},
+                        EncodingMode.IMAPB);
         assertTrue(value instanceof TargetCentroid);
         TargetCentroid index = (TargetCentroid) value;
         assertEquals(index.getBytes(), new byte[] {(byte) 0x06, (byte) 0x40, (byte) 0x00});

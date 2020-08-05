@@ -7,6 +7,7 @@ import java.util.List;
 import java.util.SortedMap;
 import java.util.TreeMap;
 import org.jmisb.api.common.KlvParseException;
+import org.jmisb.api.klv.st0903.shared.EncodingMode;
 import org.jmisb.api.klv.st0903.vtarget.CentroidPixelColumn;
 import org.jmisb.api.klv.st0903.vtarget.CentroidPixelRow;
 import org.jmisb.api.klv.st0903.vtarget.TargetHAE;
@@ -17,7 +18,7 @@ import org.testng.annotations.BeforeMethod;
 import org.testng.annotations.Test;
 
 /** Tests for VTargetSeries (Tag 101) */
-public class VTargetSeriesTest {
+public class VTargetSeriesIMAPBTest {
     private VTargetSeries vTargetSeriesFromBytes;
     private VTargetSeries vTargetSeriesFromVTargets;
 
@@ -45,9 +46,8 @@ public class VTargetSeriesTest {
             };
 
     @BeforeMethod
-    @SuppressWarnings("deprecation")
     public void setUpMethod() throws Exception {
-        vTargetSeriesFromBytes = new VTargetSeries(twoVTargetsBytes);
+        vTargetSeriesFromBytes = new VTargetSeries(twoVTargetsBytes, EncodingMode.IMAPB);
 
         List<VTargetPack> targetPacks = new ArrayList<>();
 
@@ -95,10 +95,10 @@ public class VTargetSeriesTest {
     }
 
     @Test
-    @SuppressWarnings("deprecation")
     public void testFactoryEncodedBytes() throws KlvParseException {
         IVmtiMetadataValue value =
-                VmtiLocalSet.createValue(VmtiMetadataKey.VTargetSeries, twoVTargetsBytes);
+                VmtiLocalSet.createValue(
+                        VmtiMetadataKey.VTargetSeries, twoVTargetsBytes, EncodingMode.IMAPB);
         assertNotNull(value);
         assertTrue(value instanceof VTargetSeries);
         VTargetSeries targetSeries = (VTargetSeries) value;

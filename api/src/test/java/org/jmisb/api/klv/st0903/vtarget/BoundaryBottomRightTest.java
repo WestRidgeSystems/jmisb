@@ -4,6 +4,7 @@ import static org.testng.Assert.*;
 
 import org.jmisb.api.common.KlvParseException;
 import org.jmisb.api.klv.st0903.IVmtiMetadataValue;
+import org.jmisb.api.klv.st0903.shared.EncodingMode;
 import org.testng.annotations.Test;
 
 /** Tests for Boundary Bottom Right (Tag 3). */
@@ -33,7 +34,8 @@ public class BoundaryBottomRightTest {
         IVmtiMetadataValue value =
                 VTargetPack.createValue(
                         VTargetMetadataKey.BoundaryBottomRight,
-                        new byte[] {(byte) 0x06, (byte) 0x40, (byte) 0x00});
+                        new byte[] {(byte) 0x06, (byte) 0x40, (byte) 0x00},
+                        EncodingMode.IMAPB);
         assertTrue(value instanceof BoundaryBottomRight);
         BoundaryBottomRight index = (BoundaryBottomRight) value;
         assertEquals(index.getBytes(), new byte[] {(byte) 0x06, (byte) 0x40, (byte) 0x00});

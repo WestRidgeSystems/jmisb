@@ -8,6 +8,7 @@ import java.time.ZoneOffset;
 import java.time.temporal.ChronoUnit;
 import org.jmisb.api.common.KlvParseException;
 import org.jmisb.api.klv.st0903.*;
+import org.jmisb.api.klv.st0903.shared.EncodingMode;
 import org.testng.Assert;
 import org.testng.annotations.Test;
 
@@ -74,7 +75,8 @@ public class EndTimeTest {
                     (byte) 0xCE,
                     (byte) 0x40
                 };
-        IVmtiMetadataValue v = VTrackerLS.createValue(VTrackerMetadataKey.endTime, bytes);
+        IVmtiMetadataValue v =
+                VTrackerLS.createValue(VTrackerMetadataKey.endTime, bytes, EncodingMode.IMAPB);
         Assert.assertTrue(v instanceof EndTime);
         Assert.assertEquals(v.getDisplayName(), "End Time");
         EndTime pts = (EndTime) v;

@@ -3,6 +3,7 @@ package org.jmisb.api.klv.st0903;
 import static org.testng.Assert.*;
 
 import org.jmisb.api.common.KlvParseException;
+import org.jmisb.api.klv.st0903.shared.EncodingMode;
 import org.jmisb.api.klv.st0903.shared.VmtiTextString;
 import org.testng.annotations.Test;
 
@@ -99,7 +100,8 @@ public class VmtiTextStringTest {
                             (byte) 0x4D,
                             (byte) 0x54,
                             (byte) 0x49
-                        });
+                        },
+                        EncodingMode.IMAPB);
         assertTrue(value instanceof VmtiTextString);
         VmtiTextString systemName = (VmtiTextString) value;
         assertEquals(
@@ -187,7 +189,8 @@ public class VmtiTextStringTest {
                             (byte) 0x6F,
                             (byte) 0x73,
                             (byte) 0x65
-                        });
+                        },
+                        EncodingMode.IMAPB);
         assertTrue(value instanceof VmtiTextString);
         VmtiTextString sourceSensor = (VmtiTextString) value;
         assertEquals(

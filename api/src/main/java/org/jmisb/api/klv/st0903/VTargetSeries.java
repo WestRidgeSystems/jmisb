@@ -6,6 +6,7 @@ import org.jmisb.api.common.KlvParseException;
 import org.jmisb.api.klv.BerDecoder;
 import org.jmisb.api.klv.BerEncoder;
 import org.jmisb.api.klv.BerField;
+import org.jmisb.api.klv.st0903.shared.EncodingMode;
 import org.jmisb.api.klv.st0903.vtarget.VTargetPack;
 import org.jmisb.core.klv.ArrayUtils;
 
@@ -37,15 +38,34 @@ public class VTargetSeries implements IVmtiMetadataValue {
     /**
      * Create from encoded bytes.
      *
+     * <p>This constructor only supports ST0903.4 and later.
+     *
      * @param bytes Encoded byte array
      * @throws KlvParseException if there is a parsing error on the byte array.
+     * @deprecated use {@link #VTargetSeries(byte[], EncodingMode)} instead
      */
-    public VTargetSeries(byte[] bytes) throws KlvParseException {
+    @Deprecated
+    public VTargetSeries(byte[] bytes) throws org.jmisb.api.common.KlvParseException {
+        this(bytes, EncodingMode.IMAPB);
+    }
+
+    /**
+     * Create from encoded bytes.
+     *
+     * <p>This constructor allows selection of which encoding rules (according to the ST903 version)
+     * to apply.
+     *
+     * @param bytes Encoded byte array
+     * @param encodingMode which encoding mode the {@code bytes} parameter uses.
+     * @throws KlvParseException if there is a parsing error on the byte array.
+     */
+    public VTargetSeries(byte[] bytes, EncodingMode encodingMode) throws KlvParseException {
         int index = 0;
         while (index < bytes.length - 1) {
             BerField lengthField = BerDecoder.decode(bytes, index, false);
             index += lengthField.getLength();
-            VTargetPack targetPack = new VTargetPack(bytes, index, lengthField.getValue());
+            VTargetPack targetPack =
+                    new VTargetPack(bytes, index, lengthField.getValue(), encodingMode);
             targetPacks.add(targetPack);
             index += lengthField.getValue();
         }

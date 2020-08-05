@@ -4,6 +4,7 @@ import static org.testng.Assert.*;
 
 import org.jmisb.api.common.KlvParseException;
 import org.jmisb.api.klv.st0903.*;
+import org.jmisb.api.klv.st0903.shared.EncodingMode;
 import org.testng.annotations.Test;
 
 /** Tests for Target Intensity (ST0903 VTarget Tag 9). */
@@ -48,7 +49,9 @@ public class TargetIntensityTest {
     public void testFactoryEncodedBytes() throws KlvParseException {
         IVmtiMetadataValue value =
                 VTargetPack.createValue(
-                        VTargetMetadataKey.TargetIntensity, new byte[] {(byte) 0x33, (byte) 0x54});
+                        VTargetMetadataKey.TargetIntensity,
+                        new byte[] {(byte) 0x33, (byte) 0x54},
+                        EncodingMode.IMAPB);
         assertTrue(value instanceof TargetIntensity);
         TargetIntensity intensity = (TargetIntensity) value;
         assertEquals(intensity.getBytes(), new byte[] {(byte) 0x33, (byte) 0x54});

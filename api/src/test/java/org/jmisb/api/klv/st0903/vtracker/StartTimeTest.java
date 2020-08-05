@@ -8,6 +8,7 @@ import java.time.ZoneOffset;
 import java.time.temporal.ChronoUnit;
 import org.jmisb.api.common.KlvParseException;
 import org.jmisb.api.klv.st0903.*;
+import org.jmisb.api.klv.st0903.shared.EncodingMode;
 import org.testng.Assert;
 import org.testng.annotations.Test;
 
@@ -74,7 +75,8 @@ public class StartTimeTest {
                     (byte) 0xCE,
                     (byte) 0x40
                 };
-        IVmtiMetadataValue v = VTrackerLS.createValue(VTrackerMetadataKey.startTime, bytes);
+        IVmtiMetadataValue v =
+                VTrackerLS.createValue(VTrackerMetadataKey.startTime, bytes, EncodingMode.IMAPB);
         Assert.assertTrue(v instanceof StartTime);
         Assert.assertEquals(v.getDisplayName(), "Start Time");
         StartTime pts = (StartTime) v;

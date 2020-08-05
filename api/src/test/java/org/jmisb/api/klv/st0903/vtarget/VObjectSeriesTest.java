@@ -9,6 +9,7 @@ import java.util.List;
 import java.util.Map;
 import org.jmisb.api.common.KlvParseException;
 import org.jmisb.api.klv.st0903.IVmtiMetadataValue;
+import org.jmisb.api.klv.st0903.shared.EncodingMode;
 import org.jmisb.api.klv.st0903.vobject.VObjectLS;
 import org.jmisb.api.klv.st0903.vobject.VObjectMetadataKey;
 import org.testng.annotations.Test;
@@ -55,7 +56,8 @@ public class VObjectSeriesTest {
     @Test
     public void testFactoryEncodedBytes() throws KlvParseException {
         IVmtiMetadataValue value =
-                VTargetPack.createValue(VTargetMetadataKey.VObjectSeries, bytesOneObject);
+                VTargetPack.createValue(
+                        VTargetMetadataKey.VObjectSeries, bytesOneObject, EncodingMode.IMAPB);
         assertTrue(value instanceof VObjectSeries);
         VObjectSeries objectSeries = (VObjectSeries) value;
         assertEquals(objectSeries.getBytes(), bytesOneObject);
@@ -100,7 +102,8 @@ public class VObjectSeriesTest {
     @Test
     public void testFactoryEncodedBytesTwoObjects() throws KlvParseException {
         IVmtiMetadataValue value =
-                VTargetPack.createValue(VTargetMetadataKey.VObjectSeries, bytesTwoObjects);
+                VTargetPack.createValue(
+                        VTargetMetadataKey.VObjectSeries, bytesTwoObjects, EncodingMode.IMAPB);
         assertTrue(value instanceof VObjectSeries);
         VObjectSeries objectSeries = (VObjectSeries) value;
         assertEquals(objectSeries.getBytes(), bytesTwoObjects);

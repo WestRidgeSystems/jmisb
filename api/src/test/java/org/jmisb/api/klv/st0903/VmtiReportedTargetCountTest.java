@@ -3,6 +3,7 @@ package org.jmisb.api.klv.st0903;
 import static org.testng.Assert.*;
 
 import org.jmisb.api.common.KlvParseException;
+import org.jmisb.api.klv.st0903.shared.EncodingMode;
 import org.testng.annotations.Test;
 
 /** Tests for numTargetsReported (ST0903 Tag 6). */
@@ -47,7 +48,9 @@ public class VmtiReportedTargetCountTest {
     public void testFactoryEncodedBytes() throws KlvParseException {
         IVmtiMetadataValue value =
                 VmtiLocalSet.createValue(
-                        VmtiMetadataKey.NumberOfReportedTargets, new byte[] {(byte) 0x0E});
+                        VmtiMetadataKey.NumberOfReportedTargets,
+                        new byte[] {(byte) 0x0E},
+                        EncodingMode.IMAPB);
         assertTrue(value instanceof VmtiReportedTargetCount);
         VmtiReportedTargetCount count = (VmtiReportedTargetCount) value;
         assertEquals(count.getBytes(), new byte[] {(byte) 0x0E});

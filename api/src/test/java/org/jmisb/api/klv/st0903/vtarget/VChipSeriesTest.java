@@ -9,6 +9,7 @@ import java.util.List;
 import java.util.Map;
 import org.jmisb.api.common.KlvParseException;
 import org.jmisb.api.klv.st0903.IVmtiMetadataValue;
+import org.jmisb.api.klv.st0903.shared.EncodingMode;
 import org.jmisb.api.klv.st0903.vchip.VChipLS;
 import org.jmisb.api.klv.st0903.vchip.VChipMetadataKey;
 import org.testng.annotations.Test;
@@ -199,7 +200,8 @@ public class VChipSeriesTest {
     @Test
     public void testFactoryEncodedBytes() throws KlvParseException {
         IVmtiMetadataValue value =
-                VTargetPack.createValue(VTargetMetadataKey.VChipSeries, bytesOneChip);
+                VTargetPack.createValue(
+                        VTargetMetadataKey.VChipSeries, bytesOneChip, EncodingMode.IMAPB);
         assertTrue(value instanceof VChipSeries);
         VChipSeries chipSeries = (VChipSeries) value;
         // Content can vary, but length should be OK.
@@ -238,7 +240,8 @@ public class VChipSeriesTest {
     @Test
     public void testFactoryEncodedBytesTwoChips() throws KlvParseException {
         IVmtiMetadataValue value =
-                VTargetPack.createValue(VTargetMetadataKey.VChipSeries, bytesTwoChips);
+                VTargetPack.createValue(
+                        VTargetMetadataKey.VChipSeries, bytesTwoChips, EncodingMode.IMAPB);
         assertTrue(value instanceof VChipSeries);
         VChipSeries chipSeries = (VChipSeries) value;
         // Content can vary, but length should be OK.

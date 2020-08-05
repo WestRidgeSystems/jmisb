@@ -215,6 +215,8 @@
     <module name="UpperEll"/>
     -->
 
+    <!-- <module name="MissingDeprecated"/> -->
+
     <!-- https://checkstyle.org/config_filters.html#SuppressionXpathFilter -->
     <module name="SuppressionXpathFilter">
       <property name="file" value="${org.checkstyle.sun.suppressionxpathfilter.config}"

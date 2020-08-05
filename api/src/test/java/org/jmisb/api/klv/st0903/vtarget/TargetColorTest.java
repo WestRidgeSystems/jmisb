@@ -4,6 +4,7 @@ import static org.testng.Assert.*;
 
 import org.jmisb.api.common.KlvParseException;
 import org.jmisb.api.klv.st0903.IVmtiMetadataValue;
+import org.jmisb.api.klv.st0903.shared.EncodingMode;
 import org.testng.annotations.Test;
 
 /** Tests for Target Color (Tag 8) */
@@ -35,7 +36,8 @@ public class TargetColorTest {
         IVmtiMetadataValue value =
                 VTargetPack.createValue(
                         VTargetMetadataKey.TargetColor,
-                        new byte[] {(byte) 0x55, (byte) 0x88, (byte) 0x33});
+                        new byte[] {(byte) 0x55, (byte) 0x88, (byte) 0x33},
+                        EncodingMode.IMAPB);
         assertTrue(value instanceof TargetColor);
         TargetColor color = (TargetColor) value;
         assertEquals(color.getBytes(), new byte[] {(byte) 0x55, (byte) 0x88, (byte) 0x33});

@@ -13,6 +13,7 @@ import org.jmisb.api.klv.LdsField;
 import org.jmisb.api.klv.LdsParser;
 import org.jmisb.api.klv.st0903.IVmtiMetadataValue;
 import org.jmisb.api.klv.st0903.shared.AlgorithmId;
+import org.jmisb.api.klv.st0903.shared.EncodingMode;
 import org.jmisb.api.klv.st0903.shared.VmtiTextString;
 import org.jmisb.core.klv.ArrayUtils;
 import org.slf4j.Logger;
@@ -40,8 +41,21 @@ public class VTrackerLS {
      *
      * @param bytes Encoded byte array comprising the VTracker local set
      * @throws KlvParseException if the byte array could not be parsed.
+     * @deprecated use {@link #VTrackerLS(byte[], EncodingMode)} to specify the encoding mode.
      */
+    @Deprecated
     public VTrackerLS(byte[] bytes) throws KlvParseException {
+        this(bytes, EncodingMode.IMAPB);
+    }
+
+    /**
+     * Create from encoded bytes.
+     *
+     * @param bytes Encoded byte array comprising the VTracker local set
+     * @param encodingMode the encoding mode for floating point data in the {@code bytes} array
+     * @throws KlvParseException if the byte array could not be parsed.
+     */
+    public VTrackerLS(byte[] bytes, EncodingMode encodingMode) throws KlvParseException {
         List<LdsField> fields = LdsParser.parseFields(bytes, 0, bytes.length);
         for (LdsField field : fields) {
             VTrackerMetadataKey key = VTrackerMetadataKey.getKey(field.getTag());
@@ -49,7 +63,7 @@ public class VTrackerLS {
                 LOGGER.info("Unknown VMTI VTracker Metadata tag: {}", field.getTag());
             } else {
                 try {
-                    IVmtiMetadataValue value = createValue(key, field.getData());
+                    IVmtiMetadataValue value = createValue(key, field.getData(), encodingMode);
                     map.put(key, value);
                 } catch (KlvParseException | IllegalArgumentException ex) {
                     InvalidDataHandler.getInstance()
@@ -62,12 +76,36 @@ public class VTrackerLS {
     /**
      * Create a {@link IVmtiMetadataValue} instance from encoded bytes.
      *
+     * <p>For values using (or including as nested values) floating point, this method only works
+     * correctly for ST0903.4 and later.
+     *
      * @param tag The tag defining the value type
      * @param bytes Encoded bytes
      * @return The new instance
      * @throws KlvParseException if the bytes could not be parsed.
+     * @deprecated use {@link #createValue(VTrackerMetadataKey, byte[], EncodingMode)} to specify
+     *     the encoding
      */
+    @Deprecated
     public static IVmtiMetadataValue createValue(VTrackerMetadataKey tag, byte[] bytes)
+            throws KlvParseException {
+        return createValue(tag, bytes, EncodingMode.IMAPB);
+    }
+
+    /**
+     * Create a {@link IVmtiMetadataValue} instance from encoded bytes.
+     *
+     * <p>This method allows selection of which encoding rules (according to the ST903 version) to
+     * apply.
+     *
+     * @param tag The tag defining the value type
+     * @param bytes Encoded bytes
+     * @param encodingMode the encoding mode for floating point data in the {@code bytes} array
+     * @return The new instance
+     * @throws KlvParseException if the bytes could not be parsed.
+     */
+    public static IVmtiMetadataValue createValue(
+            VTrackerMetadataKey tag, byte[] bytes, EncodingMode encodingMode)
             throws KlvParseException {
         switch (tag) {
             case trackId:
@@ -79,7 +117,7 @@ public class VTrackerLS {
             case endTime:
                 return new EndTime(bytes);
             case boundarySeries:
-                return new BoundarySeries(bytes);
+                return new BoundarySeries(bytes, encodingMode);
             case algorithm:
                 return new VmtiTextString(VmtiTextString.ALGORITHM, bytes);
             case confidence:
@@ -87,11 +125,11 @@ public class VTrackerLS {
             case numTrackPoints:
                 return new NumTrackPoints(bytes);
             case trackHistorySeries:
-                return new TrackHistorySeries(bytes);
+                return new TrackHistorySeries(bytes, encodingMode);
             case velocity:
-                return new Velocity(bytes);
+                return new Velocity(bytes, encodingMode);
             case acceleration:
-                return new Acceleration(bytes);
+                return new Acceleration(bytes, encodingMode);
             case algorithmId:
                 return new AlgorithmId(bytes);
             default:

@@ -3,6 +3,7 @@ package org.jmisb.api.klv.st0903;
 import static org.testng.Assert.*;
 
 import org.jmisb.api.common.KlvParseException;
+import org.jmisb.api.klv.st0903.shared.EncodingMode;
 import org.testng.annotations.Test;
 
 /** Tests for Frame Number (ST0903 Tag 7). */
@@ -48,7 +49,8 @@ public class FrameNumberTest {
         IVmtiMetadataValue value =
                 VmtiLocalSet.createValue(
                         VmtiMetadataKey.FrameNumber,
-                        new byte[] {(byte) 0x01, (byte) 0x30, (byte) 0xB0});
+                        new byte[] {(byte) 0x01, (byte) 0x30, (byte) 0xB0},
+                        EncodingMode.IMAPB);
         assertTrue(value instanceof FrameNumber);
         FrameNumber frameNum = (FrameNumber) value;
         assertEquals(frameNum.getBytes(), new byte[] {(byte) 0x01, (byte) 0x30, (byte) 0xB0});

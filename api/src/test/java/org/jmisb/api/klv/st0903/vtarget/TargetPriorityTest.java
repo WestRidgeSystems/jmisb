@@ -4,6 +4,7 @@ import static org.testng.Assert.*;
 
 import org.jmisb.api.common.KlvParseException;
 import org.jmisb.api.klv.st0903.IVmtiMetadataValue;
+import org.jmisb.api.klv.st0903.shared.EncodingMode;
 import org.testng.annotations.Test;
 
 /** Tests for Target Priority (Tag 4) */
@@ -33,7 +34,9 @@ public class TargetPriorityTest {
     public void testFactory() throws KlvParseException {
         IVmtiMetadataValue value =
                 VTargetPack.createValue(
-                        VTargetMetadataKey.TargetPriority, new byte[] {(byte) 0x1B});
+                        VTargetMetadataKey.TargetPriority,
+                        new byte[] {(byte) 0x1B},
+                        EncodingMode.IMAPB);
         assertTrue(value instanceof TargetPriority);
         TargetPriority priority = (TargetPriority) value;
         assertEquals(priority.getBytes(), new byte[] {(byte) 0x1B});

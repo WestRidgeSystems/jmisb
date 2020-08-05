@@ -8,6 +8,7 @@ import java.util.List;
 import java.util.Map;
 import org.jmisb.api.common.KlvParseException;
 import org.jmisb.api.klv.st0903.IVmtiMetadataValue;
+import org.jmisb.api.klv.st0903.shared.EncodingMode;
 import org.jmisb.api.klv.st0903.vmask.BitMaskSeries;
 import org.jmisb.api.klv.st0903.vmask.PixelPolygon;
 import org.jmisb.api.klv.st0903.vmask.PixelRunPair;
@@ -172,7 +173,8 @@ public class VMaskTest {
                             0x01,
                             0x6A,
                             0x02 // (106, 2)
-                        });
+                        },
+                        EncodingMode.IMAPB);
         assertTrue(value instanceof VMask);
         VMask mask = (VMask) value;
         assertEquals(
