@@ -26,14 +26,29 @@ public class VideoInputOptions {
         this.decodeVideo = decodeVideo;
     }
 
+    /**
+     * Whether to decode audio elementary streams.
+     *
+     * @return true to decode audio, false to ignore audio
+     */
     public boolean isDecodeAudio() {
         return decodeAudio;
     }
 
+    /**
+     * Whether to decode metadata elementary streams.
+     *
+     * @return true to decode metadata, false to ignore metadata
+     */
     public boolean isDecodeMetadata() {
         return decodeMetadata;
     }
 
+    /**
+     * Whether to decode video elementary streams.
+     *
+     * @return true to decode video, false to ignore video
+     */
     public boolean isDecodeVideo() {
         return decodeVideo;
     }
