@@ -6,6 +6,7 @@ import java.net.URISyntaxException;
 import java.util.HashMap;
 import java.util.Map;
 import org.jmisb.api.common.KlvParseException;
+import org.jmisb.api.klv.IKlvKey;
 import org.jmisb.api.klv.IMisbMessage;
 import org.jmisb.api.klv.KlvConstants;
 import org.jmisb.api.klv.LoggerChecks;
@@ -161,6 +162,9 @@ public class VmtiLocalSetTest extends LoggerChecks {
         assertTrue(v instanceof ST0903Version);
         ST0903Version version = (ST0903Version) localSet.getField(VmtiMetadataKey.VersionNumber);
         assertEquals(version.getVersion(), 4);
+        ST0903Version versionFromIKlvKey =
+                (ST0903Version) localSet.getField((IKlvKey) VmtiMetadataKey.VersionNumber);
+        assertEquals(versionFromIKlvKey.getVersion(), 4);
     }
 
     @Test

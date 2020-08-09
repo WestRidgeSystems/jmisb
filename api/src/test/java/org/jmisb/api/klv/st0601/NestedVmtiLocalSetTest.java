@@ -56,6 +56,10 @@ public class NestedVmtiLocalSetTest {
                 "TesT1");
         byte[] bytes = localSet.getBytes();
         Assert.assertEquals(bytes, localSetAsByteArray);
+        Assert.assertEquals(localSet.getIdentifiers().size(), 1);
+        Assert.assertTrue(localSet.getIdentifiers().contains(VmtiMetadataKey.SystemName));
+        Assert.assertEquals(
+                localSet.getField(VmtiMetadataKey.SystemName).getDisplayableValue(), "TesT1");
     }
 
     private VmtiLocalSet makeLocalSet() {
