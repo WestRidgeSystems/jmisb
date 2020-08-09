@@ -9,10 +9,10 @@ public class FlagDataKeyTest {
 
     @Test
     public void checkEnumeration() {
-        assertEquals(FlagDataKey.LaserRange.getTag(), 0);
+        assertEquals(FlagDataKey.LaserRange.getIdentifier(), 0);
 
-        assertEquals(FlagDataKey.ImageInvalid.getTag(), 5);
+        assertEquals(FlagDataKey.ImageInvalid.getIdentifier(), 5);
 
-        assertEquals(FlagDataKey.IR_Polarity.getTag(), 2);
+        assertEquals(FlagDataKey.IR_Polarity.getIdentifier(), 2);
     }
 }

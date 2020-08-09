@@ -50,7 +50,7 @@ public class NestedVmtiLocalSetTest {
     private void checkLocalSetValues(NestedVmtiLocalSet localSet) {
         Assert.assertEquals(localSet.getDisplayName(), "VMTI");
         Assert.assertEquals(localSet.getDisplayableValue(), "[VMTI]");
-        Assert.assertEquals(localSet.getVmti().getTags().size(), 1);
+        Assert.assertEquals(localSet.getVmti().getIdentifiers().size(), 1);
         Assert.assertEquals(
                 localSet.getVmti().getField(VmtiMetadataKey.SystemName).getDisplayableValue(),
                 "TesT1");

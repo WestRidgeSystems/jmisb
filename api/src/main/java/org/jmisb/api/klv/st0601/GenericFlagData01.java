@@ -5,6 +5,7 @@ import java.util.Set;
 import java.util.SortedMap;
 import java.util.TreeMap;
 import org.jmisb.api.klv.IKlvKey;
+import org.jmisb.api.klv.INestedKlvValue;
 
 /**
  * Generic Flag Data (ST 0601 Item 47).
@@ -25,7 +26,7 @@ import org.jmisb.api.klv.IKlvKey;
  * (ST0601.13a, ST0601.14a, ST0601.15a and ST0601.16a) versions, not the interpretation published in
  * the initial versions.
  */
-public class GenericFlagData01 implements IUasDatalinkValue {
+public class GenericFlagData01 implements IUasDatalinkValue, INestedKlvValue {
 
     protected static final String LASER_RANGE_STRING_KEY = "Laser Range";
     protected static final String LASER_OFF = "Laser off";
@@ -232,12 +233,7 @@ public class GenericFlagData01 implements IUasDatalinkValue {
         return "[Flag data]";
     }
 
-    /**
-     * Get the value of a specific field.
-     *
-     * @param tag The field to retrieve
-     * @return The value of the field
-     */
+    @Override
     public UasDatalinkString getField(IKlvKey tag) {
         if (tag instanceof FlagDataKey) {
             return map.get((FlagDataKey) tag);
@@ -245,12 +241,8 @@ public class GenericFlagData01 implements IUasDatalinkValue {
         return null;
     }
 
-    /**
-     * Get the set all available fields.
-     *
-     * @return The set of keys for all fields
-     */
-    public Set<? extends IKlvKey> getTags() {
+    @Override
+    public Set<FlagDataKey> getIdentifiers() {
         return map.keySet();
     }
 }

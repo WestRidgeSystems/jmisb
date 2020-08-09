@@ -1229,7 +1229,7 @@ public class VmtiLocalSetOneWithTheLotLegacyModeTest extends LoggerChecks {
                 };
         VmtiLocalSet localSet = new VmtiLocalSet(bytes);
         assertNotNull(localSet);
-        assertEquals(localSet.getTags().size(), 15);
+        assertEquals(localSet.getIdentifiers().size(), 15);
         assertEquals(
                 localSet.getField(VmtiMetadataKey.PrecisionTimeStamp).getDisplayName(),
                 "Precision Time Stamp");

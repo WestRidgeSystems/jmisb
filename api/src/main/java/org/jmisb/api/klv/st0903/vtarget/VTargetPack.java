@@ -11,6 +11,9 @@ import org.jmisb.api.common.KlvParseException;
 import org.jmisb.api.klv.BerDecoder;
 import org.jmisb.api.klv.BerEncoder;
 import org.jmisb.api.klv.BerField;
+import org.jmisb.api.klv.IKlvKey;
+import org.jmisb.api.klv.IKlvValue;
+import org.jmisb.api.klv.INestedKlvValue;
 import org.jmisb.api.klv.LdsField;
 import org.jmisb.api.klv.LdsParser;
 import org.jmisb.api.klv.st0903.IVmtiMetadataValue;
@@ -26,7 +29,7 @@ import org.slf4j.LoggerFactory;
  * <p>The target pack represents a single VMTI target. It consists of a target id (integer value,
  * always required) and a set of variable values that can be considered as attributes of the target.
  */
-public class VTargetPack {
+public class VTargetPack implements IKlvValue, INestedKlvValue {
 
     private static final Logger LOGGER = LoggerFactory.getLogger(VTargetPack.class);
 
@@ -253,5 +256,25 @@ public class VTargetPack {
             len += bytes.length;
         }
         return ArrayUtils.arrayFromChunks(chunks, len);
+    }
+
+    @Override
+    public IKlvValue getField(IKlvKey tag) {
+        return this.getField((VTargetMetadataKey) tag);
+    }
+
+    @Override
+    public Set<VTargetMetadataKey> getIdentifiers() {
+        return this.getTags();
+    }
+
+    @Override
+    public String getDisplayName() {
+        return "VTarget";
+    }
+
+    @Override
+    public String getDisplayableValue() {
+        return "Target " + targetId;
     }
 }

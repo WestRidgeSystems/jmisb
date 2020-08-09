@@ -1,7 +1,12 @@
 package org.jmisb.api.klv.st0601;
 
+import java.util.Set;
 import org.jmisb.api.common.KlvParseException;
+import org.jmisb.api.klv.IKlvKey;
+import org.jmisb.api.klv.INestedKlvValue;
+import org.jmisb.api.klv.st0903.IVmtiMetadataValue;
 import org.jmisb.api.klv.st0903.VmtiLocalSet;
+import org.jmisb.api.klv.st0903.VmtiMetadataKey;
 
 /**
  * VMTI Local Set (ST 0601 Item 74).
@@ -22,7 +27,7 @@ import org.jmisb.api.klv.st0903.VmtiLocalSet;
  *
  * </blockquote>
  */
-public class NestedVmtiLocalSet implements IUasDatalinkValue {
+public class NestedVmtiLocalSet implements IUasDatalinkValue, INestedKlvValue {
     private final VmtiLocalSet vmtiLocalSet;
 
     /**
@@ -66,5 +71,15 @@ public class NestedVmtiLocalSet implements IUasDatalinkValue {
      */
     public VmtiLocalSet getVmti() {
         return this.vmtiLocalSet;
+    }
+
+    @Override
+    public IVmtiMetadataValue getField(IKlvKey tag) {
+        return this.vmtiLocalSet.getField(tag);
+    }
+
+    @Override
+    public Set<VmtiMetadataKey> getIdentifiers() {
+        return this.vmtiLocalSet.getIdentifiers();
     }
 }

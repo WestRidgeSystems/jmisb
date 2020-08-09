@@ -7,6 +7,7 @@ import java.util.TreeMap;
 import org.jmisb.api.common.KlvParseException;
 import org.jmisb.api.klv.BerDecoder;
 import org.jmisb.api.klv.BerField;
+import org.jmisb.api.klv.IKlvKey;
 import org.jmisb.api.klv.IMisbMessage;
 import org.jmisb.api.klv.KlvConstants;
 import org.jmisb.api.klv.UdsField;
@@ -64,7 +65,8 @@ public class PredatorUavMessage implements IMisbMessage {
      *
      * @return Set containing all EG0104 keys contained in the message
      */
-    public Set<PredatorMetadataKey> getKeys() {
+    @Override
+    public Set<PredatorMetadataKey> getIdentifiers() {
         return map.keySet();
     }
 
@@ -76,5 +78,10 @@ public class PredatorUavMessage implements IMisbMessage {
      */
     public IPredatorMetadataValue getField(PredatorMetadataKey key) {
         return map.get(key);
+    }
+
+    @Override
+    public IPredatorMetadataValue getField(IKlvKey tag) {
+        return this.getField((PredatorMetadataKey) tag);
     }
 }

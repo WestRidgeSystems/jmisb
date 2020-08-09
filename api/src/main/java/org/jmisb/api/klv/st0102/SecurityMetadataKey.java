@@ -325,7 +325,7 @@ public enum SecurityMetadataKey implements IKlvKey {
     }
 
     @Override
-    public int getTag() {
+    public int getIdentifier() {
         return tag;
     }
 

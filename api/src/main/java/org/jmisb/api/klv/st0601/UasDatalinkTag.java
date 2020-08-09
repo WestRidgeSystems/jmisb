@@ -2,9 +2,10 @@ package org.jmisb.api.klv.st0601;
 
 import java.util.HashMap;
 import java.util.Map;
+import org.jmisb.api.klv.IKlvKey;
 
 /** ST 0601 tag. */
-public enum UasDatalinkTag {
+public enum UasDatalinkTag implements IKlvKey {
     Undefined(0),
     /** Tag 1; Checksum used to detect errors within a UAS Datalink LS packet. */
     Checksum(1),
@@ -530,5 +531,10 @@ public enum UasDatalinkTag {
      */
     public static UasDatalinkTag getTag(int tagCode) {
         return lookupTable.containsKey(tagCode) ? lookupTable.get(tagCode) : Undefined;
+    }
+
+    @Override
+    public int getIdentifier() {
+        return this.getCode();
     }
 }

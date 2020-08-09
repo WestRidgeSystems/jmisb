@@ -89,7 +89,7 @@ public class SecurityMetadataLocalSet extends SecurityMetadataMessage {
             ISecurityMetadataValue value = entry.getValue();
             byte[] bytes = value.getBytes();
             if (bytes != null && bytes.length > 0) {
-                chunks.add(new byte[] {(byte) key.getTag()});
+                chunks.add(new byte[] {(byte) key.getIdentifier()});
                 chunks.add(BerEncoder.encode(bytes.length));
                 chunks.add(bytes.clone());
             }

@@ -1,5 +1,8 @@
 package org.jmisb.api.klv;
 
+import java.util.Collections;
+import java.util.Set;
+
 /** Represents an unparsed {@link IMisbMessage}. */
 public class RawMisbMessage implements IMisbMessage {
     private UniversalLabel universalLabel;
@@ -38,5 +41,15 @@ public class RawMisbMessage implements IMisbMessage {
     @Override
     public String displayHeader() {
         return "Unknown";
+    }
+
+    @Override
+    public IKlvValue getField(IKlvKey tag) {
+        return null;
+    }
+
+    @Override
+    public Set<? extends IKlvKey> getIdentifiers() {
+        return Collections.EMPTY_SET;
     }
 }

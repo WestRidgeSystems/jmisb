@@ -2,9 +2,10 @@ package org.jmisb.api.klv.st0806;
 
 import java.util.HashMap;
 import java.util.Map;
+import org.jmisb.api.klv.IKlvKey;
 
 /** ST 0806 tags - description and numbers. */
-public enum RvtMetadataKey {
+public enum RvtMetadataKey implements IKlvKey {
     /** Unknown key. This should not be created. */
     Undefined(0),
     CRC32(1),
@@ -48,7 +49,7 @@ public enum RvtMetadataKey {
      *
      * @return integer tag value for the metadata key
      */
-    public int getTag() {
+    public int getIdentifier() {
         return tag;
     }
 

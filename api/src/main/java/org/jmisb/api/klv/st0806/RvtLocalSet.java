@@ -11,6 +11,7 @@ import java.util.TreeMap;
 import org.jmisb.api.common.KlvParseException;
 import org.jmisb.api.klv.Ber;
 import org.jmisb.api.klv.BerEncoder;
+import org.jmisb.api.klv.IKlvKey;
 import org.jmisb.api.klv.IMisbMessage;
 import org.jmisb.api.klv.LdsField;
 import org.jmisb.api.klv.LdsParser;
@@ -172,11 +173,11 @@ public class RvtLocalSet implements IMisbMessage {
     public byte[] frameMessage(boolean isNested) {
         int len = 0;
         List<byte[]> chunks = new ArrayList<>();
-        for (RvtMetadataKey tag : getTags()) {
+        for (RvtMetadataKey tag : getIdentifiers()) {
             if (tag == RvtMetadataKey.CRC32) {
                 continue;
             }
-            chunks.add(new byte[] {(byte) tag.getTag()});
+            chunks.add(new byte[] {(byte) tag.getIdentifier()});
             len += 1;
             IRvtMetadataValue value = getField(tag);
             byte[] bytes = value.getBytes();
@@ -188,7 +189,7 @@ public class RvtLocalSet implements IMisbMessage {
         }
         for (Integer numericId : getUserDefinedIndexes()) {
             RvtUserDefinedLocalSet userDefinedLocalSet = getUserDefinedLocalSet(numericId);
-            chunks.add(new byte[] {(byte) (RvtMetadataKey.UserDefinedLS.getTag())});
+            chunks.add(new byte[] {(byte) (RvtMetadataKey.UserDefinedLS.getIdentifier())});
             len += 1;
             byte[] localSetBytes = userDefinedLocalSet.getBytes();
             byte[] lengthBytes = BerEncoder.encode(localSetBytes.length);
@@ -199,7 +200,7 @@ public class RvtLocalSet implements IMisbMessage {
         }
         for (Integer poiNumber : getPOIIndexes()) {
             RvtPoiLocalSet poiLocalSet = getPOI(poiNumber);
-            chunks.add(new byte[] {(byte) (RvtMetadataKey.PointOfInterestLS.getTag())});
+            chunks.add(new byte[] {(byte) (RvtMetadataKey.PointOfInterestLS.getIdentifier())});
             len += 1;
             byte[] localSetBytes = poiLocalSet.getBytes();
             byte[] lengthBytes = BerEncoder.encode(localSetBytes.length);
@@ -210,7 +211,7 @@ public class RvtLocalSet implements IMisbMessage {
         }
         for (Integer aoiNumber : getAOIIndexes()) {
             RvtAoiLocalSet aoiLocalSet = getAOI(aoiNumber);
-            chunks.add(new byte[] {(byte) (RvtMetadataKey.AreaOfInterestLS.getTag())});
+            chunks.add(new byte[] {(byte) (RvtMetadataKey.AreaOfInterestLS.getIdentifier())});
             len += 1;
             byte[] localSetBytes = aoiLocalSet.getBytes();
             byte[] lengthBytes = BerEncoder.encode(localSetBytes.length);
@@ -231,7 +232,7 @@ public class RvtLocalSet implements IMisbMessage {
             // Add Key and Length of CRC-32 with placeholder for value - must be final element if
             // used
             byte[] checksum = new byte[4];
-            chunks.add(new byte[] {(byte) RvtMetadataKey.CRC32.getTag()});
+            chunks.add(new byte[] {(byte) RvtMetadataKey.CRC32.getIdentifier()});
             valueLength += 1;
             byte[] checksumLengthBytes = BerEncoder.encode(checksum.length, Ber.SHORT_FORM);
             chunks.add(checksumLengthBytes);
@@ -263,7 +264,7 @@ public class RvtLocalSet implements IMisbMessage {
      *
      * @return The set of tags for which values have been set
      */
-    public Set<RvtMetadataKey> getTags() {
+    public Set<RvtMetadataKey> getIdentifiers() {
         return map.keySet();
     }
 
@@ -278,6 +279,11 @@ public class RvtLocalSet implements IMisbMessage {
      */
     public IRvtMetadataValue getField(RvtMetadataKey tag) {
         return map.get(tag);
+    }
+
+    @Override
+    public IRvtMetadataValue getField(IKlvKey key) {
+        return this.getField((RvtMetadataKey) key);
     }
 
     @Override

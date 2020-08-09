@@ -23,7 +23,7 @@ public enum FlagDataKey implements IKlvKey {
     private final int tag;
 
     @Override
-    public int getTag() {
+    public int getIdentifier() {
         return tag;
     }
 }

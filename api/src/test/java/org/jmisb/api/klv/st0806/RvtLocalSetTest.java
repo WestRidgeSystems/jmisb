@@ -37,7 +37,7 @@ public class RvtLocalSetTest extends LoggerChecks {
         final byte[] bytes = new byte[] {0x03, 0x02, 0x01, 0x02};
         RvtLocalSet localSet = new RvtLocalSet(bytes);
         assertNotNull(localSet);
-        assertEquals(localSet.getTags().size(), 1);
+        assertEquals(localSet.getIdentifiers().size(), 1);
         checkPlatformTrueAirspeedExample(localSet);
         assertEquals(localSet.frameMessage(true), bytes);
     }
@@ -47,7 +47,7 @@ public class RvtLocalSetTest extends LoggerChecks {
         final byte[] bytes = new byte[] {0x08, 0x01, 0x04};
         RvtLocalSet localSet = new RvtLocalSet(bytes);
         assertNotNull(localSet);
-        assertEquals(localSet.getTags().size(), 1);
+        assertEquals(localSet.getIdentifiers().size(), 1);
         checkVersionNumberExample(localSet);
         assertEquals(localSet.frameMessage(true), bytes);
     }
@@ -72,7 +72,7 @@ public class RvtLocalSetTest extends LoggerChecks {
         RvtLocalSet localSet = new RvtLocalSet(bytes);
         verifySingleLoggerMessage("Unknown RVT Metadata tag: 127");
         assertNotNull(localSet);
-        assertEquals(localSet.getTags().size(), 2);
+        assertEquals(localSet.getIdentifiers().size(), 2);
         checkPlatformTrueAirspeedExample(localSet);
         checkVersionNumberExample(localSet);
     }
@@ -97,7 +97,7 @@ public class RvtLocalSetTest extends LoggerChecks {
                 };
         RvtLocalSet localSet = new RvtLocalSet(bytes);
         assertNotNull(localSet);
-        assertEquals(localSet.getTags().size(), 2);
+        assertEquals(localSet.getIdentifiers().size(), 2);
         checkPlatformTrueAirspeedExample(localSet);
         checkVersionNumberExample(localSet);
     }
@@ -124,7 +124,7 @@ public class RvtLocalSetTest extends LoggerChecks {
     }
 
     private void checkVersionNumberExample(RvtLocalSet localSet) {
-        assertTrue(localSet.getTags().contains(RvtMetadataKey.UASLSVersionNumber));
+        assertTrue(localSet.getIdentifiers().contains(RvtMetadataKey.UASLSVersionNumber));
         IRvtMetadataValue v = localSet.getField(RvtMetadataKey.UASLSVersionNumber);
         assertEquals(v.getDisplayName(), "Version Number");
         assertEquals(v.getDisplayableValue(), "ST0806.4");
@@ -136,7 +136,7 @@ public class RvtLocalSetTest extends LoggerChecks {
     }
 
     private void checkPlatformTrueAirspeedExample(RvtLocalSet localSet) {
-        assertTrue(localSet.getTags().contains(RvtMetadataKey.PlatformTrueAirspeed));
+        assertTrue(localSet.getIdentifiers().contains(RvtMetadataKey.PlatformTrueAirspeed));
         IRvtMetadataValue v = localSet.getField(RvtMetadataKey.PlatformTrueAirspeed);
         assertEquals(v.getDisplayName(), "Platform True Airspeed (TAS)");
         assertEquals(v.getDisplayableValue(), "258m/s");
@@ -172,7 +172,7 @@ public class RvtLocalSetTest extends LoggerChecks {
                 RvtPoiLocalSetTest.buildPoiValues();
         localSet.addPointOfInterestLocalSet(new RvtPoiLocalSet(poiValues));
         assertNotNull(localSet);
-        assertEquals(localSet.getTags().size(), 2);
+        assertEquals(localSet.getIdentifiers().size(), 2);
         assertEquals(localSet.getPOIIndexes().size(), 1);
         checkPlatformTrueAirspeedExample(localSet);
         checkVersionNumberExample(localSet);
@@ -191,7 +191,7 @@ public class RvtLocalSetTest extends LoggerChecks {
         aoiValues.put(RvtAoiMetadataKey.PoiAoiType, new PoiAoiType((byte) 3));
         // Not really enough values for compliance, but enough for test
         localSet.addAreaOfInterestLocalSet(new RvtAoiLocalSet(aoiValues));
-        assertEquals(localSet.getTags().size(), 2);
+        assertEquals(localSet.getIdentifiers().size(), 2);
         assertEquals(localSet.getPOIIndexes().size(), 2);
         checkPoiLocalSetExample(localSet);
         assertTrue(localSet.getPOIIndexes().contains(3));
@@ -483,7 +483,7 @@ public class RvtLocalSetTest extends LoggerChecks {
         RvtLocalSet localSet = new RvtLocalSet(bytes);
         assertTrue(localSet instanceof IMisbMessage);
         assertEquals(localSet.displayHeader(), "ST0806 Remote Video Terminal");
-        assertEquals(localSet.getTags().size(), 2);
+        assertEquals(localSet.getIdentifiers().size(), 2);
         assertEquals(localSet.getUserDefinedIndexes().size(), 1);
         assertTrue(localSet.getUserDefinedIndexes().contains(0x82));
         assertEquals(localSet.getPOIIndexes().size(), 2);
@@ -732,7 +732,7 @@ public class RvtLocalSetTest extends LoggerChecks {
         RvtLocalSet localSet = new RvtLocalSet(bytes);
         assertTrue(localSet instanceof IMisbMessage);
         assertEquals(localSet.displayHeader(), "ST0806 Remote Video Terminal");
-        assertEquals(localSet.getTags().size(), 2);
+        assertEquals(localSet.getIdentifiers().size(), 2);
         assertEquals(localSet.getUserDefinedIndexes().size(), 0);
         assertEquals(localSet.getPOIIndexes().size(), 0);
         assertEquals(localSet.getAOIIndexes().size(), 0);
@@ -770,10 +770,10 @@ public class RvtLocalSetTest extends LoggerChecks {
         values.put(RvtMetadataKey.CRC32, fakeChecksum);
         RvtLocalSet localSet = new RvtLocalSet(values);
         assertNotNull(localSet);
-        assertEquals(localSet.getTags().size(), 3);
+        assertEquals(localSet.getIdentifiers().size(), 3);
         checkPlatformTrueAirspeedExample(localSet);
         checkVersionNumberExample(localSet);
-        assertTrue(localSet.getTags().contains(RvtMetadataKey.CRC32));
+        assertTrue(localSet.getIdentifiers().contains(RvtMetadataKey.CRC32));
         // but the checksum should be ignored.
         byte[] expectedBytes =
                 new byte[] {
@@ -821,7 +821,7 @@ public class RvtLocalSetTest extends LoggerChecks {
         values.put(RvtMetadataKey.UASLSVersionNumber, version);
         RvtLocalSet localSet = new RvtLocalSet(values);
         assertNotNull(localSet);
-        assertEquals(localSet.getTags().size(), 2);
+        assertEquals(localSet.getIdentifiers().size(), 2);
         checkPlatformTrueAirspeedExample(localSet);
         checkVersionNumberExample(localSet);
         return localSet;
@@ -839,7 +839,7 @@ public class RvtLocalSetTest extends LoggerChecks {
         values.put(RvtMetadataKey.UserDefinedTimeStampMicroseconds, timestamp);
         RvtLocalSet localSet = new RvtLocalSet(values);
         assertNotNull(localSet);
-        assertEquals(localSet.getTags().size(), 3);
+        assertEquals(localSet.getIdentifiers().size(), 3);
         checkPlatformTrueAirspeedExample(localSet);
         checkVersionNumberExample(localSet);
         byte[] expectedBytes =

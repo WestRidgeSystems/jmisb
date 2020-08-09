@@ -28,7 +28,7 @@ public class VmtiLocalSetTest extends LoggerChecks {
                 };
         VmtiLocalSet localSet = new VmtiLocalSet(bytes);
         assertNotNull(localSet);
-        assertEquals(localSet.getTags().size(), 1);
+        assertEquals(localSet.getIdentifiers().size(), 1);
         checkSystemNameExample(localSet);
         assertEquals(localSet.frameMessage(true), bytes);
     }
@@ -38,7 +38,7 @@ public class VmtiLocalSetTest extends LoggerChecks {
         final byte[] bytes = new byte[] {0x04, 0x01, 0x04};
         VmtiLocalSet localSet = new VmtiLocalSet(bytes);
         assertNotNull(localSet);
-        assertEquals(localSet.getTags().size(), 1);
+        assertEquals(localSet.getIdentifiers().size(), 1);
         checkVersionNumberExample(localSet);
         assertEquals(localSet.frameMessage(true), bytes);
     }
@@ -48,8 +48,8 @@ public class VmtiLocalSetTest extends LoggerChecks {
         final byte[] bytes = new byte[] {0x0c, 0x02, 0x0e, 0x39, 0x04, 0x01, 0x03};
         VmtiLocalSet localSet = new VmtiLocalSet(bytes);
         assertNotNull(localSet);
-        assertEquals(localSet.getTags().size(), 2);
-        assertTrue(localSet.getTags().contains(VmtiMetadataKey.VersionNumber));
+        assertEquals(localSet.getIdentifiers().size(), 2);
+        assertTrue(localSet.getIdentifiers().contains(VmtiMetadataKey.VersionNumber));
         IVmtiMetadataValue v = localSet.getField(VmtiMetadataKey.VersionNumber);
         assertEquals(v.getDisplayName(), "Version Number");
         assertEquals(v.getDisplayableValue(), "ST0903.3");
@@ -57,7 +57,7 @@ public class VmtiLocalSetTest extends LoggerChecks {
         assertTrue(v instanceof ST0903Version);
         ST0903Version version = (ST0903Version) localSet.getField(VmtiMetadataKey.VersionNumber);
         assertEquals(version.getVersion(), 3);
-        assertTrue(localSet.getTags().contains(VmtiMetadataKey.VerticalFieldOfView));
+        assertTrue(localSet.getIdentifiers().contains(VmtiMetadataKey.VerticalFieldOfView));
         IVmtiMetadataValue f = localSet.getField(VmtiMetadataKey.VerticalFieldOfView);
         assertEquals(f.getDisplayName(), "Vertical Field of View");
         assertEquals(f.getDisplayableValue(), "10.0\u00B0");
@@ -100,7 +100,7 @@ public class VmtiLocalSetTest extends LoggerChecks {
         VmtiLocalSet localSet = new VmtiLocalSet(bytes);
         verifySingleLoggerMessage("Unknown VMTI Metadata tag: 127");
         assertNotNull(localSet);
-        assertEquals(localSet.getTags().size(), 2);
+        assertEquals(localSet.getIdentifiers().size(), 2);
         checkVersionNumberExample(localSet);
         checkSystemNameExample(localSet);
     }
@@ -114,7 +114,7 @@ public class VmtiLocalSetTest extends LoggerChecks {
                 };
         VmtiLocalSet localSet = new VmtiLocalSet(bytes);
         assertNotNull(localSet);
-        assertEquals(localSet.getTags().size(), 2);
+        assertEquals(localSet.getIdentifiers().size(), 2);
         checkVersionNumberExample(localSet);
         checkSystemNameExample(localSet);
     }
@@ -141,7 +141,7 @@ public class VmtiLocalSetTest extends LoggerChecks {
 
     private void checkSystemNameExample(VmtiLocalSet localSet) {
         final String stringVal = "DSTO_ADSS_VMTI";
-        assertTrue(localSet.getTags().contains(VmtiMetadataKey.SystemName));
+        assertTrue(localSet.getIdentifiers().contains(VmtiMetadataKey.SystemName));
         IVmtiMetadataValue v = localSet.getField(VmtiMetadataKey.SystemName);
         assertEquals(v.getDisplayName(), "System Name/Description");
         assertEquals(v.getDisplayName(), VmtiTextString.SYSTEM_NAME);
@@ -153,7 +153,7 @@ public class VmtiLocalSetTest extends LoggerChecks {
 
     private void checkVersionNumberExample(VmtiLocalSet localSet) {
         final String stringVal = "ST0903.4";
-        assertTrue(localSet.getTags().contains(VmtiMetadataKey.VersionNumber));
+        assertTrue(localSet.getIdentifiers().contains(VmtiMetadataKey.VersionNumber));
         IVmtiMetadataValue v = localSet.getField(VmtiMetadataKey.VersionNumber);
         assertEquals(v.getDisplayName(), "Version Number");
         assertEquals(v.getDisplayableValue(), stringVal);
@@ -264,10 +264,10 @@ public class VmtiLocalSetTest extends LoggerChecks {
         values.put(VmtiMetadataKey.Checksum, fakeChecksum);
         VmtiLocalSet localSet = new VmtiLocalSet(values);
         assertNotNull(localSet);
-        assertEquals(localSet.getTags().size(), 3);
+        assertEquals(localSet.getIdentifiers().size(), 3);
         checkSystemNameExample(localSet);
         checkVersionNumberExample(localSet);
-        assertTrue(localSet.getTags().contains(VmtiMetadataKey.Checksum));
+        assertTrue(localSet.getIdentifiers().contains(VmtiMetadataKey.Checksum));
         // but the checksum should be ignored.
         byte[] expectedBytes =
                 new byte[] {
@@ -326,7 +326,7 @@ public class VmtiLocalSetTest extends LoggerChecks {
         values.put(VmtiMetadataKey.VersionNumber, version);
         VmtiLocalSet localSet = new VmtiLocalSet(values);
         assertNotNull(localSet);
-        assertEquals(localSet.getTags().size(), 2);
+        assertEquals(localSet.getIdentifiers().size(), 2);
         checkSystemNameExample(localSet);
         checkVersionNumberExample(localSet);
         return localSet;

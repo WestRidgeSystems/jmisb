@@ -1,12 +1,20 @@
 package org.jmisb.api.klv.st0903;
 
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
+import java.util.Set;
+import java.util.TreeSet;
 import org.jmisb.api.common.KlvParseException;
 import org.jmisb.api.klv.BerDecoder;
 import org.jmisb.api.klv.BerEncoder;
 import org.jmisb.api.klv.BerField;
+import org.jmisb.api.klv.IKlvKey;
+import org.jmisb.api.klv.IKlvValue;
+import org.jmisb.api.klv.INestedKlvValue;
 import org.jmisb.api.klv.st0903.shared.EncodingMode;
+import org.jmisb.api.klv.st0903.vtarget.TargetIdentifierKey;
 import org.jmisb.api.klv.st0903.vtarget.VTargetPack;
 import org.jmisb.core.klv.ArrayUtils;
 
@@ -24,8 +32,8 @@ import org.jmisb.core.klv.ArrayUtils;
  *
  * </blockquote>
  */
-public class VTargetSeries implements IVmtiMetadataValue {
-    private final List<VTargetPack> targetPacks = new ArrayList<>();
+public class VTargetSeries implements IVmtiMetadataValue, INestedKlvValue {
+    private final Map<Integer, VTargetPack> targetPacks = new HashMap<>();
 
     /**
      * Create the message from a list of VTargetPacks.
@@ -33,7 +41,10 @@ public class VTargetSeries implements IVmtiMetadataValue {
      * @param values the target packs to include in the series.
      */
     public VTargetSeries(List<VTargetPack> values) {
-        targetPacks.addAll(values);
+        values.forEach(
+                (targetPack) -> {
+                    targetPacks.put(targetPack.getTargetIdentifier(), targetPack);
+                });
     }
     /**
      * Create from encoded bytes.
@@ -66,7 +77,7 @@ public class VTargetSeries implements IVmtiMetadataValue {
             index += lengthField.getLength();
             VTargetPack targetPack =
                     new VTargetPack(bytes, index, lengthField.getValue(), encodingMode);
-            targetPacks.add(targetPack);
+            targetPacks.put(targetPack.getTargetIdentifier(), targetPack);
             index += lengthField.getValue();
         }
     }
@@ -75,7 +86,7 @@ public class VTargetSeries implements IVmtiMetadataValue {
     public byte[] getBytes() {
         int len = 0;
         List<byte[]> chunks = new ArrayList<>();
-        for (VTargetPack vtargetPack : targetPacks) {
+        for (VTargetPack vtargetPack : targetPacks.values()) {
             byte[] localSetBytes = vtargetPack.getBytes();
             byte[] lengthBytes = BerEncoder.encode(localSetBytes.length);
             chunks.add(lengthBytes);
@@ -103,6 +114,26 @@ public class VTargetSeries implements IVmtiMetadataValue {
      * @return the VTargets as a List
      */
     public List<VTargetPack> getVTargets() {
-        return targetPacks;
+        List<VTargetPack> vtargets = new ArrayList<>();
+        vtargets.addAll(targetPacks.values());
+        return vtargets;
+    }
+
+    @Override
+    public IKlvValue getField(IKlvKey tag) {
+        int identifier = tag.getIdentifier();
+        return targetPacks.get(identifier);
+    }
+
+    @Override
+    public Set<? extends IKlvKey> getIdentifiers() {
+        Set<TargetIdentifierKey> identifiers = new TreeSet<>();
+        targetPacks
+                .keySet()
+                .forEach(
+                        (Integer ident) -> {
+                            identifiers.add(new TargetIdentifierKey(ident));
+                        });
+        return identifiers;
     }
 }

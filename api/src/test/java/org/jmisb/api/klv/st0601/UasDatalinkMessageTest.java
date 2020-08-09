@@ -153,7 +153,7 @@ public class UasDatalinkMessageTest extends LoggerChecks {
     @Test
     public void testTags() {
         // Frame the message
-        Collection<UasDatalinkTag> tags = message.getTags();
+        Collection<UasDatalinkTag> tags = message.getIdentifiers();
         Assert.assertEquals(tags.size(), 3);
         Assert.assertTrue(tags.contains(UasDatalinkTag.SensorLatitude));
         Assert.assertTrue(tags.contains(UasDatalinkTag.SensorLongitude));
