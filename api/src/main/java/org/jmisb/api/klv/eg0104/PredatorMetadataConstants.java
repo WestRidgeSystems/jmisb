@@ -2,7 +2,7 @@ package org.jmisb.api.klv.eg0104;
 
 import org.jmisb.api.klv.UniversalLabel;
 
-/** Constants used by EG 0104 */
+/** Constants used by EG 0104. */
 public class PredatorMetadataConstants {
     private PredatorMetadataConstants() {}
 

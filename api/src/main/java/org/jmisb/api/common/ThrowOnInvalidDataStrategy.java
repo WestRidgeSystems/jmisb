@@ -9,6 +9,7 @@ import org.slf4j.Logger;
  */
 public class ThrowOnInvalidDataStrategy implements IInvalidDataHandlerStrategy {
 
+    /** Constructor. */
     public ThrowOnInvalidDataStrategy() {}
 
     @Override

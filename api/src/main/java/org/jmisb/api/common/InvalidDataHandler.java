@@ -19,6 +19,11 @@ public class InvalidDataHandler {
 
     private InvalidDataHandler() {}
 
+    /**
+     * Get the Invalid Data Handler instance.
+     *
+     * @return the initialised invalid data handler instance.
+     */
     public static InvalidDataHandler getInstance() {
         return INSTANCE;
     }
