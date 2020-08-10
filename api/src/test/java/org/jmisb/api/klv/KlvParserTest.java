@@ -120,6 +120,10 @@ public class KlvParserTest {
             Assert.assertEquals(
                     rawMisbMessage.getUniversalLabel(), KlvConstants.GeneralizedTransformationUl);
             Assert.assertEquals(rawMisbMessage.getBytes().length, 20);
+            Assert.assertEquals(rawMisbMessage.frameMessage(true).length, 20);
+            Assert.assertEquals(rawMisbMessage.displayHeader(), "Unknown");
+            Assert.assertEquals(rawMisbMessage.getIdentifiers().size(), 0);
+            Assert.assertEquals(rawMisbMessage.getField(() -> 0), null);
         } catch (KlvParseException e) {
             Assert.fail("Parse exception");
         }

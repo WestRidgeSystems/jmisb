@@ -18,4 +18,9 @@ public class PredatorMetadataKeyTest {
         assertEquals(
                 PredatorMetadataKey.AngleToNorth.getUl(), PredatorMetadataConstants.ANGLE_TO_NORTH);
     }
+
+    @Test
+    public void checkKey() {
+        assertEquals(PredatorMetadataKey.AngleToNorth.getIdentifier(), 118);
+    }
 }

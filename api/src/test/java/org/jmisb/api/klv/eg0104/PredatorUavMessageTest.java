@@ -3,6 +3,7 @@ package org.jmisb.api.klv.eg0104;
 import static org.testng.Assert.*;
 
 import org.jmisb.api.common.KlvParseException;
+import org.jmisb.api.klv.IKlvKey;
 import org.jmisb.api.klv.KlvConstants;
 import org.testng.annotations.Test;
 
@@ -172,6 +173,11 @@ public class PredatorUavMessageTest {
         assertEquals(frameCenterLat.getDisplayName(), "Frame Center Latitude");
         assertEquals(frameCenterLat.getDisplayableValue(), "-34.7897\u00B0");
         assertEquals(frameCenterLat.getDegrees(), -34.7897, 0.0001);
+        assertEquals(
+                predatorUavMessage
+                        .getField((IKlvKey) PredatorMetadataKey.FrameCenterLatitude)
+                        .getDisplayableValue(),
+                "-34.7897\u00B0");
 
         // Frame Center Longitude
         assertTrue(

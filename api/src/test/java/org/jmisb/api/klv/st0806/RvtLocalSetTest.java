@@ -5,6 +5,7 @@ import static org.testng.Assert.*;
 import java.util.HashMap;
 import java.util.Map;
 import org.jmisb.api.common.KlvParseException;
+import org.jmisb.api.klv.IKlvKey;
 import org.jmisb.api.klv.IMisbMessage;
 import org.jmisb.api.klv.KlvConstants;
 import org.jmisb.api.klv.LoggerChecks;
@@ -133,6 +134,10 @@ public class RvtLocalSetTest extends LoggerChecks {
         ST0806Version version =
                 (ST0806Version) localSet.getField(RvtMetadataKey.UASLSVersionNumber);
         assertEquals(version.getVersion(), 4);
+        assertEquals(
+                localSet.getField((IKlvKey) RvtMetadataKey.UASLSVersionNumber)
+                        .getDisplayableValue(),
+                "ST0806.4");
     }
 
     private void checkPlatformTrueAirspeedExample(RvtLocalSet localSet) {

@@ -5,13 +5,14 @@ import static org.testng.Assert.*;
 import org.testng.annotations.Test;
 
 /** Unit tests for VTargetMetadataKey. */
-public class VTargetMetadataKetTest {
+public class VTargetMetadataKeyTest {
 
     @Test
     public void Enum0Test() {
         VTargetMetadataKey key = VTargetMetadataKey.getKey(0);
         assertEquals(key, VTargetMetadataKey.Undefined);
         assertEquals(key.getTag(), 0);
+        assertEquals(key.getIdentifier(), 0);
     }
 
     @Test
@@ -19,6 +20,7 @@ public class VTargetMetadataKetTest {
         VTargetMetadataKey key = VTargetMetadataKey.getKey(127);
         assertEquals(key, VTargetMetadataKey.Undefined);
         assertEquals(key.getTag(), 0);
+        assertEquals(key.getIdentifier(), 0);
     }
 
     @Test
@@ -26,6 +28,7 @@ public class VTargetMetadataKetTest {
         VTargetMetadataKey key = VTargetMetadataKey.getKey(1);
         assertEquals(key, VTargetMetadataKey.TargetCentroid);
         assertEquals(key.getTag(), 1);
+        assertEquals(key.getIdentifier(), 1);
     }
 
     @Test
@@ -33,6 +36,7 @@ public class VTargetMetadataKetTest {
         VTargetMetadataKey key = VTargetMetadataKey.getKey(2);
         assertEquals(key, VTargetMetadataKey.BoundaryTopLeft);
         assertEquals(key.getTag(), 2);
+        assertEquals(key.getIdentifier(), 2);
     }
 
     @Test
@@ -40,5 +44,6 @@ public class VTargetMetadataKetTest {
         VTargetMetadataKey key = VTargetMetadataKey.getKey(107);
         assertEquals(key, VTargetMetadataKey.VObjectSeries);
         assertEquals(key.getTag(), 107);
+        assertEquals(key.getIdentifier(), 107);
     }
 }
