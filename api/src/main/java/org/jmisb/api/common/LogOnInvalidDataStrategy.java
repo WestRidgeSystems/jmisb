@@ -10,6 +10,7 @@ import org.slf4j.Logger;
  */
 public class LogOnInvalidDataStrategy implements IInvalidDataHandlerStrategy {
 
+    /** Constructor. */
     public LogOnInvalidDataStrategy() {}
 
     @Override
