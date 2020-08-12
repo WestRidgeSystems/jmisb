@@ -3,6 +3,7 @@ package org.jmisb.api.klv.st0903.vtarget;
 import static org.testng.Assert.*;
 
 import org.jmisb.api.common.KlvParseException;
+import org.jmisb.api.klv.IKlvKey;
 import org.jmisb.api.klv.LoggerChecks;
 import org.jmisb.api.klv.st0903.IVmtiMetadataValue;
 import org.jmisb.api.klv.st0903.shared.AlgorithmId;
@@ -61,8 +62,12 @@ public class VTargetPackTest extends LoggerChecks {
 
     private void checkVTargetPackWithAlgorithmId(VTargetPack localSet) {
         assertNotNull(localSet);
+        assertEquals(localSet.getDisplayName(), "VTarget");
+        assertEquals(localSet.getDisplayableValue(), "Target 1");
         assertEquals(localSet.getTags().size(), 1);
         assertTrue(localSet.getTags().contains(VTargetMetadataKey.AlgorithmId));
+        assertEquals(localSet.getIdentifiers().size(), 1);
+        assertTrue(localSet.getIdentifiers().contains(VTargetMetadataKey.AlgorithmId));
         IVmtiMetadataValue v = localSet.getField(VTargetMetadataKey.AlgorithmId);
         assertEquals(v.getDisplayName(), "Algorithm Id");
         assertEquals(v.getDisplayableValue(), "66456");
@@ -70,6 +75,10 @@ public class VTargetPackTest extends LoggerChecks {
         AlgorithmId id = (AlgorithmId) localSet.getField(VTargetMetadataKey.AlgorithmId);
         assertEquals(id.getValue(), 66456);
         assertEquals(id.getBytes(), new byte[] {0x01, 0x03, (byte) 0x98});
+        AlgorithmId idFromIKlvKey =
+                (AlgorithmId) localSet.getField((IKlvKey) VTargetMetadataKey.AlgorithmId);
+        assertEquals(idFromIKlvKey.getValue(), 66456);
+        assertEquals(idFromIKlvKey.getBytes(), new byte[] {0x01, 0x03, (byte) 0x98});
     }
 
     @Test

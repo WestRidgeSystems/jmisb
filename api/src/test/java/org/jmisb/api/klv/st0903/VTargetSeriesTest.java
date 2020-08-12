@@ -7,9 +7,11 @@ import java.util.List;
 import java.util.SortedMap;
 import java.util.TreeMap;
 import org.jmisb.api.common.KlvParseException;
+import org.jmisb.api.klv.IKlvValue;
 import org.jmisb.api.klv.st0903.vtarget.CentroidPixelColumn;
 import org.jmisb.api.klv.st0903.vtarget.CentroidPixelRow;
 import org.jmisb.api.klv.st0903.vtarget.TargetHAE;
+import org.jmisb.api.klv.st0903.vtarget.TargetIdentifierKey;
 import org.jmisb.api.klv.st0903.vtarget.TargetPriority;
 import org.jmisb.api.klv.st0903.vtarget.VTargetMetadataKey;
 import org.jmisb.api.klv.st0903.vtarget.VTargetPack;
@@ -80,6 +82,13 @@ public class VTargetSeriesTest {
         assertEquals(vtarget1.getTargetIdentifier(), 1);
         VTargetPack vtarget2 = vtargets.get(1);
         assertEquals(vtarget2.getTargetIdentifier(), 2);
+        assertEquals(vTargetSeriesFromVTargets.getIdentifiers().size(), 2);
+        assertNotNull(vTargetSeriesFromVTargets.getField(new TargetIdentifierKey(1)));
+        IKlvValue value1FromFields =
+                (vTargetSeriesFromVTargets.getField(new TargetIdentifierKey(1)));
+        assertTrue(value1FromFields instanceof VTargetPack);
+        VTargetPack vtargetPack1FromFields = (VTargetPack) value1FromFields;
+        assertEquals(vtargetPack1FromFields.getTargetIdentifier(), 1);
     }
 
     /** Check parsing */

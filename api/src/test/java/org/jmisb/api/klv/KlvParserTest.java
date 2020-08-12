@@ -74,6 +74,7 @@ public class KlvParserTest {
 
             UasDatalinkMessage datalinkMessage = (UasDatalinkMessage) message;
             Assert.assertEquals(datalinkMessage.getTags().size(), 3);
+            Assert.assertEquals(datalinkMessage.getIdentifiers().size(), 3);
 
             SensorLatitude lat =
                     (SensorLatitude) datalinkMessage.getField(UasDatalinkTag.SensorLatitude);
@@ -94,6 +95,10 @@ public class KlvParserTest {
             Assert.assertEquals(alt.getMeters(), 1258.3, SensorTrueAltitude.DELTA);
             Assert.assertEquals(alt.getBytes(), SENSOR_ALT_VALUE);
 
+            SensorLongitude lonFromIKlvKey =
+                    (SensorLongitude)
+                            datalinkMessage.getField((IKlvKey) UasDatalinkTag.SensorLongitude);
+            Assert.assertEquals(lonFromIKlvKey.getDegrees(), lon.getDegrees(), 0.0000001);
         } catch (KlvParseException e) {
             Assert.fail("Parse exception");
         }
@@ -115,6 +120,10 @@ public class KlvParserTest {
             Assert.assertEquals(
                     rawMisbMessage.getUniversalLabel(), KlvConstants.GeneralizedTransformationUl);
             Assert.assertEquals(rawMisbMessage.getBytes().length, 20);
+            Assert.assertEquals(rawMisbMessage.frameMessage(true).length, 20);
+            Assert.assertEquals(rawMisbMessage.displayHeader(), "Unknown");
+            Assert.assertEquals(rawMisbMessage.getIdentifiers().size(), 0);
+            Assert.assertEquals(rawMisbMessage.getField(() -> 0), null);
         } catch (KlvParseException e) {
             Assert.fail("Parse exception");
         }
@@ -154,7 +163,7 @@ public class KlvParserTest {
             Assert.assertTrue(message instanceof UasDatalinkMessage);
 
             UasDatalinkMessage datalinkMessage = (UasDatalinkMessage) message;
-            Collection<UasDatalinkTag> tags = datalinkMessage.getTags();
+            Collection<UasDatalinkTag> tags = datalinkMessage.getIdentifiers();
             Assert.assertEquals(tags.size(), 0);
         } catch (KlvParseException e) {
             Assert.fail("Parse exception");
@@ -190,7 +199,7 @@ public class KlvParserTest {
             Assert.assertTrue(message instanceof UasDatalinkMessage);
 
             UasDatalinkMessage datalinkMessage = (UasDatalinkMessage) message;
-            Collection<UasDatalinkTag> tags = datalinkMessage.getTags();
+            Collection<UasDatalinkTag> tags = datalinkMessage.getIdentifiers();
             Assert.assertEquals(tags.size(), 0);
         } catch (KlvParseException e) {
             Assert.fail("Parse exception");
@@ -232,7 +241,7 @@ public class KlvParserTest {
             Assert.assertTrue(message instanceof UasDatalinkMessage);
 
             UasDatalinkMessage datalinkMessage = (UasDatalinkMessage) message;
-            Collection<UasDatalinkTag> tags = datalinkMessage.getTags();
+            Collection<UasDatalinkTag> tags = datalinkMessage.getIdentifiers();
             Assert.assertEquals(tags.size(), 3);
 
             SensorLatitude lat =

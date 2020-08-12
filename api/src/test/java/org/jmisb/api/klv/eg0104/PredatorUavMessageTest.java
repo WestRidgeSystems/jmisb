@@ -3,6 +3,7 @@ package org.jmisb.api.klv.eg0104;
 import static org.testng.Assert.*;
 
 import org.jmisb.api.common.KlvParseException;
+import org.jmisb.api.klv.IKlvKey;
 import org.jmisb.api.klv.KlvConstants;
 import org.testng.annotations.Test;
 
@@ -156,12 +157,15 @@ public class PredatorUavMessageTest {
         PredatorUavMessage predatorUavMessage = new PredatorUavMessage(bytes);
         assertNotNull(predatorUavMessage);
         assertEquals(predatorUavMessage.displayHeader(), "Predator EG0104.5");
-        assertEquals(predatorUavMessage.getKeys().size(), 31);
+        assertEquals(predatorUavMessage.getIdentifiers().size(), 31);
         assertEquals(
                 predatorUavMessage.getUniversalLabel(), KlvConstants.PredatorMetadataLocalSetUl);
 
         // Frame Center Latitude
-        assertTrue(predatorUavMessage.getKeys().contains(PredatorMetadataKey.FrameCenterLatitude));
+        assertTrue(
+                predatorUavMessage
+                        .getIdentifiers()
+                        .contains(PredatorMetadataKey.FrameCenterLatitude));
         IPredatorMetadataValue v =
                 predatorUavMessage.getField(PredatorMetadataKey.FrameCenterLatitude);
         assertTrue(v instanceof LatLonValue);
@@ -169,9 +173,17 @@ public class PredatorUavMessageTest {
         assertEquals(frameCenterLat.getDisplayName(), "Frame Center Latitude");
         assertEquals(frameCenterLat.getDisplayableValue(), "-34.7897\u00B0");
         assertEquals(frameCenterLat.getDegrees(), -34.7897, 0.0001);
+        assertEquals(
+                predatorUavMessage
+                        .getField((IKlvKey) PredatorMetadataKey.FrameCenterLatitude)
+                        .getDisplayableValue(),
+                "-34.7897\u00B0");
 
         // Frame Center Longitude
-        assertTrue(predatorUavMessage.getKeys().contains(PredatorMetadataKey.FrameCenterLongitude));
+        assertTrue(
+                predatorUavMessage
+                        .getIdentifiers()
+                        .contains(PredatorMetadataKey.FrameCenterLongitude));
         v = predatorUavMessage.getField(PredatorMetadataKey.FrameCenterLongitude);
         assertTrue(v instanceof LatLonValue);
         LatLonValue frameCenterLon = (LatLonValue) v;
@@ -180,7 +192,10 @@ public class PredatorUavMessageTest {
         assertEquals(frameCenterLon.getDegrees(), 138.6367, 0.0001);
 
         // Frame Center Elevation
-        assertTrue(predatorUavMessage.getKeys().contains(PredatorMetadataKey.FrameCenterElevation));
+        assertTrue(
+                predatorUavMessage
+                        .getIdentifiers()
+                        .contains(PredatorMetadataKey.FrameCenterElevation));
         v = predatorUavMessage.getField(PredatorMetadataKey.FrameCenterElevation);
         assertTrue(v instanceof AltitudeValue);
         AltitudeValue frameCenterElevation = (AltitudeValue) v;
@@ -190,7 +205,9 @@ public class PredatorUavMessageTest {
 
         // Image Coordinate System
         assertTrue(
-                predatorUavMessage.getKeys().contains(PredatorMetadataKey.ImageCoordinateSystem));
+                predatorUavMessage
+                        .getIdentifiers()
+                        .contains(PredatorMetadataKey.ImageCoordinateSystem));
         v = predatorUavMessage.getField(PredatorMetadataKey.ImageCoordinateSystem);
         assertTrue(v instanceof TextValue);
         TextValue imageCoordinateSystem = (TextValue) v;
@@ -198,7 +215,7 @@ public class PredatorUavMessageTest {
         assertEquals(imageCoordinateSystem.getDisplayableValue(), "2");
 
         // Target Width
-        assertTrue(predatorUavMessage.getKeys().contains(PredatorMetadataKey.TargetWidth));
+        assertTrue(predatorUavMessage.getIdentifiers().contains(PredatorMetadataKey.TargetWidth));
         v = predatorUavMessage.getField(PredatorMetadataKey.TargetWidth);
         assertTrue(v instanceof TargetWidth);
         TargetWidth targetWidth = (TargetWidth) v;
@@ -207,7 +224,8 @@ public class PredatorUavMessageTest {
         assertEquals(targetWidth.getDistance(), 7225.445, 0.001);
 
         // Start Date Time - UTC
-        assertTrue(predatorUavMessage.getKeys().contains(PredatorMetadataKey.StartDateTimeUtc));
+        assertTrue(
+                predatorUavMessage.getIdentifiers().contains(PredatorMetadataKey.StartDateTimeUtc));
         v = predatorUavMessage.getField(PredatorMetadataKey.StartDateTimeUtc);
         assertTrue(v instanceof DateTimeUTC);
         DateTimeUTC startDateTime = (DateTimeUTC) v;
@@ -216,7 +234,9 @@ public class PredatorUavMessageTest {
 
         // Event Start Date Time - UTC
         assertTrue(
-                predatorUavMessage.getKeys().contains(PredatorMetadataKey.EventStartDateTimeUtc));
+                predatorUavMessage
+                        .getIdentifiers()
+                        .contains(PredatorMetadataKey.EventStartDateTimeUtc));
         v = predatorUavMessage.getField(PredatorMetadataKey.EventStartDateTimeUtc);
         assertTrue(v instanceof DateTimeUTC);
         DateTimeUTC eventStartDateTime = (DateTimeUTC) v;
@@ -224,7 +244,10 @@ public class PredatorUavMessageTest {
         assertEquals(eventStartDateTime.getDisplayableValue(), "20050331075051");
 
         // User Defined Time Stamp
-        assertTrue(predatorUavMessage.getKeys().contains(PredatorMetadataKey.UserDefinedTimeStamp));
+        assertTrue(
+                predatorUavMessage
+                        .getIdentifiers()
+                        .contains(PredatorMetadataKey.UserDefinedTimeStamp));
         v = predatorUavMessage.getField(PredatorMetadataKey.UserDefinedTimeStamp);
         assertTrue(v instanceof UserDefinedTimeStamp);
         UserDefinedTimeStamp timestamp = (UserDefinedTimeStamp) v;
@@ -232,7 +255,10 @@ public class PredatorUavMessageTest {
         assertEquals(timestamp.getDisplayableValue(), "1112376646437500");
 
         // Corner Latitude Point 1
-        assertTrue(predatorUavMessage.getKeys().contains(PredatorMetadataKey.CornerLatitudePoint1));
+        assertTrue(
+                predatorUavMessage
+                        .getIdentifiers()
+                        .contains(PredatorMetadataKey.CornerLatitudePoint1));
         v = predatorUavMessage.getField(PredatorMetadataKey.CornerLatitudePoint1);
         assertTrue(v instanceof LatLonValue);
         LatLonValue cornerLatitudePoint1 = (LatLonValue) v;
@@ -241,7 +267,10 @@ public class PredatorUavMessageTest {
         assertEquals(cornerLatitudePoint1.getDegrees(), -34.7885, 0.0001);
 
         // Corner Latitude Point 2
-        assertTrue(predatorUavMessage.getKeys().contains(PredatorMetadataKey.CornerLatitudePoint2));
+        assertTrue(
+                predatorUavMessage
+                        .getIdentifiers()
+                        .contains(PredatorMetadataKey.CornerLatitudePoint2));
         v = predatorUavMessage.getField(PredatorMetadataKey.CornerLatitudePoint2);
         assertTrue(v instanceof LatLonValue);
         LatLonValue cornerLatitudePoint2 = (LatLonValue) v;
@@ -250,7 +279,10 @@ public class PredatorUavMessageTest {
         assertEquals(cornerLatitudePoint2.getDegrees(), -34.7893, 0.0001);
 
         // Corner Latitude Point 3
-        assertTrue(predatorUavMessage.getKeys().contains(PredatorMetadataKey.CornerLatitudePoint3));
+        assertTrue(
+                predatorUavMessage
+                        .getIdentifiers()
+                        .contains(PredatorMetadataKey.CornerLatitudePoint3));
         v = predatorUavMessage.getField(PredatorMetadataKey.CornerLatitudePoint3);
         assertTrue(v instanceof LatLonValue);
         LatLonValue cornerLatitudePoint3 = (LatLonValue) v;
@@ -259,7 +291,10 @@ public class PredatorUavMessageTest {
         assertEquals(cornerLatitudePoint3.getDegrees(), -34.7908, 0.0001);
 
         // Corner Latitude Point 4
-        assertTrue(predatorUavMessage.getKeys().contains(PredatorMetadataKey.CornerLatitudePoint4));
+        assertTrue(
+                predatorUavMessage
+                        .getIdentifiers()
+                        .contains(PredatorMetadataKey.CornerLatitudePoint4));
         v = predatorUavMessage.getField(PredatorMetadataKey.CornerLatitudePoint4);
         assertTrue(v instanceof LatLonValue);
         LatLonValue cornerLatitudePoint4 = (LatLonValue) v;
@@ -269,7 +304,9 @@ public class PredatorUavMessageTest {
 
         // Corner Longitude Point 1
         assertTrue(
-                predatorUavMessage.getKeys().contains(PredatorMetadataKey.CornerLongitudePoint1));
+                predatorUavMessage
+                        .getIdentifiers()
+                        .contains(PredatorMetadataKey.CornerLongitudePoint1));
         v = predatorUavMessage.getField(PredatorMetadataKey.CornerLongitudePoint1);
         assertTrue(v instanceof LatLonValue);
         LatLonValue cornerLongitudePoint1 = (LatLonValue) v;
@@ -279,7 +316,9 @@ public class PredatorUavMessageTest {
 
         // Corner Longitude Point 2
         assertTrue(
-                predatorUavMessage.getKeys().contains(PredatorMetadataKey.CornerLongitudePoint2));
+                predatorUavMessage
+                        .getIdentifiers()
+                        .contains(PredatorMetadataKey.CornerLongitudePoint2));
         v = predatorUavMessage.getField(PredatorMetadataKey.CornerLongitudePoint2);
         assertTrue(v instanceof LatLonValue);
         LatLonValue cornerLongitudePoint2 = (LatLonValue) v;
@@ -289,7 +328,9 @@ public class PredatorUavMessageTest {
 
         // Corner Longitude Point 3
         assertTrue(
-                predatorUavMessage.getKeys().contains(PredatorMetadataKey.CornerLongitudePoint3));
+                predatorUavMessage
+                        .getIdentifiers()
+                        .contains(PredatorMetadataKey.CornerLongitudePoint3));
         v = predatorUavMessage.getField(PredatorMetadataKey.CornerLongitudePoint3);
         assertTrue(v instanceof LatLonValue);
         LatLonValue cornerLongitudePoint3 = (LatLonValue) v;
@@ -299,7 +340,9 @@ public class PredatorUavMessageTest {
 
         // Corner Longitude Point 4
         assertTrue(
-                predatorUavMessage.getKeys().contains(PredatorMetadataKey.CornerLongitudePoint4));
+                predatorUavMessage
+                        .getIdentifiers()
+                        .contains(PredatorMetadataKey.CornerLongitudePoint4));
         v = predatorUavMessage.getField(PredatorMetadataKey.CornerLongitudePoint4);
         assertTrue(v instanceof LatLonValue);
         LatLonValue cornerLongitudePoint4 = (LatLonValue) v;
@@ -308,7 +351,7 @@ public class PredatorUavMessageTest {
         assertEquals(cornerLongitudePoint4.getDegrees(), 138.6351, 0.0001);
 
         // Slant Range
-        assertTrue(predatorUavMessage.getKeys().contains(PredatorMetadataKey.SlantRange));
+        assertTrue(predatorUavMessage.getIdentifiers().contains(PredatorMetadataKey.SlantRange));
         v = predatorUavMessage.getField(PredatorMetadataKey.SlantRange);
         assertTrue(v instanceof SlantRange);
         SlantRange slantRange = (SlantRange) v;
@@ -317,7 +360,8 @@ public class PredatorUavMessageTest {
         assertEquals(slantRange.getRange(), 9142.000, 0.001);
 
         // Sensor Roll Angle
-        assertTrue(predatorUavMessage.getKeys().contains(PredatorMetadataKey.SensorRollAngle));
+        assertTrue(
+                predatorUavMessage.getIdentifiers().contains(PredatorMetadataKey.SensorRollAngle));
         v = predatorUavMessage.getField(PredatorMetadataKey.SensorRollAngle);
         assertTrue(v instanceof AngleValue);
         AngleValue sensorRollAngle = (AngleValue) v;
@@ -326,7 +370,7 @@ public class PredatorUavMessageTest {
         assertEquals(sensorRollAngle.getDegrees(), -1.4454, 0.0001);
 
         // Angle to North
-        assertTrue(predatorUavMessage.getKeys().contains(PredatorMetadataKey.AngleToNorth));
+        assertTrue(predatorUavMessage.getIdentifiers().contains(PredatorMetadataKey.AngleToNorth));
         v = predatorUavMessage.getField(PredatorMetadataKey.AngleToNorth);
         assertTrue(v instanceof AngleValue);
         AngleValue angleToNorth = (AngleValue) v;
@@ -335,7 +379,8 @@ public class PredatorUavMessageTest {
         assertEquals(angleToNorth.getDegrees(), 49.4135, 0.0001);
 
         // Obliquity Angle
-        assertTrue(predatorUavMessage.getKeys().contains(PredatorMetadataKey.ObliquityAngle));
+        assertTrue(
+                predatorUavMessage.getIdentifiers().contains(PredatorMetadataKey.ObliquityAngle));
         v = predatorUavMessage.getField(PredatorMetadataKey.ObliquityAngle);
         assertTrue(v instanceof AngleValue);
         AngleValue obliquityAngle = (AngleValue) v;
@@ -344,7 +389,10 @@ public class PredatorUavMessageTest {
         assertEquals(obliquityAngle.getDegrees(), 201.3300, 0.0001);
 
         // Platform Roll Angle
-        assertTrue(predatorUavMessage.getKeys().contains(PredatorMetadataKey.PlatformRollAngle));
+        assertTrue(
+                predatorUavMessage
+                        .getIdentifiers()
+                        .contains(PredatorMetadataKey.PlatformRollAngle));
         v = predatorUavMessage.getField(PredatorMetadataKey.PlatformRollAngle);
         assertTrue(v instanceof AngleValue);
         AngleValue platformRollAngle = (AngleValue) v;
@@ -353,7 +401,10 @@ public class PredatorUavMessageTest {
         assertEquals(platformRollAngle.getDegrees(), 22.0600, 0.0001);
 
         // Platform Pitch Angle
-        assertTrue(predatorUavMessage.getKeys().contains(PredatorMetadataKey.PlatformPitchAngle));
+        assertTrue(
+                predatorUavMessage
+                        .getIdentifiers()
+                        .contains(PredatorMetadataKey.PlatformPitchAngle));
         v = predatorUavMessage.getField(PredatorMetadataKey.PlatformPitchAngle);
         assertTrue(v instanceof AngleValue);
         AngleValue platformPitchAngle = (AngleValue) v;
@@ -362,7 +413,10 @@ public class PredatorUavMessageTest {
         assertEquals(platformPitchAngle.getDegrees(), 31.6700, 0.0001);
 
         // Platform Heading Angle
-        assertTrue(predatorUavMessage.getKeys().contains(PredatorMetadataKey.PlatformHeadingAngle));
+        assertTrue(
+                predatorUavMessage
+                        .getIdentifiers()
+                        .contains(PredatorMetadataKey.PlatformHeadingAngle));
         v = predatorUavMessage.getField(PredatorMetadataKey.PlatformHeadingAngle);
         assertTrue(v instanceof AngleValue);
         AngleValue platformHeadingAngle = (AngleValue) v;
@@ -372,7 +426,9 @@ public class PredatorUavMessageTest {
 
         // Field of View (Horizontal)
         assertTrue(
-                predatorUavMessage.getKeys().contains(PredatorMetadataKey.FieldOfViewHorizontal));
+                predatorUavMessage
+                        .getIdentifiers()
+                        .contains(PredatorMetadataKey.FieldOfViewHorizontal));
         v = predatorUavMessage.getField(PredatorMetadataKey.FieldOfViewHorizontal);
         assertTrue(v instanceof AngleValue);
         AngleValue fieldOfViewHorizontal = (AngleValue) v;
@@ -381,7 +437,10 @@ public class PredatorUavMessageTest {
         assertEquals(fieldOfViewHorizontal.getDegrees(), 0.7527, 0.0001);
 
         // Field of View (Vertical)
-        assertTrue(predatorUavMessage.getKeys().contains(PredatorMetadataKey.FieldOfViewVertical));
+        assertTrue(
+                predatorUavMessage
+                        .getIdentifiers()
+                        .contains(PredatorMetadataKey.FieldOfViewVertical));
         v = predatorUavMessage.getField(PredatorMetadataKey.FieldOfViewVertical);
         assertTrue(v instanceof AngleValue);
         AngleValue fieldOfViewVertical = (AngleValue) v;
@@ -390,7 +449,8 @@ public class PredatorUavMessageTest {
         assertEquals(fieldOfViewVertical.getDegrees(), 45.4000, 0.0001);
 
         // Device Altitude
-        assertTrue(predatorUavMessage.getKeys().contains(PredatorMetadataKey.DeviceAltitude));
+        assertTrue(
+                predatorUavMessage.getIdentifiers().contains(PredatorMetadataKey.DeviceAltitude));
         v = predatorUavMessage.getField(PredatorMetadataKey.DeviceAltitude);
         assertTrue(v instanceof AltitudeValue);
         AltitudeValue deviceAlt = (AltitudeValue) v;
@@ -399,7 +459,8 @@ public class PredatorUavMessageTest {
         assertEquals(deviceAlt.getElevation(), 3233.5413, 0.0001);
 
         // Device Latitude
-        assertTrue(predatorUavMessage.getKeys().contains(PredatorMetadataKey.DeviceLatitude));
+        assertTrue(
+                predatorUavMessage.getIdentifiers().contains(PredatorMetadataKey.DeviceLatitude));
         v = predatorUavMessage.getField(PredatorMetadataKey.DeviceLatitude);
         assertTrue(v instanceof LatLonValue);
         LatLonValue deviceLat = (LatLonValue) v;
@@ -408,7 +469,8 @@ public class PredatorUavMessageTest {
         assertEquals(deviceLat.getDegrees(), -34.8381, 0.0001);
 
         // Device Longitude
-        assertTrue(predatorUavMessage.getKeys().contains(PredatorMetadataKey.DeviceLongitude));
+        assertTrue(
+                predatorUavMessage.getIdentifiers().contains(PredatorMetadataKey.DeviceLongitude));
         v = predatorUavMessage.getField(PredatorMetadataKey.DeviceLongitude);
         assertTrue(v instanceof LatLonValue);
         LatLonValue deviceLon = (LatLonValue) v;
@@ -417,7 +479,10 @@ public class PredatorUavMessageTest {
         assertEquals(deviceLon.getDegrees(), 138.5680, 0.0001);
 
         // Image Source Device
-        assertTrue(predatorUavMessage.getKeys().contains(PredatorMetadataKey.ImageSourceDevice));
+        assertTrue(
+                predatorUavMessage
+                        .getIdentifiers()
+                        .contains(PredatorMetadataKey.ImageSourceDevice));
         v = predatorUavMessage.getField(PredatorMetadataKey.ImageSourceDevice);
         assertTrue(v instanceof ImageSourceDevice);
         ImageSourceDevice imageSourceDevice = (ImageSourceDevice) v;
@@ -425,7 +490,7 @@ public class PredatorUavMessageTest {
         assertEquals(imageSourceDevice.getDisplayableValue(), "EO Nose");
 
         // Episode Number
-        assertTrue(predatorUavMessage.getKeys().contains(PredatorMetadataKey.EpisodeNumber));
+        assertTrue(predatorUavMessage.getIdentifiers().contains(PredatorMetadataKey.EpisodeNumber));
         v = predatorUavMessage.getField(PredatorMetadataKey.EpisodeNumber);
         assertTrue(v instanceof TextValue);
         TextValue episodeNumber = (TextValue) v;
@@ -433,7 +498,10 @@ public class PredatorUavMessageTest {
         assertEquals(episodeNumber.getDisplayableValue(), "100");
 
         // Device Designation
-        assertTrue(predatorUavMessage.getKeys().contains(PredatorMetadataKey.DeviceDesignation));
+        assertTrue(
+                predatorUavMessage
+                        .getIdentifiers()
+                        .contains(PredatorMetadataKey.DeviceDesignation));
         v = predatorUavMessage.getField(PredatorMetadataKey.DeviceDesignation);
         assertTrue(v instanceof TextValue);
         TextValue deviceDesignation = (TextValue) v;
@@ -444,13 +512,13 @@ public class PredatorUavMessageTest {
     @Test
     public void checkParse1() throws KlvParseException {
         PredatorUavMessage message = getBasicMessage();
-        assertEquals(message.getKeys().size(), 1);
+        assertEquals(message.getIdentifiers().size(), 1);
     }
 
     @Test(expectedExceptions = UnsupportedOperationException.class)
     public void checkGetBytesFails() throws KlvParseException {
         PredatorUavMessage message = getBasicMessage();
-        assertEquals(message.getKeys().size(), 1);
+        assertEquals(message.getIdentifiers().size(), 1);
         message.frameMessage(false);
     }
 

@@ -5,6 +5,7 @@ import java.util.Arrays;
 import java.util.SortedMap;
 import java.util.TreeMap;
 import org.jmisb.api.common.KlvParseException;
+import org.jmisb.api.klv.IKlvKey;
 import org.jmisb.api.klv.KlvConstants;
 import org.jmisb.api.klv.LoggerChecks;
 import org.jmisb.api.klv.st0102.*;
@@ -142,7 +143,10 @@ public class SecurityMetadataLocalSetTest extends LoggerChecks {
         Assert.assertEquals(
                 localSet.getField(SecurityMetadataKey.SecurityClassification).getDisplayableValue(),
                 "UNCLASSIFIED");
-
+        Assert.assertEquals(
+                localSet.getField((IKlvKey) SecurityMetadataKey.SecurityClassification)
+                        .getDisplayableValue(),
+                "UNCLASSIFIED");
         Assert.assertNotNull(localSet.getField(SecurityMetadataKey.Version));
         Assert.assertEquals(
                 localSet.getField(SecurityMetadataKey.Version).getDisplayableValue(), "12");

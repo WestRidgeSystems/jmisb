@@ -40,7 +40,7 @@ public class NestedRvtLocalSetTest {
     private void checkLocalSetValues(NestedRvtLocalSet localSet) {
         Assert.assertEquals(localSet.getDisplayName(), "RVT");
         Assert.assertEquals(localSet.getDisplayableValue(), "[RVT]");
-        Assert.assertEquals(localSet.getRVT().getTags().size(), 1);
+        Assert.assertEquals(localSet.getRVT().getIdentifiers().size(), 1);
         Assert.assertEquals(
                 localSet.getRVT().getField(RvtMetadataKey.UASLSVersionNumber).getDisplayableValue(),
                 "ST0806.4");

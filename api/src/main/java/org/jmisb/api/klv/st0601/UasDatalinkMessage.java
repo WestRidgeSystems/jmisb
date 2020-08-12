@@ -93,12 +93,22 @@ public class UasDatalinkMessage implements IMisbMessage {
         return map.get(tag);
     }
 
+    @Override
+    public IUasDatalinkValue getField(IKlvKey tag) {
+        return this.getField((UasDatalinkTag) tag);
+    }
+
     /**
      * Get the set of tags with populated values.
      *
      * @return The set of tags for which values have been set
      */
     public Collection<UasDatalinkTag> getTags() {
+        return this.getIdentifiers();
+    }
+
+    @Override
+    public Set<UasDatalinkTag> getIdentifiers() {
         return map.keySet();
     }
 

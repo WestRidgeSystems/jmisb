@@ -56,6 +56,12 @@ public class NestedSecurityMetadataTest {
                 "TesT1");
         byte[] bytes = nestedSecurityMetadata.getBytes();
         Assert.assertEquals(bytes, localSetAsBytes);
+        Assert.assertEquals(nestedSecurityMetadata.getIdentifiers().size(), 1);
+        Assert.assertTrue(
+                nestedSecurityMetadata.getIdentifiers().contains(SecurityMetadataKey.Caveats));
+        Assert.assertEquals(
+                nestedSecurityMetadata.getField(SecurityMetadataKey.Caveats).getDisplayableValue(),
+                "TesT1");
     }
 
     private SecurityMetadataLocalSet makeLocalSet() {

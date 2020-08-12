@@ -2,8 +2,9 @@ package org.jmisb.api.klv.st0903.vtarget;
 
 import java.util.HashMap;
 import java.util.Map;
+import org.jmisb.api.klv.IKlvKey;
 
-public enum VTargetMetadataKey {
+public enum VTargetMetadataKey implements IKlvKey {
     /** Unknown key. This should not be created. */
     Undefined(0),
     /** Defines the position of the target within the Motion Imagery frame in pixels. */
@@ -120,5 +121,10 @@ public enum VTargetMetadataKey {
      */
     public static VTargetMetadataKey getKey(int tag) {
         return tagTable.containsKey(tag) ? tagTable.get(tag) : Undefined;
+    }
+
+    @Override
+    public int getIdentifier() {
+        return this.getTag();
     }
 }

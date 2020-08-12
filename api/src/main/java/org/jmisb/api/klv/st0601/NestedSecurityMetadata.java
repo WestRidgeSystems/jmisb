@@ -1,6 +1,11 @@
 package org.jmisb.api.klv.st0601;
 
+import java.util.Set;
 import org.jmisb.api.common.KlvParseException;
+import org.jmisb.api.klv.IKlvKey;
+import org.jmisb.api.klv.INestedKlvValue;
+import org.jmisb.api.klv.st0102.ISecurityMetadataValue;
+import org.jmisb.api.klv.st0102.SecurityMetadataKey;
 import org.jmisb.api.klv.st0102.localset.SecurityMetadataLocalSet;
 
 /**
@@ -17,7 +22,7 @@ import org.jmisb.api.klv.st0102.localset.SecurityMetadataLocalSet;
  *
  * </blockquote>
  */
-public class NestedSecurityMetadata implements IUasDatalinkValue {
+public class NestedSecurityMetadata implements IUasDatalinkValue, INestedKlvValue {
     private SecurityMetadataLocalSet localSet;
 
     /**
@@ -61,5 +66,15 @@ public class NestedSecurityMetadata implements IUasDatalinkValue {
     @Override
     public String getDisplayName() {
         return "Security";
+    }
+
+    @Override
+    public ISecurityMetadataValue getField(IKlvKey tag) {
+        return localSet.getField((SecurityMetadataKey) tag);
+    }
+
+    @Override
+    public Set<? extends IKlvKey> getIdentifiers() {
+        return localSet.getIdentifiers();
     }
 }

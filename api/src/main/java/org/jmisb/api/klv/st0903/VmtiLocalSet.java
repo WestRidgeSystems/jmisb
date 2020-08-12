@@ -13,6 +13,7 @@ import org.jmisb.api.common.InvalidDataHandler;
 import org.jmisb.api.common.KlvParseException;
 import org.jmisb.api.klv.Ber;
 import org.jmisb.api.klv.BerEncoder;
+import org.jmisb.api.klv.IKlvKey;
 import org.jmisb.api.klv.IMisbMessage;
 import org.jmisb.api.klv.LdsField;
 import org.jmisb.api.klv.LdsParser;
@@ -162,11 +163,11 @@ public class VmtiLocalSet implements IMisbMessage {
     public byte[] frameMessage(boolean isNested) {
         int len = 0;
         List<byte[]> chunks = new ArrayList<>();
-        for (VmtiMetadataKey tag : getTags()) {
+        for (VmtiMetadataKey tag : getIdentifiers()) {
             if (tag == VmtiMetadataKey.Checksum) {
                 continue;
             }
-            chunks.add(new byte[] {(byte) tag.getTag()});
+            chunks.add(new byte[] {(byte) tag.getIdentifier()});
             len += 1;
             IVmtiMetadataValue value = getField(tag);
             byte[] bytes = value.getBytes();
@@ -189,7 +190,7 @@ public class VmtiLocalSet implements IMisbMessage {
             // Add Key and Length of checksum with placeholder for value - Checksum must be final
             // element
             byte[] checksum = new byte[2];
-            chunks.add(new byte[] {(byte) VmtiMetadataKey.Checksum.getTag()});
+            chunks.add(new byte[] {(byte) VmtiMetadataKey.Checksum.getIdentifier()});
             chunks.add(BerEncoder.encode(checksum.length, Ber.SHORT_FORM));
             chunks.add(checksum);
             valueLength += 4;
@@ -215,7 +216,8 @@ public class VmtiLocalSet implements IMisbMessage {
      *
      * @return The set of tags for which values have been set
      */
-    public Set<VmtiMetadataKey> getTags() {
+    @Override
+    public Set<VmtiMetadataKey> getIdentifiers() {
         return map.keySet();
     }
 
@@ -227,6 +229,11 @@ public class VmtiLocalSet implements IMisbMessage {
      */
     public IVmtiMetadataValue getField(VmtiMetadataKey tag) {
         return map.get(tag);
+    }
+
+    @Override
+    public IVmtiMetadataValue getField(IKlvKey key) {
+        return this.getField((VmtiMetadataKey) key);
     }
 
     @Override

@@ -78,7 +78,7 @@ public class ST0601Converter {
 
     private static void convertClassificationAndReleasabilityGroupValues(
             UasDatalinkMessage message, MetadataItems metadata) {
-        if (message.getTags().contains(UasDatalinkTag.SecurityLocalMetadataSet)) {
+        if (message.getIdentifiers().contains(UasDatalinkTag.SecurityLocalMetadataSet)) {
             NestedSecurityMetadata securityItem =
                     (NestedSecurityMetadata)
                             (message.getField(UasDatalinkTag.SecurityLocalMetadataSet));
@@ -138,9 +138,9 @@ public class ST0601Converter {
 
     private static void convertTargetGroupValues(
             UasDatalinkMessage message, MetadataItems metadata) {
-        if ((message.getTags().contains(UasDatalinkTag.TargetLocationLatitude))
-                && (message.getTags().contains(UasDatalinkTag.TargetLocationLongitude))
-                && (message.getTags().contains(UasDatalinkTag.TargetLocationElevation))) {
+        if ((message.getIdentifiers().contains(UasDatalinkTag.TargetLocationLatitude))
+                && (message.getIdentifiers().contains(UasDatalinkTag.TargetLocationLongitude))
+                && (message.getIdentifiers().contains(UasDatalinkTag.TargetLocationElevation))) {
             metadata.addItem(
                     MetadataKey.TargetLatitude,
                     message.getField(UasDatalinkTag.TargetLocationLatitude).getDisplayableValue()
@@ -154,8 +154,8 @@ public class ST0601Converter {
             metadata.addItem(
                     MetadataKey.TargetElevation,
                     "" + (int) (targetLocationElevation.getMeters()) + "m HAE TL EL");
-        } else if ((message.getTags().contains(UasDatalinkTag.FrameCenterLatitude))
-                && (message.getTags().contains(UasDatalinkTag.FrameCenterLongitude))) {
+        } else if ((message.getIdentifiers().contains(UasDatalinkTag.FrameCenterLatitude))
+                && (message.getIdentifiers().contains(UasDatalinkTag.FrameCenterLongitude))) {
             metadata.addItem(
                     MetadataKey.TargetLatitude,
                     message.getField(UasDatalinkTag.FrameCenterLatitude).getDisplayableValue()
@@ -164,13 +164,13 @@ public class ST0601Converter {
                     MetadataKey.TargetLongitude,
                     message.getField(UasDatalinkTag.FrameCenterLongitude).getDisplayableValue()
                             + " FC LON");
-            if (message.getTags().contains(UasDatalinkTag.FrameCenterHae)) {
+            if (message.getIdentifiers().contains(UasDatalinkTag.FrameCenterHae)) {
                 IUasDatalinkValue value = message.getField(UasDatalinkTag.FrameCenterHae);
                 FrameCenterHae frameCenterHae = (FrameCenterHae) value;
                 metadata.addItem(
                         MetadataKey.TargetElevation,
                         "" + (int) (frameCenterHae.getMeters()) + "m HAE FC EL");
-            } else if (message.getTags().contains(UasDatalinkTag.FrameCenterElevation)) {
+            } else if (message.getIdentifiers().contains(UasDatalinkTag.FrameCenterElevation)) {
                 IUasDatalinkValue value = message.getField(UasDatalinkTag.FrameCenterElevation);
                 FrameCenterElevation frameCenterElevation = (FrameCenterElevation) value;
                 metadata.addItem(
@@ -210,7 +210,7 @@ public class ST0601Converter {
             TargetWidthExtended targetWidthExtended = (TargetWidthExtended) targetWidthValue;
             String targetWidth = "" + Math.round(targetWidthExtended.getMeters()) + "m TW";
             metadata.addItem(MetadataKey.TargetWidth, targetWidth);
-        } else if (message.getTags().contains(UasDatalinkTag.TargetWidth)) {
+        } else if (message.getIdentifiers().contains(UasDatalinkTag.TargetWidth)) {
             targetWidthValue = message.getField(UasDatalinkTag.TargetWidth);
             String targetWidth =
                     "" + Math.round(((TargetWidth) targetWidthValue).getMeters()) + "m TW";
@@ -220,8 +220,8 @@ public class ST0601Converter {
 
     private static void convertPlatformInformationGroupValues(
             UasDatalinkMessage message, MetadataItems metadata) {
-        if (message.getTags().contains(UasDatalinkTag.PlatformDesignation)) {
-            if (message.getTags().contains(UasDatalinkTag.PlatformCallSign)) {
+        if (message.getIdentifiers().contains(UasDatalinkTag.PlatformDesignation)) {
+            if (message.getIdentifiers().contains(UasDatalinkTag.PlatformCallSign)) {
                 metadata.addItem(
                         MetadataKey.PlatformName,
                         message.getField(UasDatalinkTag.PlatformDesignation).getDisplayableValue()
@@ -248,13 +248,13 @@ public class ST0601Converter {
                 metadata,
                 MetadataKey.PlatformLongitude,
                 "%s LON");
-        if (message.getTags().contains(UasDatalinkTag.SensorEllipsoidHeight)) {
+        if (message.getIdentifiers().contains(UasDatalinkTag.SensorEllipsoidHeight)) {
             IUasDatalinkValue value = message.getField(UasDatalinkTag.SensorEllipsoidHeight);
             SensorEllipsoidHeight sensorEllipsoidHeight = (SensorEllipsoidHeight) value;
             metadata.addItem(
                     MetadataKey.PlatformAltitude,
                     "" + (int) (sensorEllipsoidHeight.getMeters()) + "m HAE ALT");
-        } else if (message.getTags().contains(UasDatalinkTag.SensorTrueAltitude)) {
+        } else if (message.getIdentifiers().contains(UasDatalinkTag.SensorTrueAltitude)) {
             IUasDatalinkValue value = message.getField(UasDatalinkTag.SensorTrueAltitude);
             SensorTrueAltitude sensorTrueAltitude = (SensorTrueAltitude) value;
             metadata.addItem(
@@ -266,7 +266,7 @@ public class ST0601Converter {
     private static void convertTrueNorthArrowGroupValues(
             UasDatalinkMessage message, MetadataItems metadata) {
         // TODO: build this from corner values if offsets aren't available
-        Collection<UasDatalinkTag> tags = message.getTags();
+        Collection<UasDatalinkTag> tags = message.getIdentifiers();
         Collection<UasDatalinkTag> offsetCornerTags =
                 EnumSet.of(
                         UasDatalinkTag.OffsetCornerLatitudePoint1,
@@ -317,7 +317,7 @@ public class ST0601Converter {
             UasDatalinkTag sourceTag,
             MetadataItems metadata,
             MetadataKey st1909DestinationKey) {
-        if (message.getTags().contains(sourceTag)) {
+        if (message.getIdentifiers().contains(sourceTag)) {
             convertTag(message, sourceTag, metadata, st1909DestinationKey);
         }
     }
@@ -328,7 +328,7 @@ public class ST0601Converter {
             MetadataItems metadata,
             MetadataKey st1909DestinationKey,
             String format) {
-        if (message.getTags().contains(sourceTag)) {
+        if (message.getIdentifiers().contains(sourceTag)) {
             convertTag(message, sourceTag, metadata, st1909DestinationKey, format);
         }
     }
@@ -357,7 +357,7 @@ public class ST0601Converter {
             UasDatalinkMessage message, MetadataItems metadata) {
         // ST1909-37 - probably needs to be changed in the spec.
         metadata.addItem(MetadataKey.LaserSensorName, "Laser Rangefinder");
-        if (message.getTags().contains(UasDatalinkTag.GenericFlagData01)) {
+        if (message.getIdentifiers().contains(UasDatalinkTag.GenericFlagData01)) {
             GenericFlagData01 flagData =
                     (GenericFlagData01) message.getField(UasDatalinkTag.GenericFlagData01);
             if (flagData.getField(FlagDataKey.LaserRange).getValue().toLowerCase().contains("on")) {

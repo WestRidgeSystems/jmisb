@@ -64,6 +64,7 @@ public class UasDatalinkMessageTest extends LoggerChecks {
 
         // Check latitude
         Assert.assertEquals(bytes[17], UasDatalinkTag.SensorLatitude.getCode());
+        Assert.assertEquals(bytes[17], UasDatalinkTag.SensorLatitude.getIdentifier());
         Assert.assertEquals(bytes[18], 4);
         byte[] encodedLat = Arrays.copyOfRange(bytes, 19, 23);
         SensorLatitude sensorLat = new SensorLatitude(encodedLat);
@@ -71,6 +72,7 @@ public class UasDatalinkMessageTest extends LoggerChecks {
 
         // Check longitude
         Assert.assertEquals(bytes[23], UasDatalinkTag.SensorLongitude.getCode());
+        Assert.assertEquals(bytes[23], UasDatalinkTag.SensorLongitude.getIdentifier());
         Assert.assertEquals(bytes[24], 4);
         byte[] encodedLon = Arrays.copyOfRange(bytes, 25, 29);
         SensorLongitude sensorLon = new SensorLongitude(encodedLon);
@@ -153,7 +155,7 @@ public class UasDatalinkMessageTest extends LoggerChecks {
     @Test
     public void testTags() {
         // Frame the message
-        Collection<UasDatalinkTag> tags = message.getTags();
+        Collection<UasDatalinkTag> tags = message.getIdentifiers();
         Assert.assertEquals(tags.size(), 3);
         Assert.assertTrue(tags.contains(UasDatalinkTag.SensorLatitude));
         Assert.assertTrue(tags.contains(UasDatalinkTag.SensorLongitude));

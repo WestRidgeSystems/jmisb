@@ -59,7 +59,7 @@ public class GenericFlagData01Test {
         expectedKeys.add(FlagDataKey.IcingStatus);
         expectedKeys.add(FlagDataKey.SlantRange);
         expectedKeys.add(FlagDataKey.ImageInvalid);
-        assertEquals(flags.getTags(), expectedKeys);
+        assertEquals(flags.getIdentifiers(), expectedKeys);
     }
 
     @Test
@@ -100,7 +100,7 @@ public class GenericFlagData01Test {
         expectedKeys.add(FlagDataKey.IcingStatus);
         expectedKeys.add(FlagDataKey.SlantRange);
         expectedKeys.add(FlagDataKey.ImageInvalid);
-        assertEquals(flags.getTags(), expectedKeys);
+        assertEquals(flags.getIdentifiers(), expectedKeys);
     }
 
     @Test
@@ -134,7 +134,7 @@ public class GenericFlagData01Test {
         expectedKeys.add(FlagDataKey.IcingStatus);
         expectedKeys.add(FlagDataKey.SlantRange);
         expectedKeys.add(FlagDataKey.ImageInvalid);
-        assertEquals(flags.getTags(), expectedKeys);
+        assertEquals(flags.getIdentifiers(), expectedKeys);
     }
 
     @Test
