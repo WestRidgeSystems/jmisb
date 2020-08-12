@@ -25,6 +25,7 @@ import org.slf4j.LoggerFactory;
 /** Read video/metadata from a file. */
 public class VideoFileInput extends VideoInput implements IVideoFileInput {
     private static final Logger logger = LoggerFactory.getLogger(VideoFileInput.class);
+    private static final int SHUTDOWN_TIMEOUT_MILLIS = 2000;
     private final VideoFileInputOptions options;
     private FileDemuxer demuxer;
     private final Set<IFileEventListener> fileEventListeners = new HashSet<>();
@@ -293,7 +294,7 @@ public class VideoFileInput extends VideoInput implements IVideoFileInput {
     private void stopFileDemuxer() {
         demuxer.shutdown();
         try {
-            demuxer.join();
+            demuxer.join(SHUTDOWN_TIMEOUT_MILLIS);
         } catch (InterruptedException e) {
             logger.warn("Interrupted while joining demuxer thread", e);
         }
