@@ -8,14 +8,20 @@ import java.util.Map;
 import java.util.Set;
 import java.util.SortedMap;
 import java.util.TreeMap;
+import java.util.TreeSet;
+import org.jmisb.api.common.InvalidDataHandler;
 import org.jmisb.api.common.KlvParseException;
+import org.jmisb.api.klv.ArrayBuilder;
 import org.jmisb.api.klv.Ber;
+import org.jmisb.api.klv.BerDecoder;
 import org.jmisb.api.klv.BerEncoder;
+import org.jmisb.api.klv.BerField;
 import org.jmisb.api.klv.IKlvKey;
 import org.jmisb.api.klv.IMisbMessage;
 import org.jmisb.api.klv.LdsField;
 import org.jmisb.api.klv.LdsParser;
 import org.jmisb.api.klv.UniversalLabel;
+import org.jmisb.api.klv.st0601.UasDatalinkTag;
 import org.jmisb.api.klv.st0806.poiaoi.PoiAoiNumber;
 import org.jmisb.api.klv.st0806.poiaoi.RvtAoiLocalSet;
 import org.jmisb.api.klv.st0806.poiaoi.RvtAoiMetadataKey;
@@ -30,6 +36,7 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 public class RvtLocalSet implements IMisbMessage {
+
     private static final Logger LOGGER = LoggerFactory.getLogger(RvtLocalSet.class);
 
     /**
@@ -116,11 +123,20 @@ public class RvtLocalSet implements IMisbMessage {
      * Build a RVT Local Set from encoded bytes.
      *
      * @param bytes the bytes to build from
+     * @param was0601Nested true if this local set was nested in ST0601, false if this is standalone
      * @throws KlvParseException if parsing fails
      */
-    public RvtLocalSet(byte[] bytes) throws KlvParseException {
+    public RvtLocalSet(final byte[] bytes, boolean was0601Nested) throws KlvParseException {
         int offset = 0;
-        List<LdsField> fields = LdsParser.parseFields(bytes, offset, bytes.length);
+        int dataLength = bytes.length;
+        if (!was0601Nested) {
+            // advance over UL and length.
+            offset = UniversalLabel.LENGTH;
+            BerField len = BerDecoder.decode(bytes, offset, false);
+            offset += len.getLength();
+            dataLength = len.getValue();
+        }
+        List<LdsField> fields = LdsParser.parseFields(bytes, offset, dataLength);
         for (LdsField field : fields) {
             RvtMetadataKey key = RvtMetadataKey.getKey(field.getTag());
             switch (key) {
@@ -128,8 +144,22 @@ public class RvtLocalSet implements IMisbMessage {
                     LOGGER.info("Unknown RVT Metadata tag: {}", field.getTag());
                     break;
                 case CRC32:
-                    if (!CRC32MPEG2.verify(bytes, field.getData())) {
-                        throw new KlvParseException("Bad checksum");
+                    if (was0601Nested) {
+                        // We need to add the tag and length back in, apparently
+                        ArrayBuilder builder =
+                                new ArrayBuilder()
+                                        .appendAsOID(UasDatalinkTag.RvtLocalDataSet.getCode())
+                                        .appendAsBerLength(bytes.length)
+                                        .append(bytes);
+                        if (!CRC32MPEG2.verify(builder.toBytes(), field.getData())) {
+                            InvalidDataHandler handler = InvalidDataHandler.getInstance();
+                            handler.handleInvalidChecksum(LOGGER, "Bad checksum");
+                        }
+                    } else {
+                        if (!CRC32MPEG2.verify(bytes, field.getData())) {
+                            InvalidDataHandler handler = InvalidDataHandler.getInstance();
+                            handler.handleInvalidChecksum(LOGGER, "Bad checksum");
+                        }
                     }
                     break;
                 case UserDefinedLS:
@@ -173,7 +203,7 @@ public class RvtLocalSet implements IMisbMessage {
     public byte[] frameMessage(boolean isNested) {
         int len = 0;
         List<byte[]> chunks = new ArrayList<>();
-        for (RvtMetadataKey tag : getIdentifiers()) {
+        for (RvtMetadataKey tag : map.keySet()) {
             if (tag == RvtMetadataKey.CRC32) {
                 continue;
             }
@@ -256,16 +286,34 @@ public class RvtLocalSet implements IMisbMessage {
         }
     }
 
-    /**
-     * Get the set of tags with populated values.
-     *
-     * <p>This doesn't include the POI Local Sets, AOI Local Sets or User Defined Local Sets (if
-     * any).
-     *
-     * @return The set of tags for which values have been set
-     */
-    public Set<RvtMetadataKey> getIdentifiers() {
-        return map.keySet();
+    @Override
+    public Set<IKlvKey> getIdentifiers() {
+        Set<IKlvKey> identifiers = new TreeSet<>();
+        map.keySet()
+                .forEach(
+                        (key) -> {
+                            identifiers.add(
+                                    new RvtMetadataIdentifier(
+                                            RvtMetadataKind.PLAIN, key.getIdentifier()));
+                        });
+        aois.keySet()
+                .forEach(
+                        (i) -> {
+                            identifiers.add(new RvtMetadataIdentifier(RvtMetadataKind.AOI, i));
+                        });
+        pois.keySet()
+                .forEach(
+                        (i) -> {
+                            identifiers.add(new RvtMetadataIdentifier(RvtMetadataKind.POI, i));
+                        });
+        userDefined
+                .keySet()
+                .forEach(
+                        (i) -> {
+                            identifiers.add(
+                                    new RvtMetadataIdentifier(RvtMetadataKind.USER_DEFINED, i));
+                        });
+        return identifiers;
     }
 
     /**
@@ -283,7 +331,16 @@ public class RvtLocalSet implements IMisbMessage {
 
     @Override
     public IRvtMetadataValue getField(IKlvKey key) {
-        return this.getField((RvtMetadataKey) key);
+        RvtMetadataIdentifier identifier = (RvtMetadataIdentifier) key;
+        if (identifier.getKind().equals(RvtMetadataKind.AOI)) {
+            return getAOI(identifier.getKindId());
+        } else if (identifier.getKind().equals(RvtMetadataKind.POI)) {
+            return getPOI(identifier.getKindId());
+        } else if (identifier.getKind().equals(RvtMetadataKind.USER_DEFINED)) {
+            return getUserDefinedLocalSet(identifier.getKindId());
+        } else {
+            return this.getField(RvtMetadataKey.getKey(identifier.getKindId()));
+        }
     }
 
     @Override

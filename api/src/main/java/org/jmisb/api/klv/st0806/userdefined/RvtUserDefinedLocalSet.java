@@ -8,6 +8,9 @@ import java.util.SortedMap;
 import java.util.TreeMap;
 import org.jmisb.api.common.KlvParseException;
 import org.jmisb.api.klv.BerEncoder;
+import org.jmisb.api.klv.IKlvKey;
+import org.jmisb.api.klv.IKlvValue;
+import org.jmisb.api.klv.INestedKlvValue;
 import org.jmisb.api.klv.LdsField;
 import org.jmisb.api.klv.LdsParser;
 import org.jmisb.api.klv.st0806.IRvtMetadataValue;
@@ -21,7 +24,7 @@ import org.slf4j.LoggerFactory;
  * <p>Any number of User Defined Local Sets (including none) can be embedded in a parent RvtLocalSet
  * instance.
  */
-public class RvtUserDefinedLocalSet implements IRvtMetadataValue {
+public class RvtUserDefinedLocalSet implements IRvtMetadataValue, INestedKlvValue {
 
     private static final Logger LOGGER = LoggerFactory.getLogger(RvtUserDefinedLocalSet.class);
 
@@ -110,7 +113,7 @@ public class RvtUserDefinedLocalSet implements IRvtMetadataValue {
         int len = 0;
         List<byte[]> chunks = new ArrayList<>();
         for (RvtUserDefinedMetadataKey tag : getTags()) {
-            chunks.add(new byte[] {(byte) tag.getTag()});
+            chunks.add(new byte[] {(byte) tag.getIdentifier()});
             len += 1;
             IRvtUserDefinedMetadataValue value = getField(tag);
             byte[] bytes = value.getBytes();
@@ -125,11 +128,24 @@ public class RvtUserDefinedLocalSet implements IRvtMetadataValue {
 
     @Override
     public String getDisplayableValue() {
+        if (map.containsKey(RvtUserDefinedMetadataKey.NumericId)) {
+            return getField(RvtUserDefinedMetadataKey.NumericId).getDisplayableValue();
+        }
         return "[User Defined Local Set]";
     }
 
     @Override
     public String getDisplayName() {
         return "User Data";
+    }
+
+    @Override
+    public IKlvValue getField(IKlvKey tag) {
+        return this.getField((RvtUserDefinedMetadataKey) tag);
+    }
+
+    @Override
+    public Set<? extends IKlvKey> getIdentifiers() {
+        return this.getTags();
     }
 }

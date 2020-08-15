@@ -2,9 +2,10 @@ package org.jmisb.api.klv.st0806.poiaoi;
 
 import java.util.HashMap;
 import java.util.Map;
+import org.jmisb.api.klv.IKlvKey;
 
 /** ST 0806 Area Of Interest tags - description and numbers. */
-public enum RvtAoiMetadataKey {
+public enum RvtAoiMetadataKey implements IKlvKey {
     /** Unknown key. This should not be created. */
     Undefined(0),
     PoiAoiNumber(1),
@@ -40,15 +41,6 @@ public enum RvtAoiMetadataKey {
     }
 
     /**
-     * Get the tag value associated with this enumeration value.
-     *
-     * @return integer tag value for the metadata key
-     */
-    public int getTag() {
-        return tag;
-    }
-
-    /**
      * Look up the metadata key by tag identifier.
      *
      * @param tag the integer tag value to look up
@@ -56,5 +48,10 @@ public enum RvtAoiMetadataKey {
      */
     public static RvtAoiMetadataKey getKey(int tag) {
         return tagTable.containsKey(tag) ? tagTable.get(tag) : Undefined;
+    }
+
+    @Override
+    public int getIdentifier() {
+        return tag;
     }
 }

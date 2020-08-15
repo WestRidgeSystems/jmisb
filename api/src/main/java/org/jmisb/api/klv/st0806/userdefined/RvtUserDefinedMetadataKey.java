@@ -2,9 +2,10 @@ package org.jmisb.api.klv.st0806.userdefined;
 
 import java.util.HashMap;
 import java.util.Map;
+import org.jmisb.api.klv.IKlvKey;
 
 /** ST 0806 User Defined local set keys - description and numbers. */
-public enum RvtUserDefinedMetadataKey {
+public enum RvtUserDefinedMetadataKey implements IKlvKey {
     /** Unknown key. This should not be created. */
     Undefined(0),
     NumericId(1),
@@ -31,12 +32,8 @@ public enum RvtUserDefinedMetadataKey {
         this.tag = tag;
     }
 
-    /**
-     * Get the tag value associated with this enumeration value.
-     *
-     * @return integer tag value for the metadata key
-     */
-    public int getTag() {
+    @Override
+    public int getIdentifier() {
         return tag;
     }
 

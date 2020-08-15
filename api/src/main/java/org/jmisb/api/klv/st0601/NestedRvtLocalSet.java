@@ -1,6 +1,10 @@
 package org.jmisb.api.klv.st0601;
 
+import java.util.Set;
 import org.jmisb.api.common.KlvParseException;
+import org.jmisb.api.klv.IKlvKey;
+import org.jmisb.api.klv.INestedKlvValue;
+import org.jmisb.api.klv.st0806.IRvtMetadataValue;
 import org.jmisb.api.klv.st0806.RvtLocalSet;
 
 /**
@@ -21,7 +25,7 @@ import org.jmisb.api.klv.st0806.RvtLocalSet;
  *
  * </blockquote>
  */
-public class NestedRvtLocalSet implements IUasDatalinkValue {
+public class NestedRvtLocalSet implements IUasDatalinkValue, INestedKlvValue {
     private final RvtLocalSet rvtLocalSet;
 
     /**
@@ -40,7 +44,7 @@ public class NestedRvtLocalSet implements IUasDatalinkValue {
      * @throws KlvParseException if the input is invalid
      */
     public NestedRvtLocalSet(byte[] bytes) throws KlvParseException {
-        rvtLocalSet = new RvtLocalSet(bytes);
+        rvtLocalSet = new RvtLocalSet(bytes, true);
     }
 
     @Override
@@ -65,5 +69,15 @@ public class NestedRvtLocalSet implements IUasDatalinkValue {
      */
     public RvtLocalSet getRVT() {
         return rvtLocalSet;
+    }
+
+    @Override
+    public IRvtMetadataValue getField(IKlvKey tag) {
+        return this.rvtLocalSet.getField(tag);
+    }
+
+    @Override
+    public Set<IKlvKey> getIdentifiers() {
+        return this.rvtLocalSet.getIdentifiers();
     }
 }
