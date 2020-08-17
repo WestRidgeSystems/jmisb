@@ -50,6 +50,7 @@
         <spotbugs.maven.version>4.0.0</spotbugs.maven.version>
         <spotbugs.version>4.0.2</spotbugs.version>
         <googleformatter.maven.plugin.version>1.7.3</googleformatter.maven.plugin.version>
+        <maven.assembly.plugin.version>3.1.0</maven.assembly.plugin.version>
     </properties>
 
     <distributionManagement>
@@ -92,6 +93,7 @@
         <module>api</module>
         <module>core</module>
         <module>viewer</module>
+        <module>examples</module>
     </modules>
 
     <build>
