@@ -4,6 +4,7 @@ import java.util.Arrays;
 import java.util.Map;
 import java.util.stream.Collectors;
 import org.jmisb.api.klv.st0903.IVmtiMetadataValue;
+import org.jmisb.api.klv.st0903.shared.IVTrackMetadataValue;
 import org.jmisb.api.klv.st0903.shared.VmtiEnumeration;
 
 /**
@@ -32,14 +33,15 @@ import org.jmisb.api.klv.st0903.shared.VmtiEnumeration;
  *
  * </blockquote>
  */
-public class DetectionStatus extends VmtiEnumeration implements IVmtiMetadataValue {
+public class DetectionStatus extends VmtiEnumeration
+        implements IVmtiMetadataValue, IVTrackMetadataValue {
     /**
      * The VMTI detections for the entity have ended.
      *
      * <p>The entity may have merged with one or more other entities; have split into two or more
      * new entities; or have ceased to exist because no VMTI detection can be correlated with it.
      */
-    static final DetectionStatus INACTIVE;
+    public static final DetectionStatus INACTIVE;
     /**
      * Detections for the entity established or updated based on associated VMTI report or
      * prediction.
@@ -47,7 +49,7 @@ public class DetectionStatus extends VmtiEnumeration implements IVmtiMetadataVal
      * <p>An entity can resume this state by transition from Stopped or Dropped to "moving" when a
      * VMTI detection (or a prediction) with a new position has become associated with it.
      */
-    static final DetectionStatus ACTIVE;
+    public static final DetectionStatus ACTIVE;
     /**
      * The entity could not be correlated with any VMTI detection for an interval of time exceeding
      * a specified threshold.
@@ -55,9 +57,9 @@ public class DetectionStatus extends VmtiEnumeration implements IVmtiMetadataVal
      * <p>An entity can remain in a Dropped or "lost" condition for an indeterminate period if there
      * is some likelihood it may resume (Active) again. Eventually, it may become Inactive.
      */
-    static final DetectionStatus DROPPED;
+    public static final DetectionStatus DROPPED;
     /** The entity has either become stationary or was always in a fixed location. */
-    static final DetectionStatus STOPPED;
+    public static final DetectionStatus STOPPED;
 
     static final Map<Integer, String> DISPLAY_VALUES =
             Arrays.stream(

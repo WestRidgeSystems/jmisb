@@ -1,10 +1,11 @@
 package org.jmisb.api.klv.st0903.vtarget;
 
 import org.jmisb.api.klv.st0903.IVmtiMetadataValue;
+import org.jmisb.api.klv.st0903.shared.IVTrackMetadataValue;
 import org.jmisb.core.klv.PrimitiveConverter;
 
 /** Shared implementation of variable length pixel number. */
-public abstract class PixelNumber implements IVmtiMetadataValue {
+public abstract class PixelNumber implements IVmtiMetadataValue, IVTrackMetadataValue {
 
     private long pixelNumber;
     private static long MIN_VALUE = 1;

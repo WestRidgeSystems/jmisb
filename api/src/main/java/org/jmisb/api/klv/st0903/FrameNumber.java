@@ -1,5 +1,6 @@
 package org.jmisb.api.klv.st0903;
 
+import org.jmisb.api.klv.st0903.shared.IVTrackItemMetadataValue;
 import org.jmisb.api.klv.st0903.shared.VmtiV3Value;
 
 /**
@@ -14,7 +15,8 @@ import org.jmisb.api.klv.st0903.shared.VmtiV3Value;
  *
  * </blockquote>
  */
-public class FrameNumber extends VmtiV3Value implements IVmtiMetadataValue {
+public class FrameNumber extends VmtiV3Value
+        implements IVmtiMetadataValue, IVTrackItemMetadataValue {
     /**
      * Create from value.
      *

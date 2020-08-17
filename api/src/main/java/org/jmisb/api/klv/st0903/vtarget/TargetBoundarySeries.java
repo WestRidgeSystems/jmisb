@@ -9,11 +9,12 @@ import org.jmisb.api.klv.BerEncoder;
 import org.jmisb.api.klv.BerField;
 import org.jmisb.api.klv.st0903.IVmtiMetadataValue;
 import org.jmisb.api.klv.st0903.shared.EncodingMode;
+import org.jmisb.api.klv.st0903.shared.IVTrackItemMetadataValue;
 import org.jmisb.api.klv.st0903.shared.LocationPack;
 import org.jmisb.core.klv.ArrayUtils;
 
 /**
- * Target Boundary Series (ST0903 VTarget Pack Tag 18).
+ * Target Boundary Series (ST0903 VTarget Pack Item 18 and VTrackItem Pack Item 14).
  *
  * <p>From ST0903:
  *
@@ -33,7 +34,7 @@ import org.jmisb.core.klv.ArrayUtils;
  *
  * </blockquote>
  */
-public class TargetBoundarySeries implements IVmtiMetadataValue {
+public class TargetBoundarySeries implements IVmtiMetadataValue, IVTrackItemMetadataValue {
     private final List<LocationPack> boundary = new ArrayList<>();
 
     /**

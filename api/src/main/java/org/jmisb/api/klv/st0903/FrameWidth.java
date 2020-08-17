@@ -1,9 +1,10 @@
 package org.jmisb.api.klv.st0903;
 
+import org.jmisb.api.klv.st0903.shared.IVTrackItemMetadataValue;
 import org.jmisb.api.klv.st0903.shared.VmtiV3Value;
 
 /**
- * VMTI Frame Width (ST 0903 VMTI LS Tag 8).
+ * VMTI Frame Width (ST 0903 VMTI Local Set Item 8 and VTrackItem Pack Item 20).
  *
  * <p>From ST0903:
  *
@@ -25,7 +26,8 @@ import org.jmisb.api.klv.st0903.shared.VmtiV3Value;
  *
  * </blockquote>
  */
-public class FrameWidth extends VmtiV3Value implements IVmtiMetadataValue {
+public class FrameWidth extends VmtiV3Value
+        implements IVmtiMetadataValue, IVTrackItemMetadataValue {
     /**
      * Create from value.
      *

@@ -1,5 +1,8 @@
 package org.jmisb.api.klv.st0903.vtarget;
 
+import org.jmisb.api.klv.st0903.IVmtiMetadataValue;
+import org.jmisb.api.klv.st0903.shared.IVTrackItemMetadataValue;
+
 /**
  * Boundary Bottom Right Pixel Number (ST0903 VTarget Pack Tag 3).
  *
@@ -18,8 +21,12 @@ package org.jmisb.api.klv.st0903.vtarget;
  * <p>It is important for bit efficiency to rely on variable length payloads for this value.
  *
  * </blockquote>
+ *
+ * This item is also used for ST0903 VTrackItem Item 6. The corresponding frame width and frame
+ * height are given in VTrackItem Item 20 and Item 21.
  */
-public class BoundaryBottomRight extends PixelNumber {
+public class BoundaryBottomRight extends PixelNumber
+        implements IVmtiMetadataValue, IVTrackItemMetadataValue {
     /**
      * Create from value.
      *

@@ -161,6 +161,7 @@ public class VmtiLocalSet implements IMisbMessage {
 
     @Override
     public byte[] frameMessage(boolean isNested) {
+        updateVersion();
         int len = 0;
         List<byte[]> chunks = new ArrayList<>();
         for (VmtiMetadataKey tag : getIdentifiers()) {
@@ -244,5 +245,15 @@ public class VmtiLocalSet implements IMisbMessage {
     @Override
     public String displayHeader() {
         return "ST0903 VMTI";
+    }
+
+    private void updateVersion() {
+        ST0903Version version = (ST0903Version) getField(VmtiMetadataKey.VersionNumber);
+        // If we're missing a version, or its too old, update it to current. Otherwise leave it
+        // alone.
+        if ((version == null) || (version.getVersion() < 4)) {
+            version = new ST0903Version(VmtiMetadataConstants.ST_VERSION_NUMBER);
+            map.put(VmtiMetadataKey.VersionNumber, version);
+        }
     }
 }

@@ -4,13 +4,14 @@ import java.util.ArrayList;
 import java.util.List;
 import org.jmisb.api.klv.st0903.IVmtiMetadataValue;
 import org.jmisb.api.klv.st0903.shared.EncodingMode;
+import org.jmisb.api.klv.st0903.shared.IVTrackItemMetadataValue;
 import org.jmisb.api.klv.st0903.shared.LocationPack;
 import org.jmisb.api.klv.st1201.FpEncoder;
 import org.jmisb.core.klv.ArrayUtils;
 import org.jmisb.core.klv.PrimitiveConverter;
 
 /**
- * Target Location (ST0903 VTarget Pack Tag 17).
+ * Target Location (ST0903 VTarget Pack Item 17 and VTrackItem Pack Item 13).
  *
  * <p>From ST0903:
  *
@@ -27,7 +28,7 @@ import org.jmisb.core.klv.PrimitiveConverter;
  *
  * </blockquote>
  */
-public class TargetLocation implements IVmtiMetadataValue {
+public class TargetLocation implements IVmtiMetadataValue, IVTrackItemMetadataValue {
 
     private LocationPack value;
     private static final int COORDINATES_GROUP_LEN = 10;

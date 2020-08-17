@@ -63,8 +63,8 @@ public class VTargetSeries implements IVmtiMetadataValue, INestedKlvValue {
     /**
      * Create from encoded bytes.
      *
-     * <p>This constructor allows selection of which encoding rules (according to the ST903 version)
-     * to apply.
+     * <p>This constructor allows selection of which encoding rules (according to the ST0903
+     * version) to apply.
      *
      * @param bytes Encoded byte array
      * @param encodingMode which encoding mode the {@code bytes} parameter uses.

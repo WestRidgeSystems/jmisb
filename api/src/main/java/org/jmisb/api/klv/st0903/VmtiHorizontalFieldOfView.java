@@ -1,9 +1,10 @@
 package org.jmisb.api.klv.st0903;
 
 import org.jmisb.api.klv.st0903.shared.EncodingMode;
+import org.jmisb.api.klv.st0903.shared.IVTrackItemMetadataValue;
 
 /**
- * Horizontal Field Of View (ST0903 VMTI LS Tag 11).
+ * Horizontal Field Of View (ST0903 VMTI Local Set Item 11 and VTrackItem Pack Item 22).
  *
  * <p>From ST0903:
  *
@@ -18,7 +19,8 @@ import org.jmisb.api.klv.st0903.shared.EncodingMode;
  *
  * </blockquote>
  */
-public class VmtiHorizontalFieldOfView extends VmtiFieldOfView {
+public class VmtiHorizontalFieldOfView extends VmtiFieldOfView
+        implements IVmtiMetadataValue, IVTrackItemMetadataValue {
 
     /**
      * Create from value.

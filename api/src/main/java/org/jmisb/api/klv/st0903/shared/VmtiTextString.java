@@ -3,7 +3,8 @@ package org.jmisb.api.klv.st0903.shared;
 import org.jmisb.api.klv.st0903.IVmtiMetadataValue;
 
 /** Represents a string value in ST 0903. */
-public class VmtiTextString extends VmtiUtf8 implements IVmtiMetadataValue {
+public class VmtiTextString extends VmtiUtf8
+        implements IVmtiMetadataValue, IVTrackMetadataValue, IVTrackItemMetadataValue {
     /**
      * VMTI LS Tag 3 - VMTI System Name. The name or description of the VMTI system producing the
      * VMTI targets. The field is free text.
@@ -85,6 +86,15 @@ public class VmtiTextString extends VmtiUtf8 implements IVmtiMetadataValue {
      * Schema.
      */
     public static final String VFEATURE_SCHEMA_FEATURE = "Schema Feature";
+
+    /**
+     * VTrack Pack Item 24 - motion imagery URL.
+     *
+     * <p>A Uniform Resource Locator (URL) for the Motion Imagery essence.
+     *
+     * <p>Valid Values: A URL conformant to IETF RFC 3986.
+     */
+    public static final String MOTION_IMAGERY_URL = "Motion Imagery URL";
 
     /**
      * Create from value.

@@ -2,10 +2,11 @@ package org.jmisb.api.klv.st0903.vtarget;
 
 import org.jmisb.api.common.KlvParseException;
 import org.jmisb.api.klv.st0903.IVmtiMetadataValue;
+import org.jmisb.api.klv.st0903.shared.IVTrackItemMetadataValue;
 import org.jmisb.api.klv.st0903.vobject.VObjectLS;
 
 /**
- * VObject Ontology (ST0903 VTarget Pack Tag 102).
+ * VObject Ontology (ST0903 VTarget Pack Item 102 and VTrackItem Pack Item 102).
  *
  * <p>From ST0903:
  *
@@ -18,7 +19,7 @@ import org.jmisb.api.klv.st0903.vobject.VObjectLS;
  *
  * </blockquote>
  */
-public class VObject implements IVmtiMetadataValue {
+public class VObject implements IVmtiMetadataValue, IVTrackItemMetadataValue {
     private final VObjectLS value;
 
     /**

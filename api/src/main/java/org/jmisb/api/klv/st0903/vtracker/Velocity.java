@@ -4,6 +4,7 @@ import java.util.ArrayList;
 import java.util.List;
 import org.jmisb.api.klv.st0903.IVmtiMetadataValue;
 import org.jmisb.api.klv.st0903.shared.EncodingMode;
+import org.jmisb.api.klv.st0903.shared.IVTrackItemMetadataValue;
 import org.jmisb.api.klv.st1201.FpEncoder;
 import org.jmisb.core.klv.ArrayUtils;
 import org.jmisb.core.klv.PrimitiveConverter;
@@ -19,7 +20,7 @@ import org.jmisb.core.klv.PrimitiveConverter;
  *
  * </blockquote>
  */
-public class Velocity implements IVmtiMetadataValue {
+public class Velocity implements IVmtiMetadataValue, IVTrackItemMetadataValue {
     private static final int VELOCITY_GROUP_LEN = 6;
     private static final int STANDARD_DEVIATIONS_GROUP_LEN = 6;
     private static final int CORRELATION_GROUP_LEN = 6;

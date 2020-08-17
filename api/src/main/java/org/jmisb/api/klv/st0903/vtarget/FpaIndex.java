@@ -1,9 +1,10 @@
 package org.jmisb.api.klv.st0903.vtarget;
 
 import org.jmisb.api.klv.st0903.IVmtiMetadataValue;
+import org.jmisb.api.klv.st0903.shared.IVTrackItemMetadataValue;
 
 /**
- * Focal Plane Array (FPA) Index (ST0903 VTarget Pack Tag 21).
+ * Focal Plane Array (FPA) Index (ST0903 VTarget Pack Item 21 and VTrackItem Pack Item 17).
  *
  * <p>From ST0903:
  *
@@ -17,7 +18,7 @@ import org.jmisb.api.klv.st0903.IVmtiMetadataValue;
  *
  * </blockquote>
  */
-public class FpaIndex implements IVmtiMetadataValue {
+public class FpaIndex implements IVmtiMetadataValue, IVTrackItemMetadataValue {
     private FpaIndexPack value;
     private static final int NUM_BYTES = 2;
 

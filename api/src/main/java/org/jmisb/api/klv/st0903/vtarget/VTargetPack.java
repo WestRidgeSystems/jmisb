@@ -8,6 +8,7 @@ import java.util.SortedMap;
 import java.util.TreeMap;
 import org.jmisb.api.common.InvalidDataHandler;
 import org.jmisb.api.common.KlvParseException;
+import org.jmisb.api.klv.Ber;
 import org.jmisb.api.klv.BerDecoder;
 import org.jmisb.api.klv.BerEncoder;
 import org.jmisb.api.klv.BerField;
@@ -240,7 +241,7 @@ public class VTargetPack implements IKlvValue, INestedKlvValue {
         int len = 0;
         List<byte[]> chunks = new ArrayList<>();
 
-        byte[] targetIdBytes = BerEncoder.encode(targetId);
+        byte[] targetIdBytes = BerEncoder.encode(targetId, Ber.OID);
         chunks.add(targetIdBytes);
         len += targetIdBytes.length;
 

@@ -7,10 +7,11 @@ import org.jmisb.api.klv.BerDecoder;
 import org.jmisb.api.klv.BerEncoder;
 import org.jmisb.api.klv.BerField;
 import org.jmisb.api.klv.st0903.ontology.OntologyLS;
+import org.jmisb.api.klv.st0903.shared.IVTrackMetadataValue;
 import org.jmisb.core.klv.ArrayUtils;
 
 /**
- * VMTI LS Ontology Series (ST 0903 VMTI LS Tag 103).
+ * VMTI Local Set Ontology Series (ST 0903 VMTI Local Set Item 103 and VTrack Local Set Item 103).
  *
  * <p>From ST0903:
  *
@@ -30,7 +31,7 @@ import org.jmisb.core.klv.ArrayUtils;
  *
  * </blockquote>
  */
-public class OntologySeries implements IVmtiMetadataValue {
+public class OntologySeries implements IVmtiMetadataValue, IVTrackMetadataValue {
     private final List<OntologyLS> localSets = new ArrayList<>();
 
     /**

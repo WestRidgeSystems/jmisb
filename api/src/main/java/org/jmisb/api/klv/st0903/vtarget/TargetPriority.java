@@ -1,10 +1,11 @@
 package org.jmisb.api.klv.st0903.vtarget;
 
 import org.jmisb.api.klv.st0903.IVmtiMetadataValue;
+import org.jmisb.api.klv.st0903.shared.IVTrackItemMetadataValue;
 import org.jmisb.core.klv.PrimitiveConverter;
 
 /**
- * Target Priority (ST0903 VTarget Pack Tag 4).
+ * Target Priority (ST0903 VTarget Pack Item 4 and VTrackItem Item 7).
  *
  * <p>From ST0903:
  *
@@ -16,7 +17,7 @@ import org.jmisb.core.klv.PrimitiveConverter;
  *
  * </blockquote>
  */
-public class TargetPriority implements IVmtiMetadataValue {
+public class TargetPriority implements IVmtiMetadataValue, IVTrackItemMetadataValue {
 
     private final short priority;
     private static int MIN_VALUE = 1;

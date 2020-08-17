@@ -3,6 +3,7 @@ package org.jmisb.api.klv.st0903.vtracker;
 import java.time.LocalDateTime;
 import org.jmisb.api.klv.st0603.ST0603TimeStamp;
 import org.jmisb.api.klv.st0903.IVmtiMetadataValue;
+import org.jmisb.api.klv.st0903.shared.IVTrackMetadataValue;
 
 /**
  * Start Time (ST0903 VTracker Pack Tag 3)
@@ -16,7 +17,7 @@ import org.jmisb.api.klv.st0903.IVmtiMetadataValue;
  *
  * </blockquote>
  */
-public class StartTime extends ST0603TimeStamp implements IVmtiMetadataValue {
+public class StartTime extends ST0603TimeStamp implements IVmtiMetadataValue, IVTrackMetadataValue {
     /**
      * Create from value.
      *
