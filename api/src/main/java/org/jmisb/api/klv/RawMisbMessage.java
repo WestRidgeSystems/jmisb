@@ -50,6 +50,7 @@ public class RawMisbMessage implements IMisbMessage {
 
     @Override
     public Set<? extends IKlvKey> getIdentifiers() {
-        return Collections.EMPTY_SET;
+        Set<IKlvKey> noIdentifiers = Collections.emptySet();
+        return noIdentifiers;
     }
 }
