@@ -5,6 +5,8 @@ import static org.testng.Assert.*;
 import java.util.HashMap;
 import java.util.Map;
 import org.jmisb.api.common.KlvParseException;
+import org.jmisb.api.klv.IKlvKey;
+import org.jmisb.api.klv.IKlvValue;
 import org.jmisb.api.klv.LoggerChecks;
 import org.testng.annotations.Test;
 
@@ -17,10 +19,23 @@ public class RvtUserDefinedLocalSetTest extends LoggerChecks {
     @Test
     public void parseTag1() throws KlvParseException {
         byte[] bytes = new byte[] {0x01, 0x01, (byte) 0b10000001};
-        RvtUserDefinedLocalSet aoiLocalSet = new RvtUserDefinedLocalSet(bytes, 0, bytes.length);
-        assertNotNull(aoiLocalSet);
-        assertEquals(aoiLocalSet.getTags().size(), 1);
-        checkNumericIdExample(aoiLocalSet);
+        RvtUserDefinedLocalSet localSet = new RvtUserDefinedLocalSet(bytes, 0, bytes.length);
+        assertNotNull(localSet);
+        assertEquals(localSet.getTags().size(), 1);
+        checkNumericIdExample(localSet);
+        IKlvValue v = localSet.getField((IKlvKey) RvtUserDefinedMetadataKey.NumericId);
+        assertTrue(v instanceof RvtNumericId);
+        RvtNumericId n = (RvtNumericId) v;
+        assertEquals(n.getId(), 1);
+    }
+
+    @Test
+    public void parseDisplayNoContent() throws KlvParseException {
+        byte[] bytes = new byte[] {};
+        RvtUserDefinedLocalSet localSet = new RvtUserDefinedLocalSet(bytes, 0, bytes.length);
+        assertNotNull(localSet);
+        assertEquals(localSet.getTags().size(), 0);
+        assertEquals(localSet.getDisplayableValue(), "[User Defined Local Set]");
     }
 
     @Test
@@ -37,11 +52,11 @@ public class RvtUserDefinedLocalSetTest extends LoggerChecks {
                     (byte) 0x00,
                     (byte) 0x01
                 };
-        RvtUserDefinedLocalSet aoiLocalSet = new RvtUserDefinedLocalSet(bytes, 0, bytes.length);
-        assertNotNull(aoiLocalSet);
-        assertEquals(aoiLocalSet.getTags().size(), 2);
-        checkNumericIdExample(aoiLocalSet);
-        checkUserDataExample(aoiLocalSet);
+        RvtUserDefinedLocalSet localSet = new RvtUserDefinedLocalSet(bytes, 0, bytes.length);
+        assertNotNull(localSet);
+        assertEquals(localSet.getTags().size(), 2);
+        checkNumericIdExample(localSet);
+        checkUserDataExample(localSet);
     }
 
     @Test
@@ -63,17 +78,17 @@ public class RvtUserDefinedLocalSetTest extends LoggerChecks {
                     (byte) 0x01
                 };
         verifyNoLoggerMessages();
-        RvtUserDefinedLocalSet aoiLocalSet = new RvtUserDefinedLocalSet(bytes, 0, bytes.length);
+        RvtUserDefinedLocalSet localSet = new RvtUserDefinedLocalSet(bytes, 0, bytes.length);
         verifySingleLoggerMessage("Unknown RVT User Defined Metadata tag: 11");
-        assertNotNull(aoiLocalSet);
-        assertEquals(aoiLocalSet.getTags().size(), 2);
-        checkNumericIdExample(aoiLocalSet);
-        checkUserDataExample(aoiLocalSet);
+        assertNotNull(localSet);
+        assertEquals(localSet.getTags().size(), 2);
+        checkNumericIdExample(localSet);
+        checkUserDataExample(localSet);
     }
 
-    private void checkNumericIdExample(RvtUserDefinedLocalSet aoiLocalSet) {
-        assertTrue(aoiLocalSet.getTags().contains(RvtUserDefinedMetadataKey.NumericId));
-        IRvtUserDefinedMetadataValue v = aoiLocalSet.getField(RvtUserDefinedMetadataKey.NumericId);
+    private void checkNumericIdExample(RvtUserDefinedLocalSet localSet) {
+        assertTrue(localSet.getTags().contains(RvtUserDefinedMetadataKey.NumericId));
+        IRvtUserDefinedMetadataValue v = localSet.getField(RvtUserDefinedMetadataKey.NumericId);
         assertEquals(v.getDisplayName(), "Numeric ID");
         assertEquals(v.getDisplayableValue(), "Unsigned Integer: 1");
         assertTrue(v instanceof RvtNumericId);
@@ -83,9 +98,9 @@ public class RvtUserDefinedLocalSetTest extends LoggerChecks {
         assertEquals(id.getId(), 1);
     }
 
-    private void checkUserDataExample(RvtUserDefinedLocalSet aoiLocalSet) {
-        assertTrue(aoiLocalSet.getTags().contains(RvtUserDefinedMetadataKey.UserData));
-        IRvtUserDefinedMetadataValue v = aoiLocalSet.getField(RvtUserDefinedMetadataKey.UserData);
+    private void checkUserDataExample(RvtUserDefinedLocalSet localSet) {
+        assertTrue(localSet.getTags().contains(RvtUserDefinedMetadataKey.UserData));
+        IRvtUserDefinedMetadataValue v = localSet.getField(RvtUserDefinedMetadataKey.UserData);
         assertEquals(v.getDisplayName(), "User Data");
         assertEquals(v.getDisplayableValue(), "[User Data]");
         assertTrue(v instanceof RvtUserData);
@@ -118,7 +133,7 @@ public class RvtUserDefinedLocalSetTest extends LoggerChecks {
         RvtUserDefinedLocalSet userDefinedLocalSet = new RvtUserDefinedLocalSet(values);
         assertNotNull(userDefinedLocalSet);
         assertEquals(userDefinedLocalSet.getDisplayName(), "User Data");
-        assertEquals(userDefinedLocalSet.getDisplayableValue(), "[User Defined Local Set]");
+        assertEquals(userDefinedLocalSet.getDisplayableValue(), "Unsigned Integer: 1");
         assertEquals(userDefinedLocalSet.getTags().size(), 2);
         checkNumericIdExample(userDefinedLocalSet);
         checkUserDataExample(userDefinedLocalSet);

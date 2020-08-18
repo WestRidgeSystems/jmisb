@@ -5,6 +5,8 @@ import static org.testng.Assert.*;
 import java.util.HashMap;
 import java.util.Map;
 import org.jmisb.api.common.KlvParseException;
+import org.jmisb.api.klv.IKlvKey;
+import org.jmisb.api.klv.IKlvValue;
 import org.jmisb.api.klv.LoggerChecks;
 import org.testng.annotations.Test;
 
@@ -21,6 +23,7 @@ public class RvtAoiLocalSetTest extends LoggerChecks {
         assertNotNull(aoiLocalSet);
         assertEquals(aoiLocalSet.getTags().size(), 1);
         checkPoiAoiNumberExample(aoiLocalSet);
+        assertEquals(aoiLocalSet.getDisplayableValue(), "516");
     }
 
     @Test
@@ -62,7 +65,7 @@ public class RvtAoiLocalSetTest extends LoggerChecks {
         RvtAoiLocalSet aoiLocalSet = new RvtAoiLocalSet(bytes, 0, bytes.length);
         assertNotNull(aoiLocalSet);
         assertEquals(aoiLocalSet.getDisplayName(), "Area of Interest");
-        assertEquals(aoiLocalSet.getDisplayableValue(), "[AOI Local Set]");
+        assertEquals(aoiLocalSet.getDisplayableValue(), "516");
         assertEquals(aoiLocalSet.getTags().size(), 6);
         checkPoiAoiNumberExample(aoiLocalSet);
         checkPoiAoiLatitude1Example(aoiLocalSet);
@@ -102,7 +105,7 @@ public class RvtAoiLocalSetTest extends LoggerChecks {
         verifySingleLoggerMessage("Unknown RVT AOI Metadata tag: 11");
         assertNotNull(aoiLocalSet);
         assertEquals(aoiLocalSet.getDisplayName(), "Area of Interest");
-        assertEquals(aoiLocalSet.getDisplayableValue(), "[AOI Local Set]");
+        assertEquals(aoiLocalSet.getDisplayableValue(), "516");
         assertEquals(aoiLocalSet.getTags().size(), 3);
         checkPoiAoiNumberExample(aoiLocalSet);
         checkPoiAoiLatitude1Example(aoiLocalSet);
@@ -195,7 +198,7 @@ public class RvtAoiLocalSetTest extends LoggerChecks {
         RvtAoiLocalSet aoiLocalSet = new RvtAoiLocalSet(values);
         assertNotNull(aoiLocalSet);
         assertEquals(aoiLocalSet.getDisplayName(), "Area of Interest");
-        assertEquals(aoiLocalSet.getDisplayableValue(), "[AOI Local Set]");
+        assertEquals(aoiLocalSet.getDisplayableValue(), "My Point (516)");
         assertEquals(aoiLocalSet.getTags().size(), 4);
         checkPoiAoiNumberExample(aoiLocalSet);
         checkPoiAoiLatitude1Example(aoiLocalSet);
@@ -230,6 +233,30 @@ public class RvtAoiLocalSetTest extends LoggerChecks {
                     (byte) 0x74 // T:9, L: 8, V: "My Point"
                 };
         assertEquals(aoiLocalSet.getBytes(), expectedBytes);
+    }
+
+    @Test
+    public void checkLabelOnly() {
+        Map<RvtAoiMetadataKey, IRvtPoiAoiMetadataValue> values = new HashMap<>();
+        IRvtPoiAoiMetadataValue label =
+                new RvtPoiAoiTextString(RvtPoiAoiTextString.POI_AOI_LABEL, "Test Label1");
+        values.put(RvtAoiMetadataKey.PoiAoiLabel, label);
+        RvtAoiLocalSet aoiLocalSet = new RvtAoiLocalSet(values);
+        assertEquals(aoiLocalSet.getDisplayableValue(), "Test Label1");
+    }
+
+    @Test
+    public void checkSourceIdOnly() {
+        Map<RvtAoiMetadataKey, IRvtPoiAoiMetadataValue> values = new HashMap<>();
+        IRvtPoiAoiMetadataValue sourceId =
+                new RvtPoiAoiTextString(RvtPoiAoiTextString.POI_AOI_SOURCE_ID, "Some Source");
+        values.put(RvtAoiMetadataKey.PoiAoiSourceId, sourceId);
+        RvtAoiLocalSet aoiLocalSet = new RvtAoiLocalSet(values);
+        IKlvValue value = aoiLocalSet.getField((IKlvKey) RvtAoiMetadataKey.PoiAoiSourceId);
+        assertTrue(value instanceof RvtPoiAoiTextString);
+        RvtPoiAoiTextString textString = (RvtPoiAoiTextString) value;
+        assertEquals(textString.getDisplayableValue(), "Some Source");
+        assertEquals(aoiLocalSet.getDisplayableValue(), "[AOI Local Set]");
     }
 
     /**

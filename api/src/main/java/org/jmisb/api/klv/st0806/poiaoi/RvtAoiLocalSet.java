@@ -8,6 +8,9 @@ import java.util.SortedMap;
 import java.util.TreeMap;
 import org.jmisb.api.common.KlvParseException;
 import org.jmisb.api.klv.BerEncoder;
+import org.jmisb.api.klv.IKlvKey;
+import org.jmisb.api.klv.IKlvValue;
+import org.jmisb.api.klv.INestedKlvValue;
 import org.jmisb.api.klv.LdsField;
 import org.jmisb.api.klv.LdsParser;
 import org.jmisb.api.klv.st0806.IRvtMetadataValue;
@@ -21,7 +24,7 @@ import org.slf4j.LoggerFactory;
  * <p>Any number of AOI Local Sets (including none) can be embedded in a parent RvtLocalSet
  * instance.
  */
-public class RvtAoiLocalSet implements IRvtMetadataValue {
+public class RvtAoiLocalSet implements IRvtMetadataValue, INestedKlvValue {
 
     private static final Logger LOGGER = LoggerFactory.getLogger(RvtAoiLocalSet.class);
 
@@ -124,7 +127,7 @@ public class RvtAoiLocalSet implements IRvtMetadataValue {
         int len = 0;
         List<byte[]> chunks = new ArrayList<>();
         for (RvtAoiMetadataKey tag : getTags()) {
-            chunks.add(new byte[] {(byte) tag.getTag()});
+            chunks.add(new byte[] {(byte) tag.getIdentifier()});
             len += 1;
             IRvtPoiAoiMetadataValue value = getField(tag);
             byte[] bytes = value.getBytes();
@@ -139,11 +142,34 @@ public class RvtAoiLocalSet implements IRvtMetadataValue {
 
     @Override
     public String getDisplayableValue() {
+        if (map.containsKey(RvtAoiMetadataKey.PoiAoiLabel)
+                && map.containsKey(RvtAoiMetadataKey.PoiAoiNumber)) {
+            return getField(RvtAoiMetadataKey.PoiAoiLabel).getDisplayableValue()
+                    + " ("
+                    + getField(RvtAoiMetadataKey.PoiAoiNumber).getDisplayableValue()
+                    + ")";
+        }
+        if (map.containsKey(RvtAoiMetadataKey.PoiAoiLabel)) {
+            return getField(RvtAoiMetadataKey.PoiAoiLabel).getDisplayableValue();
+        }
+        if (map.containsKey(RvtAoiMetadataKey.PoiAoiNumber)) {
+            return getField(RvtAoiMetadataKey.PoiAoiNumber).getDisplayableValue();
+        }
         return "[AOI Local Set]";
     }
 
     @Override
     public String getDisplayName() {
         return "Area of Interest";
+    }
+
+    @Override
+    public IKlvValue getField(IKlvKey tag) {
+        return this.getField((RvtAoiMetadataKey) tag);
+    }
+
+    @Override
+    public Set<? extends IKlvKey> getIdentifiers() {
+        return map.keySet();
     }
 }

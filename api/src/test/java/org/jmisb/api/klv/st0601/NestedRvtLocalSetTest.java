@@ -5,7 +5,9 @@ import java.util.TreeMap;
 import org.jmisb.api.common.KlvParseException;
 import org.jmisb.api.klv.st0806.IRvtMetadataValue;
 import org.jmisb.api.klv.st0806.RvtLocalSet;
+import org.jmisb.api.klv.st0806.RvtMetadataIdentifier;
 import org.jmisb.api.klv.st0806.RvtMetadataKey;
+import org.jmisb.api.klv.st0806.RvtMetadataKind;
 import org.jmisb.api.klv.st0806.ST0806Version;
 import org.testng.Assert;
 import org.testng.annotations.Test;
@@ -40,6 +42,14 @@ public class NestedRvtLocalSetTest {
     private void checkLocalSetValues(NestedRvtLocalSet localSet) {
         Assert.assertEquals(localSet.getDisplayName(), "RVT");
         Assert.assertEquals(localSet.getDisplayableValue(), "[RVT]");
+        Assert.assertEquals(localSet.getIdentifiers().size(), 1);
+        Assert.assertEquals(
+                localSet.getField(
+                                new RvtMetadataIdentifier(
+                                        RvtMetadataKind.PLAIN,
+                                        RvtMetadataKey.UASLSVersionNumber.getIdentifier()))
+                        .getDisplayableValue(),
+                "ST0806.4");
         Assert.assertEquals(localSet.getRVT().getIdentifiers().size(), 1);
         Assert.assertEquals(
                 localSet.getRVT().getField(RvtMetadataKey.UASLSVersionNumber).getDisplayableValue(),
