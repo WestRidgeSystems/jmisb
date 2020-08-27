@@ -5,6 +5,7 @@ import static org.testng.Assert.*;
 import java.util.HashMap;
 import java.util.Map;
 import org.jmisb.api.common.KlvParseException;
+import org.jmisb.api.klv.IKlvKey;
 import org.jmisb.api.klv.LoggerChecks;
 import org.jmisb.api.klv.st0903.IVmtiMetadataValue;
 import org.jmisb.api.klv.st0903.shared.AlgorithmId;
@@ -24,6 +25,13 @@ public class AlgorithmLSTest extends LoggerChecks {
         assertNotNull(algorithmLS);
         assertEquals(algorithmLS.getTags().size(), 1);
         checkIdExample(algorithmLS);
+        assertEquals(algorithmLS.getIdentifiers().size(), 1);
+        assertTrue(algorithmLS.getIdentifiers().contains(AlgorithmMetadataKey.id));
+        assertEquals(
+                algorithmLS.getField((IKlvKey) AlgorithmMetadataKey.id).getDisplayableValue(),
+                "66456");
+        assertEquals(algorithmLS.getDisplayName(), "Algorithm Local Set");
+        assertEquals(algorithmLS.getDisplayableValue(), "Algorithm 66456");
     }
 
     @Test
@@ -37,6 +45,13 @@ public class AlgorithmLSTest extends LoggerChecks {
         assertNotNull(algorithmLS);
         assertEquals(algorithmLS.getTags().size(), 1);
         checkNameExample(algorithmLS);
+        assertEquals(algorithmLS.getIdentifiers().size(), 1);
+        assertTrue(algorithmLS.getIdentifiers().contains(AlgorithmMetadataKey.name));
+        assertEquals(
+                algorithmLS.getField((IKlvKey) AlgorithmMetadataKey.name).getDisplayableValue(),
+                "k6_yolo_9000_tracker");
+        assertEquals(algorithmLS.getDisplayName(), "Algorithm Local Set");
+        assertEquals(algorithmLS.getDisplayableValue(), "[Algorithm]");
     }
 
     @Test
@@ -46,6 +61,13 @@ public class AlgorithmLSTest extends LoggerChecks {
         assertNotNull(algorithmLS);
         assertEquals(algorithmLS.getTags().size(), 1);
         checkVersionExample(algorithmLS);
+        assertEquals(algorithmLS.getIdentifiers().size(), 1);
+        assertTrue(algorithmLS.getIdentifiers().contains(AlgorithmMetadataKey.version));
+        assertEquals(
+                algorithmLS.getField((IKlvKey) AlgorithmMetadataKey.version).getDisplayableValue(),
+                "2.6a");
+        assertEquals(algorithmLS.getDisplayName(), "Algorithm Local Set");
+        assertEquals(algorithmLS.getDisplayableValue(), "[Algorithm]");
     }
 
     @Test
@@ -55,6 +77,15 @@ public class AlgorithmLSTest extends LoggerChecks {
         assertNotNull(algorithmLS);
         assertEquals(algorithmLS.getTags().size(), 1);
         checkClassExample(algorithmLS);
+        assertEquals(algorithmLS.getIdentifiers().size(), 1);
+        assertTrue(algorithmLS.getIdentifiers().contains(AlgorithmMetadataKey.algorithmClass));
+        assertEquals(
+                algorithmLS
+                        .getField((IKlvKey) AlgorithmMetadataKey.algorithmClass)
+                        .getDisplayableValue(),
+                "kalmann");
+        assertEquals(algorithmLS.getDisplayName(), "Algorithm Local Set");
+        assertEquals(algorithmLS.getDisplayableValue(), "[Algorithm]");
     }
 
     @Test
@@ -64,6 +95,13 @@ public class AlgorithmLSTest extends LoggerChecks {
         assertNotNull(algorithmLS);
         assertEquals(algorithmLS.getTags().size(), 1);
         checkNumFramesExample(algorithmLS);
+        assertEquals(algorithmLS.getIdentifiers().size(), 1);
+        assertTrue(algorithmLS.getIdentifiers().contains(AlgorithmMetadataKey.nFrames));
+        assertEquals(
+                algorithmLS.getField((IKlvKey) AlgorithmMetadataKey.nFrames).getDisplayableValue(),
+                "10");
+        assertEquals(algorithmLS.getDisplayName(), "Algorithm Local Set");
+        assertEquals(algorithmLS.getDisplayableValue(), "[Algorithm]");
     }
 
     @Test
@@ -130,6 +168,9 @@ public class AlgorithmLSTest extends LoggerChecks {
         checkNameExample(algorithmLS);
         checkVersionExample(algorithmLS);
         checkNumFramesExample(algorithmLS);
+        assertEquals(algorithmLS.getIdentifiers().size(), 5);
+        assertEquals(algorithmLS.getDisplayName(), "Algorithm Local Set");
+        assertEquals(algorithmLS.getDisplayableValue(), "Algorithm 66456");
     }
 
     public void checkIdExample(AlgorithmLS algorithmLS) {
@@ -233,6 +274,9 @@ public class AlgorithmLSTest extends LoggerChecks {
         checkClassExample(algorithmLS);
         checkVersionExample(algorithmLS);
         checkNumFramesExample(algorithmLS);
+        assertEquals(algorithmLS.getIdentifiers().size(), 5);
+        assertEquals(algorithmLS.getDisplayName(), "Algorithm Local Set");
+        assertEquals(algorithmLS.getDisplayableValue(), "Algorithm 66456");
         byte[] expectedBytes =
                 new byte[] {
                     0x01,

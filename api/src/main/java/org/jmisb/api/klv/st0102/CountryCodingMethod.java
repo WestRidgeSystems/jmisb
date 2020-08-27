@@ -1,5 +1,7 @@
 package org.jmisb.api.klv.st0102;
 
+import org.jmisb.api.klv.IKlvValue;
+
 /**
  * Country coding methods.
  *
@@ -8,7 +10,7 @@ package org.jmisb.api.klv.st0102;
  * object of the motion imagery (in the frame). There are various ways in which country codes are to
  * be interpreted, as shown in this enumeration.
  */
-public enum CountryCodingMethod {
+public enum CountryCodingMethod implements IKlvValue {
     /**
      * ISO-3166 Two Letter codes.
      *
@@ -81,5 +83,15 @@ public enum CountryCodingMethod {
      */
     GENC_NUMERIC,
     GENC_MIXED,
-    GENC_ADMINSUB
+    GENC_ADMINSUB;
+
+    @Override
+    public String getDisplayName() {
+        return "Country Coding Method";
+    }
+
+    @Override
+    public String getDisplayableValue() {
+        return this.toString();
+    }
 }

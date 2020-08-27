@@ -2,11 +2,18 @@ package org.jmisb.api.klv.st0903;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Set;
+import java.util.TreeSet;
 import org.jmisb.api.common.KlvParseException;
 import org.jmisb.api.klv.BerDecoder;
 import org.jmisb.api.klv.BerEncoder;
 import org.jmisb.api.klv.BerField;
+import org.jmisb.api.klv.IKlvKey;
+import org.jmisb.api.klv.IKlvValue;
+import org.jmisb.api.klv.INestedKlvValue;
+import org.jmisb.api.klv.st0903.ontology.OntologyId;
 import org.jmisb.api.klv.st0903.ontology.OntologyLS;
+import org.jmisb.api.klv.st0903.ontology.OntologyMetadataKey;
 import org.jmisb.core.klv.ArrayUtils;
 
 /**
@@ -30,7 +37,7 @@ import org.jmisb.core.klv.ArrayUtils;
  *
  * </blockquote>
  */
-public class OntologySeries implements IVmtiMetadataValue {
+public class OntologySeries implements IVmtiMetadataValue, INestedKlvValue {
     private final List<OntologyLS> localSets = new ArrayList<>();
 
     /**
@@ -92,5 +99,31 @@ public class OntologySeries implements IVmtiMetadataValue {
      */
     public List<OntologyLS> getOntologies() {
         return localSets;
+    }
+
+    @Override
+    public IKlvValue getField(IKlvKey tag) {
+        int requiredId = tag.getIdentifier();
+        for (OntologyLS ontologyLS : localSets) {
+            OntologyId ontologyId = (OntologyId) ontologyLS.getField(OntologyMetadataKey.id);
+            if (ontologyId != null && requiredId == ontologyId.getValue()) {
+                return ontologyLS;
+            }
+        }
+        return null;
+    }
+
+    @Override
+    public Set<? extends IKlvKey> getIdentifiers() {
+        Set<OntologyIdentifierKey> identifiers = new TreeSet<>();
+        localSets.forEach(
+                (OntologyLS localSet) -> {
+                    if (localSet.getTags().contains(OntologyMetadataKey.id)) {
+                        OntologyId ontologyId =
+                                (OntologyId) localSet.getField(OntologyMetadataKey.id);
+                        identifiers.add(new OntologyIdentifierKey(ontologyId.getValue()));
+                    }
+                });
+        return identifiers;
     }
 }

@@ -2,9 +2,10 @@ package org.jmisb.api.klv.st0903.algorithm;
 
 import java.util.HashMap;
 import java.util.Map;
+import org.jmisb.api.klv.IKlvKey;
 
 /** Metadata tag numbers for ST0903 Algorithm local set. */
-public enum AlgorithmMetadataKey {
+public enum AlgorithmMetadataKey implements IKlvKey {
     /** Unknown key. This should not be created. */
     Undefined(0),
     /** Identifier for the algorithm used. */
@@ -53,5 +54,10 @@ public enum AlgorithmMetadataKey {
      */
     public static AlgorithmMetadataKey getKey(int tag) {
         return tagTable.containsKey(tag) ? tagTable.get(tag) : Undefined;
+    }
+
+    @Override
+    public int getIdentifier() {
+        return tag;
     }
 }

@@ -7,6 +7,7 @@ import java.net.URISyntaxException;
 import java.util.HashMap;
 import java.util.Map;
 import org.jmisb.api.common.KlvParseException;
+import org.jmisb.api.klv.IKlvKey;
 import org.jmisb.api.klv.LoggerChecks;
 import org.jmisb.api.klv.st0903.IVmtiMetadataValue;
 import org.jmisb.api.klv.st0903.shared.VmtiTextString;
@@ -26,6 +27,10 @@ public class OntologyLSTest extends LoggerChecks {
         assertNotNull(ontologyLS);
         assertEquals(ontologyLS.getTags().size(), 1);
         checkIdExample(ontologyLS);
+        assertEquals(ontologyLS.getIdentifiers().size(), 1);
+        assertTrue(ontologyLS.getIdentifiers().contains(OntologyMetadataKey.id));
+        assertEquals(
+                ontologyLS.getField((IKlvKey) OntologyMetadataKey.id).getDisplayableValue(), "258");
     }
 
     @Test
@@ -35,6 +40,11 @@ public class OntologyLSTest extends LoggerChecks {
         assertNotNull(ontologyLS);
         assertEquals(ontologyLS.getTags().size(), 1);
         checkParentIdExample(ontologyLS);
+        assertEquals(ontologyLS.getIdentifiers().size(), 1);
+        assertTrue(ontologyLS.getIdentifiers().contains(OntologyMetadataKey.parentId));
+        assertEquals(
+                ontologyLS.getField((IKlvKey) OntologyMetadataKey.parentId).getDisplayableValue(),
+                "10");
     }
 
     @Test
@@ -52,6 +62,11 @@ public class OntologyLSTest extends LoggerChecks {
         assertNotNull(ontologyLS);
         assertEquals(ontologyLS.getTags().size(), 1);
         checkOntologyExample(ontologyLS);
+        assertEquals(ontologyLS.getIdentifiers().size(), 1);
+        assertTrue(ontologyLS.getIdentifiers().contains(OntologyMetadataKey.ontology));
+        assertEquals(
+                ontologyLS.getField((IKlvKey) OntologyMetadataKey.ontology).getDisplayableValue(),
+                "https://raw.githubusercontent.com/owlcs/pizza-ontology/master/pizza.owl");
     }
 
     @Test
@@ -62,6 +77,14 @@ public class OntologyLSTest extends LoggerChecks {
         assertNotNull(ontologyLS);
         assertEquals(ontologyLS.getTags().size(), 1);
         checkOntologyClassExample(ontologyLS);
+        assertEquals(ontologyLS.getDisplayableValue(), "[Ontology]");
+        assertEquals(ontologyLS.getIdentifiers().size(), 1);
+        assertTrue(ontologyLS.getIdentifiers().contains(OntologyMetadataKey.ontologyClass));
+        assertEquals(
+                ontologyLS
+                        .getField((IKlvKey) OntologyMetadataKey.ontologyClass)
+                        .getDisplayableValue(),
+                "Mushroom");
     }
 
     @Test
@@ -210,6 +233,7 @@ public class OntologyLSTest extends LoggerChecks {
         VmtiTextString text =
                 (VmtiTextString) ontologyLS.getField(OntologyMetadataKey.ontologyClass);
         assertEquals(text.getValue(), stringVal);
+        assertEquals(ontologyLS.getDisplayName(), "Ontology");
     }
 
     @Test

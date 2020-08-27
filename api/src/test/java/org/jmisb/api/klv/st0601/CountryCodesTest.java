@@ -42,6 +42,19 @@ public class CountryCodesTest {
         assertEquals(countryCodes.getOperatorCountry(), "");
         assertEquals(countryCodes.getCountryOfManufacture(), "FRA");
         assertEquals(countryCodes.getBytes(), ST_EXAMPLE_BYTES);
+        assertEquals(countryCodes.getIdentifiers().size(), 3);
+        assertTrue(countryCodes.getIdentifiers().contains(CountryCodeKey.CodingMethod));
+        assertTrue(countryCodes.getIdentifiers().contains(CountryCodeKey.OverflightCountry));
+        assertTrue(countryCodes.getIdentifiers().contains(CountryCodeKey.CountryOfManufacture));
+        assertEquals(
+                countryCodes.getField(CountryCodeKey.CodingMethod).getDisplayableValue(),
+                "GENC_THREE_LETTER");
+        assertEquals(
+                countryCodes.getField(CountryCodeKey.CountryOfManufacture).getDisplayableValue(),
+                "FRA");
+        assertEquals(
+                countryCodes.getField(CountryCodeKey.OverflightCountry).getDisplayableValue(),
+                "CAN");
     }
 
     @Test
@@ -57,6 +70,18 @@ public class CountryCodesTest {
         assertEquals(
                 countryCodes.getBytes(),
                 new byte[] {0x01, 0x01, 0x02, 0x41, 0x55, 0x02, 0x55, 0x53});
+        assertEquals(countryCodes.getIdentifiers().size(), 3);
+        assertTrue(countryCodes.getIdentifiers().contains(CountryCodeKey.CodingMethod));
+        assertTrue(countryCodes.getIdentifiers().contains(CountryCodeKey.OverflightCountry));
+        assertTrue(countryCodes.getIdentifiers().contains(CountryCodeKey.OperatorCountry));
+        assertEquals(
+                countryCodes.getField(CountryCodeKey.CodingMethod).getDisplayableValue(),
+                "ISO3166_TWO_LETTER");
+        assertEquals(
+                countryCodes.getField(CountryCodeKey.OperatorCountry).getDisplayableValue(), "US");
+        assertEquals(
+                countryCodes.getField(CountryCodeKey.OverflightCountry).getDisplayableValue(),
+                "AU");
     }
 
     @Test
@@ -70,5 +95,38 @@ public class CountryCodesTest {
         assertEquals(countryCodes.getOperatorCountry(), "");
         assertEquals(countryCodes.getCountryOfManufacture(), "");
         assertEquals(countryCodes.getBytes(), new byte[] {0x01, 0x0E, 0x03, 0x43, 0x41, 0x4E});
+        assertEquals(countryCodes.getIdentifiers().size(), 2);
+        assertTrue(countryCodes.getIdentifiers().contains(CountryCodeKey.CodingMethod));
+        assertTrue(countryCodes.getIdentifiers().contains(CountryCodeKey.OverflightCountry));
+        assertEquals(
+                countryCodes.getField(CountryCodeKey.OverflightCountry).getDisplayableValue(),
+                "CAN");
+    }
+
+    @Test
+    public void testFromBytesNoOverflight() {
+        CountryCodes countryCodes =
+                new CountryCodes(
+                        new byte[] {
+                            0x01, 0x0E, 0x00, 0x03, 0x43, 0x41, 0x4E, 0x03, 0x46, 0x52, 0x41
+                        });
+        assertEquals(countryCodes.getDisplayName(), "Country Codes");
+        assertEquals(countryCodes.getDisplayableValue(), "[Country Codes]");
+        assertEquals(countryCodes.getCodingMethod(), CountryCodingMethod.GENC_THREE_LETTER);
+        assertEquals(countryCodes.getOverflightCountry(), "");
+        assertEquals(countryCodes.getOperatorCountry(), "CAN");
+        assertEquals(countryCodes.getCountryOfManufacture(), "FRA");
+        assertEquals(countryCodes.getIdentifiers().size(), 3);
+        assertTrue(countryCodes.getIdentifiers().contains(CountryCodeKey.CodingMethod));
+        assertTrue(countryCodes.getIdentifiers().contains(CountryCodeKey.OperatorCountry));
+        assertTrue(countryCodes.getIdentifiers().contains(CountryCodeKey.CountryOfManufacture));
+        assertEquals(
+                countryCodes.getField(CountryCodeKey.CodingMethod).getDisplayableValue(),
+                "GENC_THREE_LETTER");
+        assertEquals(
+                countryCodes.getField(CountryCodeKey.CountryOfManufacture).getDisplayableValue(),
+                "FRA");
+        assertEquals(
+                countryCodes.getField(CountryCodeKey.OperatorCountry).getDisplayableValue(), "CAN");
     }
 }

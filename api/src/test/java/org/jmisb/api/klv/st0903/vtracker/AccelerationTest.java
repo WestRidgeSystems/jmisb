@@ -5,6 +5,7 @@ import static org.testng.Assert.*;
 import org.jmisb.api.common.KlvParseException;
 import org.jmisb.api.klv.st0903.IVmtiMetadataValue;
 import org.jmisb.api.klv.st0903.shared.EncodingMode;
+import org.jmisb.api.klv.st0903.shared.LocVelAccPackKey;
 import org.testng.annotations.Test;
 
 /** Tests for Acceleration (Tag 11) */
@@ -121,6 +122,10 @@ public class AccelerationTest {
         assertEquals(acceleration.getBytes(), accelerationBytes);
         assertEquals(acceleration.getDisplayName(), "Acceleration");
         assertEquals(acceleration.getDisplayableValue(), "[Acceleration]");
+        assertEquals(acceleration.getIdentifiers().size(), 3);
+        assertTrue(acceleration.getIdentifiers().contains(LocVelAccPackKey.east));
+        assertTrue(acceleration.getIdentifiers().contains(LocVelAccPackKey.north));
+        assertTrue(acceleration.getIdentifiers().contains(LocVelAccPackKey.up));
     }
 
     @Test
@@ -140,6 +145,13 @@ public class AccelerationTest {
         assertEquals(acceleration.getBytes(), accelerationPlusSigmaBytes);
         assertEquals(acceleration.getDisplayName(), "Acceleration");
         assertEquals(acceleration.getDisplayableValue(), "[Acceleration]");
+        assertEquals(acceleration.getIdentifiers().size(), 6);
+        assertTrue(acceleration.getIdentifiers().contains(LocVelAccPackKey.east));
+        assertTrue(acceleration.getIdentifiers().contains(LocVelAccPackKey.north));
+        assertTrue(acceleration.getIdentifiers().contains(LocVelAccPackKey.up));
+        assertTrue(acceleration.getIdentifiers().contains(LocVelAccPackKey.sigEast));
+        assertTrue(acceleration.getIdentifiers().contains(LocVelAccPackKey.sigNorth));
+        assertTrue(acceleration.getIdentifiers().contains(LocVelAccPackKey.sigUp));
     }
 
     @Test
@@ -159,6 +171,35 @@ public class AccelerationTest {
         assertEquals(acceleration.getBytes(), accelerationPlusSigmaAndRhoBytes);
         assertEquals(acceleration.getDisplayName(), "Acceleration");
         assertEquals(acceleration.getDisplayableValue(), "[Acceleration]");
+        assertEquals(acceleration.getIdentifiers().size(), 9);
+        assertTrue(acceleration.getIdentifiers().contains(LocVelAccPackKey.east));
+        assertTrue(acceleration.getIdentifiers().contains(LocVelAccPackKey.north));
+        assertTrue(acceleration.getIdentifiers().contains(LocVelAccPackKey.up));
+        assertTrue(acceleration.getIdentifiers().contains(LocVelAccPackKey.sigEast));
+        assertTrue(acceleration.getIdentifiers().contains(LocVelAccPackKey.sigNorth));
+        assertTrue(acceleration.getIdentifiers().contains(LocVelAccPackKey.sigUp));
+        assertTrue(acceleration.getIdentifiers().contains(LocVelAccPackKey.rhoEastNorth));
+        assertTrue(acceleration.getIdentifiers().contains(LocVelAccPackKey.rhoEastUp));
+        assertTrue(acceleration.getIdentifiers().contains(LocVelAccPackKey.rhoNorthUp));
+        assertEquals(
+                acceleration.getField(LocVelAccPackKey.east).getDisplayableValue(), "300.0m/s²");
+        assertEquals(
+                acceleration.getField(LocVelAccPackKey.north).getDisplayableValue(), "200.0m/s²");
+        assertEquals(acceleration.getField(LocVelAccPackKey.up).getDisplayableValue(), "100.0m/s²");
+        assertEquals(
+                acceleration.getField(LocVelAccPackKey.sigEast).getDisplayableValue(), "300.0m/s²");
+        assertEquals(
+                acceleration.getField(LocVelAccPackKey.sigNorth).getDisplayableValue(),
+                "200.0m/s²");
+        assertEquals(
+                acceleration.getField(LocVelAccPackKey.sigUp).getDisplayableValue(), "100.0m/s²");
+        assertEquals(
+                acceleration.getField(LocVelAccPackKey.rhoEastNorth).getDisplayableValue(), "0.75");
+        assertEquals(
+                acceleration.getField(LocVelAccPackKey.rhoEastUp).getDisplayableValue(), "0.50");
+        assertEquals(
+                acceleration.getField(LocVelAccPackKey.rhoNorthUp).getDisplayableValue(), "0.25");
+        assertNull(acceleration.getField(LocVelAccPackKey.unknown));
     }
 
     @Test
@@ -430,6 +471,7 @@ public class AccelerationTest {
         AccelerationPack accelerationPack = new AccelerationPack(null, 29.157890122923, 32.0);
         Acceleration acceleration = new Acceleration(accelerationPack);
         assertEquals(acceleration.getBytes().length, 0);
+        assertEquals(acceleration.getIdentifiers().size(), 0);
     }
 
     @Test
@@ -437,6 +479,7 @@ public class AccelerationTest {
         AccelerationPack accelerationPack = new AccelerationPack(-10.5423886331461, null, 32.0);
         Acceleration acceleration = new Acceleration(accelerationPack);
         assertEquals(acceleration.getBytes().length, 0);
+        assertEquals(acceleration.getIdentifiers().size(), 0);
     }
 
     @Test
@@ -445,6 +488,7 @@ public class AccelerationTest {
                 new AccelerationPack(-10.5423886331461, 29.157890122923, null);
         Acceleration acceleration = new Acceleration(accelerationPack);
         assertEquals(acceleration.getBytes().length, 0);
+        assertEquals(acceleration.getIdentifiers().size(), 0);
     }
 
     @Test
@@ -453,6 +497,7 @@ public class AccelerationTest {
                 new AccelerationPack(-10.5423886331461, 29.157890122923, 32.0, null, 3.0, 649.9);
         Acceleration acceleration = new Acceleration(accelerationPack);
         assertEquals(acceleration.getBytes().length, 6);
+        assertEquals(acceleration.getIdentifiers().size(), 3);
     }
 
     @Test
@@ -461,6 +506,7 @@ public class AccelerationTest {
                 new AccelerationPack(-10.5423886331461, 29.157890122923, 32.0, 0.1, null, 649.9);
         Acceleration acceleration = new Acceleration(accelerationPack);
         assertEquals(acceleration.getBytes().length, 6);
+        assertEquals(acceleration.getIdentifiers().size(), 3);
     }
 
     @Test
@@ -469,6 +515,7 @@ public class AccelerationTest {
                 new AccelerationPack(-10.5423886331461, 29.157890122923, 32.0, 0.1, 3.0, null);
         Acceleration acceleration = new Acceleration(accelerationPack);
         assertEquals(acceleration.getBytes().length, 6);
+        assertEquals(acceleration.getIdentifiers().size(), 3);
     }
 
     @Test
@@ -478,6 +525,7 @@ public class AccelerationTest {
                         -10.5423886331461, 29.157890122923, 32.0, 0.1, 3.0, 649.9, null, 0.0, 0.5);
         Acceleration acceleration = new Acceleration(accelerationPack);
         assertEquals(acceleration.getBytes().length, 12);
+        assertEquals(acceleration.getIdentifiers().size(), 6);
     }
 
     @Test
@@ -487,6 +535,7 @@ public class AccelerationTest {
                         -10.5423886331461, 29.157890122923, 32.0, 0.1, 3.0, 649.9, -1.0, null, 0.5);
         Acceleration acceleration = new Acceleration(accelerationPack);
         assertEquals(acceleration.getBytes().length, 12);
+        assertEquals(acceleration.getIdentifiers().size(), 6);
     }
 
     @Test
@@ -496,5 +545,6 @@ public class AccelerationTest {
                         -10.5423886331461, 29.157890122923, 32.0, 0.1, 3.0, 649.9, -1.0, 0.0, null);
         Acceleration acceleration = new Acceleration(accelerationPack);
         assertEquals(acceleration.getBytes().length, 12);
+        assertEquals(acceleration.getIdentifiers().size(), 6);
     }
 }

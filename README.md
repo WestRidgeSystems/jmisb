@@ -187,3 +187,7 @@ keep up to date with the latest patch release for a given
 Use of -SNAPSHOT within the version number indicates that the version is
 for internal development only, i.e., the artifact is not to be used in a
 production environment.
+
+## Examples
+
+We provide samples (of variable level of complexity and completeness). See <examples/README.md> for more information.
