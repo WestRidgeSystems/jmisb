@@ -10,6 +10,8 @@ import org.jmisb.api.klv.st0601.CornerOffset;
 import org.jmisb.api.klv.st0601.FlagDataKey;
 import org.jmisb.api.klv.st0601.FrameCenterElevation;
 import org.jmisb.api.klv.st0601.FrameCenterHae;
+import org.jmisb.api.klv.st0601.FullCornerLatitude;
+import org.jmisb.api.klv.st0601.FullCornerLongitude;
 import org.jmisb.api.klv.st0601.GenericFlagData01;
 import org.jmisb.api.klv.st0601.IUasDatalinkValue;
 import org.jmisb.api.klv.st0601.NestedSecurityMetadata;
@@ -277,39 +279,111 @@ public class ST0601Converter {
                         UasDatalinkTag.OffsetCornerLongitudePoint2,
                         UasDatalinkTag.OffsetCornerLongitudePoint3,
                         UasDatalinkTag.OffsetCornerLongitudePoint4);
+        Collection<UasDatalinkTag> cornerPositionTags =
+                EnumSet.of(
+                        UasDatalinkTag.CornerLatPt1,
+                        UasDatalinkTag.CornerLonPt1,
+                        UasDatalinkTag.CornerLatPt2,
+                        UasDatalinkTag.CornerLonPt2,
+                        UasDatalinkTag.CornerLatPt3,
+                        UasDatalinkTag.CornerLonPt3,
+                        UasDatalinkTag.CornerLatPt4,
+                        UasDatalinkTag.CornerLonPt4);
         if (tags.containsAll(offsetCornerTags)) {
-            double lat1 =
-                    ((CornerOffset) (message.getField(UasDatalinkTag.OffsetCornerLatitudePoint1)))
-                            .getDegrees();
-            double lon1 =
-                    ((CornerOffset) (message.getField(UasDatalinkTag.OffsetCornerLongitudePoint1)))
-                            .getDegrees();
-            double lat4 =
-                    ((CornerOffset) (message.getField(UasDatalinkTag.OffsetCornerLatitudePoint4)))
-                            .getDegrees();
-            double lon4 =
-                    ((CornerOffset) (message.getField(UasDatalinkTag.OffsetCornerLongitudePoint4)))
-                            .getDegrees();
-            double angleLeftSide = Math.atan2(lat1 - lat4, lon1 - lon4) * 180.0 / Math.PI;
-            angleLeftSide -= 90.0;
-
-            double lat2 =
-                    ((CornerOffset) (message.getField(UasDatalinkTag.OffsetCornerLatitudePoint2)))
-                            .getDegrees();
-            double lon2 =
-                    ((CornerOffset) (message.getField(UasDatalinkTag.OffsetCornerLongitudePoint2)))
-                            .getDegrees();
-            double lat3 =
-                    ((CornerOffset) (message.getField(UasDatalinkTag.OffsetCornerLatitudePoint3)))
-                            .getDegrees();
-            double lon3 =
-                    ((CornerOffset) (message.getField(UasDatalinkTag.OffsetCornerLongitudePoint3)))
-                            .getDegrees();
-            double angleRightSide = Math.atan2(lat2 - lat3, lon2 - lon3) * 180.0 / Math.PI;
-            angleRightSide -= 90.0;
-            double averageAngle = (angleLeftSide + angleRightSide) / 2.0;
-            metadata.addItem(MetadataKey.NorthAngle, "" + averageAngle);
+            double northAngle = getNorthAngleFromOffsetCorners(message);
+            metadata.addItem(MetadataKey.NorthAngle, "" + northAngle);
+        } else if (tags.containsAll(cornerPositionTags)) {
+            double northAngle = getNorthAngleFromFullCorners(message);
+            metadata.addItem(MetadataKey.NorthAngle, "" + northAngle);
         }
+    }
+
+    private static double getNorthAngleFromOffsetCorners(UasDatalinkMessage message) {
+        double lat1 =
+                ((CornerOffset) (message.getField(UasDatalinkTag.OffsetCornerLatitudePoint1)))
+                        .getDegrees();
+        double lon1 =
+                ((CornerOffset) (message.getField(UasDatalinkTag.OffsetCornerLongitudePoint1)))
+                        .getDegrees();
+        double lat4 =
+                ((CornerOffset) (message.getField(UasDatalinkTag.OffsetCornerLatitudePoint4)))
+                        .getDegrees();
+        double lon4 =
+                ((CornerOffset) (message.getField(UasDatalinkTag.OffsetCornerLongitudePoint4)))
+                        .getDegrees();
+        double angleLeftSide = Math.atan2(lat1 - lat4, lon1 - lon4) * 180.0 / Math.PI;
+        angleLeftSide -= 90.0;
+        double lat2 =
+                ((CornerOffset) (message.getField(UasDatalinkTag.OffsetCornerLatitudePoint2)))
+                        .getDegrees();
+        double lon2 =
+                ((CornerOffset) (message.getField(UasDatalinkTag.OffsetCornerLongitudePoint2)))
+                        .getDegrees();
+        double lat3 =
+                ((CornerOffset) (message.getField(UasDatalinkTag.OffsetCornerLatitudePoint3)))
+                        .getDegrees();
+        double lon3 =
+                ((CornerOffset) (message.getField(UasDatalinkTag.OffsetCornerLongitudePoint3)))
+                        .getDegrees();
+        double angleRightSide = Math.atan2(lat2 - lat3, lon2 - lon3) * 180.0 / Math.PI;
+        angleRightSide -= 90.0;
+        if (angleRightSide < 0) {
+            angleRightSide += 360.0;
+        }
+        if (Math.abs(angleRightSide - angleLeftSide) > 180.0) {
+            // this can happen when we're either side of a specific angle (like 359.0 and 1.0)
+            // adjust angles
+            if (angleRightSide > angleLeftSide) {
+                angleLeftSide += 360.0;
+            } else {
+                angleRightSide += 360.0;
+            }
+        }
+        double averageAngle = (angleLeftSide + angleRightSide) / 2.0;
+        return averageAngle;
+    }
+
+    private static double getNorthAngleFromFullCorners(UasDatalinkMessage message) {
+        double lat1 =
+                ((FullCornerLatitude) (message.getField(UasDatalinkTag.CornerLatPt1))).getDegrees();
+        double lon1 =
+                ((FullCornerLongitude) (message.getField(UasDatalinkTag.CornerLonPt1)))
+                        .getDegrees();
+        double lat4 =
+                ((FullCornerLatitude) (message.getField(UasDatalinkTag.CornerLatPt4))).getDegrees();
+        double lon4 =
+                ((FullCornerLongitude) (message.getField(UasDatalinkTag.CornerLonPt4)))
+                        .getDegrees();
+        double angleLeftSide = Math.atan2(lat1 - lat4, lon1 - lon4) * 180.0 / Math.PI;
+        angleLeftSide -= 90.0;
+        if (angleLeftSide < 0) {
+            angleLeftSide += 360.0;
+        }
+        double lat2 =
+                ((FullCornerLatitude) (message.getField(UasDatalinkTag.CornerLatPt2))).getDegrees();
+        double lon2 =
+                ((FullCornerLongitude) (message.getField(UasDatalinkTag.CornerLonPt2)))
+                        .getDegrees();
+        double lat3 =
+                ((FullCornerLatitude) (message.getField(UasDatalinkTag.CornerLatPt3))).getDegrees();
+        double lon3 =
+                ((FullCornerLongitude) (message.getField(UasDatalinkTag.CornerLonPt3)))
+                        .getDegrees();
+        double angleRightSide = Math.atan2(lat2 - lat3, lon2 - lon3) * 180.0 / Math.PI;
+        angleRightSide -= 90.0;
+        if (angleRightSide < 0) {
+            angleRightSide += 360.0;
+        }
+        if (Math.abs(angleRightSide - angleLeftSide) > 180.0) {
+            // this can happen when we're slightly either side of north (like 359.0 and 1.0)
+            if (angleRightSide > angleLeftSide) {
+                angleLeftSide += 360.0;
+            } else {
+                angleRightSide += 360.0;
+            }
+        }
+        double averageAngle = (angleLeftSide + angleRightSide) / 2.0;
+        return averageAngle;
     }
 
     private static void convertTagIfPresent(
