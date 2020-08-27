@@ -26,6 +26,8 @@ import org.jmisb.api.klv.st0601.FrameCenterElevation;
 import org.jmisb.api.klv.st0601.FrameCenterHae;
 import org.jmisb.api.klv.st0601.FrameCenterLatitude;
 import org.jmisb.api.klv.st0601.FrameCenterLongitude;
+import org.jmisb.api.klv.st0601.FullCornerLatitude;
+import org.jmisb.api.klv.st0601.FullCornerLongitude;
 import org.jmisb.api.klv.st0601.GenericFlagData01;
 import org.jmisb.api.klv.st0601.HorizontalFov;
 import org.jmisb.api.klv.st0601.IUasDatalinkValue;
@@ -853,6 +855,42 @@ public class ST0601ConverterTest {
         map.put(
                 UasDatalinkTag.OffsetCornerLongitudePoint4,
                 new CornerOffset(-0.01, CornerOffset.CORNER_LON_4));
+        UasDatalinkMessage st0601message = new UasDatalinkMessage(map);
+        MetadataItems metadata = new MetadataItems();
+        ST0601Converter.convertST0601(st0601message, metadata);
+        assertEquals(metadata.getItemKeys().size(), 2);
+        assertTrue(metadata.getItemKeys().contains(MetadataKey.LaserSensorName));
+        assertTrue(metadata.getItemKeys().contains(MetadataKey.NorthAngle));
+        assertEquals(metadata.getValue(MetadataKey.NorthAngle), "0.0");
+    }
+
+    @Test
+    public void checkNorthGroupAngle0FullCorner() {
+        SortedMap<UasDatalinkTag, IUasDatalinkValue> map = new TreeMap<>();
+        map.put(
+                UasDatalinkTag.CornerLatPt1,
+                new FullCornerLatitude(0.01, FullCornerLatitude.CORNER_LAT_1));
+        map.put(
+                UasDatalinkTag.CornerLatPt2,
+                new FullCornerLatitude(0.01, FullCornerLatitude.CORNER_LAT_2));
+        map.put(
+                UasDatalinkTag.CornerLatPt3,
+                new FullCornerLatitude(-0.01, FullCornerLatitude.CORNER_LAT_3));
+        map.put(
+                UasDatalinkTag.CornerLatPt4,
+                new FullCornerLatitude(-0.01, FullCornerLatitude.CORNER_LAT_4));
+        map.put(
+                UasDatalinkTag.CornerLonPt1,
+                new FullCornerLongitude(-0.01, FullCornerLongitude.CORNER_LON_1));
+        map.put(
+                UasDatalinkTag.CornerLonPt2,
+                new FullCornerLongitude(0.01, FullCornerLongitude.CORNER_LON_2));
+        map.put(
+                UasDatalinkTag.CornerLonPt3,
+                new FullCornerLongitude(0.01, FullCornerLongitude.CORNER_LON_3));
+        map.put(
+                UasDatalinkTag.CornerLonPt4,
+                new FullCornerLongitude(-0.01, FullCornerLongitude.CORNER_LON_4));
         UasDatalinkMessage st0601message = new UasDatalinkMessage(map);
         MetadataItems metadata = new MetadataItems();
         ST0601Converter.convertST0601(st0601message, metadata);
