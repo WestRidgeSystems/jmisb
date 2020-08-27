@@ -313,6 +313,9 @@ public class ST0601Converter {
                         .getDegrees();
         double angleLeftSide = Math.atan2(lat1 - lat4, lon1 - lon4) * 180.0 / Math.PI;
         angleLeftSide -= 90.0;
+        if (angleLeftSide < 0) {
+            angleLeftSide += 360.0;
+        }
         double lat2 =
                 ((CornerOffset) (message.getField(UasDatalinkTag.OffsetCornerLatitudePoint2)))
                         .getDegrees();

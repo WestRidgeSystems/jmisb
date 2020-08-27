@@ -865,6 +865,150 @@ public class ST0601ConverterTest {
     }
 
     @Test
+    public void checkNorthGroupAngle360Outwards() {
+        SortedMap<UasDatalinkTag, IUasDatalinkValue> map = new TreeMap<>();
+        map.put(
+                UasDatalinkTag.OffsetCornerLatitudePoint1,
+                new CornerOffset(0.01, CornerOffset.CORNER_LAT_1));
+        map.put(
+                UasDatalinkTag.OffsetCornerLatitudePoint2,
+                new CornerOffset(0.01, CornerOffset.CORNER_LAT_2));
+        map.put(
+                UasDatalinkTag.OffsetCornerLatitudePoint3,
+                new CornerOffset(-0.01, CornerOffset.CORNER_LAT_3));
+        map.put(
+                UasDatalinkTag.OffsetCornerLatitudePoint4,
+                new CornerOffset(-0.01, CornerOffset.CORNER_LAT_4));
+        map.put(
+                UasDatalinkTag.OffsetCornerLongitudePoint1,
+                new CornerOffset(-0.011, CornerOffset.CORNER_LON_1));
+        map.put(
+                UasDatalinkTag.OffsetCornerLongitudePoint2,
+                new CornerOffset(0.011, CornerOffset.CORNER_LON_2));
+        map.put(
+                UasDatalinkTag.OffsetCornerLongitudePoint3,
+                new CornerOffset(0.01, CornerOffset.CORNER_LON_3));
+        map.put(
+                UasDatalinkTag.OffsetCornerLongitudePoint4,
+                new CornerOffset(-0.01, CornerOffset.CORNER_LON_4));
+        UasDatalinkMessage st0601message = new UasDatalinkMessage(map);
+        MetadataItems metadata = new MetadataItems();
+        ST0601Converter.convertST0601(st0601message, metadata);
+        assertEquals(metadata.getItemKeys().size(), 2);
+        assertTrue(metadata.getItemKeys().contains(MetadataKey.LaserSensorName));
+        assertTrue(metadata.getItemKeys().contains(MetadataKey.NorthAngle));
+        assertEquals(metadata.getValue(MetadataKey.NorthAngle), "360.0");
+    }
+
+    @Test
+    public void checkNorthGroupAngle360Inwards() {
+        SortedMap<UasDatalinkTag, IUasDatalinkValue> map = new TreeMap<>();
+        map.put(
+                UasDatalinkTag.OffsetCornerLatitudePoint1,
+                new CornerOffset(0.01, CornerOffset.CORNER_LAT_1));
+        map.put(
+                UasDatalinkTag.OffsetCornerLatitudePoint2,
+                new CornerOffset(0.01, CornerOffset.CORNER_LAT_2));
+        map.put(
+                UasDatalinkTag.OffsetCornerLatitudePoint3,
+                new CornerOffset(-0.01, CornerOffset.CORNER_LAT_3));
+        map.put(
+                UasDatalinkTag.OffsetCornerLatitudePoint4,
+                new CornerOffset(-0.01, CornerOffset.CORNER_LAT_4));
+        map.put(
+                UasDatalinkTag.OffsetCornerLongitudePoint1,
+                new CornerOffset(-0.011, CornerOffset.CORNER_LON_1));
+        map.put(
+                UasDatalinkTag.OffsetCornerLongitudePoint2,
+                new CornerOffset(0.011, CornerOffset.CORNER_LON_2));
+        map.put(
+                UasDatalinkTag.OffsetCornerLongitudePoint3,
+                new CornerOffset(0.015, CornerOffset.CORNER_LON_3));
+        map.put(
+                UasDatalinkTag.OffsetCornerLongitudePoint4,
+                new CornerOffset(-0.015, CornerOffset.CORNER_LON_4));
+        UasDatalinkMessage st0601message = new UasDatalinkMessage(map);
+        MetadataItems metadata = new MetadataItems();
+        ST0601Converter.convertST0601(st0601message, metadata);
+        assertEquals(metadata.getItemKeys().size(), 2);
+        assertTrue(metadata.getItemKeys().contains(MetadataKey.LaserSensorName));
+        assertTrue(metadata.getItemKeys().contains(MetadataKey.NorthAngle));
+        assertEquals(metadata.getValue(MetadataKey.NorthAngle), "360.0");
+    }
+
+    @Test
+    public void checkNorthGroupAngle180() {
+        SortedMap<UasDatalinkTag, IUasDatalinkValue> map = new TreeMap<>();
+        map.put(
+                UasDatalinkTag.OffsetCornerLatitudePoint1,
+                new CornerOffset(-0.01, CornerOffset.CORNER_LAT_1));
+        map.put(
+                UasDatalinkTag.OffsetCornerLatitudePoint2,
+                new CornerOffset(-0.01, CornerOffset.CORNER_LAT_2));
+        map.put(
+                UasDatalinkTag.OffsetCornerLatitudePoint3,
+                new CornerOffset(0.01, CornerOffset.CORNER_LAT_3));
+        map.put(
+                UasDatalinkTag.OffsetCornerLatitudePoint4,
+                new CornerOffset(0.01, CornerOffset.CORNER_LAT_4));
+        map.put(
+                UasDatalinkTag.OffsetCornerLongitudePoint1,
+                new CornerOffset(0.01, CornerOffset.CORNER_LON_1));
+        map.put(
+                UasDatalinkTag.OffsetCornerLongitudePoint2,
+                new CornerOffset(-0.01, CornerOffset.CORNER_LON_2));
+        map.put(
+                UasDatalinkTag.OffsetCornerLongitudePoint3,
+                new CornerOffset(-0.01, CornerOffset.CORNER_LON_3));
+        map.put(
+                UasDatalinkTag.OffsetCornerLongitudePoint4,
+                new CornerOffset(0.01, CornerOffset.CORNER_LON_4));
+        UasDatalinkMessage st0601message = new UasDatalinkMessage(map);
+        MetadataItems metadata = new MetadataItems();
+        ST0601Converter.convertST0601(st0601message, metadata);
+        assertEquals(metadata.getItemKeys().size(), 2);
+        assertTrue(metadata.getItemKeys().contains(MetadataKey.LaserSensorName));
+        assertTrue(metadata.getItemKeys().contains(MetadataKey.NorthAngle));
+        assertEquals(metadata.getValue(MetadataKey.NorthAngle), "180.0");
+    }
+
+    @Test
+    public void checkNorthGroupAngle180Outwards() {
+        SortedMap<UasDatalinkTag, IUasDatalinkValue> map = new TreeMap<>();
+        map.put(
+                UasDatalinkTag.OffsetCornerLatitudePoint1,
+                new CornerOffset(-0.01, CornerOffset.CORNER_LAT_1));
+        map.put(
+                UasDatalinkTag.OffsetCornerLatitudePoint2,
+                new CornerOffset(-0.01, CornerOffset.CORNER_LAT_2));
+        map.put(
+                UasDatalinkTag.OffsetCornerLatitudePoint3,
+                new CornerOffset(0.01, CornerOffset.CORNER_LAT_3));
+        map.put(
+                UasDatalinkTag.OffsetCornerLatitudePoint4,
+                new CornerOffset(0.01, CornerOffset.CORNER_LAT_4));
+        map.put(
+                UasDatalinkTag.OffsetCornerLongitudePoint1,
+                new CornerOffset(0.01, CornerOffset.CORNER_LON_1));
+        map.put(
+                UasDatalinkTag.OffsetCornerLongitudePoint2,
+                new CornerOffset(-0.01, CornerOffset.CORNER_LON_2));
+        map.put(
+                UasDatalinkTag.OffsetCornerLongitudePoint3,
+                new CornerOffset(-0.011, CornerOffset.CORNER_LON_3));
+        map.put(
+                UasDatalinkTag.OffsetCornerLongitudePoint4,
+                new CornerOffset(0.011, CornerOffset.CORNER_LON_4));
+        UasDatalinkMessage st0601message = new UasDatalinkMessage(map);
+        MetadataItems metadata = new MetadataItems();
+        ST0601Converter.convertST0601(st0601message, metadata);
+        assertEquals(metadata.getItemKeys().size(), 2);
+        assertTrue(metadata.getItemKeys().contains(MetadataKey.LaserSensorName));
+        assertTrue(metadata.getItemKeys().contains(MetadataKey.NorthAngle));
+        assertEquals(metadata.getValue(MetadataKey.NorthAngle), "180.0");
+    }
+
+    @Test
     public void checkNorthGroupAngle0FullCorner() {
         SortedMap<UasDatalinkTag, IUasDatalinkValue> map = new TreeMap<>();
         map.put(
@@ -898,6 +1042,258 @@ public class ST0601ConverterTest {
         assertTrue(metadata.getItemKeys().contains(MetadataKey.LaserSensorName));
         assertTrue(metadata.getItemKeys().contains(MetadataKey.NorthAngle));
         assertEquals(metadata.getValue(MetadataKey.NorthAngle), "0.0");
+    }
+
+    @Test
+    public void checkNorthGroupAngle0FullCornerSlant() {
+        SortedMap<UasDatalinkTag, IUasDatalinkValue> map = new TreeMap<>();
+        map.put(
+                UasDatalinkTag.CornerLatPt1,
+                new FullCornerLatitude(0.01, FullCornerLatitude.CORNER_LAT_1));
+        map.put(
+                UasDatalinkTag.CornerLatPt2,
+                new FullCornerLatitude(0.01, FullCornerLatitude.CORNER_LAT_2));
+        map.put(
+                UasDatalinkTag.CornerLatPt3,
+                new FullCornerLatitude(-0.01, FullCornerLatitude.CORNER_LAT_3));
+        map.put(
+                UasDatalinkTag.CornerLatPt4,
+                new FullCornerLatitude(-0.01, FullCornerLatitude.CORNER_LAT_4));
+        map.put(
+                UasDatalinkTag.CornerLonPt1,
+                new FullCornerLongitude(-0.01, FullCornerLongitude.CORNER_LON_1));
+        map.put(
+                UasDatalinkTag.CornerLonPt2,
+                new FullCornerLongitude(0.01, FullCornerLongitude.CORNER_LON_2));
+        map.put(
+                UasDatalinkTag.CornerLonPt3,
+                new FullCornerLongitude(0.02, FullCornerLongitude.CORNER_LON_3));
+        map.put(
+                UasDatalinkTag.CornerLonPt4,
+                new FullCornerLongitude(-0.01, FullCornerLongitude.CORNER_LON_4));
+        UasDatalinkMessage st0601message = new UasDatalinkMessage(map);
+        MetadataItems metadata = new MetadataItems();
+        ST0601Converter.convertST0601(st0601message, metadata);
+        assertEquals(metadata.getItemKeys().size(), 2);
+        assertTrue(metadata.getItemKeys().contains(MetadataKey.LaserSensorName));
+        assertTrue(metadata.getItemKeys().contains(MetadataKey.NorthAngle));
+        assertEquals(metadata.getValue(MetadataKey.NorthAngle).substring(0, 5), "13.28");
+    }
+
+    @Test
+    public void checkNorthGroupAngle0FullCornerOutwards() {
+        SortedMap<UasDatalinkTag, IUasDatalinkValue> map = new TreeMap<>();
+        map.put(
+                UasDatalinkTag.CornerLatPt1,
+                new FullCornerLatitude(0.01, FullCornerLatitude.CORNER_LAT_1));
+        map.put(
+                UasDatalinkTag.CornerLatPt2,
+                new FullCornerLatitude(0.01, FullCornerLatitude.CORNER_LAT_2));
+        map.put(
+                UasDatalinkTag.CornerLatPt3,
+                new FullCornerLatitude(-0.01, FullCornerLatitude.CORNER_LAT_3));
+        map.put(
+                UasDatalinkTag.CornerLatPt4,
+                new FullCornerLatitude(-0.01, FullCornerLatitude.CORNER_LAT_4));
+        map.put(
+                UasDatalinkTag.CornerLonPt1,
+                new FullCornerLongitude(-0.011, FullCornerLongitude.CORNER_LON_1));
+        map.put(
+                UasDatalinkTag.CornerLonPt2,
+                new FullCornerLongitude(0.011, FullCornerLongitude.CORNER_LON_2));
+        map.put(
+                UasDatalinkTag.CornerLonPt3,
+                new FullCornerLongitude(0.01, FullCornerLongitude.CORNER_LON_3));
+        map.put(
+                UasDatalinkTag.CornerLonPt4,
+                new FullCornerLongitude(-0.01, FullCornerLongitude.CORNER_LON_4));
+        UasDatalinkMessage st0601message = new UasDatalinkMessage(map);
+        MetadataItems metadata = new MetadataItems();
+        ST0601Converter.convertST0601(st0601message, metadata);
+        assertEquals(metadata.getItemKeys().size(), 2);
+        assertTrue(metadata.getItemKeys().contains(MetadataKey.LaserSensorName));
+        assertTrue(metadata.getItemKeys().contains(MetadataKey.NorthAngle));
+        assertEquals(metadata.getValue(MetadataKey.NorthAngle), "360.0");
+    }
+
+    @Test
+    public void checkNorthGroupAngle0FullCornerInwards() {
+        SortedMap<UasDatalinkTag, IUasDatalinkValue> map = new TreeMap<>();
+        map.put(
+                UasDatalinkTag.CornerLatPt1,
+                new FullCornerLatitude(0.01, FullCornerLatitude.CORNER_LAT_1));
+        map.put(
+                UasDatalinkTag.CornerLatPt2,
+                new FullCornerLatitude(0.01, FullCornerLatitude.CORNER_LAT_2));
+        map.put(
+                UasDatalinkTag.CornerLatPt3,
+                new FullCornerLatitude(-0.01, FullCornerLatitude.CORNER_LAT_3));
+        map.put(
+                UasDatalinkTag.CornerLatPt4,
+                new FullCornerLatitude(-0.01, FullCornerLatitude.CORNER_LAT_4));
+        map.put(
+                UasDatalinkTag.CornerLonPt1,
+                new FullCornerLongitude(-0.011, FullCornerLongitude.CORNER_LON_1));
+        map.put(
+                UasDatalinkTag.CornerLonPt2,
+                new FullCornerLongitude(0.011, FullCornerLongitude.CORNER_LON_2));
+        map.put(
+                UasDatalinkTag.CornerLonPt3,
+                new FullCornerLongitude(0.015, FullCornerLongitude.CORNER_LON_3));
+        map.put(
+                UasDatalinkTag.CornerLonPt4,
+                new FullCornerLongitude(-0.015, FullCornerLongitude.CORNER_LON_4));
+        UasDatalinkMessage st0601message = new UasDatalinkMessage(map);
+        MetadataItems metadata = new MetadataItems();
+        ST0601Converter.convertST0601(st0601message, metadata);
+        assertEquals(metadata.getItemKeys().size(), 2);
+        assertTrue(metadata.getItemKeys().contains(MetadataKey.LaserSensorName));
+        assertTrue(metadata.getItemKeys().contains(MetadataKey.NorthAngle));
+        assertEquals(metadata.getValue(MetadataKey.NorthAngle), "360.0");
+    }
+
+    @Test
+    public void checkNorthGroupAngle180FullCorner() {
+        SortedMap<UasDatalinkTag, IUasDatalinkValue> map = new TreeMap<>();
+        map.put(
+                UasDatalinkTag.CornerLatPt1,
+                new FullCornerLatitude(-0.01, FullCornerLatitude.CORNER_LAT_1));
+        map.put(
+                UasDatalinkTag.CornerLatPt2,
+                new FullCornerLatitude(-0.01, FullCornerLatitude.CORNER_LAT_2));
+        map.put(
+                UasDatalinkTag.CornerLatPt3,
+                new FullCornerLatitude(0.01, FullCornerLatitude.CORNER_LAT_3));
+        map.put(
+                UasDatalinkTag.CornerLatPt4,
+                new FullCornerLatitude(0.01, FullCornerLatitude.CORNER_LAT_4));
+        map.put(
+                UasDatalinkTag.CornerLonPt1,
+                new FullCornerLongitude(0.01, FullCornerLongitude.CORNER_LON_1));
+        map.put(
+                UasDatalinkTag.CornerLonPt2,
+                new FullCornerLongitude(-0.01, FullCornerLongitude.CORNER_LON_2));
+        map.put(
+                UasDatalinkTag.CornerLonPt3,
+                new FullCornerLongitude(-0.01, FullCornerLongitude.CORNER_LON_3));
+        map.put(
+                UasDatalinkTag.CornerLonPt4,
+                new FullCornerLongitude(0.01, FullCornerLongitude.CORNER_LON_4));
+        UasDatalinkMessage st0601message = new UasDatalinkMessage(map);
+        MetadataItems metadata = new MetadataItems();
+        ST0601Converter.convertST0601(st0601message, metadata);
+        assertEquals(metadata.getItemKeys().size(), 2);
+        assertTrue(metadata.getItemKeys().contains(MetadataKey.LaserSensorName));
+        assertTrue(metadata.getItemKeys().contains(MetadataKey.NorthAngle));
+        assertEquals(metadata.getValue(MetadataKey.NorthAngle), "180.0");
+    }
+
+    @Test
+    public void checkNorthGroupAngle180FullCornerOutwards() {
+        SortedMap<UasDatalinkTag, IUasDatalinkValue> map = new TreeMap<>();
+        map.put(
+                UasDatalinkTag.CornerLatPt1,
+                new FullCornerLatitude(-0.01, FullCornerLatitude.CORNER_LAT_1));
+        map.put(
+                UasDatalinkTag.CornerLatPt2,
+                new FullCornerLatitude(-0.01, FullCornerLatitude.CORNER_LAT_2));
+        map.put(
+                UasDatalinkTag.CornerLatPt3,
+                new FullCornerLatitude(0.01, FullCornerLatitude.CORNER_LAT_3));
+        map.put(
+                UasDatalinkTag.CornerLatPt4,
+                new FullCornerLatitude(0.01, FullCornerLatitude.CORNER_LAT_4));
+        map.put(
+                UasDatalinkTag.CornerLonPt1,
+                new FullCornerLongitude(0.01, FullCornerLongitude.CORNER_LON_1));
+        map.put(
+                UasDatalinkTag.CornerLonPt2,
+                new FullCornerLongitude(-0.01, FullCornerLongitude.CORNER_LON_2));
+        map.put(
+                UasDatalinkTag.CornerLonPt3,
+                new FullCornerLongitude(-0.011, FullCornerLongitude.CORNER_LON_3));
+        map.put(
+                UasDatalinkTag.CornerLonPt4,
+                new FullCornerLongitude(0.011, FullCornerLongitude.CORNER_LON_4));
+        UasDatalinkMessage st0601message = new UasDatalinkMessage(map);
+        MetadataItems metadata = new MetadataItems();
+        ST0601Converter.convertST0601(st0601message, metadata);
+        assertEquals(metadata.getItemKeys().size(), 2);
+        assertTrue(metadata.getItemKeys().contains(MetadataKey.LaserSensorName));
+        assertTrue(metadata.getItemKeys().contains(MetadataKey.NorthAngle));
+        assertEquals(metadata.getValue(MetadataKey.NorthAngle), "180.0");
+    }
+
+    @Test
+    public void checkNorthGroupAngle180FullCornerInwards() {
+        SortedMap<UasDatalinkTag, IUasDatalinkValue> map = new TreeMap<>();
+        map.put(
+                UasDatalinkTag.CornerLatPt1,
+                new FullCornerLatitude(-0.01, FullCornerLatitude.CORNER_LAT_1));
+        map.put(
+                UasDatalinkTag.CornerLatPt2,
+                new FullCornerLatitude(-0.01, FullCornerLatitude.CORNER_LAT_2));
+        map.put(
+                UasDatalinkTag.CornerLatPt3,
+                new FullCornerLatitude(0.01, FullCornerLatitude.CORNER_LAT_3));
+        map.put(
+                UasDatalinkTag.CornerLatPt4,
+                new FullCornerLatitude(0.01, FullCornerLatitude.CORNER_LAT_4));
+        map.put(
+                UasDatalinkTag.CornerLonPt1,
+                new FullCornerLongitude(0.014, FullCornerLongitude.CORNER_LON_1));
+        map.put(
+                UasDatalinkTag.CornerLonPt2,
+                new FullCornerLongitude(-0.014, FullCornerLongitude.CORNER_LON_2));
+        map.put(
+                UasDatalinkTag.CornerLonPt3,
+                new FullCornerLongitude(-0.010, FullCornerLongitude.CORNER_LON_3));
+        map.put(
+                UasDatalinkTag.CornerLonPt4,
+                new FullCornerLongitude(0.010, FullCornerLongitude.CORNER_LON_4));
+        UasDatalinkMessage st0601message = new UasDatalinkMessage(map);
+        MetadataItems metadata = new MetadataItems();
+        ST0601Converter.convertST0601(st0601message, metadata);
+        assertEquals(metadata.getItemKeys().size(), 2);
+        assertTrue(metadata.getItemKeys().contains(MetadataKey.LaserSensorName));
+        assertTrue(metadata.getItemKeys().contains(MetadataKey.NorthAngle));
+        assertEquals(metadata.getValue(MetadataKey.NorthAngle), "180.0");
+    }
+
+    @Test
+    public void checkNorthGroupAngle180FullCornerRightOut() {
+        SortedMap<UasDatalinkTag, IUasDatalinkValue> map = new TreeMap<>();
+        map.put(
+                UasDatalinkTag.CornerLatPt1,
+                new FullCornerLatitude(-0.01, FullCornerLatitude.CORNER_LAT_1));
+        map.put(
+                UasDatalinkTag.CornerLatPt2,
+                new FullCornerLatitude(-0.013, FullCornerLatitude.CORNER_LAT_2));
+        map.put(
+                UasDatalinkTag.CornerLatPt3,
+                new FullCornerLatitude(0.017, FullCornerLatitude.CORNER_LAT_3));
+        map.put(
+                UasDatalinkTag.CornerLatPt4,
+                new FullCornerLatitude(0.01, FullCornerLatitude.CORNER_LAT_4));
+        map.put(
+                UasDatalinkTag.CornerLonPt1,
+                new FullCornerLongitude(0.010, FullCornerLongitude.CORNER_LON_1));
+        map.put(
+                UasDatalinkTag.CornerLonPt2,
+                new FullCornerLongitude(-0.015, FullCornerLongitude.CORNER_LON_2));
+        map.put(
+                UasDatalinkTag.CornerLonPt3,
+                new FullCornerLongitude(-0.010, FullCornerLongitude.CORNER_LON_3));
+        map.put(
+                UasDatalinkTag.CornerLonPt4,
+                new FullCornerLongitude(0.010, FullCornerLongitude.CORNER_LON_4));
+        UasDatalinkMessage st0601message = new UasDatalinkMessage(map);
+        MetadataItems metadata = new MetadataItems();
+        ST0601Converter.convertST0601(st0601message, metadata);
+        assertEquals(metadata.getItemKeys().size(), 2);
+        assertTrue(metadata.getItemKeys().contains(MetadataKey.LaserSensorName));
+        assertTrue(metadata.getItemKeys().contains(MetadataKey.NorthAngle));
+        assertEquals(metadata.getValue(MetadataKey.NorthAngle).substring(0, 6), "175.26");
     }
 
     @Test
