@@ -93,6 +93,7 @@ public class AirbaseLocations implements IUasDatalinkValue {
      */
     public AirbaseLocations(byte[] bytes) {
         int idx = 0;
+        System.out.println("Airbase Locations: " + ArrayUtils.toHexString(bytes, 16, true));
         BerField takeoffLenField = BerDecoder.decode(bytes, idx, false);
         idx += takeoffLenField.getLength();
         switch (takeoffLenField.getValue()) {
@@ -128,9 +129,15 @@ public class AirbaseLocations implements IUasDatalinkValue {
             // If we're out of length here, the pack is truncated.
             // That means recovery location == takeoff location.
             recoveryLocation = new Location();
-            recoveryLocation.setLatitude(takeoffLocation.getLatitude());
-            recoveryLocation.setLongitude(takeoffLocation.getLongitude());
-            recoveryLocation.setHAE(takeoffLocation.getHAE());
+            if (takeoffLocation == null) {
+                // This isn't valid, but see https://github.com/WestRidgeSystems/jmisb/issues/220
+                recoveryLocation = null;
+                recoveryLocationIsUnknown = true;
+            } else {
+                recoveryLocation.setLatitude(takeoffLocation.getLatitude());
+                recoveryLocation.setLongitude(takeoffLocation.getLongitude());
+                recoveryLocation.setHAE(takeoffLocation.getHAE());
+            }
         } else {
             BerField recoveryLenField = BerDecoder.decode(bytes, idx, false);
             idx += recoveryLenField.getLength();
