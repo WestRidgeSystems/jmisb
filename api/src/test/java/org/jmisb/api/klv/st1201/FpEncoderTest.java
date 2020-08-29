@@ -552,4 +552,11 @@ public class FpEncoderTest {
         fpEncoder.setFieldLength(0);
         fpEncoder.decode(new byte[] {0x00}, 0);
     }
+
+    @Test(expectedExceptions = IllegalArgumentException.class)
+    public void testTooLongDecode() {
+        TestEncoder fpEncoder = new TestEncoder();
+        fpEncoder.setFieldLength(2);
+        fpEncoder.decode(new byte[] {0x01, 0x02}, 1);
+    }
 }

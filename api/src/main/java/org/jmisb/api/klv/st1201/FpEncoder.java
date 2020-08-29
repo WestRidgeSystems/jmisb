@@ -440,6 +440,10 @@ public class FpEncoder {
     private double decodeAsNormalMappedValue(byte[] bytes, int offset)
             throws IllegalArgumentException {
         double val = 0.0;
+        if (offset + fieldLength > bytes.length) {
+            throw new IllegalArgumentException(
+                    "Array length too short for specified offset and field length");
+        }
         ByteBuffer wrapped = ByteBuffer.wrap(bytes, offset, fieldLength);
         switch (fieldLength) {
             case 1:
