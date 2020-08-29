@@ -69,4 +69,10 @@ public class BerDecoderTest {
         byte[] data = {(byte) 0x85, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00};
         BerField l1 = BerDecoder.decode(data, 0, false);
     }
+
+    @Test(expectedExceptions = IllegalArgumentException.class)
+    public void testParseIndexOverrunOid() {
+        byte[] data = {(byte) 0x80};
+        BerField l1 = BerDecoder.decode(data, 0, true);
+    }
 }

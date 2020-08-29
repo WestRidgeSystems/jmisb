@@ -1,6 +1,7 @@
 package org.jmisb.api.klv.st0601;
 
 import static org.testng.Assert.assertEquals;
+import static org.testng.Assert.assertNotNull;
 import static org.testng.Assert.assertTrue;
 
 import java.util.ArrayList;
@@ -45,5 +46,34 @@ public class ControlCommandVerificationTest {
         assertEquals(controlCommandVerification.getBytes(), ST_EXAMPLE_BYTES);
         assertEquals(controlCommandVerification.getDisplayableValue(), "3,7");
         assertEquals(controlCommandVerification.getDisplayName(), "Control Command Verification");
+    }
+
+    @Test(expectedExceptions = IllegalArgumentException.class)
+    public void fuzz1() {
+        ControlCommandVerification controlCommandVerification =
+                new ControlCommandVerification(
+                        new byte[] {
+                            (byte) 0xa3,
+                            0x7c,
+                            (byte) 0xd0,
+                            (byte) 0x84,
+                            0x42,
+                            0x28,
+                            0x54,
+                            0x33,
+                            0x26,
+                            (byte) 0xad,
+                            0x47,
+                            (byte) 0xdd,
+                            (byte) 0xa5,
+                            0x63,
+                            0x02,
+                            0x31,
+                            0x05,
+                            (byte) 0xbc,
+                            (byte) 0xb3,
+                            (byte) 0xe5
+                        });
+        assertNotNull(controlCommandVerification);
     }
 }

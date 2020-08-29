@@ -58,6 +58,9 @@ public class BerDecoder {
             int tag = 0;
             int i = 0;
             do {
+                if (offset + i >= data.length) {
+                    throw new IllegalArgumentException("BER-OID: out of bytes");
+                }
                 read = data[offset + i];
                 int highbits = (tag << 7);
                 int lowbits = (read & 0x7F);

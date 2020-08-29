@@ -313,7 +313,7 @@ public class UasDatalinkFactory {
                 case WaypointList:
                     return new WaypointList(bytes);
             }
-        } catch (IndexOutOfBoundsException e) {
+        } catch (ArrayIndexOutOfBoundsException | StringIndexOutOfBoundsException e) {
             throw new KlvParseException(e.getMessage());
         }
 
