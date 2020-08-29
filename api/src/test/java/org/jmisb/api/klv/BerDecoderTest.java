@@ -39,4 +39,34 @@ public class BerDecoderTest {
         Assert.assertEquals(l2.getLength(), 3);
         Assert.assertEquals(l3.getLength(), 5);
     }
+
+    @Test(expectedExceptions = IllegalArgumentException.class)
+    public void testParseBufferOverrun() {
+        byte[] data = {0x00, 0x05, 0x7f};
+        BerField l1 = BerDecoder.decode(data, 3, false);
+    }
+
+    @Test(expectedExceptions = IllegalArgumentException.class)
+    public void testParseBufferOverrunGreater() {
+        byte[] data = {0x00, 0x05, 0x7f};
+        BerField l1 = BerDecoder.decode(data, 4, false);
+    }
+
+    @Test(expectedExceptions = IllegalArgumentException.class)
+    public void testParseBufferOverrunOid() {
+        byte[] data = {0x00, 0x05, 0x7f};
+        BerField l1 = BerDecoder.decode(data, 3, true);
+    }
+
+    @Test(expectedExceptions = IllegalArgumentException.class)
+    public void testParseBufferOverrunLongform() {
+        byte[] data = {0x00, 0x05, (byte) 0x81};
+        BerField l1 = BerDecoder.decode(data, 2, false);
+    }
+
+    @Test(expectedExceptions = IllegalArgumentException.class)
+    public void testParseBufferOverrunLongform5() {
+        byte[] data = {(byte) 0x85, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00};
+        BerField l1 = BerDecoder.decode(data, 0, false);
+    }
 }
