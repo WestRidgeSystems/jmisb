@@ -1,10 +1,11 @@
 package org.jmisb.api.klv.st0903.vtarget;
 
 import org.jmisb.api.klv.st0903.IVmtiMetadataValue;
+import org.jmisb.api.klv.st0903.shared.IVTrackItemMetadataValue;
 import org.jmisb.api.klv.st0903.shared.VmtiV3Value;
 
 /**
- * Target Intensity (ST0903 VTarget Pack Tag 9).
+ * Target Intensity (ST0903 VTarget Pack Item 9 and VTrackItem Pack Item 12).
  *
  * <p>From ST0903:
  *
@@ -18,7 +19,8 @@ import org.jmisb.api.klv.st0903.shared.VmtiV3Value;
  *
  * </blockquote>
  */
-public class TargetIntensity extends VmtiV3Value implements IVmtiMetadataValue {
+public class TargetIntensity extends VmtiV3Value
+        implements IVmtiMetadataValue, IVTrackItemMetadataValue {
     /**
      * Create from value.
      *

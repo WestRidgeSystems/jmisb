@@ -7,11 +7,12 @@ import org.jmisb.api.klv.BerDecoder;
 import org.jmisb.api.klv.BerEncoder;
 import org.jmisb.api.klv.BerField;
 import org.jmisb.api.klv.st0903.IVmtiMetadataValue;
+import org.jmisb.api.klv.st0903.shared.IVTrackItemMetadataValue;
 import org.jmisb.api.klv.st0903.vobject.VObjectLS;
 import org.jmisb.core.klv.ArrayUtils;
 
 /**
- * VObject Ontology Series (ST0903 VTarget Pack Tag 107).
+ * VObject Ontology Series (ST0903 VTarget Pack Item 107 and VTrackItem Pack Item 107).
  *
  * <p>From ST0903:
  *
@@ -24,7 +25,7 @@ import org.jmisb.core.klv.ArrayUtils;
  *
  * </blockquote>
  */
-public class VObjectSeries implements IVmtiMetadataValue {
+public class VObjectSeries implements IVmtiMetadataValue, IVTrackItemMetadataValue {
     private final List<VObjectLS> vobjects = new ArrayList<>();
 
     /**

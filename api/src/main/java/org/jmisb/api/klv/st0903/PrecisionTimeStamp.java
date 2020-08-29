@@ -2,9 +2,12 @@ package org.jmisb.api.klv.st0903;
 
 import java.time.LocalDateTime;
 import org.jmisb.api.klv.st0603.ST0603TimeStamp;
+import org.jmisb.api.klv.st0903.shared.IVTrackItemMetadataValue;
+import org.jmisb.api.klv.st0903.shared.IVTrackMetadataValue;
 
 /**
- * Precision Time Stamp (ST0903 VMTI LS Tag 2).
+ * Precision Time Stamp (ST0903 VMTI Local Set Item 2, VTrack Local Set Item 1 and VTrackItem Pack
+ * Item 1).
  *
  * <p>From ST0903:
  *
@@ -30,8 +33,11 @@ import org.jmisb.api.klv.st0603.ST0603TimeStamp;
  * it will provide a metric for establishing a correspondence.
  *
  * </blockquote>
+ *
+ * Note that the timestamp (Track Timestamp) is mandatory in ST0903 VTrack Local Set
  */
-public class PrecisionTimeStamp extends ST0603TimeStamp implements IVmtiMetadataValue {
+public class PrecisionTimeStamp extends ST0603TimeStamp
+        implements IVmtiMetadataValue, IVTrackMetadataValue, IVTrackItemMetadataValue {
     /**
      * Create from value.
      *

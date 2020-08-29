@@ -2,10 +2,11 @@ package org.jmisb.api.klv.st0903.vtarget;
 
 import org.jmisb.api.common.KlvParseException;
 import org.jmisb.api.klv.st0903.IVmtiMetadataValue;
+import org.jmisb.api.klv.st0903.shared.IVTrackItemMetadataValue;
 import org.jmisb.api.klv.st0903.vchip.VChipLS;
 
 /**
- * VChip Image Chip (ST0903 VTarget Pack Tag 105).
+ * VChip Image Chip (ST0903 VTarget Pack Item 105 and VTrackItem Pack 105).
  *
  * <p>From ST0903:
  *
@@ -20,7 +21,7 @@ import org.jmisb.api.klv.st0903.vchip.VChipLS;
  *
  * </blockquote>
  */
-public class VChip implements IVmtiMetadataValue {
+public class VChip implements IVmtiMetadataValue, IVTrackItemMetadataValue {
     private final VChipLS value;
 
     /**

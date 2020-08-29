@@ -1,10 +1,11 @@
 package org.jmisb.api.klv.st0903.vtarget;
 
 import org.jmisb.api.klv.st0903.IVmtiMetadataValue;
+import org.jmisb.api.klv.st0903.shared.IVTrackItemMetadataValue;
 import org.jmisb.core.klv.PrimitiveConverter;
 
 /**
- * Target History (ST0903 VTarget Pack Tag 6).
+ * Target History (ST0903 VTarget Pack Item 6 and VTrack Pack Item 9).
  *
  * <p>From ST0903:
  *
@@ -17,7 +18,7 @@ import org.jmisb.core.klv.PrimitiveConverter;
  *
  * </blockquote>
  */
-public class TargetHistory implements IVmtiMetadataValue {
+public class TargetHistory implements IVmtiMetadataValue, IVTrackItemMetadataValue {
 
     private final int history;
     private static int MIN_VALUE = 0;

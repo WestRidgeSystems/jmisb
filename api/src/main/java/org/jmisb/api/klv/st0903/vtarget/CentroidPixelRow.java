@@ -1,9 +1,10 @@
 package org.jmisb.api.klv.st0903.vtarget;
 
 import org.jmisb.api.klv.st0903.IVmtiMetadataValue;
+import org.jmisb.api.klv.st0903.shared.IVTrackItemMetadataValue;
 
 /**
- * Centroid Pixel Row (ST0903 VTarget Tag 19).
+ * Centroid Pixel Row (ST0903 VTarget Item 19 and VTrackItem Pack Item 3).
  *
  * <p>From ST0903:
  *
@@ -17,8 +18,12 @@ import org.jmisb.api.klv.st0903.IVmtiMetadataValue;
  * <p>Valid Values: Integer values in the range 1 to 2^32-1.
  *
  * </blockquote>
+ *
+ * For VTrackItem Pack, the centroid pixel column is Item 4, and the centroid pixel number is Item
+ * 2.
  */
-public class CentroidPixelRow extends AbstractPixelIndex implements IVmtiMetadataValue {
+public class CentroidPixelRow extends AbstractPixelIndex
+        implements IVmtiMetadataValue, IVTrackItemMetadataValue {
     /**
      * Create from value.
      *

@@ -9,6 +9,7 @@ import org.jmisb.api.klv.IKlvValue;
 import org.jmisb.api.klv.INestedKlvValue;
 import org.jmisb.api.klv.st0903.IVmtiMetadataValue;
 import org.jmisb.api.klv.st0903.shared.EncodingMode;
+import org.jmisb.api.klv.st0903.shared.IVTrackItemMetadataValue;
 import org.jmisb.api.klv.st0903.shared.LocVelAccPackKey;
 import org.jmisb.api.klv.st0903.shared.VmtiTextString;
 import org.jmisb.api.klv.st1201.FpEncoder;
@@ -26,7 +27,7 @@ import org.jmisb.core.klv.PrimitiveConverter;
  *
  * </blockquote>
  */
-public class Acceleration implements IVmtiMetadataValue, INestedKlvValue {
+public class Acceleration implements IVmtiMetadataValue, IVTrackItemMetadataValue, INestedKlvValue {
     private static final int ACCELERATION_GROUP_LEN = 6;
     private static final int STANDARD_DEVIATIONS_GROUP_LEN = 6;
     private static final int CORRELATION_GROUP_LEN = 6;

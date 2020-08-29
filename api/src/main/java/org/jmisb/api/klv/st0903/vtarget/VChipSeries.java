@@ -7,11 +7,12 @@ import org.jmisb.api.klv.BerDecoder;
 import org.jmisb.api.klv.BerEncoder;
 import org.jmisb.api.klv.BerField;
 import org.jmisb.api.klv.st0903.IVmtiMetadataValue;
+import org.jmisb.api.klv.st0903.shared.IVTrackItemMetadataValue;
 import org.jmisb.api.klv.st0903.vchip.VChipLS;
 import org.jmisb.core.klv.ArrayUtils;
 
 /**
- * VChip Image Chip Series (ST0903 VTarget Pack Tag 106).
+ * VChip Image Chip Series (ST0903 VTarget Pack Item 106 and VTrackItem Pack Item 106).
  *
  * <p>From ST0903:
  *
@@ -26,7 +27,7 @@ import org.jmisb.core.klv.ArrayUtils;
  *
  * </blockquote>
  */
-public class VChipSeries implements IVmtiMetadataValue {
+public class VChipSeries implements IVmtiMetadataValue, IVTrackItemMetadataValue {
     private final List<VChipLS> chips = new ArrayList<>();
 
     /**

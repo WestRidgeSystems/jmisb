@@ -52,6 +52,14 @@ public class KlvConstants {
                         0x06, 0x00, 0x00, 0x00
                     });
 
+    /** Universal Label for VTrack Local Set (ST0903). */
+    public static final UniversalLabel VTrackLocalSetUl =
+            new UniversalLabel(
+                    new byte[] {
+                        0x06, 0x0E, 0x2B, 0x34, 0x02, 0x03, 0x01, 0x01, 0x0E, 0x01, 0x03, 0x03,
+                        0x1E, 0x00, 0x00, 0x00
+                    });
+
     /** Universal label for obsolete Predator UAV Basic Universal Metadata Set (EG0104.5). */
     public static final UniversalLabel PredatorMetadataLocalSetUl =
             new UniversalLabel(

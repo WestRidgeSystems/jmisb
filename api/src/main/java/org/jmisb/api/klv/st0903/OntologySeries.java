@@ -14,10 +14,11 @@ import org.jmisb.api.klv.INestedKlvValue;
 import org.jmisb.api.klv.st0903.ontology.OntologyId;
 import org.jmisb.api.klv.st0903.ontology.OntologyLS;
 import org.jmisb.api.klv.st0903.ontology.OntologyMetadataKey;
+import org.jmisb.api.klv.st0903.shared.IVTrackMetadataValue;
 import org.jmisb.core.klv.ArrayUtils;
 
 /**
- * VMTI LS Ontology Series (ST 0903 VMTI LS Tag 103).
+ * VMTI Local Set Ontology Series (ST 0903 VMTI Local Set Item 103 and VTrack Local Set Item 103).
  *
  * <p>From ST0903:
  *
@@ -37,7 +38,7 @@ import org.jmisb.core.klv.ArrayUtils;
  *
  * </blockquote>
  */
-public class OntologySeries implements IVmtiMetadataValue, INestedKlvValue {
+public class OntologySeries implements IVmtiMetadataValue, IVTrackMetadataValue, INestedKlvValue {
     private final List<OntologyLS> localSets = new ArrayList<>();
 
     /**

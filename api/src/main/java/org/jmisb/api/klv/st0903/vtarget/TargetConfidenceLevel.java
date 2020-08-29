@@ -1,9 +1,11 @@
 package org.jmisb.api.klv.st0903.vtarget;
 
+import org.jmisb.api.klv.st0903.IVmtiMetadataValue;
 import org.jmisb.api.klv.st0903.shared.Confidence;
+import org.jmisb.api.klv.st0903.shared.IVTrackItemMetadataValue;
 
 /**
- * Target Confidence Level (ST0903 VTarget Pack Tag 5)
+ * Target Confidence Level (ST0903 VTarget Pack Item 5 and TrackItem Pack Item 8).
  *
  * <p>From ST0903:
  *
@@ -18,7 +20,8 @@ import org.jmisb.api.klv.st0903.shared.Confidence;
  *
  * </blockquote>
  */
-public class TargetConfidenceLevel extends Confidence {
+public class TargetConfidenceLevel extends Confidence
+        implements IVmtiMetadataValue, IVTrackItemMetadataValue {
     /**
      * Create from value.
      *
