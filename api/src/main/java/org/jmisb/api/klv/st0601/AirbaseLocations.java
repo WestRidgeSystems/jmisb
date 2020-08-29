@@ -93,7 +93,6 @@ public class AirbaseLocations implements IUasDatalinkValue {
      */
     public AirbaseLocations(byte[] bytes) {
         int idx = 0;
-        System.out.println("Airbase Locations: " + ArrayUtils.toHexString(bytes, 16, true));
         BerField takeoffLenField = BerDecoder.decode(bytes, idx, false);
         idx += takeoffLenField.getLength();
         switch (takeoffLenField.getValue()) {
