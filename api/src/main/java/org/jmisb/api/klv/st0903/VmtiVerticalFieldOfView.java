@@ -1,9 +1,10 @@
 package org.jmisb.api.klv.st0903;
 
 import org.jmisb.api.klv.st0903.shared.EncodingMode;
+import org.jmisb.api.klv.st0903.shared.IVTrackItemMetadataValue;
 
 /**
- * Vertical Field Of View (ST0903 VMTI LS Tag 12).
+ * Vertical Field Of View (ST0903 VMTI Local Set Item 12 and VTrackItem Pack Item 23).
  *
  * <p>From ST0903:
  *
@@ -11,7 +12,7 @@ import org.jmisb.api.klv.st0903.shared.EncodingMode;
  *
  * Vertical field of view of imaging sensor input to VMTI process. Required only if VMTI process
  * operates on an imaging sensor different from that described by the parent MISB ST 0601 LS ;
- * otherwise, the ST 0601 LS provides its Tag 167– VFOV value. Can use with VFOV (Tag 17) from ST
+ * otherwise, the ST 0601 LS provides its Tag 17 – VFOV value. Can use with VFOV (Tag 17) from ST
  * 0601 to scale VMTI column, row coordinates. Typically required only to account for aspect ratio
  * variation.
  *
@@ -19,7 +20,8 @@ import org.jmisb.api.klv.st0903.shared.EncodingMode;
  *
  * </blockquote>
  */
-public class VmtiVerticalFieldOfView extends VmtiFieldOfView {
+public class VmtiVerticalFieldOfView extends VmtiFieldOfView
+        implements IVmtiMetadataValue, IVTrackItemMetadataValue {
     /**
      * Create from value.
      *

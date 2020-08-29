@@ -9,6 +9,7 @@ import org.jmisb.api.klv.BerEncoder;
 import org.jmisb.api.klv.BerField;
 import org.jmisb.api.klv.st0903.IVmtiMetadataValue;
 import org.jmisb.api.klv.st0903.shared.EncodingMode;
+import org.jmisb.api.klv.st0903.shared.IVTrackMetadataValue;
 import org.jmisb.api.klv.st0903.shared.LocationPack;
 import org.jmisb.api.klv.st0903.vtarget.TargetLocation;
 import org.jmisb.core.klv.ArrayUtils;
@@ -28,7 +29,7 @@ import org.jmisb.core.klv.ArrayUtils;
  *
  * </blockquote>
  */
-public class BoundarySeries implements IVmtiMetadataValue {
+public class BoundarySeries implements IVmtiMetadataValue, IVTrackMetadataValue {
     private final List<LocationPack> boundary = new ArrayList<>();
 
     /**

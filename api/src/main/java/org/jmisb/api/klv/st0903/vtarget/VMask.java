@@ -2,10 +2,11 @@ package org.jmisb.api.klv.st0903.vtarget;
 
 import org.jmisb.api.common.KlvParseException;
 import org.jmisb.api.klv.st0903.IVmtiMetadataValue;
+import org.jmisb.api.klv.st0903.shared.IVTrackItemMetadataValue;
 import org.jmisb.api.klv.st0903.vmask.VMaskLS;
 
 /**
- * VMask (ST0903 VTarget Pack Tag 101).
+ * VMask (ST0903 VTarget Pack Item 101 and VTrackItem Pack Item 101).
  *
  * <p>From ST0903:
  *
@@ -19,7 +20,7 @@ import org.jmisb.api.klv.st0903.vmask.VMaskLS;
  *
  * </blockquote>
  */
-public class VMask implements IVmtiMetadataValue {
+public class VMask implements IVmtiMetadataValue, IVTrackItemMetadataValue {
     private final VMaskLS value;
 
     /**

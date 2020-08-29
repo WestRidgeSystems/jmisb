@@ -31,7 +31,12 @@ public class VmtiLocalSetTest extends LoggerChecks {
         assertNotNull(localSet);
         assertEquals(localSet.getIdentifiers().size(), 1);
         checkSystemNameExample(localSet);
-        assertEquals(localSet.frameMessage(true), bytes);
+        assertEquals(
+                localSet.frameMessage(true),
+                new byte[] {
+                    0x03, 0x0E, 0x44, 0x53, 0x54, 0x4F, 0x5F, 0x41, 0x44, 0x53, 0x53, 0x5F, 0x56,
+                    0x4D, 0x54, 0x49, 0x04, 0x01, 0x05
+                });
     }
 
     @Test

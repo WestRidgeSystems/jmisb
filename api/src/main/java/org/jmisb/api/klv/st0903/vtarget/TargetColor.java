@@ -1,9 +1,10 @@
 package org.jmisb.api.klv.st0903.vtarget;
 
 import org.jmisb.api.klv.st0903.IVmtiMetadataValue;
+import org.jmisb.api.klv.st0903.shared.IVTrackItemMetadataValue;
 
 /**
- * Target Color (ST0903 VTarget Pack Tag 8).
+ * Target Color (ST0903 VTarget Pack Item 8 and VTrackItem Pack Item 11).
  *
  * <p>From ST0903:
  *
@@ -16,7 +17,7 @@ import org.jmisb.api.klv.st0903.IVmtiMetadataValue;
  *
  * </blockquote>
  */
-public class TargetColor implements IVmtiMetadataValue {
+public class TargetColor implements IVmtiMetadataValue, IVTrackItemMetadataValue {
 
     private short red;
     private short green;

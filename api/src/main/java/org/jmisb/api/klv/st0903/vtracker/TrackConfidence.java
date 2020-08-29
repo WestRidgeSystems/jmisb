@@ -1,6 +1,8 @@
 package org.jmisb.api.klv.st0903.vtracker;
 
+import org.jmisb.api.klv.st0903.IVmtiMetadataValue;
 import org.jmisb.api.klv.st0903.shared.Confidence;
+import org.jmisb.api.klv.st0903.shared.IVTrackMetadataValue;
 
 /**
  * Tracker Confidence Level (ST0903 VTracker Pack Tag 7).
@@ -21,7 +23,8 @@ import org.jmisb.api.klv.st0903.shared.Confidence;
  *
  * </blockquote>
  */
-public class TrackConfidence extends Confidence {
+public class TrackConfidence extends Confidence
+        implements IVmtiMetadataValue, IVTrackMetadataValue {
     /**
      * Create from value.
      *

@@ -1,10 +1,11 @@
 package org.jmisb.api.klv.st0903.vtarget;
 
 import org.jmisb.api.klv.st0903.IVmtiMetadataValue;
+import org.jmisb.api.klv.st0903.shared.IVTrackItemMetadataValue;
 import org.jmisb.core.klv.PrimitiveConverter;
 
 /**
- * Percentage of Target Pixels (ST0903 VTarget Pack Tag 7).
+ * Percentage of Target Pixels (ST0903 VTarget Pack Item 7 and VTrackItem Pack Item 10).
  *
  * <p>From ST0903:
  *
@@ -18,7 +19,7 @@ import org.jmisb.core.klv.PrimitiveConverter;
  *
  * </blockquote>
  */
-public class PercentageOfTargetPixels implements IVmtiMetadataValue {
+public class PercentageOfTargetPixels implements IVmtiMetadataValue, IVTrackItemMetadataValue {
 
     private final short percentage;
     private static int MIN_VALUE = 1;

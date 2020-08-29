@@ -1,30 +1,29 @@
 package org.jmisb.api.klv.st0903;
 
+import org.jmisb.api.klv.st0903.shared.IVTrackMetadataValue;
 import org.jmisb.core.klv.PrimitiveConverter;
 
 /**
- * VMTI LS Version Number (ST 0903 VMTI LS Tag 4).
+ * VMTI LS Version Number (ST 0903 VMTI LS Item 4 and VTrack LS Item 11).
  *
- * <p>From ST0903:
+ * <p>Version number of the VMTI standards document used to encode the VMTI metadata.
  *
- * <blockquote>
+ * <p>Notifies downstream clients of the VMTI or VTrack LS version used to encode the VMTI metadata.
  *
- * Version number of the VMTI LS document used to generate the VMTI metadata.
- *
- * <p>Notified downstream clients of the LS version used to encode the VMTI metadata.
- *
- * <p>0 is pre-release, initial release (ST0903), or test data. 1...65535 corresponds to document
+ * <p>0 is pre-release, initial release (EG0903), or test data. 1...65535 corresponds to document
  * revisions 1 through 65535.
  *
- * </blockquote>
+ * <p>The significant step is from 3 to 4, which changed floating point encoding.
  */
-public class ST0903Version implements IVmtiMetadataValue {
+public class ST0903Version implements IVmtiMetadataValue, IVTrackMetadataValue {
     private int version;
     private static int MIN_VALUE = 0;
     private static int MAX_VALUE = 65535;
 
     /**
      * Create from value.
+     *
+     * <p>The current version is available as {@link VmtiMetadataConstants#ST_VERSION_NUMBER}.
      *
      * @param version The version number
      */

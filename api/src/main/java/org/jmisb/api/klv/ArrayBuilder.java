@@ -130,6 +130,35 @@ public class ArrayBuilder {
     }
 
     /**
+     * Prepend a Universal Label to the start of the array.
+     *
+     * @param universalLabel the value to prepend
+     * @return this instance, to support method chaining.
+     */
+    public ArrayBuilder prepend(UniversalLabel universalLabel) {
+        byte[] encodedBytes = universalLabel.getBytes();
+        chunks.add(0, encodedBytes);
+        numBytesInChunks += encodedBytes.length;
+        return this;
+    }
+
+    /**
+     * Prepend a BER encoded length of the following bytes to the byte array.
+     *
+     * <p>This is the type of representation used for Variable Length Packs. Be careful about
+     * subsequent operations that append to the array, because this length field will not be
+     * updated..
+     *
+     * @return this instance, to support method chaining.
+     */
+    public ArrayBuilder prependLength() {
+        byte[] encodedBytes = BerEncoder.encode(numBytesInChunks);
+        numBytesInChunks += encodedBytes.length;
+        chunks.add(0, encodedBytes);
+        return this;
+    }
+
+    /**
      * Build the byte array from the appended parts.
      *
      * @return the byte array.

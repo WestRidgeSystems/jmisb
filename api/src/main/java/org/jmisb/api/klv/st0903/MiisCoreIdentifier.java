@@ -1,9 +1,10 @@
 package org.jmisb.api.klv.st0903;
 
+import org.jmisb.api.klv.st0903.shared.IVTrackItemMetadataValue;
 import org.jmisb.api.klv.st1204.CoreIdentifier;
 
 /**
- * MIIS Core Identifier (ST0903 VMTI LS Tag 13).
+ * MIIS Core Identifier (ST0903 VMTI LS Item 13 and VTrackItem Item 19).
  *
  * <p>From ST:
  *
@@ -18,7 +19,7 @@ import org.jmisb.api.klv.st1204.CoreIdentifier;
  *
  * </blockquote>
  */
-public class MiisCoreIdentifier implements IVmtiMetadataValue {
+public class MiisCoreIdentifier implements IVmtiMetadataValue, IVTrackItemMetadataValue {
 
     private final CoreIdentifier coreIdentifier;
 
