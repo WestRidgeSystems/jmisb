@@ -9,7 +9,7 @@ import org.jmisb.core.klv.ArrayUtils;
 import org.junit.runner.RunWith;
 
 @RunWith(JQF.class)
-public class UasDatalinkFactoryFuzzTarget {
+public class UasDatalinkFactoryFuzzTest {
     @Fuzz /* The args to this method will be generated automatically by JQF */
     public void checkCreateValue(UasDatalinkTag tag, byte[] bytes) {
         try {
