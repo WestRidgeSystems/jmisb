@@ -3,6 +3,7 @@ package org.jmisb.api.klv.st0601;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
+import org.jmisb.api.common.KlvParseException;
 import org.jmisb.api.klv.Ber;
 import org.jmisb.api.klv.BerDecoder;
 import org.jmisb.api.klv.BerEncoder;
@@ -60,15 +61,20 @@ public class WaypointList implements IUasDatalinkValue {
      * Create from encoded bytes.
      *
      * @param bytes Waypoint List, byte array with Variable Length Pack encoding
+     * @throws KlvParseException if there is a problem when parsing the structure
      */
-    public WaypointList(byte[] bytes) {
+    public WaypointList(byte[] bytes) throws KlvParseException {
+        System.out.println("WaypointList: " + ArrayUtils.toHexString(bytes, 16, true));
         int idx = 0;
         while (idx < bytes.length) {
-            int wpLength = Byte.toUnsignedInt(bytes[idx]);
-            idx++;
-            byte[] waypointBytes = Arrays.copyOfRange(bytes, idx, idx + wpLength);
+            BerField wpLengthField = BerDecoder.decode(bytes, idx, false);
+            idx += wpLengthField.getLength();
+            if ((idx + wpLengthField.getValue()) > bytes.length) {
+                throw new KlvParseException("Insufficient bytes for Waypoint");
+            }
+            byte[] waypointBytes = Arrays.copyOfRange(bytes, idx, idx + wpLengthField.getValue());
             // Skip over length we just consumed
-            idx += wpLength;
+            idx += wpLengthField.getValue();
             Waypoint wp = parseWaypoint(waypointBytes);
             this.waypoints.add(wp);
         }

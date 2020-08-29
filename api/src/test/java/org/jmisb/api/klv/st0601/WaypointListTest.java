@@ -81,7 +81,7 @@ public class WaypointListTest {
     }
 
     @Test
-    public void testConstructFromEncoded() {
+    public void testConstructFromEncoded() throws KlvParseException {
         WaypointList list = new WaypointList(st_example_bytes);
         checkWaypointList(list);
     }
