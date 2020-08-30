@@ -4,6 +4,7 @@ import static java.time.format.DateTimeFormatter.BASIC_ISO_DATE;
 
 import java.nio.charset.StandardCharsets;
 import java.time.LocalDate;
+import java.time.format.DateTimeParseException;
 
 /**
  * Declassification Date (ST 0102 tag 10).
@@ -37,7 +38,11 @@ public class DeclassificationDate implements ISecurityMetadataValue {
 
         // TODO: can we avoid the string allocation?
         String dateString = new String(bytes, StandardCharsets.US_ASCII);
-        date = LocalDate.parse(dateString, BASIC_ISO_DATE);
+        try {
+            date = LocalDate.parse(dateString, BASIC_ISO_DATE);
+        } catch (DateTimeParseException ex) {
+            throw new IllegalArgumentException(ex.getMessage());
+        }
     }
 
     /**
