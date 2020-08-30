@@ -4,10 +4,15 @@ import java.nio.charset.StandardCharsets;
 import java.util.ArrayList;
 import java.util.List;
 import org.jmisb.api.common.KlvParseException;
+import java.util.Set;
+import java.util.TreeSet;
 import org.jmisb.api.klv.Ber;
 import org.jmisb.api.klv.BerDecoder;
 import org.jmisb.api.klv.BerEncoder;
 import org.jmisb.api.klv.BerField;
+import org.jmisb.api.klv.IKlvKey;
+import org.jmisb.api.klv.IKlvValue;
+import org.jmisb.api.klv.INestedKlvValue;
 import org.jmisb.api.klv.st0601.dto.Payload;
 import org.jmisb.core.klv.ArrayUtils;
 
@@ -43,8 +48,7 @@ import org.jmisb.core.klv.ArrayUtils;
  *
  * </blockquote>
  */
-// TODO: this is a candidate for nested metadata
-public class PayloadList implements IUasDatalinkValue {
+public class PayloadList implements IUasDatalinkValue, INestedKlvValue {
     private final List<Payload> payloadList = new ArrayList<>();
 
     /**
@@ -137,5 +141,27 @@ public class PayloadList implements IUasDatalinkValue {
     @Override
     public String getDisplayName() {
         return "Payload List";
+    }
+
+    @Override
+    public IKlvValue getField(IKlvKey tag) {
+
+        int requiredId = tag.getIdentifier();
+        for (Payload payload : payloadList) {
+            if (payload.getIdentifier() == requiredId) {
+                return payload;
+            }
+        }
+        return null;
+    }
+
+    @Override
+    public Set<? extends IKlvKey> getIdentifiers() {
+        Set<PayloadIdentifierKey> identifiers = new TreeSet<>();
+        payloadList.forEach(
+                (Payload payload) -> {
+                    identifiers.add(new PayloadIdentifierKey(payload.getIdentifier()));
+                });
+        return identifiers;
     }
 }

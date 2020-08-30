@@ -55,6 +55,7 @@ public class VTrackerTest {
         assertEquals(tracker.getDisplayName(), "VTracker");
         assertEquals(tracker.getDisplayableValue(), "[VTracker]");
         assertEquals(tracker.getTracker().getTags().size(), 2);
+        assertEquals(tracker.getIdentifiers().size(), 2);
     }
 
     @Test
@@ -67,6 +68,7 @@ public class VTrackerTest {
         assertEquals(tracker.getDisplayName(), "VTracker");
         assertEquals(tracker.getDisplayableValue(), "[VTracker]");
         assertEquals(tracker.getTracker().getTags().size(), 2);
+        assertEquals(tracker.getIdentifiers().size(), 2);
     }
 
     @Test
@@ -96,6 +98,11 @@ public class VTrackerTest {
         assertEquals(tracker.getDisplayName(), "VTracker");
         assertEquals(tracker.getDisplayableValue(), "[VTracker]");
         assertEquals(tracker.getTracker().getTags().size(), 2);
+        assertEquals(tracker.getIdentifiers().size(), 2);
+        assertEquals(
+                tracker.getField(VTrackerMetadataKey.detectionStatus).getDisplayableValue(),
+                "Active");
+        assertEquals(tracker.getField(VTrackerMetadataKey.algorithm).getDisplayableValue(), "test");
     }
 
     @Test

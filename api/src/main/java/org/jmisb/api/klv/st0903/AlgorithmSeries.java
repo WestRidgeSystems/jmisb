@@ -2,11 +2,18 @@ package org.jmisb.api.klv.st0903;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Set;
+import java.util.TreeSet;
 import org.jmisb.api.common.KlvParseException;
 import org.jmisb.api.klv.BerDecoder;
 import org.jmisb.api.klv.BerEncoder;
 import org.jmisb.api.klv.BerField;
+import org.jmisb.api.klv.IKlvKey;
+import org.jmisb.api.klv.IKlvValue;
+import org.jmisb.api.klv.INestedKlvValue;
 import org.jmisb.api.klv.st0903.algorithm.AlgorithmLS;
+import org.jmisb.api.klv.st0903.algorithm.AlgorithmMetadataKey;
+import org.jmisb.api.klv.st0903.shared.AlgorithmId;
 import org.jmisb.core.klv.ArrayUtils;
 
 /**
@@ -30,7 +37,7 @@ import org.jmisb.core.klv.ArrayUtils;
  *
  * </blockquote>
  */
-public class AlgorithmSeries implements IVmtiMetadataValue {
+public class AlgorithmSeries implements IVmtiMetadataValue, INestedKlvValue {
     private final List<AlgorithmLS> localSets = new ArrayList<>();
 
     /**
@@ -92,5 +99,31 @@ public class AlgorithmSeries implements IVmtiMetadataValue {
      */
     public List<AlgorithmLS> getAlgorithms() {
         return localSets;
+    }
+
+    @Override
+    public IKlvValue getField(IKlvKey tag) {
+        int requiredId = tag.getIdentifier();
+        for (AlgorithmLS algorithmLS : localSets) {
+            AlgorithmId algorithmId = (AlgorithmId) algorithmLS.getField(AlgorithmMetadataKey.id);
+            if (algorithmId != null && requiredId == algorithmId.getValue()) {
+                return algorithmLS;
+            }
+        }
+        return null;
+    }
+
+    @Override
+    public Set<? extends IKlvKey> getIdentifiers() {
+        Set<AlgorithmIdentifierKey> identifiers = new TreeSet<>();
+        localSets.forEach(
+                (AlgorithmLS localSet) -> {
+                    if (localSet.getTags().contains(AlgorithmMetadataKey.id)) {
+                        AlgorithmId algorithmId =
+                                (AlgorithmId) localSet.getField(AlgorithmMetadataKey.id);
+                        identifiers.add(new AlgorithmIdentifierKey(algorithmId.getValue()));
+                    }
+                });
+        return identifiers;
     }
 }

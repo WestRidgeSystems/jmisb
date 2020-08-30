@@ -7,6 +7,7 @@ import java.util.List;
 import java.util.SortedMap;
 import java.util.TreeMap;
 import org.jmisb.api.common.KlvParseException;
+import org.jmisb.api.klv.st0903.ontology.OntologyId;
 import org.jmisb.api.klv.st0903.ontology.OntologyLS;
 import org.jmisb.api.klv.st0903.ontology.OntologyMetadataKey;
 import org.jmisb.api.klv.st0903.shared.EncodingMode;
@@ -22,15 +23,15 @@ public class OntologySeriesTest {
 
     private final byte[] twoOntologysBytes =
             new byte[] {
-                83, // Length of Ontology entry 1
-                0x03, 71, 0x68, 0x74, 0x74, 0x70, 0x73, 0x3A, 0x2F, 0x2F, 0x72, 0x61, 0x77, 0x2E,
-                0x67, 0x69, 0x74, 0x68, 0x75, 0x62, 0x75, 0x73, 0x65, 0x72, 0x63, 0x6F, 0x6E, 0x74,
-                0x65, 0x6E, 0x74, 0x2E, 0x63, 0x6F, 0x6D, 0x2F, 0x6F, 0x77, 0x6C, 0x63, 0x73, 0x2F,
-                0x70, 0x69, 0x7A, 0x7A, 0x61, 0x2D, 0x6F, 0x6E, 0x74, 0x6F, 0x6C, 0x6F, 0x67, 0x79,
-                0x2F, 0x6D, 0x61, 0x73, 0x74, 0x65, 0x72, 0x2F, 0x70, 0x69, 0x7A, 0x7A, 0x61, 0x2E,
-                0x6F, 0x77, 0x6C, 0x04, 0x08, 0x4D, 0x75, 0x73, 0x68, 0x72, 0x6F, 0x6F, 0x6D,
-                10, // Length of Ontology entry 2
-                0x04, 0x08, 0x41, 0x6d, 0x65, 0x72, 0x69, 0x63, 0x61, 0x6e
+                86, // Length of Ontology entry 1
+                0x01, 0x01, 0x04, 0x03, 71, 0x68, 0x74, 0x74, 0x70, 0x73, 0x3A, 0x2F, 0x2F, 0x72,
+                0x61, 0x77, 0x2E, 0x67, 0x69, 0x74, 0x68, 0x75, 0x62, 0x75, 0x73, 0x65, 0x72, 0x63,
+                0x6F, 0x6E, 0x74, 0x65, 0x6E, 0x74, 0x2E, 0x63, 0x6F, 0x6D, 0x2F, 0x6F, 0x77, 0x6C,
+                0x63, 0x73, 0x2F, 0x70, 0x69, 0x7A, 0x7A, 0x61, 0x2D, 0x6F, 0x6E, 0x74, 0x6F, 0x6C,
+                0x6F, 0x67, 0x79, 0x2F, 0x6D, 0x61, 0x73, 0x74, 0x65, 0x72, 0x2F, 0x70, 0x69, 0x7A,
+                0x7A, 0x61, 0x2E, 0x6F, 0x77, 0x6C, 0x04, 0x08, 0x4D, 0x75, 0x73, 0x68, 0x72, 0x6F,
+                0x6F, 0x6D, 13, // Length of Ontology entry 2
+                0x01, 0x01, 0x03, 0x04, 0x08, 0x41, 0x6d, 0x65, 0x72, 0x69, 0x63, 0x61, 0x6e
             };
 
     @BeforeMethod
@@ -47,10 +48,12 @@ public class OntologySeriesTest {
         localSet1Values.put(OntologyMetadataKey.ontology, ontology);
         VmtiTextString class1 = new VmtiTextString(VmtiTextString.ONTOLOGY_CLASS, "Mushroom");
         localSet1Values.put(OntologyMetadataKey.ontologyClass, class1);
+        localSet1Values.put(OntologyMetadataKey.id, new OntologyId(4));
         OntologyLS ontologyLS1 = new OntologyLS(localSet1Values);
         ontologies.add(ontologyLS1);
 
         SortedMap<OntologyMetadataKey, IVmtiMetadataValue> localSet2Values = new TreeMap<>();
+        localSet2Values.put(OntologyMetadataKey.id, new OntologyId(3));
         VmtiTextString class2 = new VmtiTextString(VmtiTextString.ONTOLOGY_CLASS, "American");
         localSet2Values.put(OntologyMetadataKey.ontologyClass, class2);
         OntologyLS ontologyPack2 = new OntologyLS(localSet2Values);
@@ -65,9 +68,9 @@ public class OntologySeriesTest {
         List<OntologyLS> ontologys = ontologySeriesFromOntologys.getOntologies();
         assertEquals(ontologys.size(), 2);
         OntologyLS algo1 = ontologys.get(0);
-        assertEquals(algo1.getTags().size(), 2);
+        assertEquals(algo1.getTags().size(), 3);
         OntologyLS algo2 = ontologys.get(1);
-        assertEquals(algo2.getTags().size(), 1);
+        assertEquals(algo2.getTags().size(), 2);
     }
 
     @Test
@@ -81,9 +84,9 @@ public class OntologySeriesTest {
         List<OntologyLS> ontologys = ontologySeries.getOntologies();
         assertEquals(ontologys.size(), 2);
         OntologyLS algo1 = ontologys.get(0);
-        assertEquals(algo1.getTags().size(), 2);
+        assertEquals(algo1.getTags().size(), 3);
         OntologyLS algo2 = ontologys.get(1);
-        assertEquals(algo2.getTags().size(), 1);
+        assertEquals(algo2.getTags().size(), 2);
     }
 
     /** Check parsing */
@@ -93,9 +96,9 @@ public class OntologySeriesTest {
         List<OntologyLS> ontologys = ontologySeriesFromBytes.getOntologies();
         assertEquals(ontologys.size(), 2);
         OntologyLS ontology1 = ontologys.get(0);
-        assertEquals(ontology1.getTags().size(), 2);
+        assertEquals(ontology1.getTags().size(), 3);
         OntologyLS ontology2 = ontologys.get(1);
-        assertEquals(ontology2.getTags().size(), 1);
+        assertEquals(ontology2.getTags().size(), 2);
     }
 
     /** Test of getBytes method, of class OntologySeries. */
@@ -119,5 +122,45 @@ public class OntologySeriesTest {
     @Test
     public void testGetDisplayName() {
         assertEquals(ontologySeriesFromBytes.getDisplayName(), "Ontology Series");
+    }
+
+    @Test
+    public void testGetIdentifiers() {
+        assertEquals(ontologySeriesFromBytes.getIdentifiers().size(), 2);
+        assertTrue(ontologySeriesFromBytes.getIdentifiers().contains(new OntologyIdentifierKey(4)));
+        assertTrue(ontologySeriesFromBytes.getIdentifiers().contains(new OntologyIdentifierKey(3)));
+    }
+
+    @Test
+    public void testGetIdentifiersBad() {
+        List<OntologyLS> ontologies = new ArrayList<>();
+
+        SortedMap<OntologyMetadataKey, IVmtiMetadataValue> localSet1Values = new TreeMap<>();
+        localSet1Values.put(OntologyMetadataKey.id, new OntologyId(5));
+        OntologyLS ontologyLS1 = new OntologyLS(localSet1Values);
+        ontologies.add(ontologyLS1);
+
+        SortedMap<OntologyMetadataKey, IVmtiMetadataValue> localSet2Values = new TreeMap<>();
+        OntologyLS ontologyPack2 = new OntologyLS(localSet2Values);
+        ontologies.add(ontologyPack2);
+        OntologySeries series = new OntologySeries(ontologies);
+        assertEquals(series.getIdentifiers().size(), 1);
+        assertTrue(series.getIdentifiers().contains(new OntologyIdentifierKey(5)));
+        assertNull(series.getField(new OntologyIdentifierKey(4)));
+    }
+
+    @Test
+    public void testGetField() {
+        assertEquals(
+                ontologySeriesFromBytes
+                        .getField(new OntologyIdentifierKey(4))
+                        .getDisplayableValue(),
+                "Ontology 4");
+        assertEquals(
+                ontologySeriesFromBytes
+                        .getField(new OntologyIdentifierKey(3))
+                        .getDisplayableValue(),
+                "Ontology 3");
+        assertNull(ontologySeriesFromBytes.getField(new OntologyIdentifierKey(2)));
     }
 }

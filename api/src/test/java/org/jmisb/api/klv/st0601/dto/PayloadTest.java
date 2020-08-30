@@ -2,6 +2,7 @@ package org.jmisb.api.klv.st0601.dto;
 
 import static org.testng.Assert.*;
 
+import org.jmisb.api.klv.st0601.CountryCodeKey;
 import org.testng.annotations.Test;
 
 /** Tests for Payload DTO */
@@ -81,5 +82,42 @@ public class PayloadTest {
         assertEquals(payload1, payload2);
         payload2.setName("Sensor");
         assertNotEquals(payload1, payload2);
+    }
+
+    @Test
+    public void displayName() {
+        Payload payload1 = makePayload();
+        assertEquals(payload1.getDisplayName(), "Payload");
+    }
+
+    @Test
+    public void displayableValue() {
+        Payload payload1 = makePayload();
+        assertEquals(payload1.getDisplayableValue(), "Payload 1");
+    }
+
+    @Test
+    public void identifiers() {
+        Payload payload1 = makePayload();
+        assertEquals(payload1.getIdentifiers().size(), 3);
+        assertTrue(payload1.getIdentifiers().contains(PayloadKey.Identifier));
+        assertTrue(payload1.getIdentifiers().contains(PayloadKey.PayloadType));
+        assertTrue(payload1.getIdentifiers().contains(PayloadKey.PayloadName));
+    }
+
+    @Test
+    public void fields() {
+        Payload payload1 = makePayload();
+        assertEquals(payload1.getField(PayloadKey.Identifier).getDisplayableValue(), "1");
+        assertEquals(payload1.getField(PayloadKey.PayloadType).getDisplayableValue(), "4");
+        assertEquals(
+                payload1.getField(PayloadKey.PayloadName).getDisplayableValue(), "Test Sensor");
+        assertNull(payload1.getField(PayloadKey.unknown));
+    }
+
+    @Test
+    public void invalidIdentifier() {
+        Payload payload1 = makePayload();
+        assertNull(payload1.getField(CountryCodeKey.CodingMethod));
     }
 }

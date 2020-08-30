@@ -1,10 +1,17 @@
 package org.jmisb.api.klv.st0903.vtracker;
 
 import java.util.ArrayList;
+import java.util.EnumSet;
 import java.util.List;
+import java.util.Set;
+import org.jmisb.api.klv.IKlvKey;
+import org.jmisb.api.klv.IKlvValue;
+import org.jmisb.api.klv.INestedKlvValue;
 import org.jmisb.api.klv.st0903.IVmtiMetadataValue;
 import org.jmisb.api.klv.st0903.shared.EncodingMode;
 import org.jmisb.api.klv.st0903.shared.IVTrackItemMetadataValue;
+import org.jmisb.api.klv.st0903.shared.LocVelAccPackKey;
+import org.jmisb.api.klv.st0903.shared.VmtiTextString;
 import org.jmisb.api.klv.st1201.FpEncoder;
 import org.jmisb.core.klv.ArrayUtils;
 import org.jmisb.core.klv.PrimitiveConverter;
@@ -20,7 +27,7 @@ import org.jmisb.core.klv.PrimitiveConverter;
  *
  * </blockquote>
  */
-public class Velocity implements IVmtiMetadataValue, IVTrackItemMetadataValue {
+public class Velocity implements IVmtiMetadataValue, IVTrackItemMetadataValue, INestedKlvValue {
     private static final int VELOCITY_GROUP_LEN = 6;
     private static final int STANDARD_DEVIATIONS_GROUP_LEN = 6;
     private static final int CORRELATION_GROUP_LEN = 6;
@@ -227,21 +234,17 @@ public class Velocity implements IVmtiMetadataValue, IVTrackItemMetadataValue {
     public byte[] getBytes() {
         int len = 0;
         List<byte[]> chunks = new ArrayList<>();
-        if ((value.getEast() != null) && (value.getNorth() != null) && (value.getUp() != null)) {
+        if (hasRequiredValues()) {
             chunks.add(VelocityEncoder.encode(value.getEast()));
             chunks.add(VelocityEncoder.encode(value.getNorth()));
             chunks.add(VelocityEncoder.encode(value.getUp()));
             len += VELOCITY_GROUP_LEN;
-            if ((value.getSigEast() != null)
-                    && (value.getSigNorth() != null)
-                    && (value.getSigUp() != null)) {
+            if (hasStandardDeviations()) {
                 chunks.add(SigmaEncoder.encode(value.getSigEast()));
                 chunks.add(SigmaEncoder.encode(value.getSigNorth()));
                 chunks.add(SigmaEncoder.encode(value.getSigUp()));
                 len += STANDARD_DEVIATIONS_GROUP_LEN;
-                if ((value.getRhoEastNorth() != null)
-                        && (value.getRhoEastUp() != null)
-                        && (value.getRhoNorthUp() != null)) {
+                if (hasCorrelations()) {
                     chunks.add(RhoEncoder.encode(value.getRhoEastNorth()));
                     chunks.add(RhoEncoder.encode(value.getRhoEastUp()));
                     chunks.add(RhoEncoder.encode(value.getRhoNorthUp()));
@@ -250,5 +253,75 @@ public class Velocity implements IVmtiMetadataValue, IVTrackItemMetadataValue {
             }
         }
         return ArrayUtils.arrayFromChunks(chunks, len);
+    }
+
+    private boolean hasRequiredValues() {
+        return (value.getEast() != null) && (value.getNorth() != null) && (value.getUp() != null);
+    }
+
+    private boolean hasCorrelations() {
+        return (value.getRhoEastNorth() != null)
+                && (value.getRhoEastUp() != null)
+                && (value.getRhoNorthUp() != null);
+    }
+
+    private boolean hasStandardDeviations() {
+        return (value.getSigEast() != null)
+                && (value.getSigNorth() != null)
+                && (value.getSigUp() != null);
+    }
+
+    @Override
+    public Set<? extends IKlvKey> getIdentifiers() {
+        Set<LocVelAccPackKey> keys = EnumSet.noneOf(LocVelAccPackKey.class);
+        if (hasRequiredValues()) {
+            keys.add(LocVelAccPackKey.east);
+            keys.add(LocVelAccPackKey.north);
+            keys.add(LocVelAccPackKey.up);
+            if (hasStandardDeviations()) {
+                keys.add(LocVelAccPackKey.sigEast);
+                keys.add(LocVelAccPackKey.sigNorth);
+                keys.add(LocVelAccPackKey.sigUp);
+                if (hasCorrelations()) {
+                    keys.add(LocVelAccPackKey.rhoEastNorth);
+                    keys.add(LocVelAccPackKey.rhoEastUp);
+                    keys.add(LocVelAccPackKey.rhoNorthUp);
+                }
+            }
+        }
+        return keys;
+    }
+
+    @Override
+    public IKlvValue getField(IKlvKey tag) {
+        LocVelAccPackKey key = (LocVelAccPackKey) tag;
+        switch (key) {
+            case east:
+                return new VmtiTextString("East", String.format("%.1fm/s", value.getEast()));
+            case north:
+                return new VmtiTextString("North", String.format("%.1fm/s", value.getNorth()));
+            case up:
+                return new VmtiTextString("Up", String.format("%.1fm/s", value.getUp()));
+            case sigEast:
+                return new VmtiTextString(
+                        "Standard Deviation East", String.format("%.1fm/s", value.getSigEast()));
+            case sigNorth:
+                return new VmtiTextString(
+                        "Standard Deviation North", String.format("%.1fm/s", value.getSigNorth()));
+            case sigUp:
+                return new VmtiTextString(
+                        "Standard Deviation Up", String.format("%.1fm/s", value.getSigUp()));
+            case rhoEastNorth:
+                return new VmtiTextString(
+                        "Cross Correlation East North",
+                        String.format("%.2f", value.getRhoEastNorth()));
+            case rhoEastUp:
+                return new VmtiTextString(
+                        "Cross Correlation East Up", String.format("%.2f", value.getRhoEastUp()));
+            case rhoNorthUp:
+                return new VmtiTextString(
+                        "Cross Correlation North Up", String.format("%.2f", value.getRhoNorthUp()));
+        }
+        return null;
     }
 }

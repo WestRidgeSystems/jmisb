@@ -1,11 +1,18 @@
 package org.jmisb.api.klv.st0903.vtarget;
 
 import java.util.ArrayList;
+import java.util.EnumSet;
 import java.util.List;
+import java.util.Set;
+import org.jmisb.api.klv.IKlvKey;
+import org.jmisb.api.klv.IKlvValue;
+import org.jmisb.api.klv.INestedKlvValue;
 import org.jmisb.api.klv.st0903.IVmtiMetadataValue;
 import org.jmisb.api.klv.st0903.shared.EncodingMode;
 import org.jmisb.api.klv.st0903.shared.IVTrackItemMetadataValue;
+import org.jmisb.api.klv.st0903.shared.LocVelAccPackKey;
 import org.jmisb.api.klv.st0903.shared.LocationPack;
+import org.jmisb.api.klv.st0903.shared.VmtiTextString;
 import org.jmisb.api.klv.st1201.FpEncoder;
 import org.jmisb.core.klv.ArrayUtils;
 import org.jmisb.core.klv.PrimitiveConverter;
@@ -28,7 +35,7 @@ import org.jmisb.core.klv.PrimitiveConverter;
  *
  * </blockquote>
  */
-public class TargetLocation implements IVmtiMetadataValue, IVTrackItemMetadataValue {
+public class TargetLocation implements IVmtiMetadataValue, IVTrackItemMetadataValue, INestedKlvValue {
 
     private LocationPack value;
     private static final int COORDINATES_GROUP_LEN = 10;
@@ -299,29 +306,23 @@ public class TargetLocation implements IVmtiMetadataValue, IVTrackItemMetadataVa
     public static byte[] serialiseLocationPack(LocationPack targetLocationPack) {
         int len = 0;
         List<byte[]> chunks = new ArrayList<>();
-        if ((targetLocationPack.getLat() != null)
-                && (targetLocationPack.getLon() != null)
-                && (targetLocationPack.getHae() != null)) {
+        if (hasRequiredValues(targetLocationPack)) {
             chunks.add(LatEncoder.encode(targetLocationPack.getLat()));
             chunks.add(LonEncoder.encode(targetLocationPack.getLon()));
             chunks.add(HaeEncoder.encode(targetLocationPack.getHae()));
             len += COORDINATES_GROUP_LEN;
-        }
-        if ((targetLocationPack.getSigEast() != null)
-                && (targetLocationPack.getSigNorth() != null)
-                && (targetLocationPack.getSigUp() != null)) {
-            chunks.add(SigmaEncoder.encode(targetLocationPack.getSigEast()));
-            chunks.add(SigmaEncoder.encode(targetLocationPack.getSigNorth()));
-            chunks.add(SigmaEncoder.encode(targetLocationPack.getSigUp()));
-            len += STANDARD_DEVIATIONS_GROUP_LEN;
-        }
-        if ((targetLocationPack.getRhoEastNorth() != null)
-                && (targetLocationPack.getRhoEastUp() != null)
-                && (targetLocationPack.getRhoNorthUp() != null)) {
-            chunks.add(RhoEncoder.encode(targetLocationPack.getRhoEastNorth()));
-            chunks.add(RhoEncoder.encode(targetLocationPack.getRhoEastUp()));
-            chunks.add(RhoEncoder.encode(targetLocationPack.getRhoNorthUp()));
-            len += CORRELATION_GROUP_LEN;
+            if (hasStandardDeviations(targetLocationPack)) {
+                chunks.add(SigmaEncoder.encode(targetLocationPack.getSigEast()));
+                chunks.add(SigmaEncoder.encode(targetLocationPack.getSigNorth()));
+                chunks.add(SigmaEncoder.encode(targetLocationPack.getSigUp()));
+                len += STANDARD_DEVIATIONS_GROUP_LEN;
+                if (hasCorrelations(targetLocationPack)) {
+                    chunks.add(RhoEncoder.encode(targetLocationPack.getRhoEastNorth()));
+                    chunks.add(RhoEncoder.encode(targetLocationPack.getRhoEastUp()));
+                    chunks.add(RhoEncoder.encode(targetLocationPack.getRhoNorthUp()));
+                    len += CORRELATION_GROUP_LEN;
+                }
+            }
         }
         return ArrayUtils.arrayFromChunks(chunks, len);
     }
@@ -343,5 +344,74 @@ public class TargetLocation implements IVmtiMetadataValue, IVTrackItemMetadataVa
      */
     public LocationPack getTargetLocation() {
         return value;
+    }
+
+    private static boolean hasRequiredValues(LocationPack value) {
+        return (value.getLat() != null) && (value.getLon() != null) && (value.getHae() != null);
+    }
+
+    private static boolean hasStandardDeviations(LocationPack value) {
+        return (value.getSigEast() != null)
+                && (value.getSigNorth() != null)
+                && (value.getSigUp() != null);
+    }
+
+    private static boolean hasCorrelations(LocationPack value) {
+        return (value.getRhoEastNorth() != null)
+                && (value.getRhoEastUp() != null)
+                && (value.getRhoNorthUp() != null);
+    }
+
+    @Override
+    public Set<? extends IKlvKey> getIdentifiers() {
+        Set<LocVelAccPackKey> keys = EnumSet.noneOf(LocVelAccPackKey.class);
+        if (hasRequiredValues(value)) {
+            keys.add(LocVelAccPackKey.east);
+            keys.add(LocVelAccPackKey.north);
+            keys.add(LocVelAccPackKey.up);
+            if (hasStandardDeviations(value)) {
+                keys.add(LocVelAccPackKey.sigEast);
+                keys.add(LocVelAccPackKey.sigNorth);
+                keys.add(LocVelAccPackKey.sigUp);
+                if (hasCorrelations(value)) {
+                    keys.add(LocVelAccPackKey.rhoEastNorth);
+                    keys.add(LocVelAccPackKey.rhoEastUp);
+                    keys.add(LocVelAccPackKey.rhoNorthUp);
+                }
+            }
+        }
+        return keys;
+    }
+
+    @Override
+    public IKlvValue getField(IKlvKey tag) {
+        switch ((LocVelAccPackKey) tag) {
+            case east:
+                return new VmtiTextString("Latitude", String.format("%.4f°", value.getLat()));
+            case north:
+                return new VmtiTextString("Longitude", String.format("%.4f°", value.getLon()));
+            case up:
+                return new VmtiTextString("HAE", String.format("%.1fm", value.getHae()));
+            case sigEast:
+                return new VmtiTextString(
+                        "Standard Deviation East", String.format("%.1fm", value.getSigEast()));
+            case sigNorth:
+                return new VmtiTextString(
+                        "Standard Deviation North", String.format("%.1fm", value.getSigNorth()));
+            case sigUp:
+                return new VmtiTextString(
+                        "Standard Deviation Up", String.format("%.1fm", value.getSigUp()));
+            case rhoEastNorth:
+                return new VmtiTextString(
+                        "Cross Correlation East North",
+                        String.format("%.2f", value.getRhoEastNorth()));
+            case rhoEastUp:
+                return new VmtiTextString(
+                        "Cross Correlation East Up", String.format("%.2f", value.getRhoEastUp()));
+            case rhoNorthUp:
+                return new VmtiTextString(
+                        "Cross Correlation North Up", String.format("%.2f", value.getRhoNorthUp()));
+        }
+        return null;
     }
 }

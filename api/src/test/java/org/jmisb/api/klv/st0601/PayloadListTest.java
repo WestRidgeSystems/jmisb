@@ -1,12 +1,14 @@
 package org.jmisb.api.klv.st0601;
 
 import static org.testng.Assert.assertEquals;
+import static org.testng.Assert.assertNull;
 import static org.testng.Assert.assertTrue;
 
 import java.util.ArrayList;
 import java.util.List;
 import org.jmisb.api.common.KlvParseException;
 import org.jmisb.api.klv.st0601.dto.Payload;
+import org.jmisb.api.klv.st0601.dto.PayloadKey;
 import org.testng.annotations.Test;
 
 public class PayloadListTest {
@@ -72,6 +74,19 @@ public class PayloadListTest {
         assertEquals(list.getBytes(), st_example_bytes);
         assertEquals(list.getDisplayableValue(), "[Payloads]");
         assertEquals(list.getDisplayName(), "Payload List");
+        assertEquals(list.getIdentifiers().size(), 3);
+        assertTrue(list.getIdentifiers().contains(new PayloadIdentifierKey(0)));
+        assertTrue(list.getIdentifiers().contains(new PayloadIdentifierKey(1)));
+        assertTrue(list.getIdentifiers().contains(new PayloadIdentifierKey(2)));
+        assertEquals(list.getField(new PayloadIdentifierKey(0)).getDisplayableValue(), "Payload 0");
+        assertEquals(list.getField(new PayloadIdentifierKey(1)).getDisplayableValue(), "Payload 1");
+        assertEquals(list.getField(new PayloadIdentifierKey(2)).getDisplayableValue(), "Payload 2");
+        assertNull(list.getField(new PayloadIdentifierKey(3)));
+        assertEquals(
+                ((Payload) list.getField(new PayloadIdentifierKey(1)))
+                        .getField(PayloadKey.PayloadName)
+                        .getDisplayableValue(),
+                "ACME VIS Model 123");
     }
 
     @Test(expectedExceptions = KlvParseException.class)

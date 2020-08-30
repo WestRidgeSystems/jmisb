@@ -9,6 +9,9 @@ import java.util.TreeMap;
 import org.jmisb.api.common.InvalidDataHandler;
 import org.jmisb.api.common.KlvParseException;
 import org.jmisb.api.klv.BerEncoder;
+import org.jmisb.api.klv.IKlvKey;
+import org.jmisb.api.klv.IKlvValue;
+import org.jmisb.api.klv.INestedKlvValue;
 import org.jmisb.api.klv.LdsField;
 import org.jmisb.api.klv.LdsParser;
 import org.jmisb.api.klv.st0903.IVmtiMetadataValue;
@@ -24,7 +27,7 @@ import org.slf4j.LoggerFactory;
  * <p>The Algorithm LS documents attributes of the algorithm used for detection and tracking of
  * targets.
  */
-public class AlgorithmLS {
+public class AlgorithmLS implements IKlvValue, INestedKlvValue {
 
     private static final Logger LOGGER = LoggerFactory.getLogger(AlgorithmLS.class);
 
@@ -136,5 +139,30 @@ public class AlgorithmLS {
             len += bytes.length;
         }
         return ArrayUtils.arrayFromChunks(chunks, len);
+    }
+
+    @Override
+    public IKlvValue getField(IKlvKey tag) {
+        return getField((AlgorithmMetadataKey) tag);
+    }
+
+    @Override
+    public Set<? extends IKlvKey> getIdentifiers() {
+        return getTags();
+    }
+
+    @Override
+    public String getDisplayName() {
+        return "Algorithm Local Set";
+    }
+
+    @Override
+    public String getDisplayableValue() {
+        if (map.containsKey(AlgorithmMetadataKey.id)) {
+            AlgorithmId id = (AlgorithmId) getField(AlgorithmMetadataKey.id);
+            return "Algorithm " + id.getDisplayableValue();
+        } else {
+            return "[Algorithm]";
+        }
     }
 }

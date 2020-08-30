@@ -11,6 +11,7 @@
     <description>Parent project for jMISB code examples</description>
     <packaging>pom</packaging>
     <modules>
+        <module>generator</module>
         <module>systemout</module>
     </modules>
 </project>
