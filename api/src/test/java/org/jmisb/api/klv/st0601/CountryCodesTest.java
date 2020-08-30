@@ -20,7 +20,7 @@ public class CountryCodesTest {
     }
 
     @Test
-    public void testFromBytes() {
+    public void testFromBytes() throws KlvParseException {
         CountryCodes countryCodes = new CountryCodes(ST_EXAMPLE_BYTES);
         checkExampleValues(countryCodes);
     }
@@ -58,7 +58,7 @@ public class CountryCodesTest {
     }
 
     @Test
-    public void testTruncatedBytesLast() {
+    public void testTruncatedBytesLast() throws KlvParseException {
         CountryCodes countryCodes =
                 new CountryCodes(new byte[] {0x01, 0x01, 0x02, 0x41, 0x55, 0x02, 0x55, 0x53});
         assertEquals(countryCodes.getDisplayName(), "Country Codes");
@@ -85,7 +85,7 @@ public class CountryCodesTest {
     }
 
     @Test
-    public void testTruncatedBytesBoth() {
+    public void testTruncatedBytesBoth() throws KlvParseException {
         CountryCodes countryCodes =
                 new CountryCodes(new byte[] {0x01, 0x0E, 0x03, 0x43, 0x41, 0x4E});
         assertEquals(countryCodes.getDisplayName(), "Country Codes");
@@ -128,5 +128,43 @@ public class CountryCodesTest {
                 "FRA");
         assertEquals(
                 countryCodes.getField(CountryCodeKey.OperatorCountry).getDisplayableValue(), "CAN");
+    }
+
+    @Test(expectedExceptions = KlvParseException.class)
+    public void fuzz1() throws KlvParseException {
+        new CountryCodes(
+                new byte[] {
+                    0x06, (byte) 0xb5, 0x01, 0x48, (byte) 0x8a, (byte) 0xa5, (byte) 0xc4, 0x70
+                });
+    }
+
+    @Test(expectedExceptions = KlvParseException.class)
+    public void fuzz2() throws KlvParseException {
+        new CountryCodes(new byte[] {0x1b});
+    }
+
+    @Test(expectedExceptions = KlvParseException.class)
+    public void truncatedBad1() throws KlvParseException {
+        new CountryCodes(new byte[] {0x01, 0x01, 0x02, 0x41, 0x55, 0x02, 0x55, 0x53, 0x02});
+    }
+
+    @Test(expectedExceptions = KlvParseException.class)
+    public void truncatedBad2() throws KlvParseException {
+        new CountryCodes(new byte[] {0x01, 0x01, 0x02, 0x41, 0x55, 0x02, 0x30});
+    }
+
+    @Test(expectedExceptions = KlvParseException.class)
+    public void truncatedBad3() throws KlvParseException {
+        new CountryCodes(new byte[] {0x01, 0x01, 0x02, 0x41});
+    }
+
+    @Test(expectedExceptions = KlvParseException.class)
+    public void truncatedBad4() throws KlvParseException {
+        new CountryCodes(new byte[] {0x01, 0x03, 0x30, 0x30, 0x30, 0x02});
+    }
+
+    @Test(expectedExceptions = KlvParseException.class)
+    public void truncatedBad5() throws KlvParseException {
+        new CountryCodes(new byte[] {0x01});
     }
 }

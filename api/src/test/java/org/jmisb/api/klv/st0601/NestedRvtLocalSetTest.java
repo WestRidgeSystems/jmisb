@@ -64,4 +64,37 @@ public class NestedRvtLocalSetTest {
         RvtLocalSet localSet = new RvtLocalSet(rvtData);
         return localSet;
     }
+
+    @Test(expectedExceptions = KlvParseException.class)
+    public void fuzz1() throws KlvParseException {
+        new NestedRvtLocalSet(
+                new byte[] {
+                    0x01,
+                    0x00,
+                    0x00,
+                    0x00,
+                    0x00,
+                    0x00,
+                    0x00,
+                    0x00,
+                    0x08,
+                    0x09,
+                    (byte) 0x85,
+                    (byte) 0xcd,
+                    0x0f,
+                    0x00,
+                    0x07,
+                    0x00,
+                    0x00,
+                    0x00,
+                    0x00,
+                    0x00,
+                    0x05,
+                    0x00,
+                    0x00,
+                    (byte) 0x9d,
+                    0x00,
+                    0x00
+                });
+    }
 }

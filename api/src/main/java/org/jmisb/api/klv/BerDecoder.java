@@ -18,7 +18,9 @@ public class BerDecoder {
         final int length, value;
 
         // logger.debug("First byte of BER: " + String.format("%02X ", data[offset]));
-
+        if (data.length <= offset) {
+            throw new IllegalArgumentException("Cannot read BER from beyond array limit");
+        }
         if (!isOid) {
             if ((data[offset] & 0x80) == 0) {
                 // BER Short Form. If the first bit of the BER is 0 then the BER is 1-byte and the
@@ -56,6 +58,9 @@ public class BerDecoder {
             int tag = 0;
             int i = 0;
             do {
+                if (offset + i >= data.length) {
+                    throw new IllegalArgumentException("BER-OID: out of bytes");
+                }
                 read = data[offset + i];
                 int highbits = (tag << 7);
                 int lowbits = (read & 0x7F);

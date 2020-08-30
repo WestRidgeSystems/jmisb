@@ -54,7 +54,7 @@ public class WavelengthsListTest {
     }
 
     @Test
-    public void testConstructFromEncoded() {
+    public void testConstructFromEncoded() throws KlvParseException {
         WavelengthsList wavelengthsList = new WavelengthsList(ST_EXAMPLE_BYTES);
         checkValuesForExample(wavelengthsList);
     }
@@ -82,7 +82,7 @@ public class WavelengthsListTest {
     }
 
     @Test
-    public void testConstructFromEncodedTwoEntries() {
+    public void testConstructFromEncodedTwoEntries() throws KlvParseException {
         WavelengthsList wavelengthsList = new WavelengthsList(TWO_ENTRY_BYTES);
         Assert.assertEquals(wavelengthsList.getWavelengthsList().size(), 2);
         Wavelengths wavelengths0 = wavelengthsList.getWavelengthsList().get(0);
@@ -99,5 +99,56 @@ public class WavelengthsListTest {
         Assert.assertEquals(wavelengths1.getName(), "BLUE");
         Assert.assertEquals(wavelengthsList.getBytes(), TWO_ENTRY_BYTES);
         Assert.assertEquals(wavelengthsList.getDisplayableValue(), "[Wavelengths]");
+    }
+
+    @Test(expectedExceptions = IllegalArgumentException.class)
+    public void fuzz1() throws KlvParseException {
+        WavelengthsList wavelengthsList =
+                new WavelengthsList(
+                        new byte[] {0x06, (byte) 0x97, (byte) 0x81, (byte) 0xf1, 0x29, 0x7b, 0x42});
+    }
+
+    @Test(expectedExceptions = KlvParseException.class)
+    public void fuzz2() throws KlvParseException {
+        new WavelengthsList(
+                new byte[] {
+                    0x18,
+                    (byte) 0x89,
+                    (byte) 0x91,
+                    0x04,
+                    (byte) 0x9e,
+                    (byte) 0x98,
+                    0x5f,
+                    (byte) 0x8b,
+                    (byte) 0xb9,
+                    0x35,
+                    (byte) 0x9e,
+                    0x6c,
+                    (byte) 0xe6,
+                    (byte) 0xac,
+                    0x50
+                });
+    }
+
+    @Test(expectedExceptions = IllegalArgumentException.class)
+    public void fuzz3() throws KlvParseException {
+        new WavelengthsList(new byte[] {0x56, (byte) 0x83, 0x42, (byte) 0xce});
+    }
+
+    @Test(expectedExceptions = KlvParseException.class)
+    public void fuzz4() throws KlvParseException {
+        new WavelengthsList(
+                new byte[] {
+                    0x00,
+                    0x76,
+                    (byte) 0xdb,
+                    0x22,
+                    (byte) 0xeb,
+                    0x19,
+                    0x37,
+                    0x15,
+                    (byte) 0xc1,
+                    (byte) 0xb4
+                });
     }
 }

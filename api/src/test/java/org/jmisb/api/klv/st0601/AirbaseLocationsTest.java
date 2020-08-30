@@ -279,6 +279,15 @@ public class AirbaseLocationsTest {
         new AirbaseLocations(takeoffByteArrayLength1);
     }
 
+    @Test
+    public void testNoTakeoffTruncated() {
+        // Invalid, but see https://github.com/WestRidgeSystems/jmisb/issues/220
+        byte[] takeoffByteArray = new byte[] {(byte) 0x00};
+        AirbaseLocations airbaseLocations = new AirbaseLocations(takeoffByteArray);
+        assertNull(airbaseLocations.getTakeoffLocation());
+        assertNull(airbaseLocations.getRecoveryLocation());
+    }
+
     @Test(expectedExceptions = IllegalArgumentException.class)
     public void badArrayLengthRecovery() {
         byte[] recoveryByteArrayLength1 =

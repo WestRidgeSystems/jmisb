@@ -26,7 +26,7 @@ public class GenericFlagData01Test {
     }
 
     @Test
-    public void testConstructFromEncoded() {
+    public void testConstructFromEncoded() throws KlvParseException {
         GenericFlagData01 flags = new GenericFlagData01(st_example_bytes);
         checkFlags(flags);
     }
@@ -76,7 +76,7 @@ public class GenericFlagData01Test {
     }
 
     @Test
-    public void testConstructFromEncodedAllOn() {
+    public void testConstructFromEncodedAllOn() throws KlvParseException {
         GenericFlagData01 flags = new GenericFlagData01(new byte[] {0x3f});
         checkFlagsAllOn(flags);
     }
@@ -111,7 +111,7 @@ public class GenericFlagData01Test {
     }
 
     @Test
-    public void testConstructFromEncodedAllOff() {
+    public void testConstructFromEncodedAllOff() throws KlvParseException {
         GenericFlagData01 flags = new GenericFlagData01(new byte[] {0x00});
         checkFlagsAllOff(flags);
     }
@@ -138,9 +138,14 @@ public class GenericFlagData01Test {
     }
 
     @Test
-    public void testNoKey() {
+    public void testNoKey() throws KlvParseException {
         GenericFlagData01 flags = new GenericFlagData01(new byte[] {0x00});
         IKlvKey noSuchKey = () -> 616;
         assertNull(flags.getField(noSuchKey));
+    }
+
+    @Test(expectedExceptions = KlvParseException.class)
+    public void fuzz1() throws KlvParseException {
+        new GenericFlagData01(new byte[] {});
     }
 }

@@ -165,4 +165,10 @@ public class CoreIdentifierTortureTest {
                         new byte[] {0x01, 0x02, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15});
         assertNull(coreIdentifier);
     }
+
+    @Test
+    public void badByteLengthUsage() {
+        CoreIdentifier coreIdentifier = CoreIdentifier.fromBytes(new byte[] {(byte) 0x81, 0x00});
+        assertNull(coreIdentifier);
+    }
 }

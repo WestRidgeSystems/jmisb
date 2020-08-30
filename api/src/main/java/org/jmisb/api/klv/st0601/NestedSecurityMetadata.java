@@ -41,7 +41,11 @@ public class NestedSecurityMetadata implements IUasDatalinkValue, INestedKlvValu
      * @throws KlvParseException if a parsing error occurs
      */
     public NestedSecurityMetadata(byte[] bytes) throws KlvParseException {
-        this.localSet = new SecurityMetadataLocalSet(bytes, false);
+        try {
+            this.localSet = new SecurityMetadataLocalSet(bytes, false);
+        } catch (IllegalArgumentException ex) {
+            throw new KlvParseException(ex.getMessage());
+        }
     }
 
     /**

@@ -81,7 +81,7 @@ public class WaypointListTest {
     }
 
     @Test
-    public void testConstructFromEncoded() {
+    public void testConstructFromEncoded() throws KlvParseException {
         WaypointList list = new WaypointList(st_example_bytes);
         checkWaypointList(list);
     }
@@ -133,5 +133,10 @@ public class WaypointListTest {
         Assert.assertEquals(list.getBytes(), st_example_bytes);
         Assert.assertEquals(list.getDisplayableValue(), "[Waypoint List]");
         Assert.assertEquals(list.getDisplayName(), "Waypoint List");
+    }
+
+    @Test(expectedExceptions = KlvParseException.class)
+    public void badLength() throws KlvParseException {
+        new WaypointList(new byte[] {0x01});
     }
 }

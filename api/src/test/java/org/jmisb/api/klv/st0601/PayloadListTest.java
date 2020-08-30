@@ -42,7 +42,7 @@ public class PayloadListTest {
     }
 
     @Test
-    public void testConstructFromEncoded() {
+    public void testConstructFromEncoded() throws KlvParseException {
         PayloadList list = new PayloadList(st_example_bytes);
         checkPayloadList(list);
     }
@@ -87,5 +87,10 @@ public class PayloadListTest {
                         .getField(PayloadKey.PayloadName)
                         .getDisplayableValue(),
                 "ACME VIS Model 123");
+    }
+
+    @Test(expectedExceptions = KlvParseException.class)
+    public void fuzz1() throws KlvParseException {
+        new PayloadList(new byte[] {0x6f, 0x4f, 0x5c, 0x05, 0x65, 0x32, 0x2e, (byte) 0xf4});
     }
 }

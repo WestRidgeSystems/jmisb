@@ -128,9 +128,15 @@ public class AirbaseLocations implements IUasDatalinkValue {
             // If we're out of length here, the pack is truncated.
             // That means recovery location == takeoff location.
             recoveryLocation = new Location();
-            recoveryLocation.setLatitude(takeoffLocation.getLatitude());
-            recoveryLocation.setLongitude(takeoffLocation.getLongitude());
-            recoveryLocation.setHAE(takeoffLocation.getHAE());
+            if (takeoffLocation == null) {
+                // This isn't valid, but see https://github.com/WestRidgeSystems/jmisb/issues/220
+                recoveryLocation = null;
+                recoveryLocationIsUnknown = true;
+            } else {
+                recoveryLocation.setLatitude(takeoffLocation.getLatitude());
+                recoveryLocation.setLongitude(takeoffLocation.getLongitude());
+                recoveryLocation.setHAE(takeoffLocation.getHAE());
+            }
         } else {
             BerField recoveryLenField = BerDecoder.decode(bytes, idx, false);
             idx += recoveryLenField.getLength();

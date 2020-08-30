@@ -104,6 +104,12 @@ public class CRC32MPEG2 {
      * @return true if expected checksum validates against data.
      */
     public static boolean verify(byte[] fullMessage, byte[] expected) {
+        if (fullMessage.length < 4) {
+            return false;
+        }
+        if (expected.length != 4) {
+            return false;
+        }
         CRC32MPEG2 crc32 = new CRC32MPEG2();
         crc32.update(fullMessage, fullMessage.length - 4);
         byte[] result = crc32.getCRC32();

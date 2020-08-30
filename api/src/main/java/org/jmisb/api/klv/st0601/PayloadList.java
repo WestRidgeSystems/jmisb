@@ -3,6 +3,7 @@ package org.jmisb.api.klv.st0601;
 import java.nio.charset.StandardCharsets;
 import java.util.ArrayList;
 import java.util.List;
+import org.jmisb.api.common.KlvParseException;
 import java.util.Set;
 import java.util.TreeSet;
 import org.jmisb.api.klv.Ber;
@@ -63,8 +64,9 @@ public class PayloadList implements IUasDatalinkValue, INestedKlvValue {
      * Create from encoded bytes.
      *
      * @param bytes The byte array containing the variable length pack.
+     * @throws KlvParseException if there is a problem during parsing
      */
-    public PayloadList(byte[] bytes) {
+    public PayloadList(byte[] bytes) throws KlvParseException {
         int offset = 0;
         BerField payloadCountField = BerDecoder.decode(bytes, offset, true);
         offset += payloadCountField.getLength();
@@ -77,6 +79,10 @@ public class PayloadList implements IUasDatalinkValue, INestedKlvValue {
             offset += typeField.getLength();
             BerField nameLengthField = BerDecoder.decode(bytes, offset, false);
             offset += nameLengthField.getLength();
+            if ((offset + nameLengthField.getValue()) > bytes.length) {
+                throw new KlvParseException(
+                        "Insufficient bytes available for specified string length");
+            }
             String name =
                     new String(bytes, offset, nameLengthField.getValue(), StandardCharsets.UTF_8);
             Payload payload = new Payload(idField.getValue(), typeField.getValue(), name);

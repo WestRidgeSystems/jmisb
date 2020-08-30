@@ -579,4 +579,20 @@ public class CRC32MPEG2Test {
                 CRC32MPEG2.verify(
                         bytes, new byte[] {(byte) 0xcd, (byte) 0xbc, (byte) 0x71, (byte) 0x45}));
     }
+
+    @Test
+    public void checkVerifyBadLengthExpected() {
+        assertFalse(
+                CRC32MPEG2.verify(
+                        new byte[] {(byte) 0xff, (byte) 0xff, (byte) 0xff, (byte) 0xff},
+                        new byte[] {(byte) 0xcd, (byte) 0xbc, (byte) 0x71}));
+    }
+
+    @Test
+    public void checkVerifyBadLengthInput() {
+        assertFalse(
+                CRC32MPEG2.verify(
+                        new byte[] {(byte) 0xff, (byte) 0xff, (byte) 0xff},
+                        new byte[] {(byte) 0x00, (byte) 0x00, (byte) 0x00, (byte) 0x00}));
+    }
 }

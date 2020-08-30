@@ -3,6 +3,7 @@ package org.jmisb.api.klv.st0601;
 import java.nio.charset.StandardCharsets;
 import java.util.ArrayList;
 import java.util.List;
+import org.jmisb.api.common.KlvParseException;
 import org.jmisb.api.klv.Ber;
 import org.jmisb.api.klv.BerDecoder;
 import org.jmisb.api.klv.BerEncoder;
@@ -47,8 +48,9 @@ public class WeaponsStores implements IUasDatalinkValue {
      * Create from encoded bytes.
      *
      * @param bytes WeaponStore list - byte array with Variable Length Pack encoding
+     * @throws KlvParseException if there is a problem parsing the encoded data
      */
-    public WeaponsStores(byte[] bytes) {
+    public WeaponsStores(byte[] bytes) throws KlvParseException {
         int idx = 0;
         while (idx < bytes.length) {
             BerField lengthField = BerDecoder.decode(bytes, idx, false);
@@ -79,6 +81,10 @@ public class WeaponsStores implements IUasDatalinkValue {
             BerField typeLengthField = BerDecoder.decode(bytes, idx, false);
             idx += typeLengthField.getLength();
             int typeLength = typeLengthField.getValue();
+            if ((idx + typeLength) > bytes.length) {
+                throw new KlvParseException(
+                        "Insufficient bytes available for specified string length");
+            }
             weaponStore.setStoreType(new String(bytes, idx, typeLength, StandardCharsets.UTF_8));
             idx += typeLength;
             weaponStores.add(weaponStore);
