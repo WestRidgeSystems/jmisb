@@ -35,7 +35,8 @@ import org.jmisb.core.klv.PrimitiveConverter;
  *
  * </blockquote>
  */
-public class TargetLocation implements IVmtiMetadataValue, IVTrackItemMetadataValue, INestedKlvValue {
+public class TargetLocation
+        implements IVmtiMetadataValue, IVTrackItemMetadataValue, INestedKlvValue {
 
     private LocationPack value;
     private static final int COORDINATES_GROUP_LEN = 10;

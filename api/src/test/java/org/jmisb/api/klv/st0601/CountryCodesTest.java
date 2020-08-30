@@ -104,7 +104,7 @@ public class CountryCodesTest {
     }
 
     @Test
-    public void testFromBytesNoOverflight() {
+    public void testFromBytesNoOverflight() throws KlvParseException {
         CountryCodes countryCodes =
                 new CountryCodes(
                         new byte[] {
