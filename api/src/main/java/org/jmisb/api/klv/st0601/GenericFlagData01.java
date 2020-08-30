@@ -4,6 +4,7 @@ import java.util.List;
 import java.util.Set;
 import java.util.SortedMap;
 import java.util.TreeMap;
+import org.jmisb.api.common.KlvParseException;
 import org.jmisb.api.klv.IKlvKey;
 import org.jmisb.api.klv.INestedKlvValue;
 
@@ -135,8 +136,12 @@ public class GenericFlagData01 implements IUasDatalinkValue, INestedKlvValue {
      * Create from encoded bytes.
      *
      * @param bytes array of single byte containing flag values.
+     * @throws KlvParseException if the argument is not a one-byte array
      */
-    public GenericFlagData01(byte[] bytes) {
+    public GenericFlagData01(byte[] bytes) throws KlvParseException {
+        if (bytes.length != 1) {
+            throw new KlvParseException("GenericFlagData01 encoding is a one byte array");
+        }
         byte flags = bytes[bytes.length - 1];
         if ((flags & 0x01) == 0x01) {
             map.put(
