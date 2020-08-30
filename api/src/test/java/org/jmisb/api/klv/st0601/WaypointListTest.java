@@ -134,4 +134,9 @@ public class WaypointListTest {
         Assert.assertEquals(list.getDisplayableValue(), "[Waypoint List]");
         Assert.assertEquals(list.getDisplayName(), "Waypoint List");
     }
+
+    @Test(expectedExceptions = KlvParseException.class)
+    public void badLength() throws KlvParseException {
+        new WaypointList(new byte[] {0x01});
+    }
 }
