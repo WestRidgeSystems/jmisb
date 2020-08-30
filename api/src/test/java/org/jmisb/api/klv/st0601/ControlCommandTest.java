@@ -74,7 +74,7 @@ public class ControlCommandTest {
     }
 
     @Test
-    public void testConstructFromEncoded() {
+    public void testConstructFromEncoded() throws KlvParseException {
         ControlCommand controlCommand = new ControlCommand(ST_EXAMPLE_BYTES);
         checkValuesForExample(controlCommand);
     }
@@ -163,5 +163,34 @@ public class ControlCommandTest {
                         + "0123456789012345678901234567";
 
         new ControlCommand(1, command128, 2);
+    }
+
+    @Test(expectedExceptions = KlvParseException.class)
+    public void fuzz1() throws KlvParseException {
+        new ControlCommand(
+                new byte[] {
+                    (byte) 0xde,
+                    0x35,
+                    0x5c,
+                    0x51,
+                    (byte) 0xb7,
+                    0x33,
+                    (byte) 0x97,
+                    (byte) 0xe3,
+                    (byte) 0xf5,
+                    (byte) 0xb1,
+                    0x40,
+                    0x26,
+                    (byte) 0x97,
+                    0x26,
+                    (byte) 0xa7,
+                    0x59,
+                    (byte) 0xfe,
+                    (byte) 0xbf,
+                    (byte) 0xdf,
+                    0x1e,
+                    (byte) 0xf3,
+                    (byte) 0x9d
+                });
     }
 }

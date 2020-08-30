@@ -3,6 +3,7 @@ package org.jmisb.api.klv.st0601;
 import java.nio.charset.StandardCharsets;
 import java.util.ArrayList;
 import java.util.List;
+import org.jmisb.api.common.KlvParseException;
 import org.jmisb.api.klv.Ber;
 import org.jmisb.api.klv.BerDecoder;
 import org.jmisb.api.klv.BerEncoder;
@@ -85,15 +86,20 @@ public class ControlCommand implements IUasDatalinkValue {
      * Create from encoded bytes.
      *
      * @param bytes encoded value
+     * @throws KlvParseException if there is a problem parsing the encoded data
      */
-    public ControlCommand(byte[] bytes) {
+    public ControlCommand(byte[] bytes) throws KlvParseException {
         int idx = 0;
         BerField idField = BerDecoder.decode(bytes, idx, true);
         idx += idField.getLength();
         id = idField.getValue();
         BerField commandLengthField = BerDecoder.decode(bytes, idx, false);
         idx += commandLengthField.getLength();
-        commandText = new String(bytes, idx, commandLengthField.getValue(), StandardCharsets.UTF_8);
+        int stringLength = commandLengthField.getValue();
+        if (idx + stringLength > bytes.length) {
+            throw new KlvParseException("Insufficient bytes available for specified string length");
+        }
+        commandText = new String(bytes, idx, stringLength, StandardCharsets.UTF_8);
         idx += commandLengthField.getValue();
         if (bytes.length > idx) {
             timestamp = PrimitiveConverter.toInt64(bytes, idx);
