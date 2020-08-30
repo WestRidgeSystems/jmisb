@@ -64,7 +64,6 @@ public class WaypointList implements IUasDatalinkValue {
      * @throws KlvParseException if there is a problem when parsing the structure
      */
     public WaypointList(byte[] bytes) throws KlvParseException {
-        System.out.println("WaypointList: " + ArrayUtils.toHexString(bytes, 16, true));
         int idx = 0;
         while (idx < bytes.length) {
             BerField wpLengthField = BerDecoder.decode(bytes, idx, false);
