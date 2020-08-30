@@ -65,7 +65,7 @@ public class MiisCoreIdentifierTest {
     }
 
     @Test
-    public void verifyFromBytes() {
+    public void verifyFromBytes() throws KlvParseException {
         // ST0601 example
         MiisCoreIdentifier identifier = new MiisCoreIdentifier(ST_EXAMPLE_BYTES);
         assertEquals(identifier.getDisplayableValue(), ST_EXAMPLE_TEXT);
@@ -102,5 +102,10 @@ public class MiisCoreIdentifierTest {
         assertEquals(identifier.getDisplayName(), "MIIS Core Identifier");
         assertNull(identifier.getBytes());
         assertNull(identifier.getCoreIdentifier());
+    }
+
+    @Test
+    public void fuzz1() throws KlvParseException {
+        new MiisCoreIdentifier(new byte[] {(byte) 0x9e, 0x2f});
     }
 }

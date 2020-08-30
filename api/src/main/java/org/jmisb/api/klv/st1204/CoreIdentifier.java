@@ -156,6 +156,10 @@ public class CoreIdentifier {
         BerField field = BerDecoder.decode(bytes, index, true);
         index += field.getLength();
         coreIdentifier.setVersion(field.getValue());
+        if (index >= bytes.length) {
+            LOGGER.error("Insufficient bytes to read MIIS Core Identifer usage");
+            return null;
+        }
         byte usage = bytes[index];
         index++;
         coreIdentifier.parseUsage(usage);
