@@ -93,6 +93,10 @@ public class CountryCodes implements IUasDatalinkValue {
 
         BerField codingMethodLengthField = BerDecoder.decode(bytes, idx, false);
         idx += codingMethodLengthField.getLength();
+        if (idx > bytes.length - 1) {
+            throw new KlvParseException(
+                    "Insufficient bytes available to extract country coding method");
+        }
         codingMethod =
                 CountryCodingMethodUtilities.getMethodForValue(
                         bytes[idx]); // This assumes codingMethod is the next byte

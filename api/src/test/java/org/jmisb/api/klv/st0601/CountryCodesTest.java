@@ -81,6 +81,11 @@ public class CountryCodesTest {
     }
 
     @Test(expectedExceptions = KlvParseException.class)
+    public void fuzz2() throws KlvParseException {
+        new CountryCodes(new byte[] {0x1b});
+    }
+
+    @Test(expectedExceptions = KlvParseException.class)
     public void truncatedBad1() throws KlvParseException {
         new CountryCodes(new byte[] {0x01, 0x01, 0x02, 0x41, 0x55, 0x02, 0x55, 0x53, 0x02});
     }
@@ -98,5 +103,10 @@ public class CountryCodesTest {
     @Test(expectedExceptions = KlvParseException.class)
     public void truncatedBad4() throws KlvParseException {
         new CountryCodes(new byte[] {0x01, 0x03, 0x30, 0x30, 0x30, 0x02});
+    }
+
+    @Test(expectedExceptions = KlvParseException.class)
+    public void truncatedBad5() throws KlvParseException {
+        new CountryCodes(new byte[] {0x01});
     }
 }
