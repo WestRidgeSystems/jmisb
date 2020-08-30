@@ -2,10 +2,15 @@ package org.jmisb.api.klv.st0601;
 
 import java.nio.charset.StandardCharsets;
 import java.util.ArrayList;
+import java.util.HashSet;
 import java.util.List;
+import java.util.Set;
 import org.jmisb.api.klv.BerDecoder;
 import org.jmisb.api.klv.BerEncoder;
 import org.jmisb.api.klv.BerField;
+import org.jmisb.api.klv.IKlvKey;
+import org.jmisb.api.klv.IKlvValue;
+import org.jmisb.api.klv.INestedKlvValue;
 import org.jmisb.api.klv.st0102.CountryCodingMethod;
 import org.jmisb.api.klv.st0102.CountryCodingMethodUtilities;
 import org.jmisb.core.klv.ArrayUtils;
@@ -52,8 +57,7 @@ import org.jmisb.core.klv.ArrayUtils;
  *
  * </blockquote>
  */
-// TODO: candidate for nested metadata
-public class CountryCodes implements IUasDatalinkValue {
+public class CountryCodes implements IUasDatalinkValue, INestedKlvValue {
     private final CountryCodingMethod codingMethod;
     private final String overflightCountry;
     private final String operatorCountry;
@@ -235,5 +239,38 @@ public class CountryCodes implements IUasDatalinkValue {
     @Override
     public final String getDisplayName() {
         return "Country Codes";
+    }
+
+    @Override
+    public Set<? extends IKlvKey> getIdentifiers() {
+        Set<CountryCodeKey> keys = new HashSet<>();
+        keys.add(CountryCodeKey.CodingMethod);
+
+        if (!(overflightCountry.isEmpty())) {
+            keys.add(CountryCodeKey.OverflightCountry);
+        }
+        if (!(operatorCountry.isEmpty())) {
+            keys.add(CountryCodeKey.OperatorCountry);
+        }
+        if (!(countryOfManufacture.isEmpty())) {
+            keys.add(CountryCodeKey.CountryOfManufacture);
+        }
+        return keys;
+    }
+
+    @Override
+    public IKlvValue getField(IKlvKey tag) {
+        CountryCodeKey key = (CountryCodeKey) tag;
+        switch (key) {
+            case CodingMethod:
+                return codingMethod;
+            case OverflightCountry:
+                return new UasDatalinkString("Overflight Country", overflightCountry);
+            case OperatorCountry:
+                return new UasDatalinkString("Operator Country", operatorCountry);
+            case CountryOfManufacture:
+                return new UasDatalinkString("Country of Manufacture", countryOfManufacture);
+        }
+        return null;
     }
 }

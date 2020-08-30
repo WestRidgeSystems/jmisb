@@ -5,6 +5,7 @@ import static org.testng.Assert.*;
 import org.jmisb.api.common.KlvParseException;
 import org.jmisb.api.klv.st0903.IVmtiMetadataValue;
 import org.jmisb.api.klv.st0903.shared.EncodingMode;
+import org.jmisb.api.klv.st0903.shared.LocVelAccPackKey;
 import org.testng.annotations.Test;
 
 /** Tests for Velocity (Tag 10) */
@@ -121,6 +122,14 @@ public class VelocityTest {
         assertEquals(velocity.getBytes(), velocityBytes);
         assertEquals(velocity.getDisplayName(), "Velocity");
         assertEquals(velocity.getDisplayableValue(), "[Velocity]");
+        assertEquals(velocity.getIdentifiers().size(), 3);
+        assertTrue(velocity.getIdentifiers().contains(LocVelAccPackKey.east));
+        assertTrue(velocity.getIdentifiers().contains(LocVelAccPackKey.north));
+        assertTrue(velocity.getIdentifiers().contains(LocVelAccPackKey.up));
+        assertEquals(velocity.getField(LocVelAccPackKey.east).getDisplayableValue(), "300.0m/s");
+        assertEquals(velocity.getField(LocVelAccPackKey.north).getDisplayableValue(), "200.0m/s");
+        assertEquals(velocity.getField(LocVelAccPackKey.up).getDisplayableValue(), "100.0m/s");
+        assertNull(velocity.getField(LocVelAccPackKey.unknown));
     }
 
     @Test
@@ -139,6 +148,21 @@ public class VelocityTest {
         assertEquals(velocity.getBytes(), velocityPlusSigmaBytes);
         assertEquals(velocity.getDisplayName(), "Velocity");
         assertEquals(velocity.getDisplayableValue(), "[Velocity]");
+        assertEquals(velocity.getIdentifiers().size(), 6);
+        assertTrue(velocity.getIdentifiers().contains(LocVelAccPackKey.east));
+        assertTrue(velocity.getIdentifiers().contains(LocVelAccPackKey.north));
+        assertTrue(velocity.getIdentifiers().contains(LocVelAccPackKey.up));
+        assertTrue(velocity.getIdentifiers().contains(LocVelAccPackKey.sigEast));
+        assertTrue(velocity.getIdentifiers().contains(LocVelAccPackKey.sigNorth));
+        assertTrue(velocity.getIdentifiers().contains(LocVelAccPackKey.sigUp));
+        assertEquals(velocity.getField(LocVelAccPackKey.east).getDisplayableValue(), "300.0m/s");
+        assertEquals(velocity.getField(LocVelAccPackKey.north).getDisplayableValue(), "200.0m/s");
+        assertEquals(velocity.getField(LocVelAccPackKey.up).getDisplayableValue(), "100.0m/s");
+        assertEquals(velocity.getField(LocVelAccPackKey.sigEast).getDisplayableValue(), "300.0m/s");
+        assertEquals(
+                velocity.getField(LocVelAccPackKey.sigNorth).getDisplayableValue(), "200.0m/s");
+        assertEquals(velocity.getField(LocVelAccPackKey.sigUp).getDisplayableValue(), "100.0m/s");
+        assertNull(velocity.getField(LocVelAccPackKey.unknown));
     }
 
     @Test
@@ -158,6 +182,28 @@ public class VelocityTest {
         assertEquals(velocity.getBytes(), velocityPlusSigmaAndRhoBytes);
         assertEquals(velocity.getDisplayName(), "Velocity");
         assertEquals(velocity.getDisplayableValue(), "[Velocity]");
+        assertEquals(velocity.getIdentifiers().size(), 9);
+        assertTrue(velocity.getIdentifiers().contains(LocVelAccPackKey.east));
+        assertTrue(velocity.getIdentifiers().contains(LocVelAccPackKey.north));
+        assertTrue(velocity.getIdentifiers().contains(LocVelAccPackKey.up));
+        assertTrue(velocity.getIdentifiers().contains(LocVelAccPackKey.sigEast));
+        assertTrue(velocity.getIdentifiers().contains(LocVelAccPackKey.sigNorth));
+        assertTrue(velocity.getIdentifiers().contains(LocVelAccPackKey.sigUp));
+        assertTrue(velocity.getIdentifiers().contains(LocVelAccPackKey.rhoEastNorth));
+        assertTrue(velocity.getIdentifiers().contains(LocVelAccPackKey.rhoEastUp));
+        assertTrue(velocity.getIdentifiers().contains(LocVelAccPackKey.rhoNorthUp));
+        assertEquals(velocity.getField(LocVelAccPackKey.east).getDisplayableValue(), "300.0m/s");
+        assertEquals(velocity.getField(LocVelAccPackKey.north).getDisplayableValue(), "200.0m/s");
+        assertEquals(velocity.getField(LocVelAccPackKey.up).getDisplayableValue(), "100.0m/s");
+        assertEquals(velocity.getField(LocVelAccPackKey.sigEast).getDisplayableValue(), "300.0m/s");
+        assertEquals(
+                velocity.getField(LocVelAccPackKey.sigNorth).getDisplayableValue(), "200.0m/s");
+        assertEquals(velocity.getField(LocVelAccPackKey.sigUp).getDisplayableValue(), "100.0m/s");
+        assertEquals(
+                velocity.getField(LocVelAccPackKey.rhoEastNorth).getDisplayableValue(), "0.75");
+        assertEquals(velocity.getField(LocVelAccPackKey.rhoEastUp).getDisplayableValue(), "0.50");
+        assertEquals(velocity.getField(LocVelAccPackKey.rhoNorthUp).getDisplayableValue(), "0.25");
+        assertNull(velocity.getField(LocVelAccPackKey.unknown));
     }
 
     @Test
@@ -405,6 +451,7 @@ public class VelocityTest {
         VelocityPack velPack = new VelocityPack(null, 29.157890122923, 32.0);
         Velocity velocity = new Velocity(velPack);
         assertEquals(velocity.getBytes().length, 0);
+        assertEquals(velocity.getIdentifiers().size(), 0);
     }
 
     @Test
@@ -412,6 +459,7 @@ public class VelocityTest {
         VelocityPack velPack = new VelocityPack(-10.5423886331461, null, 32.0);
         Velocity velocity = new Velocity(velPack);
         assertEquals(velocity.getBytes().length, 0);
+        assertEquals(velocity.getIdentifiers().size(), 0);
     }
 
     @Test
@@ -419,6 +467,7 @@ public class VelocityTest {
         VelocityPack velPack = new VelocityPack(-10.5423886331461, 29.157890122923, null);
         Velocity velocity = new Velocity(velPack);
         assertEquals(velocity.getBytes().length, 0);
+        assertEquals(velocity.getIdentifiers().size(), 0);
     }
 
     @Test

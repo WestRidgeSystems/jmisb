@@ -1,13 +1,19 @@
 package org.jmisb.api.klv.st0601.dto;
 
+import java.util.HashSet;
 import java.util.Objects;
+import java.util.Set;
+import org.jmisb.api.klv.IKlvKey;
+import org.jmisb.api.klv.IKlvValue;
+import org.jmisb.api.klv.INestedKlvValue;
+import org.jmisb.api.klv.st0601.UasDatalinkString;
 
 /**
  * Data transfer object for Payload.
  *
  * <p>This is used by Payload List (ST0601 Item 138).
  */
-public class Payload {
+public class Payload implements IKlvValue, INestedKlvValue {
     private int identifier;
     private int type;
     private String name;
@@ -126,5 +132,41 @@ public class Payload {
             return false;
         }
         return true;
+    }
+
+    @Override
+    public String getDisplayName() {
+        return "Payload";
+    }
+
+    @Override
+    public String getDisplayableValue() {
+        return "Payload " + identifier;
+    }
+
+    @Override
+    public IKlvValue getField(IKlvKey tag) {
+        if (tag instanceof PayloadKey) {
+            switch ((PayloadKey) tag) {
+                case Identifier:
+                    return new UasDatalinkString("Identifier", "" + identifier);
+                case PayloadType:
+                    return new UasDatalinkString("Type", "" + type);
+                case PayloadName:
+                    return new UasDatalinkString("Name", name);
+                default:
+                    return null;
+            }
+        }
+        return null;
+    }
+
+    @Override
+    public Set<? extends IKlvKey> getIdentifiers() {
+        Set<PayloadKey> identifiers = new HashSet<>();
+        identifiers.add(PayloadKey.Identifier);
+        identifiers.add(PayloadKey.PayloadType);
+        identifiers.add(PayloadKey.PayloadName);
+        return identifiers;
     }
 }

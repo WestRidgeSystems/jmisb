@@ -9,6 +9,9 @@ import java.util.TreeMap;
 import org.jmisb.api.common.InvalidDataHandler;
 import org.jmisb.api.common.KlvParseException;
 import org.jmisb.api.klv.BerEncoder;
+import org.jmisb.api.klv.IKlvKey;
+import org.jmisb.api.klv.IKlvValue;
+import org.jmisb.api.klv.INestedKlvValue;
 import org.jmisb.api.klv.LdsField;
 import org.jmisb.api.klv.LdsParser;
 import org.jmisb.api.klv.st0903.IVmtiMetadataValue;
@@ -32,7 +35,7 @@ import org.slf4j.LoggerFactory;
  *
  * </blockquote>
  */
-public class OntologyLS {
+public class OntologyLS implements IKlvValue, INestedKlvValue {
 
     private static final Logger LOGGER = LoggerFactory.getLogger(OntologyLS.class);
 
@@ -141,5 +144,30 @@ public class OntologyLS {
             len += bytes.length;
         }
         return ArrayUtils.arrayFromChunks(chunks, len);
+    }
+
+    @Override
+    public String getDisplayName() {
+        return "Ontology";
+    }
+
+    @Override
+    public String getDisplayableValue() {
+        if (map.containsKey(OntologyMetadataKey.id)) {
+            OntologyId id = (OntologyId) getField(OntologyMetadataKey.id);
+            return "Ontology " + id.getDisplayableValue();
+        } else {
+            return "[Ontology]";
+        }
+    }
+
+    @Override
+    public IKlvValue getField(IKlvKey tag) {
+        return getField((OntologyMetadataKey) tag);
+    }
+
+    @Override
+    public Set<? extends IKlvKey> getIdentifiers() {
+        return getTags();
     }
 }

@@ -5,6 +5,7 @@ import static org.testng.Assert.*;
 import org.jmisb.api.common.KlvParseException;
 import org.jmisb.api.klv.st0903.IVmtiMetadataValue;
 import org.jmisb.api.klv.st0903.shared.EncodingMode;
+import org.jmisb.api.klv.st0903.shared.LocVelAccPackKey;
 import org.jmisb.api.klv.st0903.shared.LocationPack;
 import org.testng.annotations.Test;
 
@@ -144,6 +145,10 @@ public class TargetLocationTest {
         assertEquals(location.getBytes(), coordinateBytes);
         assertEquals(location.getDisplayName(), "Target Location");
         assertEquals(location.getDisplayableValue(), "[Location]");
+        assertEquals(location.getIdentifiers().size(), 3);
+        assertTrue(location.getIdentifiers().contains(LocVelAccPackKey.east));
+        assertTrue(location.getIdentifiers().contains(LocVelAccPackKey.north));
+        assertTrue(location.getIdentifiers().contains(LocVelAccPackKey.up));
     }
 
     @Test
@@ -163,6 +168,13 @@ public class TargetLocationTest {
         assertEquals(location.getBytes(), coordinatePlusSigmaBytes);
         assertEquals(location.getDisplayName(), "Target Location");
         assertEquals(location.getDisplayableValue(), "[Location]");
+        assertEquals(location.getIdentifiers().size(), 6);
+        assertTrue(location.getIdentifiers().contains(LocVelAccPackKey.east));
+        assertTrue(location.getIdentifiers().contains(LocVelAccPackKey.north));
+        assertTrue(location.getIdentifiers().contains(LocVelAccPackKey.up));
+        assertTrue(location.getIdentifiers().contains(LocVelAccPackKey.sigEast));
+        assertTrue(location.getIdentifiers().contains(LocVelAccPackKey.sigNorth));
+        assertTrue(location.getIdentifiers().contains(LocVelAccPackKey.sigUp));
     }
 
     @Test
@@ -191,6 +203,27 @@ public class TargetLocationTest {
         assertEquals(location.getBytes(), coordinatePlusSigmaAndRhoBytes);
         assertEquals(location.getDisplayName(), "Target Location");
         assertEquals(location.getDisplayableValue(), "[Location]");
+        assertEquals(location.getIdentifiers().size(), 9);
+        assertTrue(location.getIdentifiers().contains(LocVelAccPackKey.east));
+        assertTrue(location.getIdentifiers().contains(LocVelAccPackKey.north));
+        assertTrue(location.getIdentifiers().contains(LocVelAccPackKey.up));
+        assertTrue(location.getIdentifiers().contains(LocVelAccPackKey.sigEast));
+        assertTrue(location.getIdentifiers().contains(LocVelAccPackKey.sigNorth));
+        assertTrue(location.getIdentifiers().contains(LocVelAccPackKey.sigUp));
+        assertTrue(location.getIdentifiers().contains(LocVelAccPackKey.rhoEastNorth));
+        assertTrue(location.getIdentifiers().contains(LocVelAccPackKey.rhoEastUp));
+        assertTrue(location.getIdentifiers().contains(LocVelAccPackKey.rhoNorthUp));
+        assertEquals(location.getField(LocVelAccPackKey.east).getDisplayableValue(), "-10.5424°");
+        assertEquals(location.getField(LocVelAccPackKey.north).getDisplayableValue(), "29.1579°");
+        assertEquals(location.getField(LocVelAccPackKey.up).getDisplayableValue(), "3216.0m");
+        assertEquals(location.getField(LocVelAccPackKey.sigEast).getDisplayableValue(), "0.1m");
+        assertEquals(location.getField(LocVelAccPackKey.sigNorth).getDisplayableValue(), "3.0m");
+        assertEquals(location.getField(LocVelAccPackKey.sigUp).getDisplayableValue(), "649.9m");
+        assertEquals(
+                location.getField(LocVelAccPackKey.rhoEastNorth).getDisplayableValue(), "-1.00");
+        assertEquals(location.getField(LocVelAccPackKey.rhoEastUp).getDisplayableValue(), "0.00");
+        assertEquals(location.getField(LocVelAccPackKey.rhoNorthUp).getDisplayableValue(), "0.50");
+        assertNull(location.getField(LocVelAccPackKey.unknown));
     }
 
     @Test
@@ -476,6 +509,7 @@ public class TargetLocationTest {
         LocationPack locPack = new LocationPack(null, 29.157890122923, 3216.0);
         TargetLocation location = new TargetLocation(locPack);
         assertEquals(location.getBytes().length, 0);
+        assertEquals(location.getIdentifiers().size(), 0);
     }
 
     @Test
@@ -483,6 +517,7 @@ public class TargetLocationTest {
         LocationPack locPack = new LocationPack(-10.5423886331461, null, 3216.0);
         TargetLocation location = new TargetLocation(locPack);
         assertEquals(location.getBytes().length, 0);
+        assertEquals(location.getIdentifiers().size(), 0);
     }
 
     @Test
@@ -490,6 +525,7 @@ public class TargetLocationTest {
         LocationPack locPack = new LocationPack(-10.5423886331461, 29.157890122923, null);
         TargetLocation location = new TargetLocation(locPack);
         assertEquals(location.getBytes().length, 0);
+        assertEquals(location.getIdentifiers().size(), 0);
     }
 
     @Test
@@ -498,6 +534,7 @@ public class TargetLocationTest {
                 new LocationPack(-10.5423886331461, 29.157890122923, 3216.0, null, 3.0, 649.9);
         TargetLocation location = new TargetLocation(locPack);
         assertEquals(location.getBytes().length, 10);
+        assertEquals(location.getIdentifiers().size(), 3);
     }
 
     @Test
@@ -506,6 +543,7 @@ public class TargetLocationTest {
                 new LocationPack(-10.5423886331461, 29.157890122923, 3216.0, 0.1, null, 649.9);
         TargetLocation location = new TargetLocation(locPack);
         assertEquals(location.getBytes().length, 10);
+        assertEquals(location.getIdentifiers().size(), 3);
     }
 
     @Test
@@ -514,6 +552,7 @@ public class TargetLocationTest {
                 new LocationPack(-10.5423886331461, 29.157890122923, 3216.0, 0.1, 3.0, null);
         TargetLocation location = new TargetLocation(locPack);
         assertEquals(location.getBytes().length, 10);
+        assertEquals(location.getIdentifiers().size(), 3);
     }
 
     @Test
@@ -531,6 +570,7 @@ public class TargetLocationTest {
                         0.5);
         TargetLocation location = new TargetLocation(locPack);
         assertEquals(location.getBytes().length, 16);
+        assertEquals(location.getIdentifiers().size(), 6);
     }
 
     @Test
@@ -548,6 +588,7 @@ public class TargetLocationTest {
                         0.5);
         TargetLocation location = new TargetLocation(locPack);
         assertEquals(location.getBytes().length, 16);
+        assertEquals(location.getIdentifiers().size(), 6);
     }
 
     @Test
@@ -565,5 +606,6 @@ public class TargetLocationTest {
                         null);
         TargetLocation location = new TargetLocation(locPack);
         assertEquals(location.getBytes().length, 16);
+        assertEquals(location.getIdentifiers().size(), 6);
     }
 }

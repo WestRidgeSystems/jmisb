@@ -1,9 +1,14 @@
 package org.jmisb.api.klv.st0903.vtarget;
 
+import java.util.Set;
 import org.jmisb.api.common.KlvParseException;
+import org.jmisb.api.klv.IKlvKey;
+import org.jmisb.api.klv.IKlvValue;
+import org.jmisb.api.klv.INestedKlvValue;
 import org.jmisb.api.klv.st0903.IVmtiMetadataValue;
 import org.jmisb.api.klv.st0903.shared.EncodingMode;
 import org.jmisb.api.klv.st0903.vtracker.VTrackerLS;
+import org.jmisb.api.klv.st0903.vtracker.VTrackerMetadataKey;
 
 /**
  * VTracker tracking information (ST0903 VTarget Pack Tag 104).
@@ -19,7 +24,7 @@ import org.jmisb.api.klv.st0903.vtracker.VTrackerLS;
  *
  * </blockquote>
  */
-public class VTracker implements IVmtiMetadataValue {
+public class VTracker implements IVmtiMetadataValue, INestedKlvValue {
     private final VTrackerLS value;
 
     /**
@@ -79,5 +84,15 @@ public class VTracker implements IVmtiMetadataValue {
      */
     public VTrackerLS getTracker() {
         return value;
+    }
+
+    @Override
+    public IKlvValue getField(IKlvKey tag) {
+        return value.getField((VTrackerMetadataKey) tag);
+    }
+
+    @Override
+    public Set<? extends IKlvKey> getIdentifiers() {
+        return value.getTags();
     }
 }

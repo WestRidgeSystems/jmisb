@@ -12,6 +12,7 @@ public class VTrackerMetadataKeyTest {
         VTrackerMetadataKey key = VTrackerMetadataKey.getKey(0);
         assertEquals(key, VTrackerMetadataKey.Undefined);
         assertEquals(key.getTag(), 0);
+        assertEquals(key.getIdentifier(), 0);
     }
 
     @Test
@@ -19,6 +20,7 @@ public class VTrackerMetadataKeyTest {
         VTrackerMetadataKey key = VTrackerMetadataKey.getKey(999);
         assertEquals(key, VTrackerMetadataKey.Undefined);
         assertEquals(key.getTag(), 0);
+        assertEquals(key.getIdentifier(), 0);
     }
 
     @Test
@@ -26,6 +28,7 @@ public class VTrackerMetadataKeyTest {
         VTrackerMetadataKey key = VTrackerMetadataKey.getKey(1);
         assertEquals(key, VTrackerMetadataKey.trackId);
         assertEquals(key.getTag(), 1);
+        assertEquals(key.getIdentifier(), 1);
     }
 
     @Test
@@ -33,5 +36,6 @@ public class VTrackerMetadataKeyTest {
         VTrackerMetadataKey key = VTrackerMetadataKey.getKey(12);
         assertEquals(key, VTrackerMetadataKey.algorithmId);
         assertEquals(key.getTag(), 12);
+        assertEquals(key.getIdentifier(), 12);
     }
 }
