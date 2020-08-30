@@ -3,6 +3,7 @@ package org.jmisb.api.klv.st0601;
 import java.nio.charset.StandardCharsets;
 import java.util.ArrayList;
 import java.util.List;
+import org.jmisb.api.common.KlvParseException;
 import org.jmisb.api.klv.BerDecoder;
 import org.jmisb.api.klv.BerEncoder;
 import org.jmisb.api.klv.BerField;
@@ -85,8 +86,9 @@ public class CountryCodes implements IUasDatalinkValue {
      * Create from encoded bytes.
      *
      * @param bytes encoded value
+     * @throws KlvParseException if there is a problem parsing the encoded data
      */
-    public CountryCodes(byte[] bytes) {
+    public CountryCodes(byte[] bytes) throws KlvParseException {
         int idx = 0;
 
         BerField codingMethodLengthField = BerDecoder.decode(bytes, idx, false);
@@ -98,6 +100,9 @@ public class CountryCodes implements IUasDatalinkValue {
 
         BerField overflightCountryLengthField = BerDecoder.decode(bytes, idx, false);
         idx += overflightCountryLengthField.getLength();
+        if ((idx + overflightCountryLengthField.getValue()) > bytes.length) {
+            throw new KlvParseException("Insufficient bytes available for specified string length");
+        }
         overflightCountry =
                 new String(
                         bytes,
@@ -114,6 +119,9 @@ public class CountryCodes implements IUasDatalinkValue {
 
         BerField operatorCountryLengthField = BerDecoder.decode(bytes, idx, false);
         idx += operatorCountryLengthField.getLength();
+        if ((idx + operatorCountryLengthField.getValue()) > bytes.length) {
+            throw new KlvParseException("Insufficient bytes available for specified string length");
+        }
         operatorCountry =
                 new String(
                         bytes, idx, operatorCountryLengthField.getValue(), StandardCharsets.UTF_8);
@@ -126,6 +134,9 @@ public class CountryCodes implements IUasDatalinkValue {
 
         BerField countryOfManufactureLengthField = BerDecoder.decode(bytes, idx, false);
         idx += countryOfManufactureLengthField.getLength();
+        if ((idx + countryOfManufactureLengthField.getValue()) > bytes.length) {
+            throw new KlvParseException("Insufficient bytes available for specified string length");
+        }
         countryOfManufacture =
                 new String(
                         bytes,
