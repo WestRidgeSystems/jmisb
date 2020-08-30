@@ -4,6 +4,7 @@ import java.io.ByteArrayOutputStream;
 import java.nio.charset.StandardCharsets;
 import java.util.ArrayList;
 import java.util.List;
+import org.jmisb.api.common.KlvParseException;
 import org.jmisb.api.klv.BerDecoder;
 import org.jmisb.api.klv.BerEncoder;
 import org.jmisb.api.klv.BerField;
@@ -73,8 +74,9 @@ public class WavelengthsList implements IUasDatalinkValue {
      * Create from encoded bytes.
      *
      * @param bytes The byte array containing the variable length pack.
+     * @throws KlvParseException if there is a problem during parsing
      */
-    public WavelengthsList(byte[] bytes) {
+    public WavelengthsList(byte[] bytes) throws KlvParseException {
         int offset = 0;
         while (offset < bytes.length) {
             Wavelengths wavelengths = new Wavelengths();
@@ -91,6 +93,10 @@ public class WavelengthsList implements IUasDatalinkValue {
             offset += IMAPB_BYTES;
             wavelengths.setMax(max);
             int nameLength = packLength - (2 * IMAPB_BYTES + idField.getLength());
+            if ((offset + nameLength) > bytes.length) {
+                throw new KlvParseException(
+                        "Insufficient bytes available for specified string length");
+            }
             String name = new String(bytes, offset, nameLength, StandardCharsets.UTF_8);
             wavelengths.setName(name);
             offset += nameLength;
