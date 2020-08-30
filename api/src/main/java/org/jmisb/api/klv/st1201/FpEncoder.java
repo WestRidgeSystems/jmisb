@@ -308,6 +308,10 @@ public class FpEncoder {
      * @throws IllegalArgumentException if the array is invalid
      */
     public double decode(byte[] bytes, int offset) throws IllegalArgumentException {
+        if (offset + fieldLength > bytes.length) {
+            throw new IllegalArgumentException(
+                    "Array length does not match offset and required field length");
+        }
         if ((bytes[offset] & 0x80) == 0x00) {
             return decodeAsNormalMappedValue(bytes, offset);
         } else if (bytes[offset] == (byte) 0x80) {
@@ -440,10 +444,6 @@ public class FpEncoder {
     private double decodeAsNormalMappedValue(byte[] bytes, int offset)
             throws IllegalArgumentException {
         double val = 0.0;
-        if (offset + fieldLength > bytes.length) {
-            throw new IllegalArgumentException(
-                    "Array length too short for specified offset and field length");
-        }
         ByteBuffer wrapped = ByteBuffer.wrap(bytes, offset, fieldLength);
         switch (fieldLength) {
             case 1:

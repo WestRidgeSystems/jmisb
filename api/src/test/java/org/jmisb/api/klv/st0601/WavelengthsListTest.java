@@ -129,5 +129,9 @@ public class WavelengthsListTest {
                     0x50
                 });
     }
-    //
+
+    @Test(expectedExceptions = IllegalArgumentException.class)
+    public void fuzz3() throws KlvParseException {
+        new WavelengthsList(new byte[] {0x56, (byte) 0x83, 0x42, (byte) 0xce});
+    }
 }
