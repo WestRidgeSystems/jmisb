@@ -134,4 +134,21 @@ public class WavelengthsListTest {
     public void fuzz3() throws KlvParseException {
         new WavelengthsList(new byte[] {0x56, (byte) 0x83, 0x42, (byte) 0xce});
     }
+
+    @Test(expectedExceptions = KlvParseException.class)
+    public void fuzz4() throws KlvParseException {
+        new WavelengthsList(
+                new byte[] {
+                    0x00,
+                    0x76,
+                    (byte) 0xdb,
+                    0x22,
+                    (byte) 0xeb,
+                    0x19,
+                    0x37,
+                    0x15,
+                    (byte) 0xc1,
+                    (byte) 0xb4
+                });
+    }
 }

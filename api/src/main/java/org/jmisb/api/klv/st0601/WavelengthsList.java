@@ -93,6 +93,9 @@ public class WavelengthsList implements IUasDatalinkValue {
             offset += IMAPB_BYTES;
             wavelengths.setMax(max);
             int nameLength = packLength - (2 * IMAPB_BYTES + idField.getLength());
+            if (nameLength < 0) {
+                throw new KlvParseException("Wavelengths Name length cannot be negative");
+            }
             if ((offset + nameLength) > bytes.length) {
                 throw new KlvParseException(
                         "Insufficient bytes available for specified string length");
