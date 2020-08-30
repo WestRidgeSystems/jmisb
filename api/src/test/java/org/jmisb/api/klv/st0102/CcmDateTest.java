@@ -38,4 +38,9 @@ public class CcmDateTest {
     public void testBadArrayLength() {
         new CcmDate(new byte[] {0x40});
     }
+
+    @Test(expectedExceptions = IllegalArgumentException.class)
+    public void testBadFormat() {
+        new CcmDate(new byte[] {0x2d, 0x2d, 0x2d, 0x2d, 0x2d, 0x30, 0x34, 0x2d, 0x32, 0x35});
+    }
 }

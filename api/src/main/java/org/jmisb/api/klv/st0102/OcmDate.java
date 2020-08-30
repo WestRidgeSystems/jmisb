@@ -4,6 +4,7 @@ import static java.time.format.DateTimeFormatter.ISO_LOCAL_DATE;
 
 import java.nio.charset.StandardCharsets;
 import java.time.LocalDate;
+import java.time.format.DateTimeParseException;
 
 /**
  * Object Country Coding Method Version Date (ST 0102 tag 24).
@@ -30,8 +31,9 @@ public class OcmDate implements ISecurityMetadataValue {
      * Construct OcmDate from encoded bytes.
      *
      * @param bytes byte array with encoded value for OcmDate (exactly 10 bytes, see ST0102)
+     * @throws IllegalArgumentException if the date could not be parsed
      */
-    public OcmDate(byte[] bytes) {
+    public OcmDate(byte[] bytes) throws IllegalArgumentException {
         if (bytes.length != 10) {
             throw new IllegalArgumentException(
                     "Object Country Coding Method Version Date must have the format YYYY-MM-DD");
@@ -39,7 +41,11 @@ public class OcmDate implements ISecurityMetadataValue {
 
         // TODO: can we avoid the string allocation?
         String dateString = new String(bytes, StandardCharsets.US_ASCII);
-        date = LocalDate.parse(dateString, ISO_LOCAL_DATE);
+        try {
+            date = LocalDate.parse(dateString, ISO_LOCAL_DATE);
+        } catch (DateTimeParseException ex) {
+            throw new IllegalArgumentException(ex.getMessage());
+        }
     }
 
     /**

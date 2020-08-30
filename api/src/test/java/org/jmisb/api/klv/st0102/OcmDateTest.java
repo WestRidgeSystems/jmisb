@@ -38,4 +38,9 @@ public class OcmDateTest {
     public void testBadArrayLength() {
         new OcmDate(new byte[] {0x01, 0x02, 0x04});
     }
+
+    @Test(expectedExceptions = IllegalArgumentException.class)
+    public void testBadFormat() {
+        new OcmDate(new byte[] {0x2d, 0x2d, 0x2d, 0x2d, 0x2d, 0x30, 0x34, 0x2d, 0x32, 0x35});
+    }
 }

@@ -14,7 +14,8 @@ public class UniversalSetFactory {
      * @return The new instance
      * @throws IllegalArgumentException if input is invalid
      */
-    public static ISecurityMetadataValue createValue(SecurityMetadataKey key, byte[] bytes) {
+    public static ISecurityMetadataValue createValue(SecurityMetadataKey key, byte[] bytes)
+            throws IllegalArgumentException {
         // Keep the case statements in enum ordinal order so we can keep track of what is
         // implemented. Mark all unimplemented tags with TODO.
         switch (key) {

@@ -74,4 +74,37 @@ public class NestedSecurityMetadataTest {
                 new SecurityMetadataLocalSet(securityKeyValuePairs);
         return securityMetadataLocalSet;
     }
+
+    @Test(expectedExceptions = KlvParseException.class)
+    public void fuzz1() throws KlvParseException {
+        new NestedSecurityMetadata(
+                new byte[] {
+                    0x00,
+                    0x00,
+                    0x17,
+                    0x0a,
+                    (byte) 0x9b,
+                    (byte) 0xc7,
+                    (byte) 0x95,
+                    (byte) 0xb6,
+                    0x78,
+                    (byte) 0xe7,
+                    0x00,
+                    0x00,
+                    0x00,
+                    0x00,
+                    0x07,
+                    0x00,
+                    0x00,
+                    0x00,
+                    0x00,
+                    0x00,
+                    0x00,
+                    0x00,
+                    0x00,
+                    0x00,
+                    0x00,
+                    0x00
+                });
+    }
 }

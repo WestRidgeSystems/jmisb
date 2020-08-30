@@ -4,6 +4,7 @@ import static java.time.format.DateTimeFormatter.ISO_LOCAL_DATE;
 
 import java.nio.charset.StandardCharsets;
 import java.time.LocalDate;
+import java.time.format.DateTimeParseException;
 
 /**
  * Classifying Country and Releasing Instructions Country Coding Method Version Date (ST 0102 tag
@@ -33,8 +34,9 @@ public class CcmDate implements ISecurityMetadataValue {
      * Construct CcmDate from encoded bytes.
      *
      * @param bytes byte array with encoded value for CcmDate.
+     * @throws IllegalArgumentException if the date could not be parsed
      */
-    public CcmDate(byte[] bytes) {
+    public CcmDate(byte[] bytes) throws IllegalArgumentException {
         if (bytes.length != 10) {
             throw new IllegalArgumentException(
                     "Classifying Country Coding Method Version Date must have the format YYYY-MM-DD");
@@ -42,7 +44,11 @@ public class CcmDate implements ISecurityMetadataValue {
 
         // TODO: can we avoid the string allocation?
         String dateString = new String(bytes, StandardCharsets.US_ASCII);
-        date = LocalDate.parse(dateString, ISO_LOCAL_DATE);
+        try {
+            date = LocalDate.parse(dateString, ISO_LOCAL_DATE);
+        } catch (DateTimeParseException ex) {
+            throw new IllegalArgumentException(ex.getMessage());
+        }
     }
 
     /**
