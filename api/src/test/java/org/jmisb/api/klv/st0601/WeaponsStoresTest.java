@@ -109,7 +109,7 @@ public class WeaponsStoresTest {
     }
 
     @Test
-    public void testConstructFromEncoded() {
+    public void testConstructFromEncoded() throws KlvParseException {
         WeaponsStores weaponsStores = new WeaponsStores(ST_EXAMPLE_BYTES);
         checkValuesForExample(weaponsStores);
     }
@@ -167,7 +167,7 @@ public class WeaponsStoresTest {
     }
 
     @Test
-    public void testConstructFromEncodedEngagementTwoFlags() {
+    public void testConstructFromEncodedEngagementTwoFlags() throws KlvParseException {
         WeaponsStores weaponsStores =
                 new WeaponsStores(
                         new byte[] {
@@ -222,7 +222,7 @@ public class WeaponsStoresTest {
     }
 
     @Test
-    public void testConstructFromEncodedEngagementNoFlags() {
+    public void testConstructFromEncodedEngagementNoFlags() throws KlvParseException {
         // This checks that the "short form" status encoding works.
         WeaponsStores weaponsStores =
                 new WeaponsStores(
@@ -272,6 +272,25 @@ public class WeaponsStoresTest {
                     (byte) 0x6F,
                     (byte) 0x6F,
                     (byte) 0x6E
+                });
+    }
+
+    @Test(expectedExceptions = KlvParseException.class)
+    public void fuzz1() throws KlvParseException {
+        new WeaponsStores(
+                new byte[] {
+                    0x55,
+                    0x72,
+                    0x01,
+                    0x71,
+                    (byte) 0xe8,
+                    0x72,
+                    0x02,
+                    0x30,
+                    (byte) 0xce,
+                    0x1e,
+                    (byte) 0x86,
+                    (byte) 0xf7
                 });
     }
 }
