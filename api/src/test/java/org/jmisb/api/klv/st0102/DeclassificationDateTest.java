@@ -36,4 +36,12 @@ public class DeclassificationDateTest {
     public void testBadArrayLength() {
         new DeclassificationDate(new byte[] {0x01, 0x02, 0x03});
     }
+
+    @Test(expectedExceptions = IllegalArgumentException.class)
+    public void fuzz1() {
+        new DeclassificationDate(
+                new byte[] {
+                    (byte) 0xc0, (byte) 0xfe, 0x15, 0x52, (byte) 0xbc, 0x66, (byte) 0xb0, 0x06
+                });
+    }
 }
