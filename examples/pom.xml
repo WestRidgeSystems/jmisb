@@ -13,5 +13,6 @@
     <modules>
         <module>generator</module>
         <module>systemout</module>
+        <module>movingfeatures</module>
     </modules>
 </project>
