@@ -49,4 +49,13 @@ public class TrackIdTest {
         Assert.assertEquals(id.getDisplayableValue(), "F81D-4FAE-7DEC-11D0-A765-00A0-C91E-6BF6");
         Assert.assertEquals(id.getUUID(), UUID.fromString("F81D4FAE-7DEC-11D0-A765-00A0C91E6BF6"));
     }
+
+    @Test(expectedExceptions = KlvParseException.class)
+    public void testTooShort() throws KlvParseException {
+        new TrackId(
+                new byte[] {
+                    0x01, 0x02, 0x03, 0x04, 0x05, 0x06, 0x07, 0x08, 0x09, 0x0a, 0x0b, 0x0c, 0x0d,
+                    0x0e
+                });
+    }
 }

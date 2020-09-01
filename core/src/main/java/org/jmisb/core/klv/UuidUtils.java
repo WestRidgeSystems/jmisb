@@ -57,6 +57,9 @@ public class UuidUtils {
      * @return UUID
      */
     public static UUID arrayToUuid(byte[] bytes, int index) {
+        if (index + 16 > bytes.length) {
+            throw new IllegalArgumentException("Too few bytes available to read UUID");
+        }
         ByteBuffer bb = ByteBuffer.wrap(bytes, index, 16);
         return new UUID(bb.getLong(), bb.getLong());
     }
