@@ -11,3 +11,15 @@ enumeration GISensorType {
     03 = SIGINT {Signal Intelligence Sensor};
     04 = SAR {Synthetic Aperture Radar Sensor};
 }
+enumeration PositionMethod {
+    Document = ST1906;
+    00 = INS {On-board Inertial Navigation System};
+    01 = NAVSAT_GPS {GPS - U.S.};
+    02 = NAVSAT_GALIEO {Galileo - E.U.};
+    03 = NAVSAT_QZSS {QZSS - Japan};
+    04 = NAVSAT_NAVIC {NAVIC - India};
+    05 = NAVSAT_GLONASS {GLONASS - Russia};
+    06 = NAVSAT_BEIDOU_1 {BeiDou-1 - China};
+    07 = NAVSAT_BEIDOU_2 {BeiDou-2 - China};
+    08 = FIXED {Fixed point on earth};
+}

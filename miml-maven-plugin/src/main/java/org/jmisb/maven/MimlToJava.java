@@ -32,13 +32,13 @@ public class MimlToJava extends AbstractMojo {
             required = true)
     private File outputDirectory;
 
-    @Parameter(defaultValue = "org.jmisb.api.klv.st190x", property = "packageName", required = true)
-    private String packageName;
+    @Parameter(defaultValue = "org.jmisb.api.klv", property = "packageNameBase", required = true)
+    private String packageNameBase;
 
     @Parameter(defaultValue = "${project}")
     private MavenProject project;
 
-    private File sourceDirectory;
+    private File generatedSourceDirectory;
 
     private Configuration cfg;
 
@@ -60,9 +60,9 @@ public class MimlToJava extends AbstractMojo {
     }
 
     private void createOutputDirectories() {
-        String packagePath = packageName.replace('.', '/');
-        sourceDirectory = new File(outputDirectory, packagePath);
-        sourceDirectory.mkdirs();
+        String packagePath = packageNameBase.replace('.', '/');
+        generatedSourceDirectory = new File(outputDirectory, packagePath);
+        generatedSourceDirectory.mkdirs();
     }
 
     private void processMimlFile(File inFile) {
@@ -115,7 +115,7 @@ public class MimlToJava extends AbstractMojo {
     private void processEnumerationBlock(MimlTextBlock textBlock) {
         List<String> lines = textBlock.getText();
         EnumerationModel enumeration = new EnumerationModel();
-        enumeration.setPackagename(packageName);
+        enumeration.setPackageNameBase(packageNameBase);
         for (String line : lines) {
             if (line.equals("}")) {
                 break;
@@ -170,7 +170,10 @@ public class MimlToJava extends AbstractMojo {
     private void generateEnumeration(EnumerationModel enumeration) {
         try {
             Template temp = cfg.getTemplate("enumeration.ftl");
-            File enumerationFile = new File(sourceDirectory, enumeration.getName() + ".java");
+            String packagePart = enumeration.getDocument().toLowerCase() + "/";
+            File targetDirectory = new File(generatedSourceDirectory, packagePart);
+            targetDirectory.mkdirs();
+            File enumerationFile = new File(targetDirectory, enumeration.getName() + ".java");
             Writer out = new FileWriter(enumerationFile);
             temp.process(enumeration, out);
         } catch (TemplateException | IOException ex) {

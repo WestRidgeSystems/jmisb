@@ -4,17 +4,17 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class EnumerationModel {
-    private String packagename;
+    private String packageNameBase;
     private String name;
     private String document;
     private List<EnumerationModelEntry> entries = new ArrayList<>();
 
     public String getPackagename() {
-        return packagename;
+        return packageNameBase + "." + document.toLowerCase();
     }
 
-    public void setPackagename(String packagename) {
-        this.packagename = packagename;
+    public void setPackageNameBase(String packageNameBase) {
+        this.packageNameBase = packageNameBase;
     }
 
     public String getName() {
