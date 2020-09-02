@@ -151,6 +151,18 @@
                 <artifactId>jqf-maven-plugin</artifactId>
                 <version>1.5</version>
             </plugin>
+            <plugin>
+                <groupId>org.jmisb.maven</groupId>
+                <artifactId>miml-maven-plugin</artifactId>
+                <version>${project.version}</version>
+                <executions>
+                    <execution>
+                        <goals>
+                            <goal>generate</goal>
+                        </goals>
+                    </execution>
+                </executions>
+            </plugin>
         </plugins>
     </build>
 

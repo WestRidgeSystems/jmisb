@@ -1,0 +1,13 @@
+enumeration PowerStatus {
+    Document = ST1907;
+    00 = Off {The device is powered off};
+    01 = On {The device is powered on};
+}
+enumeration GISensorType {
+    Document = ST1907;
+    00 = EO {Electro Optical Sensor};
+    01 = LIDAR {LIDAR Sensor};
+    02 = RADAR {RADAR Sensor};
+    03 = SIGINT {Signal Intelligence Sensor};
+    04 = SAR {Synthetic Aperture Radar Sensor};
+}
