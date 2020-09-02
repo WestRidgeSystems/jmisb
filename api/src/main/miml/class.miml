@@ -1,0 +1,38 @@
+MIML_Grammar=3.0;
+class MIMD includes Base {
+    Document = ST1903;
+    33_version : String (6) {None};
+    34_compositeProductSecurity : REF<Security> {None};
+    35_compositeMotionImagerySecurity : REF<Security> {None};
+    36_compositeAudioSecurity : REF<Security> {None};
+    37_compositeMetadataSecurity : REF<Security> {None};
+    38_timers : LIST<Timer> (1, *) {None};
+    39_platforms : LIST<Platform> {None};
+    40_securityOptions : LIST<Security> (1, *) {None};
+}
+class Timer includes Base {
+    Document = ST1903;
+    33_nanoPrecisionTimestamp : UInt {ns};
+    34_utcLeapSeconds : Integer {s};
+    35_timeTransferMethod : TimeTransferMethod {None};
+    36_correctionMethod : CorrectionMethod {None};
+    37_referenceSource : ReferenceSource {None};
+    38_syncPulseFreq : Real (0.0) { Hz};
+    39_unlockTime : UInt { ns};
+    40_lastSyncDiff : UInt { ns};
+    41_driftRate : UInt {ns/s};
+    42_signalSourceDelay : Real (0.0) { ns};
+    43_source : REF<Stage> {None};
+    44_correctionOffset : Integer { ns};
+}
+class Security includes Base {
+    Document = ST1903;
+    33_classifyingMethod : String (100) {None};
+    34_classification : String (500) {None};
+}
+class DetectorFilter includes Base {
+    Document = ST1908;
+    33_wavelengths : Real[][2](0.0, 1000.0, 1.00E-06) { μm};
+    34_peakTransmission : Real[] (0.0, 100.0, 0.1) {%};
+    35_pattern : UInt[][] {None};
+}

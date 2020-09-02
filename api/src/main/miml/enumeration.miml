@@ -1,3 +1,23 @@
+enumeration PositionMethod {
+    Document = ST1906;
+    00 = INS {On-board Inertial Navigation System};
+    01 = NAVSAT_GPS {GPS - U.S.};
+    02 = NAVSAT_GALILEO {Galileo - E.U.};
+    03 = NAVSAT_QZSS {QZSS - Japan};
+    04 = NAVSAT_NAVIC {NAVIC - India};
+    05 = NAVSAT_GLONASS {GLONASS - Russia};
+    06 = NAVSAT_BEIDOU_1 {BeiDou-1 - China};
+    07 = NAVSAT_BEIDOU_2 {BeiDou-2 - China};
+    08 = FIXED {Fixed point on earth};
+}
+enumeration DeviceStatus {
+    Document = ST1907;
+    00 = Nominal {The device is in a nominal state};
+    01 = Error {The device is reporting an error};
+    02 = Over_Temperature {The device is over its maximum temperature};
+    03 = Under_Temperature {The device is under its minimum specified temperature};
+    04 = Stowed {The device is oriented in a manner that protects it or is in another temporary non-functioning state };
+}
 enumeration PowerStatus {
     Document = ST1907;
     00 = Off {The device is powered off};
@@ -10,16 +30,4 @@ enumeration GISensorType {
     02 = RADAR {RADAR Sensor};
     03 = SIGINT {Signal Intelligence Sensor};
     04 = SAR {Synthetic Aperture Radar Sensor};
-}
-enumeration PositionMethod {
-    Document = ST1906;
-    00 = INS {On-board Inertial Navigation System};
-    01 = NAVSAT_GPS {GPS - U.S.};
-    02 = NAVSAT_GALIEO {Galileo - E.U.};
-    03 = NAVSAT_QZSS {QZSS - Japan};
-    04 = NAVSAT_NAVIC {NAVIC - India};
-    05 = NAVSAT_GLONASS {GLONASS - Russia};
-    06 = NAVSAT_BEIDOU_1 {BeiDou-1 - China};
-    07 = NAVSAT_BEIDOU_2 {BeiDou-2 - China};
-    08 = FIXED {Fixed point on earth};
 }

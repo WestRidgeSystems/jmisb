@@ -59,6 +59,6 @@ public enum ${name} implements IMimdMetadataValue {
 
     @Override
     public String getDisplayableValue() {
-        return definition + " (" + identifier + ")";
+        return definition;
     }
 }

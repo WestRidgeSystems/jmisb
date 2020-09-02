@@ -32,6 +32,12 @@ public class MimlToJava extends AbstractMojo {
             required = true)
     private File outputDirectory;
 
+    @Parameter(
+            defaultValue = "${project.build.directory}/generated-test-sources/miml",
+            property = "outputTestDir",
+            required = true)
+    private File outputTestDirectory;
+
     @Parameter(defaultValue = "org.jmisb.api.klv", property = "packageNameBase", required = true)
     private String packageNameBase;
 
@@ -39,6 +45,7 @@ public class MimlToJava extends AbstractMojo {
     private MavenProject project;
 
     private File generatedSourceDirectory;
+    private File generatedTestDirectory;
 
     private Configuration cfg;
 
@@ -48,6 +55,7 @@ public class MimlToJava extends AbstractMojo {
         setupTemplateEngine();
         processFiles();
         project.addCompileSourceRoot(outputDirectory.getPath());
+        project.addTestCompileSourceRoot(outputTestDirectory.getPath());
     }
 
     private void processFiles() {
@@ -63,6 +71,8 @@ public class MimlToJava extends AbstractMojo {
         String packagePath = packageNameBase.replace('.', '/');
         generatedSourceDirectory = new File(outputDirectory, packagePath);
         generatedSourceDirectory.mkdirs();
+        generatedTestDirectory = new File(outputTestDirectory, packagePath);
+        generatedTestDirectory.mkdirs();
     }
 
     private void processMimlFile(File inFile) {
@@ -100,6 +110,9 @@ public class MimlToJava extends AbstractMojo {
     private void processBlock(MimlTextBlock textBlock) {
         List<String> lines = textBlock.getText();
         for (String line : lines) {
+            if (line.startsWith("MIML_Grammar")) {
+                continue;
+            }
             if (line.startsWith("enumeration")) {
                 processEnumerationBlock(textBlock);
                 break;
@@ -134,12 +147,31 @@ public class MimlToJava extends AbstractMojo {
             }
         }
         generateEnumeration(enumeration);
+        generateEnumerationTests(enumeration);
     }
 
     private void processClassBlock(MimlTextBlock textBlock) {
-        throw new UnsupportedOperationException(
-                "Not supported yet."); // To change body of generated methods, choose Tools |
-        // Templates.
+        List<String> lines = textBlock.getText();
+        ClassModel classModel = new ClassModel();
+        classModel.setPackageNameBase(packageNameBase);
+        for (String line : lines) {
+            if (line.equals("}")) {
+                break;
+            }
+            if (line.startsWith("class")) {
+                classModel.parseClassLine(line);
+                continue;
+            }
+            if (line.startsWith("Document")) {
+                classModel.setDocument(parseDocumentName(line));
+                continue;
+            }
+            if (line.contains(" : ")) {
+                classModel.addEntry(parseClassEntry(line));
+                continue;
+            }
+        }
+        generateClasses(classModel);
     }
 
     private String parseEnumerationName(String line) {
@@ -167,6 +199,33 @@ public class MimlToJava extends AbstractMojo {
         return entry;
     }
 
+    private ClassModelEntry parseClassEntry(String line) {
+        ClassModelEntry entry = new ClassModelEntry();
+        String[] partsEquals = line.split(" : ");
+        String idAndNamePart = partsEquals[0];
+        String[] idAndNameParts = idAndNamePart.split("_");
+        String idAsString = idAndNameParts[0].trim();
+        int id = Integer.parseInt(idAsString);
+        entry.setNumber(id);
+        String name = idAndNameParts[1].trim();
+        entry.setName(name);
+        String typePart = partsEquals[1];
+        String[] partsBracket = typePart.split("\\{");
+        String[] unitsSplit = partsBracket[1].split("}");
+        // TODO: there is a case where this can be "<units>, DEPRECATED"
+        entry.setUnits(unitsSplit[0].trim());
+        String[] typeSplit = partsBracket[0].split("\\(");
+        String typeName = typeSplit[0].trim();
+        entry.setTypeName(typeName);
+        if (typeSplit.length > 1) {
+            String typeModifiers = typeSplit[1].replace(")", "").trim();
+            // getLog().info(typeModifiers.toString());
+            parseTypeModifierPartsToEntry(entry, typeModifiers);
+        }
+        // getLog().info(entry.toString());
+        return entry;
+    }
+
     private void generateEnumeration(EnumerationModel enumeration) {
         try {
             Template temp = cfg.getTemplate("enumeration.ftl");
@@ -181,6 +240,59 @@ public class MimlToJava extends AbstractMojo {
         }
     }
 
+    private void generateEnumerationTests(EnumerationModel enumeration) {
+        try {
+            Template temp = cfg.getTemplate("enumerationTest.ftl");
+            String packagePart = enumeration.getDocument().toLowerCase() + "/";
+            File targetDirectory = new File(generatedTestDirectory, packagePart);
+            targetDirectory.mkdirs();
+            File enumerationTestFile =
+                    new File(targetDirectory, enumeration.getName() + "Test.java");
+            Writer out = new FileWriter(enumerationTestFile);
+            temp.process(enumeration, out);
+        } catch (TemplateException | IOException ex) {
+            getLog().error(ex);
+        }
+    }
+
+    private void generateClasses(ClassModel classModel) {
+        try {
+            String packagePart = classModel.getDocument().toLowerCase() + "/";
+            File targetDirectory = new File(generatedSourceDirectory, packagePart);
+            targetDirectory.mkdirs();
+            generateMetadataKey(targetDirectory, classModel);
+            // generateFactory(targetDirectory, classModel);
+            // generateComponentClass(targetDirectory, classModel);
+            generateMetadataKeyTests(classModel);
+        } catch (TemplateException | IOException ex) {
+            getLog().error(ex);
+        }
+    }
+
+    private void generateMetadataKey(File targetDirectory, ClassModel classModel)
+            throws TemplateException, IOException {
+        Template temp = cfg.getTemplate("key.ftl");
+        File metadataKeyFile = new File(targetDirectory, classModel.getName() + "MetadataKey.java");
+        Writer out = new FileWriter(metadataKeyFile);
+        temp.process(classModel, out);
+    }
+
+    private void generateMetadataKeyTests(ClassModel classModel)
+            throws TemplateException, IOException {
+        try {
+            Template temp = cfg.getTemplate("metadataKeyTest.ftl");
+            String packagePart = classModel.getDocument().toLowerCase() + "/";
+            File targetDirectory = new File(generatedTestDirectory, packagePart);
+            targetDirectory.mkdirs();
+            File metadataKeyTestFile =
+                    new File(targetDirectory, classModel.getName() + "MetadataKeyTest.java");
+            Writer out = new FileWriter(metadataKeyTestFile);
+            temp.process(classModel, out);
+        } catch (TemplateException | IOException ex) {
+            getLog().error(ex);
+        }
+    }
+
     private void setupTemplateEngine() {
         cfg = new Configuration(Configuration.DEFAULT_INCOMPATIBLE_IMPROVEMENTS);
         cfg.setClassForTemplateLoading(getClass(), "/templates");
@@ -189,5 +301,52 @@ public class MimlToJava extends AbstractMojo {
         cfg.setLogTemplateExceptions(false);
         cfg.setWrapUncheckedExceptions(true);
         cfg.setFallbackOnNullLoopVariable(false);
+    }
+
+    private void parseTypeModifierPartsToEntry(ClassModelEntry entry, String typeModifiers) {
+        String[] typeModifierParts = typeModifiers.split(",");
+        if ("String".equals(entry.getTypeName())) {
+            if (typeModifierParts.length == 1) {
+                int maxLength = Integer.parseInt(typeModifierParts[0]);
+                entry.setMaxLength(maxLength);
+            } else {
+                getLog().warn("Unhandled String typeModifierParts: " + typeModifiers);
+            }
+        } else if ("Real".equals(entry.getTypeName())) {
+            if (typeModifierParts.length == 1) {
+                double minValue = Double.parseDouble(typeModifierParts[0]);
+                entry.setMinValue(minValue);
+            } else {
+                getLog().warn("Unhandled Real typeModifierParts: " + typeModifiers);
+            }
+        } else if (entry.getTypeName().startsWith("Real[]")) {
+            if (typeModifierParts.length == 3) {
+                double minValue = Double.parseDouble(typeModifierParts[0]);
+                entry.setMinValue(minValue);
+                double maxValue = Double.parseDouble(typeModifierParts[1]);
+                entry.setMaxValue(maxValue);
+                double resolution = Double.parseDouble(typeModifierParts[2]);
+                entry.setResolution(resolution);
+            } else {
+                getLog().warn("Unhandled Real typeModifierParts: " + typeModifiers);
+            }
+        } else if (entry.getTypeName().startsWith("LIST<")) {
+            if (typeModifierParts.length == 2) {
+                int minLength = Integer.parseInt(typeModifierParts[0]);
+                entry.setMinLength(minLength);
+                if (!typeModifierParts[1].trim().equals("*")) {
+                    int maxLength = Integer.parseInt(typeModifierParts[1]);
+                    entry.setMaxLength(maxLength);
+                }
+            } else {
+                getLog().warn("Unhandled Real typeModifierParts: " + typeModifiers);
+            }
+        } else {
+            getLog().warn(
+                            "Unhandled type / typeModifierParts: "
+                                    + entry.getTypeName()
+                                    + " / "
+                                    + typeModifiers);
+        }
     }
 }
