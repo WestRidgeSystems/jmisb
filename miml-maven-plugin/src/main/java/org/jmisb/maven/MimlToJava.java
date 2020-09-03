@@ -167,7 +167,10 @@ public class MimlToJava extends AbstractMojo {
                 continue;
             }
             if (line.contains(" : ")) {
-                classModel.addEntry(parseClassEntry(line));
+                ClassModelEntry entry = parseClassEntry(line);
+                entry.setPackageName(classModel.getPackagename());
+                entry.setDocument(classModel.getDocument());
+                classModel.addEntry(entry);
                 continue;
             }
         }
@@ -262,8 +265,10 @@ public class MimlToJava extends AbstractMojo {
             targetDirectory.mkdirs();
             generateMetadataKey(targetDirectory, classModel);
             // generateFactory(targetDirectory, classModel);
-            // generateComponentClass(targetDirectory, classModel);
+            generateComponentClasses(targetDirectory, classModel);
             generateMetadataKeyTests(classModel);
+            // generateFactoryTests(targetDirectory, classModel);
+            generateComponentClassTests(classModel);
         } catch (TemplateException | IOException ex) {
             getLog().error(ex);
         }
@@ -271,7 +276,7 @@ public class MimlToJava extends AbstractMojo {
 
     private void generateMetadataKey(File targetDirectory, ClassModel classModel)
             throws TemplateException, IOException {
-        Template temp = cfg.getTemplate("key.ftl");
+        Template temp = cfg.getTemplate("metadataKey.ftl");
         File metadataKeyFile = new File(targetDirectory, classModel.getName() + "MetadataKey.java");
         Writer out = new FileWriter(metadataKeyFile);
         temp.process(classModel, out);
@@ -291,6 +296,69 @@ public class MimlToJava extends AbstractMojo {
         } catch (TemplateException | IOException ex) {
             getLog().error(ex);
         }
+    }
+
+    private void generateComponentClasses(File targetDirectory, ClassModel classModel)
+            throws TemplateException, IOException {
+        for (ClassModelEntry entry : classModel.getEntries()) {
+            if (entry.getTypeName().equals("String")) {
+                processClassTemplate(targetDirectory, entry, "stringClass.ftl");
+            } else if (entry.getTypeName().equals("UInt")) {
+                processClassTemplate(targetDirectory, entry, "uintClass.ftl");
+            } else if (entry.getTypeName().equals("Integer")) {
+                processClassTemplate(targetDirectory, entry, "intClass.ftl");
+            } else {
+                getLog().info(
+                                "Need to implement component class for "
+                                        + entry.getName()
+                                        + " - "
+                                        + entry.getTypeName());
+            }
+        }
+    }
+
+    private void generateComponentClassTests(ClassModel classModel)
+            throws TemplateException, IOException {
+        try {
+            String packagePart = classModel.getDocument().toLowerCase() + "/";
+            File targetDirectory = new File(generatedTestDirectory, packagePart);
+            targetDirectory.mkdirs();
+            for (ClassModelEntry entry : classModel.getEntries()) {
+                if (entry.getTypeName().equals("String")) {
+                    processClassTestTemplate(targetDirectory, entry, "stringClassTest.ftl");
+                } else if (entry.getTypeName().equals("UInt")) {
+                    processClassTestTemplate(targetDirectory, entry, "uintClassTest.ftl");
+                } else if (entry.getTypeName().equals("Integer")) {
+                    processClassTestTemplate(targetDirectory, entry, "intClassTest.ftl");
+                } else {
+                    getLog().info(
+                                    "Need to implement component class test for "
+                                            + entry.getName()
+                                            + " - "
+                                            + entry.getTypeName());
+                }
+            }
+        } catch (TemplateException | IOException ex) {
+            getLog().error(ex);
+        }
+    }
+
+    private void processClassTemplate(
+            File targetDirectory, ClassModelEntry entry, String templateFile)
+            throws IOException, TemplateException {
+        File testFile = new File(targetDirectory, entry.getNameSentenceCase() + ".java");
+        Template temp = cfg.getTemplate(templateFile);
+        Writer out = new FileWriter(testFile);
+        temp.process(entry, out);
+    }
+
+    private void processClassTestTemplate(
+            File targetDirectory, ClassModelEntry entry, String templateFile)
+            throws IOException, TemplateException {
+        File testFile = new File(targetDirectory, entry.getNameSentenceCase() + "Test.java");
+        Template temp = cfg.getTemplate(templateFile);
+        Writer out = new FileWriter(testFile);
+        temp.process(entry, out);
     }
 
     private void setupTemplateEngine() {

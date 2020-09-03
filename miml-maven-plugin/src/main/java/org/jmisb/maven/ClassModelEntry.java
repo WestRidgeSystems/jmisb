@@ -1,6 +1,8 @@
 package org.jmisb.maven;
 
 public class ClassModelEntry {
+    private String packageName;
+    private String document;
     private int number;
     private String name;
     private String typeName;
@@ -10,6 +12,22 @@ public class ClassModelEntry {
     private Integer minLength = null;
     private Integer maxLength = null;
     private String units;
+
+    public String getPackageName() {
+        return packageName;
+    }
+
+    public void setPackageName(String packageName) {
+        this.packageName = packageName;
+    }
+
+    public String getDocument() {
+        return document;
+    }
+
+    public void setDocument(String document) {
+        this.document = document;
+    }
 
     public int getNumber() {
         return number;
@@ -21,6 +39,10 @@ public class ClassModelEntry {
 
     public String getName() {
         return name;
+    }
+
+    public String getNameSentenceCase() {
+        return name.substring(0, 1).toUpperCase() + name.substring(1);
     }
 
     public void setName(String name) {

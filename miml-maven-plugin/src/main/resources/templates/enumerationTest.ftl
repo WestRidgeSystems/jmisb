@@ -42,7 +42,7 @@ public class ${name}Test {
     @Test
     public void ${entry.name}Serialise() {
         ${name} uut = ${name}.${entry.name};
-        // Assumes that the BER-OID encoding is always a single byte.
+        // Assumes that the UInt encoding is always a single byte.
         assertEquals(uut.getBytes(), new byte[]{${entry.number}});
     }
 

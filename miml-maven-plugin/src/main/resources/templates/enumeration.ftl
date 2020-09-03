@@ -1,8 +1,8 @@
 // Generated file - changes will be lost on rebuild
 package ${packagename};
 
-import org.jmisb.api.klv.BerEncoder;
 import org.jmisb.api.klv.st190x.IMimdMetadataValue;
+import org.jmisb.core.klv.PrimitiveConverter;
 
 /**
  * ${name} enumerated values.
@@ -54,7 +54,7 @@ public enum ${name} implements IMimdMetadataValue {
         if (identifier == -1) {
             throw new IllegalArgumentException("${name}: Cannot serialise Unknown value");
         }
-        return BerEncoder.encode(identifier);
+        return PrimitiveConverter.uint32ToVariableBytes(identifier);
     }
 
     @Override
