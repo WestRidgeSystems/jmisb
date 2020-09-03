@@ -102,4 +102,10 @@ public class VTargetPackTest extends LoggerChecks {
         assertNotNull(localSet);
         assertEquals(localSet.getTags().size(), 1);
     }
+
+    @Test(expectedExceptions = KlvParseException.class)
+    public void fuzz1() throws KlvParseException {
+        final byte[] bytes = new byte[] {0x01, 0x00};
+        VTargetPack.createValue(VTargetMetadataKey.VTracker, bytes, EncodingMode.IMAPB);
+    }
 }

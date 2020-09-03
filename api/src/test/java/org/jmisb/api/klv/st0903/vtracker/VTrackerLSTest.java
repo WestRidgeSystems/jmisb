@@ -69,4 +69,12 @@ public class VTrackerLSTest extends LoggerChecks {
         VTrackerLS localSet = new VTrackerLS(bytes, EncodingMode.IMAPB);
         checkLocalSetWithAlgorithmId(localSet);
     }
+
+    @Test(expectedExceptions = KlvParseException.class)
+    public void fuzz1() throws KlvParseException {
+        VTrackerLS.createValue(
+                VTrackerMetadataKey.trackId,
+                new byte[] {0x5b, 0x78, (byte) 0x93, 0x45, 0x05, (byte) 0xcc, 0x1d},
+                EncodingMode.IMAPB);
+    }
 }
