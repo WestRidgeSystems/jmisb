@@ -9,20 +9,20 @@ import org.testng.annotations.Test;
 public class ${name}Test {
 
     @Test
-    public void UnknownEnumDisplayName() {
-        ${name} uut = ${name}.Unknown;
+    public void UndefinedEnumDisplayName() {
+        ${name} uut = ${name}.Undefined;
         assertEquals(uut.getDisplayName(), "${name}");
     }
 
     @Test
-    public void UnknownEnumDisplayableValue() {
-        ${name} uut = ${name}.Unknown;
-        assertEquals(uut.getDisplayableValue(), "Unknown");
+    public void UndefinedEnumDisplayableValue() {
+        ${name} uut = ${name}.Undefined;
+        assertEquals(uut.getDisplayableValue(), "Undefined");
     }
 
     @Test(expectedExceptions = IllegalArgumentException.class)
-    public void serialiseUnknown() {
-        ${name} uut = ${name}.Unknown;
+    public void serialiseUndefined() {
+        ${name} uut = ${name}.Undefined;
         uut.getBytes();
     }
 

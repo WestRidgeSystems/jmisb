@@ -11,11 +11,11 @@ import org.jmisb.core.klv.PrimitiveConverter;
  */
 public enum ${name} implements IMimdMetadataValue {
     /**
-     * Unknown value.
+     * Unknown / undefined value.
      *
      * This should not be intentionally created, and will not be serialised.
      */
-     Unknown(-1, "Unknown"),
+     Undefined(-1, "Undefined"),
 <#list entries as entry>
     /**
      * ${entry.description}.
