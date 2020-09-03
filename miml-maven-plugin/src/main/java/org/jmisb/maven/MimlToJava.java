@@ -307,6 +307,8 @@ public class MimlToJava extends AbstractMojo {
                 processClassTemplate(targetDirectory, entry, "uintClass.ftl");
             } else if (entry.getTypeName().equals("Integer")) {
                 processClassTemplate(targetDirectory, entry, "intClass.ftl");
+            } else if (entry.getTypeName().equals("Real")) {
+                processClassTemplate(targetDirectory, entry, "realClass.ftl");
             } else {
                 getLog().info(
                                 "Need to implement component class for "
@@ -330,6 +332,8 @@ public class MimlToJava extends AbstractMojo {
                     processClassTestTemplate(targetDirectory, entry, "uintClassTest.ftl");
                 } else if (entry.getTypeName().equals("Integer")) {
                     processClassTestTemplate(targetDirectory, entry, "intClassTest.ftl");
+                } else if (entry.getTypeName().equals("Real")) {
+                    processClassTestTemplate(targetDirectory, entry, "realClassTest.ftl");
                 } else {
                     getLog().info(
                                     "Need to implement component class test for "

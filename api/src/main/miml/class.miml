@@ -21,7 +21,7 @@ class Timer includes Base {
     39_unlockTime : UInt { ns};
     40_lastSyncDiff : UInt { ns};
     41_driftRate : UInt {ns/s};
-    42_signalSourceDelay : Real (0.0) { ns};
+    42_signalSourceDelay : UInt { ns};
     43_source : REF<Stage> {None};
     44_correctionOffset : Integer { ns};
 }
