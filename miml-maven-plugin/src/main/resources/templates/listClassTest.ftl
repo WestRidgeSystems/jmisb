@@ -5,13 +5,18 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import org.jmisb.api.common.KlvParseException;
+import org.jmisb.api.klv.LoggerChecks;
 import ${listItemTypePackage}.${listItemType};
 import static org.testng.Assert.*;
 
 import org.testng.annotations.Test;
 
 /** Unit tests for ${nameSentenceCase} */
-public class ${nameSentenceCase}Test {
+public class ${nameSentenceCase}Test extends LoggerChecks {
+
+    public ${nameSentenceCase}Test () {
+        super(${listItemType}.class);
+    }
 
     @Test
     public void displayName() {
@@ -34,16 +39,18 @@ public class ${nameSentenceCase}Test {
 
     @Test
     public void fromBytesConstructorUnknownValue() throws KlvParseException {
-        // TODO: check logger message
+        verifyNoLoggerMessages();
         ${nameSentenceCase} uut = new ${nameSentenceCase}(new byte[]{0x03, 0x7F, 0x01, 0x00}, 0, 4);
+        verifySingleLoggerMessage("Unknown MIMD ${listItemType} Metadata tag: 127");
         assertNotNull(uut);
         assertEquals(uut.getDisplayName(), "${nameSentenceCase}");
     }
 
     @Test
     public void fromBytesUnknownValue() throws KlvParseException {
-        // TODO: check logger message
+        verifyNoLoggerMessages();
         ${nameSentenceCase} uut = ${nameSentenceCase}.fromBytes(new byte[]{0x03, 0x7F, 0x01, 0x00});
+        verifySingleLoggerMessage("Unknown MIMD ${listItemType} Metadata tag: 127");
         assertNotNull(uut);
         assertEquals(uut.getDisplayName(), "${nameSentenceCase}");
     }

@@ -12,7 +12,7 @@ import org.jmisb.api.klv.LdsField;
 import org.jmisb.api.klv.LdsParser;
 import org.jmisb.api.klv.UniversalLabel;
 import org.jmisb.api.klv.st0601.Checksum;
-import org.jmisb.api.klv.st1801ref.*;
+import org.jmisb.api.klv.st1903.MIMD;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -29,7 +29,7 @@ public class MimdParser {
     private MimdParser() {}
 
     /**
-     * Parse {@link Mimd} local set from a byte array.
+     * Parse {@link MIMD} local set from a byte array.
      *
      * @param bytes Byte array to parse
      * @param start Index of the first byte to parse

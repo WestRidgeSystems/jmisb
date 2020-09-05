@@ -3,6 +3,7 @@ package ${packageName};
 
 import java.util.TreeMap;
 import org.jmisb.api.common.KlvParseException;
+import org.jmisb.api.klv.LoggerChecks;
 import org.jmisb.api.klv.st190x.IMimdMetadataValue;
 import org.jmisb.api.klv.st190x.MimdIdReference;
 import static org.testng.Assert.*;
@@ -10,7 +11,11 @@ import static org.testng.Assert.*;
 import org.testng.annotations.Test;
 
 /** Unit tests for ${name} */
-public class ${name}Test {
+public class ${name}Test extends LoggerChecks {
+
+    public ${name}Test () {
+        super(${name}.class);
+    }
 
     @Test
     public void displayName() {
@@ -26,8 +31,9 @@ public class ${name}Test {
 
     @Test
     public void createValueUndefined() throws KlvParseException {
-        // TODO: logger checks
+        verifyNoLoggerMessages();
         IMimdMetadataValue uut = ${name}.createValue(${name}MetadataKey.Undefined, new byte[]{0x00});
+        verifySingleLoggerMessage("Unknown ${name} Metadata tag: Undefined");
         assertNull(uut);
     }
 
