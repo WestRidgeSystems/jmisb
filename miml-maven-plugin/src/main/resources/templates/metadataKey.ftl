@@ -1,5 +1,5 @@
 // Generated file - changes will be lost on rebuild
-package ${packagename};
+package ${packageName};
 
 import java.util.HashMap;
 import java.util.Map;
@@ -11,7 +11,7 @@ import org.jmisb.api.klv.IKlvKey;
  * See ${document} for more information on these values.
  */
 public enum ${name}MetadataKey implements IKlvKey {
-    Unknown(-1),
+    Undefined(-1),
 <#list entries as entry>
     ${entry.name}(${entry.number})<#sep>,</#sep><#if entry?is_last>;</#if>
 </#list>
@@ -46,6 +46,6 @@ public enum ${name}MetadataKey implements IKlvKey {
      * @return corresponding metadata key
      */
     public static ${name}MetadataKey getKey(int tag) {
-        return tagTable.containsKey(tag) ? tagTable.get(tag) : Unknown;
+        return tagTable.containsKey(tag) ? tagTable.get(tag) : Undefined;
     }
 }

@@ -1,8 +1,6 @@
 package org.jmisb.maven;
 
 public class ClassModelEntry {
-    private String packageName;
-    private String document;
     private int number;
     private String name;
     private String typeName;
@@ -12,21 +10,14 @@ public class ClassModelEntry {
     private Integer minLength = null;
     private Integer maxLength = null;
     private String units;
+    private ClassModel parent = null;
 
     public String getPackageName() {
-        return packageName;
-    }
-
-    public void setPackageName(String packageName) {
-        this.packageName = packageName;
+        return parent.getPackageName();
     }
 
     public String getDocument() {
-        return document;
-    }
-
-    public void setDocument(String document) {
-        this.document = document;
+        return parent.getDocument();
     }
 
     public int getNumber() {
@@ -43,6 +34,16 @@ public class ClassModelEntry {
 
     public String getNameSentenceCase() {
         return name.substring(0, 1).toUpperCase() + name.substring(1);
+    }
+
+    // Only valid if this is a list.
+    public String getListItemType() {
+        return typeName.split("\\<")[1].split("\\>")[0];
+    }
+
+    // Only valid if this is a list.
+    public String getListItemTypePackage() {
+        return parent.getTypePackage(getListItemType());
     }
 
     public void setName(String name) {
@@ -127,5 +128,9 @@ public class ClassModelEntry {
                 + ", units="
                 + units
                 + '}';
+    }
+
+    void setParent(ClassModel classModel) {
+        this.parent = classModel;
     }
 }

@@ -1,6 +1,9 @@
 // Generated file - changes will be lost on rebuild
-package ${packagename};
+package ${packageName};
 
+import java.util.HashMap;
+import java.util.Map;
+import org.jmisb.api.common.KlvParseException;
 import org.jmisb.api.klv.st190x.IMimdMetadataValue;
 import org.jmisb.core.klv.PrimitiveConverter;
 
@@ -44,6 +47,14 @@ public enum ${name} implements IMimdMetadataValue {
         this.definition = description;
     }
 
+    private static final Map<Integer, ${name}> tagTable = new HashMap<>();
+
+    static {
+        for (${name} key : values()) {
+            tagTable.put(key.identifier, key);
+        }
+    }
+
     @Override
     public String getDisplayName() {
         return "${name}";
@@ -60,5 +71,27 @@ public enum ${name} implements IMimdMetadataValue {
     @Override
     public String getDisplayableValue() {
         return definition;
+    }
+
+    /**
+     * Look up the ${name} value by enumeration identifier.
+     *
+     * @param identifier the integer identifier
+     * @return corresponding enumeration value, or Undefined if no identifier matches
+     */
+    public static ${name} getValue(int identifier) {
+        return tagTable.containsKey(identifier) ? tagTable.get(identifier) : Undefined;
+    }
+
+    /**
+     * Get ${name} from encoded bytes.
+     *
+     * @param bytes Encoded byte array
+     * @return ${name} corresponding to the encoded bytes, or Undefined if no identifier matches
+     * @throws KlvParseException if the array could not be parsed
+     */
+    public static ${name} fromBytes(byte[] bytes) throws KlvParseException {
+        int identifier = (int)PrimitiveConverter.variableBytesToUint32(bytes);
+        return getValue(identifier);
     }
 }

@@ -147,7 +147,7 @@ public class ArrayBuilder {
      *
      * <p>This is the type of representation used for Variable Length Packs. Be careful about
      * subsequent operations that append to the array, because this length field will not be
-     * updated..
+     * updated.
      *
      * @return this instance, to support method chaining.
      */

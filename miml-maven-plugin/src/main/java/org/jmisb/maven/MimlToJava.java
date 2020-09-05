@@ -12,7 +12,9 @@ import java.nio.charset.StandardCharsets;
 import java.nio.file.Files;
 import java.nio.file.Paths;
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 import org.apache.maven.plugin.AbstractMojo;
 import org.apache.maven.plugin.MojoExecutionException;
 import org.apache.maven.plugins.annotations.LifecyclePhase;
@@ -41,6 +43,9 @@ public class MimlToJava extends AbstractMojo {
     @Parameter(defaultValue = "org.jmisb.api.klv", property = "packageNameBase", required = true)
     private String packageNameBase;
 
+    @Parameter(defaultValue = "MIMD", property = "topLevelClass", required = true)
+    private String topLevelClassName;
+
     @Parameter(defaultValue = "${project}")
     private MavenProject project;
 
@@ -48,6 +53,10 @@ public class MimlToJava extends AbstractMojo {
     private File generatedTestDirectory;
 
     private Configuration cfg;
+
+    private List<String> knownEnumerationValues = new ArrayList<>();
+    private List<ClassModel> classModels = new ArrayList<>();
+    private Map<String, String> packageNameLookups = new HashMap<>();
 
     @Override
     public void execute() throws MojoExecutionException {
@@ -104,6 +113,13 @@ public class MimlToJava extends AbstractMojo {
     private void processBlocks(List<MimlTextBlock> textBlocks) {
         for (MimlTextBlock textBlock : textBlocks) {
             processBlock(textBlock);
+        }
+        for (ClassModel classModel : classModels) {
+            addPackageNameLookup(classModel);
+        }
+        for (ClassModel classModel : classModels) {
+            classModel.setPackageLookup(packageNameLookups);
+            generateClasses(classModel);
         }
     }
 
@@ -168,13 +184,13 @@ public class MimlToJava extends AbstractMojo {
             }
             if (line.contains(" : ")) {
                 ClassModelEntry entry = parseClassEntry(line);
-                entry.setPackageName(classModel.getPackagename());
-                entry.setDocument(classModel.getDocument());
+                entry.setParent(classModel);
                 classModel.addEntry(entry);
                 continue;
             }
         }
-        generateClasses(classModel);
+        classModel.setTopLevel(classModel.getName().equals(this.topLevelClassName));
+        classModels.add(classModel);
     }
 
     private String parseEnumerationName(String line) {
@@ -231,13 +247,14 @@ public class MimlToJava extends AbstractMojo {
 
     private void generateEnumeration(EnumerationModel enumeration) {
         try {
-            Template temp = cfg.getTemplate("enumeration.ftl");
             String packagePart = enumeration.getDocument().toLowerCase() + "/";
             File targetDirectory = new File(generatedSourceDirectory, packagePart);
             targetDirectory.mkdirs();
+            Template temp = cfg.getTemplate("enumeration.ftl");
             File enumerationFile = new File(targetDirectory, enumeration.getName() + ".java");
             Writer out = new FileWriter(enumerationFile);
             temp.process(enumeration, out);
+            knownEnumerationValues.add(enumeration.getName());
         } catch (TemplateException | IOException ex) {
             getLog().error(ex);
         }
@@ -264,7 +281,7 @@ public class MimlToJava extends AbstractMojo {
             File targetDirectory = new File(generatedSourceDirectory, packagePart);
             targetDirectory.mkdirs();
             generateMetadataKey(targetDirectory, classModel);
-            // generateFactory(targetDirectory, classModel);
+            generateLocalSet(targetDirectory, classModel);
             generateComponentClasses(targetDirectory, classModel);
             generateMetadataKeyTests(classModel);
             // generateFactoryTests(targetDirectory, classModel);
@@ -298,6 +315,14 @@ public class MimlToJava extends AbstractMojo {
         }
     }
 
+    private void generateLocalSet(File targetDirectory, ClassModel classModel)
+            throws TemplateException, IOException {
+        File testFile = new File(targetDirectory, classModel.getName() + ".java");
+        Template temp = cfg.getTemplate("compositeClass.ftl");
+        Writer out = new FileWriter(testFile);
+        temp.process(classModel, out);
+    }
+
     private void generateComponentClasses(File targetDirectory, ClassModel classModel)
             throws TemplateException, IOException {
         for (ClassModelEntry entry : classModel.getEntries()) {
@@ -309,6 +334,14 @@ public class MimlToJava extends AbstractMojo {
                 processClassTemplate(targetDirectory, entry, "intClass.ftl");
             } else if (entry.getTypeName().equals("Real")) {
                 processClassTemplate(targetDirectory, entry, "realClass.ftl");
+            } else if (knownEnumerationValues.contains(entry.getTypeName())) {
+                // Nothing - we've got this already
+            } else if (entry.getTypeName().startsWith("REF<")
+                    && entry.getTypeName().endsWith(">")) {
+                // special case for this
+            } else if (entry.getTypeName().startsWith("LIST<")
+                    && entry.getTypeName().endsWith(">")) {
+                processClassTemplate(targetDirectory, entry, "listClass.ftl");
             } else {
                 getLog().info(
                                 "Need to implement component class for "
@@ -334,6 +367,12 @@ public class MimlToJava extends AbstractMojo {
                     processClassTestTemplate(targetDirectory, entry, "intClassTest.ftl");
                 } else if (entry.getTypeName().equals("Real")) {
                     processClassTestTemplate(targetDirectory, entry, "realClassTest.ftl");
+                } else if (knownEnumerationValues.contains(entry.getTypeName())) {
+                    // Nothing - we've got this already
+                } else if (entry.getTypeName().startsWith("REF<")) {
+                    // special case for this
+                } else if (entry.getTypeName().startsWith("LIST<")) {
+                    // TODO: need to implement this next
                 } else {
                     getLog().info(
                                     "Need to implement component class test for "
@@ -420,5 +459,9 @@ public class MimlToJava extends AbstractMojo {
                                     + " / "
                                     + typeModifiers);
         }
+    }
+
+    private void addPackageNameLookup(ClassModel classModel) {
+        packageNameLookups.put(classModel.getName(), classModel.getPackageName());
     }
 }

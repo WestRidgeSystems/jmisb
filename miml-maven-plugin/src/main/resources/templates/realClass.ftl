@@ -37,6 +37,17 @@ public class ${nameSentenceCase} implements IMimdMetadataValue {
         }
     }
 
+    /**
+     * Create ${nameSentenceCase} from encoded bytes.
+     *
+     * @param bytes Encoded byte array
+     * @return new ${nameSentenceCase} corresponding to the encoded byte array.
+     * @throws KlvParseException if the array could not be parsed
+     */
+    public static ${nameSentenceCase} fromBytes(byte[] bytes) throws KlvParseException {
+        return new ${nameSentenceCase}(bytes);
+    }
+
     @Override
     public String getDisplayName() {
         return "${nameSentenceCase}";

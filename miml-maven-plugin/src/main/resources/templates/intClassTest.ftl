@@ -1,6 +1,7 @@
 // Generated file - changes will be lost on rebuild
 package ${packageName};
 
+import org.jmisb.api.common.KlvParseException;
 import static org.testng.Assert.*;
 
 import org.testng.annotations.Test;
@@ -21,7 +22,7 @@ public class ${nameSentenceCase}Test {
     }
 
     @Test
-    public void fromBytes1() {
+    public void fromBytes1() throws KlvParseException {
         ${nameSentenceCase} uut = new ${nameSentenceCase}(new byte[] {0x01});
         assertEquals(uut.getDisplayableValue(), "1 ${units}");
     }

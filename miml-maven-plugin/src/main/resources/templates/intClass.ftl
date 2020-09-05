@@ -1,6 +1,7 @@
 // Generated file - changes will be lost on rebuild
 package ${packageName};
 
+import org.jmisb.api.common.KlvParseException;
 import org.jmisb.api.klv.st190x.IMimdMetadataValue;
 import org.jmisb.core.klv.PrimitiveConverter;
 
@@ -25,9 +26,25 @@ public class ${nameSentenceCase} implements IMimdMetadataValue {
      * Create ${nameSentenceCase} from encoded bytes.
      *
      * @param bytes Encoded byte array
+     * @throws KlvParseException if the array could not be parsed
      */
-    public ${nameSentenceCase}(byte[] bytes) {
-        this.intValue = PrimitiveConverter.variableBytesToInt64(bytes);
+    public ${nameSentenceCase}(byte[] bytes) throws KlvParseException {
+        try {
+            this.intValue = PrimitiveConverter.variableBytesToInt64(bytes);
+        } catch (IllegalArgumentException ex) {
+            throw new KlvParseException(ex.getMessage());
+        }
+    }
+
+    /**
+     * Create ${nameSentenceCase} from encoded bytes.
+     *
+     * @param bytes Encoded byte array
+     * @return new ${nameSentenceCase} corresponding to the encoded byte array.
+     * @throws KlvParseException if the array could not be parsed
+     */
+    public static ${nameSentenceCase} fromBytes(byte[] bytes) throws KlvParseException {
+        return new ${nameSentenceCase}(bytes);
     }
 
     @Override

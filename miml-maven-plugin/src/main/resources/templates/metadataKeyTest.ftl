@@ -1,5 +1,5 @@
 // Generated file - changes will be lost on rebuild
-package ${packagename};
+package ${packageName};
 
 import static org.testng.Assert.*;
 
@@ -10,20 +10,20 @@ public class ${name}MetadataKeyTest {
 
     @Test
     public void UnknownEnumDisplayName() {
-        ${name}MetadataKey uut = ${name}MetadataKey.Unknown;
+        ${name}MetadataKey uut = ${name}MetadataKey.Undefined;
         assertEquals(uut.getIdentifier(), -1);
     }
 
     @Test
     public void lookupUnknown() {
         ${name}MetadataKey uut = ${name}MetadataKey.getKey(-1);
-        assertEquals(uut, ${name}MetadataKey.Unknown);
+        assertEquals(uut, ${name}MetadataKey.Undefined);
     }
 
     @Test
     public void lookupUnknown9999() {
         ${name}MetadataKey uut = ${name}MetadataKey.getKey(9999);
-        assertEquals(uut, ${name}MetadataKey.Unknown);
+        assertEquals(uut, ${name}MetadataKey.Undefined);
     }
 
 <#list entries as entry>

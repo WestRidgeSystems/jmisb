@@ -9,7 +9,7 @@ public class EnumerationModel {
     private String document;
     private List<EnumerationModelEntry> entries = new ArrayList<>();
 
-    public String getPackagename() {
+    public String getPackageName() {
         return packageNameBase + "." + document.toLowerCase();
     }
 

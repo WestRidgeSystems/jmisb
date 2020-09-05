@@ -2,6 +2,7 @@
 package ${packageName};
 
 import java.nio.charset.StandardCharsets;
+import org.jmisb.api.common.KlvParseException;
 import org.jmisb.api.klv.st190x.IMimdMetadataValue;
 
 /**
@@ -33,6 +34,16 @@ public class ${nameSentenceCase} implements IMimdMetadataValue {
      */
     public ${nameSentenceCase}(byte[] bytes) {
         this.stringValue = new String(bytes, StandardCharsets.UTF_8);
+    }
+
+    /**
+     * Create ${nameSentenceCase} from encoded bytes.
+     *
+     * @param bytes Encoded byte array
+     * @return new ${nameSentenceCase} corresponding to the encoded byte array.
+     */
+    public static ${nameSentenceCase} fromBytes(byte[] bytes) {
+        return new ${nameSentenceCase}(bytes);
     }
 
     @Override

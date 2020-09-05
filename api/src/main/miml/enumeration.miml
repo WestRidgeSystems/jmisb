@@ -31,7 +31,7 @@ enumeration GISensorType {
     03 = SIGINT {Signal Intelligence Sensor};
     04 = SAR {Synthetic Aperture Radar Sensor};
 }
-enumeration TimeTransferType {
+enumeration TimeTransferMethod {
     Document = ST1903;
     00 = Unknown {Unknown Time Transfer Method};
     01 = GPS {Global Positioning System (GPS) PPS};
@@ -47,4 +47,10 @@ enumeration CorrectionMethod {
     00 = Unknown {Unknown Correction Method};
     01 = Jam {Jam Correction Method};
     02 = Slew {Slew Correction Method};
+}
+enumeration ReferenceSource {
+    Document = ST1903;
+    00 = Unknown {Reference Source status is unknown};
+    01 = Not_Synchronized {Reference Source is not synchronized to an atomic source};
+    02 = Synchronized {Reference Source is synchronized to an atomic source};
 }

@@ -1,7 +1,9 @@
 package org.jmisb.maven;
 
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 public class ClassModel {
     private String packageNameBase;
@@ -9,8 +11,10 @@ public class ClassModel {
     private String includes;
     private String document;
     private List<ClassModelEntry> entries = new ArrayList<>();
+    private Map<String, String> packageLookup = new HashMap<>();
+    private boolean topLevel = false;
 
-    public String getPackagename() {
+    public String getPackageName() {
         return packageNameBase + "." + document.toLowerCase();
     }
 
@@ -42,6 +46,14 @@ public class ClassModel {
         this.document = document;
     }
 
+    public boolean isTopLevel() {
+        return topLevel;
+    }
+
+    public void setTopLevel(boolean topLevel) {
+        this.topLevel = topLevel;
+    }
+
     public List<ClassModelEntry> getEntries() {
         return entries;
     }
@@ -61,5 +73,13 @@ public class ClassModel {
             setIncludes(lineParts[3].trim());
             // TODO: include Base
         }
+    }
+
+    public void setPackageLookup(Map<String, String> lookups) {
+        packageLookup.putAll(lookups);
+    }
+
+    String getTypePackage(String listItemType) {
+        return packageLookup.get(listItemType);
     }
 }

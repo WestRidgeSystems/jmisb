@@ -1,5 +1,5 @@
 // Generated file - changes will be lost on rebuild
-package ${packagename};
+package ${packageName};
 
 import static org.testng.Assert.*;
 
