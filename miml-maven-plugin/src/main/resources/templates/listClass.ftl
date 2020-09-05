@@ -19,6 +19,15 @@ public class ${nameSentenceCase} implements IMimdMetadataValue {
     private final List<${listItemType}> listValues = new ArrayList<>();
 
     /**
+     * Create a $LIST&lt;${listItemType}&gt; from values.
+     *
+     * @param values the values to construct from
+     */
+    public ${nameSentenceCase}(List<${listItemType}> values) {
+        listValues.addAll(values);
+    }
+
+    /**
      * Build a $LIST&lt;${listItemType}&gt; from encoded bytes.
      *
      * @param data the bytes to build from
@@ -63,7 +72,6 @@ public class ${nameSentenceCase} implements IMimdMetadataValue {
             arrayBuilder.appendAsBerLength(listItemBytes.length);
             arrayBuilder.append(listItemBytes);
         }
-        arrayBuilder.prependLength();
         return arrayBuilder.toBytes();
     }
 

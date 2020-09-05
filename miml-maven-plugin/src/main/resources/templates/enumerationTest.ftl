@@ -1,6 +1,7 @@
 // Generated file - changes will be lost on rebuild
 package ${packageName};
 
+import org.jmisb.api.common.KlvParseException;
 import static org.testng.Assert.*;
 
 import org.testng.annotations.Test;
@@ -26,6 +27,18 @@ public class ${name}Test {
         uut.getBytes();
     }
 
+    @Test
+    public void UndefinedGetValue() {
+        ${name} uut = ${name}.getValue(-1);
+        assertEquals(uut, ${name}.Undefined);
+    }
+
+    @Test
+    public void Undefined255GetValue() {
+        ${name} uut = ${name}.getValue(255);
+        assertEquals(uut, ${name}.Undefined);
+    }
+
 <#list entries as entry>
     @Test
     public void ${entry.name}DisplayName() {
@@ -42,9 +55,21 @@ public class ${name}Test {
     @Test
     public void ${entry.name}Serialise() {
         ${name} uut = ${name}.${entry.name};
-        // Assumes that the UInt encoding is always a single byte.
+        // Assumes that the enumeration encoding is always a single byte.
         assertEquals(uut.getBytes(), new byte[]{${entry.number}});
     }
 
+    @Test
+    public void ${entry.name}GetValue() {
+        ${name} uut = ${name}.getValue(${entry.number});
+        assertEquals(uut, ${name}.${entry.name});
+    }
+
+    @Test
+    public void ${entry.name}FromBytes() throws KlvParseException {
+        // Assumes that the enumeration encoding is always a single byte.
+        ${name} uut = ${name}.fromBytes(new byte[]{${entry.number}});
+        assertEquals(uut, ${name}.${entry.name});
+    }
 </#list>
 }

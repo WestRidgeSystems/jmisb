@@ -10,6 +10,7 @@ import java.util.SortedMap;
 import java.util.TreeMap;
 import org.jmisb.api.common.InvalidDataHandler;
 import org.jmisb.api.common.KlvParseException;
+import org.jmisb.api.klv.ArrayBuilder;
 <#if topLevel>
 import org.jmisb.api.klv.IKlvKey;
 import org.jmisb.api.klv.IKlvValue;
@@ -76,6 +77,13 @@ public class ${name} implements <#if topLevel>IMisbMessage, </#if>IMimdMetadataV
             }
         }
     }
+
+    @Override
+    public byte[] getBytes(){
+        ArrayBuilder arrayBuilder = new ArrayBuilder();
+        // TODO: add in parts, header, etc
+        return arrayBuilder.toBytes();
+    }
 <#else>
     /**
      * Build a ${name} Local Set from encoded bytes.
@@ -102,16 +110,23 @@ public class ${name} implements <#if topLevel>IMisbMessage, </#if>IMimdMetadataV
             }
         }
     }
+
+    @Override
+    public byte[] getBytes(){
+        ArrayBuilder arrayBuilder = new ArrayBuilder();
+        for (Map.Entry<${name}MetadataKey, IMimdMetadataValue> entry: map.entrySet()) {
+            arrayBuilder.appendAsOID(entry.getKey().getIdentifier());
+            byte[] valueBytes = entry.getValue().getBytes();
+            arrayBuilder.appendAsBerLength(valueBytes.length);
+            arrayBuilder.append(valueBytes);
+        }
+        return arrayBuilder.toBytes();
+    }
 </#if>
 
     @Override
     public String getDisplayName() {
         return "${name}";
-    }
-
-    @Override
-    public byte[] getBytes(){
-        return null;
     }
 
     @Override

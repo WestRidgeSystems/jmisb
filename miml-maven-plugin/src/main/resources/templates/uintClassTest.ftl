@@ -23,6 +23,12 @@ public class ${nameSentenceCase}Test {
 
     @Test
     public void fromBytes1() throws KlvParseException {
+        ${nameSentenceCase} uut = ${nameSentenceCase}.fromBytes(new byte[] {0x01});
+        assertEquals(uut.getDisplayableValue(), "1 ${units}");
+    }
+
+    @Test
+    public void fromBytesConstructor1() throws KlvParseException {
         ${nameSentenceCase} uut = new ${nameSentenceCase}(new byte[] {0x01});
         assertEquals(uut.getDisplayableValue(), "1 ${units}");
     }
@@ -37,5 +43,20 @@ public class ${nameSentenceCase}Test {
     public void getBytes255() {
         ${nameSentenceCase} uut = new ${nameSentenceCase}(255);
         assertEquals(uut.getBytes(), new byte[]{(byte)0xFF});
+    }
+
+    @Test (expectedExceptions = KlvParseException.class)
+    public void fromBytesBadLengthConstructor() throws KlvParseException {
+        ${nameSentenceCase} uut = new ${nameSentenceCase}(new byte[] {});
+    }
+
+    @Test (expectedExceptions = KlvParseException.class)
+    public void fromBytesBadLength() throws KlvParseException {
+        ${nameSentenceCase} uut = ${nameSentenceCase}.fromBytes(new byte[] {});
+    }
+
+    @Test (expectedExceptions = KlvParseException.class)
+    public void fromBytesBadLengthTooLong() throws KlvParseException {
+        ${nameSentenceCase} uut = ${nameSentenceCase}.fromBytes(new byte[] {1, 2, 3, 4, 5, 6, 7, 8, 9});
     }
 }

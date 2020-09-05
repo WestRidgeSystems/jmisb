@@ -23,6 +23,20 @@ public class ${nameSentenceCase}Test {
 
     @Test
     public void fromBytes8() throws KlvParseException {
+        ${nameSentenceCase} uut = ${nameSentenceCase}.fromBytes(new byte[] {
+                    (byte) 0x40,
+                    (byte) 0x00,
+                    (byte) 0x00,
+                    (byte) 0x00,
+                    (byte) 0x00,
+                    (byte) 0x00,
+                    (byte) 0x00,
+                    (byte) 0x00});
+        assertEquals(uut.getDisplayableValue(), "2.000 ${units}");
+    }
+
+    @Test
+    public void fromBytesConstructor8() throws KlvParseException {
         ${nameSentenceCase} uut = new ${nameSentenceCase}(new byte[] {
                     (byte) 0x40,
                     (byte) 0x00,
@@ -37,7 +51,7 @@ public class ${nameSentenceCase}Test {
 
     @Test
     public void fromBytes8Negative() throws KlvParseException {
-        ${nameSentenceCase} uut = new ${nameSentenceCase}(new byte[] {
+        ${nameSentenceCase} uut = ${nameSentenceCase}.fromBytes(new byte[] {
                     (byte) 0xC0,
                     (byte) 0x10,
                     (byte) 0x00,
@@ -51,7 +65,7 @@ public class ${nameSentenceCase}Test {
 
     @Test
     public void fromBytes4() throws KlvParseException {
-        ${nameSentenceCase} uut = new ${nameSentenceCase}(new byte[] {
+        ${nameSentenceCase} uut = ${nameSentenceCase}.fromBytes(new byte[] {
                     (byte) 0x40,
                     (byte) 0x00,
                     (byte) 0x00,
@@ -60,8 +74,18 @@ public class ${nameSentenceCase}Test {
     }
 
     @Test (expectedExceptions = KlvParseException.class)
-    public void fromBytesBadLength() throws KlvParseException {
+    public void fromBytesBadLengthConstructor() throws KlvParseException {
         ${nameSentenceCase} uut = new ${nameSentenceCase}(new byte[] {
+                    (byte) 0x40,
+                    (byte) 0x00,
+                    (byte) 0x00,
+                    (byte) 0x00,
+                    (byte) 0x00});
+    }
+
+    @Test (expectedExceptions = KlvParseException.class)
+    public void fromBytesBadLength() throws KlvParseException {
+        ${nameSentenceCase} uut = ${nameSentenceCase}.fromBytes(new byte[] {
                     (byte) 0x40,
                     (byte) 0x00,
                     (byte) 0x00,

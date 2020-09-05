@@ -284,7 +284,7 @@ public class MimlToJava extends AbstractMojo {
             generateLocalSet(targetDirectory, classModel);
             generateComponentClasses(targetDirectory, classModel);
             generateMetadataKeyTests(classModel);
-            // generateFactoryTests(targetDirectory, classModel);
+            generateLocalSetTests(classModel);
             generateComponentClassTests(classModel);
         } catch (TemplateException | IOException ex) {
             getLog().error(ex);
@@ -319,6 +319,17 @@ public class MimlToJava extends AbstractMojo {
             throws TemplateException, IOException {
         File testFile = new File(targetDirectory, classModel.getName() + ".java");
         Template temp = cfg.getTemplate("compositeClass.ftl");
+        Writer out = new FileWriter(testFile);
+        temp.process(classModel, out);
+    }
+
+    private void generateLocalSetTests(ClassModel classModel)
+            throws TemplateException, IOException {
+        String packagePart = classModel.getDocument().toLowerCase() + "/";
+        File targetDirectory = new File(generatedTestDirectory, packagePart);
+        targetDirectory.mkdirs();
+        File testFile = new File(targetDirectory, classModel.getName() + "Test.java");
+        Template temp = cfg.getTemplate("compositeClassTest.ftl");
         Writer out = new FileWriter(testFile);
         temp.process(classModel, out);
     }
@@ -372,7 +383,7 @@ public class MimlToJava extends AbstractMojo {
                 } else if (entry.getTypeName().startsWith("REF<")) {
                     // special case for this
                 } else if (entry.getTypeName().startsWith("LIST<")) {
-                    // TODO: need to implement this next
+                    processClassTestTemplate(targetDirectory, entry, "listClassTest.ftl");
                 } else {
                     getLog().info(
                                     "Need to implement component class test for "
