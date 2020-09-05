@@ -23,6 +23,12 @@ public class ${nameSentenceCase}Test {
     }
 
     @Test
+    public void value() {
+        ${nameSentenceCase} uut = new ${nameSentenceCase}("x");
+        assertEquals(uut.getValue(), "x");
+    }
+
+    @Test
     public void fromBytesConstructor() {
         ${nameSentenceCase} uut = new ${nameSentenceCase}(new byte[] {0x48, 0x45, 0x6c, 0x6c, 0x6f});
         assertEquals(uut.getDisplayableValue(), "HEllo");

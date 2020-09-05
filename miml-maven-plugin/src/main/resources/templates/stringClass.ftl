@@ -60,4 +60,13 @@ public class ${nameSentenceCase} implements IMimdMetadataValue {
     public String getDisplayableValue() {
         return this.stringValue;
     }
+
+    /**
+     * Get the value of this ${nameSentenceCase}.
+     *
+     * @return the value as a String
+     */
+    public String getValue() {
+        return this.stringValue;
+    }
 }

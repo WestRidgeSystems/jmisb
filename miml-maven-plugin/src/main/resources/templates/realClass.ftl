@@ -68,4 +68,13 @@ public class ${nameSentenceCase} implements IMimdMetadataValue {
         return String.format("%.3f", this.doubleValue);
         </#if>
     }
+
+    /**
+     * Get the value of this ${nameSentenceCase}.
+     *
+     * @return the value as a double
+     */
+    public double getValue() {
+        return this.doubleValue;
+    }
 }

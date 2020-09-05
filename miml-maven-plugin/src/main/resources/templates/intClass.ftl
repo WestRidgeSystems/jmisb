@@ -65,4 +65,13 @@ public class ${nameSentenceCase} implements IMimdMetadataValue {
         return String.format("%d", this.intValue);
         </#if>
     }
+
+    /**
+     * Get the value of this ${nameSentenceCase}.
+     *
+     * @return the value as a signed long
+     */
+    public long getValue() {
+        return this.intValue;
+    }
 }

@@ -160,8 +160,9 @@ public class ${name} implements <#if topLevel>IMisbMessage, </#if>IMimdMetadataV
     public Set<? extends IKlvKey> getIdentifiers() {
         return map.keySet();
     }
+
 </#if>
-    private IMimdMetadataValue createValue(${name}MetadataKey key, byte[] data)
+    static IMimdMetadataValue createValue(${name}MetadataKey key, byte[] data)
             throws KlvParseException {
         switch (key) {
 <#list entries as entry>
@@ -174,8 +175,8 @@ public class ${name} implements <#if topLevel>IMisbMessage, </#if>IMimdMetadataV
 </#list>
             default:
                 LOGGER.info("Unknown ${name} Metadata tag: {}", key.name());
+                return null;
         }
-        return null;
     }
 }
 
