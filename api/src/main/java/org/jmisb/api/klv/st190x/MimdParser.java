@@ -5,13 +5,12 @@ import java.util.Arrays;
 import java.util.List;
 import org.jmisb.api.common.InvalidDataHandler;
 import org.jmisb.api.common.KlvParseException;
-import org.jmisb.api.klv.ArrayBuilder;
 import org.jmisb.api.klv.BerDecoder;
 import org.jmisb.api.klv.BerField;
+import org.jmisb.api.klv.CrcCcitt;
 import org.jmisb.api.klv.LdsField;
 import org.jmisb.api.klv.LdsParser;
 import org.jmisb.api.klv.UniversalLabel;
-import org.jmisb.api.klv.st0601.Checksum;
 import org.jmisb.api.klv.st1903.MIMD;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -76,19 +75,13 @@ public class MimdParser {
                 debugMessageStringBuilder.append(" ");
             }
         }
-        byte[] checkValueInput =
-                new ArrayBuilder()
-                        .append(Arrays.copyOfRange(bytes, start, start + UniversalLabel.LENGTH))
-                        .append(Arrays.copyOfRange(bytes, valueStart, last))
-                        .append(new byte[] {0x00, 0x00})
-                        .toBytes();
+        CrcCcitt crcCalc = new CrcCcitt();
+        crcCalc.addData(Arrays.copyOfRange(bytes, start, start + UniversalLabel.LENGTH));
+        crcCalc.addData(Arrays.copyOfRange(bytes, valueStart, last));
         byte[] expectedCheckValue = Arrays.copyOfRange(bytes, last, last + LEN_CHECK_VALUE);
-        byte[] computedResult = Checksum.compute(checkValueInput, false);
-        if (!Arrays.equals(expectedCheckValue, computedResult)) {
+        if (!Arrays.equals(expectedCheckValue, crcCalc.getCrc())) {
             InvalidDataHandler.getInstance().handleInvalidChecksum(LOGGER, "Bad MIMD Check Value");
         }
-
-        // TODO: check check value
         if (LOGGER.isDebugEnabled()) {
             LOGGER.debug(debugMessageStringBuilder.toString());
         }

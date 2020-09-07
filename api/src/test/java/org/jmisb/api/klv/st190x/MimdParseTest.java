@@ -37,8 +37,8 @@ public class MimdParseTest {
                     0x21,
                     0x01,
                     0x31,
-                    (byte) 0x99,
-                    0x4d
+                    (byte) 0xE7,
+                    (byte) 0x92
                 };
         MIMD mimd = new MIMD(bytes);
         assertEquals(mimd.displayHeader(), "MIMD");
@@ -96,8 +96,8 @@ public class MimdParseTest {
                     0x01,
                     0x24,
                     // Check value
-                    0x3e,
-                    0x57
+                    (byte) 0xD8,
+                    (byte) 0x62
                 };
         MIMD mimd = new MIMD(bytes);
         assertEquals(mimd.displayHeader(), "MIMD");
