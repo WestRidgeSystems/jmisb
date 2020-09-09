@@ -9,16 +9,22 @@ public class MimdIdReference implements IMimdMetadataValue {
 
     private int serialNumber;
     private int groupId = 0;
+    private String displayName;
+    private String refTargetType;
 
     /**
      * Construct a MimdIdReference from values.
      *
      * @param serialNumber the serial number of the reference item
      * @param groupIdentifier the group identifier of the reference item
+     * @param name the display name of the reference
+     * @param target the class type this reference points to
      */
-    public MimdIdReference(int serialNumber, int groupIdentifier) {
+    public MimdIdReference(int serialNumber, int groupIdentifier, String name, String target) {
         this.serialNumber = serialNumber;
         this.groupId = groupIdentifier;
+        this.displayName = name;
+        this.refTargetType = target;
     }
 
     /**
@@ -27,9 +33,12 @@ public class MimdIdReference implements IMimdMetadataValue {
      * @param data the bytes to build from
      * @param offset the offset into {@code bytes} to start parsing from
      * @param numBytes the number of bytes to parse
+     * @param name the display name of the reference
+     * @param target the class type this reference points to
      * @throws KlvParseException if parsing fails
      */
-    public MimdIdReference(byte[] data, final int offset, int numBytes) throws KlvParseException {
+    public MimdIdReference(byte[] data, final int offset, int numBytes, String name, String target)
+            throws KlvParseException {
         int index = offset;
         try {
             BerField serialIdField = BerDecoder.decode(data, index, true);
@@ -39,6 +48,8 @@ public class MimdIdReference implements IMimdMetadataValue {
                 BerField groupIdField = BerDecoder.decode(data, index, true);
                 groupId = groupIdField.getValue();
             }
+            this.displayName = name;
+            this.refTargetType = target;
         } catch (IllegalArgumentException ex) {
             throw new KlvParseException(ex.getMessage());
         }
@@ -48,11 +59,14 @@ public class MimdIdReference implements IMimdMetadataValue {
      * Build a MimdIdReference from encoded bytes.
      *
      * @param data the bytes to build from
+     * @param name the display name of the reference
+     * @param target the class type this reference points to
      * @return new MimdIdReference corresponding to the encoded byte array.
      * @throws KlvParseException if parsing fails
      */
-    public static MimdIdReference fromBytes(byte[] data) throws KlvParseException {
-        return new MimdIdReference(data, 0, data.length);
+    public static MimdIdReference fromBytes(byte[] data, String name, String target)
+            throws KlvParseException {
+        return new MimdIdReference(data, 0, data.length, name, target);
     }
 
     @Override
@@ -67,12 +81,12 @@ public class MimdIdReference implements IMimdMetadataValue {
 
     @Override
     public String getDisplayName() {
-        return "REF<>";
+        return this.displayName;
     }
 
     @Override
     public String getDisplayableValue() {
-        return "[" + serialNumber + ", " + groupId + ']';
+        return "REF<" + refTargetType + ">(" + serialNumber + ", " + groupId + ')';
     }
 
     /**

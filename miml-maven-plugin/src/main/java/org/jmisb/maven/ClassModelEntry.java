@@ -36,7 +36,12 @@ public class ClassModelEntry {
         return name.substring(0, 1).toUpperCase() + name.substring(1);
     }
 
-    // Only valid if this is a list.
+    // Only valid if this is a REF
+    public String getRefItemType() {
+        return typeName.split("\\<")[1].split("\\>")[0];
+    }
+
+    // Only valid if this is a list
     public String getListItemType() {
         return typeName.split("\\<")[1].split("\\>")[0];
     }

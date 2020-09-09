@@ -183,7 +183,7 @@ public class ${name} implements <#if topLevel>IMisbMessage, </#if>IMimdMetadataV
 <#list entries as entry>
             case ${entry.name}:
 <#if entry.typeName?starts_with("REF\l")>
-                return MimdIdReference.fromBytes(data);
+                return MimdIdReference.fromBytes(data, "${entry.nameSentenceCase}", "${entry.refItemType}");
 <#else>
                 return ${entry.nameSentenceCase}.fromBytes(data);
 </#if>
