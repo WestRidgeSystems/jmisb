@@ -1,13 +1,25 @@
 package org.jmisb.api.klv.st190x;
 
 import org.jmisb.api.common.KlvParseException;
+import org.jmisb.api.klv.ArrayBuilder;
 import org.jmisb.api.klv.BerDecoder;
 import org.jmisb.api.klv.BerField;
 
 public class MimdIdReference implements IMimdMetadataValue {
 
-    private long serialId;
-    private long groupId = 0;
+    private int serialNumber;
+    private int groupId = 0;
+
+    /**
+     * Construct a MimdIdReference from values.
+     *
+     * @param serialNumber the serial number of the reference item
+     * @param groupIdentifier the group identifier of the reference item
+     */
+    public MimdIdReference(int serialNumber, int groupIdentifier) {
+        this.serialNumber = serialNumber;
+        this.groupId = groupIdentifier;
+    }
 
     /**
      * Construct a MimdIdReference from encoded bytes.
@@ -21,7 +33,7 @@ public class MimdIdReference implements IMimdMetadataValue {
         int index = offset;
         try {
             BerField serialIdField = BerDecoder.decode(data, index, true);
-            serialId = serialIdField.getValue();
+            serialNumber = serialIdField.getValue();
             index += serialIdField.getLength();
             if (index < offset + numBytes) {
                 BerField groupIdField = BerDecoder.decode(data, index, true);
@@ -45,9 +57,12 @@ public class MimdIdReference implements IMimdMetadataValue {
 
     @Override
     public byte[] getBytes() {
-        throw new UnsupportedOperationException(
-                "Not supported yet."); // To change body of generated methods, choose Tools |
-        // Templates.
+        ArrayBuilder arrayBuilder = new ArrayBuilder();
+        arrayBuilder.appendAsOID(serialNumber);
+        if (groupId != 0) {
+            arrayBuilder.appendAsOID(groupId);
+        }
+        return arrayBuilder.toBytes();
     }
 
     @Override
@@ -57,16 +72,16 @@ public class MimdIdReference implements IMimdMetadataValue {
 
     @Override
     public String getDisplayableValue() {
-        return "[TODO]";
+        return "[" + serialNumber + ", " + groupId + ']';
     }
 
     /**
-     * Get the {@code MimdId} serial identifier that this reference points to.
+     * Get the {@code MimdId} serial number that this reference points to.
      *
-     * @return serial identifier
+     * @return serial number
      */
-    public long getSerialId() {
-        return serialId;
+    public int getSerialNumber() {
+        return serialNumber;
     }
 
     /**
@@ -74,7 +89,7 @@ public class MimdIdReference implements IMimdMetadataValue {
      *
      * @return group identifier
      */
-    public long getGroupId() {
+    public int getGroupId() {
         return groupId;
     }
 }

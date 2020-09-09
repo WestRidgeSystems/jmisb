@@ -493,7 +493,7 @@ public class MimlToJava extends AbstractMojo {
                 getLog().warn("Unhandled Real typeModifierParts: " + typeModifiers);
             }
         } else if (entry.getName().equals("mimdId")) {
-            // TODO: special case.
+            // Nothing - special case
         } else {
             getLog().warn(
                             "Unhandled type / typeModifierParts: "
