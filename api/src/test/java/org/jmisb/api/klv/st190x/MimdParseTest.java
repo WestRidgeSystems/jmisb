@@ -9,7 +9,6 @@ import org.jmisb.api.klv.KlvConstants;
 import org.jmisb.api.klv.st1903.MIMD;
 import org.jmisb.api.klv.st1903.MIMDMetadataKey;
 import org.jmisb.api.klv.st1903.Version;
-import org.jmisb.core.klv.ArrayUtils;
 import org.testng.annotations.Test;
 
 /** Basic parse tests for MIMD. */

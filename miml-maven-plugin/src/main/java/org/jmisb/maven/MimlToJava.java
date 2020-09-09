@@ -372,7 +372,7 @@ public class MimlToJava extends AbstractMojo {
                     && entry.getTypeName().endsWith(">")) {
                 processClassTemplate(targetDirectory, entry, "listClass.ftl");
             } else if (entry.getName().equals("mimdId")) {
-                // TODO: special case.
+                // Nothing - special case
             } else {
                 getLog().info(
                                 "Need to implement component class for "
@@ -405,7 +405,7 @@ public class MimlToJava extends AbstractMojo {
                 } else if (entry.getTypeName().startsWith("LIST<")) {
                     processClassTestTemplate(targetDirectory, entry, "listClassTest.ftl");
                 } else if (entry.getName().equals("mimdId")) {
-                    // TODO: special case.
+                    // Nothing - special case, hand coded tests
                 } else {
                     getLog().info(
                                     "Need to implement component class test for "
