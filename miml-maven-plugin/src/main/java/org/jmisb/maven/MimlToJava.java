@@ -12,6 +12,7 @@ import java.nio.charset.StandardCharsets;
 import java.nio.file.Files;
 import java.nio.file.Paths;
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -118,8 +119,10 @@ public class MimlToJava extends AbstractMojo {
             addPackageNameLookup(classModel);
         }
         for (ClassModel classModel : classModels) {
-            classModel.setPackageLookup(packageNameLookups);
-            generateClasses(classModel);
+            if (!classModel.isIsAbstract()) {
+                classModel.setPackageLookup(packageNameLookups);
+                generateClasses(classModel);
+            }
         }
     }
 
@@ -132,7 +135,7 @@ public class MimlToJava extends AbstractMojo {
             if (line.startsWith("enumeration")) {
                 processEnumerationBlock(textBlock);
                 break;
-            } else if (line.startsWith("class")) {
+            } else if (line.startsWith("class") || line.startsWith("abstract class")) {
                 processClassBlock(textBlock);
                 break;
             } else {
@@ -167,6 +170,7 @@ public class MimlToJava extends AbstractMojo {
     }
 
     private void processClassBlock(MimlTextBlock textBlock) {
+        // System.out.println("processing class block line: " + textBlock);
         List<String> lines = textBlock.getText();
         ClassModel classModel = new ClassModel();
         classModel.setPackageNameBase(packageNameBase);
@@ -176,6 +180,10 @@ public class MimlToJava extends AbstractMojo {
             }
             if (line.startsWith("class")) {
                 classModel.parseClassLine(line);
+                continue;
+            }
+            if (line.startsWith("abstract class")) {
+                classModel.parseAbstractClassLine(line);
                 continue;
             }
             if (line.startsWith("Document")) {
@@ -277,9 +285,19 @@ public class MimlToJava extends AbstractMojo {
 
     private void generateClasses(ClassModel classModel) {
         try {
+            getLog().info("Generating classes for " + classModel.getName());
             String packagePart = classModel.getDocument().toLowerCase() + "/";
             File targetDirectory = new File(generatedSourceDirectory, packagePart);
             targetDirectory.mkdirs();
+            if (!classModel.getIncludes().isEmpty()) {
+                String baseModelName = classModel.getIncludes();
+                ClassModel baseModel = findClassByName(baseModelName);
+                ArrayList<ClassModelEntry> entries = new ArrayList(baseModel.getEntries());
+                Collections.reverse(entries);
+                for (ClassModelEntry entry : entries) {
+                    classModel.addEntryAtStart(entry);
+                }
+            }
             generateMetadataKey(targetDirectory, classModel);
             generateLocalSet(targetDirectory, classModel);
             generateComponentClasses(targetDirectory, classModel);
@@ -353,6 +371,8 @@ public class MimlToJava extends AbstractMojo {
             } else if (entry.getTypeName().startsWith("LIST<")
                     && entry.getTypeName().endsWith(">")) {
                 processClassTemplate(targetDirectory, entry, "listClass.ftl");
+            } else if (entry.getName().equals("mimdId")) {
+                // TODO: special case.
             } else {
                 getLog().info(
                                 "Need to implement component class for "
@@ -384,6 +404,8 @@ public class MimlToJava extends AbstractMojo {
                     // special case for this
                 } else if (entry.getTypeName().startsWith("LIST<")) {
                     processClassTestTemplate(targetDirectory, entry, "listClassTest.ftl");
+                } else if (entry.getName().equals("mimdId")) {
+                    // TODO: special case.
                 } else {
                     getLog().info(
                                     "Need to implement component class test for "
@@ -400,6 +422,11 @@ public class MimlToJava extends AbstractMojo {
     private void processClassTemplate(
             File targetDirectory, ClassModelEntry entry, String templateFile)
             throws IOException, TemplateException {
+        System.out.println(
+                "Processing class template "
+                        + templateFile
+                        + " for "
+                        + entry.getNameSentenceCase());
         File testFile = new File(targetDirectory, entry.getNameSentenceCase() + ".java");
         Template temp = cfg.getTemplate(templateFile);
         Writer out = new FileWriter(testFile);
@@ -409,6 +436,8 @@ public class MimlToJava extends AbstractMojo {
     private void processClassTestTemplate(
             File targetDirectory, ClassModelEntry entry, String templateFile)
             throws IOException, TemplateException {
+        System.out.println(
+                "Processing test template " + templateFile + " for " + entry.getNameSentenceCase());
         File testFile = new File(targetDirectory, entry.getNameSentenceCase() + "Test.java");
         Template temp = cfg.getTemplate(templateFile);
         Writer out = new FileWriter(testFile);
@@ -463,6 +492,8 @@ public class MimlToJava extends AbstractMojo {
             } else {
                 getLog().warn("Unhandled Real typeModifierParts: " + typeModifiers);
             }
+        } else if (entry.getName().equals("mimdId")) {
+            // TODO: special case.
         } else {
             getLog().warn(
                             "Unhandled type / typeModifierParts: "
@@ -474,5 +505,15 @@ public class MimlToJava extends AbstractMojo {
 
     private void addPackageNameLookup(ClassModel classModel) {
         packageNameLookups.put(classModel.getName(), classModel.getPackageName());
+    }
+
+    private ClassModel findClassByName(String className) {
+        for (ClassModel classModel : classModels) {
+            if (classModel.getName().equals(className)) {
+                return classModel;
+            }
+        }
+        getLog().error("Failed to look up " + className);
+        return null;
     }
 }

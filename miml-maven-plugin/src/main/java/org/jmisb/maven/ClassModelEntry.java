@@ -43,6 +43,7 @@ public class ClassModelEntry {
 
     // Only valid if this is a list.
     public String getListItemTypePackage() {
+        // System.out.println(getListItemType());
         return parent.getTypePackage(getListItemType());
     }
 

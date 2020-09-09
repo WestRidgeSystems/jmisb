@@ -13,6 +13,7 @@ public class ClassModel {
     private List<ClassModelEntry> entries = new ArrayList<>();
     private Map<String, String> packageLookup = new HashMap<>();
     private boolean topLevel = false;
+    private boolean isAbstract;
 
     public String getPackageName() {
         return packageNameBase + "." + document.toLowerCase();
@@ -54,6 +55,14 @@ public class ClassModel {
         this.topLevel = topLevel;
     }
 
+    public boolean isIsAbstract() {
+        return isAbstract;
+    }
+
+    public void setIsAbstract(boolean isAbstract) {
+        this.isAbstract = isAbstract;
+    }
+
     public List<ClassModelEntry> getEntries() {
         return entries;
     }
@@ -66,12 +75,15 @@ public class ClassModel {
         this.entries.add(entry);
     }
 
+    public void addEntryAtStart(ClassModelEntry entry) {
+        this.entries.add(0, entry);
+    }
+
     void parseClassLine(String line) {
         String[] lineParts = line.split(" ");
         setName(lineParts[1].trim());
         if (line.contains("includes")) {
             setIncludes(lineParts[3].trim());
-            // TODO: include Base
         }
     }
 
@@ -80,6 +92,14 @@ public class ClassModel {
     }
 
     String getTypePackage(String listItemType) {
+        // System.out.println("type package item: " + listItemType);
+        // System.out.println("type package: " + packageLookup.get(listItemType));
+        // System.out.println(packageLookup.keySet());
         return packageLookup.get(listItemType);
+    }
+
+    void parseAbstractClassLine(String line) {
+        parseClassLine(line.substring("abstract ".length()));
+        setIsAbstract(true);
     }
 }

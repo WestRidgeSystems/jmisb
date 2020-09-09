@@ -34,3 +34,10 @@ class Platform includes Base {
     Document = ST1905;
     33_name : String (100) {None};
 }
+abstract class Base {
+    Document = ST1904;
+    01_mimdId : UInt[<=2] (1, *) {None};
+    02_timer : REF<Timer> {None};
+    03_timerOffset: Integer { ns};
+    05_security : REF<Security> {None};
+}

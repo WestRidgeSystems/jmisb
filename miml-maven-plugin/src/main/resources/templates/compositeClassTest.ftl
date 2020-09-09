@@ -5,6 +5,7 @@ import java.util.TreeMap;
 import org.jmisb.api.common.KlvParseException;
 import org.jmisb.api.klv.LoggerChecks;
 import org.jmisb.api.klv.st190x.IMimdMetadataValue;
+import org.jmisb.api.klv.st190x.MimdId;
 import org.jmisb.api.klv.st190x.MimdIdReference;
 import static org.testng.Assert.*;
 

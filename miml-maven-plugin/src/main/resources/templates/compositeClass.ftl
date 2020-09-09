@@ -23,6 +23,7 @@ import org.jmisb.api.klv.LdsField;
 import org.jmisb.api.klv.LdsParser;
 </#if>
 import org.jmisb.api.klv.st190x.IMimdMetadataValue;
+import org.jmisb.api.klv.st190x.MimdId;
 import org.jmisb.api.klv.st190x.MimdIdReference;
 <#if topLevel>
 import org.jmisb.api.klv.st190x.MimdParser;
@@ -80,9 +81,7 @@ public class ${name} implements <#if topLevel>IMisbMessage, </#if>IMimdMetadataV
 
     @Override
     public byte[] getBytes(){
-        ArrayBuilder arrayBuilder = new ArrayBuilder();
-        // TODO: add in parts, header, etc
-        return arrayBuilder.toBytes();
+        return frameMessage(false);
     }
 <#else>
     /**
