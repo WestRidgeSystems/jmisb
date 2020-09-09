@@ -57,6 +57,7 @@ public class MimlToJava extends AbstractMojo {
     private Configuration cfg;
 
     private List<String> knownEnumerationValues = new ArrayList<>();
+    private List<EnumerationModel> enumerationModels = new ArrayList<>();
     private List<ClassModel> classModels = new ArrayList<>();
     private Map<String, String> packageNameLookups = new HashMap<>();
 
@@ -74,6 +75,19 @@ public class MimlToJava extends AbstractMojo {
         for (File inFile : files) {
             if (inFile.getName().endsWith(".miml")) {
                 processMimlFile(inFile);
+            }
+        }
+        for (EnumerationModel enumerationModel : enumerationModels) {
+            generateEnumeration(enumerationModel);
+            generateEnumerationTests(enumerationModel);
+        }
+        for (ClassModel classModel : classModels) {
+            addPackageNameLookup(classModel);
+        }
+        for (ClassModel classModel : classModels) {
+            if (!classModel.isIsAbstract()) {
+                classModel.setPackageLookup(packageNameLookups);
+                generateClasses(classModel);
             }
         }
     }
@@ -116,15 +130,6 @@ public class MimlToJava extends AbstractMojo {
         for (MimlTextBlock textBlock : textBlocks) {
             processBlock(textBlock);
         }
-        for (ClassModel classModel : classModels) {
-            addPackageNameLookup(classModel);
-        }
-        for (ClassModel classModel : classModels) {
-            if (!classModel.isIsAbstract()) {
-                classModel.setPackageLookup(packageNameLookups);
-                generateClasses(classModel);
-            }
-        }
     }
 
     private void processBlock(MimlTextBlock textBlock) {
@@ -166,8 +171,7 @@ public class MimlToJava extends AbstractMojo {
                 continue;
             }
         }
-        generateEnumeration(enumeration);
-        generateEnumerationTests(enumeration);
+        enumerationModels.add(enumeration);
     }
 
     private void processClassBlock(MimlTextBlock textBlock) {
