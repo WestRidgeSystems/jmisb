@@ -7,6 +7,7 @@ import freemarker.template.TemplateExceptionHandler;
 import java.io.File;
 import java.io.FileWriter;
 import java.io.IOException;
+import java.io.StringWriter;
 import java.io.Writer;
 import java.nio.charset.StandardCharsets;
 import java.nio.file.Files;
@@ -295,6 +296,13 @@ public class MimlToJava extends AbstractMojo {
                 ArrayList<ClassModelEntry> entries = new ArrayList(baseModel.getEntries());
                 Collections.reverse(entries);
                 for (ClassModelEntry entry : entries) {
+                    System.out.println(
+                            "classModel:"
+                                    + classModel.getName()
+                                    + " adding "
+                                    + entry.getName()
+                                    + ", "
+                                    + entry.getNameSentenceCase());
                     classModel.addEntryAtStart(entry);
                 }
             }
@@ -315,6 +323,9 @@ public class MimlToJava extends AbstractMojo {
         File metadataKeyFile = new File(targetDirectory, classModel.getName() + "MetadataKey.java");
         Writer out = new FileWriter(metadataKeyFile);
         temp.process(classModel, out);
+        out = new StringWriter();
+        temp.process(classModel, out);
+        System.out.println(out);
     }
 
     private void generateMetadataKeyTests(ClassModel classModel)
