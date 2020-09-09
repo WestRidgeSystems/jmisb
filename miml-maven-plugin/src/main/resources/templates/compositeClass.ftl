@@ -12,6 +12,7 @@ import org.jmisb.api.common.InvalidDataHandler;
 import org.jmisb.api.common.KlvParseException;
 import org.jmisb.api.klv.ArrayBuilder;
 <#if topLevel>
+import org.jmisb.api.klv.CrcCcitt;
 import org.jmisb.api.klv.IKlvKey;
 import org.jmisb.api.klv.IKlvValue;
 import org.jmisb.api.klv.IMisbMessage;
@@ -141,8 +142,23 @@ public class ${name} implements <#if topLevel>IMisbMessage, </#if>IMimdMetadataV
 
     @Override
     public byte[] frameMessage(boolean isNested) {
-        // TODO: ArrayBuilder when its available.
-        return new byte[] {};
+        ArrayBuilder arrayBuilder = new ArrayBuilder();
+        for (Map.Entry<${name}MetadataKey, IMimdMetadataValue> entry: map.entrySet()) {
+            arrayBuilder.appendAsOID(entry.getKey().getIdentifier());
+            byte[] valueBytes = entry.getValue().getBytes();
+            arrayBuilder.appendAsBerLength(valueBytes.length);
+            arrayBuilder.append(valueBytes);
+        }
+        // Nesting is highly unlikely, but is supported.
+        if (!isNested) {
+            CrcCcitt crc = new CrcCcitt();
+            crc.addData(getUniversalLabel().getBytes());
+            crc.addData(arrayBuilder.toBytes());
+            arrayBuilder.append(crc.getCrc());
+            arrayBuilder.prependLength();
+            arrayBuilder.prepend(getUniversalLabel());
+        }
+        return arrayBuilder.toBytes();
     }
 
     @Override

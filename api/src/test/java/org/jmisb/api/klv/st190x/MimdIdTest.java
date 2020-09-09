@@ -102,4 +102,14 @@ public class MimdIdTest {
         assertEquals(uut.getBytes(), new byte[] {(byte) 0x81, 0x07, (byte) 0x82, 0x05});
         assertEquals(uut.toString(), "MimdId{serialNumber=135, groupIdentifier=261}");
     }
+
+    @Test(expectedExceptions = KlvParseException.class)
+    public void fromBytesBadSerial() throws KlvParseException {
+        new MimdId(new byte[] {(byte) 0x83});
+    }
+
+    @Test(expectedExceptions = KlvParseException.class)
+    public void fromBytesBadGroup() throws KlvParseException {
+        new MimdId(new byte[] {(byte) 0x83, 0x04, (byte) 0x81});
+    }
 }
