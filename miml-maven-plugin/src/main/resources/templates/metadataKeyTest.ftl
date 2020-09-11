@@ -1,4 +1,5 @@
 // Generated file - changes will be lost on rebuild
+// Template: ${.current_template_name}
 package ${packageName};
 
 import static org.testng.Assert.*;

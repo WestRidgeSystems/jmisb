@@ -446,7 +446,7 @@ public class MimlToJava extends AbstractMojo {
                         + entry.getNameSentenceCase());
         File testFile = new File(targetDirectory, entry.getNameSentenceCase() + ".java");
         Template temp = cfg.getTemplate(templateFile);
-        Writer out = new FileWriter(testFile);
+        Writer out = new OutputStreamWriter(new FileOutputStream(testFile), StandardCharsets.UTF_8);
         temp.process(entry, out);
     }
 
@@ -457,7 +457,7 @@ public class MimlToJava extends AbstractMojo {
                 "Processing test template " + templateFile + " for " + entry.getNameSentenceCase());
         File testFile = new File(targetDirectory, entry.getNameSentenceCase() + "Test.java");
         Template temp = cfg.getTemplate(templateFile);
-        Writer out = new FileWriter(testFile);
+        Writer out = new OutputStreamWriter(new FileOutputStream(testFile), StandardCharsets.UTF_8);
         temp.process(entry, out);
     }
 
