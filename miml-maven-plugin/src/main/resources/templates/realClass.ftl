@@ -1,3 +1,4 @@
+<#setting number_format="computer">
 // Generated file - changes will be lost on rebuild
 package ${packageName};
 
@@ -6,7 +7,7 @@ import org.jmisb.api.klv.st190x.IMimdMetadataValue;
 import org.jmisb.core.klv.PrimitiveConverter;
 
 /**
- * ${name} MIMD Floating Point.
+ * ${name} MIMD Floating Point value.
  *
  * See ${document} for more information on this data type.
  */
@@ -16,9 +17,26 @@ public class ${nameSentenceCase} implements IMimdMetadataValue {
     /**
      * Construct from value.
      *
+<#if maxValue??>
+     * The value must be in the range [${minValue}, ${maxValue}].
+     *
+<#elseif minValue??>
+     * The minimum value is ${minValue}.
+     *
+</#if>
      * @param value the floating point value to initialise this ${nameSentenceCase} with.
      */
-    public ${nameSentenceCase}(double value) {
+    public ${nameSentenceCase}(double value) throws IllegalArgumentException{
+<#if minValue??>
+        if (value < ${minValue}) {
+            throw new IllegalArgumentException("Minimum value for ${nameSentenceCase} is ${minValue}");
+        }
+</#if>
+<#if maxValue??>
+        if (value > ${maxValue}) {
+            throw new IllegalArgumentException("Maximum value for ${nameSentenceCase} is ${maxValue}");
+        }
+</#if>
         this.doubleValue = value;
     }
 
@@ -63,7 +81,7 @@ public class ${nameSentenceCase} implements IMimdMetadataValue {
     @Override
     public String getDisplayableValue() {
         <#if units??>
-        return String.format("%.3f ${units}", this.doubleValue);
+        return String.format("%.3f ${escapedUnits}", this.doubleValue);
         <#else>
         return String.format("%.3f", this.doubleValue);
         </#if>

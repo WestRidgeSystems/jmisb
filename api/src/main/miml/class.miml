@@ -34,6 +34,16 @@ class Platform includes Base {
     Document = ST1905;
     33_name : String (100) {None};
 }
+class Atmosphere includes Base {
+    Document = ST1905;
+    33_airTemperature       : Real (-128, 127, 1)     { °C};
+    34_relativeHumidity     : Real (0, 100, 0.1)      {  %};
+    35_densityAltitude      : Real (-900, 40000, 0.3) {  m};
+    36_differentialPressure : Real (0, 5000)          {hPa};
+    37_staticPressure       : Real (0, 5000)          {hPa};
+    38_windDirection        : Real (0, TWO_PI)        {rad};
+    39_windSpeed            : Real (0, 200)           {m/s};
+}
 abstract class Base {
     Document = ST1904;
     01_mimdId : UInt[<=2] (1, *) {None};

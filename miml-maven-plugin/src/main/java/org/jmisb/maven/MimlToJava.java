@@ -26,6 +26,7 @@ import org.apache.maven.project.MavenProject;
 /** Goal which generates Java sources for a Motion Imagery Modeling Language input. */
 @Mojo(name = "generate", defaultPhase = LifecyclePhase.GENERATE_SOURCES)
 public class MimlToJava extends AbstractMojo {
+
     @Parameter(defaultValue = "${project.basedir}", property = "inputDir", required = true)
     private File inputDirectory;
 
@@ -230,7 +231,7 @@ public class MimlToJava extends AbstractMojo {
         return entry;
     }
 
-    private ClassModelEntry parseClassEntry(String line) {
+    ClassModelEntry parseClassEntry(String line) {
         ClassModelEntry entry = new ClassModelEntry();
         String[] partsEquals = line.split(" : ");
         String idAndNamePart = partsEquals[0];
@@ -478,19 +479,14 @@ public class MimlToJava extends AbstractMojo {
                 getLog().warn("Unhandled String typeModifierParts: " + typeModifiers);
             }
         } else if ("Real".equals(entry.getTypeName())) {
-            if (typeModifierParts.length == 1) {
-                double minValue = Double.parseDouble(typeModifierParts[0]);
-                entry.setMinValue(minValue);
-            } else {
-                getLog().warn("Unhandled Real typeModifierParts: " + typeModifiers);
-            }
+            partTypeModifierPartsForReal(typeModifierParts, entry, typeModifiers);
         } else if (entry.getTypeName().startsWith("Real[]")) {
             if (typeModifierParts.length == 3) {
-                double minValue = Double.parseDouble(typeModifierParts[0]);
+                double minValue = stringToDouble(typeModifierParts[0]);
                 entry.setMinValue(minValue);
-                double maxValue = Double.parseDouble(typeModifierParts[1]);
+                double maxValue = stringToDouble(typeModifierParts[1]);
                 entry.setMaxValue(maxValue);
-                double resolution = Double.parseDouble(typeModifierParts[2]);
+                double resolution = stringToDouble(typeModifierParts[2]);
                 entry.setResolution(resolution);
             } else {
                 getLog().warn("Unhandled Real typeModifierParts: " + typeModifiers);
@@ -514,6 +510,53 @@ public class MimlToJava extends AbstractMojo {
                                     + entry.getTypeName()
                                     + " / "
                                     + typeModifiers);
+        }
+    }
+
+    private void partTypeModifierPartsForReal(
+            String[] typeModifierParts, ClassModelEntry entry, String typeModifiers)
+            throws NumberFormatException {
+        switch (typeModifierParts.length) {
+            case 1:
+                {
+                    double minValue = stringToDouble(typeModifierParts[0]);
+                    entry.setMinValue(minValue);
+                    break;
+                }
+            case 2:
+                {
+                    double minValue = stringToDouble(typeModifierParts[0]);
+                    entry.setMinValue(minValue);
+                    double maxValue = stringToDouble(typeModifierParts[1]);
+                    entry.setMaxValue(maxValue);
+                    break;
+                }
+            case 3:
+                {
+                    double minValue = stringToDouble(typeModifierParts[0]);
+                    entry.setMinValue(minValue);
+                    double maxValue = stringToDouble(typeModifierParts[1]);
+                    entry.setMaxValue(maxValue);
+                    double resolution = stringToDouble(typeModifierParts[2]);
+                    entry.setResolution(resolution);
+                    break;
+                }
+            default:
+                getLog().warn("Unhandled Real typeModifierParts: " + typeModifiers);
+                break;
+        }
+    }
+
+    private double stringToDouble(String typeModifierPart) throws NumberFormatException {
+        switch (typeModifierPart.trim()) {
+            case "TWO_PI":
+                return 2.0 * Math.PI;
+            case "PI":
+                return Math.PI;
+            case "HALF_PI":
+                return Math.PI / 2.0;
+            default:
+                return Double.parseDouble(typeModifierPart);
         }
     }
 

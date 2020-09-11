@@ -1,6 +1,7 @@
 package org.jmisb.maven;
 
 public class ClassModelEntry {
+
     private int number;
     private String name;
     private String typeName;
@@ -105,6 +106,13 @@ public class ClassModelEntry {
     }
 
     public String getUnits() {
+        return units;
+    }
+
+    public String getEscapedUnits() {
+        if (units.equals("%")) {
+            return "%%";
+        }
         return units;
     }
 

@@ -1,3 +1,4 @@
+<#setting number_format="computer">
 // Generated file - changes will be lost on rebuild
 package ${packageName};
 

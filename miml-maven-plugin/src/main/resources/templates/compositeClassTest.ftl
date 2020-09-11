@@ -1,3 +1,4 @@
+<#setting number_format="computer">
 // Generated file - changes will be lost on rebuild
 package ${packageName};
 
@@ -38,6 +39,32 @@ public class ${name}Test extends LoggerChecks {
         assertNull(uut);
     }
 
+<#if !topLevel>
+    @Test
+    public void parseFromBytesEmpty() throws KlvParseException {
+        verifyNoLoggerMessages();
+        IMimdMetadataValue uut = new ${name}(new byte[]{}, 0, 0);
+        verifyNoLoggerMessages();
+        assertEquals(uut.getBytes().length, 0);
+    }
+
+    @Test
+    public void parseFromBytesMimdId() throws KlvParseException {
+        verifyNoLoggerMessages();
+        IMimdMetadataValue uut = new ${name}(new byte[]{0x01, 0x02, 0x04, 0x03}, 0, 4);
+        verifyNoLoggerMessages();
+        assertEquals(uut.getBytes(), new byte[]{0x01, 0x02, 0x04, 0x03});
+    }
+
+    @Test
+    public void parseFromBytesBadTag() throws KlvParseException {
+        verifyNoLoggerMessages();
+        IMimdMetadataValue uut = new ${name}(new byte[]{0x7F, 0x01, 0x00, 0x01, 0x02, 0x04, 0x03}, 0, 7);
+        verifySingleLoggerMessage("Unknown MIMD ${name} Metadata tag: 127");
+        assertEquals(uut.getBytes(), new byte[]{0x01, 0x02, 0x04, 0x03});
+    }
+
+</#if>
 <#list entries as entry>
     @Test
     public void createValue${entry.nameSentenceCase}() throws KlvParseException {

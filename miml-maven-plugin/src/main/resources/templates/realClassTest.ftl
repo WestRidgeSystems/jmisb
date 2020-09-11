@@ -1,3 +1,4 @@
+<#setting number_format="computer">
 // Generated file - changes will be lost on rebuild
 package ${packageName};
 
@@ -6,7 +7,7 @@ import static org.testng.Assert.*;
 
 import org.testng.annotations.Test;
 
-/** Unit tests for ${nameSentenceCase} */
+/** Unit tests for ${nameSentenceCase}. */
 public class ${nameSentenceCase}Test {
 
     @Test
@@ -106,4 +107,30 @@ public class ${nameSentenceCase}Test {
                     (byte) 0x00,
                     (byte) 0x00});
     }
+
+<#if minValue??>
+    @Test
+    public void fromValueMin() {
+        ${nameSentenceCase} uut = new ${nameSentenceCase}(${minValue});
+        assertNotNull(uut);
+    }
+
+    @Test(expectedExceptions = IllegalArgumentException.class)
+    public void fromValueMinOutOfRange() {
+        new ${nameSentenceCase}(${minValue} - 0.5);
+    }
+</#if>
+
+<#if maxValue??>
+    @Test
+    public void fromValueMax() {
+        ${nameSentenceCase} uut = new ${nameSentenceCase}(${maxValue});
+        assertNotNull(uut);
+    }
+
+    @Test(expectedExceptions = IllegalArgumentException.class)
+    public void fromValueMaxOutOfRange() {
+        new ${nameSentenceCase}(${maxValue} + 0.5);
+    }
+</#if>
 }
