@@ -5,7 +5,6 @@ package ${packageName};
 import static org.testng.Assert.*;
 
 import java.util.Collections;
-import org.jmisb.api.common.KlvParseException;
 import org.testng.annotations.Test;
 
 /** Unit tests for ${nameSentenceCase} */

@@ -3,7 +3,6 @@
 package ${packageName};
 
 import java.nio.charset.StandardCharsets;
-import org.jmisb.api.common.KlvParseException;
 import org.jmisb.api.klv.st190x.IMimdMetadataValue;
 
 /**
