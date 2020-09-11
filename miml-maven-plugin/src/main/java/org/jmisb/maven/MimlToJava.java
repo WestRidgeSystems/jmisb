@@ -5,8 +5,10 @@ import freemarker.template.Template;
 import freemarker.template.TemplateException;
 import freemarker.template.TemplateExceptionHandler;
 import java.io.File;
+import java.io.FileOutputStream;
 import java.io.FileWriter;
 import java.io.IOException;
+import java.io.OutputStreamWriter;
 import java.io.Writer;
 import java.nio.charset.StandardCharsets;
 import java.nio.file.Files;
@@ -363,7 +365,7 @@ public class MimlToJava extends AbstractMojo {
         targetDirectory.mkdirs();
         File testFile = new File(targetDirectory, classModel.getName() + "Test.java");
         Template temp = cfg.getTemplate("compositeClassTest.ftl");
-        Writer out = new FileWriter(testFile);
+        Writer out = new OutputStreamWriter(new FileOutputStream(testFile), StandardCharsets.UTF_8);
         temp.process(classModel, out);
     }
 
