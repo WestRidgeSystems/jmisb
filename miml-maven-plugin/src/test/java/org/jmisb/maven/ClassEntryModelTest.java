@@ -126,6 +126,21 @@ public class ClassEntryModelTest {
         assertEquals(entry.getName(), "timers");
         assertEquals(entry.getNameSentenceCase(), "Timers");
         assertEquals(entry.getUnits(), "None");
+        assertEquals(entry.getMinLength().longValue(), 1L);
+        assertNull(entry.getMaxLength());
+    }
+
+    @Test
+    public void LIST28() {
+        ClassModelEntry entry =
+                MimlToJava.parseClassEntry("38_timers : LIST<Timer> (2, 8) {None}; ");
+        assertEquals(entry.getNumber(), 38);
+        assertEquals(entry.getListItemType(), "Timer");
+        assertEquals(entry.getName(), "timers");
+        assertEquals(entry.getNameSentenceCase(), "Timers");
+        assertEquals(entry.getUnits(), "None");
+        assertEquals(entry.getMinLength().longValue(), 1L);
+        assertEquals(entry.getMaxLength().longValue(), 8L);
     }
 
     @Test

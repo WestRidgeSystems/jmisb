@@ -518,7 +518,7 @@ public class MimlToJava extends AbstractMojo {
                 int minLength = Integer.parseInt(typeModifierParts[0]);
                 entry.setMinLength(minLength);
                 if (!typeModifierParts[1].trim().equals("*")) {
-                    int maxLength = Integer.parseInt(typeModifierParts[1]);
+                    int maxLength = Integer.parseInt(typeModifierParts[1].trim());
                     entry.setMaxLength(maxLength);
                 }
             } else {
