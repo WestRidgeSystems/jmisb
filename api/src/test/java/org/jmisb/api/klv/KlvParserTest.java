@@ -7,6 +7,9 @@ import java.util.SortedMap;
 import java.util.TreeMap;
 import org.jmisb.api.common.KlvParseException;
 import org.jmisb.api.klv.st0601.*;
+import org.jmisb.api.klv.st1903.MIMD;
+import org.jmisb.api.klv.st1903.MIMDMetadataKey;
+import org.jmisb.api.klv.st1903.Version;
 import org.jmisb.core.klv.ArrayUtils;
 import org.testng.Assert;
 import org.testng.annotations.AfterMethod;
@@ -99,6 +102,53 @@ public class KlvParserTest {
                     (SensorLongitude)
                             datalinkMessage.getField((IKlvKey) UasDatalinkTag.SensorLongitude);
             Assert.assertEquals(lonFromIKlvKey.getDegrees(), lon.getDegrees(), 0.0000001);
+        } catch (KlvParseException e) {
+            Assert.fail("Parse exception");
+        }
+    }
+
+    @Test
+    public void testMIMD() {
+        byte[] bytes =
+                new byte[] {
+                    0x06,
+                    0x0E,
+                    0x2B,
+                    0x34,
+                    0x02,
+                    0x05,
+                    0x01,
+                    0x01,
+                    0x0E,
+                    0x01,
+                    0x05,
+                    0x03,
+                    0x00,
+                    0x00,
+                    0x00,
+                    0x00,
+                    0x05,
+                    0x21,
+                    0x01,
+                    0x31,
+                    (byte) 0xE7,
+                    (byte) 0x92
+                };
+
+        try {
+            List<IMisbMessage> messages = KlvParser.parseBytes(bytes);
+            Assert.assertEquals(messages.size(), 1);
+
+            IMisbMessage message = messages.get(0);
+            Assert.assertTrue(message instanceof MIMD);
+
+            MIMD mimdMessage = (MIMD) message;
+            Assert.assertEquals(mimdMessage.getIdentifiers().size(), 1);
+
+            Version version = (Version) mimdMessage.getField(MIMDMetadataKey.version);
+
+            Assert.assertNotNull(version);
+            Assert.assertEquals(version.getDisplayableValue(), "1");
         } catch (KlvParseException e) {
             Assert.fail("Parse exception");
         }
