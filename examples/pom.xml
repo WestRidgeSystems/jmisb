@@ -14,5 +14,6 @@
         <module>generator</module>
         <module>systemout</module>
         <module>movingfeatures</module>
+        <module>mimdgenerator</module>
     </modules>
 </project>

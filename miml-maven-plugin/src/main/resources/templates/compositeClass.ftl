@@ -5,9 +5,7 @@ package ${packageName};
 
 import java.util.List;
 import java.util.Map;
-<#if topLevel>
 import java.util.Set;
-</#if>
 import java.util.SortedMap;
 import java.util.TreeMap;
 import org.jmisb.api.common.InvalidDataHandler;
@@ -15,14 +13,18 @@ import org.jmisb.api.common.KlvParseException;
 import org.jmisb.api.klv.ArrayBuilder;
 <#if topLevel>
 import org.jmisb.api.klv.CrcCcitt;
+</#if>
 import org.jmisb.api.klv.IKlvKey;
 import org.jmisb.api.klv.IKlvValue;
+import org.jmisb.api.klv.INestedKlvValue;
+<#if topLevel>
 import org.jmisb.api.klv.IMisbMessage;
 import org.jmisb.api.klv.KlvConstants;
+</#if>
 import org.jmisb.api.klv.LdsField;
+<#if topLevel>
 import org.jmisb.api.klv.UniversalLabel;
 <#else>
-import org.jmisb.api.klv.LdsField;
 import org.jmisb.api.klv.LdsParser;
 </#if>
 import org.jmisb.api.klv.st190x.IMimdMetadataValue;
@@ -39,7 +41,7 @@ import org.slf4j.LoggerFactory;
  *
  * See ${document} for more information on this data type.
  */
-public class ${name} implements <#if topLevel>IMisbMessage, </#if>IMimdMetadataValue {
+public class ${name} implements <#if topLevel>IMisbMessage, </#if>IMimdMetadataValue, INestedKlvValue {
     private static final Logger LOGGER = LoggerFactory.getLogger(${name}.class);
 
     /** Map containing all data elements in the message. */
@@ -168,16 +170,6 @@ public class ${name} implements <#if topLevel>IMisbMessage, </#if>IMimdMetadataV
         return "${name}";
     }
 
-    @Override
-    public IKlvValue getField(IKlvKey tag) {
-        return map.get(tag);
-    }
-
-    @Override
-    public Set<? extends IKlvKey> getIdentifiers() {
-        return map.keySet();
-    }
-
 </#if>
     static IMimdMetadataValue createValue(${name}MetadataKey key, byte[] data)
             throws KlvParseException {
@@ -195,5 +187,14 @@ public class ${name} implements <#if topLevel>IMisbMessage, </#if>IMimdMetadataV
                 return null;
         }
     }
-}
 
+    @Override
+    public IKlvValue getField(IKlvKey tag) {
+        return map.get((${name}MetadataKey)tag);
+    }
+
+    @Override
+    public Set<? extends IKlvKey> getIdentifiers() {
+        return map.keySet();
+    }
+}

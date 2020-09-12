@@ -9,6 +9,7 @@ import org.jmisb.api.klv.st0102.localset.SecurityMetadataLocalSet;
 import org.jmisb.api.klv.st0102.universalset.SecurityMetadataUniversalSet;
 import org.jmisb.api.klv.st0601.UasDatalinkMessage;
 import org.jmisb.api.klv.st0903.vtrack.VTrackLocalSet;
+import org.jmisb.api.klv.st1903.MIMD;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -73,6 +74,10 @@ public class KlvParser {
                 } else if (ul.equals(KlvConstants.VTrackLocalSetUl)) {
                     if (logger.isDebugEnabled()) logger.debug("VTrack Local Set message");
                     VTrackLocalSet message = new VTrackLocalSet(nextMessage);
+                    messages.add(message);
+                } else if (ul.equals(KlvConstants.MIMDLocalSetUl)) {
+                    if (logger.isDebugEnabled()) logger.debug("MIMD Local Set message");
+                    MIMD message = new MIMD(nextMessage);
                     messages.add(message);
                 } else {
                     if (logger.isDebugEnabled())

@@ -5,6 +5,7 @@ import freemarker.template.Template;
 import freemarker.template.TemplateException;
 import freemarker.template.TemplateExceptionHandler;
 import java.io.File;
+import java.io.FileNotFoundException;
 import java.io.FileOutputStream;
 import java.io.FileWriter;
 import java.io.IOException;
@@ -388,6 +389,7 @@ public class MimlToJava extends AbstractMojo {
             } else if (entry.getTypeName().startsWith("LIST<")
                     && entry.getTypeName().endsWith(">")) {
                 processClassTemplate(targetDirectory, entry, "listClass.ftl");
+                processListItemIdentifierTemplate(targetDirectory, entry, "listItemIdentifier.ftl");
             } else if (entry.getName().equals("mimdId")) {
                 // Nothing - special case
             } else {
@@ -444,10 +446,20 @@ public class MimlToJava extends AbstractMojo {
                         + templateFile
                         + " for "
                         + entry.getNameSentenceCase());
-        File testFile = new File(targetDirectory, entry.getNameSentenceCase() + ".java");
-        Template temp = cfg.getTemplate(templateFile);
-        Writer out = new OutputStreamWriter(new FileOutputStream(testFile), StandardCharsets.UTF_8);
-        temp.process(entry, out);
+        File outputFile = new File(targetDirectory, entry.getNameSentenceCase() + ".java");
+        processTemplate(templateFile, outputFile, entry);
+    }
+
+    private void processListItemIdentifierTemplate(
+            File targetDirectory, ClassModelEntry entry, String templateFile)
+            throws IOException, TemplateException {
+        System.out.println(
+                "Processing list item identiifer template "
+                        + templateFile
+                        + " for "
+                        + entry.getNameSentenceCase());
+        File outputFile = new File(targetDirectory, entry.getListItemType() + "Identifier.java");
+        processTemplate(templateFile, outputFile, entry);
     }
 
     private void processClassTestTemplate(
@@ -455,9 +467,15 @@ public class MimlToJava extends AbstractMojo {
             throws IOException, TemplateException {
         System.out.println(
                 "Processing test template " + templateFile + " for " + entry.getNameSentenceCase());
-        File testFile = new File(targetDirectory, entry.getNameSentenceCase() + "Test.java");
+        File outputFile = new File(targetDirectory, entry.getNameSentenceCase() + "Test.java");
+        processTemplate(templateFile, outputFile, entry);
+    }
+
+    private void processTemplate(String templateFile, File outputFile, ClassModelEntry entry)
+            throws FileNotFoundException, IOException, TemplateException {
         Template temp = cfg.getTemplate(templateFile);
-        Writer out = new OutputStreamWriter(new FileOutputStream(testFile), StandardCharsets.UTF_8);
+        Writer out =
+                new OutputStreamWriter(new FileOutputStream(outputFile), StandardCharsets.UTF_8);
         temp.process(entry, out);
     }
 

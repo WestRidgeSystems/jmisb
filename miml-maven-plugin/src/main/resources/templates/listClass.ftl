@@ -2,12 +2,17 @@
 // Template: ${.current_template_name}
 package ${packageName};
 
-import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
+import java.util.Set;
 import org.jmisb.api.common.KlvParseException;
 import org.jmisb.api.klv.ArrayBuilder;
 import org.jmisb.api.klv.BerDecoder;
 import org.jmisb.api.klv.BerField;
+import org.jmisb.api.klv.IKlvKey;
+import org.jmisb.api.klv.IKlvValue;
+import org.jmisb.api.klv.INestedKlvValue;
 import ${listItemTypePackage}.${listItemType};
 import org.jmisb.api.klv.st190x.IMimdMetadataValue;
 
@@ -16,16 +21,16 @@ import org.jmisb.api.klv.st190x.IMimdMetadataValue;
  *
  * See ${document} for more information on this data type.
  */
-public class ${nameSentenceCase} implements IMimdMetadataValue {
-    private final List<${listItemType}> listValues = new ArrayList<>();
+public class ${nameSentenceCase} implements IMimdMetadataValue, INestedKlvValue {
+    private final Map<${listItemType}Identifier, ${listItemType}> listValues = new HashMap<>();
 
     /**
      * Create a $LIST&lt;${listItemType}&gt; from values.
      *
      * @param values the values to construct from
      */
-    public ${nameSentenceCase}(List<${listItemType}> values) {
-        listValues.addAll(values);
+    public ${nameSentenceCase}(Map<${listItemType}Identifier, ${listItemType}> values) {
+        listValues.putAll(values);
     }
 
     /**
@@ -38,13 +43,14 @@ public class ${nameSentenceCase} implements IMimdMetadataValue {
      */
     public ${nameSentenceCase}(byte[] data, int offset, int numBytes) throws KlvParseException {
         int index = offset;
+        int itemCount = 0;
         while (index < data.length - 1) {
             BerField lengthField = BerDecoder.decode(data, index, false);
             // TODO: handle lengthField == 0, which is a special case - ZLE.
             // Zero-Length-Element (ZLE) as a filler element to mark an element as unchanged since the last Packet
             index += lengthField.getLength();
             ${listItemType} listItem = new ${listItemType}(data, index, lengthField.getValue());
-            listValues.add(listItem);
+            listValues.put(new ${listItemType}Identifier(itemCount), listItem);
             index += lengthField.getValue();
         }
     }
@@ -68,7 +74,7 @@ public class ${nameSentenceCase} implements IMimdMetadataValue {
     @Override
     public byte[] getBytes() {
         ArrayBuilder arrayBuilder = new ArrayBuilder();
-        for (${listItemType} value : listValues) {
+        for (${listItemType} value : listValues.values()) {
             byte[] listItemBytes = value.getBytes();
             arrayBuilder.appendAsBerLength(listItemBytes.length);
             arrayBuilder.append(listItemBytes);
@@ -79,5 +85,15 @@ public class ${nameSentenceCase} implements IMimdMetadataValue {
     @Override
     public String getDisplayableValue() {
         return "[${nameSentenceCase}]";
+    }
+
+    @Override
+    public IKlvValue getField(IKlvKey tag) {
+        return listValues.get((${listItemType}Identifier) tag);
+    }
+
+    @Override
+    public Set<? extends IKlvKey> getIdentifiers() {
+        return listValues.keySet();
     }
 }

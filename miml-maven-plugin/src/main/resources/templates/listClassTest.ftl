@@ -2,9 +2,8 @@
 // Template: ${.current_template_name}
 package ${packageName};
 
-import java.util.ArrayList;
 import java.util.HashMap;
-import java.util.List;
+import java.util.Map;
 import org.jmisb.api.common.KlvParseException;
 import org.jmisb.api.klv.LoggerChecks;
 import ${listItemTypePackage}.${listItemType};
@@ -21,13 +20,13 @@ public class ${nameSentenceCase}Test extends LoggerChecks {
 
     @Test
     public void displayName() {
-        ${nameSentenceCase} uut = new ${nameSentenceCase}(new ArrayList<>());
+        ${nameSentenceCase} uut = new ${nameSentenceCase}(new HashMap<>());
         assertEquals(uut.getDisplayName(), "${nameSentenceCase}");
     }
 
     @Test
     public void displayableValue() {
-        ${nameSentenceCase} uut = new ${nameSentenceCase}(new ArrayList<>());
+        ${nameSentenceCase} uut = new ${nameSentenceCase}(new HashMap<>());
         assertEquals(uut.getDisplayableValue(), "[${nameSentenceCase}]");
     }
 
@@ -59,8 +58,8 @@ public class ${nameSentenceCase}Test extends LoggerChecks {
     @Test
     public void toBytesZLE() throws KlvParseException {
         ${listItemType} item = new ${listItemType}(new HashMap<>());
-        List<${listItemType}> items = new ArrayList<>();
-        items.add(item);
+        Map<${listItemType}Identifier, ${listItemType}> items = new HashMap<>();
+        items.put(new ${listItemType}Identifier(1), item);
         ${nameSentenceCase} uut = new ${nameSentenceCase}(items);
         assertEquals(uut.getBytes(), new byte[]{0x00});
     }
