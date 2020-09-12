@@ -40,10 +40,6 @@ public class EnumerationModel {
         return entries;
     }
 
-    public void setEntries(List<EnumerationModelEntry> entries) {
-        this.entries = entries;
-    }
-
     public void addEntry(EnumerationModelEntry entry) {
         this.entries.add(entry);
     }

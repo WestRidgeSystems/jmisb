@@ -120,30 +120,6 @@ public class ClassModelEntry {
         this.units = units;
     }
 
-    @Override
-    public String toString() {
-        return "ClassModelEntry{"
-                + "number="
-                + number
-                + ", name="
-                + name
-                + ", typeName="
-                + typeName
-                + ", minValue="
-                + minValue
-                + ", maxValue="
-                + maxValue
-                + ", resolution="
-                + resolution
-                + ", minLength="
-                + minLength
-                + ", maxLength="
-                + maxLength
-                + ", units="
-                + units
-                + '}';
-    }
-
     void setParent(ClassModel classModel) {
         this.parent = classModel;
     }

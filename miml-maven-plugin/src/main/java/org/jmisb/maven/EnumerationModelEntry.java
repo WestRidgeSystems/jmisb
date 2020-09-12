@@ -28,16 +28,4 @@ public class EnumerationModelEntry {
     public void setDescription(String description) {
         this.description = description;
     }
-
-    @Override
-    public String toString() {
-        return "EnumerationModelEntry{"
-                + "number="
-                + number
-                + ", name="
-                + name
-                + ", description="
-                + description
-                + '}';
-    }
 }
