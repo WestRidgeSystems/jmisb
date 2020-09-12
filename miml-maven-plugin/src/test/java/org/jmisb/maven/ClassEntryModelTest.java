@@ -139,7 +139,7 @@ public class ClassEntryModelTest {
         assertEquals(entry.getName(), "timers");
         assertEquals(entry.getNameSentenceCase(), "Timers");
         assertEquals(entry.getUnits(), "None");
-        assertEquals(entry.getMinLength().longValue(), 1L);
+        assertEquals(entry.getMinLength().longValue(), 2L);
         assertEquals(entry.getMaxLength().longValue(), 8L);
     }
 
