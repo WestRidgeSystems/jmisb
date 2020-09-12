@@ -52,6 +52,7 @@ public class ClassEntryModelTest {
         ClassModelEntry entry =
                 MimlToJava.parseClassEntry("  38_syncPulseFreq : Real (0.0) { Hz};  ");
         assertEquals(entry.getUnits(), "Hz");
+        assertEquals(entry.getEscapedUnits(), "Hz");
     }
 
     @Test

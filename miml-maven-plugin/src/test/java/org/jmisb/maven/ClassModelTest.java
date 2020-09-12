@@ -28,4 +28,24 @@ public class ClassModelTest {
         uut.setPackageNameBase("test.miml");
         assertEquals(uut.getPackageName(), "test.miml.st1905");
     }
+
+    @Test
+    public void fromBlockAbstract() {
+        MimlTextBlock textBlock = new MimlTextBlock();
+        textBlock.addLine("abstract class Base {");
+        textBlock.addLine("    Document = ST1904;".trim());
+        textBlock.addLine("    01_mimdId : UInt[<=2] (1, *) {None};".trim());
+        textBlock.addLine("    02_timer : REF<Timer> {None};".trim());
+        textBlock.addLine("    03_timerOffset: Integer { ns};".trim());
+        textBlock.addLine("}");
+        ClassModel uut = MimlToJava.processClassBlock(textBlock);
+        assertEquals(uut.getName(), "Base");
+        assertEquals(uut.getEntries().size(), 2);
+        assertEquals(uut.getDocument(), "ST1904");
+        assertTrue(uut.isIsAbstract());
+        assertFalse(uut.isTopLevel());
+        assertNull(uut.getPackageName());
+        uut.setPackageNameBase("x.miml");
+        assertEquals(uut.getPackageName(), "x.miml.st1904");
+    }
 }
