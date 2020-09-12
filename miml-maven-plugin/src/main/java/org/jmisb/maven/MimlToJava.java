@@ -147,7 +147,10 @@ public class MimlToJava extends AbstractMojo {
                 enumerationModels.add(enumeration);
                 break;
             } else if (line.startsWith("class") || line.startsWith("abstract class")) {
-                processClassBlock(textBlock);
+                ClassModel classModel = processClassBlock(textBlock);
+                classModel.setTopLevel(classModel.getName().equals(this.topLevelClassName));
+                classModel.setPackageNameBase(packageNameBase);
+                classModels.add(classModel);
                 break;
             } else {
                 throw new UnsupportedOperationException("Don't know how to handle: " + line);
@@ -178,11 +181,10 @@ public class MimlToJava extends AbstractMojo {
         return enumeration;
     }
 
-    private void processClassBlock(MimlTextBlock textBlock) {
+    static ClassModel processClassBlock(MimlTextBlock textBlock) {
         // System.out.println("processing class block line: " + textBlock);
         List<String> lines = textBlock.getText();
         ClassModel classModel = new ClassModel();
-        classModel.setPackageNameBase(packageNameBase);
         for (String line : lines) {
             if (line.equals("}")) {
                 break;
@@ -206,8 +208,7 @@ public class MimlToJava extends AbstractMojo {
                 continue;
             }
         }
-        classModel.setTopLevel(classModel.getName().equals(this.topLevelClassName));
-        classModels.add(classModel);
+        return classModel;
     }
 
     static String parseEnumerationName(String line) {
@@ -235,7 +236,7 @@ public class MimlToJava extends AbstractMojo {
         return entry;
     }
 
-    ClassModelEntry parseClassEntry(String line) {
+    static ClassModelEntry parseClassEntry(String line) {
         ClassModelEntry entry = new ClassModelEntry();
         String[] partsEquals = line.split(" : ");
         String idAndNamePart = partsEquals[0];
@@ -490,14 +491,14 @@ public class MimlToJava extends AbstractMojo {
         cfg.setFallbackOnNullLoopVariable(false);
     }
 
-    private void parseTypeModifierPartsToEntry(ClassModelEntry entry, String typeModifiers) {
+    private static void parseTypeModifierPartsToEntry(ClassModelEntry entry, String typeModifiers) {
         String[] typeModifierParts = typeModifiers.split(",");
         if ("String".equals(entry.getTypeName())) {
             if (typeModifierParts.length == 1) {
                 int maxLength = Integer.parseInt(typeModifierParts[0]);
                 entry.setMaxLength(maxLength);
             } else {
-                getLog().warn("Unhandled String typeModifierParts: " + typeModifiers);
+                System.out.println("Unhandled String typeModifierParts: " + typeModifiers);
             }
         } else if ("Real".equals(entry.getTypeName())) {
             partTypeModifierPartsForReal(typeModifierParts, entry, typeModifiers);
@@ -510,7 +511,7 @@ public class MimlToJava extends AbstractMojo {
                 double resolution = stringToDouble(typeModifierParts[2]);
                 entry.setResolution(resolution);
             } else {
-                getLog().warn("Unhandled Real typeModifierParts: " + typeModifiers);
+                System.out.println("Unhandled Real typeModifierParts: " + typeModifiers);
             }
         } else if (entry.getTypeName().startsWith("LIST<")) {
             if (typeModifierParts.length == 2) {
@@ -521,20 +522,20 @@ public class MimlToJava extends AbstractMojo {
                     entry.setMaxLength(maxLength);
                 }
             } else {
-                getLog().warn("Unhandled Real typeModifierParts: " + typeModifiers);
+                System.out.println("Unhandled Real typeModifierParts: " + typeModifiers);
             }
         } else if (entry.getName().equals("mimdId")) {
             // Nothing - special case
         } else {
-            getLog().warn(
-                            "Unhandled type / typeModifierParts: "
-                                    + entry.getTypeName()
-                                    + " / "
-                                    + typeModifiers);
+            System.out.println(
+                    "Unhandled type / typeModifierParts: "
+                            + entry.getTypeName()
+                            + " / "
+                            + typeModifiers);
         }
     }
 
-    private void partTypeModifierPartsForReal(
+    private static void partTypeModifierPartsForReal(
             String[] typeModifierParts, ClassModelEntry entry, String typeModifiers)
             throws NumberFormatException {
         switch (typeModifierParts.length) {
@@ -563,12 +564,12 @@ public class MimlToJava extends AbstractMojo {
                     break;
                 }
             default:
-                getLog().warn("Unhandled Real typeModifierParts: " + typeModifiers);
+                System.out.println("Unhandled Real typeModifierParts: " + typeModifiers);
                 break;
         }
     }
 
-    private double stringToDouble(String typeModifierPart) throws NumberFormatException {
+    private static double stringToDouble(String typeModifierPart) throws NumberFormatException {
         switch (typeModifierPart.trim()) {
             case "TWO_PI":
                 return 2.0 * Math.PI;

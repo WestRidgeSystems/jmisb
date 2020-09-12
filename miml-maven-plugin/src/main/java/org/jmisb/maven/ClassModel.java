@@ -16,6 +16,9 @@ public class ClassModel {
     private boolean isAbstract;
 
     public String getPackageName() {
+        if (packageNameBase == null) {
+            return null;
+        }
         return packageNameBase + "." + document.toLowerCase();
     }
 
@@ -92,9 +95,6 @@ public class ClassModel {
     }
 
     String getTypePackage(String listItemType) {
-        // System.out.println("type package item: " + listItemType);
-        // System.out.println("type package: " + packageLookup.get(listItemType));
-        // System.out.println(packageLookup.keySet());
         return packageLookup.get(listItemType);
     }
 
