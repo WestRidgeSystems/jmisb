@@ -10,6 +10,9 @@ public class EnumerationModel {
     private List<EnumerationModelEntry> entries = new ArrayList<>();
 
     public String getPackageName() {
+        if (packageNameBase == null) {
+            return null;
+        }
         return packageNameBase + "." + document.toLowerCase();
     }
 

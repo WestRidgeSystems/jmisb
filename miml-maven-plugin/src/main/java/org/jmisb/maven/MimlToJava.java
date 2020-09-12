@@ -142,7 +142,9 @@ public class MimlToJava extends AbstractMojo {
                 continue;
             }
             if (line.startsWith("enumeration")) {
-                processEnumerationBlock(textBlock);
+                EnumerationModel enumeration = processEnumerationBlock(textBlock);
+                enumeration.setPackageNameBase(packageNameBase);
+                enumerationModels.add(enumeration);
                 break;
             } else if (line.startsWith("class") || line.startsWith("abstract class")) {
                 processClassBlock(textBlock);
@@ -153,10 +155,9 @@ public class MimlToJava extends AbstractMojo {
         }
     }
 
-    private void processEnumerationBlock(MimlTextBlock textBlock) {
+    static EnumerationModel processEnumerationBlock(MimlTextBlock textBlock) {
         List<String> lines = textBlock.getText();
         EnumerationModel enumeration = new EnumerationModel();
-        enumeration.setPackageNameBase(packageNameBase);
         for (String line : lines) {
             if (line.equals("}")) {
                 break;
@@ -174,7 +175,7 @@ public class MimlToJava extends AbstractMojo {
                 continue;
             }
         }
-        enumerationModels.add(enumeration);
+        return enumeration;
     }
 
     private void processClassBlock(MimlTextBlock textBlock) {
@@ -209,12 +210,12 @@ public class MimlToJava extends AbstractMojo {
         classModels.add(classModel);
     }
 
-    private String parseEnumerationName(String line) {
+    static String parseEnumerationName(String line) {
         String[] lineParts = line.split(" ");
         return lineParts[1];
     }
 
-    private String parseDocumentName(String line) {
+    static String parseDocumentName(String line) {
         String[] lineParts = line.split("=");
         String documentPart = lineParts[1].trim();
         if (documentPart.endsWith(";")) {
@@ -223,7 +224,7 @@ public class MimlToJava extends AbstractMojo {
         return documentPart;
     }
 
-    EnumerationModelEntry parseEnumerationEntry(String line) {
+    static EnumerationModelEntry parseEnumerationEntry(String line) {
         EnumerationModelEntry entry = new EnumerationModelEntry();
         String[] partsEquals = line.split(" = ");
         entry.setNumber(Integer.parseInt(partsEquals[0].trim()));
