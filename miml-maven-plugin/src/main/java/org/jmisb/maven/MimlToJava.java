@@ -223,7 +223,7 @@ public class MimlToJava extends AbstractMojo {
         return documentPart;
     }
 
-    private EnumerationModelEntry parseEnumerationEntry(String line) {
+    EnumerationModelEntry parseEnumerationEntry(String line) {
         EnumerationModelEntry entry = new EnumerationModelEntry();
         String[] partsEquals = line.split(" = ");
         entry.setNumber(Integer.parseInt(partsEquals[0].trim()));
