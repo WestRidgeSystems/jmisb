@@ -15,6 +15,7 @@ public class ClassModel {
     private Map<String, String> packageLookup = new HashMap<>();
     private boolean topLevel = false;
     private boolean isAbstract;
+    private Models parent;
 
     public String getPackageName() {
         if (packageNameBase == null) {
@@ -109,5 +110,9 @@ public class ClassModel {
                             + entry.getNameSentenceCase());
             entries.add(0, entry);
         }
+    }
+
+    public void setParent(Models parent) {
+        this.parent = parent;
     }
 }

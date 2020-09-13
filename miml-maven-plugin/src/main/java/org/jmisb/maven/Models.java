@@ -25,6 +25,7 @@ public class Models {
     }
 
     void addClassModel(ClassModel classModel) {
+        classModel.setParent(this);
         classModels.add(classModel);
     }
 
@@ -33,7 +34,8 @@ public class Models {
                 .anyMatch((enumerationModel) -> (enumerationModel.getName().equals(typeName)));
     }
 
-    // TODO: instead of this, we could just set a Models parent on each class and do the lookup off the classes.
+    // TODO: instead of this, we could just set a Models parent on each class and do the lookup off
+    // the classes.
     void buildPackageNameLookupTable() {
         for (ClassModel classModel : getClassModels()) {
             addPackageNameLookup(classModel);
