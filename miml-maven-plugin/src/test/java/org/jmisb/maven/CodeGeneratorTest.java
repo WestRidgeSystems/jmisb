@@ -49,13 +49,22 @@ public class CodeGeneratorTest {
         classModel.setIncludes("Base");
         classModel.setIsAbstract(false);
         classModel.setTopLevel(false);
-        ClassModelEntry entry = new ClassModelEntry();
-        entry.setName("i1");
-        entry.setNumber(33);
-        entry.setTypeName("String");
-        entry.setParent(classModel);
-        entry.setMaxLength(100);
-        classModel.addEntry(entry);
+        ClassModelEntry entry33 = new ClassModelEntry();
+        entry33.setName("s1");
+        entry33.setNumber(33);
+        entry33.setTypeName("String");
+        entry33.setParent(classModel);
+        entry33.setMaxLength(100);
+        classModel.addEntry(entry33);
+        ClassModelEntry entry34 = new ClassModelEntry();
+        entry34.setName("i1");
+        entry34.setNumber(34);
+        entry34.setTypeName("Integer");
+        entry34.setParent(classModel);
+        entry34.setMinValue(0.0);
+        entry34.setMaxValue(100.0);
+        entry34.setUnits("s");
+        classModel.addEntry(entry34);
         models.addClassModel(classModel);
         models.addClassModel(createBase());
         CodeGeneratorConfiguration conf = new CodeGeneratorConfiguration();
@@ -73,9 +82,12 @@ public class CodeGeneratorTest {
                 new File("target/test2/src/test2/miml/st1909/C1MetadataKey.java");
         assertTrue(expectedMetadataKeyFile.exists());
         assertTrue(expectedMetadataKeyFile.length() > 0);
-        File expectedComponentClassFile = new File("target/test2/src/test2/miml/st1909/I1.java");
-        assertTrue(expectedComponentClassFile.exists());
-        assertTrue(expectedComponentClassFile.length() > 0);
+        File expectedComponentClass1File = new File("target/test2/src/test2/miml/st1909/S1.java");
+        assertTrue(expectedComponentClass1File.exists());
+        assertTrue(expectedComponentClass1File.length() > 0);
+        File expectedComponentClass2File = new File("target/test2/src/test2/miml/st1909/I1.java");
+        assertTrue(expectedComponentClass2File.exists());
+        assertTrue(expectedComponentClass2File.length() > 0);
         File expectedTestFile = new File("target/test2/test/test2/miml/st1909/C1Test.java");
         assertTrue(expectedTestFile.exists());
         assertTrue(expectedTestFile.length() > 0);
@@ -83,10 +95,14 @@ public class CodeGeneratorTest {
                 new File("target/test2/test/test2/miml/st1909/C1MetadataKeyTest.java");
         assertTrue(expectedMetadataKeyTestFile.exists());
         assertTrue(expectedMetadataKeyTestFile.length() > 0);
-        File expectedComponentClassTestFile =
+        File expectedComponentClass1TestFile =
+                new File("target/test2/test/test2/miml/st1909/S1Test.java");
+        assertTrue(expectedComponentClass1TestFile.exists());
+        assertTrue(expectedComponentClass1TestFile.length() > 0);
+        File expectedComponentClass2TestFile =
                 new File("target/test2/test/test2/miml/st1909/I1Test.java");
-        assertTrue(expectedComponentClassTestFile.exists());
-        assertTrue(expectedComponentClassTestFile.length() > 0);
+        assertTrue(expectedComponentClass2TestFile.exists());
+        assertTrue(expectedComponentClass2TestFile.length() > 0);
     }
 
     private ClassModel createBase() {
