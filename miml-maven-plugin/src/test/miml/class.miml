@@ -1,0 +1,53 @@
+MIML_Grammar=3.0;
+class MIMD includes Base {
+    Document = ST1903;
+    33_version : String (6) {None};
+    34_compositeProductSecurity : REF<Security> {None};
+    35_compositeMotionImagerySecurity : REF<Security> {None};
+    36_compositeAudioSecurity : REF<Security> {None};
+    37_compositeMetadataSecurity : REF<Security> {None};
+    38_timers : LIST<Timer> (1, *) {None};
+    39_platforms : LIST<Platform> {None};
+    40_securityOptions : LIST<Security> (1, *) {None};
+}
+class Timer includes Base {
+    Document = ST1903;
+    33_nanoPrecisionTimestamp : UInt {ns};
+    34_utcLeapSeconds : Integer {s};
+    35_timeTransferMethod : TimeTransferMethod {None};
+    36_correctionMethod : CorrectionMethod {None};
+    37_referenceSource : ReferenceSource {None};
+    38_syncPulseFreq : Real (0.0) { Hz};
+    39_unlockTime : UInt { ns};
+    40_lastSyncDiff : UInt { ns};
+    41_driftRate : UInt {ns/s};
+    42_signalSourceDelay : UInt { ns};
+    43_source : REF<Stage> {None};
+    44_correctionOffset : Integer { ns};
+}
+class Security includes Base {
+    Document = ST1903;
+    33_classifyingMethod : String (100) {None};
+    34_classification : String (500) {None};
+}
+class Platform includes Base {
+    Document = ST1905;
+    33_name : String (100) {None};
+}
+class Atmosphere includes Base {
+    Document = ST1905;
+    33_airTemperature       : Real (-128, 127, 1)     { °C};
+    34_relativeHumidity     : Real (0, 100, 0.1)      {  %};
+    35_densityAltitude      : Real (-900, 40000, 0.3) {  m};
+    36_differentialPressure : Real (0, 5000)          {hPa};
+    37_staticPressure       : Real (0, 5000)          {hPa};
+    38_windDirection        : Real (0, TWO_PI)        {rad};
+    39_windSpeed            : Real (0, 200)           {m/s};
+}
+abstract class Base {
+    Document = ST1904;
+    01_mimdId : UInt[<=2] (1, *) {None};
+    02_timer : REF<Timer> {None};
+    03_timerOffset: Integer { ns};
+    05_security : REF<Security> {None};
+}

@@ -11,10 +11,21 @@ import java.util.List;
 /** MIML Parser */
 class Parser {
 
-    private ParserConfiguration conf;
+    private final ParserConfiguration conf;
 
-    public Parser(ParserConfiguration configuration) {
+    Parser(ParserConfiguration configuration) {
         conf = configuration;
+    }
+
+    Models processFiles(File directoryContainingFiles) {
+        Models models = new Models();
+        File[] files = directoryContainingFiles.listFiles();
+        for (File inFile : files) {
+            if (inFile.getName().endsWith(".miml")) {
+                models.mergeAll(processMimlFile(inFile));
+            }
+        }
+        return models;
     }
 
     Models processMimlFile(File inFile) {
@@ -136,9 +147,7 @@ class Parser {
     static String parseDocumentName(String line) {
         String[] lineParts = line.split("=");
         String documentPart = lineParts[1].trim();
-        if (documentPart.endsWith(";")) {
-            documentPart = documentPart.substring(0, documentPart.length() - 1);
-        }
+        documentPart = documentPart.substring(0, documentPart.length() - 1);
         return documentPart;
     }
 

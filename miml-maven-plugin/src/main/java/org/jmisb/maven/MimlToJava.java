@@ -36,41 +36,21 @@ public class MimlToJava extends AbstractMojo {
     @Parameter(defaultValue = "${project}")
     private MavenProject project;
 
-    private File generatedSourceDirectory;
-    private File generatedTestDirectory;
-
     @Override
     public void execute() throws MojoExecutionException {
-        createOutputDirectories();
-        Models models = processFiles();
-        CodeGenerator codeGenerator =
-                new CodeGenerator(generatedSourceDirectory, generatedTestDirectory, models);
-        codeGenerator.generateCode();
-        project.addCompileSourceRoot(outputDirectory.getPath());
-        project.addTestCompileSourceRoot(outputTestDirectory.getPath());
-    }
-
-    private Models processFiles() {
         ParserConfiguration parserConfiguration = new ParserConfiguration();
         parserConfiguration.setPackageNameBase(packageNameBase);
         parserConfiguration.setTopLevelClassName(topLevelClassName);
         Parser parser = new Parser(parserConfiguration);
-        Models models = new Models();
-        File[] files = new File(inputDirectory, "src/main/miml").listFiles();
-        for (File inFile : files) {
-            if (inFile.getName().endsWith(".miml")) {
-                models.mergeAll(parser.processMimlFile(inFile));
-            }
-        }
-        return models;
-    }
-
-    // TODO: move to CodeGenerator
-    private void createOutputDirectories() {
-        String packagePath = packageNameBase.replace('.', '/');
-        generatedSourceDirectory = new File(outputDirectory, packagePath);
-        generatedSourceDirectory.mkdirs();
-        generatedTestDirectory = new File(outputTestDirectory, packagePath);
-        generatedTestDirectory.mkdirs();
+        Models models = parser.processFiles(new File(inputDirectory, "src/main/miml"));
+        CodeGeneratorConfiguration codeGeneratorConf = new CodeGeneratorConfiguration();
+        codeGeneratorConf.setOutputDirectory(outputDirectory);
+        codeGeneratorConf.setOutputTestDirectory(outputTestDirectory);
+        codeGeneratorConf.setModels(models);
+        codeGeneratorConf.setPackageNameBase(packageNameBase);
+        CodeGenerator codeGenerator = new CodeGenerator(codeGeneratorConf);
+        codeGenerator.generateCode();
+        project.addCompileSourceRoot(outputDirectory.getPath());
+        project.addTestCompileSourceRoot(outputTestDirectory.getPath());
     }
 }

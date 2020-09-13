@@ -12,31 +12,48 @@ import java.io.IOException;
 import java.io.OutputStreamWriter;
 import java.io.Writer;
 import java.nio.charset.StandardCharsets;
+import java.util.List;
 
 /** Class to turn models into code using templates. */
 public class CodeGenerator {
 
-    private final File generatedSourceDirectory;
-    private final File generatedTestDirectory;
-    private final Models models;
+    private final CodeGeneratorConfiguration generatorConf;
     private Configuration templateConfiguration;
 
-    CodeGenerator(File sourceDirectory, File testDirectory, Models models) {
-        this.generatedSourceDirectory = sourceDirectory;
-        this.generatedTestDirectory = testDirectory;
-        this.models = models;
+    private File generatedSourceDirectory;
+    private File generatedTestDirectory;
+
+    CodeGenerator(CodeGeneratorConfiguration configuration) {
+        this.generatorConf = configuration;
         setupTemplateEngine();
     }
 
+    private void createOutputDirectories() {
+        String packagePath = generatorConf.getPackageNameBase().replace('.', '/');
+        generatedSourceDirectory = new File(generatorConf.getOutputFile(), packagePath);
+        generatedSourceDirectory.mkdirs();
+        generatedTestDirectory = new File(generatorConf.getOutputTestDirectory(), packagePath);
+        generatedTestDirectory.mkdirs();
+    }
+
     void generateCode() {
-        models.getEnumerationModels()
+        createOutputDirectories();
+        getEnumerationModels()
                 .forEach(
                         (enumerationModel) -> {
                             generateJava(enumerationModel);
                         });
-        for (ClassModel classModel : models.getClassModels()) {
+        for (ClassModel classModel : getClassModels()) {
             generateJava(classModel);
         }
+    }
+
+    private List<EnumerationModel> getEnumerationModels() {
+        return generatorConf.getModels().getEnumerationModels();
+    }
+
+    private List<ClassModel> getClassModels() {
+        return generatorConf.getModels().getClassModels();
     }
 
     private void generateJava(EnumerationModel enumerationModel) {
@@ -97,7 +114,7 @@ public class CodeGenerator {
     private void incorporateIncludes(ClassModel classModel) {
         if (!classModel.getIncludes().isEmpty()) {
             String baseModelName = classModel.getIncludes();
-            ClassModel baseModel = models.findClassByName(baseModelName);
+            ClassModel baseModel = generatorConf.getModels().findClassByName(baseModelName);
             classModel.applyBaseModel(baseModel);
         }
     }
@@ -157,7 +174,7 @@ public class CodeGenerator {
                 processClassTemplate(targetDirectory, entry, "intClass.ftl");
             } else if (entry.getTypeName().equals("Real")) {
                 processClassTemplate(targetDirectory, entry, "realClass.ftl");
-            } else if (models.isEnumerationName(entry.getTypeName())) {
+            } else if (generatorConf.getModels().isEnumerationName(entry.getTypeName())) {
                 // Nothing - we've got this already
             } else if (entry.getTypeName().startsWith("REF<")
                     && entry.getTypeName().endsWith(">")) {
@@ -190,7 +207,7 @@ public class CodeGenerator {
                 processClassTestTemplate(outputTestDirectory, entry, "intClassTest.ftl");
             } else if (entry.getTypeName().equals("Real")) {
                 processClassTestTemplate(outputTestDirectory, entry, "realClassTest.ftl");
-            } else if (models.isEnumerationName(entry.getTypeName())) {
+            } else if (generatorConf.getModels().isEnumerationName(entry.getTypeName())) {
                 // Nothing - we've got this already
             } else if (entry.getTypeName().startsWith("REF<")) {
                 // special case for this
