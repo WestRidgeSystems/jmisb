@@ -87,8 +87,8 @@ public class ClassModel {
         packageLookup.putAll(lookups);
     }
 
-    String getTypePackage(String listItemType) {
-        return packageLookup.get(listItemType);
+    String getTypePackage(String typeName) {
+        return packageLookup.get(typeName);
     }
 
     void parseAbstractClassLine(String line) {

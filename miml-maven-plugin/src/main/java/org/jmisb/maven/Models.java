@@ -1,20 +1,22 @@
 package org.jmisb.maven;
 
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 /** Collection of class and enumeration models for this MIML instance. */
 public class Models {
 
     private final List<EnumerationModel> enumerationModels = new ArrayList<>();
-    private final List<String> knownEnumerationValues = new ArrayList<>();
     private final List<ClassModel> classModels = new ArrayList<>();
+    private final Map<String, String> packageNameLookups = new HashMap<>();
 
-    Iterable<EnumerationModel> getEnumerationModels() {
+    List<EnumerationModel> getEnumerationModels() {
         return enumerationModels;
     }
 
-    Iterable<ClassModel> getClassModels() {
+    List<ClassModel> getClassModels() {
         return classModels;
     }
 
@@ -26,11 +28,22 @@ public class Models {
         classModels.add(classModel);
     }
 
-    void addKnownEnumerationValue(String name) {
-        knownEnumerationValues.add(name);
+    boolean isEnumerationName(String typeName) {
+        return enumerationModels.stream()
+                .anyMatch((enumerationModel) -> (enumerationModel.getName().equals(typeName)));
     }
 
-    boolean isEnumerationName(String typeName) {
-        return knownEnumerationValues.contains(typeName);
+    // TODO: instead of this, we could just set a Models parent on each class and do the lookup off the classes.
+    void buildPackageNameLookupTable() {
+        for (ClassModel classModel : getClassModels()) {
+            addPackageNameLookup(classModel);
+        }
+        for (ClassModel classModel : getClassModels()) {
+            classModel.setPackageLookup(packageNameLookups);
+        }
+    }
+
+    private void addPackageNameLookup(ClassModel classModel) {
+        packageNameLookups.put(classModel.getName(), classModel.getPackageName());
     }
 }

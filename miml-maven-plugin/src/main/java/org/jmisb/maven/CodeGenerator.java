@@ -12,8 +12,6 @@ import java.io.IOException;
 import java.io.OutputStreamWriter;
 import java.io.Writer;
 import java.nio.charset.StandardCharsets;
-import java.util.HashMap;
-import java.util.Map;
 
 /** Class to turn models into code using templates. */
 public class CodeGenerator {
@@ -22,7 +20,6 @@ public class CodeGenerator {
     private final File generatedTestDirectory;
     private final Models models;
     private Configuration cfg;
-    private Map<String, String> packageNameLookups = new HashMap<>();
 
     CodeGenerator(File sourceDirectory, File testDirectory, Models models) {
         this.generatedSourceDirectory = sourceDirectory;
@@ -37,18 +34,15 @@ public class CodeGenerator {
             generateEnumerationTests(enumerationModel);
         }
         // TODO: move to Models?
-        for (ClassModel classModel : models.getClassModels()) {
-            addPackageNameLookup(classModel);
-        }
+        models.buildPackageNameLookupTable();
         for (ClassModel classModel : models.getClassModels()) {
             if (!classModel.isIsAbstract()) {
-                classModel.setPackageLookup(packageNameLookups);
-                generateClasses(classModel);
+                generateJava(classModel);
             }
         }
     }
 
-    private void generateClasses(ClassModel classModel) {
+    private void generateJava(ClassModel classModel) {
         try {
             System.out.println("Generating classes for " + classModel.getName());
             String packagePart = classModel.getDocument().toLowerCase() + "/";
@@ -99,10 +93,6 @@ public class CodeGenerator {
         } catch (TemplateException | IOException ex) {
             System.out.println("Failed to generate metadata key tests: " + ex.getMessage());
         }
-    }
-
-    private void addPackageNameLookup(ClassModel classModel) {
-        packageNameLookups.put(classModel.getName(), classModel.getPackageName());
     }
 
     private void generateMetadataKey(File targetDirectory, ClassModel classModel)
@@ -223,7 +213,6 @@ public class CodeGenerator {
             File enumerationFile = new File(targetDirectory, enumeration.getName() + ".java");
             Writer out = new FileWriter(enumerationFile);
             temp.process(enumeration, out);
-            models.addKnownEnumerationValue(enumeration.getName());
         } catch (TemplateException | IOException ex) {
             System.out.println("Failed t generate enumeration for " + enumeration.getName());
         }

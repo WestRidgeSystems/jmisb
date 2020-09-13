@@ -162,11 +162,11 @@ public class ClassEntryModelTest {
     public void packageNameLookup() {
         ClassModel parent = new ClassModel();
         Map<String, String> lookups = new HashMap<>();
-        lookups.put("Foo", "org.baz.Foo");
-        lookups.put("Bar", "com.boop.Bar");
+        lookups.put("Foo", "org.baz");
+        lookups.put("Bar", "com.boop");
         parent.setPackageLookup(lookups);
         ClassModelEntry entry = MimlToJava.parseClassEntry("38_timers : LIST<Bar> (1, *) {None}; ");
         entry.setParent(parent);
-        assertEquals(entry.getListItemTypePackage(), "com.boop.Bar");
+        assertEquals(entry.getListItemTypePackage(), "com.boop");
     }
 }

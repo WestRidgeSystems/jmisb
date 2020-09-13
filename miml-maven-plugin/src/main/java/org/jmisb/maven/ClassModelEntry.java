@@ -47,7 +47,6 @@ public class ClassModelEntry {
         return typeName.split("\\<")[1].split("\\>")[0];
     }
 
-    // Only valid if this is a list.
     public String getListItemTypePackage() {
         // System.out.println(getListItemType());
         return parent.getTypePackage(getListItemType());
