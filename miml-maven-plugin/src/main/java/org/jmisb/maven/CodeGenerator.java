@@ -29,13 +29,13 @@ public class CodeGenerator {
     }
 
     void generateCode() {
-        for (EnumerationModel enumerationModel : models.getEnumerationModels()) {
-            generateJava(enumerationModel);
-        }
+        models.getEnumerationModels()
+                .forEach(
+                        (enumerationModel) -> {
+                            generateJava(enumerationModel);
+                        });
         for (ClassModel classModel : models.getClassModels()) {
-            if (!classModel.isIsAbstract()) {
-                generateJava(classModel);
-            }
+            generateJava(classModel);
         }
     }
 
@@ -46,7 +46,7 @@ public class CodeGenerator {
 
     private void generateEnumeration(EnumerationModel enumeration) {
         try {
-            String packagePart = enumeration.getDocument().toLowerCase() + "/";
+            String packagePart = enumeration.getDirectoryPackagePart();
             File targetDirectory = new File(generatedSourceDirectory, packagePart);
             targetDirectory.mkdirs();
             Template temp = templateConfiguration.getTemplate("enumeration.ftl");
@@ -54,40 +54,42 @@ public class CodeGenerator {
             Writer out = new FileWriter(enumerationFile);
             temp.process(enumeration, out);
         } catch (TemplateException | IOException ex) {
-            System.out.println("Failed t generate enumeration for " + enumeration.getName());
+            log("Failed to generate enumeration for " + enumeration.getName());
         }
     }
-        
+
     private void generateEnumerationTests(EnumerationModel enumeration) {
         try {
             Template temp = templateConfiguration.getTemplate("enumerationTest.ftl");
-            String packagePart = enumeration.getDocument().toLowerCase() + "/";
-            File targetDirectory = new File(generatedTestDirectory, packagePart);
-            targetDirectory.mkdirs();
+            File targetDirectory = makeOutputTestDirectory(enumeration);
             File enumerationTestFile =
                     new File(targetDirectory, enumeration.getName() + "Test.java");
             Writer out = new FileWriter(enumerationTestFile);
             temp.process(enumeration, out);
         } catch (TemplateException | IOException ex) {
-            System.out.println("Failed to generate enumeration tests: " + ex.getMessage());
+            log("Failed to generate enumeration tests: " + ex.getMessage());
         }
     }
-    
+
     private void generateJava(ClassModel classModel) {
+        if (classModel.isIsAbstract()) {
+            return;
+        }
         try {
-            System.out.println("Generating classes for " + classModel.getName());
-            String packagePart = classModel.getDocument().toLowerCase() + "/";
-            File targetDirectory = new File(generatedSourceDirectory, packagePart);
-            targetDirectory.mkdirs();
+            log("Generating classes for " + classModel.getName());
+            String packagePart = classModel.getDirectoryPackagePart();
+            File outputSourceDirectory = new File(generatedSourceDirectory, packagePart);
+            outputSourceDirectory.mkdirs();
+            File outputTestDirectory = makeOutputTestDirectory(classModel);
             incorporateIncludes(classModel);
-            generateMetadataKey(targetDirectory, classModel);
-            generateLocalSet(targetDirectory, classModel);
-            generateComponentClasses(targetDirectory, classModel);
-            generateMetadataKeyTests(classModel);
-            generateLocalSetTests(classModel);
-            generateComponentClassTests(classModel);
+            generateMetadataKey(outputSourceDirectory, classModel);
+            generateLocalSet(outputSourceDirectory, classModel);
+            generateComponentClasses(outputSourceDirectory, classModel);
+            generateMetadataKeyTests(outputTestDirectory, classModel);
+            generateLocalSetTests(outputTestDirectory, classModel);
+            generateComponentClassTests(outputTestDirectory, classModel);
         } catch (TemplateException | IOException ex) {
-            System.out.println("Failed to generate classes for " + classModel.getName());
+            log("Failed to generate classes for " + classModel.getName());
         }
     }
 
@@ -99,20 +101,24 @@ public class CodeGenerator {
         }
     }
 
-    private void generateMetadataKeyTests(ClassModel classModel)
+    private void generateMetadataKeyTests(File outputTestDirectory, ClassModel classModel)
             throws TemplateException, IOException {
         try {
             Template temp = templateConfiguration.getTemplate("metadataKeyTest.ftl");
-            String packagePart = classModel.getDocument().toLowerCase() + "/";
-            File targetDirectory = new File(generatedTestDirectory, packagePart);
-            targetDirectory.mkdirs();
             File metadataKeyTestFile =
-                    new File(targetDirectory, classModel.getName() + "MetadataKeyTest.java");
+                    new File(outputTestDirectory, classModel.getName() + "MetadataKeyTest.java");
             Writer out = new FileWriter(metadataKeyTestFile);
             temp.process(classModel, out);
         } catch (TemplateException | IOException ex) {
-            System.out.println("Failed to generate metadata key tests: " + ex.getMessage());
+            log("Failed to generate metadata key tests: " + ex.getMessage());
         }
+    }
+
+    private File makeOutputTestDirectory(AbstractModel model) {
+        String packagePart = model.getDirectoryPackagePart();
+        File targetDirectory = new File(generatedTestDirectory, packagePart);
+        targetDirectory.mkdirs();
+        return targetDirectory;
     }
 
     private void generateMetadataKey(File targetDirectory, ClassModel classModel)
@@ -121,12 +127,7 @@ public class CodeGenerator {
         File metadataKeyFile = new File(targetDirectory, classModel.getName() + "MetadataKey.java");
         Writer out = new FileWriter(metadataKeyFile);
         temp.process(classModel, out);
-        // out = new StringWriter();
-        // temp.process(classModel, out);
-        // System.out.println(out);
     }
-
-
 
     private void generateLocalSet(File targetDirectory, ClassModel classModel)
             throws TemplateException, IOException {
@@ -136,12 +137,9 @@ public class CodeGenerator {
         temp.process(classModel, out);
     }
 
-    private void generateLocalSetTests(ClassModel classModel)
+    private void generateLocalSetTests(File outputTestDirectory, ClassModel classModel)
             throws TemplateException, IOException {
-        String packagePart = classModel.getDocument().toLowerCase() + "/";
-        File targetDirectory = new File(generatedTestDirectory, packagePart);
-        targetDirectory.mkdirs();
-        File testFile = new File(targetDirectory, classModel.getName() + "Test.java");
+        File testFile = new File(outputTestDirectory, classModel.getName() + "Test.java");
         Template temp = templateConfiguration.getTemplate("compositeClassTest.ftl");
         Writer out = new OutputStreamWriter(new FileOutputStream(testFile), StandardCharsets.UTF_8);
         temp.process(classModel, out);
@@ -170,7 +168,7 @@ public class CodeGenerator {
             } else if (entry.getName().equals("mimdId")) {
                 // Nothing - special case
             } else {
-                System.out.println(
+                log(
                         "Need to implement component class for "
                                 + entry.getName()
                                 + " - "
@@ -179,30 +177,28 @@ public class CodeGenerator {
         }
     }
 
-    private void generateComponentClassTests(ClassModel classModel)
+    private void generateComponentClassTests(File outputTestDirectory, ClassModel classModel)
             throws TemplateException, IOException {
-        String packagePart = classModel.getDocument().toLowerCase() + "/";
-        File targetDirectory = new File(generatedTestDirectory, packagePart);
-        targetDirectory.mkdirs();
+        String packagePart = classModel.getDirectoryPackagePart();
         for (ClassModelEntry entry : classModel.getEntries()) {
             if (entry.getTypeName().equals("String")) {
-                processClassTestTemplate(targetDirectory, entry, "stringClassTest.ftl");
+                processClassTestTemplate(outputTestDirectory, entry, "stringClassTest.ftl");
             } else if (entry.getTypeName().equals("UInt")) {
-                processClassTestTemplate(targetDirectory, entry, "uintClassTest.ftl");
+                processClassTestTemplate(outputTestDirectory, entry, "uintClassTest.ftl");
             } else if (entry.getTypeName().equals("Integer")) {
-                processClassTestTemplate(targetDirectory, entry, "intClassTest.ftl");
+                processClassTestTemplate(outputTestDirectory, entry, "intClassTest.ftl");
             } else if (entry.getTypeName().equals("Real")) {
-                processClassTestTemplate(targetDirectory, entry, "realClassTest.ftl");
+                processClassTestTemplate(outputTestDirectory, entry, "realClassTest.ftl");
             } else if (models.isEnumerationName(entry.getTypeName())) {
                 // Nothing - we've got this already
             } else if (entry.getTypeName().startsWith("REF<")) {
                 // special case for this
             } else if (entry.getTypeName().startsWith("LIST<")) {
-                processClassTestTemplate(targetDirectory, entry, "listClassTest.ftl");
+                processClassTestTemplate(outputTestDirectory, entry, "listClassTest.ftl");
             } else if (entry.getName().equals("mimdId")) {
                 // Nothing - special case, hand coded tests
             } else {
-                System.out.println(
+                log(
                         "Need to implement component class test for "
                                 + entry.getName()
                                 + " - "
@@ -212,21 +208,17 @@ public class CodeGenerator {
     }
 
     private void processClassTemplate(
-            File targetDirectory, ClassModelEntry entry, String templateFile)
+            File outputSourceDirectory, ClassModelEntry entry, String templateFile)
             throws IOException, TemplateException {
-        System.out.println(
-                "Processing class template "
-                        + templateFile
-                        + " for "
-                        + entry.getNameSentenceCase());
-        File outputFile = new File(targetDirectory, entry.getNameSentenceCase() + ".java");
+        log("Processing class template " + templateFile + " for " + entry.getNameSentenceCase());
+        File outputFile = new File(outputSourceDirectory, entry.getNameSentenceCase() + ".java");
         processTemplate(templateFile, outputFile, entry);
     }
 
     private void processListItemIdentifierTemplate(
             File targetDirectory, ClassModelEntry entry, String templateFile)
             throws IOException, TemplateException {
-        System.out.println(
+        log(
                 "Processing list item identiifer template "
                         + templateFile
                         + " for "
@@ -238,8 +230,7 @@ public class CodeGenerator {
     private void processClassTestTemplate(
             File targetDirectory, ClassModelEntry entry, String templateFile)
             throws IOException, TemplateException {
-        System.out.println(
-                "Processing test template " + templateFile + " for " + entry.getNameSentenceCase());
+        log("Processing test template " + templateFile + " for " + entry.getNameSentenceCase());
         File outputFile = new File(targetDirectory, entry.getNameSentenceCase() + "Test.java");
         processTemplate(templateFile, outputFile, entry);
     }
@@ -260,5 +251,9 @@ public class CodeGenerator {
         templateConfiguration.setLogTemplateExceptions(false);
         templateConfiguration.setWrapUncheckedExceptions(true);
         templateConfiguration.setFallbackOnNullLoopVariable(false);
+    }
+
+    private void log(String message) {
+        System.out.println(message);
     }
 }

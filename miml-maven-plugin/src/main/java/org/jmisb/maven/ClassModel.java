@@ -2,38 +2,14 @@ package org.jmisb.maven;
 
 import java.util.ArrayList;
 import java.util.Collections;
-import java.util.HashMap;
 import java.util.List;
-import java.util.Map;
 
-public class ClassModel {
-    private String packageNameBase;
-    private String name;
+public class ClassModel extends AbstractModel {
     private String includes;
-    private String document;
     private List<ClassModelEntry> entries = new ArrayList<>();
     private boolean topLevel = false;
     private boolean isAbstract;
     private Models parent;
-
-    public String getPackageName() {
-        if (packageNameBase == null) {
-            return null;
-        }
-        return packageNameBase + "." + document.toLowerCase();
-    }
-
-    public void setPackageNameBase(String packageNameBase) {
-        this.packageNameBase = packageNameBase;
-    }
-
-    public String getName() {
-        return name;
-    }
-
-    public void setName(String name) {
-        this.name = name;
-    }
 
     public String getIncludes() {
         return includes;
@@ -41,14 +17,6 @@ public class ClassModel {
 
     public void setIncludes(String includes) {
         this.includes = includes;
-    }
-
-    public String getDocument() {
-        return document;
-    }
-
-    public void setDocument(String document) {
-        this.document = document;
     }
 
     public boolean isTopLevel() {
