@@ -84,10 +84,6 @@ public class ClassModel {
         }
     }
 
-    public void setPackageLookup(Map<String, String> lookups) {
-        packageLookup.putAll(lookups);
-    }
-
     String getTypePackage(String typeName) {
         return parent.getTypePackage(typeName);
     }
