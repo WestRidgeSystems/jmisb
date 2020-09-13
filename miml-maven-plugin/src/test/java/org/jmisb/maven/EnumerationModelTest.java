@@ -17,7 +17,7 @@ public class EnumerationModelTest {
         textBlock.addLine("    00 = Off {The device is powered off};".trim());
         textBlock.addLine("    01 = On {The device is powered on};".trim());
         textBlock.addLine("}");
-        EnumerationModel uut = MimlToJava.processEnumerationBlock(textBlock);
+        EnumerationModel uut = Parser.processEnumerationBlock(textBlock);
         assertEquals(uut.getName(), "PowerStatus");
         assertEquals(uut.getEntries().size(), 2);
         assertEquals(uut.getDocument(), "ST1907");

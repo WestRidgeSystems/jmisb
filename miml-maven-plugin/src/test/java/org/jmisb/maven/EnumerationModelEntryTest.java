@@ -12,7 +12,7 @@ public class EnumerationModelEntryTest {
     @Test
     public void number() {
         EnumerationModelEntry uut =
-                MimlToJava.parseEnumerationEntry(
+                Parser.parseEnumerationEntry(
                         " 02 = Over_Temperature {The device is over its maximum temperature};  ");
         assertEquals(uut.getNumber(), 2);
     }
@@ -20,7 +20,7 @@ public class EnumerationModelEntryTest {
     @Test
     public void name() {
         EnumerationModelEntry uut =
-                MimlToJava.parseEnumerationEntry(
+                Parser.parseEnumerationEntry(
                         " 02 = Over_Temperature {The device is over its maximum temperature};  ");
         assertEquals(uut.getName(), "Over_Temperature");
     }
@@ -28,7 +28,7 @@ public class EnumerationModelEntryTest {
     @Test
     public void description() {
         EnumerationModelEntry uut =
-                MimlToJava.parseEnumerationEntry(
+                Parser.parseEnumerationEntry(
                         " 02 = Over_Temperature {The device is over its maximum temperature};  ");
         assertEquals(uut.getDescription(), "The device is over its maximum temperature");
     }

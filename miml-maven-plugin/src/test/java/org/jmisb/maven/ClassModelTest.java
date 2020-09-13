@@ -61,7 +61,7 @@ public class ClassModelTest {
         textBlock.addLine("    33_name : String (100) {None};".trim());
         textBlock.addLine("    36_differentialPressure : Real (0, 5000)          {hPa};".trim());
         textBlock.addLine("}");
-        ClassModel uut = MimlToJava.processClassBlock(textBlock);
+        ClassModel uut = Parser.processClassBlock(textBlock);
         return uut;
     }
 
@@ -73,7 +73,7 @@ public class ClassModelTest {
         textBlock.addLine("    02_timer : REF<Timer> {None};".trim());
         textBlock.addLine("    03_timerOffset : Integer { ns};".trim());
         textBlock.addLine("}");
-        ClassModel uut = MimlToJava.processClassBlock(textBlock);
+        ClassModel uut = Parser.processClassBlock(textBlock);
         return uut;
     }
 
