@@ -40,6 +40,7 @@ public class ClassModel extends AbstractModel {
     }
 
     public void addEntry(ClassModelEntry entry) {
+        entry.setParent(this);
         this.entries.add(entry);
     }
 

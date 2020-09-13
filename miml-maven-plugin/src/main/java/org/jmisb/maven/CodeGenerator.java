@@ -112,7 +112,7 @@ public class CodeGenerator {
     }
 
     private void incorporateIncludes(ClassModel classModel) {
-        if (!classModel.getIncludes().isEmpty()) {
+        if ((classModel.getIncludes() != null) && (!classModel.getIncludes().isEmpty())) {
             String baseModelName = classModel.getIncludes();
             ClassModel baseModel = generatorConf.getModels().findClassByName(baseModelName);
             classModel.applyBaseModel(baseModel);

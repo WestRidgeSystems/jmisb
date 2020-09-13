@@ -131,7 +131,6 @@ class Parser {
             }
             if (line.contains(" : ")) {
                 ClassModelEntry entry = parseClassEntry(line);
-                entry.setParent(classModel);
                 classModel.addEntry(entry);
                 continue;
             }
