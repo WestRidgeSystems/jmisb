@@ -1,16 +1,13 @@
 package org.jmisb.maven;
 
 import java.util.ArrayList;
-import java.util.HashMap;
 import java.util.List;
-import java.util.Map;
 
 /** Collection of class and enumeration models for this MIML instance. */
 public class Models {
 
     private final List<EnumerationModel> enumerationModels = new ArrayList<>();
     private final List<ClassModel> classModels = new ArrayList<>();
-    private final Map<String, String> packageNameLookups = new HashMap<>();
 
     List<EnumerationModel> getEnumerationModels() {
         return enumerationModels;
@@ -34,18 +31,12 @@ public class Models {
                 .anyMatch((enumerationModel) -> (enumerationModel.getName().equals(typeName)));
     }
 
-    // TODO: instead of this, we could just set a Models parent on each class and do the lookup off
-    // the classes.
-    void buildPackageNameLookupTable() {
+    String getTypePackage(String typeName) {
         for (ClassModel classModel : getClassModels()) {
-            addPackageNameLookup(classModel);
+            if (classModel.getName().equals(typeName)) {
+                return classModel.getPackageName();
+            }
         }
-        for (ClassModel classModel : getClassModels()) {
-            classModel.setPackageLookup(packageNameLookups);
-        }
-    }
-
-    private void addPackageNameLookup(ClassModel classModel) {
-        packageNameLookups.put(classModel.getName(), classModel.getPackageName());
+        return null;
     }
 }

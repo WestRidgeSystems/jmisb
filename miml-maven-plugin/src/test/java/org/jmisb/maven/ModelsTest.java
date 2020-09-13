@@ -58,7 +58,6 @@ public class ModelsTest {
         class4.setIsAbstract(true);
         uut.addClassModel(class4);
         assertEquals(uut.getClassModels().size(), 4);
-        uut.buildPackageNameLookupTable();
         assertEquals(class3.getPackageName(), "mimd.tests.st1903");
         assertEquals(class3.getTypePackage("Class2"), "mimd.tests.st1904");
         assertEquals(class3.getTypePackage("Class1"), "mimd.tests.st1901");

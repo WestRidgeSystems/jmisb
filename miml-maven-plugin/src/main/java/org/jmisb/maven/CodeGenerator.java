@@ -33,8 +33,6 @@ public class CodeGenerator {
             generateEnumeration(enumerationModel);
             generateEnumerationTests(enumerationModel);
         }
-        // TODO: move to Models?
-        models.buildPackageNameLookupTable();
         for (ClassModel classModel : models.getClassModels()) {
             if (!classModel.isIsAbstract()) {
                 generateJava(classModel);

@@ -2,8 +2,6 @@ package org.jmisb.maven;
 
 import static org.testng.Assert.*;
 
-import java.util.HashMap;
-import java.util.Map;
 import org.testng.annotations.Test;
 
 /** Unit tests for ClassEntryModel and associated parsing. */
@@ -156,17 +154,5 @@ public class ClassEntryModelTest {
         entry.setParent(parent);
         assertEquals(entry.getDocument(), "ST190x");
         assertEquals(entry.getPackageName(), "test.miml.st190x");
-    }
-
-    @Test
-    public void packageNameLookup() {
-        ClassModel parent = new ClassModel();
-        Map<String, String> lookups = new HashMap<>();
-        lookups.put("Foo", "org.baz");
-        lookups.put("Bar", "com.boop");
-        parent.setPackageLookup(lookups);
-        ClassModelEntry entry = MimlToJava.parseClassEntry("38_timers : LIST<Bar> (1, *) {None}; ");
-        entry.setParent(parent);
-        assertEquals(entry.getListItemTypePackage(), "com.boop");
     }
 }

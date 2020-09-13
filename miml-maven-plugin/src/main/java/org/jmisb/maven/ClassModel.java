@@ -89,7 +89,7 @@ public class ClassModel {
     }
 
     String getTypePackage(String typeName) {
-        return packageLookup.get(typeName);
+        return parent.getTypePackage(typeName);
     }
 
     void parseAbstractClassLine(String line) {
