@@ -30,8 +30,7 @@ public class CodeGenerator {
 
     void generateCode() {
         for (EnumerationModel enumerationModel : models.getEnumerationModels()) {
-            generateEnumeration(enumerationModel);
-            generateEnumerationTests(enumerationModel);
+            generateJava(enumerationModel);
         }
         for (ClassModel classModel : models.getClassModels()) {
             if (!classModel.isIsAbstract()) {
@@ -40,6 +39,40 @@ public class CodeGenerator {
         }
     }
 
+    private void generateJava(EnumerationModel enumerationModel) {
+        generateEnumeration(enumerationModel);
+        generateEnumerationTests(enumerationModel);
+    }
+
+    private void generateEnumeration(EnumerationModel enumeration) {
+        try {
+            String packagePart = enumeration.getDocument().toLowerCase() + "/";
+            File targetDirectory = new File(generatedSourceDirectory, packagePart);
+            targetDirectory.mkdirs();
+            Template temp = templateConfiguration.getTemplate("enumeration.ftl");
+            File enumerationFile = new File(targetDirectory, enumeration.getName() + ".java");
+            Writer out = new FileWriter(enumerationFile);
+            temp.process(enumeration, out);
+        } catch (TemplateException | IOException ex) {
+            System.out.println("Failed t generate enumeration for " + enumeration.getName());
+        }
+    }
+        
+    private void generateEnumerationTests(EnumerationModel enumeration) {
+        try {
+            Template temp = templateConfiguration.getTemplate("enumerationTest.ftl");
+            String packagePart = enumeration.getDocument().toLowerCase() + "/";
+            File targetDirectory = new File(generatedTestDirectory, packagePart);
+            targetDirectory.mkdirs();
+            File enumerationTestFile =
+                    new File(targetDirectory, enumeration.getName() + "Test.java");
+            Writer out = new FileWriter(enumerationTestFile);
+            temp.process(enumeration, out);
+        } catch (TemplateException | IOException ex) {
+            System.out.println("Failed to generate enumeration tests: " + ex.getMessage());
+        }
+    }
+    
     private void generateJava(ClassModel classModel) {
         try {
             System.out.println("Generating classes for " + classModel.getName());
@@ -61,20 +94,9 @@ public class CodeGenerator {
     private void incorporateIncludes(ClassModel classModel) {
         if (!classModel.getIncludes().isEmpty()) {
             String baseModelName = classModel.getIncludes();
-            ClassModel baseModel = findClassByName(baseModelName);
+            ClassModel baseModel = models.findClassByName(baseModelName);
             classModel.applyBaseModel(baseModel);
         }
-    }
-
-    // TODO: move to Models?
-    private ClassModel findClassByName(String className) {
-        for (ClassModel classModel : models.getClassModels()) {
-            if (classModel.getName().equals(className)) {
-                return classModel;
-            }
-        }
-        System.out.println("Failed to look up " + className);
-        return null;
     }
 
     private void generateMetadataKeyTests(ClassModel classModel)
@@ -104,20 +126,7 @@ public class CodeGenerator {
         // System.out.println(out);
     }
 
-    private void generateEnumerationTests(EnumerationModel enumeration) {
-        try {
-            Template temp = templateConfiguration.getTemplate("enumerationTest.ftl");
-            String packagePart = enumeration.getDocument().toLowerCase() + "/";
-            File targetDirectory = new File(generatedTestDirectory, packagePart);
-            targetDirectory.mkdirs();
-            File enumerationTestFile =
-                    new File(targetDirectory, enumeration.getName() + "Test.java");
-            Writer out = new FileWriter(enumerationTestFile);
-            temp.process(enumeration, out);
-        } catch (TemplateException | IOException ex) {
-            System.out.println("Failed to generate enumeration tests: " + ex.getMessage());
-        }
-    }
+
 
     private void generateLocalSet(File targetDirectory, ClassModel classModel)
             throws TemplateException, IOException {
@@ -199,20 +208,6 @@ public class CodeGenerator {
                                 + " - "
                                 + entry.getTypeName());
             }
-        }
-    }
-
-    private void generateEnumeration(EnumerationModel enumeration) {
-        try {
-            String packagePart = enumeration.getDocument().toLowerCase() + "/";
-            File targetDirectory = new File(generatedSourceDirectory, packagePart);
-            targetDirectory.mkdirs();
-            Template temp = templateConfiguration.getTemplate("enumeration.ftl");
-            File enumerationFile = new File(targetDirectory, enumeration.getName() + ".java");
-            Writer out = new FileWriter(enumerationFile);
-            temp.process(enumeration, out);
-        } catch (TemplateException | IOException ex) {
-            System.out.println("Failed t generate enumeration for " + enumeration.getName());
         }
     }
 

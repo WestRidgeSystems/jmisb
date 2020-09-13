@@ -39,4 +39,14 @@ public class Models {
         }
         return null;
     }
+
+    ClassModel findClassByName(String className) {
+        for (ClassModel classModel : getClassModels()) {
+            if (classModel.getName().equals(className)) {
+                return classModel;
+            }
+        }
+        System.out.println("Failed to look up " + className);
+        return null;
+    }
 }

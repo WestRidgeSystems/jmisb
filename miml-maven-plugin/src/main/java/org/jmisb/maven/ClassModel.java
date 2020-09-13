@@ -12,7 +12,6 @@ public class ClassModel {
     private String includes;
     private String document;
     private List<ClassModelEntry> entries = new ArrayList<>();
-    private Map<String, String> packageLookup = new HashMap<>();
     private boolean topLevel = false;
     private boolean isAbstract;
     private Models parent;
