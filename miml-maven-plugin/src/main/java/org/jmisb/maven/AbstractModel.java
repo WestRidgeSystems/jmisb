@@ -14,7 +14,7 @@ public class AbstractModel {
         return packageNameBase + "." + document.toLowerCase();
     }
 
-    public void setPackageNameBase(String packageNameBase) {
+    void setPackageNameBase(String packageNameBase) {
         this.packageNameBase = packageNameBase;
     }
 
@@ -22,7 +22,7 @@ public class AbstractModel {
         return name;
     }
 
-    public void setName(String name) {
+    void setName(String name) {
         this.name = name;
     }
 
@@ -30,7 +30,7 @@ public class AbstractModel {
         return document;
     }
 
-    public void setDocument(String document) {
+    void setDocument(String document) {
         this.document = document;
     }
 

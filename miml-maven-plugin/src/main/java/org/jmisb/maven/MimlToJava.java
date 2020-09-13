@@ -45,12 +45,10 @@ public class MimlToJava extends AbstractMojo {
     private File generatedSourceDirectory;
     private File generatedTestDirectory;
 
-    private Models models = new Models();
-
     @Override
     public void execute() throws MojoExecutionException {
         createOutputDirectories();
-        processFiles();
+        Models models = processFiles();
         CodeGenerator codeGenerator =
                 new CodeGenerator(generatedSourceDirectory, generatedTestDirectory, models);
         codeGenerator.generateCode();
@@ -58,13 +56,16 @@ public class MimlToJava extends AbstractMojo {
         project.addTestCompileSourceRoot(outputTestDirectory.getPath());
     }
 
-    private void processFiles() {
+    private Models processFiles() {
+        Parser parser = new Parser();
+        Models models = new Models();
         File[] files = new File(inputDirectory, "src/main/miml").listFiles();
         for (File inFile : files) {
             if (inFile.getName().endsWith(".miml")) {
-                processMimlFile(inFile);
+                models.mergeAll(processMimlFile(inFile));
             }
         }
+        return models;
     }
 
     // TODO: move to CodeGenerator
@@ -76,16 +77,17 @@ public class MimlToJava extends AbstractMojo {
         generatedTestDirectory.mkdirs();
     }
 
-    private void processMimlFile(File inFile) {
+    private Models processMimlFile(File inFile) {
         try {
             getLog().info("Processing: " + inFile.getAbsolutePath());
             List<String> lines =
                     Files.readAllLines(Paths.get(inFile.getAbsolutePath()), StandardCharsets.UTF_8);
             List<MimlTextBlock> textBlocks = getBlocks(lines);
-            processBlocks(textBlocks);
+            return processBlocks(textBlocks);
         } catch (IOException ex) {
             getLog().error("Failed to read lines from " + inFile);
         }
+        return new Models();
     }
 
     private List<MimlTextBlock> getBlocks(List<String> lines) {
@@ -102,13 +104,16 @@ public class MimlToJava extends AbstractMojo {
         return blocks;
     }
 
-    private void processBlocks(List<MimlTextBlock> textBlocks) {
+    private Models processBlocks(List<MimlTextBlock> textBlocks) {
+        Models models = new Models();
         for (MimlTextBlock textBlock : textBlocks) {
-            processBlock(textBlock);
+            models.merge(processBlock(textBlock));
         }
+        return models;
     }
 
-    private void processBlock(MimlTextBlock textBlock) {
+    private AbstractModel processBlock(MimlTextBlock textBlock) {
+
         List<String> lines = textBlock.getText();
         for (String line : lines) {
             if (line.startsWith("MIML_Grammar")) {
@@ -117,18 +122,17 @@ public class MimlToJava extends AbstractMojo {
             if (line.startsWith("enumeration")) {
                 EnumerationModel enumeration = processEnumerationBlock(textBlock);
                 enumeration.setPackageNameBase(packageNameBase);
-                models.addEnumerationModel(enumeration);
-                break;
+                return enumeration;
             } else if (line.startsWith("class") || line.startsWith("abstract class")) {
                 ClassModel classModel = processClassBlock(textBlock);
                 classModel.setTopLevel(classModel.getName().equals(this.topLevelClassName));
                 classModel.setPackageNameBase(packageNameBase);
-                models.addClassModel(classModel);
-                break;
+                return classModel;
             } else {
                 throw new UnsupportedOperationException("Don't know how to handle: " + line);
             }
         }
+        return null;
     }
 
     static EnumerationModel processEnumerationBlock(MimlTextBlock textBlock) {

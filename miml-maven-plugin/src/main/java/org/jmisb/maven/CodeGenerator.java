@@ -90,6 +90,7 @@ public class CodeGenerator {
             generateComponentClassTests(outputTestDirectory, classModel);
         } catch (TemplateException | IOException ex) {
             log("Failed to generate classes for " + classModel.getName());
+            log(ex.getMessage());
         }
     }
 

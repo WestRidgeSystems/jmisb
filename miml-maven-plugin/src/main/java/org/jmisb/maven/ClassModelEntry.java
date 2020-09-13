@@ -48,7 +48,6 @@ public class ClassModelEntry {
     }
 
     public String getListItemTypePackage() {
-        // System.out.println(getListItemType());
         return parent.getTypePackage(getListItemType());
     }
 

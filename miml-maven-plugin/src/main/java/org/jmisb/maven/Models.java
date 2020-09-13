@@ -49,4 +49,19 @@ public class Models {
         System.out.println("Failed to look up " + className);
         return null;
     }
+
+    void merge(AbstractModel model) {
+        if (model instanceof ClassModel) {
+            classModels.add((ClassModel) model);
+        } else if (model instanceof EnumerationModel) {
+            enumerationModels.add((EnumerationModel) model);
+        }
+    }
+
+    void mergeAll(Models models) {
+        this.enumerationModels.addAll(models.getEnumerationModels());
+        for (ClassModel classModel : models.getClassModels()) {
+            this.addClassModel(classModel);
+        }
+    }
 }

@@ -6,7 +6,7 @@ import java.util.List;
 
 public class ClassModel extends AbstractModel {
     private String includes;
-    private List<ClassModelEntry> entries = new ArrayList<>();
+    private final List<ClassModelEntry> entries = new ArrayList<>();
     private boolean topLevel = false;
     private boolean isAbstract;
     private Models parent;
@@ -61,7 +61,7 @@ public class ClassModel extends AbstractModel {
     }
 
     void applyBaseModel(ClassModel baseModel) {
-        ArrayList<ClassModelEntry> baseModelEntries = new ArrayList(baseModel.getEntries());
+        ArrayList<ClassModelEntry> baseModelEntries = new ArrayList<>(baseModel.getEntries());
         Collections.reverse(baseModelEntries);
         for (ClassModelEntry entry : baseModelEntries) {
             System.out.println(
