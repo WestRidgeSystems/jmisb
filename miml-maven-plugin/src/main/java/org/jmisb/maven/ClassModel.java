@@ -1,6 +1,7 @@
 package org.jmisb.maven;
 
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -70,16 +71,8 @@ public class ClassModel {
         return entries;
     }
 
-    public void setEntries(List<ClassModelEntry> entries) {
-        this.entries = entries;
-    }
-
     public void addEntry(ClassModelEntry entry) {
         this.entries.add(entry);
-    }
-
-    public void addEntryAtStart(ClassModelEntry entry) {
-        this.entries.add(0, entry);
     }
 
     void parseClassLine(String line) {
@@ -101,5 +94,20 @@ public class ClassModel {
     void parseAbstractClassLine(String line) {
         parseClassLine(line.substring("abstract ".length()));
         setIsAbstract(true);
+    }
+
+    void applyBaseModel(ClassModel baseModel) {
+        ArrayList<ClassModelEntry> baseModelEntries = new ArrayList(baseModel.getEntries());
+        Collections.reverse(baseModelEntries);
+        for (ClassModelEntry entry : baseModelEntries) {
+            System.out.println(
+                    "classModel:"
+                            + getName()
+                            + " adding "
+                            + entry.getName()
+                            + ", "
+                            + entry.getNameSentenceCase());
+            entries.add(0, entry);
+        }
     }
 }

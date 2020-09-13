@@ -1,24 +1,12 @@
 package org.jmisb.maven;
 
-import freemarker.template.Configuration;
-import freemarker.template.Template;
-import freemarker.template.TemplateException;
-import freemarker.template.TemplateExceptionHandler;
 import java.io.File;
-import java.io.FileNotFoundException;
-import java.io.FileOutputStream;
-import java.io.FileWriter;
 import java.io.IOException;
-import java.io.OutputStreamWriter;
-import java.io.Writer;
 import java.nio.charset.StandardCharsets;
 import java.nio.file.Files;
 import java.nio.file.Paths;
 import java.util.ArrayList;
-import java.util.Collections;
-import java.util.HashMap;
 import java.util.List;
-import java.util.Map;
 import org.apache.maven.plugin.AbstractMojo;
 import org.apache.maven.plugin.MojoExecutionException;
 import org.apache.maven.plugins.annotations.LifecyclePhase;
@@ -57,18 +45,15 @@ public class MimlToJava extends AbstractMojo {
     private File generatedSourceDirectory;
     private File generatedTestDirectory;
 
-    private Configuration cfg;
-
-    private List<String> knownEnumerationValues = new ArrayList<>();
-    private List<EnumerationModel> enumerationModels = new ArrayList<>();
-    private List<ClassModel> classModels = new ArrayList<>();
-    private Map<String, String> packageNameLookups = new HashMap<>();
+    private Models models = new Models();
 
     @Override
     public void execute() throws MojoExecutionException {
         createOutputDirectories();
-        setupTemplateEngine();
         processFiles();
+        CodeGenerator codeGenerator =
+                new CodeGenerator(generatedSourceDirectory, generatedTestDirectory, models);
+        codeGenerator.generateCode();
         project.addCompileSourceRoot(outputDirectory.getPath());
         project.addTestCompileSourceRoot(outputTestDirectory.getPath());
     }
@@ -78,19 +63,6 @@ public class MimlToJava extends AbstractMojo {
         for (File inFile : files) {
             if (inFile.getName().endsWith(".miml")) {
                 processMimlFile(inFile);
-            }
-        }
-        for (EnumerationModel enumerationModel : enumerationModels) {
-            generateEnumeration(enumerationModel);
-            generateEnumerationTests(enumerationModel);
-        }
-        for (ClassModel classModel : classModels) {
-            addPackageNameLookup(classModel);
-        }
-        for (ClassModel classModel : classModels) {
-            if (!classModel.isIsAbstract()) {
-                classModel.setPackageLookup(packageNameLookups);
-                generateClasses(classModel);
             }
         }
     }
@@ -144,13 +116,13 @@ public class MimlToJava extends AbstractMojo {
             if (line.startsWith("enumeration")) {
                 EnumerationModel enumeration = processEnumerationBlock(textBlock);
                 enumeration.setPackageNameBase(packageNameBase);
-                enumerationModels.add(enumeration);
+                models.addEnumerationModel(enumeration);
                 break;
             } else if (line.startsWith("class") || line.startsWith("abstract class")) {
                 ClassModel classModel = processClassBlock(textBlock);
                 classModel.setTopLevel(classModel.getName().equals(this.topLevelClassName));
                 classModel.setPackageNameBase(packageNameBase);
-                classModels.add(classModel);
+                models.addClassModel(classModel);
                 break;
             } else {
                 throw new UnsupportedOperationException("Don't know how to handle: " + line);
@@ -263,234 +235,6 @@ public class MimlToJava extends AbstractMojo {
         return entry;
     }
 
-    private void generateEnumeration(EnumerationModel enumeration) {
-        try {
-            String packagePart = enumeration.getDocument().toLowerCase() + "/";
-            File targetDirectory = new File(generatedSourceDirectory, packagePart);
-            targetDirectory.mkdirs();
-            Template temp = cfg.getTemplate("enumeration.ftl");
-            File enumerationFile = new File(targetDirectory, enumeration.getName() + ".java");
-            Writer out = new FileWriter(enumerationFile);
-            temp.process(enumeration, out);
-            knownEnumerationValues.add(enumeration.getName());
-        } catch (TemplateException | IOException ex) {
-            getLog().error(ex);
-        }
-    }
-
-    private void generateEnumerationTests(EnumerationModel enumeration) {
-        try {
-            Template temp = cfg.getTemplate("enumerationTest.ftl");
-            String packagePart = enumeration.getDocument().toLowerCase() + "/";
-            File targetDirectory = new File(generatedTestDirectory, packagePart);
-            targetDirectory.mkdirs();
-            File enumerationTestFile =
-                    new File(targetDirectory, enumeration.getName() + "Test.java");
-            Writer out = new FileWriter(enumerationTestFile);
-            temp.process(enumeration, out);
-        } catch (TemplateException | IOException ex) {
-            getLog().error(ex);
-        }
-    }
-
-    private void generateClasses(ClassModel classModel) {
-        try {
-            getLog().info("Generating classes for " + classModel.getName());
-            String packagePart = classModel.getDocument().toLowerCase() + "/";
-            File targetDirectory = new File(generatedSourceDirectory, packagePart);
-            targetDirectory.mkdirs();
-            if (!classModel.getIncludes().isEmpty()) {
-                String baseModelName = classModel.getIncludes();
-                ClassModel baseModel = findClassByName(baseModelName);
-                ArrayList<ClassModelEntry> entries = new ArrayList(baseModel.getEntries());
-                Collections.reverse(entries);
-                for (ClassModelEntry entry : entries) {
-                    System.out.println(
-                            "classModel:"
-                                    + classModel.getName()
-                                    + " adding "
-                                    + entry.getName()
-                                    + ", "
-                                    + entry.getNameSentenceCase());
-                    classModel.addEntryAtStart(entry);
-                }
-            }
-            generateMetadataKey(targetDirectory, classModel);
-            generateLocalSet(targetDirectory, classModel);
-            generateComponentClasses(targetDirectory, classModel);
-            generateMetadataKeyTests(classModel);
-            generateLocalSetTests(classModel);
-            generateComponentClassTests(classModel);
-        } catch (TemplateException | IOException ex) {
-            getLog().error(ex);
-        }
-    }
-
-    private void generateMetadataKey(File targetDirectory, ClassModel classModel)
-            throws TemplateException, IOException {
-        Template temp = cfg.getTemplate("metadataKey.ftl");
-        File metadataKeyFile = new File(targetDirectory, classModel.getName() + "MetadataKey.java");
-        Writer out = new FileWriter(metadataKeyFile);
-        temp.process(classModel, out);
-        // out = new StringWriter();
-        // temp.process(classModel, out);
-        // System.out.println(out);
-    }
-
-    private void generateMetadataKeyTests(ClassModel classModel)
-            throws TemplateException, IOException {
-        try {
-            Template temp = cfg.getTemplate("metadataKeyTest.ftl");
-            String packagePart = classModel.getDocument().toLowerCase() + "/";
-            File targetDirectory = new File(generatedTestDirectory, packagePart);
-            targetDirectory.mkdirs();
-            File metadataKeyTestFile =
-                    new File(targetDirectory, classModel.getName() + "MetadataKeyTest.java");
-            Writer out = new FileWriter(metadataKeyTestFile);
-            temp.process(classModel, out);
-        } catch (TemplateException | IOException ex) {
-            getLog().error(ex);
-        }
-    }
-
-    private void generateLocalSet(File targetDirectory, ClassModel classModel)
-            throws TemplateException, IOException {
-        File testFile = new File(targetDirectory, classModel.getName() + ".java");
-        Template temp = cfg.getTemplate("compositeClass.ftl");
-        Writer out = new FileWriter(testFile);
-        temp.process(classModel, out);
-    }
-
-    private void generateLocalSetTests(ClassModel classModel)
-            throws TemplateException, IOException {
-        String packagePart = classModel.getDocument().toLowerCase() + "/";
-        File targetDirectory = new File(generatedTestDirectory, packagePart);
-        targetDirectory.mkdirs();
-        File testFile = new File(targetDirectory, classModel.getName() + "Test.java");
-        Template temp = cfg.getTemplate("compositeClassTest.ftl");
-        Writer out = new OutputStreamWriter(new FileOutputStream(testFile), StandardCharsets.UTF_8);
-        temp.process(classModel, out);
-    }
-
-    private void generateComponentClasses(File targetDirectory, ClassModel classModel)
-            throws TemplateException, IOException {
-        for (ClassModelEntry entry : classModel.getEntries()) {
-            if (entry.getTypeName().equals("String")) {
-                processClassTemplate(targetDirectory, entry, "stringClass.ftl");
-            } else if (entry.getTypeName().equals("UInt")) {
-                processClassTemplate(targetDirectory, entry, "uintClass.ftl");
-            } else if (entry.getTypeName().equals("Integer")) {
-                processClassTemplate(targetDirectory, entry, "intClass.ftl");
-            } else if (entry.getTypeName().equals("Real")) {
-                processClassTemplate(targetDirectory, entry, "realClass.ftl");
-            } else if (knownEnumerationValues.contains(entry.getTypeName())) {
-                // Nothing - we've got this already
-            } else if (entry.getTypeName().startsWith("REF<")
-                    && entry.getTypeName().endsWith(">")) {
-                // special case for this
-            } else if (entry.getTypeName().startsWith("LIST<")
-                    && entry.getTypeName().endsWith(">")) {
-                processClassTemplate(targetDirectory, entry, "listClass.ftl");
-                processListItemIdentifierTemplate(targetDirectory, entry, "listItemIdentifier.ftl");
-            } else if (entry.getName().equals("mimdId")) {
-                // Nothing - special case
-            } else {
-                getLog().info(
-                                "Need to implement component class for "
-                                        + entry.getName()
-                                        + " - "
-                                        + entry.getTypeName());
-            }
-        }
-    }
-
-    private void generateComponentClassTests(ClassModel classModel)
-            throws TemplateException, IOException {
-        try {
-            String packagePart = classModel.getDocument().toLowerCase() + "/";
-            File targetDirectory = new File(generatedTestDirectory, packagePart);
-            targetDirectory.mkdirs();
-            for (ClassModelEntry entry : classModel.getEntries()) {
-                if (entry.getTypeName().equals("String")) {
-                    processClassTestTemplate(targetDirectory, entry, "stringClassTest.ftl");
-                } else if (entry.getTypeName().equals("UInt")) {
-                    processClassTestTemplate(targetDirectory, entry, "uintClassTest.ftl");
-                } else if (entry.getTypeName().equals("Integer")) {
-                    processClassTestTemplate(targetDirectory, entry, "intClassTest.ftl");
-                } else if (entry.getTypeName().equals("Real")) {
-                    processClassTestTemplate(targetDirectory, entry, "realClassTest.ftl");
-                } else if (knownEnumerationValues.contains(entry.getTypeName())) {
-                    // Nothing - we've got this already
-                } else if (entry.getTypeName().startsWith("REF<")) {
-                    // special case for this
-                } else if (entry.getTypeName().startsWith("LIST<")) {
-                    processClassTestTemplate(targetDirectory, entry, "listClassTest.ftl");
-                } else if (entry.getName().equals("mimdId")) {
-                    // Nothing - special case, hand coded tests
-                } else {
-                    getLog().info(
-                                    "Need to implement component class test for "
-                                            + entry.getName()
-                                            + " - "
-                                            + entry.getTypeName());
-                }
-            }
-        } catch (TemplateException | IOException ex) {
-            getLog().error(ex);
-        }
-    }
-
-    private void processClassTemplate(
-            File targetDirectory, ClassModelEntry entry, String templateFile)
-            throws IOException, TemplateException {
-        System.out.println(
-                "Processing class template "
-                        + templateFile
-                        + " for "
-                        + entry.getNameSentenceCase());
-        File outputFile = new File(targetDirectory, entry.getNameSentenceCase() + ".java");
-        processTemplate(templateFile, outputFile, entry);
-    }
-
-    private void processListItemIdentifierTemplate(
-            File targetDirectory, ClassModelEntry entry, String templateFile)
-            throws IOException, TemplateException {
-        System.out.println(
-                "Processing list item identiifer template "
-                        + templateFile
-                        + " for "
-                        + entry.getNameSentenceCase());
-        File outputFile = new File(targetDirectory, entry.getListItemType() + "Identifier.java");
-        processTemplate(templateFile, outputFile, entry);
-    }
-
-    private void processClassTestTemplate(
-            File targetDirectory, ClassModelEntry entry, String templateFile)
-            throws IOException, TemplateException {
-        System.out.println(
-                "Processing test template " + templateFile + " for " + entry.getNameSentenceCase());
-        File outputFile = new File(targetDirectory, entry.getNameSentenceCase() + "Test.java");
-        processTemplate(templateFile, outputFile, entry);
-    }
-
-    private void processTemplate(String templateFile, File outputFile, ClassModelEntry entry)
-            throws FileNotFoundException, IOException, TemplateException {
-        Template temp = cfg.getTemplate(templateFile);
-        Writer out =
-                new OutputStreamWriter(new FileOutputStream(outputFile), StandardCharsets.UTF_8);
-        temp.process(entry, out);
-    }
-
-    private void setupTemplateEngine() {
-        cfg = new Configuration(Configuration.DEFAULT_INCOMPATIBLE_IMPROVEMENTS);
-        cfg.setClassForTemplateLoading(getClass(), "/templates");
-        cfg.setDefaultEncoding("UTF-8");
-        cfg.setTemplateExceptionHandler(TemplateExceptionHandler.RETHROW_HANDLER);
-        cfg.setLogTemplateExceptions(false);
-        cfg.setWrapUncheckedExceptions(true);
-        cfg.setFallbackOnNullLoopVariable(false);
-    }
-
     private static void parseTypeModifierPartsToEntry(ClassModelEntry entry, String typeModifiers) {
         String[] typeModifierParts = typeModifiers.split(",");
         if ("String".equals(entry.getTypeName())) {
@@ -580,19 +324,5 @@ public class MimlToJava extends AbstractMojo {
             default:
                 return Double.parseDouble(typeModifierPart);
         }
-    }
-
-    private void addPackageNameLookup(ClassModel classModel) {
-        packageNameLookups.put(classModel.getName(), classModel.getPackageName());
-    }
-
-    private ClassModel findClassByName(String className) {
-        for (ClassModel classModel : classModels) {
-            if (classModel.getName().equals(className)) {
-                return classModel;
-            }
-        }
-        getLog().error("Failed to look up " + className);
-        return null;
     }
 }
