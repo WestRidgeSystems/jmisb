@@ -59,11 +59,17 @@ public class ModelsTest {
         uut.addClassModel(class4);
         assertEquals(uut.getClassModels().size(), 4);
         assertEquals(class3.getPackageName(), "mimd.tests.st1903");
+        assertEquals(uut.getTypePackage("Class2"), "mimd.tests.st1904");
         assertEquals(class3.getTypePackage("Class2"), "mimd.tests.st1904");
+        assertEquals(uut.getTypePackage("Class1"), "mimd.tests.st1901");
         assertEquals(class3.getTypePackage("Class1"), "mimd.tests.st1901");
         assertEquals(class1.getPackageName(), "mimd.tests.st1901");
         assertEquals(class1.getTypePackage("Class2"), "mimd.tests.st1904");
+        assertEquals(uut.getTypePackage("Class3"), "mimd.tests.st1903");
+        assertEquals(uut.findClassByName("Class3").getName(), "Class3");
         assertEquals(class1.getTypePackage("Class3"), "mimd.tests.st1903");
+        assertNull(class1.getTypePackage("NotAClass"));
+        assertNull(uut.findClassByName("NotAClass"));
     }
 
     private EnumerationModel makeEnumerationModel1() {

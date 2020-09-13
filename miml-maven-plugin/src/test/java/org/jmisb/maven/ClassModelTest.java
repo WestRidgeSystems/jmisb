@@ -48,4 +48,12 @@ public class ClassModelTest {
         uut.setPackageNameBase("x.miml");
         assertEquals(uut.getPackageName(), "x.miml.st1904");
     }
+
+    @Test
+    public void topLevel() {
+        ClassModel uut = new ClassModel();
+        assertFalse(uut.isTopLevel());
+        uut.setTopLevel(true);
+        assertTrue(uut.isTopLevel());
+    }
 }
