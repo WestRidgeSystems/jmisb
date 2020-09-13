@@ -67,6 +67,7 @@ public class MimlToJava extends AbstractMojo {
         }
     }
 
+    // TODO: move to CodeGenerator
     private void createOutputDirectories() {
         String packagePath = packageNameBase.replace('.', '/');
         generatedSourceDirectory = new File(outputDirectory, packagePath);

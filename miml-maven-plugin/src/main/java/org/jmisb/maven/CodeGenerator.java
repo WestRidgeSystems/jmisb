@@ -19,7 +19,7 @@ public class CodeGenerator {
     private final File generatedSourceDirectory;
     private final File generatedTestDirectory;
     private final Models models;
-    private Configuration cfg;
+    private Configuration templateConfiguration;
 
     CodeGenerator(File sourceDirectory, File testDirectory, Models models) {
         this.generatedSourceDirectory = sourceDirectory;
@@ -80,7 +80,7 @@ public class CodeGenerator {
     private void generateMetadataKeyTests(ClassModel classModel)
             throws TemplateException, IOException {
         try {
-            Template temp = cfg.getTemplate("metadataKeyTest.ftl");
+            Template temp = templateConfiguration.getTemplate("metadataKeyTest.ftl");
             String packagePart = classModel.getDocument().toLowerCase() + "/";
             File targetDirectory = new File(generatedTestDirectory, packagePart);
             targetDirectory.mkdirs();
@@ -95,7 +95,7 @@ public class CodeGenerator {
 
     private void generateMetadataKey(File targetDirectory, ClassModel classModel)
             throws TemplateException, IOException {
-        Template temp = cfg.getTemplate("metadataKey.ftl");
+        Template temp = templateConfiguration.getTemplate("metadataKey.ftl");
         File metadataKeyFile = new File(targetDirectory, classModel.getName() + "MetadataKey.java");
         Writer out = new FileWriter(metadataKeyFile);
         temp.process(classModel, out);
@@ -106,7 +106,7 @@ public class CodeGenerator {
 
     private void generateEnumerationTests(EnumerationModel enumeration) {
         try {
-            Template temp = cfg.getTemplate("enumerationTest.ftl");
+            Template temp = templateConfiguration.getTemplate("enumerationTest.ftl");
             String packagePart = enumeration.getDocument().toLowerCase() + "/";
             File targetDirectory = new File(generatedTestDirectory, packagePart);
             targetDirectory.mkdirs();
@@ -122,7 +122,7 @@ public class CodeGenerator {
     private void generateLocalSet(File targetDirectory, ClassModel classModel)
             throws TemplateException, IOException {
         File testFile = new File(targetDirectory, classModel.getName() + ".java");
-        Template temp = cfg.getTemplate("compositeClass.ftl");
+        Template temp = templateConfiguration.getTemplate("compositeClass.ftl");
         Writer out = new FileWriter(testFile);
         temp.process(classModel, out);
     }
@@ -133,7 +133,7 @@ public class CodeGenerator {
         File targetDirectory = new File(generatedTestDirectory, packagePart);
         targetDirectory.mkdirs();
         File testFile = new File(targetDirectory, classModel.getName() + "Test.java");
-        Template temp = cfg.getTemplate("compositeClassTest.ftl");
+        Template temp = templateConfiguration.getTemplate("compositeClassTest.ftl");
         Writer out = new OutputStreamWriter(new FileOutputStream(testFile), StandardCharsets.UTF_8);
         temp.process(classModel, out);
     }
@@ -207,7 +207,7 @@ public class CodeGenerator {
             String packagePart = enumeration.getDocument().toLowerCase() + "/";
             File targetDirectory = new File(generatedSourceDirectory, packagePart);
             targetDirectory.mkdirs();
-            Template temp = cfg.getTemplate("enumeration.ftl");
+            Template temp = templateConfiguration.getTemplate("enumeration.ftl");
             File enumerationFile = new File(targetDirectory, enumeration.getName() + ".java");
             Writer out = new FileWriter(enumerationFile);
             temp.process(enumeration, out);
@@ -251,19 +251,19 @@ public class CodeGenerator {
 
     private void processTemplate(String templateFile, File outputFile, ClassModelEntry entry)
             throws FileNotFoundException, IOException, TemplateException {
-        Template temp = cfg.getTemplate(templateFile);
+        Template temp = templateConfiguration.getTemplate(templateFile);
         Writer out =
                 new OutputStreamWriter(new FileOutputStream(outputFile), StandardCharsets.UTF_8);
         temp.process(entry, out);
     }
 
     private void setupTemplateEngine() {
-        cfg = new Configuration(Configuration.DEFAULT_INCOMPATIBLE_IMPROVEMENTS);
-        cfg.setClassForTemplateLoading(getClass(), "/templates");
-        cfg.setDefaultEncoding("UTF-8");
-        cfg.setTemplateExceptionHandler(TemplateExceptionHandler.RETHROW_HANDLER);
-        cfg.setLogTemplateExceptions(false);
-        cfg.setWrapUncheckedExceptions(true);
-        cfg.setFallbackOnNullLoopVariable(false);
+        templateConfiguration = new Configuration(Configuration.DEFAULT_INCOMPATIBLE_IMPROVEMENTS);
+        templateConfiguration.setClassForTemplateLoading(getClass(), "/templates");
+        templateConfiguration.setDefaultEncoding("UTF-8");
+        templateConfiguration.setTemplateExceptionHandler(TemplateExceptionHandler.RETHROW_HANDLER);
+        templateConfiguration.setLogTemplateExceptions(false);
+        templateConfiguration.setWrapUncheckedExceptions(true);
+        templateConfiguration.setFallbackOnNullLoopVariable(false);
     }
 }
