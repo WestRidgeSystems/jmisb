@@ -83,13 +83,26 @@ public class ParserTest {
     }
 
     @Test
-    public void checkEmptyEnumeraitionBlock() {
+    public void checkEmptyEnumerationBlock() {
+        MimlTextBlock block = new MimlTextBlock();
+        EnumerationModel model = Parser.processEnumerationBlock(block);
+        assertNotNull(model);
+    }
+
+    @Test
+    public void checkNoEntriesEnumerationBlock() {
         MimlTextBlock block = new MimlTextBlock();
         block.addLine("enumeration {");
         block.addLine("");
         block.addLine("}");
-        Parser uut = new Parser(makeConfig());
-        AbstractModel model = uut.processBlock(block);
-        assertTrue(model instanceof EnumerationModel);
+        EnumerationModel model = Parser.processEnumerationBlock(block);
+        assertNotNull(model);
+    }
+
+    @Test
+    public void checkEmptyClassBlock() {
+        MimlTextBlock block = new MimlTextBlock();
+        ClassModel model = Parser.processClassBlock(block);
+        assertNotNull(model);
     }
 }
