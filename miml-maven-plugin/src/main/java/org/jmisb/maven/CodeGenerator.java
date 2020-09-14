@@ -209,9 +209,11 @@ public class CodeGenerator {
                 processClassTestTemplate(outputTestDirectory, entry, "realClassTest.ftl");
             } else if (generatorConf.getModels().isEnumerationName(entry.getTypeName())) {
                 // Nothing - we've got this already
-            } else if (entry.getTypeName().startsWith("REF<")) {
+            } else if (entry.getTypeName().startsWith("REF<")
+                    && entry.getTypeName().endsWith(">")) {
                 // special case for this
-            } else if (entry.getTypeName().startsWith("LIST<")) {
+            } else if (entry.getTypeName().startsWith("LIST<")
+                    && entry.getTypeName().endsWith(">")) {
                 processClassTestTemplate(outputTestDirectory, entry, "listClassTest.ftl");
             } else if (entry.getName().equals("mimdId")) {
                 // Nothing - special case, hand coded tests

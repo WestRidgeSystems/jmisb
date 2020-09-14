@@ -63,8 +63,7 @@ class Parser {
         return models;
     }
 
-    private AbstractModel processBlock(MimlTextBlock textBlock) {
-
+    AbstractModel processBlock(MimlTextBlock textBlock) {
         List<String> lines = textBlock.getText();
         for (String line : lines) {
             if (line.startsWith("MIML_Grammar")) {
