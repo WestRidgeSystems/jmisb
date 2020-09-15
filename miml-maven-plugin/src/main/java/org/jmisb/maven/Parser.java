@@ -187,8 +187,8 @@ class Parser {
         return entry;
     }
 
-    private static void parseTypeModifierPartsToEntry(ClassModelEntry entry, String typeModifiers) {
-        String[] typeModifierParts = typeModifiers.split(",");
+    static void parseTypeModifierPartsToEntry(ClassModelEntry entry, String typeModifiers) {
+        String[] typeModifierParts = typeModifiers.split(",", -1);
         if ("String".equals(entry.getTypeName())) {
             if (typeModifierParts.length == 1) {
                 int maxLength = Integer.parseInt(typeModifierParts[0]);

@@ -105,4 +105,14 @@ public class ParserTest {
         ClassModel model = Parser.processClassBlock(block);
         assertNotNull(model);
     }
+
+    @Test
+    public void checkTypeModifiersRealArray() {
+        ClassModelEntry classModelEntry = new ClassModelEntry();
+        classModelEntry.setTypeName("Real[]");
+        Parser.parseTypeModifierPartsToEntry(classModelEntry, "-10, 5000, 0.5");
+        assertEquals(classModelEntry.getMinValue(), -10.0);
+        assertEquals(classModelEntry.getMaxValue(), 5000.0);
+        assertEquals(classModelEntry.getResolution(), 0.5);
+    }
 }
