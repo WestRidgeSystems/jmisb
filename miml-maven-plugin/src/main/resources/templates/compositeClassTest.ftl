@@ -52,9 +52,12 @@ public class ${name}Test extends LoggerChecks {
     @Test
     public void parseFromBytesMimdId() throws KlvParseException {
         verifyNoLoggerMessages();
-        IMimdMetadataValue uut = new ${name}(new byte[]{0x01, 0x02, 0x04, 0x03}, 0, 4);
+        ${name} uut = new ${name}(new byte[]{0x01, 0x02, 0x04, 0x03}, 0, 4);
         verifyNoLoggerMessages();
         assertEquals(uut.getBytes(), new byte[]{0x01, 0x02, 0x04, 0x03});
+        assertNotNull(uut.getIdentifiers());
+        assertEquals(uut.getIdentifiers().size(), 1);
+        assertNotNull(uut.getField(${name}MetadataKey.mimdId));
     }
 
     @Test
