@@ -63,5 +63,15 @@ public class ${nameSentenceCase}Test extends LoggerChecks {
         ${nameSentenceCase} uut = new ${nameSentenceCase}(items);
         assertEquals(uut.getBytes(), new byte[]{0x00});
     }
+
+    @Test
+    public void identifiersZLE() throws KlvParseException {
+        ${listItemType} item = new ${listItemType}(new HashMap<>());
+        Map<${listItemType}Identifier, ${listItemType}> items = new HashMap<>();
+        items.put(new ${listItemType}Identifier(1), item);
+        ${nameSentenceCase} uut = new ${nameSentenceCase}(items);
+        assertEquals(uut.getIdentifiers().size(), 1);
+        assertEquals(uut.getField(new ${listItemType}Identifier(1)), item);
+    }
 }
 
