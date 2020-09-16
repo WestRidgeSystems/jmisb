@@ -76,8 +76,9 @@ public class ${name} implements <#if topLevel>IMisbMessage, </#if>IMimdMetadataV
                         IMimdMetadataValue value = createValue(key, field.getData());
                         map.put(key, value);
                     } catch (KlvParseException | IllegalArgumentException ex) {
-                        InvalidDataHandler.getInstance()
-                                .handleInvalidFieldEncoding(LOGGER, ex.getMessage());
+                        InvalidDataHandler idh = InvalidDataHandler.getInstance();
+                        String msg = ex.getMessage();
+                        idh.handleInvalidFieldEncoding(LOGGER, msg);
                     }
                     break;
             }
@@ -108,8 +109,9 @@ public class ${name} implements <#if topLevel>IMisbMessage, </#if>IMimdMetadataV
                     IMimdMetadataValue value = createValue(key, field.getData());
                     map.put(key, value);
                 } catch (KlvParseException | IllegalArgumentException ex) {
-                    InvalidDataHandler.getInstance()
-                            .handleInvalidFieldEncoding(LOGGER, ex.getMessage());
+                    InvalidDataHandler idh = InvalidDataHandler.getInstance();
+                    String msg = ex.getMessage();
+                    idh.handleInvalidFieldEncoding(LOGGER, msg);
                 }
             }
         }

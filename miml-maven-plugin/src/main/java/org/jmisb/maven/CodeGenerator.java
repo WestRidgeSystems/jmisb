@@ -215,6 +215,8 @@ public class CodeGenerator {
             } else if (entry.getTypeName().startsWith("LIST<")
                     && entry.getTypeName().endsWith(">")) {
                 processClassTestTemplate(outputTestDirectory, entry, "listClassTest.ftl");
+                processListItemIdentifierTestTemplate(
+                        outputTestDirectory, entry, "listItemIdentifierTest.ftl");
             } else if (entry.getName().equals("mimdId")) {
                 // Nothing - special case, hand coded tests
             } else {
@@ -239,7 +241,7 @@ public class CodeGenerator {
             File targetDirectory, ClassModelEntry entry, String templateFile)
             throws IOException, TemplateException {
         log(
-                "Processing list item identiifer template "
+                "Processing list item identifier template "
                         + templateFile
                         + " for "
                         + entry.getNameSentenceCase());
@@ -252,6 +254,19 @@ public class CodeGenerator {
             throws IOException, TemplateException {
         log("Processing test template " + templateFile + " for " + entry.getNameSentenceCase());
         File outputFile = new File(targetDirectory, entry.getNameSentenceCase() + "Test.java");
+        processTemplate(templateFile, outputFile, entry);
+    }
+
+    private void processListItemIdentifierTestTemplate(
+            File targetDirectory, ClassModelEntry entry, String templateFile)
+            throws IOException, TemplateException {
+        log(
+                "Processing list item identifier test template "
+                        + templateFile
+                        + " for "
+                        + entry.getNameSentenceCase());
+        File outputFile =
+                new File(targetDirectory, entry.getListItemType() + "IdentifierTest.java");
         processTemplate(templateFile, outputFile, entry);
     }
 

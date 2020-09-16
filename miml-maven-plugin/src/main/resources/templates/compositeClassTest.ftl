@@ -60,6 +60,11 @@ public class ${name}Test extends LoggerChecks {
         assertNotNull(uut.getField(${name}MetadataKey.mimdId));
     }
 
+    @Test(expectedExceptions = KlvParseException.class)
+    public void parseFromBytesBadValue() throws KlvParseException {
+        new ${name}(new byte[]{0x01, 0x01, (byte)0x81}, 0, 3);
+    }
+
     @Test
     public void parseFromBytesBadTag() throws KlvParseException {
         verifyNoLoggerMessages();
