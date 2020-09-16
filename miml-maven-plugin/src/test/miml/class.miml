@@ -44,6 +44,12 @@ class Atmosphere includes Base {
     38_windDirection        : Real (0, TWO_PI)        {rad};
     39_windSpeed            : Real (0, 200)           {m/s};
 }
+class DetectorFilter includes Base {
+    Document = ST1908;
+    33_wavelengths      : Real[][2](0.0, 1000.0, 1.00E-06) {  μm};
+    34_peakTransmission : Real[]   (0.0, 100.0, 0.1)       {   %};
+    35_pattern          : UInt[][]                         {None};
+}
 abstract class Base {
     Document = ST1904;
     01_mimdId : UInt[<=2] (1, *) {None};

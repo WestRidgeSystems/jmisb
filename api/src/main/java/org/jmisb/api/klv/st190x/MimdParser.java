@@ -38,17 +38,11 @@ public class MimdParser {
      */
     public static List<LdsField> parseFields(final byte[] bytes, final int start, final int length)
             throws KlvParseException {
-        StringBuilder debugMessageStringBuilder = new StringBuilder();
-        if (LOGGER.isDebugEnabled()) {
-            debugMessageStringBuilder.append("Item: ");
-        }
-
         List<LdsField> fields = new ArrayList<>();
         final int last = start + length - LEN_CHECK_VALUE;
         int offset = start + UniversalLabel.LENGTH;
         BerField reportedLength = BerDecoder.decode(bytes, offset, false);
         offset += reportedLength.getLength();
-        // TODO: check reportedLength
         final int valueStart = offset;
         while (offset < last) {
             // Get the BER-OID encoded Key (tag)
@@ -62,30 +56,23 @@ public class MimdParser {
             // Get the Value
             int begin = lengthFieldOffset + lengthField.getLength();
             int end = begin + lengthField.getValue();
-            if (end > bytes.length) {
-                InvalidDataHandler.getInstance()
-                        .handleOverrun(LOGGER, "Overrun encountered while parsing MIMD fields");
+            if (end > last) {
+                InvalidDataHandler idh = InvalidDataHandler.getInstance();
+                idh.handleOverrun(LOGGER, "Overrun encountered while parsing MIMD fields");
             }
 
             byte[] value = Arrays.copyOfRange(bytes, begin, end);
             fields.add(new LdsField(tag, value));
             offset = end;
-            if (LOGGER.isDebugEnabled()) {
-                debugMessageStringBuilder.append(tag);
-                debugMessageStringBuilder.append(" ");
-            }
         }
         CrcCcitt crcCalc = new CrcCcitt();
         crcCalc.addData(Arrays.copyOfRange(bytes, start, start + UniversalLabel.LENGTH));
         crcCalc.addData(Arrays.copyOfRange(bytes, valueStart, last));
         byte[] expectedCheckValue = Arrays.copyOfRange(bytes, last, last + LEN_CHECK_VALUE);
         if (!Arrays.equals(expectedCheckValue, crcCalc.getCrc())) {
-            InvalidDataHandler.getInstance().handleInvalidChecksum(LOGGER, "Bad MIMD Check Value");
+            InvalidDataHandler idh = InvalidDataHandler.getInstance();
+            idh.handleInvalidChecksum(LOGGER, "Bad MIMD Check Value");
         }
-        if (LOGGER.isDebugEnabled()) {
-            LOGGER.debug(debugMessageStringBuilder.toString());
-        }
-
         return fields;
     }
 }

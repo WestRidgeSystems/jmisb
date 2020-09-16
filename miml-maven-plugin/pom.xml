@@ -62,14 +62,6 @@
             <version>3.6.0</version>
             <scope>provided</scope>
         </dependency>
-        <!--
-        <dependency>
-            <groupId>junit</groupId>
-            <artifactId>junit</artifactId>
-            <version>4.12</version>
-            <scope>test</scope>
-        </dependency>
-        -->
         <dependency>
             <groupId>org.apache.maven.plugin-testing</groupId>
             <artifactId>maven-plugin-testing-harness</artifactId>
@@ -143,12 +135,14 @@
                             <goal>descriptor</goal>
                         </goals>
                     </execution>
+                    <!--
                     <execution>
                         <id>help-goal</id>
                         <goals>
                             <goal>helpmojo</goal>
                         </goals>
                     </execution>
+                    -->
                 </executions>
             </plugin>
             <plugin>

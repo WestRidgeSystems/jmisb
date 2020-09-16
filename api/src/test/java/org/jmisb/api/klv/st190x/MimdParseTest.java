@@ -157,6 +157,15 @@ public class MimdParseTest {
     }
 
     @Test(expectedExceptions = KlvParseException.class)
+    public void parseOverrun() throws KlvParseException {
+        new MIMD(
+                new byte[] {
+                    0x06, 0x0E, 0x2B, 0x34, 0x02, 0x05, 0x01, 0x01, 0x0E, 0x01, 0x05, 0x03, 0x00,
+                    0x00, 0x00, 0x00, 0x03, 0x01, 0x00, 0x00
+                });
+    }
+
+    @Test(expectedExceptions = KlvParseException.class)
     public void parseVersionNumberBadChecksum1() throws KlvParseException {
         new MIMD(messageWithVersionBytesBadChecksum1);
     }
