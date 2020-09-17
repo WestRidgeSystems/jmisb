@@ -84,7 +84,11 @@ public class ${nameSentenceCase} implements IMimdMetadataValue {
     @Override
     public byte[] getBytes(){
 <#if minValue?? && maxValue??>
+    <#if resolution??>
+        FpEncoder encoder = new FpEncoder(${minValue}, ${maxValue}, (double)${resolution});
+    <#else>
         FpEncoder encoder = new FpEncoder(${minValue}, ${maxValue}, 4);
+    </#if>
         return encoder.encode(doubleValue);
 <#else>
         // TODO: consider a version that allows selection of length 4 or 8 bytes.

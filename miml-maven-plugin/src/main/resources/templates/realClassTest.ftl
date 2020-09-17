@@ -107,6 +107,17 @@ public class ${nameSentenceCase}Test {
 </#if>
 
 <#if minValue?? && maxValue??>
+<#if resolution??>
+    @Test
+    public void getBytes() {
+        ${nameSentenceCase} uut = new ${nameSentenceCase}(${minValue});
+        byte[] bytes = uut.getBytes();
+        // Attempt to handle variation based on resolution (IMAPA).
+        assertTrue(bytes.length >= 2);
+        assertEquals(bytes[0], (byte)0x00);
+        assertEquals(bytes[1], (byte)0x00);
+    }
+<#else>
     @Test
     public void getBytes() {
         ${nameSentenceCase} uut = new ${nameSentenceCase}(${minValue});
@@ -116,6 +127,7 @@ public class ${nameSentenceCase}Test {
                     (byte) 0x00,
                     (byte) 0x00});
     }
+</#if>
 <#else>
     @Test
     public void getBytes() {
