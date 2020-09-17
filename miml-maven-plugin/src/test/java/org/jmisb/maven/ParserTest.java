@@ -106,6 +106,13 @@ public class ParserTest {
         assertNotNull(model);
     }
 
+    @Test(expectedExceptions = IllegalArgumentException.class)
+    public void checkTypeModifierString() {
+        ClassModelEntry classModelEntry = new ClassModelEntry();
+        classModelEntry.setTypeName("String");
+        Parser.parseTypeModifierPartsToEntry(classModelEntry, "2, 3");
+    }
+
     @Test
     public void checkTypeModifiersRealArray() {
         ClassModelEntry classModelEntry = new ClassModelEntry();

@@ -23,6 +23,16 @@ public class ${nameSentenceCase}Test {
         assertEquals(uut.getDisplayableValue(), "0.000 ${units}");
     }
 
+<#if minValue?? && maxValue??>
+    @Test
+    public void fromBytes() throws KlvParseException {
+        ${nameSentenceCase} uut = ${nameSentenceCase}.fromBytes(new byte[] {
+                    (byte) 0x00,
+                    (byte) 0x00,
+                    (byte) 0x00,});
+        assertEquals(uut.getDisplayableValue(), "${minValue}.000 ${units}");
+    }
+<#else>
     @Test
     public void fromBytes8() throws KlvParseException {
         ${nameSentenceCase} uut = ${nameSentenceCase}.fromBytes(new byte[] {
@@ -94,7 +104,19 @@ public class ${nameSentenceCase}Test {
                     (byte) 0x00,
                     (byte) 0x00});
     }
+</#if>
 
+<#if minValue?? && maxValue??>
+    @Test
+    public void getBytes() {
+        ${nameSentenceCase} uut = new ${nameSentenceCase}(${minValue});
+        assertEquals(uut.getBytes(), new byte[] {
+                    (byte) 0x00,
+                    (byte) 0x00,
+                    (byte) 0x00,
+                    (byte) 0x00});
+    }
+<#else>
     @Test
     public void getBytes() {
         ${nameSentenceCase} uut = new ${nameSentenceCase}(2.0);
@@ -108,6 +130,7 @@ public class ${nameSentenceCase}Test {
                     (byte) 0x00,
                     (byte) 0x00});
     }
+</#if>
 
 <#if minValue??>
     @Test

@@ -93,6 +93,8 @@ public class ${name}Test extends LoggerChecks {
         ${entry.nameSentenceCase} value = (${entry.nameSentenceCase})uut;
         assertEquals(value.getValue(), -1);
 <#elseif entry.typeName == "Real">
+    <#if entry.minValue?? && entry.maxValue??>
+    <#else>
         IMimdMetadataValue uut = ${name}.createValue(
             ${name}MetadataKey.${entry.name},
             new byte[]{
@@ -103,6 +105,7 @@ public class ${name}Test extends LoggerChecks {
         assertTrue(uut instanceof ${entry.nameSentenceCase});
         ${entry.nameSentenceCase} value = (${entry.nameSentenceCase})uut;
         assertEquals(value.getValue(), 2.000);
+    </#if>
 <#elseif entry.typeName?starts_with("REF\l")>
         IMimdMetadataValue uut = ${name}.createValue(${name}MetadataKey.${entry.name}, new byte[]{(byte) 0x00});
         assertTrue(uut instanceof MimdIdReference);

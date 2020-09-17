@@ -4,8 +4,13 @@
 package ${packageName};
 
 import org.jmisb.api.common.KlvParseException;
+<#if minValue?? && maxValue??>
+import org.jmisb.api.klv.st1201.FpEncoder;
+</#if>
 import org.jmisb.api.klv.st190x.IMimdMetadataValue;
+<#if !(minValue?? && maxValue??)>
 import org.jmisb.core.klv.PrimitiveConverter;
+</#if>
 
 /**
  * ${name} MIMD Floating Point value.
@@ -48,9 +53,13 @@ public class ${nameSentenceCase} implements IMimdMetadataValue {
      * @throws KlvParseException if the array could not be parsed
      */
     public ${nameSentenceCase}(byte[] bytes) throws KlvParseException {
-        // TODO: check if we're in IMAPA land
         try {
+<#if minValue?? && maxValue??>
+            FpEncoder decoder = new FpEncoder(${minValue}, ${maxValue}, bytes.length);
+            this.doubleValue = decoder.decode(bytes);
+<#else>
             this.doubleValue = PrimitiveConverter.toFloat64(bytes);
+</#if>
         } catch (IllegalArgumentException ex) {
             throw new KlvParseException(ex.getMessage());
         }
@@ -74,9 +83,13 @@ public class ${nameSentenceCase} implements IMimdMetadataValue {
 
     @Override
     public byte[] getBytes(){
-        // TODO: check if we're in IMAPA land
+<#if minValue?? && maxValue??>
+        FpEncoder encoder = new FpEncoder(${minValue}, ${maxValue}, 4);
+        return encoder.encode(doubleValue);
+<#else>
         // TODO: consider a version that allows selection of length 4 or 8 bytes.
         return PrimitiveConverter.float64ToBytes(doubleValue);
+</#if>
     }
 
     @Override

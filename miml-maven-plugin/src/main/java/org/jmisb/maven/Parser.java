@@ -190,14 +190,9 @@ class Parser {
     static void parseTypeModifierPartsToEntry(ClassModelEntry entry, String typeModifiers) {
         String[] typeModifierParts = typeModifiers.split(",", -1);
         if ("String".equals(entry.getTypeName())) {
-            if (typeModifierParts.length == 1) {
-                int maxLength = Integer.parseInt(typeModifierParts[0]);
-                entry.setMaxLength(maxLength);
-            } else {
-                System.out.println("Unhandled String typeModifierParts: " + typeModifiers);
-            }
+            parseTypeModifierPartsForString(typeModifierParts, entry, typeModifiers);
         } else if ("Real".equals(entry.getTypeName())) {
-            partTypeModifierPartsForReal(typeModifierParts, entry, typeModifiers);
+            parseTypeModifierPartsForReal(typeModifierParts, entry, typeModifiers);
         } else if (entry.getTypeName().startsWith("Real[]")) {
             if (typeModifierParts.length == 3) {
                 double minValue = stringToDouble(typeModifierParts[0]);
@@ -231,7 +226,19 @@ class Parser {
         }
     }
 
-    private static void partTypeModifierPartsForReal(
+    private static void parseTypeModifierPartsForString(
+            String[] typeModifierParts, ClassModelEntry entry, String typeModifiers)
+            throws NumberFormatException, IllegalArgumentException {
+        if (typeModifierParts.length == 1) {
+            int maxLength = Integer.parseInt(typeModifierParts[0]);
+            entry.setMaxLength(maxLength);
+        } else {
+            throw new IllegalArgumentException(
+                    "Unhandled String typeModifierParts: " + typeModifiers);
+        }
+    }
+
+    private static void parseTypeModifierPartsForReal(
             String[] typeModifierParts, ClassModelEntry entry, String typeModifiers)
             throws NumberFormatException {
         switch (typeModifierParts.length) {
