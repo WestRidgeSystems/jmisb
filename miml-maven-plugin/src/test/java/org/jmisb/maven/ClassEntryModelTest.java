@@ -45,6 +45,16 @@ public class ClassEntryModelTest {
         ClassModelEntry entry = Parser.parseClassEntry("  38_syncPulseFreq : Real (0.0) { Hz};  ");
         assertEquals(entry.getUnits(), "Hz");
         assertEquals(entry.getEscapedUnits(), "Hz");
+        assertFalse(entry.isDeprecated());
+    }
+
+    @Test
+    public void unitsDeprecated() {
+        ClassModelEntry entry =
+                Parser.parseClassEntry("  38_syncPulseFreq : Real (0.0) { Hz, DEPRECATED};  ");
+        assertEquals(entry.getUnits(), "Hz");
+        assertEquals(entry.getEscapedUnits(), "Hz");
+        assertTrue(entry.isDeprecated());
     }
 
     @Test
@@ -142,5 +152,6 @@ public class ClassEntryModelTest {
         entry.setParent(parent);
         assertEquals(entry.getDocument(), "ST190x");
         assertEquals(entry.getPackageName(), "test.miml.st190x");
+        assertFalse(entry.isDeprecated());
     }
 }

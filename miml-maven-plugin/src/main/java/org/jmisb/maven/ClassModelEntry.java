@@ -12,6 +12,7 @@ public class ClassModelEntry {
     private Integer maxLength = null;
     private String units;
     private ClassModel parent = null;
+    private boolean deprecated = false;
 
     public String getPackageName() {
         return parent.getPackageName();
@@ -120,5 +121,13 @@ public class ClassModelEntry {
 
     void setParent(ClassModel classModel) {
         this.parent = classModel;
+    }
+
+    void setDeprecated(boolean deprecated) {
+        this.deprecated = deprecated;
+    }
+
+    public boolean isDeprecated() {
+        return deprecated;
     }
 }

@@ -173,8 +173,14 @@ class Parser {
         String typePart = partsEquals[1];
         String[] partsBracket = typePart.split("\\{");
         String[] unitsSplit = partsBracket[1].split("}");
-        // TODO: there is a case where this can be "<units>, DEPRECATED"
-        entry.setUnits(unitsSplit[0].trim());
+        String unitsText = unitsSplit[0].trim();
+        if (unitsText.endsWith("DEPRECATED")) {
+            entry.setUnits(unitsText.split(",")[0].trim());
+            entry.setDeprecated(true);
+        } else {
+            entry.setUnits(unitsText);
+            entry.setDeprecated(false);
+        }
         String[] typeSplit = partsBracket[0].split("\\(");
         String typeName = typeSplit[0].trim();
         entry.setTypeName(typeName);

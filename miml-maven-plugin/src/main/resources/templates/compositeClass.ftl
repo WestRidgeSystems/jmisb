@@ -121,6 +121,13 @@ public class ${name} implements <#if topLevel>IMisbMessage, </#if>IMimdMetadataV
     public byte[] getBytes(){
         ArrayBuilder arrayBuilder = new ArrayBuilder();
         for (Map.Entry<${name}MetadataKey, IMimdMetadataValue> entry: map.entrySet()) {
+            <#if hasDeprecatedAttribute>
+            if (entry.getKey().isDeprecated()) {
+                // ST1902-01
+                LOGGER.info("Omitting deprecated ${name} Metadata: {}", entry.getKey().toString());
+                continue;
+            }
+            </#if>
             arrayBuilder.appendAsOID(entry.getKey().getIdentifier());
             byte[] valueBytes = entry.getValue().getBytes();
             arrayBuilder.appendAsBerLength(valueBytes.length);
@@ -150,6 +157,13 @@ public class ${name} implements <#if topLevel>IMisbMessage, </#if>IMimdMetadataV
     public byte[] frameMessage(boolean isNested) {
         ArrayBuilder arrayBuilder = new ArrayBuilder();
         for (Map.Entry<${name}MetadataKey, IMimdMetadataValue> entry: map.entrySet()) {
+            <#if hasDeprecatedAttribute>
+            if (entry.getKey().isDeprecated()) {
+                // ST1902-01
+                LOGGER.info("Omitting deprecated ${name} Metadata: {}", entry.getKey().toString());
+                continue;
+            }
+            </#if>
             arrayBuilder.appendAsOID(entry.getKey().getIdentifier());
             byte[] valueBytes = entry.getValue().getBytes();
             arrayBuilder.appendAsBerLength(valueBytes.length);

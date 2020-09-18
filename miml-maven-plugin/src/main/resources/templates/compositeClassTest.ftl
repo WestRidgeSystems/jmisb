@@ -94,6 +94,14 @@ public class ${name}Test extends LoggerChecks {
         assertEquals(value.getValue(), -1);
 <#elseif entry.typeName == "Real">
     <#if entry.minValue?? && entry.maxValue??>
+        IMimdMetadataValue uut = ${name}.createValue(
+            ${name}MetadataKey.${entry.name},
+            new byte[]{
+                (byte) 0x00,
+                (byte) 0x00});
+        assertTrue(uut instanceof ${entry.nameSentenceCase});
+        ${entry.nameSentenceCase} value = (${entry.nameSentenceCase})uut;
+        assertEquals(value.getValue(), ${entry.minValue});
     <#else>
         IMimdMetadataValue uut = ${name}.createValue(
             ${name}MetadataKey.${entry.name},

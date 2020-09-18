@@ -12,12 +12,13 @@ import org.jmisb.api.klv.IKlvKey;
  * See ${document} for more information on these values.
  */
 public enum ${name}MetadataKey implements IKlvKey {
-    Undefined(-1),
+    Undefined(-1, true),
 <#list entries as entry>
-    ${entry.name}(${entry.number})<#sep>,</#sep><#if entry?is_last>;</#if>
+    ${entry.name}(${entry.number}, ${entry.deprecated?c})<#sep>,</#sep><#if entry?is_last>;</#if>
 </#list>
 
     private int tag;
+    private boolean deprecated;
 
     private static final Map<Integer, ${name}MetadataKey> tagTable = new HashMap<>();
 
@@ -27,8 +28,9 @@ public enum ${name}MetadataKey implements IKlvKey {
         }
     }
 
-    private ${name}MetadataKey(int tag) {
+    private ${name}MetadataKey(int tag, boolean deprecated) {
         this.tag = tag;
+        this.deprecated = deprecated;
     }
 
     /**
@@ -48,5 +50,9 @@ public enum ${name}MetadataKey implements IKlvKey {
      */
     public static ${name}MetadataKey getKey(int tag) {
         return tagTable.containsKey(tag) ? tagTable.get(tag) : Undefined;
+    }
+
+    public boolean isDeprecated() {
+        return deprecated;
     }
 }

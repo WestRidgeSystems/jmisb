@@ -42,7 +42,7 @@ class Atmosphere includes Base {
     36_differentialPressure : Real (0, 5000)          {hPa};
     37_staticPressures      : Real[] (0, 5000, 1)     {hPa};
     38_windDirection        : Real (0, TWO_PI)        {rad};
-    39_windSpeed            : Real (0, 200)           {m/s};
+    39_windSpeed            : Real (0, 200)           {m/s, DEPRECATED};
 }
 class DetectorFilter includes Base {
     Document = ST1908;

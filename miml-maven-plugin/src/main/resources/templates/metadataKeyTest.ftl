@@ -40,5 +40,11 @@ public class ${name}MetadataKeyTest {
         assertEquals(uut, ${name}MetadataKey.${entry.name});
     }
 
+    @Test
+    public void ${entry.name}Deprecated() {
+        ${name}MetadataKey uut = ${name}MetadataKey.${entry.name};
+        assertEquals(uut.isDeprecated(), ${entry.deprecated?c});
+    }
+
 </#list>
 }

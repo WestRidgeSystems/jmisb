@@ -29,8 +29,22 @@ public class ${nameSentenceCase}Test {
         ${nameSentenceCase} uut = ${nameSentenceCase}.fromBytes(new byte[] {
                     (byte) 0x00,
                     (byte) 0x00,
-                    (byte) 0x00,});
+                    (byte) 0x00});
         assertEquals(uut.getDisplayableValue(), "${minValue}.000 ${units}");
+    }
+
+    @Test(expectedExceptions = KlvParseException.class)
+    public void fromBytesBad() throws KlvParseException {
+        ${nameSentenceCase}.fromBytes(new byte[] {
+                    (byte) 0x01,
+                    (byte) 0x02,
+                    (byte) 0x03,
+                    (byte) 0x04,
+                    (byte) 0x05,
+                    (byte) 0x06,
+                    (byte) 0x07,
+                    (byte) 0x08,
+                    (byte) 0x09});
     }
 <#else>
     @Test
@@ -149,6 +163,7 @@ public class ${nameSentenceCase}Test {
     public void fromValueMin() {
         ${nameSentenceCase} uut = new ${nameSentenceCase}(${minValue});
         assertNotNull(uut);
+        assertEquals(uut.getValue(), ${minValue});
     }
 
     @Test(expectedExceptions = IllegalArgumentException.class)
@@ -162,6 +177,7 @@ public class ${nameSentenceCase}Test {
     public void fromValueMax() {
         ${nameSentenceCase} uut = new ${nameSentenceCase}(${maxValue});
         assertNotNull(uut);
+        assertEquals(uut.getValue(), ${maxValue});
     }
 
     @Test(expectedExceptions = IllegalArgumentException.class)

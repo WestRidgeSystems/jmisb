@@ -76,6 +76,17 @@ public class ClassModel extends AbstractModel {
         }
     }
 
+    public boolean getHasDeprecatedAttribute() {
+        boolean deprecatedFound = false;
+        for (ClassModelEntry entry : entries) {
+            if (entry.isDeprecated()) {
+                deprecatedFound = true;
+                break;
+            }
+        }
+        return deprecatedFound;
+    }
+
     public void setParent(Models parent) {
         this.parent = parent;
     }
