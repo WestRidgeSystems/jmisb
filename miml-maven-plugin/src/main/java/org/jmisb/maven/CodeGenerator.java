@@ -176,6 +176,8 @@ public class CodeGenerator {
                 processClassTemplate(targetDirectory, entry, "realClass.ftl");
             } else if (generatorConf.getModels().isEnumerationName(entry.getTypeName())) {
                 // Nothing - we've got this already
+            } else if (generatorConf.getModels().isClassName(entry.getTypeName())) {
+                // Nothing - we've got this already
             } else if (entry.getTypeName().startsWith("REF<")
                     && entry.getTypeName().endsWith(">")) {
                 // special case for this
@@ -208,6 +210,8 @@ public class CodeGenerator {
             } else if (entry.getTypeName().equals("Real")) {
                 processClassTestTemplate(outputTestDirectory, entry, "realClassTest.ftl");
             } else if (generatorConf.getModels().isEnumerationName(entry.getTypeName())) {
+                // Nothing - we've got this already
+            } else if (generatorConf.getModels().isClassName(entry.getTypeName())) {
                 // Nothing - we've got this already
             } else if (entry.getTypeName().startsWith("REF<")
                     && entry.getTypeName().endsWith(">")) {

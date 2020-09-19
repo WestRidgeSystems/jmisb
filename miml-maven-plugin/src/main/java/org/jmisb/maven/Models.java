@@ -31,6 +31,11 @@ public class Models {
                 .anyMatch((enumerationModel) -> (enumerationModel.getName().equals(typeName)));
     }
 
+    boolean isClassName(String typeName) {
+        return classModels.stream()
+                .anyMatch((classModel) -> (classModel.getName().equals(typeName)));
+    }
+
     String getTypePackage(String typeName) {
         for (ClassModel classModel : getClassModels()) {
             if (classModel.getName().equals(typeName)) {
