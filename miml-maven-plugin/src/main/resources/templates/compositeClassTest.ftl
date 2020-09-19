@@ -40,7 +40,20 @@ public class ${name}Test extends LoggerChecks {
         assertNull(uut);
     }
 
-<#if !topLevel>
+<#if topLevel>
+    @Test
+    public void parseFromBytesMimdId() throws KlvParseException {
+        verifyNoLoggerMessages();
+        ${name} uut = new ${name}(new byte[]{0x06, 0x0E, 0x2B, 0x34, 0x02, 0x05, 0x01, 0x01, 0x0E, 0x01, 0x05, 0x03,
+                        0x00, 0x00, 0x00, 0x00, 0x06, 0x01, 0x02, 0x04, 0x03, (byte)0xbb, (byte)0xd4});
+        verifyNoLoggerMessages();
+        assertEquals(uut.getBytes(), new byte[]{0x06, 0x0E, 0x2B, 0x34, 0x02, 0x05, 0x01, 0x01, 0x0E, 0x01, 0x05, 0x03,
+                        0x00, 0x00, 0x00, 0x00, 0x06, 0x01, 0x02, 0x04, 0x03, (byte)0xbb, (byte)0xd4});
+        assertNotNull(uut.getIdentifiers());
+        assertEquals(uut.getIdentifiers().size(), 1);
+        assertNotNull(uut.getField(${name}MetadataKey.mimdId));
+    }
+<#else>
     @Test
     public void parseFromBytesEmpty() throws KlvParseException {
         verifyNoLoggerMessages();
