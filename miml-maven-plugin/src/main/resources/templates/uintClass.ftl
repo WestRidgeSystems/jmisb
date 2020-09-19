@@ -18,9 +18,28 @@ public class ${nameSentenceCase} implements IMimdMetadataValue {
     /**
      * Construct from value.
      *
+<#if minValue?? && maxValue??>
+     * The value must be in the range [${minValue}, ${maxValue}].
+<#elseif minValue??>
+     * The value must be at least ${minValue}.
+</#if>
      * @param value the unsigned integer value to initialise this ${nameSentenceCase} with.
      */
     public ${nameSentenceCase}(long value) {
+<#if minValue??>
+        if (value < ${minValue}) {
+            throw new IllegalArgumentException("Minimum value for ${nameSentenceCase} is ${minValue}");
+        }
+<#else>
+        if (value < 0) {
+            throw new IllegalArgumentException("Minimum value for ${nameSentenceCase} is 0");
+        }
+</#if>
+<#if maxValue??>
+        if (value > ${maxValue}) {
+            throw new IllegalArgumentException("Maximum value for ${nameSentenceCase} is ${maxValue}");
+        }
+</#if>
         this.uintValue = value;
     }
 

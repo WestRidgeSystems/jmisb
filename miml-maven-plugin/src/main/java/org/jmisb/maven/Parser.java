@@ -199,7 +199,7 @@ class Parser {
             parseTypeModifierPartsForString(typeModifierParts, entry, typeModifiers);
         } else if ("Real".equals(entry.getTypeName())) {
             parseTypeModifierPartsForReal(typeModifierParts, entry, typeModifiers);
-        } else if ("Integer".equals(entry.getTypeName())) {
+        } else if ("Integer".equals(entry.getTypeName()) || ("UInt".equals(entry.getTypeName()))) {
             parseTypeModifierPartsForInt(typeModifierParts, entry, typeModifiers);
         } else if (entry.getTypeName().startsWith("Real[]")) {
             if (typeModifierParts.length == 3) {
@@ -249,13 +249,17 @@ class Parser {
     private static void parseTypeModifierPartsForInt(
             String[] typeModifierParts, ClassModelEntry entry, String typeModifiers)
             throws NumberFormatException, IllegalArgumentException {
-        if (typeModifierParts.length == 2) {
+        if (typeModifierParts.length == 1) {
+            double minValue = stringToDouble(typeModifierParts[0]);
+            entry.setMinValue(minValue);
+        } else if (typeModifierParts.length == 2) {
             double minValue = stringToDouble(typeModifierParts[0]);
             entry.setMinValue(minValue);
             double maxValue = stringToDouble(typeModifierParts[1]);
             entry.setMaxValue(maxValue);
         } else {
-            throw new IllegalArgumentException("Unhandled Int typeModifierParts: " + typeModifiers);
+            throw new IllegalArgumentException(
+                    "Unhandled Integer/UInt typeModifierParts: " + typeModifiers);
         }
     }
 

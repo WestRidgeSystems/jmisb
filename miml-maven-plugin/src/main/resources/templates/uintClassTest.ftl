@@ -61,4 +61,35 @@ public class ${nameSentenceCase}Test {
     public void fromBytesBadLengthTooLong() throws KlvParseException {
         ${nameSentenceCase} uut = ${nameSentenceCase}.fromBytes(new byte[] {1, 2, 3, 4, 5, 6, 7, 8, 9});
     }
+
+<#if minValue??>
+    @Test
+    public void minValue() throws KlvParseException {
+        ${nameSentenceCase} uut = new ${nameSentenceCase}(${minValue});
+        assertEquals(uut.getValue(), ${minValue});
+    }
+
+    @Test (expectedExceptions = IllegalArgumentException.class)
+    public void minValueTooSmall() throws KlvParseException {
+        new ${nameSentenceCase}(${minValue} - 1);
+    }
+<#else>
+    @Test (expectedExceptions = IllegalArgumentException.class)
+    public void tooSmall() throws KlvParseException {
+        new ${nameSentenceCase}(-1);
+    }
+</#if>
+
+<#if maxValue??>
+    @Test
+    public void maxValue() throws KlvParseException {
+        ${nameSentenceCase} uut = new ${nameSentenceCase}(${maxValue});
+        assertEquals(uut.getValue(), ${maxValue});
+    }
+
+    @Test (expectedExceptions = IllegalArgumentException.class)
+    public void maxValueTooLarge() throws KlvParseException {
+        new ${nameSentenceCase}(${maxValue} + 1);
+    }
+</#if>
 }

@@ -84,6 +84,20 @@ public class ClassEntryModelTest {
     }
 
     @Test
+    public void uintTraits() {
+        ClassModelEntry entry = Parser.parseClassEntry("33_laserCode : UInt (0, 65535) {None};");
+        assertEquals(entry.getMinValue(), 0, 0.0000000000001);
+        assertEquals(entry.getMaxValue(), 65535, 0.0000000000001);
+    }
+
+    @Test
+    public void uintTraitsMin() {
+        ClassModelEntry entry = Parser.parseClassEntry("37_level : UInt (1) {None};");
+        assertEquals(entry.getMinValue(), 1, 0.0000000000001);
+        assertNull(entry.getMaxValue());
+    }
+
+    @Test
     public void maxValue() {
         ClassModelEntry entry =
                 Parser.parseClassEntry(

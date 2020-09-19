@@ -55,6 +55,20 @@ class Sensor includes Base {
     40_exposureStartTimeOffset : Integer (-1000000000, 1000000000) {ns};
     41_exposureEndTimeOffset   : Integer (-1000000000, 1000000000) {ns};
 }
+class LaserSensor {
+    Document = ST1907;
+    33_laserCode : UInt (0, 65535) {None};
+}
+class GeoIntelligenceSensor includes Base {
+    Document = ST1907;
+    33_nCols       : UInt         {Columns};
+    34_nRows       : UInt         {Rows};
+    35_name        : String (100) {None};
+    36_type        : GISensorType {None};
+    37_status      : DeviceStatus {None};
+    38_stages      : LIST<Stage>  {None};
+    41_laserSensor : LaserSensor  {None};
+}
 abstract class Base {
     Document = ST1904;
     01_mimdId : UInt[<=2] (1, *) {None};

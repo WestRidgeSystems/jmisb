@@ -49,6 +49,10 @@ class Atmosphere includes Base {
     38_windDirection        : Real (0, TWO_PI)        {rad};
     39_windSpeed            : Real (0, 200)           {m/s};
 }
+class LaserSensor includes Base {
+    Document = ST1907;
+    33_laserCode : UInt (0, 65535) {None};
+}
 abstract class Base {
     Document = ST1904;
     01_mimdId : UInt[<=2] (1, *) {None};
