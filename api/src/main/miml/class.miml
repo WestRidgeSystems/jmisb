@@ -34,6 +34,11 @@ class Platform includes Base {
     Document = ST1905;
     33_name : String (100) {None};
 }
+class Sensor includes Base {
+    Document = ST1908;
+    40_exposureStartTimeOffset : Integer (-1000000000, 1000000000) {ns};
+    41_exposureEndTimeOffset   : Integer (-1000000000, 1000000000) {ns};
+}
 class Atmosphere includes Base {
     Document = ST1905;
     33_airTemperature       : Real (-128, 127, 1)     { °C};

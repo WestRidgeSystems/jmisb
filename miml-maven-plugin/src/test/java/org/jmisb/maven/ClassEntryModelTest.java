@@ -75,6 +75,15 @@ public class ClassEntryModelTest {
     }
 
     @Test
+    public void intTraits() {
+        ClassModelEntry entry =
+                Parser.parseClassEntry(
+                        "41_exposureEndTimeOffset : Integer (-1000000000, 1000000000) {ns};");
+        assertEquals(entry.getMinValue(), -1000000000.0, 0.0000000000001);
+        assertEquals(entry.getMaxValue(), 1000000000, 0.0000000000001);
+    }
+
+    @Test
     public void maxValue() {
         ClassModelEntry entry =
                 Parser.parseClassEntry(

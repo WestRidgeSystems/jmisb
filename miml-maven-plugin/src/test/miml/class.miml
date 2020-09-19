@@ -50,6 +50,11 @@ class DetectorFilter includes Base {
     34_peakTransmission : Real[]   (0.0, 100.0, 0.1)       {   %};
     35_pattern          : UInt[][]                         {None};
 }
+class Sensor includes Base {
+    Document = ST1908;
+    40_exposureStartTimeOffset : Integer (-1000000000, 1000000000) {ns};
+    41_exposureEndTimeOffset   : Integer (-1000000000, 1000000000) {ns};
+}
 abstract class Base {
     Document = ST1904;
     01_mimdId : UInt[<=2] (1, *) {None};

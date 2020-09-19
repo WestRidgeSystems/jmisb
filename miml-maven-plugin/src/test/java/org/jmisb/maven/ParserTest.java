@@ -29,7 +29,7 @@ public class ParserTest {
         Parser uut = new Parser(parserConfiguration);
         Models models = uut.processMimlFile(classFile);
         assertEquals(models.getEnumerationModels().size(), 0);
-        assertEquals(models.getClassModels().size(), 7);
+        assertEquals(models.getClassModels().size(), 8);
     }
 
     @Test
@@ -39,7 +39,7 @@ public class ParserTest {
         Parser uut = new Parser(parserConfiguration);
         Models models = uut.processFiles(directory);
         assertEquals(models.getEnumerationModels().size(), 4);
-        assertEquals(models.getClassModels().size(), 7);
+        assertEquals(models.getClassModels().size(), 8);
         ClassModel mimd = models.findClassByName("MIMD");
         assertTrue(mimd.isTopLevel());
         ClassModel base = models.findClassByName("Base");

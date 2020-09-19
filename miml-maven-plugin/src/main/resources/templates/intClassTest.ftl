@@ -47,13 +47,39 @@ public class ${nameSentenceCase}Test {
         assertEquals(uut.getBytes(), new byte[]{(byte)0x00, (byte)0xFF});
     }
 
-    @Test (expectedExceptions = KlvParseException.class)
+    @Test(expectedExceptions = KlvParseException.class)
     public void fromBytesBadLengthConstructor() throws KlvParseException {
         ${nameSentenceCase} uut = new ${nameSentenceCase}(new byte[] {});
     }
 
-    @Test (expectedExceptions = KlvParseException.class)
+    @Test(expectedExceptions = KlvParseException.class)
     public void fromBytesBadLength() throws KlvParseException {
         ${nameSentenceCase} uut = ${nameSentenceCase}.fromBytes(new byte[] {});
     }
+
+<#if minValue??>
+    @Test
+    public void minValue() throws KlvParseException {
+        ${nameSentenceCase} uut = new ${nameSentenceCase}(${minValue});
+        assertEquals(uut.getValue(), ${minValue});
+    }
+
+    @Test (expectedExceptions = IllegalArgumentException.class)
+    public void minValueTooSmall() throws KlvParseException {
+        new ${nameSentenceCase}(${minValue} - 1);
+    }
+</#if>
+
+<#if maxValue??>
+    @Test
+    public void maxValue() throws KlvParseException {
+        ${nameSentenceCase} uut = new ${nameSentenceCase}(${maxValue});
+        assertEquals(uut.getValue(), ${maxValue});
+    }
+
+    @Test (expectedExceptions = IllegalArgumentException.class)
+    public void maxValueTooLarge() throws KlvParseException {
+        new ${nameSentenceCase}(${maxValue} + 1);
+    }
+</#if>
 }
