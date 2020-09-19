@@ -68,6 +68,13 @@ public class ClassModelEntry {
         return minValue;
     }
 
+    public boolean isPrimitiveType() {
+        return typeName.equals("Real")
+                || typeName.equals("String")
+                || typeName.equals("Integer")
+                || typeName.equals("UInt");
+    }
+
     public void setMinValue(Double minValue) {
         this.minValue = minValue;
     }

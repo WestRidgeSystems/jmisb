@@ -117,9 +117,15 @@ public class ${name}Test extends LoggerChecks {
 <#elseif entry.typeName?starts_with("REF\l")>
         IMimdMetadataValue uut = ${name}.createValue(${name}MetadataKey.${entry.name}, new byte[]{(byte) 0x00});
         assertTrue(uut instanceof MimdIdReference);
-<#else>
+<#elseif entry.typeName?starts_with("LIST\l")>
         IMimdMetadataValue uut = ${name}.createValue(${name}MetadataKey.${entry.name}, new byte[]{(byte) 0x00});
-        assertTrue(uut instanceof ${entry.nameSentenceCase});
+        assertTrue(uut instanceof  ${entry.nameSentenceCase});
+<#elseif entry.name == "mimdId">
+        IMimdMetadataValue uut = ${name}.createValue(${name}MetadataKey.${entry.name}, new byte[]{(byte) 0x01});
+        assertTrue(uut instanceof MimdId);
+<#else>
+        IMimdMetadataValue uut = ${name}.createValue(${name}MetadataKey.${entry.name}, new byte[]{(byte) 0x01, (byte)0x01, (byte)0x06});
+        assertTrue(uut instanceof ${entry.typeName});
 </#if>
     }
 </#list>

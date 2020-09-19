@@ -117,6 +117,17 @@ public class ${name} implements <#if topLevel>IMisbMessage, </#if>IMimdMetadataV
         }
     }
 
+    /**
+     * Create ${name} Local Set from encoded bytes.
+     *
+     * @param bytes Encoded byte array
+     * @return new  ${name} corresponding to the encoded byte array.
+     * @throws KlvParseException if the array could not be parsed
+     */
+    public static  ${name} fromBytes(byte[] bytes) throws KlvParseException {
+        return new  ${name}(bytes, 0, bytes.length);
+    }
+
     @Override
     public byte[] getBytes(){
         ArrayBuilder arrayBuilder = new ArrayBuilder();
@@ -194,8 +205,14 @@ public class ${name} implements <#if topLevel>IMisbMessage, </#if>IMimdMetadataV
             case ${entry.name}:
 <#if entry.typeName?starts_with("REF\l")>
                 return MimdIdReference.fromBytes(data, "${entry.nameSentenceCase}", "${entry.refItemType}");
-<#else>
+<#elseif entry.typeName?starts_with("LIST\l")>
                 return ${entry.nameSentenceCase}.fromBytes(data);
+<#elseif entry.primitiveType>
+                return ${entry.nameSentenceCase}.fromBytes(data);
+<#elseif entry.name == "mimdId">
+                return MimdId.fromBytes(data);
+<#else>
+                return ${entry.typeName}.fromBytes(data);
 </#if>
 </#list>
             default:
