@@ -209,6 +209,8 @@ public class ${name} implements <#if topLevel>IMisbMessage, </#if>IMimdMetadataV
                 return ${entry.nameSentenceCase}.fromBytes(data);
 <#elseif entry.primitiveType>
                 return ${entry.nameSentenceCase}.fromBytes(data);
+<#elseif entry.primitiveTypeArray>
+                return ${entry.nameSentenceCase}.fromBytes(data);
 <#elseif entry.name == "mimdId">
                 return MimdId.fromBytes(data);
 <#else>

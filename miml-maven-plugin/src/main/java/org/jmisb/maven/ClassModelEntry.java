@@ -75,6 +75,13 @@ public class ClassModelEntry {
                 || typeName.equals("UInt");
     }
 
+    public boolean isPrimitiveTypeArray() {
+        return typeName.startsWith("Real[]")
+                || typeName.equals("String[]")
+                || typeName.equals("Integer[]")
+                || typeName.equals("UInt[]");
+    }
+
     public void setMinValue(Double minValue) {
         this.minValue = minValue;
     }

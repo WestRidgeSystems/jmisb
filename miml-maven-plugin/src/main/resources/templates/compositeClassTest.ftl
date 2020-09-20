@@ -152,6 +152,8 @@ public class ${name}Test extends LoggerChecks {
 <#elseif entry.name == "mimdId">
         IMimdMetadataValue uut = ${name}.createValue(${name}MetadataKey.${entry.name}, new byte[]{(byte) 0x01});
         assertTrue(uut instanceof MimdId);
+<#elseif entry.typeName == "Real[]">
+        // TODO
 <#else>
         IMimdMetadataValue uut = ${name}.createValue(${name}MetadataKey.${entry.name}, new byte[]{(byte) 0x01, (byte)0x01, (byte)0x06});
         assertTrue(uut instanceof ${entry.typeName});

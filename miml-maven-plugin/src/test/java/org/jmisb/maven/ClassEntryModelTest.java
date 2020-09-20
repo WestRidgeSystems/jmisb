@@ -75,6 +75,20 @@ public class ClassEntryModelTest {
     }
 
     @Test
+    public void realArray1D() {
+        ClassModelEntry entry =
+                Parser.parseClassEntry(
+                        "34_peakTransmission : Real[]   (0.0, 100.0, 0.1)       {   %}; ");
+        assertEquals(entry.getNumber(), 34);
+        assertEquals(entry.getUnits(), "%");
+        assertEquals(entry.getName(), "peakTransmission");
+        assertEquals(entry.getTypeName(), "Real[]");
+        assertEquals(entry.getMinValue(), 0.0, 0.0000000000001);
+        assertEquals(entry.getMaxValue(), 100.0, 0.0000000000001);
+        assertEquals(entry.getResolution(), 0.1, 0.0000000000001);
+    }
+
+    @Test
     public void intTraits() {
         ClassModelEntry entry =
                 Parser.parseClassEntry(

@@ -96,6 +96,15 @@ public class CodeGeneratorTest {
         entry39.setNumber(39);
         entry39.setTypeName("LIST<Platform>");
         classModel.addEntry(entry39);
+        ClassModelEntry entry40 = new ClassModelEntry();
+        entry40.setName("rArray1");
+        entry40.setNumber(40);
+        entry40.setTypeName("Real[]");
+        entry40.setMinValue(0.0);
+        entry40.setMaxValue(100.0);
+        entry40.setResolution(0.1);
+        entry40.setUnits("%");
+        classModel.addEntry(entry40);
         ClassModelEntry entry97 = new ClassModelEntry();
         entry97.setName("badRef");
         entry97.setNumber(97);

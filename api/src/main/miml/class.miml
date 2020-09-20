@@ -62,6 +62,10 @@ class GeoIntelligenceSensor includes Base {
     37_status      : DeviceStatus {None};
     41_laserSensor : LaserSensor  {None};
 }
+class DetectorFilter includes Base {
+    Document = ST1908;
+    34_peakTransmission : Real[]   (0.0, 100.0, 0.1)       {   %};
+}
 abstract class Base {
     Document = ST1904;
     01_mimdId : UInt[<=2] (1, *) {None};

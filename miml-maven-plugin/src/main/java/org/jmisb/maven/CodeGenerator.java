@@ -174,6 +174,8 @@ public class CodeGenerator {
                 processClassTemplate(targetDirectory, entry, "intClass.ftl");
             } else if (entry.getTypeName().equals("Real")) {
                 processClassTemplate(targetDirectory, entry, "realClass.ftl");
+            } else if (entry.getTypeName().equals("Real[]")) {
+                processClassTemplate(targetDirectory, entry, "realArray1D.ftl");
             } else if (generatorConf.getModels().isEnumerationName(entry.getTypeName())) {
                 // Nothing - we've got this already
             } else if (generatorConf.getModels().isClassName(entry.getTypeName())) {
