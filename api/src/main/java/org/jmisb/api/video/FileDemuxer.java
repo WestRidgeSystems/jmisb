@@ -11,6 +11,7 @@ import org.slf4j.LoggerFactory;
 
 /** Demux video/metadata contained in a file. */
 class FileDemuxer extends Demuxer {
+
     private static Logger logger = LoggerFactory.getLogger(FileDemuxer.class);
     private final VideoInput inputStream;
 
@@ -49,28 +50,50 @@ class FileDemuxer extends Demuxer {
             // Check if we were asked to seek
             if (seekRequested) {
                 // Pause the decoder threads
-                if (videoDecodeThread != null) videoDecodeThread.pause();
-                if (metadataDecodeThread != null) metadataDecodeThread.pause();
+                if (videoDecodeThread != null) {
+                    videoDecodeThread.pause();
+                }
+                for (MetadataDecodeThread metadataDecodeThread : metadataDecodeThreads.values()) {
+                    if (metadataDecodeThread != null) {
+                        metadataDecodeThread.pause();
+                    }
+                }
 
                 // Perform the seek
                 DemuxerUtils.seek(avFormatContext, seekPosition);
 
                 // Reset the decoders
-                if (videoDecodeThread != null) videoDecodeThread.clear();
-                if (metadataDecodeThread != null) metadataDecodeThread.clear();
-
+                if (videoDecodeThread != null) {
+                    videoDecodeThread.clear();
+                }
+                for (MetadataDecodeThread metadataDecodeThread : metadataDecodeThreads.values()) {
+                    if (metadataDecodeThread != null) {
+                        metadataDecodeThread.clear();
+                    }
+                }
                 // Resume decoding
-                if (videoDecodeThread != null) videoDecodeThread.play();
-                if (metadataDecodeThread != null) metadataDecodeThread.play();
-
+                if (videoDecodeThread != null) {
+                    videoDecodeThread.play();
+                }
+                for (MetadataDecodeThread metadataDecodeThread : metadataDecodeThreads.values()) {
+                    if (metadataDecodeThread != null) {
+                        metadataDecodeThread.play();
+                    }
+                }
                 seekRequested = false;
             }
 
             // Read a packet from the stream
             DemuxReturnValue ret = DemuxerUtils.readPacket(avFormatContext, packet);
             if (ret == DemuxReturnValue.EOF) {
-                if (videoDecodeThread != null) videoDecodeThread.notifyEOF();
-                if (metadataDecodeThread != null) metadataDecodeThread.notifyEOF();
+                if (videoDecodeThread != null) {
+                    videoDecodeThread.notifyEOF();
+                }
+                for (MetadataDecodeThread metadataDecodeThread : metadataDecodeThreads.values()) {
+                    if (metadataDecodeThread != null) {
+                        metadataDecodeThread.notifyEOF();
+                    }
+                }
             }
             if (ret != DemuxReturnValue.SUCCESS) {
                 shortWait(10);
@@ -79,15 +102,14 @@ class FileDemuxer extends Demuxer {
 
             // double pts = packet.pts() *
             // av_q2d(avFormatContext.streams(packet.stream_index()).time_base());
-
             // Pass packet to the appropriate decoder
             boolean queued = false;
             while (shouldDecode(packet) && !queued && !isShutdown() && !seekRequested) {
                 if (packet.stream_index() == videoStreamIndex) {
                     queued = videoDecodeThread.enqueue(packet);
-                } else if (packet.stream_index() == dataStreamIndex) {
+                } else if (dataStreamIndices.contains(packet.stream_index())) {
                     // logger.debug("Data PTS: " + pts);
-                    queued = metadataDecodeThread.enqueue(packet);
+                    queued = metadataDecodeThreads.get(packet.stream_index()).enqueue(packet);
                 }
             }
 
@@ -95,7 +117,9 @@ class FileDemuxer extends Demuxer {
             av_packet_unref(packet);
         }
 
-        if (logger.isDebugEnabled()) logger.debug("Demuxer exiting");
+        if (logger.isDebugEnabled()) {
+            logger.debug("Demuxer exiting");
+        }
 
         // Clean up resources
         shutdownThreads();
@@ -106,8 +130,10 @@ class FileDemuxer extends Demuxer {
         if (videoDecodeThread != null) {
             videoDecodeThread.pause();
         }
-        if (metadataDecodeThread != null) {
-            metadataDecodeThread.pause();
+        for (MetadataDecodeThread metadataDecodeThread : metadataDecodeThreads.values()) {
+            if (metadataDecodeThread != null) {
+                metadataDecodeThread.pause();
+            }
         }
         super.pause();
     }
@@ -118,8 +144,10 @@ class FileDemuxer extends Demuxer {
         if (videoDecodeThread != null) {
             videoDecodeThread.play();
         }
-        if (metadataDecodeThread != null) {
-            metadataDecodeThread.play();
+        for (MetadataDecodeThread metadataDecodeThread : metadataDecodeThreads.values()) {
+            if (metadataDecodeThread != null) {
+                metadataDecodeThread.play();
+            }
         }
     }
 

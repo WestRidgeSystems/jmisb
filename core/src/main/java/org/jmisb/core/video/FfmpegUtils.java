@@ -11,6 +11,8 @@ import static org.bytedeco.ffmpeg.global.avutil.av_strerror;
 import java.nio.ByteBuffer;
 import java.nio.ByteOrder;
 import java.nio.charset.StandardCharsets;
+import java.util.ArrayList;
+import java.util.List;
 import org.bytedeco.ffmpeg.avcodec.AVCodecDescriptor;
 import org.bytedeco.ffmpeg.avformat.AVFormatContext;
 import org.bytedeco.ffmpeg.avformat.AVStream;
@@ -42,6 +44,10 @@ public class FfmpegUtils {
         return getStreamOfType(context, AVMEDIA_TYPE_DATA);
     }
 
+    public static AVStream getStreamByIndex(AVFormatContext context, int index) {
+        return (index < 0) ? null : context.streams(index);
+    }
+
     private static AVStream getStreamOfType(AVFormatContext context, int streamType) {
         int index = getStreamIndex(context, streamType);
         return (index < 0) ? null : context.streams(index);
@@ -53,6 +59,21 @@ public class FfmpegUtils {
 
     public static int getDataStreamIndex(AVFormatContext context) {
         return getStreamIndex(context, AVMEDIA_TYPE_DATA);
+    }
+
+    public static List<Integer> getDataStreamIndices(AVFormatContext context) {
+        List<Integer> dataStreamIndices = new ArrayList<>();
+        int numStreams = context.nb_streams();
+        for (int i = 0; i < numStreams; i++) {
+            AVStream st = context.streams(i);
+            if (st.codecpar().codec_type() == AVMEDIA_TYPE_DATA) {
+                String fourcc = tagToFourCc(st.codecpar().codec_tag());
+                if (fourcc.equals("KLVA")) {
+                    dataStreamIndices.add(i);
+                }
+            }
+        }
+        return dataStreamIndices;
     }
 
     /**
