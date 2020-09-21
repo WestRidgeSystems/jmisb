@@ -23,3 +23,8 @@ It generates a test file with video and KLV metadata. This example is a work-in-
 
 It converts KLV metadata with ST 0903 Video Moving Target Indication local set information into OGC Moving Features (Trajectory JSON).
 This example is a work-in-progress. See [its README](movingfeatures/README.md) for more information.
+
+## gstsink
+
+It provides a GStreamer Sink for KLV metadata.
+This example is a work-in-progress See [its README](gstsink/README.md) for more information.
