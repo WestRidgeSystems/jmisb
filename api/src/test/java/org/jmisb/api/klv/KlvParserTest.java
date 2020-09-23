@@ -68,40 +68,155 @@ public class KlvParserTest {
         try {
             List<IMisbMessage> messages = KlvParser.parseBytes(bytes);
             Assert.assertEquals(messages.size(), 1);
-
-            IMisbMessage message = messages.get(0);
-            Assert.assertTrue(message instanceof UasDatalinkMessage);
-
-            UasDatalinkMessage datalinkMessage = (UasDatalinkMessage) message;
-            Assert.assertEquals(datalinkMessage.getTags().size(), 3);
-            Assert.assertEquals(datalinkMessage.getIdentifiers().size(), 3);
-
-            SensorLatitude lat =
-                    (SensorLatitude) datalinkMessage.getField(UasDatalinkTag.SensorLatitude);
-            SensorLongitude lon =
-                    (SensorLongitude) datalinkMessage.getField(UasDatalinkTag.SensorLongitude);
-            SensorTrueAltitude alt =
-                    (SensorTrueAltitude)
-                            datalinkMessage.getField(UasDatalinkTag.SensorTrueAltitude);
-
-            Assert.assertNotNull(lat);
-            Assert.assertNotNull(lon);
-            Assert.assertNotNull(alt);
-
-            Assert.assertEquals(lat.getDegrees(), 42.4036, SensorLatitude.DELTA);
-            Assert.assertEquals(lat.getBytes(), SENSOR_LAT_VALUE);
-            Assert.assertEquals(lon.getDegrees(), -71.1284, SensorLongitude.DELTA);
-            Assert.assertEquals(lon.getBytes(), SENSOR_LON_VALUE);
-            Assert.assertEquals(alt.getMeters(), 1258.3, SensorTrueAltitude.DELTA);
-            Assert.assertEquals(alt.getBytes(), SENSOR_ALT_VALUE);
-
-            SensorLongitude lonFromIKlvKey =
-                    (SensorLongitude)
-                            datalinkMessage.getField((IKlvKey) UasDatalinkTag.SensorLongitude);
-            Assert.assertEquals(lonFromIKlvKey.getDegrees(), lon.getDegrees(), 0.0000001);
+            check0601Parse(messages);
         } catch (KlvParseException e) {
             Assert.fail("Parse exception");
         }
+    }
+
+    @Test
+    public void testUasDatalinkExtraBytes() {
+        byte[] bytes =
+                new byte[] {
+                    (byte) 0x06,
+                    (byte) 0x0e,
+                    (byte) 0x2b,
+                    (byte) 0x34,
+                    (byte) 0x02,
+                    (byte) 0x0b,
+                    (byte) 0x01,
+                    (byte) 0x01,
+                    (byte) 0x0e,
+                    (byte) 0x01,
+                    (byte) 0x03,
+                    (byte) 0x01,
+                    (byte) 0x01,
+                    (byte) 0x00,
+                    (byte) 0x00,
+                    (byte) 0x00,
+                    (byte) 0x14,
+                    (byte) 0x0d,
+                    (byte) 0x04,
+                    (byte) 0x3c,
+                    (byte) 0x4e,
+                    (byte) 0xad,
+                    (byte) 0xfa,
+                    (byte) 0x0e,
+                    (byte) 0x04,
+                    (byte) 0xcd,
+                    (byte) 0x6b,
+                    (byte) 0x78,
+                    (byte) 0x4e,
+                    (byte) 0x0f,
+                    (byte) 0x02,
+                    (byte) 0x1b,
+                    (byte) 0xc4,
+                    (byte) 0x01,
+                    (byte) 0x02,
+                    (byte) 0x2d,
+                    (byte) 0xc4,
+                    (byte) 0x06,
+                    (byte) 0x0e,
+                    (byte) 0x2b,
+                    (byte) 0x34,
+                    (byte) 0x02,
+                    (byte) 0x0b,
+                    (byte) 0x01,
+                    (byte) 0x01,
+                    (byte) 0x0e,
+                    (byte) 0x01,
+                    (byte) 0x03,
+                    (byte) 0x01,
+                    (byte) 0x01,
+                    (byte) 0x00,
+                    (byte) 0x00,
+                    (byte) 0x00,
+                    (byte) 0x00
+                };
+
+        try {
+            List<IMisbMessage> messages = KlvParser.parseBytes(bytes);
+            Assert.assertEquals(messages.size(), 2);
+            check0601Parse(messages);
+        } catch (KlvParseException e) {
+            Assert.fail("Parse exception");
+        }
+    }
+
+    @Test(expectedExceptions = KlvParseException.class)
+    public void testUasDatalinkTooFewBytes() throws KlvParseException {
+        byte[] bytes =
+                new byte[] {
+                    (byte) 0x06,
+                    (byte) 0x0e,
+                    (byte) 0x2b,
+                    (byte) 0x34,
+                    (byte) 0x02,
+                    (byte) 0x0b,
+                    (byte) 0x01,
+                    (byte) 0x01,
+                    (byte) 0x0e,
+                    (byte) 0x01,
+                    (byte) 0x03,
+                    (byte) 0x01,
+                    (byte) 0x01,
+                    (byte) 0x00,
+                    (byte) 0x00,
+                    (byte) 0x00,
+                    (byte) 0x14,
+                    (byte) 0x0d,
+                    (byte) 0x04,
+                    (byte) 0x3c,
+                    (byte) 0x4e,
+                    (byte) 0xad,
+                    (byte) 0xfa,
+                    (byte) 0x0e,
+                    (byte) 0x04,
+                    (byte) 0xcd,
+                    (byte) 0x6b,
+                    (byte) 0x78,
+                    (byte) 0x4e,
+                    (byte) 0x0f,
+                    (byte) 0x02,
+                    (byte) 0x1b,
+                    (byte) 0xc4,
+                    (byte) 0x01,
+                    (byte) 0x02,
+                    (byte) 0x2d
+                };
+        KlvParser.parseBytes(bytes);
+    }
+
+    private void check0601Parse(List<IMisbMessage> messages) {
+        IMisbMessage message = messages.get(0);
+        Assert.assertTrue(message instanceof UasDatalinkMessage);
+
+        UasDatalinkMessage datalinkMessage = (UasDatalinkMessage) message;
+        Assert.assertEquals(datalinkMessage.getTags().size(), 3);
+        Assert.assertEquals(datalinkMessage.getIdentifiers().size(), 3);
+
+        SensorLatitude lat =
+                (SensorLatitude) datalinkMessage.getField(UasDatalinkTag.SensorLatitude);
+        SensorLongitude lon =
+                (SensorLongitude) datalinkMessage.getField(UasDatalinkTag.SensorLongitude);
+        SensorTrueAltitude alt =
+                (SensorTrueAltitude) datalinkMessage.getField(UasDatalinkTag.SensorTrueAltitude);
+
+        Assert.assertNotNull(lat);
+        Assert.assertNotNull(lon);
+        Assert.assertNotNull(alt);
+
+        Assert.assertEquals(lat.getDegrees(), 42.4036, SensorLatitude.DELTA);
+        Assert.assertEquals(lat.getBytes(), SENSOR_LAT_VALUE);
+        Assert.assertEquals(lon.getDegrees(), -71.1284, SensorLongitude.DELTA);
+        Assert.assertEquals(lon.getBytes(), SENSOR_LON_VALUE);
+        Assert.assertEquals(alt.getMeters(), 1258.3, SensorTrueAltitude.DELTA);
+        Assert.assertEquals(alt.getBytes(), SENSOR_ALT_VALUE);
+
+        SensorLongitude lonFromIKlvKey =
+                (SensorLongitude)
+                        datalinkMessage.getField((IKlvKey) UasDatalinkTag.SensorLongitude);
+        Assert.assertEquals(lonFromIKlvKey.getDegrees(), lon.getDegrees(), 0.0000001);
     }
 
     @Test
