@@ -66,7 +66,12 @@ class MetadataDecodeThread extends ProcessingThread {
 
     @Override
     public void run() {
-        Thread.currentThread().setName("MetadataDecodeThread - " + inputStream.getUrl());
+        Thread.currentThread()
+                .setName(
+                        "MetadataDecodeThread - "
+                                + inputStream.getUrl()
+                                + " - "
+                                + dataStream.index());
 
         AVCodecContext codecContext = avcodec_alloc_context3(null);
         int ret;

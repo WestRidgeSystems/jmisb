@@ -44,6 +44,14 @@ public class KlvConstants {
                         0x02, 0x00, 0x00, 0x00
                     });
 
+    /** Universal label for Ancillary Text Metadata Sets Local Set (ST0808). */
+    public static final UniversalLabel AncillaryTextLocalSetUl =
+            new UniversalLabel(
+                    new byte[] {
+                        0x06, 0x0E, 0x2B, 0x34, 0x02, 0x03, 0x01, 0x01, 0x0E, 0x01, 0x03, 0x05,
+                        0x02, 0x00, 0x00, 0x00
+                    });
+
     /** Universal label for VMTI Local Set (ST 0903). */
     public static final UniversalLabel VmtiLocalSetUl =
             new UniversalLabel(

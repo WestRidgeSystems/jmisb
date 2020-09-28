@@ -1,16 +1,21 @@
 package org.jmisb.api.video;
 
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
 import org.bytedeco.ffmpeg.avcodec.AVPacket;
 import org.bytedeco.ffmpeg.avformat.AVFormatContext;
+import org.bytedeco.ffmpeg.avformat.AVStream;
 import org.jmisb.core.video.FfmpegUtils;
 
 /** Abstract base class for Demuxers. */
 abstract class Demuxer extends ProcessingThread {
+
     final AVFormatContext avFormatContext;
     VideoDecodeThread videoDecodeThread;
-    MetadataDecodeThread metadataDecodeThread;
+    Map<Integer, MetadataDecodeThread> metadataDecodeThreads = new HashMap<>(3);
     int videoStreamIndex;
-    int dataStreamIndex;
+    List<Integer> dataStreamIndices;
     private final VideoInputOptions options;
 
     Demuxer(AVFormatContext avFormatContext, VideoInputOptions options) {
@@ -20,7 +25,7 @@ abstract class Demuxer extends ProcessingThread {
 
     void createDecodeThreads(VideoInput videoInput) {
         videoStreamIndex = FfmpegUtils.getVideoStreamIndex(avFormatContext);
-        dataStreamIndex = FfmpegUtils.getDataStreamIndex(avFormatContext);
+        dataStreamIndices = FfmpegUtils.getDataStreamIndices(avFormatContext);
 
         if (options.isDecodeVideo()) {
             videoDecodeThread =
@@ -28,19 +33,24 @@ abstract class Demuxer extends ProcessingThread {
                             videoStreamIndex, avFormatContext, videoInput);
         }
 
-        if (dataStreamIndex >= 0 && options.isDecodeMetadata()) {
-            metadataDecodeThread =
-                    new MetadataDecodeThread(
-                            videoInput, FfmpegUtils.getDataStream(avFormatContext));
+        if (options.isDecodeMetadata()) {
+            for (int streamIndex : dataStreamIndices) {
+                AVStream stream = FfmpegUtils.getStreamByIndex(avFormatContext, streamIndex);
+                MetadataDecodeThread metadataDecodeThread =
+                        new MetadataDecodeThread(videoInput, stream);
+                metadataDecodeThreads.put(streamIndex, metadataDecodeThread);
+            }
         }
     }
 
     boolean shouldDecode(AVPacket packet) {
         boolean shouldDecode = false;
-        if (packet.stream_index() == videoStreamIndex && options.isDecodeVideo())
+        if (packet.stream_index() == videoStreamIndex && options.isDecodeVideo()) {
             shouldDecode = true;
-        else if (packet.stream_index() == dataStreamIndex && options.isDecodeMetadata())
+        } else if (dataStreamIndices.contains(packet.stream_index())
+                && options.isDecodeMetadata()) {
             shouldDecode = true;
+        }
         return shouldDecode;
     }
 
@@ -53,11 +63,13 @@ abstract class Demuxer extends ProcessingThread {
             }
         }
 
-        if (metadataDecodeThread != null) {
-            metadataDecodeThread.shutdown();
-            try {
-                metadataDecodeThread.join();
-            } catch (InterruptedException ignored) {
+        for (MetadataDecodeThread metadataDecodeThread : metadataDecodeThreads.values()) {
+            if (metadataDecodeThread != null) {
+                metadataDecodeThread.shutdown();
+                try {
+                    metadataDecodeThread.join();
+                } catch (InterruptedException ignored) {
+                }
             }
         }
     }

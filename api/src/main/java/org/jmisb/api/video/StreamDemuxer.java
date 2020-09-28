@@ -41,8 +41,8 @@ class StreamDemuxer extends Demuxer {
             while (shouldDecode(packet) && !queued && !isShutdown()) {
                 if (packet.stream_index() == videoStreamIndex) {
                     queued = videoDecodeThread.enqueue(packet);
-                } else if (packet.stream_index() == dataStreamIndex) {
-                    queued = metadataDecodeThread.enqueue(packet);
+                } else if (dataStreamIndices.contains(packet.stream_index())) {
+                    queued = metadataDecodeThreads.get(packet.stream_index()).enqueue(packet);
                 }
             }
 
