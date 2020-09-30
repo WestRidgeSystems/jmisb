@@ -15,5 +15,6 @@
         <module>systemout</module>
         <module>movingfeatures</module>
         <module>gstsink</module>
+        <module>parserplugin</module>
     </modules>
 </project>

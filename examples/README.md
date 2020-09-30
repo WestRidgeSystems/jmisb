@@ -27,4 +27,9 @@ This example is a work-in-progress. See [its README](movingfeatures/README.md) f
 ## gstsink
 
 It provides a GStreamer Sink for KLV metadata.
-This example is a work-in-progress See [its README](gstsink/README.md) for more information.
+This example is a work-in-progress. See [its README](gstsink/README.md) for more information.
+
+## parserplugin
+
+It shows how to parse an unsupported KLV blob (perhaps a local set or universal set) without changing jMISB.
+This example considered complete. See [its README](parserplugin/README.md) for more information.
