@@ -51,7 +51,7 @@ public class AncillaryTextLocalSet implements IMisbMessage {
         return null;
     }
 
-    /** Map containing all non-repeating elements in the message. */
+    /** Map containing all elements in the message. */
     private final SortedMap<AncillaryTextMetadataKey, IAncillaryTextMetadataValue> map =
             new TreeMap<>();
 
