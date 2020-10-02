@@ -1,3 +1,92 @@
+enumeration TimeTransferMethod {
+    Document = ST1903;
+    00 = Unknown {Unknown Time Transfer Method};
+    01 = GPS {Global Positioning System (GPS) PPS};
+    02 = PTP_V1 {Precision Time Protocol (PTP) - Version 1};
+    03 = PTP_V2 {Precision Time Protocol (PTP) - Version 2};
+    04 = NTP_V3_3 {Network Time Protocol (NTP) - Version 3.3};
+    05 = NTP_V4 {Network Time Protocol (NTP) - Version 4};
+    06 = IRIG_A {Inter-range Instrumentation Group (IRIG-A)};
+    07 = IRIG_B {Inter-range Instrumentation Group (IRIG-B)};
+}
+enumeration CorrectionMethod {
+    Document = ST1903;
+    00 = Unknown {Unknown Correction Method};
+    01 = Jam {Jam Correction Method};
+    02 = Slew {Slew Correction Method};
+}
+enumeration ReferenceSource {
+    Document = ST1903;
+    00 = Unknown {Reference Source status is unknown};
+    01 = Not_Synchronized {Reference Source is not synchronized to an atomic source};
+    02 = Synchronized {Reference Source is synchronized to an atomic source};
+}
+enumeration PlatformType {
+    Document = ST1905;
+    01 = Aircraft {See NTAX for detailed description};
+    02 = FixedWingAircraft {See NTAX for detailed description};
+    03 = FixedWingMannedAircraft {See NTAX for detailed description};
+    04 = FixedWingUAV {See NTAX for detailed description};
+    05 = RotaryWingAircraft {See NTAX for detailed description};
+    06 = RotaryWingMannedAircraft {See NTAX for detailed description};
+    07 = RotaryWingUAV {See NTAX for detailed description};
+    08 = GroundVehicle {See NTAX for detailed description};
+    09 = ArmouredCombatVehicle {See NTAX for detailed description};
+    10 = ArmouredGroundPlatform {See NTAX for detailed description};
+    11 = ArmouredRecoveryVehicle {See NTAX for detailed description};
+    12 = HalfTrackedArmouredVehicle {See NTAX for detailed description};
+    13 = HeavyArmouredCombatVehicle {See NTAX for detailed description};
+    14 = LightArmouredCombatVehicle {See NTAX for detailed description};
+    15 = LightTank {See NTAX for detailed description};
+    16 = MainBattleTank {See NTAX for detailed description};
+    17 = ArtilleryCommandVehicle {See NTAX for detailed description};
+    18 = EngineeringVehicle {See NTAX for detailed description};
+    19 = ArmouredBridgeLauncher {See NTAX for detailed description};
+    20 = CraneVehicle {See NTAX for detailed description};
+    21 = EarthMovingEquipment {See NTAX for detailed description};
+    22 = Bulldozer {See NTAX for detailed description};
+    23 = Grader {See NTAX for detailed description};
+    24 = MobileExcavator {See NTAX for detailed description};
+    25 = MultipurposeEarthMover {See NTAX for detailed description};
+    26 = Scraper {See NTAX for detailed description};
+    27 = Trencher {See NTAX for detailed description};
+    28 = GroundAmbulance {See NTAX for detailed description};
+    29 = ArmouredTrackedAmbulance {See NTAX for detailed description};
+    30 = ArmouredWheeledAmbulance {See NTAX for detailed description};
+    31 = TruckWheeledAmbulance {See NTAX for detailed description};
+    32 = PetroleumOilLubVehicle {See NTAX for detailed description};
+    33 = PetroleumOilLubPipeLayer {See NTAX for detailed description};
+    34 = PetroleumOilLubTanker {See NTAX for detailed description};
+    35 = UnmannedGroundVehicle {See NTAX for detailed description};
+    36 = WheeledCargoTransport {See NTAX for detailed description};
+    37 = CargoTruck {See NTAX for detailed description};
+    38 = DumpTruck {See NTAX for detailed description};
+    39 = SemiTrailerTruck {See NTAX for detailed description};
+    40 = Trailer {See NTAX for detailed description};
+    41 = TruckTractor {See NTAX for detailed description};
+    42 = UtilityTruck {See NTAX for detailed description};
+    43 = MaritimeVessel {See NTAX for detailed description};
+    44 = AmphibiousTransporter {See NTAX for detailed description};
+    45 = BridgeSupportBoat {See NTAX for detailed description};
+    46 = Ferry {See NTAX for detailed description};
+    47 = Hulk {See NTAX for detailed description};
+    48 = NavalAuxiliaryShip {See NTAX for detailed description};
+    49 = NavalCombatantCraft {See NTAX for detailed description};
+    50 = NavalCombatantShip {See NTAX for detailed description};
+    51 = NavalSubmarine {See NTAX for detailed description};
+    52 = NavalSupportCraft {See NTAX for detailed description};
+    53 = Pontoon {See NTAX for detailed description};
+    54 = Spacecraft {See NTAX for detailed description};
+    55 = Satellite {See NTAX for detailed description};
+    56 = SpaceLaunchVehicle {See NTAX for detailed description};
+    57 = Automobile {Platform is a four-wheeled commercial vehicle for carrying people (e.g., sedan, SUV, hatchback)};
+    58 = MotorCycle {Platform is a two or three wheeled motorized bike};
+    59 = Cycle {Platform is a two or three wheeled human powered bike};
+    60 = Animal {Platform is a living creature for body mounted sensor(s)};
+    61 = Human {Platform is a person for handheld or body mounted sensors(s)};
+    62 = Structure {Platform is a building or other structure for mounting sensor(s)};
+    63 = Pole {Platform is a pole (e.g., telephone pole or sensor tower), statically mounted in the ground};
+}
 enumeration PositionMethod {
     Document = ST1906;
     00 = INS {On-board Inertial Navigation System};
@@ -13,15 +102,27 @@ enumeration PositionMethod {
 enumeration DeviceStatus {
     Document = ST1907;
     00 = Nominal {The device is in a nominal state};
-    01 = Error {The device is reporting an error};
-    02 = Over_Temperature {The device is over its maximum temperature};
-    03 = Under_Temperature {The device is under its minimum specified temperature};
-    04 = Stowed {The device is oriented in a manner that protects it or is in another temporary non-functioning state };
+    01 = Stowed {The device is oriented in a manner that protects it or is in another temporary non- functioning state};
 }
 enumeration PowerStatus {
     Document = ST1907;
     00 = Off {The device is powered off};
     01 = On {The device is powered on};
+}
+enumeration DeviceWarning {
+    Document = ST1907;
+    00 = Nominal {No Warnings};
+    01 = Unspecified_Warning {The device is reporting a warning with unknown meaning};
+    02 = Over_Temperature {The device is over its maximum temperature};
+    03 = Under_Temperature {The device is under its minimum specified temperature};
+}
+enumeration DeviceError {
+    Document = ST1907;
+    00 = Nominal {No Errors};
+    01 = Unspecified_Error {The device is reporting an error with unspecified meaning};
+    02 = Over_Temperature {The device is over its maximum temperature};
+    03 = Under_Temperature {The device is under its minimum specified temperature};
+    04 = Stowage_Error {The device has a problem while trying to stow or unstow};
 }
 enumeration GISensorType {
     Document = ST1907;
@@ -31,26 +132,88 @@ enumeration GISensorType {
     03 = SIGINT {Signal Intelligence Sensor};
     04 = SAR {Synthetic Aperture Radar Sensor};
 }
-enumeration TimeTransferMethod {
-    Document = ST1903;
-    00 = Unknown {Unknown Time Transfer Method};
-    01 = GPS {Global Positioning System (GPS) PPS};
-    02 = PTP_V1 {Precision Time Protocol (PTP) - Version 1};
-    03 = PTP_V2 {Precision Time Protocol (PTP) - Version 2};
-    04 = NTP_V3_3 {Network Time Protocol (NTP)};
-    05 = NTP_V4 {Network Time Protocol (NTP)};
-    06 = IRIG_A {Inter-range Instrumentation Group (IRIG-A)};
-    07 = IRIG_B {Inter-range Instrumentation Group (IRIG-B)};
+enumeration SafetyState {
+    Document = ST1907;
+    00 = Safe {Laser is set to not be able to fire};
+    01 = Armed {Laser is ready to fire};
+    02 = Firing {Laser is actively propagating energy};
+    03 = Inhibited {Laser is prevented from firing for safety or other reasons (e.g., over temp)};
 }
-enumeration CorrectionMethod {
-    Document = ST1903;
-    00 = Unknown {Unknown Correction Method};
-    01 = Jam {Jam Correction Method};
-    02 = Slew {Slew Correction Method};
+enumeration CorrespondenceGroupType {
+    Document = ST1907;
+    01 = Background {Background Object Group Type};
+    02 = MTI {Moving Target Indicator Group Type};
+    03 = Footprint {The CorrespondenceGroup defines the image footprint and image center point, may include the horizon line as needed.};
 }
-enumeration ReferenceSource {
-    Document = ST1903;
-    00 = Unknown {Reference Source status is unknown};
-    01 = Not_Synchronized {Reference Source is not synchronized to an atomic source};
-    02 = Synchronized {Reference Source is synchronized to an atomic source};
+enumeration TrackStatus {
+    Document = ST1907;
+    01 = Active {Target Track is active};
+    02 = InActive {Target track is not active};
+    03 = Dropped {Target no longer being tracked};
+    04 = Stopped {Target is not moving};
+    05 = Coast {Target lost but tracking on an estimated trajectory};
+}
+enumeration CorrType {
+    Document = ST1907;
+    00 = General_Correspondence {Default value if not including type attribute in the Correspondence instance. If the type attribute is in the ROC_Unknown state, General Correspondence is assumed.};
+}
+enumeration MeasureMethod {
+    Document = ST1907;
+    00 = Unknown {The method is not known. This is the default.};
+    01 = Measured {The range distance attribute's value is a measurement using a geo-intelligence sensor such as an LRF};
+    02 = Computed {The range distance attribute's value is the result of a computation};
+}
+enumeration ControlMode {
+    Document = ST1908;
+    01 = HomePosition {The sensor is in its 'home' or 'lock' position (e.g., locked for landing)};
+    02 = Uncontrolled {No person or system is controlling the sensor};
+    03 = ManualControl {A person is directing the sensor};
+    04 = Calibrating {The sensor is calibrating (e.g., pointing to NUC target)};
+    05 = Auto_Holding_Position {An autonomous system is controlling the sensor positioning which is in a holding mode pointing at a specific stationary ground position};
+    06 = Auto_Tracking {An autonomous system is controlling the sensor positioning which is tracking an object};
+}
+enumeration FilterType {
+    Document = ST1908;
+    00 = Low_Pass {Wavelengths below a value pass through the filter, the remaining wavelengths are blocked.};
+    01 = High_Pass {Wavelengths above a value pass through the filter, the remaining wavelengths are blocked.};
+    02 = Band_Pass {All wavelengths are blocked except a middle range of frequencies.};
+    03 = Notch {All wavelengths pass through the filter except a middle range which are blocked.};
+    04 = Polarization {The polarization of the light determines what light is passed/blocked.};
+}
+enumeration FieldOfViewName {
+    Document = ST1908;
+    00 = Narrowest {Narrowest view};
+    01 = Ultranarrow_x4 {4x Ultranarrow view};
+    02 = Ultranarrow_x2 {2x Ultranarrow view};
+    03 = Ultranarrow {Ultranarrow view};
+    04 = Narrow {Narrow view};
+    05 = Medium {Medium view};
+    06 = Wide {Wide view};
+    07 = Ultrawide {Ultrawide view};
+    08 = Ultrawide_x2 {2x Ultrawide view};
+    09 = Ultrawide_x4 {4x Ultrawide view};
+    10 = Widest {Widest View};
+    11 = Continuous_Zoom {Continuous Zoom (variable view)};
+}
+enumeration ImagePolarity {
+    Document = ST1908;
+    00 = Black_Hot {Darker pixels indicate brighter object};
+    01 = White_Hot {Whiter pixels indicate brighter object};
+}
+enumeration NoYes {
+    Document = ST1908;
+    00 = No {Negative response};
+    01 = Yes {Positive response};
+}
+enumeration IdentifierType {
+    Document = ST1908;
+    01 = Managed {Device Identification inserted at control station};
+    02 = Virtual {Device Identification inserted by platform system};
+    03 = Physical {Device Identification inserted within the sensor};
+}
+enumeration IdentifierComponent {
+    Document = ST1908;
+    00 = Platform {Identifier is for a platform};
+    01 = Sensor {Identifier is for a sensor};
+    02 = Window {Identifier is for a sub-section of the motion imagery image};
 }
