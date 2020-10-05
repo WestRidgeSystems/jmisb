@@ -1,7 +1,6 @@
-MIML_Grammar=3.0;
-class MIMD includes Base {
+class MIMD {
     Document = ST1903;
-    33_version : String (6) {None};
+    33_version : UInt {None};
     34_compositeProductSecurity : REF<Security> {None};
     35_compositeMotionImagerySecurity : REF<Security> {None};
     36_compositeAudioSecurity : REF<Security> {None};
@@ -9,67 +8,358 @@ class MIMD includes Base {
     38_timers : LIST<Timer> (1, *) {None};
     39_platforms : LIST<Platform> {None};
     40_securityOptions : LIST<Security> (1, *) {None};
+    41_groupIdRange : Tuple (2) {None};
+    42_algorithms : LIST<Algorithm> {None};
+    43_ontologies : LIST<Ontology> {None};
+    44_tracks : LIST<Track> {None};
 }
-class Timer includes Base {
-    Document = ST1903;
-    33_nanoPrecisionTimestamp : UInt {ns};
-    34_utcLeapSeconds : Integer {s};
-    35_timeTransferMethod : TimeTransferMethod {None};
-    36_correctionMethod : CorrectionMethod {None};
-    37_referenceSource : ReferenceSource {None};
-    38_syncPulseFreq : Real (0.0) { Hz};
-    39_unlockTime : UInt { ns};
-    40_lastSyncDiff : UInt { ns};
-    41_driftRate : UInt {ns/s};
-    42_signalSourceDelay : UInt { ns};
-    43_source : REF<Stage> {None};
-    44_correctionOffset : Integer { ns};
-}
-class Security includes Base {
-    Document = ST1903;
-    33_classifyingMethod : String (100) {None};
-    34_classification : String (500) {None};
-}
-class Platform includes Base {
+class Platform {
     Document = ST1905;
     33_name : String (100) {None};
+    34_identity : String (100) {None};
+    35_type : PlatformType {None};
+    36_atmosphere : Atmosphere {None};
+    37_surfaceWater : SurfaceWater {None};
+    38_stages : LIST<Stage> {None};
+    39_payloads : LIST<Payload> {None};
 }
-class Sensor includes Base {
-    Document = ST1908;
-    40_exposureStartTimeOffset : Integer (-1000000000, 1000000000) {ns};
-    41_exposureEndTimeOffset   : Integer (-1000000000, 1000000000) {ns};
-}
-class Atmosphere includes Base {
+class Atmosphere {
     Document = ST1905;
-    33_airTemperature       : Real (-128, 127, 1)     { °C};
-    34_relativeHumidity     : Real (0, 100, 0.1)      {  %};
-    35_densityAltitude      : Real (-900, 40000, 0.3) {  m};
-    36_differentialPressure : Real (0, 5000)          {hPa};
-    37_staticPressure       : Real (0, 5000)          {hPa};
-    38_windDirection        : Real (0, TWO_PI)        {rad};
-    39_windSpeed            : Real (0, 200)           {m/s};
+    33_airTemperature : Real (-128.000000, 127.000000, 1.000000) {°C};
+    34_relativeHumidity : Real (0.000000, 100.000000, 0.100000) {%};
+    35_densityAltitude : Real (-900.000000, 40000.000000, 0.300000) {m};
+    36_differentialPressure : Real (0.000000, 5000.000000) {hPa};
+    37_staticPressure : Real (0.000000, 5000.000000) {hPa};
+    38_windDirection : Real (0.000000, 6.283185) {rad};
+    39_windSpeed : Real (0.000000, 200.000000) {m/s};
 }
-class LaserSensor includes Base {
+class SurfaceWater {
+    Document = ST1905;
+    33_waterTemperature : Real (-10.000000, 100.000000, 1.000000) {°C};
+    34_currentDirection : Real (0.000000, 6.283185) {rad};
+    35_currentSpeed : Real (0.000000, 200.000000) {m/s};
+}
+class Stage {
+    Document = ST1906;
+    33_parentStage : REF<Stage> {None};
+    34_position : Position {None};
+    35_orientation : Orientation {None};
+}
+class Position {
+    Document = ST1906;
+    33_country : String (100) {None};
+    34_absGeocentric : AbsGeocentric {None};
+    35_absGeodetic : AbsGeodetic {None};
+    36_relPosition : RelPosition {None};
+    37_kinematics : LIST<Kinematic> {None};
+    38_sources : LIST<Source> {None};
+}
+class AbsGeocentric {
+    Document = ST1906;
+    33_x : Real (-6500000.000000, 6500000.000000, 0.010000) {m};
+    34_y : Real (-6500000.000000, 6500000.000000, 0.010000) {m};
+    35_z : Real (-6500000.000000, 6500000.000000, 0.010000) {m};
+}
+class AbsGeodetic {
+    Document = ST1906;
+    33_lat : Real (-1.570796, 1.570796, 0.000000) {rad};
+    34_lon : Real (-3.141593, 3.141593, 0.000000) {rad};
+    35_hae : Real (-12000.000000, 50000.000000, 0.000001) {m};
+    36_confidence : Confidence {None};
+}
+class Confidence {
+    Document = ST1906;
+    33_circularError : Real (0.000000, 10000.000000, 0.001000) {m};
+    34_linearError : Real (0.000000, 10000.000000, 0.001000) {m};
+    35_level : Real (0.000000, 100.000000, 1.000000) {%};
+}
+class RelPosition {
+    Document = ST1906;
+    33_x : Real (-800000.000000, 800000.000000, 0.001000) {m};
+    34_y : Real (-800000.000000, 800000.000000, 0.001000) {m};
+    35_z : Real (-800000.000000, 800000.000000, 0.001000) {m};
+}
+class Orientation {
+    Document = ST1906;
+    33_absEnu : AbsEnu {None};
+    34_relOrientation : RelOrientation {None};
+    35_reserved : RESERVED {None};
+    36_kinematics : LIST<Kinematic> {None};
+    37_magneticHeading : Real (0.000000, 6.283185, 0.001745) {rad};
+    38_course : Real (0.000000, 6.283185, 0.001745) {rad};
+}
+class AbsEnu {
+    Document = ST1906;
+    33_rotAboutEast : Real (-3.141593, 3.141593, 0.000000) {rad};
+    34_rotAboutNorth : Real (-3.141593, 3.141593, 0.000000) {rad};
+    35_rotAboutUp : Real (-3.141593, 3.141593, 0.000000) {rad};
+}
+class RelOrientation {
+    Document = ST1906;
+    33_alpha : Real (-3.141593, 3.141593, 0.000000) {rad};
+    34_beta : Real (-3.141593, 3.141593, 0.000000) {rad};
+    35_psi : Real (-3.141593, 3.141593, 0.000000) {rad};
+}
+class Kinematic {
+    Document = ST1906;
+    33_k1 : Real {See_Description};
+    34_k2 : Real {See_Description};
+    35_k3 : Real {See_Description};
+    36_reserved : RESERVED {None};
+    37_level : UInt (1) {None};
+}
+class Source {
+    Document = ST1906;
+    33_positionMethod : PositionMethod {None};
+    34_numNavSatInView : UInt {count};
+}
+class Payload {
+    Document = ST1907;
+    33_status : DeviceStatus {None};
+    34_powerStatus : PowerStatus {None};
+    35_name : String (100) {None};
+    36_stages : LIST<Stage> {None};
+    37_geoIntelligenceSensors : LIST<GeoIntelligenceSensor> {None};
+    38_warning : DeviceWarning {None};
+    39_error : DeviceError {None};
+}
+class GeoIntelligenceSensor {
+    Document = ST1907;
+    33_nCols : UInt {Columns};
+    34_nRows : UInt {Rows};
+    35_name : String (100) {None};
+    36_type : GISensorType {None};
+    37_status : DeviceStatus {None};
+    38_stages : LIST<Stage> {None};
+    39_correspondences : LIST<Correspondence> {None};
+    40_imagerSystem : ImagerSystem {None};
+    41_laserSensor : LaserSensor {None};
+    42_correspondenceGroups : LIST<CorrespondenceGroup> {None};
+    43_warning : DeviceWarning {None};
+    44_error : DeviceError {None};
+}
+class LaserSensor {
     Document = ST1907;
     33_laserCode : UInt (0, 65535) {None};
+    34_lrfDivergence : Real (0.000000, 785.000000, 0.100000) {mrad};
+    35_wavelength : Real (0.000000, 1000.000000, 0.001000) {µm};
+    36_peakPower : Real (0.000000, 1000.000000, 0.001000) {MW};
+    37_averagePower : Real (0.000000, 1000.000000, 0.001000) {KW};
+    38_pulseEnergy : Real (0.000000, 1000.000000, 0.001000) {J};
+    39_pulseDuration : Real (0.000000, 100.000000, 0.000000) {s};
+    40_pulseRepetitionRate : Real (0.000000, 500000.000000, 0.100000) {Hz};
+    41_beamSize : Real (0.000000, 1.000000, 0.001000) {mm};
+    42_safetyState : SafetyState {None};
 }
-class GeoIntelligenceSensor includes Base {
+class CorrespondenceGroup {
     Document = ST1907;
-    33_nCols       : UInt         {Columns};
-    34_nRows       : UInt         {Rows};
-    35_name        : String (100) {None};
-    36_type        : GISensorType {None};
-    37_status      : DeviceStatus {None};
-    41_laserSensor : LaserSensor  {None};
+    33_priority : UInt {None};
+    34_confidence : Real (0.000000, 100.000000, 0.100000) {%};
+    35_color : UInt[] {None};
+    36_crossRef : REF<CorrespondenceGroup> {None};
+    37_type : CorrespondenceGroupType {None};
+    38_object : REF<Object> {None};
+    39_mask : CorrespondenceGroupMask {None};
+    40_rectangle : LIST<Correspondence> (0, 2) {None};
+    41_centroid : Correspondence {None};
+    42_boundary : LIST<Correspondence> {None};
+    43_algorithm : REF<Algorithm> {None};
+    44_correspondences : REF<Correspondence>[] {None};
 }
-class DetectorFilter includes Base {
+class CorrespondenceGroupMask {
+    Document = ST1907;
+    33_upperLeftRow : UInt {None};
+    34_upperLeftCol : UInt {None};
+    35_mask : Boolean[][] {None};
+}
+class Correspondence {
+    Document = ST1907;
+    33_col : Real (0.000000) {Columns};
+    34_row : Real (0.000000) {Rows};
+    35_type : CorrType {None};
+    36_crossRef : REF<Correspondence> {None};
+    37_position : Position {None};
+    38_range : Range {None};
+}
+class Range {
+    Document = ST1907;
+    33_rangeDistance : Real (0.000000, 5000000.000000, 0.010000) {m};
+    34_measureMethod : MeasureMethod {None};
+}
+class Object {
+    Document = ST1907;
+    33_confidence : Real (0.000000, 100.000000, 0.100000) {%};
+    34_ontology : REF<Ontology> {None};
+    35_class : String (100) {None};
+}
+class Track {
+    Document = ST1907;
+    33_startTime : UInt {ns};
+    34_confidence : Real (0.000000, 100.000000, 0.100000) {%};
+    35_trackAlgorithm : REF<Algorithm> {None};
+    36_boundary : LIST<Correspondence> (0, 2) {None};
+    37_detections : REF<CorrespondenceGroup>[] {None};
+    38_tracks : REF<Track>[] {None};
+    39_status : TrackStatus {None};
+}
+class ImagerSystem {
     Document = ST1908;
-    34_peakTransmission : Real[]   (0.0, 100.0, 0.1)       {   %};
+    33_name : String (127) {None};
+    34_controlMode : ControlMode {None};
+    35_optics : LIST<Optics> {None};
+    36_imager : Imager {None};
+    37_fieldOfView : FieldOfView {None};
+    38_calibration : Calibration {None};
+    39_miis : MIIS {None};
 }
-abstract class Base {
-    Document = ST1904;
-    01_mimdId : UInt[<=2] (1, *) {None};
-    02_timer : REF<Timer> {None};
-    03_timerOffset: Integer { ns};
-    05_security : REF<Security> {None};
+class Optics {
+    Document = ST1908;
+    33_apertureSize : Real (0.000000, 100.000000, 0.000100) {m};
+    34_focalLength : Real (0.000000, 100.000000, 0.000100) {m};
+    35_activeDistortion : REF<Distortion> {None};
+    36_activeTransmission : REF<Transmission> {None};
+    37_activeFilters : REF<Filter>[] {None};
+    38_focusDistance : Real (0.000000, 100.000000) {Km};
+    39_distortions : LIST<Distortion> {None};
+    40_transmissions : LIST<Transmission> {None};
+    41_filters : LIST<Filter> {None};
+    42_stabilization : Stabilization {None};
+}
+class Distortion {
+    Document = ST1908;
+    33_validRange : Real {mm};
+    34_constantParameter : Real {mm/mm};
+    35_radialDistortionParameter1 : Real {mm/mm^3};
+    36_radialDistortionParameter2 : Real {mm/mm^5};
+    37_radialDistortionParameter3 : Real {mm/mm^7};
+    38_tangentialDecenteringParameter1 : Real {mm/mm^2};
+    39_tangentialDecenteringParameter2 : Real {mm/mm^2};
+    40_tangentialDecenteringParameter3 : Real {1/mm^2};
+}
+class Transmission {
+    Document = ST1908;
+    33_startWavelength : Real (0.000000, 1000.000000, 0.000001) {µm};
+    34_endWavelength : Real (0.000000, 1000.000000, 0.000001) {µm};
+    35_transmittance : Real (0.000000, 100.000000, 0.100000) {%};
+}
+class Filter {
+    Document = ST1908;
+    33_filterType : FilterType {None};
+    34_risingEdge : Real (0.000000, 1000.000000, 0.000001) {µm};
+    35_fallingEdge : Real (0.000000, 1000.000000, 0.000001) {µm};
+    36_centerWavelength : Real (0.000000, 1000.000000, 0.000001) {µm};
+    37_transmission : Real (0.000000, 100.000000, 0.100000) {%};
+    38_polarizationAngle : Real (0.000000, 3.141593, 1.000000) {rad};
+}
+class Stabilization {
+    Document = ST1908;
+    33_offsetX : Real (-100.000000, 100.000000, 0.000001) {mm};
+    34_offsetY : Real (-100.000000, 100.000000, 0.000001) {mm};
+}
+class FieldOfView {
+    Document = ST1908;
+    33_horizontal : Real (0.000000, 6.283185, 0.000017) {rad};
+    34_vertical : Real (0.000000, 6.283185, 0.000017) {rad};
+    35_name : FieldOfViewName {None};
+}
+class Calibration {
+    Document = ST1908;
+    33_scale : Real {mm/mm};
+    34_skew : Real {mm/mm};
+    35_principalPointOffsetX : Real {mm};
+    36_principalPointOffsetY : Real {mm};
+    37_calibrationFocalLength : Real {mm};
+}
+class Imager {
+    Document = ST1908;
+    33_internalTemperature : Real (-274.000000, 127.000000, 1.000000) {°C};
+    34_corner1Col : UInt {Pixels};
+    35_corner1Row : UInt {Pixels};
+    36_corner2Row : UInt {Pixels};
+    37_corner2Col : UInt {Pixels};
+    38_sensor : Sensor {None};
+}
+class Sensor {
+    Document = ST1908;
+    33_polarity : ImagePolarity {None};
+    34_xColumns : UInt {None};
+    35_yRows : UInt {None};
+    36_xSampleSize : Real (0.000000, 1000.000000, 0.010000) {µm};
+    37_ySampleSize : Real (0.000000, 1000.000000, 0.010000) {µm};
+    38_xPitch : Real (0.000000, 1000.000000, 0.010000) {µm};
+    39_yPitch : Real (0.000000, 1000.000000, 0.010000) {µm};
+    40_exposureStartTimeOffset : Integer (-1000000000, 1000000000) {ns};
+    41_exposureEndTimeOffset : Integer (-1000000000, 1000000000) {ns};
+    42_detectorGroups : LIST<DetectorGroup> {None};
+    43_detectorElement : DetectorElement {None};
+    44_detectorFilter : DetectorFilter {None};
+    45_badDetectorMap : BadDetectorMap {None};
+    46_sensorAdjustments : SensorAdjustments {None};
+}
+class DetectorGroup {
+    Document = ST1908;
+    33_regions : LIST<Region> {None};
+}
+class Region {
+    Document = ST1908;
+    33_sub1Detector1Row : UInt {Detectors};
+    34_sub1Detector1Col : UInt {Detectors};
+    35_sub1Detector1StartTimeOffset : UInt {ns};
+    36_sub1Detector1EndTimeOffset : UInt {ns};
+    37_sub1LastDetectorRow : UInt {Detectors};
+    38_sub1LastDetectorCol : UInt {Detectors};
+    39_sub1LastDetectorStartTimeOffset : UInt {ns};
+    40_sub2Detector1Row : UInt {Detectors};
+    41_sub2Detector1Col : UInt {Detectors};
+    42_sub2Detector1StartTimeOffset : UInt {ns};
+    43_lastSubLastDetectorRow : UInt {Detectors};
+    44_lastSubLastDetectorCol : UInt {Detectors};
+}
+class DetectorElement {
+    Document = ST1908;
+    33_wellDepth : UInt {Electrons};
+    34_readNoise : Real (0.000000, 5000.000000, 0.100000) {Electrons};
+    35_quantumEfficiency : Real (0.000000, 100.000000, 0.100000) {%};
+    36_fillFactor : Real (0.000000, 100.000000, 0.100000) {%};
+    37_spectralBand : Real[2] (0, 1000) {µm};
+    38_bitDepth : UInt (0, 32) {None};
+}
+class DetectorFilter {
+    Document = ST1908;
+    33_wavelengths : Real[][2] (0, 1000) {µm};
+    34_peakTransmission : Real[] (0, 100) {%};
+    35_pattern : UInt[][] {None};
+}
+class BadDetectorMap {
+    Document = ST1908;
+    33_rows : UInt[] {Detector};
+    34_cols : UInt[] {Detector};
+    35_detectors : UInt[2][] {Detector};
+}
+class SensorAdjustments {
+    Document = ST1908;
+    33_nucGain : Real[][] (0, 65536) {None};
+    34_nucOffset : Integer[][] (-32768, 32767) {None};
+    35_gain : Real (0.000000, 65536.000000, 0.010000) {db};
+    36_nucApplied : NoYes {None};
+}
+class MIIS {
+    Document = ST1908;
+    33_version : UInt {None};
+    34_foundationalCoreId : FoundationalCoreId {None};
+    35_minorCoreId : MinorCoreId {None};
+}
+class FoundationalCoreId {
+    Document = ST1908;
+    33_idComponents : LIST<IdComponent> {None};
+}
+class IdComponent {
+    Document = ST1908;
+    33_uuid : UInt[16] (0, 255) {None};
+    34_idType : IdentifierType {None};
+    35_idComponent : IdentifierComponent {None};
+}
+class MinorCoreId {
+    Document = ST1908;
+    33_uuid : UInt[16] (0, 255) {None};
 }
