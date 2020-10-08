@@ -6,9 +6,14 @@ package ${packageName};
 import java.util.TreeMap;
 import org.jmisb.api.common.KlvParseException;
 import org.jmisb.api.klv.LoggerChecks;
+// TODO: remove this hack and use proper import
+import org.jmisb.api.klv.st1904.*;
+import org.jmisb.api.klv.st1906.*;
+import org.jmisb.api.klv.st1908.*;
 import org.jmisb.api.klv.st190x.IMimdMetadataValue;
 import org.jmisb.api.klv.st190x.MimdId;
 import org.jmisb.api.klv.st190x.MimdIdReference;
+import org.jmisb.api.klv.st190x.Tuple;
 import static org.testng.Assert.*;
 
 import org.testng.annotations.Test;
@@ -104,25 +109,27 @@ public class ${name}Test extends LoggerChecks {
 
 </#if>
 <#list entries as entry>
+<#if entry.typeName == "RESERVED">
+<#else>
     @Test
     public void createValue${entry.nameSentenceCase}() throws KlvParseException {
-<#if entry.typeName == "String">
+    <#if entry.typeName == "String">
         IMimdMetadataValue uut = ${name}.createValue(${name}MetadataKey.${entry.name}, new byte[]{0x74});
         assertTrue(uut instanceof ${entry.nameSentenceCase});
         ${entry.nameSentenceCase} value = (${entry.nameSentenceCase})uut;
         assertEquals(value.getValue(), "t");
-<#elseif entry.typeName == "UInt">
+    <#elseif entry.typeName == "UInt">
         IMimdMetadataValue uut = ${name}.createValue(${name}MetadataKey.${entry.name}, new byte[]{(byte)0xFF});
         assertTrue(uut instanceof ${entry.nameSentenceCase});
         ${entry.nameSentenceCase} value = (${entry.nameSentenceCase})uut;
         assertEquals(value.getValue(), 255);
-<#elseif entry.typeName == "Integer">
+    <#elseif entry.typeName == "Integer">
         IMimdMetadataValue uut = ${name}.createValue(${name}MetadataKey.${entry.name}, new byte[]{(byte)0xFF});
         assertTrue(uut instanceof ${entry.nameSentenceCase});
         ${entry.nameSentenceCase} value = (${entry.nameSentenceCase})uut;
         assertEquals(value.getValue(), -1);
-<#elseif entry.typeName == "Real">
-    <#if entry.minValue?? && entry.maxValue??>
+    <#elseif entry.typeName == "Real">
+        <#if entry.minValue?? && entry.maxValue??>
         IMimdMetadataValue uut = ${name}.createValue(
             ${name}MetadataKey.${entry.name},
             new byte[]{
@@ -130,8 +137,8 @@ public class ${name}Test extends LoggerChecks {
                 (byte) 0x00});
         assertTrue(uut instanceof ${entry.nameSentenceCase});
         ${entry.nameSentenceCase} value = (${entry.nameSentenceCase})uut;
-        assertEquals(value.getValue(), ${entry.minValue});
-    <#else>
+        assertEquals(value.getValue(), ${entry.minValue}, 0.00001);
+        <#else>
         IMimdMetadataValue uut = ${name}.createValue(
             ${name}MetadataKey.${entry.name},
             new byte[]{
@@ -142,22 +149,30 @@ public class ${name}Test extends LoggerChecks {
         assertTrue(uut instanceof ${entry.nameSentenceCase});
         ${entry.nameSentenceCase} value = (${entry.nameSentenceCase})uut;
         assertEquals(value.getValue(), 2.000);
-    </#if>
-<#elseif entry.typeName?starts_with("REF\l")>
+        </#if>
+    <#elseif entry.typeName?starts_with("REF\l")>
         IMimdMetadataValue uut = ${name}.createValue(${name}MetadataKey.${entry.name}, new byte[]{(byte) 0x00});
         assertTrue(uut instanceof MimdIdReference);
-<#elseif entry.typeName?starts_with("LIST\l")>
+    <#elseif entry.typeName?starts_with("LIST\l")>
         IMimdMetadataValue uut = ${name}.createValue(${name}MetadataKey.${entry.name}, new byte[]{(byte) 0x00});
         assertTrue(uut instanceof  ${entry.nameSentenceCase});
-<#elseif entry.name == "mimdId">
+    <#elseif entry.name == "mimdId">
         IMimdMetadataValue uut = ${name}.createValue(${name}MetadataKey.${entry.name}, new byte[]{(byte) 0x01});
         assertTrue(uut instanceof MimdId);
-<#elseif entry.typeName == "Real[]">
+    <#elseif entry.typeName?starts_with("Real[")>
         // TODO
-<#else>
+    <#elseif entry.typeName?starts_with("UInt[")>
+        // TODO
+    <#elseif entry.typeName?starts_with("Integer[")>
+        // TODO
+    <#elseif entry.typeName == "Boolean[][]">
+        // TODO
+    <#else>
         IMimdMetadataValue uut = ${name}.createValue(${name}MetadataKey.${entry.name}, new byte[]{(byte) 0x01, (byte)0x01, (byte)0x06});
         assertTrue(uut instanceof ${entry.typeName});
-</#if>
+    </#if>
     }
+
+</#if>
 </#list>
 }

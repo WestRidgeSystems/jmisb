@@ -27,9 +27,14 @@ import org.jmisb.api.klv.UniversalLabel;
 <#else>
 import org.jmisb.api.klv.LdsParser;
 </#if>
+// TODO: replace this hack with the right import
+import org.jmisb.api.klv.st1904.*;
+import org.jmisb.api.klv.st1906.*;
+import org.jmisb.api.klv.st1908.*;
 import org.jmisb.api.klv.st190x.IMimdMetadataValue;
 import org.jmisb.api.klv.st190x.MimdId;
 import org.jmisb.api.klv.st190x.MimdIdReference;
+import org.jmisb.api.klv.st190x.Tuple;
 <#if topLevel>
 import org.jmisb.api.klv.st190x.MimdParser;
 </#if>
@@ -203,14 +208,17 @@ public class ${name} implements <#if topLevel>IMisbMessage, </#if>IMimdMetadataV
         switch (key) {
 <#list entries as entry>
             case ${entry.name}:
-<#if entry.typeName?starts_with("REF\l")>
+<#if entry.typeName == "RESERVED">
+                return null;
+<#elseif entry.typeName?starts_with("REF\l")>
                 return MimdIdReference.fromBytes(data, "${entry.nameSentenceCase}", "${entry.refItemType}");
 <#elseif entry.typeName?starts_with("LIST\l")>
                 return ${entry.nameSentenceCase}.fromBytes(data);
 <#elseif entry.primitiveType>
                 return ${entry.nameSentenceCase}.fromBytes(data);
 <#elseif entry.primitiveTypeArray>
-                return ${entry.nameSentenceCase}.fromBytes(data);
+                // TODO
+                return null;
 <#elseif entry.name == "mimdId">
                 return MimdId.fromBytes(data);
 <#else>

@@ -37,6 +37,17 @@ public class ${nameSentenceCase} implements IMimdMetadataValue {
     }
 
     /**
+     * Create ${nameSentenceCase} from encoded bytes with offset.
+     *
+     * @param bytes Encoded byte array
+     * @param offset the offset into the byte array to start extracting the value
+     * @param length the number of bytes to read from the array (starting with the offset)
+     */
+    public ${nameSentenceCase}(byte[] bytes, int offset, int length) {
+        this.stringValue = new String(bytes, offset, length, StandardCharsets.UTF_8);
+    }
+
+    /**
      * Create ${nameSentenceCase} from encoded bytes.
      *
      * @param bytes Encoded byte array

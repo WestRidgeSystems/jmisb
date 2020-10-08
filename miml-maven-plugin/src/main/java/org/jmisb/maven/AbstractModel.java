@@ -19,6 +19,9 @@ public class AbstractModel {
     }
 
     public String getName() {
+        if (name.equals("Object")) {
+            return "PayloadObject";
+        }
         return name;
     }
 

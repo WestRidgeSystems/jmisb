@@ -31,6 +31,9 @@ public class ClassModelEntry {
     }
 
     public String getName() {
+        if (name.equals("class")) {
+            return "klass";
+        }
         return name;
     }
 
@@ -76,10 +79,11 @@ public class ClassModelEntry {
     }
 
     public boolean isPrimitiveTypeArray() {
-        return typeName.startsWith("Real[]")
+        return typeName.startsWith("Real[")
                 || typeName.equals("String[]")
-                || typeName.equals("Integer[]")
-                || typeName.equals("UInt[]");
+                || typeName.startsWith("Integer[]")
+                || typeName.startsWith("UInt[")
+                || typeName.equals("Boolean[][]");
     }
 
     public void setMinValue(Double minValue) {

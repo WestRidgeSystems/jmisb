@@ -89,9 +89,6 @@ public class CodeGenerator {
     }
 
     private void generateJava(ClassModel classModel) {
-        if (classModel.isIsAbstract()) {
-            return;
-        }
         try {
             log("Generating classes for " + classModel.getName());
             String packagePart = classModel.getDirectoryPackagePart();
@@ -99,11 +96,15 @@ public class CodeGenerator {
             outputSourceDirectory.mkdirs();
             File outputTestDirectory = makeOutputTestDirectory(classModel);
             incorporateIncludes(classModel);
-            generateMetadataKey(outputSourceDirectory, classModel);
-            generateLocalSet(outputSourceDirectory, classModel);
+            if (!classModel.isIsAbstract()) {
+                generateMetadataKey(outputSourceDirectory, classModel);
+                generateLocalSet(outputSourceDirectory, classModel);
+            }
             generateComponentClasses(outputSourceDirectory, classModel);
-            generateMetadataKeyTests(outputTestDirectory, classModel);
-            generateLocalSetTests(outputTestDirectory, classModel);
+            if (!classModel.isIsAbstract()) {
+                generateMetadataKeyTests(outputTestDirectory, classModel);
+                generateLocalSetTests(outputTestDirectory, classModel);
+            }
             generateComponentClassTests(outputTestDirectory, classModel);
         } catch (TemplateException | IOException ex) {
             log("Failed to generate classes for " + classModel.getName());
@@ -166,6 +167,10 @@ public class CodeGenerator {
     private void generateComponentClasses(File targetDirectory, ClassModel classModel)
             throws TemplateException, IOException {
         for (ClassModelEntry entry : classModel.getEntries()) {
+            if ((entry.getNumber() < 33) && (!classModel.isIsAbstract())) {
+                // We don't want to regenerate "Base" components in every namespace
+                continue;
+            }
             if (entry.getTypeName().equals("String")) {
                 processClassTemplate(targetDirectory, entry, "stringClass.ftl");
             } else if (entry.getTypeName().equals("UInt")) {
@@ -203,6 +208,10 @@ public class CodeGenerator {
             throws TemplateException, IOException {
         String packagePart = classModel.getDirectoryPackagePart();
         for (ClassModelEntry entry : classModel.getEntries()) {
+            if ((entry.getNumber() < 33) && (!classModel.isIsAbstract())) {
+                // We don't want to regenerate "Base" component tests in every namespace
+                continue;
+            }
             if (entry.getTypeName().equals("String")) {
                 processClassTestTemplate(outputTestDirectory, entry, "stringClassTest.ftl");
             } else if (entry.getTypeName().equals("UInt")) {

@@ -11,6 +11,19 @@ import org.testng.annotations.Test;
 /** Unit tests for ${nameSentenceCase} */
 public class ${nameSentenceCase}Test {
 
+<#if minValue??>
+    @Test
+    public void displayName() {
+        ${nameSentenceCase} uut = new ${nameSentenceCase}(${minValue});
+        assertEquals(uut.getDisplayName(), "${nameSentenceCase}");
+    }
+
+    @Test
+    public void displayableValue() {
+        ${nameSentenceCase} uut = new ${nameSentenceCase}(${minValue});
+        assertEquals(uut.getDisplayableValue(), "${minValue} ${units}");
+    }
+<#else>
     @Test
     public void displayName() {
         ${nameSentenceCase} uut = new ${nameSentenceCase}(0);
@@ -22,6 +35,7 @@ public class ${nameSentenceCase}Test {
         ${nameSentenceCase} uut = new ${nameSentenceCase}(0);
         assertEquals(uut.getDisplayableValue(), "0 ${units}");
     }
+</#if>
 
     @Test
     public void fromBytes1() throws KlvParseException {
@@ -41,11 +55,19 @@ public class ${nameSentenceCase}Test {
         assertEquals(uut.getBytes(), new byte[]{0x01});
     }
 
+<#if maxValue?? && maxValue < 255>
+    @Test
+    public void getBytesMax() throws KlvParseException {
+        ${nameSentenceCase} uut = new ${nameSentenceCase}(${maxValue});
+        assertEquals(uut.getBytes(), new byte[]{(byte)${maxValue}});
+    }
+<#else>
     @Test
     public void getBytes255() {
         ${nameSentenceCase} uut = new ${nameSentenceCase}(255);
         assertEquals(uut.getBytes(), new byte[]{(byte)0xFF});
     }
+</#if>
 
     @Test (expectedExceptions = KlvParseException.class)
     public void fromBytesBadLengthConstructor() throws KlvParseException {
@@ -63,12 +85,6 @@ public class ${nameSentenceCase}Test {
     }
 
 <#if minValue??>
-    @Test
-    public void minValue() throws KlvParseException {
-        ${nameSentenceCase} uut = new ${nameSentenceCase}(${minValue});
-        assertEquals(uut.getValue(), ${minValue});
-    }
-
     @Test (expectedExceptions = IllegalArgumentException.class)
     public void minValueTooSmall() throws KlvParseException {
         new ${nameSentenceCase}(${minValue} - 1);

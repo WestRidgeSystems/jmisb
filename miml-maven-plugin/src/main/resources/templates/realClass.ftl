@@ -49,7 +49,11 @@ public class ${nameSentenceCase} implements IMimdMetadataValue {
     /**
      * Create ${nameSentenceCase} from encoded bytes.
      *
+<#if minValue?? && maxValue??>
+     * @param bytes Encoded byte array
+<#else>
      * @param bytes Encoded byte array (4 or 8 bytes)
+</#if>
      * @throws KlvParseException if the array could not be parsed
      */
     public ${nameSentenceCase}(byte[] bytes) throws KlvParseException {
@@ -65,6 +69,24 @@ public class ${nameSentenceCase} implements IMimdMetadataValue {
         }
     }
 
+<#if minValue?? && maxValue??>
+    /**
+     * Create ${nameSentenceCase} from encoded bytes with offset.
+     *
+     * @param bytes Encoded byte array
+     * @param offset the offset into the byte array to start decoding
+     * @param length the number of bytes to decode
+     * @throws KlvParseException if the array could not be parsed
+     */
+    public ${nameSentenceCase}(byte[] bytes, int offset, int length) throws KlvParseException {
+        try {
+            FpEncoder decoder = new FpEncoder(${minValue}, ${maxValue}, length);
+            this.doubleValue = decoder.decode(bytes, offset);
+        } catch (IllegalArgumentException ex) {
+            throw new KlvParseException(ex.getMessage());
+        }
+    }
+</#if>
     /**
      * Create ${nameSentenceCase} from encoded bytes.
      *
