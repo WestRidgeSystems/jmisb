@@ -32,6 +32,8 @@ public class UniversalLabelTest {
 
         Assert.assertNotEquals(one, three);
         Assert.assertNotEquals(two, three);
+        Assert.assertFalse(one.equals(null));
+        Assert.assertFalse(one.equals("some string"));
     }
 
     @Test(expectedExceptions = IllegalArgumentException.class)
@@ -45,6 +47,36 @@ public class UniversalLabelTest {
         byte[] bytes =
                 new byte[] {
                     0x07, 0x0e, 0x2b, 0x34, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00,
+                    0x00, 0x00, 0x00
+                };
+        new UniversalLabel(bytes);
+    }
+
+    @Test(expectedExceptions = IllegalArgumentException.class)
+    public void testBadLength() {
+        byte[] bytes =
+                new byte[] {
+                    0x06, 0x0f, 0x2b, 0x34, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00,
+                    0x00, 0x00, 0x00
+                };
+        new UniversalLabel(bytes);
+    }
+
+    @Test(expectedExceptions = IllegalArgumentException.class)
+    public void testBadCode() {
+        byte[] bytes =
+                new byte[] {
+                    0x06, 0x0e, 0x2a, 0x34, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00,
+                    0x00, 0x00, 0x00
+                };
+        new UniversalLabel(bytes);
+    }
+
+    @Test(expectedExceptions = IllegalArgumentException.class)
+    public void testBadDesignator() {
+        byte[] bytes =
+                new byte[] {
+                    0x06, 0x0e, 0x2b, 0x3e, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00,
                     0x00, 0x00, 0x00
                 };
         new UniversalLabel(bytes);
