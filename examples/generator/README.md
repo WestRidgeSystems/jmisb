@@ -28,6 +28,8 @@ There will be no command line output, but it will create a file called `generato
 
 Note that it reads a file called `test.jpg`.
 
+There are command line options - pass `--help` to discover configuration options.
+
 ## Helping us
 
 Please provide pull requests.

@@ -88,10 +88,11 @@ import org.jmisb.api.klv.st0903.vtracker.Velocity;
 import org.jmisb.api.klv.st0903.vtracker.VelocityPack;
 import org.jmisb.api.klv.st1204.CoreIdentifier;
 import org.jmisb.api.video.IVideoFileOutput;
+import org.jmisb.api.video.KlvFormat;
 import org.jmisb.api.video.MetadataFrame;
+import org.jmisb.api.video.VideoFileOutput;
 import org.jmisb.api.video.VideoFrame;
 import org.jmisb.api.video.VideoOutputOptions;
-import org.jmisb.api.video.VideoSystem;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -101,7 +102,6 @@ public class Generator {
     private final int height = 480;
     private final int bitRate = 500_000;
     private final int gopSize = 30;
-    private final boolean hasKlv = true;
     private final double frameRate = 15.0;
     private final double frameDuration = 1.0 / frameRate;
     private final int duration = 90;
@@ -110,24 +110,48 @@ public class Generator {
     private final double sensorAltitude = 1258.3;
     private final double slantRange = 2000.0;
     private final String missionId = "IntTesting";
-    private final byte version0601 = 16; // Last version supported by CMITT 1.3.0 is 9
-    private final byte version0102 = 12;
-    private final String filename = "generator_output.mpeg";
+    private KlvFormat klvFormat = KlvFormat.Asynchronous;
+    private byte version0601 = 16; // Last version supported by CMITT 1.3.0 is 9
+    private byte version0102 = 12;
+    private byte version0903 = 5;
+    private String filename = "generator_output.mpeg";
 
     private static final Logger LOG = LoggerFactory.getLogger(Generator.class);
 
     public Generator() {}
 
+    public void setKlvFormat(KlvFormat klvFormat) {
+        this.klvFormat = klvFormat;
+    }
+
+    public void setVersion0601(byte version0601) {
+        this.version0601 = version0601;
+    }
+
+    public void setVersion0102(byte version0102) {
+        this.version0102 = version0102;
+    }
+
+    public void setVersion0903(byte version0903) {
+        this.version0903 = version0903;
+    }
+
+    public void setOutputFile(String filename) {
+        this.filename = filename;
+    }
+
     public void generate() {
 
+        showConfiguration();
         CoreIdentifier coreIdentifier = new CoreIdentifier();
         coreIdentifier.setMinorUUID(UUID.randomUUID());
         coreIdentifier.setVersion(1);
 
+        // TODO: rework to make this a command line option
         try (IVideoFileOutput output =
-                VideoSystem.createOutputFile(
+                new VideoFileOutput(
                         new VideoOutputOptions(
-                                width, height, bitRate, frameRate, gopSize, hasKlv))) {
+                                width, height, bitRate, frameRate, gopSize, klvFormat))) {
             output.open(filename);
 
             // Write some frames
@@ -198,20 +222,27 @@ public class Generator {
                 values.put(
                         UasDatalinkTag.SecurityLocalMetadataSet,
                         new NestedSecurityMetadata(getSecurityLs(i / switchingValue)));
-                if ((i / switchingValue) % 2 == 0) {
-                    values.put(
-                            UasDatalinkTag.CountryCodes,
-                            new CountryCodes(
-                                    CountryCodingMethod.GENC_THREE_LETTER, "CAN", "", "FRA"));
-                } else {
-                    values.put(
-                            UasDatalinkTag.CountryCodes,
-                            new CountryCodes(
-                                    CountryCodingMethod.ISO3166_THREE_LETTER, "AUS", "CAN", "NZL"));
+                if (this.version0601 > 12) {
+                    if ((i / switchingValue) % 2 == 0) {
+                        values.put(
+                                UasDatalinkTag.CountryCodes,
+                                new CountryCodes(
+                                        CountryCodingMethod.GENC_THREE_LETTER, "CAN", "", "FRA"));
+                    } else {
+                        values.put(
+                                UasDatalinkTag.CountryCodes,
+                                new CountryCodes(
+                                        CountryCodingMethod.ISO3166_THREE_LETTER,
+                                        "AUS",
+                                        "CAN",
+                                        "NZL"));
+                    }
                 }
                 values.put(
                         UasDatalinkTag.VmtiLocalDataSet, new NestedVmtiLocalSet(getVmtiLocalSet()));
-                values.put(UasDatalinkTag.PayloadList, getPayloadList());
+                if (this.version0601 > 12) {
+                    values.put(UasDatalinkTag.PayloadList, getPayloadList());
+                }
                 UasDatalinkMessage message = new UasDatalinkMessage(values);
 
                 output.addVideoFrame(new VideoFrame(image, pts * 1.0e-6));
@@ -247,7 +278,7 @@ public class Generator {
                     SecurityMetadataKey.OcCodingMethod,
                     new OcMethod(CountryCodingMethod.ISO3166_TWO_LETTER));
             values.put(
-                    SecurityMetadataKey.ObjectCountryCodes, new ObjectCountryCodeString("AU,NZ"));
+                    SecurityMetadataKey.ObjectCountryCodes, new ObjectCountryCodeString("AU;NZ"));
         }
 
         values.put(SecurityMetadataKey.Version, new ST0102Version(version0102));
@@ -258,7 +289,7 @@ public class Generator {
     private VmtiLocalSet getVmtiLocalSet() {
         VTargetSeries vmtiTargets = getVmtiTargets();
         Map<VmtiMetadataKey, IVmtiMetadataValue> values = new TreeMap<>();
-        values.put(VmtiMetadataKey.VersionNumber, new ST0903Version(5));
+        values.put(VmtiMetadataKey.VersionNumber, new ST0903Version(this.version0903));
         values.put(
                 VmtiMetadataKey.NumberOfReportedTargets,
                 new VmtiReportedTargetCount(vmtiTargets.getVTargets().size()));
@@ -273,8 +304,10 @@ public class Generator {
                 new VmtiTextString(VmtiTextString.SOURCE_SENSOR, "WideScope"));
         values.put(VmtiMetadataKey.FrameWidth, new FrameWidth(1024));
         values.put(VmtiMetadataKey.FrameHeight, new FrameHeight(768));
-        values.put(VmtiMetadataKey.AlgorithmSeries, new AlgorithmSeries(getAlgorithms()));
-        values.put(VmtiMetadataKey.OntologySeries, new OntologySeries(getOntologies()));
+        if (this.version0903 > 4) {
+            values.put(VmtiMetadataKey.AlgorithmSeries, new AlgorithmSeries(getAlgorithms()));
+            values.put(VmtiMetadataKey.OntologySeries, new OntologySeries(getOntologies()));
+        }
         values.put(VmtiMetadataKey.VTargetSeries, vmtiTargets);
         return new VmtiLocalSet(values);
     }
@@ -296,7 +329,9 @@ public class Generator {
         targetData.put(VTargetMetadataKey.BoundaryTopLeft, new BoundaryTopLeft(280L * 1024 + 360));
         targetData.put(
                 VTargetMetadataKey.BoundaryBottomRight, new BoundaryBottomRight(320L * 1024 + 440));
-        targetData.put(VTargetMetadataKey.AlgorithmId, new AlgorithmId(1));
+        if (this.version0903 > 4) {
+            targetData.put(VTargetMetadataKey.AlgorithmId, new AlgorithmId(1));
+        }
         targetData.put(
                 VTargetMetadataKey.TargetLocation,
                 new TargetLocation(new LocationPack(-34.2, 143.2, 651.0, 8.0, 12.0, 14.0)));
@@ -350,7 +385,9 @@ public class Generator {
     private VTracker getVTrackerForTarget1() {
         Map<VTrackerMetadataKey, IVmtiMetadataValue> map = new TreeMap<>();
         map.put(VTrackerMetadataKey.detectionStatus, new DetectionStatus((byte) 0x01));
-        map.put(VTrackerMetadataKey.algorithmId, new AlgorithmId(2));
+        if (this.version0903 > 4) {
+            map.put(VTrackerMetadataKey.algorithmId, new AlgorithmId(2));
+        }
         Velocity velocity =
                 new Velocity(new VelocityPack(-10.2, 8.3, 0.2, 0.01, 0.02, 0.03, 0.12, 0.06, 0.09));
         map.put(VTrackerMetadataKey.velocity, velocity);
@@ -368,5 +405,50 @@ public class Generator {
         payloads.add(payload8);
         PayloadList payloadList = new PayloadList(payloads);
         return payloadList;
+    }
+
+    private void showConfiguration() {
+        System.out.println("Generating with configuration:");
+        System.out.println(toString());
+    }
+
+    @Override
+    public String toString() {
+        return "Generator{"
+                + "width="
+                + width
+                + ", height="
+                + height
+                + ", bitRate="
+                + bitRate
+                + ", gopSize="
+                + gopSize
+                + ", frameRate="
+                + frameRate
+                + ", frameDuration="
+                + frameDuration
+                + ", duration="
+                + duration
+                + ",\nsensorLatitude="
+                + sensorLatitude
+                + ", sensorLongitude="
+                + sensorLongitude
+                + ", sensorAltitude="
+                + sensorAltitude
+                + ", slantRange="
+                + slantRange
+                + ", missionId="
+                + missionId
+                + ",\nklvFormat="
+                + klvFormat
+                + ", version0601="
+                + version0601
+                + ", version0102="
+                + version0102
+                + ", version0903="
+                + version0903
+                + ",\nfilename="
+                + filename
+                + '}';
     }
 }

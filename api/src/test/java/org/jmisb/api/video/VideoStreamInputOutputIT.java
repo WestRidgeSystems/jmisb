@@ -69,7 +69,7 @@ public class VideoStreamInputOutputIT {
         try (IVideoStreamOutput output =
                 new VideoStreamOutput(
                         new VideoOutputOptions(
-                                width, height, bitRate, frameRate, gopSize, false))) {
+                                width, height, bitRate, frameRate, gopSize, KlvFormat.NoKlv))) {
             output.open(url);
             Assert.assertTrue(output.isOpen());
 
@@ -96,7 +96,13 @@ public class VideoStreamInputOutputIT {
 
         try (IVideoStreamOutput output =
                 new VideoStreamOutput(
-                        new VideoOutputOptions(width, height, bitRate, frameRate, gopSize, true))) {
+                        new VideoOutputOptions(
+                                width,
+                                height,
+                                bitRate,
+                                frameRate,
+                                gopSize,
+                                KlvFormat.Asynchronous))) {
             output.open(url);
 
             // Write some video and metadata frames
@@ -121,7 +127,12 @@ public class VideoStreamInputOutputIT {
             output =
                     new VideoStreamOutput(
                             new VideoOutputOptions(
-                                    width, height, bitRate, frameRate, gopSize, true));
+                                    width,
+                                    height,
+                                    bitRate,
+                                    frameRate,
+                                    gopSize,
+                                    KlvFormat.Asynchronous));
 
             output.open(url);
             Assert.assertTrue(output.isOpen());
@@ -137,7 +148,13 @@ public class VideoStreamInputOutputIT {
     public void testInvalidProtocol() {
         try (IVideoStreamOutput output =
                 new VideoStreamOutput(
-                        new VideoOutputOptions(width, height, bitRate, frameRate, gopSize, true))) {
+                        new VideoOutputOptions(
+                                width,
+                                height,
+                                bitRate,
+                                frameRate,
+                                gopSize,
+                                KlvFormat.Synchronous))) {
             output.open("http://127.0.0.1:30800/test.sdp");
         } catch (IOException ex) {
             Assert.fail("Caught IOException");
@@ -148,7 +165,13 @@ public class VideoStreamInputOutputIT {
     public void testInvalidAddress() throws IOException {
         try (IVideoStreamOutput output =
                 new VideoStreamOutput(
-                        new VideoOutputOptions(width, height, bitRate, frameRate, gopSize, true))) {
+                        new VideoOutputOptions(
+                                width,
+                                height,
+                                bitRate,
+                                frameRate,
+                                gopSize,
+                                KlvFormat.Asynchronous))) {
             output.open("udp://256.0.0.0:30800");
         }
     }
