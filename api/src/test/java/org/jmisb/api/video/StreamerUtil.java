@@ -66,7 +66,13 @@ public class StreamerUtil {
 
         try (IVideoStreamOutput output =
                 new VideoStreamOutput(
-                        new VideoOutputOptions(width, height, bitRate, frameRate, gopSize, true))) {
+                        new VideoOutputOptions(
+                                width,
+                                height,
+                                bitRate,
+                                frameRate,
+                                gopSize,
+                                KlvFormat.Asynchronous))) {
             output.open(url);
 
             double pts = 0.0;

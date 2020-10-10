@@ -34,6 +34,7 @@ public class VideoFileOutput extends VideoOutput implements IVideoFileOutput {
     private String filename;
 
     protected static final byte ASYNC_STREAM_ID = (byte) 0xBD;
+    protected static final byte SYNC_STREAM_ID = (byte) 0xFC;
 
     /**
      * Constructor.
@@ -129,7 +130,12 @@ public class VideoFileOutput extends VideoOutput implements IVideoFileOutput {
 
         AVPacket packet = convert(frame);
         BytePointer stream_id_side_data = new BytePointer(av_malloc(1)).capacity(1);
-        stream_id_side_data.put(ASYNC_STREAM_ID);
+        if (options.getMultiplexingMethod().equals(KlvFormat.Synchronous)) {
+            stream_id_side_data.put(SYNC_STREAM_ID);
+        } else {
+            stream_id_side_data.put(ASYNC_STREAM_ID);
+        }
+
         int ret;
         if ((ret =
                         av_packet_add_side_data(

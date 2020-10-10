@@ -8,5 +8,6 @@ target/
 
 # Data
 *.ts
+*.mpeg
 *.dat
 /api/nbproject/

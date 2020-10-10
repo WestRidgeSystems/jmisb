@@ -1,5 +1,7 @@
 package org.jmisb.api.video;
 
+import static org.bytedeco.ffmpeg.avcodec.AVCodecContext.FF_PROFILE_KLVA_ASYNC;
+import static org.bytedeco.ffmpeg.avcodec.AVCodecContext.FF_PROFILE_KLVA_SYNC;
 import static org.bytedeco.ffmpeg.global.avcodec.AV_CODEC_ID_H264;
 import static org.bytedeco.ffmpeg.global.avcodec.AV_CODEC_ID_SMPTE_KLV;
 import static org.bytedeco.ffmpeg.global.avcodec.av_packet_alloc;
@@ -58,6 +60,9 @@ import org.slf4j.LoggerFactory;
 /** Abstract base class for video output. */
 public abstract class VideoOutput extends VideoIO {
     private static Logger logger = LoggerFactory.getLogger(VideoOutput.class);
+
+    protected static final int METADATA_AU_HEADER_LEN = 5;
+
     protected VideoOutputOptions options;
 
     // Format
@@ -145,6 +150,11 @@ public abstract class VideoOutput extends VideoIO {
                         "avcodec_alloc_context3() error: Could not allocate video encoding context.");
             }
             klvCodecParams = avcodec_parameters_alloc();
+            if (options.getMultiplexingMethod().equals(KlvFormat.Synchronous)) {
+                klvCodecParams.profile(FF_PROFILE_KLVA_SYNC);
+            } else {
+                klvCodecParams.profile(FF_PROFILE_KLVA_ASYNC);
+            }
             klvCodecParams.codec_tag(FfmpegUtils.fourCcToTag("klva"));
             klvCodecParams.codec_type(AVMEDIA_TYPE_DATA);
             klvCodecParams.codec_id(AV_CODEC_ID_SMPTE_KLV);
@@ -402,9 +412,22 @@ public abstract class VideoOutput extends VideoIO {
 
         // Set packet data
         byte[] bytes = frame.getMisbMessage().frameMessage(false);
-        BytePointer bytePointer = new BytePointer(bytes);
-        packet.data(bytePointer);
-        packet.size(bytes.length);
+        if (options.getMultiplexingMethod().equals(KlvFormat.Synchronous)) {
+            byte[] metadata_au_cell = new byte[bytes.length + METADATA_AU_HEADER_LEN];
+            metadata_au_cell[0] = 0x00; /* metadata_service_id */
+            metadata_au_cell[1] = 0x01; /* TODO: fix sequence number */
+            metadata_au_cell[2] = (byte) 0b11011111;
+            metadata_au_cell[3] = (byte) (bytes.length >>> 8);
+            metadata_au_cell[4] = (byte) bytes.length;
+            System.arraycopy(bytes, 0, metadata_au_cell, METADATA_AU_HEADER_LEN, bytes.length);
+            BytePointer bytePointer = new BytePointer(metadata_au_cell);
+            packet.data(bytePointer);
+            packet.size(metadata_au_cell.length);
+        } else {
+            BytePointer bytePointer = new BytePointer(bytes);
+            packet.data(bytePointer);
+            packet.size(bytes.length);
+        }
 
         return packet;
     }

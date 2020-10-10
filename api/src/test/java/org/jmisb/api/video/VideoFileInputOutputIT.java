@@ -48,7 +48,12 @@ public class VideoFileInputOutputIT {
         try (IVideoFileOutput output =
                 new VideoFileOutput(
                         new VideoOutputOptions(
-                                width, height, bitRate, frameRate, gopSize, hasKlv))) {
+                                width,
+                                height,
+                                bitRate,
+                                frameRate,
+                                gopSize,
+                                KlvFormat.Asynchronous))) {
             output.open(filename);
 
             // Write some frames
@@ -150,7 +155,12 @@ public class VideoFileInputOutputIT {
         try (IVideoFileOutput output =
                 new VideoFileOutput(
                         new VideoOutputOptions(
-                                width, height, bitRate, frameRate, gopSize, hasKlv))) {
+                                width,
+                                height,
+                                bitRate,
+                                frameRate,
+                                gopSize,
+                                KlvFormat.Synchronous))) {
             output.open(filename);
 
             // Write some frames
