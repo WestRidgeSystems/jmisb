@@ -28,6 +28,7 @@ import org.jmisb.api.klv.st0601.FrameCenterLongitude;
 import org.jmisb.api.klv.st0601.HorizontalFov;
 import org.jmisb.api.klv.st0601.IUasDatalinkValue;
 import org.jmisb.api.klv.st0601.MiisCoreIdentifier;
+import org.jmisb.api.klv.st0601.NestedSARMILocalSet;
 import org.jmisb.api.klv.st0601.NestedSecurityMetadata;
 import org.jmisb.api.klv.st0601.NestedVmtiLocalSet;
 import org.jmisb.api.klv.st0601.PayloadList;
@@ -87,6 +88,13 @@ import org.jmisb.api.klv.st0903.vtracker.VTrackerMetadataKey;
 import org.jmisb.api.klv.st0903.vtracker.Velocity;
 import org.jmisb.api.klv.st0903.vtracker.VelocityPack;
 import org.jmisb.api.klv.st1204.CoreIdentifier;
+import org.jmisb.api.klv.st1206.DocumentVersion;
+import org.jmisb.api.klv.st1206.GrazingAngle;
+import org.jmisb.api.klv.st1206.GroundPlaneSquintAngle;
+import org.jmisb.api.klv.st1206.ISARMIMetadataValue;
+import org.jmisb.api.klv.st1206.LookDirection;
+import org.jmisb.api.klv.st1206.SARMILocalSet;
+import org.jmisb.api.klv.st1206.SARMIMetadataKey;
 import org.jmisb.api.video.IVideoFileOutput;
 import org.jmisb.api.video.KlvFormat;
 import org.jmisb.api.video.MetadataFrame;
@@ -114,6 +122,7 @@ public class Generator {
     private byte version0601 = 16; // Last version supported by CMITT 1.3.0 is 9
     private byte version0102 = 12;
     private byte version0903 = 5;
+    private boolean includeSARMI = false;
     private String filename = "generator_output.mpeg";
 
     private static final Logger LOG = LoggerFactory.getLogger(Generator.class);
@@ -134,6 +143,10 @@ public class Generator {
 
     public void setVersion0903(byte version0903) {
         this.version0903 = version0903;
+    }
+
+    public void setIncludeSARMI() {
+        includeSARMI = true;
     }
 
     public void setOutputFile(String filename) {
@@ -232,7 +245,7 @@ public class Generator {
                         values.put(
                                 UasDatalinkTag.CountryCodes,
                                 new CountryCodes(
-                                        CountryCodingMethod.ISO3166_THREE_LETTER,
+                                        CountryCodingMethod.GENC_THREE_LETTER,
                                         "AUS",
                                         "CAN",
                                         "NZL"));
@@ -242,6 +255,11 @@ public class Generator {
                         UasDatalinkTag.VmtiLocalDataSet, new NestedVmtiLocalSet(getVmtiLocalSet()));
                 if (this.version0601 > 12) {
                     values.put(UasDatalinkTag.PayloadList, getPayloadList());
+                }
+                if (includeSARMI) {
+                    values.put(
+                            UasDatalinkTag.SarMotionImageryMetadata,
+                            new NestedSARMILocalSet(getSARMILocalSet()));
                 }
                 UasDatalinkMessage message = new UasDatalinkMessage(values);
 
@@ -263,7 +281,7 @@ public class Generator {
 
         values.put(
                 SecurityMetadataKey.CcCodingMethod,
-                new CcMethod(CountryCodingMethod.ISO3166_TWO_LETTER));
+                new CcMethod(CountryCodingMethod.GENC_TWO_LETTER));
         values.put(
                 SecurityMetadataKey.ClassifyingCountry,
                 new SecurityMetadataString(SecurityMetadataString.CLASSIFYING_COUNTRY, "//AU"));
@@ -276,7 +294,7 @@ public class Generator {
         } else {
             values.put(
                     SecurityMetadataKey.OcCodingMethod,
-                    new OcMethod(CountryCodingMethod.ISO3166_TWO_LETTER));
+                    new OcMethod(CountryCodingMethod.GENC_TWO_LETTER));
             values.put(
                     SecurityMetadataKey.ObjectCountryCodes, new ObjectCountryCodeString("AU;NZ"));
         }
@@ -284,6 +302,15 @@ public class Generator {
         values.put(SecurityMetadataKey.Version, new ST0102Version(version0102));
 
         return new SecurityMetadataLocalSet(values);
+    }
+
+    private SARMILocalSet getSARMILocalSet() {
+        Map<SARMIMetadataKey, ISARMIMetadataValue> values = new TreeMap<>();
+        values.put(SARMIMetadataKey.GrazingAngle, new GrazingAngle(4.3));
+        values.put(SARMIMetadataKey.GroundPlaneSquintAngle, new GroundPlaneSquintAngle(5.2));
+        values.put(SARMIMetadataKey.LookDirection, new LookDirection((byte) 0));
+        values.put(SARMIMetadataKey.DocumentVersion, new DocumentVersion(0));
+        return new SARMILocalSet(values);
     }
 
     private VmtiLocalSet getVmtiLocalSet() {
@@ -399,10 +426,10 @@ public class Generator {
 
     private PayloadList getPayloadList() {
         List<Payload> payloads = new ArrayList<>();
-        Payload payload6 = new Payload(6, 0, "Box Brownie");
-        payloads.add(payload6);
-        Payload payload8 = new Payload(8, 4, "HF SAR");
-        payloads.add(payload8);
+        Payload payload0 = new Payload(0, 0, "Box Brownie");
+        payloads.add(payload0);
+        Payload payload1 = new Payload(1, 4, "HF SAR");
+        payloads.add(payload1);
         PayloadList payloadList = new PayloadList(payloads);
         return payloadList;
     }

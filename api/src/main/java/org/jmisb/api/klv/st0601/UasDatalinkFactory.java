@@ -211,8 +211,7 @@ public class UasDatalinkFactory {
             case MiisCoreIdentifier:
                 return new MiisCoreIdentifier(bytes);
             case SarMotionImageryMetadata:
-                // TODO Implement ST 1206
-                return new OpaqueValue(bytes);
+                return new NestedSARMILocalSet(bytes);
             case TargetWidthExtended:
                 return new TargetWidthExtended(bytes);
             case RangeImage:

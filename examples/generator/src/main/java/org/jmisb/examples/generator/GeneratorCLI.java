@@ -16,12 +16,18 @@ public class GeneratorCLI {
     public static void main(String[] args) {
         final Options commandLineOptions = new Options();
         commandLineOptions.addOption(
-                new Option(null, "st0102version", true, "The ST0102 version (default is 12"));
+                new Option(null, "st0102version", true, "The ST0102 version (default is 12)"));
         commandLineOptions.addOption(
-                new Option(null, "st0601version", true, "The ST0601 version (default is 16"));
+                new Option(null, "st0601version", true, "The ST0601 version (default is 16)"));
         commandLineOptions.addOption(
-                new Option(null, "st0903version", true, "The ST0903 version (default is 5"));
+                new Option(null, "st0903version", true, "The ST0903 version (default is 5)"));
         commandLineOptions.addOption(new Option("o", "outputFile", true, "Output file name"));
+        commandLineOptions.addOption(
+                new Option(
+                        null,
+                        "sarmi",
+                        false,
+                        "Include SAR Motion Imagery (implies synchronousMultiplex)"));
         commandLineOptions.addOption(
                 new Option("s", "synchronousMultiplex", false, "Use synchronous multiplexing."));
         commandLineOptions.addOption(new Option("h", "help", false, "Show help message"));
@@ -51,6 +57,10 @@ public class GeneratorCLI {
             }
             if (commandLine.hasOption("s")) {
                 generator.setKlvFormat(KlvFormat.Synchronous);
+            }
+            if (commandLine.hasOption("sarmi")) {
+                generator.setKlvFormat(KlvFormat.Synchronous);
+                generator.setIncludeSARMI();
             }
             generator.generate();
         } catch (ParseException ex) {
