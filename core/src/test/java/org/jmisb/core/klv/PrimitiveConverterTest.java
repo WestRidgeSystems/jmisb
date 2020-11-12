@@ -1202,6 +1202,115 @@ public class PrimitiveConverterTest {
     }
 
     @Test
+    public void testToFloat32() {
+        float f =
+                PrimitiveConverter.toFloat32(
+                        new byte[] {(byte) 0x40, (byte) 0x00, (byte) 0x00, (byte) 0x00});
+        Assert.assertEquals(f, 2.0f);
+    }
+
+    @Test(expectedExceptions = IllegalArgumentException.class)
+    public void testToFloat32_badLength() {
+        PrimitiveConverter.toFloat32(new byte[] {(byte) 0x40, (byte) 0x00, (byte) 0x00});
+    }
+
+    @Test
+    public void testToDouble64_4bytes() {
+        double d =
+                PrimitiveConverter.toFloat64(
+                        new byte[] {(byte) 0x40, (byte) 0x00, (byte) 0x00, (byte) 0x00});
+        Assert.assertEquals(d, 2.0);
+    }
+
+    @Test
+    public void testToDouble64_8bytes() {
+        double d =
+                PrimitiveConverter.toFloat64(
+                        new byte[] {
+                            (byte) 0x40,
+                            (byte) 0x00,
+                            (byte) 0x00,
+                            (byte) 0x00,
+                            (byte) 0x00,
+                            (byte) 0x00,
+                            (byte) 0x00,
+                            (byte) 0x00
+                        });
+        Assert.assertEquals(d, 2.0);
+    }
+
+    @Test
+    public void testToDouble64_offset() {
+        double d =
+                PrimitiveConverter.toFloat64(
+                        new byte[] {
+                            (byte) 0x01,
+                            (byte) 0x40,
+                            (byte) 0x00,
+                            (byte) 0x00,
+                            (byte) 0x00,
+                            (byte) 0x00,
+                            (byte) 0x00,
+                            (byte) 0x00,
+                            (byte) 0x00
+                        },
+                        1);
+        Assert.assertEquals(d, 2.0);
+    }
+
+    @Test(expectedExceptions = IllegalArgumentException.class)
+    public void testToDouble64_offset_badLength() {
+        PrimitiveConverter.toFloat64(
+                new byte[] {
+                    (byte) 0x01,
+                    (byte) 0x40,
+                    (byte) 0x00,
+                    (byte) 0x00,
+                    (byte) 0x00,
+                    (byte) 0x00,
+                    (byte) 0x00,
+                    (byte) 0x00
+                },
+                1);
+    }
+
+    @Test(expectedExceptions = IllegalArgumentException.class)
+    public void testToDouble64_badLength() {
+        PrimitiveConverter.toFloat64(
+                new byte[] {(byte) 0x40, (byte) 0x00, (byte) 0x00, (byte) 0x00, (byte) 0x05});
+    }
+
+    @Test
+    public void testToFloat32Negative() {
+        float f =
+                PrimitiveConverter.toFloat32(
+                        new byte[] {(byte) 0xC0, (byte) 0x80, (byte) 0x00, (byte) 0x00});
+        Assert.assertEquals(f, -4.0f);
+    }
+
+    @Test
+    public void testToFloat32WithOffset() {
+        float f =
+                PrimitiveConverter.toFloat32(
+                        new byte[] {
+                            (byte) 0x01,
+                            (byte) 0x02,
+                            (byte) 0x40,
+                            (byte) 0x00,
+                            (byte) 0x00,
+                            (byte) 0x00
+                        },
+                        2);
+        Assert.assertEquals(f, 2.0f);
+    }
+
+    @Test(expectedExceptions = IllegalArgumentException.class)
+    public void testToFloat32WithOffset_badLength() {
+        PrimitiveConverter.toFloat32(
+                new byte[] {(byte) 0x01, (byte) 0x02, (byte) 0x40, (byte) 0x00, (byte) 0x00}, 2);
+    }
+
+    @Test
     public void testFloat32ToBytesReuse() {
         byte[] bytes1 = PrimitiveConverter.float32ToBytes(1.0f);
         Assert.assertEquals(

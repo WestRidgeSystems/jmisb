@@ -451,6 +451,21 @@ public class PrimitiveConverter {
     }
 
     /**
+     * Extract a float (4 byte floating point value) from a byte array.
+     *
+     * @param bytes The array
+     * @param offset the offset to start the extraction from
+     * @return The floating point value
+     */
+    public static float toFloat32(byte[] bytes, int offset) {
+        if (bytes.length >= offset + Float.BYTES) {
+            return ByteBuffer.wrap(bytes, offset, Float.BYTES).getFloat();
+        } else {
+            throw new IllegalArgumentException("Invalid buffer length");
+        }
+    }
+
+    /**
      * Convert a 32-bit floating point number to a byte array
      *
      * @param val The float value
@@ -472,6 +487,21 @@ public class PrimitiveConverter {
             return ByteBuffer.wrap(bytes).getDouble();
         } else if (bytes.length == 4) {
             return ByteBuffer.wrap(bytes).getFloat();
+        } else {
+            throw new IllegalArgumentException("Invalid buffer length");
+        }
+    }
+
+    /**
+     * Extract a double (8 byte floating point value) from a byte array.
+     *
+     * @param bytes The array
+     * @param offset the offset to start the extraction from
+     * @return The double value
+     */
+    public static double toFloat64(byte[] bytes, int offset) {
+        if (bytes.length >= offset + Double.BYTES) {
+            return ByteBuffer.wrap(bytes, offset, Double.BYTES).getDouble();
         } else {
             throw new IllegalArgumentException("Invalid buffer length");
         }
