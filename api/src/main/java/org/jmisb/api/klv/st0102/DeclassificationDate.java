@@ -36,7 +36,6 @@ public class DeclassificationDate implements ISecurityMetadataValue {
                     "Declassification Date must have the format YYYYMMDD");
         }
 
-        // TODO: can we avoid the string allocation?
         String dateString = new String(bytes, StandardCharsets.US_ASCII);
         try {
             date = LocalDate.parse(dateString, BASIC_ISO_DATE);
