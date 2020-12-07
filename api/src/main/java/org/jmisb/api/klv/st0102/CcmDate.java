@@ -42,7 +42,6 @@ public class CcmDate implements ISecurityMetadataValue {
                     "Classifying Country Coding Method Version Date must have the format YYYY-MM-DD");
         }
 
-        // TODO: can we avoid the string allocation?
         String dateString = new String(bytes, StandardCharsets.US_ASCII);
         try {
             date = LocalDate.parse(dateString, ISO_LOCAL_DATE);
