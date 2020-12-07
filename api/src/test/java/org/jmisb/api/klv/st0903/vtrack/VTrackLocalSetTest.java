@@ -240,11 +240,11 @@ public class VTrackLocalSetTest extends LoggerChecks {
         VTrackLocalSet localSet = buildLocalSetValues();
         byte[] expectedBytes =
                 new byte[] {
-                    0x03, 0x0E, 0x44, 0x53, 0x54, 0x4F, 0x5F, 0x41, 0x44, 0x53, 0x53, 0x5F, 0x56,
-                    0x4D, 0x54, 0x49, 0x04, 0x01, 0x04,
+                    0x0a, 0x0E, 0x44, 0x53, 0x54, 0x4F, 0x5F, 0x41, 0x44, 0x53, 0x53, 0x5F, 0x56,
+                    0x4D, 0x54, 0x49, 0x0b, 0x01, 0x04, 0x0d, 0x01, 0x00
                 };
-        // TODO: fix
-        // assertEquals(localSet.frameMessage(true), expectedBytes);
+        byte[] framedMessage = localSet.frameMessage(true);
+        assertEquals(framedMessage, expectedBytes);
         assertTrue(localSet instanceof IMisbMessage);
         assertEquals(localSet.displayHeader(), "ST0903 VTrack");
         assertEquals(localSet.getUniversalLabel(), KlvConstants.VTrackLocalSetUl);
