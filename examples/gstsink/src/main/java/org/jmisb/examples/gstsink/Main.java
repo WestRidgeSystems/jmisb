@@ -2,6 +2,7 @@ package org.jmisb.examples.gstsink;
 
 import java.nio.ByteBuffer;
 import java.util.List;
+import org.freedesktop.gstreamer.Buffer;
 import org.freedesktop.gstreamer.Bus;
 import org.freedesktop.gstreamer.FlowReturn;
 import org.freedesktop.gstreamer.Gst;
@@ -29,7 +30,8 @@ public class Main {
                 (AppSink.NEW_SAMPLE)
                         (AppSink elem) -> {
                             Sample sample = elem.pullSample();
-                            ByteBuffer byteBuffer = sample.getBuffer().map(false);
+                            Buffer buffer = sample.getBuffer();
+                            ByteBuffer byteBuffer = buffer.map(false);
                             byte[] bytes = new byte[byteBuffer.capacity()];
                             byteBuffer.get(bytes);
                             try {
@@ -41,6 +43,7 @@ public class Main {
                             } catch (KlvParseException e) {
                                 System.err.println(e);
                             }
+                            buffer.unmap();
                             sample.dispose();
                             return FlowReturn.OK;
                         });
