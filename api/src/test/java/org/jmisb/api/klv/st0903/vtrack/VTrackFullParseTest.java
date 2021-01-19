@@ -15,6 +15,7 @@ import org.jmisb.api.klv.st0903.shared.VmtiTextString;
 import org.jmisb.api.klv.st0903.vtarget.TargetIdentifierKey;
 import org.jmisb.api.klv.st0903.vtarget.VChipSeries;
 import org.jmisb.api.klv.st0903.vtarget.VObjectSeries;
+import org.jmisb.api.klv.st0903.vtracker.Acceleration;
 import org.jmisb.api.klv.st0903.vtracker.BoundarySeries;
 import org.jmisb.api.klv.st0903.vtracker.DetectionStatus;
 import org.jmisb.api.klv.st0903.vtracker.EndTime;
@@ -157,7 +158,7 @@ public class VTrackFullParseTest {
                     0x65, // track item series
                     (byte) 0x82, // length of series
                     (byte) 0x02,
-                    (byte) 0x18,
+                    (byte) 0x3C,
                     (byte) 0x82, // length of first item
                     (byte) 0x01,
                     (byte) 0x01,
@@ -418,10 +419,9 @@ public class VTrackFullParseTest {
                     (byte) 0x42,
                     (byte) 0x60,
                     (byte) 0x82,
-                    // TODO: add more items to first TrackItem
                     (byte) 0x82, // Length of second item,
                     (byte) 0x01,
-                    (byte) 0x11,
+                    (byte) 0x35,
                     0x42, // item 2 id
                     0x01, // target timestamp
                     0x08,
@@ -476,6 +476,42 @@ public class VTrackFullParseTest {
                     0x02,
                     0x20,
                     0x02,
+                    0x13, // MiisId
+                    0x22,
+                    (byte) 0x01,
+                    (byte) 0x70,
+                    (byte) 0xF5,
+                    (byte) 0x92,
+                    (byte) 0xF0,
+                    (byte) 0x23,
+                    (byte) 0x73,
+                    (byte) 0x36,
+                    (byte) 0x4A,
+                    (byte) 0xF8,
+                    (byte) 0xAA,
+                    (byte) 0x91,
+                    (byte) 0x62,
+                    (byte) 0xC0,
+                    (byte) 0x0F,
+                    (byte) 0x2E,
+                    (byte) 0xB2,
+                    (byte) 0xDA,
+                    (byte) 0x16,
+                    (byte) 0xB7,
+                    (byte) 0x43,
+                    (byte) 0x41,
+                    (byte) 0x00,
+                    (byte) 0x08,
+                    (byte) 0x41,
+                    (byte) 0xA0,
+                    (byte) 0xBE,
+                    (byte) 0x36,
+                    (byte) 0x5B,
+                    (byte) 0x5A,
+                    (byte) 0xB9,
+                    (byte) 0x6A,
+                    (byte) 0x36,
+                    (byte) 0x45,
                     0x14, // Frame width
                     0x02,
                     0x03,
@@ -695,8 +731,6 @@ public class VTrackFullParseTest {
                     0x65,
                     0x73,
                     0x74,
-
-                    // TODO: add more items to second TrackItem
                     0x67, // Ontology Series
                     0x5F,
                     0x53, // Length of Ontology entry 1
@@ -880,7 +914,7 @@ public class VTrackFullParseTest {
         assertTrue(trackItemSeries.getIdentifiers().contains(new TargetIdentifierKey(66)));
         VTrackItem trackItem0 = (VTrackItem) trackItemSeries.getField(new TargetIdentifierKey(3));
         assertEquals(trackItem0.getTargetIdentifier(), 3);
-        assertEquals(trackItem0.getIdentifiers().size(), 16); // TODO: more to go
+        assertEquals(trackItem0.getIdentifiers().size(), 16);
         assertTrue(
                 trackItem0.getIdentifiers().contains(VTrackItemMetadataKey.BoundaryTopLeftPixNum));
         assertEquals(
@@ -929,14 +963,23 @@ public class VTrackFullParseTest {
                         .getField(VTrackItemMetadataKey.TargetBoundarySeries)
                         .getDisplayableValue(),
                 "[Location Series]");
-        assertTrue(trackItem0.getIdentifiers().contains(VTrackItemMetadataKey.FpaIndex));
-        assertEquals(
-                trackItem0.getField(VTrackItemMetadataKey.FpaIndex).getDisplayableValue(),
-                "Row 3, Col 2");
         assertTrue(trackItem0.getIdentifiers().contains(VTrackItemMetadataKey.Velocity));
         assertEquals(
                 trackItem0.getField(VTrackItemMetadataKey.Velocity).getDisplayableValue(),
                 "[Velocity]");
+        assertTrue(trackItem0.getIdentifiers().contains(VTrackItemMetadataKey.Acceleration));
+        assertEquals(
+                trackItem0.getField(VTrackItemMetadataKey.Acceleration).getDisplayableValue(),
+                "[Acceleration]");
+        Acceleration trackItem0acceleration =
+                (Acceleration) trackItem0.getField(VTrackItemMetadataKey.Acceleration);
+        assertEquals(trackItem0acceleration.getAcceleration().getEast(), 300.0, 0.0001);
+        assertEquals(trackItem0acceleration.getAcceleration().getNorth(), 200.0, 0.0001);
+        assertEquals(trackItem0acceleration.getAcceleration().getUp(), 100.0, 0.0001);
+        assertTrue(trackItem0.getIdentifiers().contains(VTrackItemMetadataKey.FpaIndex));
+        assertEquals(
+                trackItem0.getField(VTrackItemMetadataKey.FpaIndex).getDisplayableValue(),
+                "Row 3, Col 2");
         assertTrue(trackItem0.getIdentifiers().contains(VTrackItemMetadataKey.SensorHorizontalFov));
         assertEquals(
                 trackItem0
@@ -960,7 +1003,7 @@ public class VTrackFullParseTest {
                 trackItem0.getField(VTrackItemMetadataKey.VChip).getDisplayableValue(), "[VChip]");
         VTrackItem trackItem1 = (VTrackItem) trackItemSeries.getField(new TargetIdentifierKey(66));
         assertEquals(trackItem1.getTargetIdentifier(), 66);
-        assertEquals(trackItem1.getIdentifiers().size(), 14); // TODO: more to go
+        assertEquals(trackItem1.getIdentifiers().size(), 15);
         assertTrue(trackItem1.getIdentifiers().contains(VTrackItemMetadataKey.TargetTimeStamp));
         IVTrackItemMetadataValue targetTimeStampValue =
                 trackItem1.getField(VTrackItemMetadataKey.TargetTimeStamp);
@@ -992,26 +1035,30 @@ public class VTrackFullParseTest {
         assertEquals(
                 trackItem1.getField(VTrackItemMetadataKey.TargetPriority).getDisplayableValue(),
                 "5");
-        assertTrue(trackItem1.getIdentifiers().contains(VTrackItemMetadataKey.TargetLocation));
-        assertEquals(
-                trackItem1.getField(VTrackItemMetadataKey.TargetLocation).getDisplayableValue(),
-                "[Location]");
         assertTrue(trackItem1.getIdentifiers().contains(VTrackItemMetadataKey.TargetColor));
         assertEquals(
                 trackItem1.getField(VTrackItemMetadataKey.TargetColor).getDisplayableValue(),
                 "[218, 165, 32]");
+        assertTrue(trackItem1.getIdentifiers().contains(VTrackItemMetadataKey.TargetLocation));
+        assertEquals(
+                trackItem1.getField(VTrackItemMetadataKey.TargetLocation).getDisplayableValue(),
+                "[Location]");
         assertTrue(trackItem1.getIdentifiers().contains(VTrackItemMetadataKey.VideoFrameNumber));
         assertEquals(
                 trackItem1.getField(VTrackItemMetadataKey.VideoFrameNumber).getDisplayableValue(),
                 "8194");
-        assertTrue(trackItem1.getIdentifiers().contains(VTrackItemMetadataKey.FrameWidth));
+        assertTrue(trackItem1.getIdentifiers().contains(VTrackItemMetadataKey.MiisId));
         assertEquals(
-                trackItem1.getField(VTrackItemMetadataKey.FrameHeight).getDisplayableValue(),
-                "81928px");
+                trackItem1.getField(VTrackItemMetadataKey.MiisId).getDisplayableValue(),
+                "0170:F592-F023-7336-4AF8-AA91-62C0-0F2E-B2DA/16B7-4341-0008-41A0-BE36-5B5A-B96A-3645:D3");
         assertTrue(trackItem1.getIdentifiers().contains(VTrackItemMetadataKey.FrameWidth));
         assertEquals(
                 trackItem1.getField(VTrackItemMetadataKey.FrameWidth).getDisplayableValue(),
                 "895px");
+        assertTrue(trackItem1.getIdentifiers().contains(VTrackItemMetadataKey.FrameHeight));
+        assertEquals(
+                trackItem1.getField(VTrackItemMetadataKey.FrameHeight).getDisplayableValue(),
+                "81928px");
         assertTrue(trackItem1.getIdentifiers().contains(VTrackItemMetadataKey.VMask));
         assertEquals(
                 trackItem1.getField(VTrackItemMetadataKey.VMask).getDisplayableValue(), "[VMask]");
