@@ -8,25 +8,28 @@ import org.jmisb.api.klv.BerDecoder;
 import org.jmisb.api.klv.BerEncoder;
 import org.jmisb.api.klv.BerField;
 import org.jmisb.api.klv.st0903.IVmtiMetadataValue;
-import org.jmisb.api.klv.st0903.vtarget.TargetLocation;
+import org.jmisb.api.klv.st0903.shared.EncodingMode;
+import org.jmisb.api.klv.st0903.shared.IVTrackMetadataValue;
 import org.jmisb.api.klv.st0903.shared.LocationPack;
+import org.jmisb.api.klv.st0903.vtarget.TargetLocation;
 import org.jmisb.core.klv.ArrayUtils;
 
 /**
  * Boundary Series (ST0903 VTracker Local Set Tag 5).
- * <p>
- * From ST0903:
+ *
+ * <p>From ST0903:
+ *
  * <blockquote>
- * BoundarySeries is of type BoundarySeries that specifies a bounding area or
- * volume, which encloses the full extent of VMTI detections for the entity. For
- * a simple, planar bounding box, the area will generally lie on the surface of
- * the Earth (although not necessarily, depending upon the Height values
- * provided) defining the “footprint” of the track. By specifying additional
- * vertices, enables describing complex, multifaceted volumes.
+ *
+ * BoundarySeries is of type BoundarySeries that specifies a bounding area or volume, which encloses
+ * the full extent of VMTI detections for the entity. For a simple, planar bounding box, the area
+ * will generally lie on the surface of the Earth (although not necessarily, depending upon the
+ * Height values provided) defining the “footprint” of the track. By specifying additional vertices,
+ * enables describing complex, multifaceted volumes.
+ *
  * </blockquote>
  */
-public class BoundarySeries implements IVmtiMetadataValue
-{
+public class BoundarySeries implements IVmtiMetadataValue, IVTrackMetadataValue {
     private final List<LocationPack> boundary = new ArrayList<>();
 
     /**
@@ -34,8 +37,7 @@ public class BoundarySeries implements IVmtiMetadataValue
      *
      * @param locations the Location Packs to add.
      */
-    public BoundarySeries(List<LocationPack> locations)
-    {
+    public BoundarySeries(List<LocationPack> locations) {
         boundary.addAll(locations);
     }
 
@@ -44,32 +46,53 @@ public class BoundarySeries implements IVmtiMetadataValue
      *
      * @param bytes Encoded byte array comprising the BoundarySeries
      * @throws KlvParseException if the byte array could not be parsed.
+     * @deprecated use {@link #BoundarySeries(byte[], EncodingMode)} to explicitly specify the
+     *     encoding mode use in the embedded LocationPack floating point values.
      */
-    public BoundarySeries(byte[] bytes) throws KlvParseException
-    {
+    @Deprecated
+    public BoundarySeries(byte[] bytes) throws KlvParseException {
+        this(bytes, EncodingMode.IMAPB);
+    }
+
+    /**
+     * Create from encoded bytes.
+     *
+     * <p>ST0903 changed the encoding for the Location to 2-byte IMAPB (4-byte IMAPB for Latitude /
+     * Longitude) in ST0903.4. Earlier versions used a set of unsigned integer encoding that was
+     * then mapped into the same ranges that the IMAPB encoding uses. Which formatting applies can
+     * only be determined from the ST0903 version in the parent {@link
+     * org.jmisb.api.klv.st0903.VmtiLocalSet}. The {@code compatibilityMode} parameter determines
+     * whether to parse using the legacy encoding or current encoding.
+     *
+     * <p>Note that this only affects parsing. Output encoding is IMAPB (ST0903.4 or later).
+     *
+     * @param bytes Encoded byte array comprising the BoundarySeries
+     * @param encodingMode which encoding mode the {@code bytes} parameter uses.
+     * @throws KlvParseException if the byte array could not be parsed.
+     */
+    public BoundarySeries(byte[] bytes, EncodingMode encodingMode) throws KlvParseException {
         int index = 0;
-        while (index < bytes.length - 1)
-        {
-            BerField lengthField = BerDecoder.decode(bytes, index, true);
+        while (index < bytes.length - 1) {
+            BerField lengthField = BerDecoder.decode(bytes, index, false);
             index += lengthField.getLength();
             byte[] packBytes = Arrays.copyOfRange(bytes, index, index + lengthField.getValue());
-            LocationPack location = TargetLocation.targetLocationPackFromBytes(packBytes);
+            LocationPack location =
+                    TargetLocation.targetLocationPackFromBytes(packBytes, encodingMode);
             boundary.add(location);
             index += lengthField.getValue();
         }
     }
 
     @Override
-    public byte[] getBytes()
-    {
+    public byte[] getBytes() {
         int len = 0;
         List<byte[]> chunks = new ArrayList<>();
-        for (LocationPack location: getLocations())
-        {
+        for (LocationPack location : getLocations()) {
             byte[] localSetBytes = TargetLocation.serialiseLocationPack(location);
             byte[] lengthBytes = BerEncoder.encode(localSetBytes.length);
             chunks.add(lengthBytes);
-            len += lengthBytes.length;;
+            len += lengthBytes.length;
+            ;
             chunks.add(localSetBytes);
             len += localSetBytes.length;
         }
@@ -77,14 +100,12 @@ public class BoundarySeries implements IVmtiMetadataValue
     }
 
     @Override
-    public String getDisplayableValue()
-    {
+    public String getDisplayableValue() {
         return "[Location Series]";
     }
 
     @Override
-    public String getDisplayName()
-    {
+    public String getDisplayName() {
         return "Boundary";
     }
 
@@ -93,8 +114,7 @@ public class BoundarySeries implements IVmtiMetadataValue
      *
      * @return the list of Target Locations.
      */
-    public List<LocationPack> getLocations()
-    {
+    public List<LocationPack> getLocations() {
         return boundary;
     }
 }

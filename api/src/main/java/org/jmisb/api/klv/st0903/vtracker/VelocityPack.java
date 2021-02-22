@@ -3,30 +3,25 @@ package org.jmisb.api.klv.st0903.vtracker;
 /**
  * Velocity Pack.
  *
- * This data transfer object supports the VTarget Velocity.
- * <p>
- * The Velocity DLP structure captures data about the velocity of a moving
- * object. The DLP is a truncation pack where groups of data are optional unless
- * needed (truncated from the end only). There are three defined groups. The
- * first, and highest priority group includes East, North and Up velocity
- * components; these provide the measurements of velocity along the coordinate
- * axes of the East-North-Up coordinate system specified by the Location
- * Truncation Pack for the location of the moving object. The second group,
- * Standard Deviations and medium priority group, provides standard deviations
- * for the first group measurements. The third group, Correlation Coefficients
- * and lowest priority group, provides three correlation coefficients for values
- * in the first group.
- * <p>
- * East, North and Up are always required.
- * <p>
- * If setting individual components, be aware that the standard deviations are
- * conceptually a single group. Similarly, the correlation values are "grouped".
- * Unless all the elements in a group are set, it won't make sense. Further, if
- * the correlation group values are set, the standard deviation group values
- * also need to be set.
+ * <p>This data transfer object supports the VTarget Velocity.
+ *
+ * <p>The Velocity DLP structure captures data about the velocity of a moving object. The DLP is a
+ * truncation pack where groups of data are optional unless needed (truncated from the end only).
+ * There are three defined groups. The first, and highest priority group includes East, North and Up
+ * velocity components; these provide the measurements of velocity along the coordinate axes of the
+ * East-North-Up coordinate system specified by the Location Truncation Pack for the location of the
+ * moving object. The second group, Standard Deviations and medium priority group, provides standard
+ * deviations for the first group measurements. The third group, Correlation Coefficients and lowest
+ * priority group, provides three correlation coefficients for values in the first group.
+ *
+ * <p>East, North and Up are always required.
+ *
+ * <p>If setting individual components, be aware that the standard deviations are conceptually a
+ * single group. Similarly, the correlation values are "grouped". Unless all the elements in a group
+ * are set, it won't make sense. Further, if the correlation group values are set, the standard
+ * deviation group values also need to be set.
  */
-public class VelocityPack
-{
+public class VelocityPack {
 
     private Double east;
     private Double north;
@@ -45,8 +40,7 @@ public class VelocityPack
      * @param north Velocity along the North axis of the East-North-Up coordinate system.
      * @param up Velocity along the Up axis of the East-North-Up coordinate system.
      */
-    public VelocityPack(Double east, Double north, Double up)
-    {
+    public VelocityPack(Double east, Double north, Double up) {
         this(east, north, up, null, null, null);
     }
 
@@ -60,8 +54,8 @@ public class VelocityPack
      * @param sigNorth Standard deviation along North axis.
      * @param sigUp Standard deviation along Up axis.
      */
-    public VelocityPack(Double east, Double north, Double up, Double sigEast, Double sigNorth, Double sigUp)
-    {
+    public VelocityPack(
+            Double east, Double north, Double up, Double sigEast, Double sigNorth, Double sigUp) {
         this(east, north, up, sigEast, sigNorth, sigUp, null, null, null);
     }
 
@@ -78,8 +72,16 @@ public class VelocityPack
      * @param rhoEastUp Correlation coefficient between East and Up components of error.
      * @param rhoNorthUp Correlation coefficient between North and Up components of error.
      */
-    public VelocityPack(Double east, Double north, Double up, Double sigEast, Double sigNorth, Double sigUp, Double rhoEastNorth, Double rhoEastUp, Double rhoNorthUp)
-    {
+    public VelocityPack(
+            Double east,
+            Double north,
+            Double up,
+            Double sigEast,
+            Double sigNorth,
+            Double sigUp,
+            Double rhoEastNorth,
+            Double rhoEastUp,
+            Double rhoNorthUp) {
         this.east = east;
         this.north = north;
         this.up = up;
@@ -96,8 +98,7 @@ public class VelocityPack
      *
      * @return Velocity in metres per second.
      */
-    public Double getEast()
-    {
+    public Double getEast() {
         return east;
     }
 
@@ -106,8 +107,7 @@ public class VelocityPack
      *
      * @param east Velocity in metres per second.
      */
-    public void setEast(Double east)
-    {
+    public void setEast(Double east) {
         this.east = east;
     }
 
@@ -116,8 +116,7 @@ public class VelocityPack
      *
      * @return Velocity in metres per second.
      */
-    public Double getNorth()
-    {
+    public Double getNorth() {
         return north;
     }
 
@@ -126,18 +125,16 @@ public class VelocityPack
      *
      * @param north Velocity in metres per second.
      */
-    public void setNorth(Double north)
-    {
+    public void setNorth(Double north) {
         this.north = north;
     }
 
     /**
-     * Get the vertical component of velocity
+     * Get the vertical component of velocity.
      *
      * @return Velocity in metres per second (up positive).
      */
-    public Double getUp()
-    {
+    public Double getUp() {
         return up;
     }
 
@@ -146,48 +143,47 @@ public class VelocityPack
      *
      * @param up Velocity in metres per second (up positive).
      */
-    public void setUp(Double up)
-    {
+    public void setUp(Double up) {
         this.up = up;
     }
 
     /**
      * Get the standard deviation for the velocity - East axis.
      *
-     * @return Standard deviation of the velocity with respect to the ENU coordinate system East axis.
+     * @return Standard deviation of the velocity with respect to the ENU coordinate system East
+     *     axis.
      */
-    public Double getSigEast()
-    {
+    public Double getSigEast() {
         return sigEast;
     }
 
     /**
      * Set the standard deviation for the velocity - East axis.
      *
-     * @param sigEast Standard deviation of the velocity with respect to the ENU coordinate system East axis.
+     * @param sigEast Standard deviation of the velocity with respect to the ENU coordinate system
+     *     East axis.
      */
-    public void setSigEast(Double sigEast)
-    {
+    public void setSigEast(Double sigEast) {
         this.sigEast = sigEast;
     }
 
     /**
      * Get the standard deviation for the velocity - North axis.
      *
-     * @return Standard deviation of the velocity with respect to the ENU coordinate system North axis.
+     * @return Standard deviation of the velocity with respect to the ENU coordinate system North
+     *     axis.
      */
-    public Double getSigNorth()
-    {
+    public Double getSigNorth() {
         return sigNorth;
     }
 
     /**
      * Set the standard deviation for the velocity - North axis.
      *
-     * @param sigNorth Standard deviation of the velocity with respect to the ENU coordinate system North axis.
+     * @param sigNorth Standard deviation of the velocity with respect to the ENU coordinate system
+     *     North axis.
      */
-    public void setSigNorth(Double sigNorth)
-    {
+    public void setSigNorth(Double sigNorth) {
         this.sigNorth = sigNorth;
     }
 
@@ -196,18 +192,17 @@ public class VelocityPack
      *
      * @return Standard deviation of the velocity with respect to the ENU coordinate system Up axis.
      */
-    public Double getSigUp()
-    {
+    public Double getSigUp() {
         return sigUp;
     }
 
     /**
      * Get the standard deviation for the velocity - Up axis.
      *
-     * @param sigUp Standard deviation of the velocity with respect to the ENU coordinate system Up axis.
+     * @param sigUp Standard deviation of the velocity with respect to the ENU coordinate system Up
+     *     axis.
      */
-    public void setSigUp(Double sigUp)
-    {
+    public void setSigUp(Double sigUp) {
         this.sigUp = sigUp;
     }
 
@@ -216,8 +211,7 @@ public class VelocityPack
      *
      * @return Correlation coefficient between the East and North components of error.
      */
-    public Double getRhoEastNorth()
-    {
+    public Double getRhoEastNorth() {
         return rhoEastNorth;
     }
 
@@ -226,8 +220,7 @@ public class VelocityPack
      *
      * @param rhoEastNorth Correlation coefficient between the East and North components of error.
      */
-    public void setRhoEastNorth(Double rhoEastNorth)
-    {
+    public void setRhoEastNorth(Double rhoEastNorth) {
         this.rhoEastNorth = rhoEastNorth;
     }
 
@@ -236,8 +229,7 @@ public class VelocityPack
      *
      * @return Correlation coefficient between the East and Up components of error.
      */
-    public Double getRhoEastUp()
-    {
+    public Double getRhoEastUp() {
         return rhoEastUp;
     }
 
@@ -246,8 +238,7 @@ public class VelocityPack
      *
      * @param rhoEastUp Correlation coefficient between the East and Up components of error.
      */
-    public void setRhoEastUp(Double rhoEastUp)
-    {
+    public void setRhoEastUp(Double rhoEastUp) {
         this.rhoEastUp = rhoEastUp;
     }
 
@@ -256,8 +247,7 @@ public class VelocityPack
      *
      * @return Correlation coefficient between the North and Up components of error.
      */
-    public Double getRhoNorthUp()
-    {
+    public Double getRhoNorthUp() {
         return rhoNorthUp;
     }
 
@@ -266,9 +256,7 @@ public class VelocityPack
      *
      * @param rhoNorthUp Correlation coefficient between the North and Up components of error.
      */
-    public void setRhoNorthUp(Double rhoNorthUp)
-    {
+    public void setRhoNorthUp(Double rhoNorthUp) {
         this.rhoNorthUp = rhoNorthUp;
     }
-
 }

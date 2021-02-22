@@ -3,11 +3,8 @@ package org.jmisb.core.klv;
 import java.util.Collection;
 import java.util.Formatter;
 
-/**
- * Utility methods for arrays
- */
-public class ArrayUtils
-{
+/** Utility methods for arrays */
+public class ArrayUtils {
     private ArrayUtils() {}
 
     /**
@@ -16,8 +13,7 @@ public class ArrayUtils
      * @param bytes The input array
      * @return The formatted string
      */
-    public static String toHexString(byte[] bytes)
-    {
+    public static String toHexString(byte[] bytes) {
         return internalToHex(bytes, 16, false);
     }
 
@@ -28,8 +24,7 @@ public class ArrayUtils
      * @param columns The number of values per row
      * @return The formatted string
      */
-    public static String toHexString(byte[] bytes, int columns)
-    {
+    public static String toHexString(byte[] bytes, int columns) {
         return internalToHex(bytes, columns, false);
     }
 
@@ -41,26 +36,19 @@ public class ArrayUtils
      * @param decorate If true, prepend "0x" to each byte value
      * @return The formatted string
      */
-    public static String toHexString(byte[] bytes, int columns, boolean decorate)
-    {
+    public static String toHexString(byte[] bytes, int columns, boolean decorate) {
         return internalToHex(bytes, columns, decorate);
     }
 
-    private static String internalToHex(byte[] bytes, int columns, boolean decorate)
-    {
+    private static String internalToHex(byte[] bytes, int columns, boolean decorate) {
         Formatter formatter = new Formatter();
-        for (int i = 0; i < bytes.length; i++)
-        {
-            if (i > 0 && i % columns == 0)
-            {
+        for (int i = 0; i < bytes.length; i++) {
+            if (i > 0 && i % columns == 0) {
                 formatter.format(System.lineSeparator());
             }
-            if (decorate)
-            {
+            if (decorate) {
                 formatter.format("0x%02x, ", bytes[i]);
-            }
-            else
-            {
+            } else {
                 formatter.format("%02x ", bytes[i]);
             }
         }
@@ -69,16 +57,15 @@ public class ArrayUtils
 
     /**
      * Concatenate a collection of byte arrays (chunks) sequentially into one big array
+     *
      * @param chunks The collection of chunks
      * @param totalLength The total number of bytes in all chunks
      * @return New array concatenating all chunks
      */
-    public static byte[] arrayFromChunks(Collection<byte[]> chunks, int totalLength)
-    {
+    public static byte[] arrayFromChunks(Collection<byte[]> chunks, int totalLength) {
         byte[] array = new byte[totalLength];
         int i = 0;
-        for (byte[] chunk : chunks)
-        {
+        for (byte[] chunk : chunks) {
             System.arraycopy(chunk, 0, array, i, chunk.length);
             i += chunk.length;
         }

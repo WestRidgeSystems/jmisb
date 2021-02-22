@@ -5,13 +5,12 @@ import org.jmisb.core.klv.PrimitiveConverter;
 
 /**
  * Shared pixel index (row column) implementation.
- * 
- * Used by Tag 19 and Tag 20.
+ *
+ * <p>Used by Tag 19 and Tag 20.
  */
-public abstract class AbstractPixelIndex implements IVmtiMetadataValue
-{
-    protected static long MIN_VAL = 1;
-    protected static long MAX_VAL = 4294967295L;
+public abstract class AbstractPixelIndex implements IVmtiMetadataValue {
+    protected static final long MIN_VAL = 1;
+    protected static final long MAX_VAL = 4294967295L;
     protected long value;
 
     /**
@@ -19,11 +18,10 @@ public abstract class AbstractPixelIndex implements IVmtiMetadataValue
      *
      * @param index the pixel index (min 1, max 2^32-1)
      */
-    public AbstractPixelIndex(long index)
-    {
-        if (index < MIN_VAL || index > MAX_VAL)
-        {
-            throw new IllegalArgumentException(this.getDisplayName() + " must be in range [1, 4294967295]");
+    public AbstractPixelIndex(long index) {
+        if (index < MIN_VAL || index > MAX_VAL) {
+            throw new IllegalArgumentException(
+                    this.getDisplayName() + " must be in range [1, 4294967295]");
         }
         this.value = index;
     }
@@ -33,20 +31,17 @@ public abstract class AbstractPixelIndex implements IVmtiMetadataValue
      *
      * @param bytes Encoded byte array
      */
-    public AbstractPixelIndex(byte[] bytes)
-    {
+    public AbstractPixelIndex(byte[] bytes) {
         value = PrimitiveConverter.variableBytesToUint32(bytes);
     }
 
     @Override
-    public byte[] getBytes()
-    {
+    public byte[] getBytes() {
         return PrimitiveConverter.uint32ToVariableBytes(value);
     }
 
     @Override
-    public String getDisplayableValue()
-    {
+    public String getDisplayableValue() {
         return "" + value;
     }
 
@@ -55,8 +50,7 @@ public abstract class AbstractPixelIndex implements IVmtiMetadataValue
      *
      * @return the value in pixels (1 base)
      */
-    public long getValue()
-    {
+    public long getValue() {
         return this.value;
     }
 }

@@ -1,11 +1,11 @@
 package org.jmisb.core.klv;
 
 import java.nio.ByteBuffer;
+import java.nio.charset.Charset;
+import java.util.Arrays;
 import java.util.UUID;
 
-/**
- * Internal utility methods for UUID conversions.
- */
+/** Internal utility methods for UUID conversions. */
 public class UuidUtils {
 
     /**
@@ -51,11 +51,15 @@ public class UuidUtils {
 
     /**
      * Convert part of a byte array to a UUID.
+     *
      * @param bytes the byte array
      * @param index the offset into the byte array where the UUID should be read from
      * @return UUID
      */
     public static UUID arrayToUuid(byte[] bytes, int index) {
+        if (index + 16 > bytes.length) {
+            throw new IllegalArgumentException("Too few bytes available to read UUID");
+        }
         ByteBuffer bb = ByteBuffer.wrap(bytes, index, 16);
         return new UUID(bb.getLong(), bb.getLong());
     }
@@ -68,8 +72,35 @@ public class UuidUtils {
      */
     public static String formatUUID(UUID uuid) {
         String standardFormatUUID = uuid.toString().toUpperCase();
-        String misbFormatUUID = standardFormatUUID.substring(0, 4) + "-" + standardFormatUUID.substring(4, 28) + "-" + standardFormatUUID.substring(28, 32) + "-" + standardFormatUUID.substring(32);
+        String misbFormatUUID =
+                standardFormatUUID.substring(0, 4)
+                        + "-"
+                        + standardFormatUUID.substring(4, 28)
+                        + "-"
+                        + standardFormatUUID.substring(28, 32)
+                        + "-"
+                        + standardFormatUUID.substring(32);
         return misbFormatUUID;
     }
 
+    public static UUID convertHashOutputToVersion5UUID(byte[] uuidBytes) {
+        byte[] truncatedBytes = Arrays.copyOf(uuidBytes, 16);
+        truncatedBytes[6] &= 15; // clear version
+        truncatedBytes[6] |= 80; // set to version 5
+        truncatedBytes[8] &= 63; // clear variant bits
+        truncatedBytes[8] |= 128; // set to variant 2
+        return UuidUtils.arrayToUuid(truncatedBytes, 0);
+    }
+
+    /**
+     * Convert a hex String (in UUID format) to a byte array.
+     *
+     * <p>Per ST1204 algorithm, the separators are ignored.
+     *
+     * @param uuidString the string to convert
+     * @return corresponding byte array.
+     */
+    public static byte[] uuidStringToByteArray(String uuidString) {
+        return uuidString.replaceAll("-", "").toUpperCase().getBytes(Charset.forName("US-ASCII"));
+    }
 }

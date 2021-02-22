@@ -1,17 +1,14 @@
 package org.jmisb.api.klv.st0601.dto;
 
 import static org.testng.Assert.*;
+
 import org.testng.annotations.Test;
 
-/**
- * Tests for Location DTO
- */
-public class LocationTest
-{
+/** Tests for Location DTO */
+public class LocationTest {
 
     @Test
-    public void hashTest()
-    {
+    public void hashTest() {
         Location loc = makeLocation();
         assertEquals(loc.hashCode(), 0xc1f03e83);
         loc.setLatitude(2.001);
@@ -19,15 +16,13 @@ public class LocationTest
     }
 
     @Test
-    public void equalsSameObject()
-    {
+    public void equalsSameObject() {
         Location loc = makeLocation();
         assertTrue(loc.equals(loc));
     }
 
     @Test
-    public void equalsSameValues()
-    {
+    public void equalsSameValues() {
         Location loc1 = makeLocation();
         Location loc2 = makeLocation();
         assertTrue(loc1.equals(loc2));
@@ -36,21 +31,18 @@ public class LocationTest
     }
 
     @Test
-    public void equalsNull()
-    {
+    public void equalsNull() {
         Location loc = makeLocation();
         assertFalse(loc.equals(null));
     }
 
     @Test
-    public void equalsDifferentClass()
-    {
+    public void equalsDifferentClass() {
         Location loc = makeLocation();
         assertFalse(loc.equals(new String("blah")));
     }
 
-    protected Location makeLocation()
-    {
+    protected Location makeLocation() {
         Location loc = new Location();
         loc.setLatitude(2.0);
         loc.setLongitude(3.0);
@@ -59,8 +51,7 @@ public class LocationTest
     }
 
     @Test
-    public void equalsDifferentLat()
-    {
+    public void equalsDifferentLat() {
         Location loc1 = makeLocation();
         Location loc2 = makeLocation();
         assertTrue(loc1.equals(loc2));
@@ -69,8 +60,7 @@ public class LocationTest
     }
 
     @Test
-    public void equalsDifferentLon()
-    {
+    public void equalsDifferentLon() {
         Location loc1 = makeLocation();
         Location loc2 = makeLocation();
         assertTrue(loc1.equals(loc2));
@@ -79,8 +69,7 @@ public class LocationTest
     }
 
     @Test
-    public void equalsDifferentHae()
-    {
+    public void equalsDifferentHae() {
         Location loc1 = makeLocation();
         Location loc2 = makeLocation();
         assertTrue(loc1.equals(loc2));
@@ -89,8 +78,7 @@ public class LocationTest
     }
 
     @Test
-    public void equalsOperations()
-    {
+    public void equalsOperations() {
         Location loc1 = makeLocation();
         Location loc2 = makeLocation();
         assertEquals(loc1, loc2);

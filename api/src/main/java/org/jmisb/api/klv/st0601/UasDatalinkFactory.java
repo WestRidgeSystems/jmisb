@@ -2,29 +2,24 @@ package org.jmisb.api.klv.st0601;
 
 import org.jmisb.api.common.KlvParseException;
 
-/**
- * Dynamically create {@link IUasDatalinkValue}s from {@link UasDatalinkTag}s.
- */
-public class UasDatalinkFactory
-{
+/** Dynamically create {@link IUasDatalinkValue}s from {@link UasDatalinkTag}s. */
+public class UasDatalinkFactory {
     private UasDatalinkFactory() {}
 
     /**
-     * Create a {@link IUasDatalinkValue} instance from encoded bytes
+     * Create a {@link IUasDatalinkValue} instance from encoded bytes.
      *
      * @param tag The tag defining the value type
      * @param bytes Encoded bytes
      * @return The new instance
-     *
      * @throws IllegalArgumentException if input is invalid
      * @throws KlvParseException if a parsing error occurs
      */
-    public static IUasDatalinkValue createValue(UasDatalinkTag tag, byte[] bytes) throws KlvParseException
-    {
-        // Keep the case statements in enum ordinal order so we can keep track of what is implemented. Mark all
-        // unimplemented tags with TODO.
-        switch (tag)
-        {
+    public static IUasDatalinkValue createValue(UasDatalinkTag tag, byte[] bytes)
+            throws KlvParseException {
+        // Keep the case statements in enum ordinal order so we can keep track of what is
+        // implemented. Mark all unimplemented tags with TODO.
+        switch (tag) {
             case Undefined:
                 break;
             case PrecisionTimeStamp:
@@ -118,8 +113,7 @@ public class UasDatalinkFactory
             case TargetErrorLe90:
                 return new TargetErrorEstimateLe90(bytes);
             case GenericFlagData01:
-                // TODO
-                return new OpaqueValue(bytes);
+                return new GenericFlagData01(bytes);
             case SecurityLocalMetadataSet:
                 return new NestedSecurityMetadata(bytes);
             case DifferentialPressure:
@@ -145,11 +139,9 @@ public class UasDatalinkFactory
             case PlatformCallSign:
                 return new UasDatalinkString(UasDatalinkString.PLATFORM_CALL_SIGN, bytes);
             case WeaponLoad:
-                // TODO
-                return new OpaqueValue(bytes);
+                return new WeaponLoad(bytes);
             case WeaponFired:
-                // TODO
-                return new OpaqueValue(bytes);
+                return new WeaponFired(bytes);
             case LaserPrfCode:
                 return new LaserPrfCode(bytes);
             case SensorFovName:
@@ -172,11 +164,9 @@ public class UasDatalinkFactory
             case AlternatePlatformHeading:
                 return new AlternatePlatformHeading(bytes);
             case EventStartTimeUtc:
-                // TODO
-                return new OpaqueValue(bytes);
+                return new EventStartTimeUtc(bytes);
             case RvtLocalDataSet:
-                // TODO Implement ST 0806
-                return new OpaqueValue(bytes);
+                return new NestedRvtLocalSet(bytes);
             case VmtiLocalDataSet:
                 return new NestedVmtiLocalSet(bytes);
             case SensorEllipsoidHeight:
@@ -221,8 +211,7 @@ public class UasDatalinkFactory
             case MiisCoreIdentifier:
                 return new MiisCoreIdentifier(bytes);
             case SarMotionImageryMetadata:
-                // TODO Implement ST 1206
-                return new OpaqueValue(bytes);
+                return new NestedSARMILocalSet(bytes);
             case TargetWidthExtended:
                 return new TargetWidthExtended(bytes);
             case RangeImage:
@@ -268,11 +257,9 @@ public class UasDatalinkFactory
             case RadarAltimeter:
                 return new RadarAltimeter(bytes);
             case ControlCommand:
-                // TODO
-                return new OpaqueValue(bytes);
+                return new ControlCommand(bytes);
             case ControlCommandVerification:
-                // TODO
-                return new OpaqueValue(bytes);
+                return new ControlCommandVerification(bytes);
             case SensorAzimuthRate:
                 return new SensorAzimuthRate(bytes);
             case SensorElevationRate:
@@ -284,8 +271,7 @@ public class UasDatalinkFactory
             case ActiveWavelengthList:
                 return new ActiveWavelengthList(bytes);
             case CountryCodes:
-                // TODO
-                return new OpaqueValue(bytes);
+                return new CountryCodes(bytes);
             case NumberNavsatsInView:
                 return new NavsatsInView(bytes);
             case PositioningMethodSource:
@@ -295,8 +281,7 @@ public class UasDatalinkFactory
             case SensorControlMode:
                 return new SensorControlMode(bytes);
             case SensorFrameRatePack:
-                // TODO
-                return new OpaqueValue(bytes);
+                return new SensorFrameRate(bytes);
             case WavelengthsList:
                 return new WavelengthsList(bytes);
             case TargetId:
@@ -304,8 +289,7 @@ public class UasDatalinkFactory
             case AirbaseLocations:
                 return new AirbaseLocations(bytes);
             case TakeOffTime:
-                // TODO
-                return new OpaqueValue(bytes);
+                return new TakeOffTime(bytes);
             case TransmissionFrequency:
                 return new TransmissionFrequency(bytes);
             case OnBoardMiStorageCapacity:
@@ -317,17 +301,13 @@ public class UasDatalinkFactory
             case LeapSeconds:
                 return new LeapSeconds(bytes);
             case CorrectionOffset:
-                // TODO
-                return new OpaqueValue(bytes);
+                return new CorrectionOffset(bytes);
             case PayloadList:
-                // TODO
-                return new OpaqueValue(bytes);
+                return new PayloadList(bytes);
             case ActivePayloads:
-                // TODO
-                return new OpaqueValue(bytes);
+                return new ActivePayloads(bytes);
             case WeaponsStores:
-                // TODO
-                return new OpaqueValue(bytes);
+                return new WeaponsStores(bytes);
             case WaypointList:
                 return new WaypointList(bytes);
         }

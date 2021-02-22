@@ -1,58 +1,57 @@
 package org.jmisb.api.klv.st0903.ontology;
 
 import static org.testng.Assert.*;
+
 import org.testng.annotations.Test;
 
-/**
- * Unit tests for OntologyMetadataKey.
- */
+/** Unit tests for OntologyMetadataKey. */
 public class OntologyMetadataKeyTest {
 
     @Test
-    public void Enum0Test()
-    {
+    public void Enum0Test() {
         OntologyMetadataKey key = OntologyMetadataKey.getKey(0);
         assertEquals(key, OntologyMetadataKey.Undefined);
         assertEquals(key.getTag(), 0);
+        assertEquals(key.getIdentifier(), 0);
     }
 
     @Test
-    public void EnumUnknownTest()
-    {
+    public void EnumUnknownTest() {
         OntologyMetadataKey key = OntologyMetadataKey.getKey(999);
         assertEquals(key, OntologyMetadataKey.Undefined);
         assertEquals(key.getTag(), 0);
+        assertEquals(key.getIdentifier(), 0);
     }
 
     @Test
-    public void Enum1Test()
-    {
+    public void Enum1Test() {
         OntologyMetadataKey key = OntologyMetadataKey.getKey(1);
         assertEquals(key, OntologyMetadataKey.id);
         assertEquals(key.getTag(), 1);
+        assertEquals(key.getIdentifier(), 1);
     }
 
     @Test
-    public void Enum2Test()
-    {
+    public void Enum2Test() {
         OntologyMetadataKey key = OntologyMetadataKey.getKey(2);
         assertEquals(key, OntologyMetadataKey.parentId);
         assertEquals(key.getTag(), 2);
+        assertEquals(key.getIdentifier(), 2);
     }
 
     @Test
-    public void Enum3Test()
-    {
+    public void Enum3Test() {
         OntologyMetadataKey key = OntologyMetadataKey.getKey(3);
         assertEquals(key, OntologyMetadataKey.ontology);
         assertEquals(key.getTag(), 3);
+        assertEquals(key.getIdentifier(), 3);
     }
 
     @Test
-    public void Enum4Test()
-    {
+    public void Enum4Test() {
         OntologyMetadataKey key = OntologyMetadataKey.getKey(4);
         assertEquals(key, OntologyMetadataKey.ontologyClass);
         assertEquals(key.getTag(), 4);
+        assertEquals(key.getIdentifier(), 4);
     }
 }

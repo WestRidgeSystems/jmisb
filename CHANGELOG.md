@@ -1,3 +1,30 @@
+### February 22, 2021, version 1.10.0
+ * Implemented ST 0603, MISP Time System and Timestamps
+ * Implemented ST 0806, Remote Video Terminal Metadata Set
+ * Implemented ST 0808, Ancillary Text Metadata Sets
+ * Implemented ST 1206, SAR Motion Imagery Metadata
+ * Implemented ST 1909, Metadata Overlay for Visualization
+ * Implemented EG 0104 (read only)
+ * Added the ability for clients to register their own custom parsers, e.g., 
+   to handle non-standard metadata
+ * Implemented additional ST 0601 items: 47, 60, 61, 72, 107, 122, 127, 130, 
+   131, 138, 139, 140
+ * Implemented ST 1204.3 UUID combination approach
+ * Enhanced support for nested metadata, including the viewer application
+ * Added a configurable error handler to allow a consistent strategy to be 
+   employed when bad metadata is encountered (log, throw, etc.)
+ * Support for VTrack Local Set in ST 0903
+ * Support for legacy floating point encoding in ST 0903
+ * Support 5-7 byte and "special" floating point values per ST 1201
+ * Support for generating synchronous or asynchronous metadata in accordance 
+   with ST 1402, and properly set metadata stream ID
+ * Added EOF event listener to video input classes
+ * Deprecated VideoSystem in favor of public constructors for video I/O classes
+ * Upgraded to FFmpeg to 4.3.1
+ * Added SpotBugs Maven plugin for static code analysis
+ * Added input fuzz testing using JQF
+ * Numerous bug fixes, code samples, and improved test coverage
+ 
 ### April 11, 2020 version 1.9.0
  * Implemented ST 0903, Video Moving Target Indicator
  * Implemented ST 1204, MIIS Core Identifier

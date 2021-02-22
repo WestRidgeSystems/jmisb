@@ -2,47 +2,47 @@ package org.jmisb.api.klv.st0805;
 
 import org.jmisb.api.klv.st0601.*;
 
-/**
- * Perform KLV to CoT conversion as defined by ST 0805
- */
-public class KlvToCot
-{
+/** Perform KLV to CoT conversion as defined by ST 0805. */
+public class KlvToCot {
     private static String platformType = "a-f-A";
 
     private KlvToCot() {}
 
     /**
-     * Convert a MISB UAS Datalink message to a CoT Sensor Point of Interest (SPI) message
+     * Convert a MISB UAS Datalink message to a CoT Sensor Point of Interest (SPI) message.
      *
      * @param uasMessage The UAS Datalink message to convert
-     *
      * @return The CoT message
      */
-    public static SensorPointOfInterest getSensorPointOfInterest(UasDatalinkMessage uasMessage)
-    {
+    public static SensorPointOfInterest getSensorPointOfInterest(UasDatalinkMessage uasMessage) {
         SensorPointOfInterest spiMessage = new SensorPointOfInterest();
 
-        // The standard is unclear, but seems to indicate target position is preferred over frame center
-        TargetLocationLatitude targetLat = (TargetLocationLatitude) uasMessage.getField(UasDatalinkTag.TargetLocationLatitude);
-        TargetLocationLongitude targetLon = (TargetLocationLongitude) uasMessage.getField(UasDatalinkTag.TargetLocationLongitude);
-        TargetLocationElevation targetAlt = (TargetLocationElevation) uasMessage.getField(UasDatalinkTag.TargetLocationElevation);
+        // The standard is unclear, but seems to indicate target position is preferred over frame
+        // center
+        TargetLocationLatitude targetLat =
+                (TargetLocationLatitude) uasMessage.getField(UasDatalinkTag.TargetLocationLatitude);
+        TargetLocationLongitude targetLon =
+                (TargetLocationLongitude)
+                        uasMessage.getField(UasDatalinkTag.TargetLocationLongitude);
+        TargetLocationElevation targetAlt =
+                (TargetLocationElevation)
+                        uasMessage.getField(UasDatalinkTag.TargetLocationElevation);
 
-        if (targetLat != null && targetLon != null && targetAlt != null)
-        {
+        if (targetLat != null && targetLon != null && targetAlt != null) {
             spiMessage.setPointLat(targetLat.getDegrees());
             spiMessage.setPointLon(targetLon.getDegrees());
             // TODO: convert MSL -> HAE
             spiMessage.setPointHae(targetAlt.getMeters());
-        }
-        else
-        {
+        } else {
             // Try frame center
-            FrameCenterLatitude frameCenterLat = (FrameCenterLatitude)uasMessage.getField(UasDatalinkTag.FrameCenterLatitude);
-            FrameCenterLongitude frameCenterLon = (FrameCenterLongitude)uasMessage.getField(UasDatalinkTag.FrameCenterLongitude);
-            FrameCenterElevation frameCenterAlt = (FrameCenterElevation)uasMessage.getField(UasDatalinkTag.FrameCenterElevation);
+            FrameCenterLatitude frameCenterLat =
+                    (FrameCenterLatitude) uasMessage.getField(UasDatalinkTag.FrameCenterLatitude);
+            FrameCenterLongitude frameCenterLon =
+                    (FrameCenterLongitude) uasMessage.getField(UasDatalinkTag.FrameCenterLongitude);
+            FrameCenterElevation frameCenterAlt =
+                    (FrameCenterElevation) uasMessage.getField(UasDatalinkTag.FrameCenterElevation);
 
-            if (frameCenterLat != null && frameCenterLon != null && frameCenterAlt != null)
-            {
+            if (frameCenterLat != null && frameCenterLon != null && frameCenterAlt != null) {
                 spiMessage.setPointLat(frameCenterLat.getDegrees());
                 spiMessage.setPointLon(frameCenterLon.getDegrees());
                 // TODO: convert MSL -> HAE
@@ -51,37 +51,41 @@ public class KlvToCot
         }
 
         // TODO: implement TargetErrorCe90
-//        TargetErrorCe90 targetErrorCe = (TargetErrorCe90) uasMessage.getField(UasDatalinkTag.TargetErrorCe90);
-//        if (targetErrorCe != null)
-//        {
-//            // Conversion from 2.146-sigma to 1-sigma necessary
-//            spiMessage.setPointCe(targetErrorCe / 2.146);
-//        }
-//        else
-//        {
-//            spiMessage.setPointCe(9_999_999);
-//        }
+        //        TargetErrorCe90 targetErrorCe = (TargetErrorCe90)
+        // uasMessage.getField(UasDatalinkTag.TargetErrorCe90);
+        //        if (targetErrorCe != null)
+        //        {
+        //            // Conversion from 2.146-sigma to 1-sigma necessary
+        //            spiMessage.setPointCe(targetErrorCe / 2.146);
+        //        }
+        //        else
+        //        {
+        //            spiMessage.setPointCe(9_999_999);
+        //        }
 
         // TODO: implement TargetErrorLe90
-//        TargetErrorLe90 targetErrorLe = (TargetErrorLe90)uasMessage.getField(UasDatalinkTag.TargetErrorLe90);
-//        if (targetErrorLe != null)
-//        {
-//            // Conversion from 1.645-sigma to 1-sigma necessary
-//            spiMessage.setPointLe(targetErrorLe / 1.645);
-//        }
-//        else
-//        {
-//            spiMessage.setPointLe(9_999_999);
-//        }
+        //        TargetErrorLe90 targetErrorLe =
+        // (TargetErrorLe90)uasMessage.getField(UasDatalinkTag.TargetErrorLe90);
+        //        if (targetErrorLe != null)
+        //        {
+        //            // Conversion from 1.645-sigma to 1-sigma necessary
+        //            spiMessage.setPointLe(targetErrorLe / 1.645);
+        //        }
+        //        else
+        //        {
+        //            spiMessage.setPointLe(9_999_999);
+        //        }
 
         spiMessage.setType("b-m-p-s-p-i");
 
         // TODO: allow client to specify UID & handle missing tags from KLV
-        UasDatalinkString platformDesignation = (UasDatalinkString)uasMessage.getField(UasDatalinkTag.PlatformDesignation);
-        UasDatalinkString missionId = (UasDatalinkString)uasMessage.getField(UasDatalinkTag.MissionId);
-        UasDatalinkString imageSourceSensor = (UasDatalinkString)uasMessage.getField(UasDatalinkTag.ImageSourceSensor);
-        if (platformDesignation != null || missionId != null || imageSourceSensor != null)
-        {
+        UasDatalinkString platformDesignation =
+                (UasDatalinkString) uasMessage.getField(UasDatalinkTag.PlatformDesignation);
+        UasDatalinkString missionId =
+                (UasDatalinkString) uasMessage.getField(UasDatalinkTag.MissionId);
+        UasDatalinkString imageSourceSensor =
+                (UasDatalinkString) uasMessage.getField(UasDatalinkTag.ImageSourceSensor);
+        if (platformDesignation != null || missionId != null || imageSourceSensor != null) {
             spiMessage.setUid(platformDesignation + "_" + missionId + "_" + imageSourceSensor);
         }
 
@@ -99,24 +103,25 @@ public class KlvToCot
     }
 
     /**
-     * Convert a UAS Datalink message to a CoT Platform Position message
+     * Convert a UAS Datalink message to a CoT Platform Position message.
      *
      * @param uasMessage The UAS Datalink message to convert
-     *
      * @return The CoT message
      */
-    public static PlatformPosition getPlatformPosition(UasDatalinkMessage uasMessage)
-    {
+    public static PlatformPosition getPlatformPosition(UasDatalinkMessage uasMessage) {
         PlatformPosition platformMessage = new PlatformPosition();
 
-        SensorLatitude pointLat = (SensorLatitude)uasMessage.getField(UasDatalinkTag.SensorLatitude);
+        SensorLatitude pointLat =
+                (SensorLatitude) uasMessage.getField(UasDatalinkTag.SensorLatitude);
         platformMessage.setPointLat(pointLat.getDegrees());
 
-        SensorLatitude pointLon = (SensorLatitude) uasMessage.getField(UasDatalinkTag.SensorLongitude);
+        SensorLatitude pointLon =
+                (SensorLatitude) uasMessage.getField(UasDatalinkTag.SensorLongitude);
         platformMessage.setPointLon(pointLon.getDegrees());
 
         // TODO: convert MSL -> HAE
-        SensorTrueAltitude pointHae = (SensorTrueAltitude)uasMessage.getField(UasDatalinkTag.SensorTrueAltitude);
+        SensorTrueAltitude pointHae =
+                (SensorTrueAltitude) uasMessage.getField(UasDatalinkTag.SensorTrueAltitude);
         platformMessage.setPointHae(pointHae.getMeters());
 
         // Represents "no value given" - ST 0601 does not contain platform uncertainty
@@ -134,55 +139,54 @@ public class KlvToCot
         platformMessage.setHow("m-p");
 
         // Sensor absolute azimuth obtained by adding platform heading and sensor relative azimuth
-        PlatformHeadingAngle platformHeading = (PlatformHeadingAngle)uasMessage.getField(UasDatalinkTag.PlatformHeadingAngle);
-        SensorRelativeAzimuth sensorRelativeAzimuth = (SensorRelativeAzimuth) uasMessage.getField(UasDatalinkTag.SensorRelativeAzimuthAngle);
-        if (platformHeading != null && sensorRelativeAzimuth != null)
-        {
-            platformMessage.setSensorAzimuth((platformHeading.getDegrees() + sensorRelativeAzimuth.getDegrees()) % 360);
+        PlatformHeadingAngle platformHeading =
+                (PlatformHeadingAngle) uasMessage.getField(UasDatalinkTag.PlatformHeadingAngle);
+        SensorRelativeAzimuth sensorRelativeAzimuth =
+                (SensorRelativeAzimuth)
+                        uasMessage.getField(UasDatalinkTag.SensorRelativeAzimuthAngle);
+        if (platformHeading != null && sensorRelativeAzimuth != null) {
+            platformMessage.setSensorAzimuth(
+                    (platformHeading.getDegrees() + sensorRelativeAzimuth.getDegrees()) % 360);
         }
 
-        HorizontalFov fov = (HorizontalFov)uasMessage.getField(UasDatalinkTag.SensorHorizontalFov);
-        if (fov != null)
-        {
+        HorizontalFov fov = (HorizontalFov) uasMessage.getField(UasDatalinkTag.SensorHorizontalFov);
+        if (fov != null) {
             platformMessage.setSensorFov(fov.getDegrees());
         }
 
         VerticalFov vfov = (VerticalFov) uasMessage.getField(UasDatalinkTag.SensorVerticalFov);
-        if (vfov != null)
-        {
+        if (vfov != null) {
             platformMessage.setSensorVfov(vfov.getDegrees());
         }
 
-        UasDatalinkString sensor = (UasDatalinkString)uasMessage.getField(UasDatalinkTag.ImageSourceSensor);
+        UasDatalinkString sensor =
+                (UasDatalinkString) uasMessage.getField(UasDatalinkTag.ImageSourceSensor);
         platformMessage.setSensorModel(sensor.getValue());
 
-        SlantRange slantRange = (SlantRange)uasMessage.getField(UasDatalinkTag.SlantRange);
-        if (slantRange != null)
-        {
+        SlantRange slantRange = (SlantRange) uasMessage.getField(UasDatalinkTag.SlantRange);
+        if (slantRange != null) {
             platformMessage.setSensorRange(slantRange.getMeters());
         }
 
         return platformMessage;
     }
 
-    private static String getPlatformUid(UasDatalinkMessage uasMessage)
-    {
+    private static String getPlatformUid(UasDatalinkMessage uasMessage) {
         // TODO: allow client to specify UID & handle missing tags from KLV
-        UasDatalinkString platformDesignation = (UasDatalinkString)uasMessage.getField(UasDatalinkTag.PlatformDesignation);
-        UasDatalinkString missionId = (UasDatalinkString)uasMessage.getField(UasDatalinkTag.MissionId);
-        if (platformDesignation != null || missionId != null)
-        {
+        UasDatalinkString platformDesignation =
+                (UasDatalinkString) uasMessage.getField(UasDatalinkTag.PlatformDesignation);
+        UasDatalinkString missionId =
+                (UasDatalinkString) uasMessage.getField(UasDatalinkTag.MissionId);
+        if (platformDesignation != null && missionId != null) {
             return platformDesignation.getValue() + "_" + missionId.getValue();
-        }
-        else
-        {
+        } else {
             return "jmisb";
         }
     }
 
-    private static void setTimes(UasDatalinkMessage uasMessage, CotMessage cotMessage)
-    {
-        PrecisionTimeStamp unixTimeStamp = (PrecisionTimeStamp)uasMessage.getField(UasDatalinkTag.PrecisionTimeStamp);
+    private static void setTimes(UasDatalinkMessage uasMessage, CotMessage cotMessage) {
+        PrecisionTimeStamp unixTimeStamp =
+                (PrecisionTimeStamp) uasMessage.getField(UasDatalinkTag.PrecisionTimeStamp);
         cotMessage.setTime(unixTimeStamp.getMicroseconds());
         cotMessage.setStart(unixTimeStamp.getMicroseconds());
 
@@ -190,4 +194,3 @@ public class KlvToCot
         cotMessage.setStale(unixTimeStamp.getMicroseconds() + 5_000_000);
     }
 }
-

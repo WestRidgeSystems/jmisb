@@ -4,75 +4,73 @@ import org.jmisb.api.common.KlvParseException;
 import org.testng.Assert;
 import org.testng.annotations.Test;
 
-public class PropulsionUnitSpeedTest
-{
+public class PropulsionUnitSpeedTest {
     @Test
-    public void testMinMax()
-    {
+    public void testMinMax() {
         PropulsionUnitSpeed speed = new PropulsionUnitSpeed(0);
         Assert.assertEquals(speed.getDisplayName(), "Propulsion Unit Speed");
         byte[] bytes = speed.getBytes();
-        Assert.assertEquals(bytes, new byte[]{(byte)0x00});
+        Assert.assertEquals(bytes, new byte[] {(byte) 0x00});
         Assert.assertEquals(speed.getSpeed(), 0);
         Assert.assertEquals(speed.getDisplayableValue(), "0rpm");
 
         speed = new PropulsionUnitSpeed(4294967295L);
         Assert.assertEquals(speed.getDisplayName(), "Propulsion Unit Speed");
         bytes = speed.getBytes();
-        Assert.assertEquals(bytes, new byte[]{(byte)0xff, (byte)0xff, (byte)0xff, (byte)0xff});
+        Assert.assertEquals(bytes, new byte[] {(byte) 0xff, (byte) 0xff, (byte) 0xff, (byte) 0xff});
         Assert.assertEquals(speed.getSpeed(), 4294967295L);
         Assert.assertEquals(speed.getDisplayableValue(), "4294967295rpm");
 
-        bytes = new byte[]{(byte)0x00};
+        bytes = new byte[] {(byte) 0x00};
         speed = new PropulsionUnitSpeed(bytes);
         Assert.assertEquals(speed.getDisplayName(), "Propulsion Unit Speed");
         Assert.assertEquals(speed.getSpeed(), 0L);
-        Assert.assertEquals(speed.getBytes(), new byte[]{(byte)0x00});
+        Assert.assertEquals(speed.getBytes(), new byte[] {(byte) 0x00});
         Assert.assertEquals(speed.getDisplayableValue(), "0rpm");
 
-        bytes = new byte[]{(byte)0xff};
+        bytes = new byte[] {(byte) 0xff};
         speed = new PropulsionUnitSpeed(bytes);
         Assert.assertEquals(speed.getDisplayName(), "Propulsion Unit Speed");
         Assert.assertEquals(speed.getSpeed(), 255);
         Assert.assertEquals(speed.getBytes(), bytes);
         Assert.assertEquals(speed.getDisplayableValue(), "255rpm");
 
-        bytes = new byte[]{(byte)0x00, (byte)0x00};
+        bytes = new byte[] {(byte) 0x00, (byte) 0x00};
         speed = new PropulsionUnitSpeed(bytes);
         Assert.assertEquals(speed.getDisplayName(), "Propulsion Unit Speed");
         Assert.assertEquals(speed.getSpeed(), 0L);
-        Assert.assertEquals(speed.getBytes(), new byte[]{(byte)0x00});
+        Assert.assertEquals(speed.getBytes(), new byte[] {(byte) 0x00});
         Assert.assertEquals(speed.getDisplayableValue(), "0rpm");
 
-        bytes = new byte[]{(byte)0xff, (byte)0xff};
+        bytes = new byte[] {(byte) 0xff, (byte) 0xff};
         speed = new PropulsionUnitSpeed(bytes);
         Assert.assertEquals(speed.getDisplayName(), "Propulsion Unit Speed");
         Assert.assertEquals(speed.getSpeed(), 65535);
         Assert.assertEquals(speed.getBytes(), bytes);
         Assert.assertEquals(speed.getDisplayableValue(), "65535rpm");
 
-        bytes = new byte[]{(byte)0x00, (byte)0x00, (byte)0x00};
+        bytes = new byte[] {(byte) 0x00, (byte) 0x00, (byte) 0x00};
         speed = new PropulsionUnitSpeed(bytes);
         Assert.assertEquals(speed.getDisplayName(), "Propulsion Unit Speed");
         Assert.assertEquals(speed.getSpeed(), 0L);
-        Assert.assertEquals(speed.getBytes(), new byte[]{(byte)0x00});
+        Assert.assertEquals(speed.getBytes(), new byte[] {(byte) 0x00});
         Assert.assertEquals(speed.getDisplayableValue(), "0rpm");
 
-        bytes = new byte[]{(byte)0xff, (byte)0xff, (byte)0xff};
+        bytes = new byte[] {(byte) 0xff, (byte) 0xff, (byte) 0xff};
         speed = new PropulsionUnitSpeed(bytes);
         Assert.assertEquals(speed.getDisplayName(), "Propulsion Unit Speed");
         Assert.assertEquals(speed.getSpeed(), 16777215L);
-        Assert.assertEquals(speed.getBytes(), new byte[]{(byte)0xff, (byte)0xff, (byte)0xff});
+        Assert.assertEquals(speed.getBytes(), new byte[] {(byte) 0xff, (byte) 0xff, (byte) 0xff});
         Assert.assertEquals(speed.getDisplayableValue(), "16777215rpm");
 
-        bytes = new byte[]{(byte)0x00, (byte)0x00, (byte)0x00, (byte)0x00};
+        bytes = new byte[] {(byte) 0x00, (byte) 0x00, (byte) 0x00, (byte) 0x00};
         speed = new PropulsionUnitSpeed(bytes);
         Assert.assertEquals(speed.getDisplayName(), "Propulsion Unit Speed");
         Assert.assertEquals(speed.getSpeed(), 0L);
-        Assert.assertEquals(speed.getBytes(), new byte[]{(byte)0x00});
+        Assert.assertEquals(speed.getBytes(), new byte[] {(byte) 0x00});
         Assert.assertEquals(speed.getDisplayableValue(), "0rpm");
 
-        bytes = new byte[]{(byte)0xff, (byte)0xff, (byte)0xff, (byte)0xff};
+        bytes = new byte[] {(byte) 0xff, (byte) 0xff, (byte) 0xff, (byte) 0xff};
         speed = new PropulsionUnitSpeed(bytes);
         Assert.assertEquals(speed.getDisplayName(), "Propulsion Unit Speed");
         Assert.assertEquals(speed.getSpeed(), 4294967295L);
@@ -81,29 +79,26 @@ public class PropulsionUnitSpeedTest
     }
 
     @Test(expectedExceptions = IllegalArgumentException.class)
-    public void testOutOfBoundsMin()
-    {
+    public void testOutOfBoundsMin() {
         new PropulsionUnitSpeed(-1L);
     }
 
     @Test(expectedExceptions = IllegalArgumentException.class)
-    public void testOutOfBoundsMax()
-    {
+    public void testOutOfBoundsMax() {
         new PropulsionUnitSpeed(4294967296L);
     }
 
     @Test(expectedExceptions = IllegalArgumentException.class)
-    public void testBadLength()
-    {
-        byte[] fiveByteArray = new byte[]{(byte)0x00, (byte)0x00, (byte)0x00, (byte)0x00, (byte)0x00};
+    public void testBadLength() {
+        byte[] fiveByteArray =
+                new byte[] {(byte) 0x00, (byte) 0x00, (byte) 0x00, (byte) 0x00, (byte) 0x00};
         new PropulsionUnitSpeed(fiveByteArray);
     }
 
     @Test
-    public void stExample()
-    {
+    public void stExample() {
         long value = 3000L;
-        byte[] origBytes = new byte[]{(byte)0x0B, (byte)0xB8};
+        byte[] origBytes = new byte[] {(byte) 0x0B, (byte) 0xB8};
 
         PropulsionUnitSpeed speed = new PropulsionUnitSpeed(origBytes);
         Assert.assertEquals(speed.getDisplayName(), "Propulsion Unit Speed");
@@ -119,74 +114,75 @@ public class PropulsionUnitSpeedTest
 
     @Test
     public void testFactory() throws KlvParseException {
-        byte[] bytes = new byte[]{(byte)0x00};
-        IUasDatalinkValue v = UasDatalinkFactory.createValue(UasDatalinkTag.PropulsionUnitSpeed, bytes);
+        byte[] bytes = new byte[] {(byte) 0x00};
+        IUasDatalinkValue v =
+                UasDatalinkFactory.createValue(UasDatalinkTag.PropulsionUnitSpeed, bytes);
         Assert.assertTrue(v instanceof PropulsionUnitSpeed);
         Assert.assertEquals(v.getDisplayName(), "Propulsion Unit Speed");
-        PropulsionUnitSpeed speed = (PropulsionUnitSpeed)v;
+        PropulsionUnitSpeed speed = (PropulsionUnitSpeed) v;
         Assert.assertEquals(speed.getSpeed(), 0L);
-        Assert.assertEquals(speed.getBytes(), new byte[]{(byte)0x00});
+        Assert.assertEquals(speed.getBytes(), new byte[] {(byte) 0x00});
         Assert.assertEquals(speed.getDisplayableValue(), "0rpm");
 
-        bytes = new byte[]{(byte)0xff};
+        bytes = new byte[] {(byte) 0xff};
         v = UasDatalinkFactory.createValue(UasDatalinkTag.PropulsionUnitSpeed, bytes);
         Assert.assertTrue(v instanceof PropulsionUnitSpeed);
         Assert.assertEquals(v.getDisplayName(), "Propulsion Unit Speed");
-        speed = (PropulsionUnitSpeed)v;
+        speed = (PropulsionUnitSpeed) v;
         Assert.assertEquals(speed.getSpeed(), 255);
         Assert.assertEquals(speed.getBytes(), bytes);
         Assert.assertEquals(speed.getDisplayableValue(), "255rpm");
 
-        bytes = new byte[]{(byte)0x00, (byte)0x00};
+        bytes = new byte[] {(byte) 0x00, (byte) 0x00};
         v = UasDatalinkFactory.createValue(UasDatalinkTag.PropulsionUnitSpeed, bytes);
         Assert.assertTrue(v instanceof PropulsionUnitSpeed);
         Assert.assertEquals(v.getDisplayName(), "Propulsion Unit Speed");
-        speed = (PropulsionUnitSpeed)v;
+        speed = (PropulsionUnitSpeed) v;
         Assert.assertEquals(speed.getSpeed(), 0L);
-        Assert.assertEquals(speed.getBytes(), new byte[]{(byte)0x00});
+        Assert.assertEquals(speed.getBytes(), new byte[] {(byte) 0x00});
         Assert.assertEquals(speed.getDisplayableValue(), "0rpm");
 
-        bytes = new byte[]{(byte)0xff, (byte)0xff};
+        bytes = new byte[] {(byte) 0xff, (byte) 0xff};
         v = UasDatalinkFactory.createValue(UasDatalinkTag.PropulsionUnitSpeed, bytes);
         Assert.assertTrue(v instanceof PropulsionUnitSpeed);
         Assert.assertEquals(v.getDisplayName(), "Propulsion Unit Speed");
-        speed = (PropulsionUnitSpeed)v;
+        speed = (PropulsionUnitSpeed) v;
         Assert.assertEquals(speed.getSpeed(), 65535);
         Assert.assertEquals(speed.getBytes(), bytes);
         Assert.assertEquals(speed.getDisplayableValue(), "65535rpm");
 
-        bytes = new byte[]{(byte)0x00, (byte)0x00, (byte)0x00};
+        bytes = new byte[] {(byte) 0x00, (byte) 0x00, (byte) 0x00};
         v = UasDatalinkFactory.createValue(UasDatalinkTag.PropulsionUnitSpeed, bytes);
         Assert.assertTrue(v instanceof PropulsionUnitSpeed);
         Assert.assertEquals(v.getDisplayName(), "Propulsion Unit Speed");
-        speed = (PropulsionUnitSpeed)v;
+        speed = (PropulsionUnitSpeed) v;
         Assert.assertEquals(speed.getSpeed(), 0L);
-        Assert.assertEquals(speed.getBytes(), new byte[]{(byte)0x00});
+        Assert.assertEquals(speed.getBytes(), new byte[] {(byte) 0x00});
         Assert.assertEquals(speed.getDisplayableValue(), "0rpm");
 
-        bytes = new byte[]{(byte)0xff, (byte)0xff, (byte)0xff};
+        bytes = new byte[] {(byte) 0xff, (byte) 0xff, (byte) 0xff};
         v = UasDatalinkFactory.createValue(UasDatalinkTag.PropulsionUnitSpeed, bytes);
         Assert.assertTrue(v instanceof PropulsionUnitSpeed);
         Assert.assertEquals(v.getDisplayName(), "Propulsion Unit Speed");
-        speed = (PropulsionUnitSpeed)v;
+        speed = (PropulsionUnitSpeed) v;
         Assert.assertEquals(speed.getSpeed(), 16777215L);
-        Assert.assertEquals(speed.getBytes(), new byte[]{(byte)0xff, (byte)0xff, (byte)0xff});
+        Assert.assertEquals(speed.getBytes(), new byte[] {(byte) 0xff, (byte) 0xff, (byte) 0xff});
         Assert.assertEquals(speed.getDisplayableValue(), "16777215rpm");
 
-        bytes = new byte[]{(byte)0x00, (byte)0x00, (byte)0x00, (byte)0x00};
+        bytes = new byte[] {(byte) 0x00, (byte) 0x00, (byte) 0x00, (byte) 0x00};
         v = UasDatalinkFactory.createValue(UasDatalinkTag.PropulsionUnitSpeed, bytes);
         Assert.assertTrue(v instanceof PropulsionUnitSpeed);
         Assert.assertEquals(v.getDisplayName(), "Propulsion Unit Speed");
-        speed = (PropulsionUnitSpeed)v;
+        speed = (PropulsionUnitSpeed) v;
         Assert.assertEquals(speed.getSpeed(), 0L);
-        Assert.assertEquals(speed.getBytes(), new byte[]{(byte)0x00});
+        Assert.assertEquals(speed.getBytes(), new byte[] {(byte) 0x00});
         Assert.assertEquals(speed.getDisplayableValue(), "0rpm");
 
-        bytes = new byte[]{(byte)0xff, (byte)0xff, (byte)0xff, (byte)0xff};
+        bytes = new byte[] {(byte) 0xff, (byte) 0xff, (byte) 0xff, (byte) 0xff};
         v = UasDatalinkFactory.createValue(UasDatalinkTag.PropulsionUnitSpeed, bytes);
         Assert.assertTrue(v instanceof PropulsionUnitSpeed);
         Assert.assertEquals(v.getDisplayName(), "Propulsion Unit Speed");
-        speed = (PropulsionUnitSpeed)v;
+        speed = (PropulsionUnitSpeed) v;
         Assert.assertEquals(speed.getSpeed(), 4294967295L);
         Assert.assertEquals(speed.getBytes(), bytes);
         Assert.assertEquals(speed.getDisplayableValue(), "4294967295rpm");

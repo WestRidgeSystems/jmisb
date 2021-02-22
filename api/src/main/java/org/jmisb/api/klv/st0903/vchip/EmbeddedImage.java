@@ -13,10 +13,9 @@ import org.slf4j.LoggerFactory;
 /**
  * Embedded Image (ST0903 VChip Tag 3).
  *
- * An image “chip” of the type specified by VChip Image Type Tag 1, embedded in the VMTI stream.
+ * <p>An image “chip” of the type specified by VChip Image Type Tag 1, embedded in the VMTI stream.
  */
-public class EmbeddedImage implements IVmtiMetadataValue
-{
+public class EmbeddedImage implements IVmtiMetadataValue {
 
     private static final Logger LOGGER = LoggerFactory.getLogger(EmbeddedImage.class);
 
@@ -27,8 +26,7 @@ public class EmbeddedImage implements IVmtiMetadataValue
      *
      * @param image The image to embed.
      */
-    public EmbeddedImage(BufferedImage image)
-    {
+    public EmbeddedImage(BufferedImage image) {
         embeddedImage = image;
     }
 
@@ -38,23 +36,18 @@ public class EmbeddedImage implements IVmtiMetadataValue
      * @param bytes byte array corresponding to the image data.
      * @throws KlvParseException if the image could not be read or parsed
      */
-    public EmbeddedImage(byte[] bytes) throws KlvParseException
-    {
-        try
-        {
+    public EmbeddedImage(byte[] bytes) throws KlvParseException {
+        try {
             ByteArrayInputStream byteArrayInputStream = new ByteArrayInputStream(bytes);
             embeddedImage = ImageIO.read(byteArrayInputStream);
-        }
-        catch (IOException ex)
-        {
+        } catch (IOException ex) {
             LOGGER.error("", ex);
             embeddedImage = null;
         }
     }
 
     @Override
-    public byte[] getBytes()
-    {
+    public byte[] getBytes() {
         return getBytes("png");
     }
 
@@ -63,20 +56,18 @@ public class EmbeddedImage implements IVmtiMetadataValue
      *
      * @return the image as a BufferedImage.
      */
-    public BufferedImage getImage()
-    {
+    public BufferedImage getImage() {
         return embeddedImage;
     }
 
     /**
-     * Get the encoded bytes
+     * Get the encoded bytes.
+     *
      * @param format the output format (e.g. "png" or "jpeg")
      * @return The encoded byte array
      */
-    public byte[] getBytes(String format)
-    {
-        try (ByteArrayOutputStream byteArrayOutputStream = new ByteArrayOutputStream())
-        {
+    public byte[] getBytes(String format) {
+        try (ByteArrayOutputStream byteArrayOutputStream = new ByteArrayOutputStream()) {
             ImageIO.write(embeddedImage, format, byteArrayOutputStream);
             byteArrayOutputStream.flush();
             return byteArrayOutputStream.toByteArray();
@@ -87,14 +78,12 @@ public class EmbeddedImage implements IVmtiMetadataValue
     }
 
     @Override
-    public String getDisplayableValue()
-    {
+    public String getDisplayableValue() {
         return "[Image]";
     }
 
     @Override
-    public String getDisplayName()
-    {
+    public String getDisplayName() {
         return "Embedded Image";
     }
 }

@@ -8,23 +8,31 @@ import org.jmisb.api.klv.st0601.dto.Waypoint;
 import org.testng.Assert;
 import org.testng.annotations.Test;
 
-public class WaypointListTest
-{
-    private final byte[] st_example_bytes = new byte[] {
-        (byte)0x0F, (byte)0x00, (byte)0x00, (byte)0x01, (byte)0x03, (byte)0x40, (byte)0x71, (byte)0xD8, (byte)0x94, (byte)0x19, (byte)0xBD, (byte)0xBF, (byte)0xE7, (byte)0x08, (byte)0x98, (byte)0x00,
-        (byte)0x0F, (byte)0x01, (byte)0x00, (byte)0x02, (byte)0x02, (byte)0x40, (byte)0x71, (byte)0xD3, (byte)0x88, (byte)0x19, (byte)0xBC, (byte)0xCE, (byte)0x24, (byte)0x08, (byte)0xFC, (byte)0x00,
-        (byte)0x0F, (byte)0x02, (byte)0x7F, (byte)0xFF, (byte)0x01, (byte)0x40, (byte)0x71, (byte)0xE3, (byte)0x08, (byte)0x19, (byte)0xBF, (byte)0x2C, (byte)0x1B, (byte)0x07, (byte)0xD0, (byte)0x00,
-        (byte)0x0F, (byte)0x03, (byte)0xFF, (byte)0xFE, (byte)0x00, (byte)0x40, (byte)0x71, (byte)0xE5, (byte)0xAF, (byte)0x19, (byte)0xBF, (byte)0x5A, (byte)0xA7, (byte)0x09, (byte)0x60, (byte)0x00};
+public class WaypointListTest {
+    private final byte[] st_example_bytes =
+            new byte[] {
+                (byte) 0x0F, (byte) 0x00, (byte) 0x00, (byte) 0x01, (byte) 0x03, (byte) 0x40,
+                        (byte) 0x71, (byte) 0xD8, (byte) 0x94, (byte) 0x19, (byte) 0xBD,
+                        (byte) 0xBF, (byte) 0xE7, (byte) 0x08, (byte) 0x98, (byte) 0x00,
+                (byte) 0x0F, (byte) 0x01, (byte) 0x00, (byte) 0x02, (byte) 0x02, (byte) 0x40,
+                        (byte) 0x71, (byte) 0xD3, (byte) 0x88, (byte) 0x19, (byte) 0xBC,
+                        (byte) 0xCE, (byte) 0x24, (byte) 0x08, (byte) 0xFC, (byte) 0x00,
+                (byte) 0x0F, (byte) 0x02, (byte) 0x7F, (byte) 0xFF, (byte) 0x01, (byte) 0x40,
+                        (byte) 0x71, (byte) 0xE3, (byte) 0x08, (byte) 0x19, (byte) 0xBF,
+                        (byte) 0x2C, (byte) 0x1B, (byte) 0x07, (byte) 0xD0, (byte) 0x00,
+                (byte) 0x0F, (byte) 0x03, (byte) 0xFF, (byte) 0xFE, (byte) 0x00, (byte) 0x40,
+                        (byte) 0x71, (byte) 0xE5, (byte) 0xAF, (byte) 0x19, (byte) 0xBF,
+                        (byte) 0x5A, (byte) 0xA7, (byte) 0x09, (byte) 0x60, (byte) 0x00
+            };
 
     @Test
-    public void testConstructFromValue()
-    {
+    public void testConstructFromValue() {
         List<Waypoint> waypoints = new ArrayList<>();
         Waypoint wp0 = new Waypoint();
         // (0, 1, (1, 1), (38.889422, -77.035162, 200))
         waypoints.add(wp0);
         wp0.setWaypointID(0);
-        wp0.setProsecutionOrder((short)1);
+        wp0.setProsecutionOrder((short) 1);
         wp0.setManualMode(true);
         wp0.setAdhocSource(true);
         Location wp0Location = new Location();
@@ -36,7 +44,7 @@ public class WaypointListTest
         // (1, 2, (1, 0), (38.889268, -77.049918, 250))
         waypoints.add(wp1);
         wp1.setWaypointID(1);
-        wp1.setProsecutionOrder((short)2);
+        wp1.setProsecutionOrder((short) 2);
         wp1.setAdhocSource(true);
         wp1.setManualMode(false);
         Location wp1Location = new Location();
@@ -47,7 +55,7 @@ public class WaypointListTest
         Waypoint wp2 = new Waypoint();
         // (2, 32767, (0, 1), (38.889741, -77.012933, 100))
         wp2.setWaypointID(2);
-        wp2.setProsecutionOrder((short)32767);
+        wp2.setProsecutionOrder((short) 32767);
         wp2.setAdhocSource(false);
         wp2.setManualMode(true);
         Location wp2Location = new Location();
@@ -59,7 +67,7 @@ public class WaypointListTest
         Waypoint wp3 = new Waypoint();
         // (3, -2, (0, 0), (38.889822, -77.010092, 300))
         wp3.setWaypointID(3);
-        wp3.setProsecutionOrder((short)-2);
+        wp3.setProsecutionOrder((short) -2);
         wp3.setAdhocSource(false);
         wp3.setManualMode(false);
         Location wp3Location = new Location();
@@ -73,18 +81,17 @@ public class WaypointListTest
     }
 
     @Test
-    public void testConstructFromEncoded()
-    {
+    public void testConstructFromEncoded() throws KlvParseException {
         WaypointList list = new WaypointList(st_example_bytes);
         checkWaypointList(list);
     }
 
     @Test
-    public void testFactory() throws KlvParseException
-    {
-        IUasDatalinkValue v = UasDatalinkFactory.createValue(UasDatalinkTag.WaypointList, st_example_bytes);
+    public void testFactory() throws KlvParseException {
+        IUasDatalinkValue v =
+                UasDatalinkFactory.createValue(UasDatalinkTag.WaypointList, st_example_bytes);
         Assert.assertTrue(v instanceof WaypointList);
-        WaypointList list = (WaypointList)v;
+        WaypointList list = (WaypointList) v;
         checkWaypointList(list);
     }
 
@@ -126,5 +133,10 @@ public class WaypointListTest
         Assert.assertEquals(list.getBytes(), st_example_bytes);
         Assert.assertEquals(list.getDisplayableValue(), "[Waypoint List]");
         Assert.assertEquals(list.getDisplayName(), "Waypoint List");
+    }
+
+    @Test(expectedExceptions = KlvParseException.class)
+    public void badLength() throws KlvParseException {
+        new WaypointList(new byte[] {0x01});
     }
 }

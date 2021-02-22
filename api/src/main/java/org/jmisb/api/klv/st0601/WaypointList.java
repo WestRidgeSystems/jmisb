@@ -3,6 +3,7 @@ package org.jmisb.api.klv.st0601;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
+import org.jmisb.api.common.KlvParseException;
 import org.jmisb.api.klv.Ber;
 import org.jmisb.api.klv.BerDecoder;
 import org.jmisb.api.klv.BerEncoder;
@@ -14,29 +15,30 @@ import org.jmisb.core.klv.ArrayUtils;
 import org.jmisb.core.klv.PrimitiveConverter;
 
 /**
- * Waypoint List (ST 0601 tag 141).
- * <p>
- * From ST:
+ * Waypoint List (ST 0601 Item 141).
+ *
+ * <p>From ST:
+ *
  * <blockquote>
+ *
  * List of waypoints and their status.
- * <p>
- * Waypoints are a series of aircraft destinations used to navigate the aircraft
- * to certain locations. Waypoints are typically included in a flight plan and
- * known at the beginning of a mission; however, depending on real-time events
- * and information, the plan may change. Several types of changes are possible
- * throughout the lifecycle of a mission: the waypoint order changes;
+ *
+ * <p>Waypoints are a series of aircraft destinations used to navigate the aircraft to certain
+ * locations. Waypoints are typically included in a flight plan and known at the beginning of a
+ * mission; however, depending on real-time events and information, the plan may change. Several
+ * types of changes are possible throughout the lifecycle of a mission: the waypoint order changes;
  * cancellation of a waypoint; and adding ad hoc waypoints.
- * <p>
- * The Waypoint List is a list of Waypoint Records encoded as a Variable Length
- * Pack (VLP) to support waypoint management. A Waypoint Record contains:
- * Waypoint ID, Prosecution Order, Info Value, and Location.
+ *
+ * <p>The Waypoint List is a list of Waypoint Records encoded as a Variable Length Pack (VLP) to
+ * support waypoint management. A Waypoint Record contains: Waypoint ID, Prosecution Order, Info
+ * Value, and Location.
+ *
  * </blockquote>
- * <p>
- * See the Waypoint data transfer object documentation for description of the
- * components within a Waypoint.
+ *
+ * <p>See the Waypoint data transfer object documentation for description of the components within a
+ * Waypoint.
  */
-public class WaypointList implements IUasDatalinkValue
-{
+public class WaypointList implements IUasDatalinkValue {
     private final List<Waypoint> waypoints = new ArrayList<>();
     private static int MANUAL_MODE = 0x01;
     private static int ADHOC_SOURCE = 0x02;
@@ -46,37 +48,38 @@ public class WaypointList implements IUasDatalinkValue
     private final FpEncoder haeDecoder = new FpEncoder(-900, 9000, 3);
 
     /**
-     * Create from value
+     * Create from value.
      *
      * @param waypoints list of Waypoint values
      */
-    public WaypointList(List<Waypoint> waypoints)
-    {
+    public WaypointList(List<Waypoint> waypoints) {
         this.waypoints.clear();
         this.waypoints.addAll(waypoints);
     }
 
     /**
-     * Create from encoded bytes
+     * Create from encoded bytes.
      *
      * @param bytes Waypoint List, byte array with Variable Length Pack encoding
+     * @throws KlvParseException if there is a problem when parsing the structure
      */
-    public WaypointList(byte[] bytes)
-    {
+    public WaypointList(byte[] bytes) throws KlvParseException {
         int idx = 0;
         while (idx < bytes.length) {
-            int wpLength = Byte.toUnsignedInt(bytes[idx]);
-            idx++;
-            byte[] waypointBytes = Arrays.copyOfRange(bytes, idx, idx + wpLength);
+            BerField wpLengthField = BerDecoder.decode(bytes, idx, false);
+            idx += wpLengthField.getLength();
+            if ((idx + wpLengthField.getValue()) > bytes.length) {
+                throw new KlvParseException("Insufficient bytes for Waypoint");
+            }
+            byte[] waypointBytes = Arrays.copyOfRange(bytes, idx, idx + wpLengthField.getValue());
             // Skip over length we just consumed
-            idx += wpLength;
+            idx += wpLengthField.getValue();
             Waypoint wp = parseWaypoint(waypointBytes);
             this.waypoints.add(wp);
         }
     }
 
-    private Waypoint parseWaypoint(byte[] waypointBytes)
-    {
+    private Waypoint parseWaypoint(byte[] waypointBytes) {
         int idx = 0; // index into waypointBytes where we'll read the next field
         Waypoint waypoint = new Waypoint();
         BerField waypointIdField = BerDecoder.decode(waypointBytes, 0, false);
@@ -106,30 +109,26 @@ public class WaypointList implements IUasDatalinkValue
      *
      * @return the ordered list of waypoints.
      */
-    public List<Waypoint> getWaypoints()
-    {
+    public List<Waypoint> getWaypoints() {
         return this.waypoints;
     }
 
     @Override
-    public byte[] getBytes()
-    {
+    public byte[] getBytes() {
         List<byte[]> chunks = new ArrayList<>();
         int totalLength = 0;
-        for (Waypoint wp: getWaypoints())
-        {
+        for (Waypoint wp : getWaypoints()) {
             int len = 0;
             byte[] idBytes = BerEncoder.encode(wp.getWaypointID(), Ber.OID);
             len += idBytes.length;
-            byte[] prosecutionOrderBytes = PrimitiveConverter.int16ToBytes(wp.getProsecutionOrder());
+            byte[] prosecutionOrderBytes =
+                    PrimitiveConverter.int16ToBytes(wp.getProsecutionOrder());
             len += prosecutionOrderBytes.length;
             byte infoVal = 0;
-            if (wp.isAdhocSource())
-            {
+            if (wp.isAdhocSource()) {
                 infoVal += ADHOC_SOURCE;
             }
-            if (wp.isManualMode())
-            {
+            if (wp.isManualMode()) {
                 infoVal += MANUAL_MODE;
             }
             byte[] infoBytes = BerEncoder.encode(infoVal, Ber.OID);
@@ -155,15 +154,12 @@ public class WaypointList implements IUasDatalinkValue
     }
 
     @Override
-    public String getDisplayableValue()
-    {
+    public String getDisplayableValue() {
         return "[Waypoint List]";
     }
 
     @Override
-    public String getDisplayName()
-    {
+    public String getDisplayName() {
         return "Waypoint List";
     }
-
 }

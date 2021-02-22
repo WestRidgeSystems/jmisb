@@ -3,11 +3,9 @@ package org.jmisb.core.video;
 import org.testng.Assert;
 import org.testng.annotations.Test;
 
-public class FfmpegUtilsTest
-{
+public class FfmpegUtilsTest {
     @Test
-    public void testFourCC()
-    {
+    public void testFourCC() {
         String fourCc = FfmpegUtils.tagToFourCc(1096174667);
         Assert.assertEquals(fourCc, "KLVA");
 

@@ -2,49 +2,36 @@ package org.jmisb.api.klv.st0903.ontology;
 
 import java.util.HashMap;
 import java.util.Map;
+import org.jmisb.api.klv.IKlvKey;
 
-/**
- * Metadata tag numbers for ST0903 Ontology local set.
- */
-public enum OntologyMetadataKey
-{
+/** Metadata tag numbers for ST0903 Ontology local set. */
+public enum OntologyMetadataKey implements IKlvKey {
     /**
      * Unknown key.
-     * <p>
-     * This should not be created.
+     *
+     * <p>This should not be created.
      */
     Undefined(0),
-    /**
-     * Identifier for the ontology used.
-     */
+    /** Identifier for the ontology used. */
     id(1),
-    /**
-     * Defines the link when an OntologySeries has two related LS in the Series.
-     */
+    /** Defines the link when an OntologySeries has two related LS in the Series. */
     parentId(2),
-    /**
-     * Uniform Resource Identifier (URI) according to  the OWL Web Ontology Language.
-     */
+    /** Uniform Resource Identifier (URI) according to the OWL Web Ontology Language. */
     ontology(3),
-    /**
-     * A value representing a target class or type, as defined by the Ontology.
-     */
+    /** A value representing a target class or type, as defined by the Ontology. */
     ontologyClass(4);
 
     private int tag;
 
     private static final Map<Integer, OntologyMetadataKey> tagTable = new HashMap<>();
 
-    static
-    {
-        for (OntologyMetadataKey key : values())
-        {
+    static {
+        for (OntologyMetadataKey key : values()) {
             tagTable.put(key.tag, key);
         }
     }
 
-    OntologyMetadataKey(int tag)
-    {
+    OntologyMetadataKey(int tag) {
         this.tag = tag;
     }
 
@@ -53,8 +40,7 @@ public enum OntologyMetadataKey
      *
      * @return the tag associated with this enumerated value.
      */
-    public int getTag()
-    {
+    public int getTag() {
         return tag;
     }
 
@@ -64,9 +50,12 @@ public enum OntologyMetadataKey
      * @param tag the tag number.
      * @return the corresponding Ontology tag.
      */
-    public static OntologyMetadataKey getKey(int tag)
-    {
+    public static OntologyMetadataKey getKey(int tag) {
         return tagTable.containsKey(tag) ? tagTable.get(tag) : Undefined;
     }
 
+    @Override
+    public int getIdentifier() {
+        return getTag();
+    }
 }

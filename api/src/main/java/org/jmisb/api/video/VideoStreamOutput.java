@@ -1,15 +1,5 @@
 package org.jmisb.api.video;
 
-import org.bytedeco.ffmpeg.avcodec.AVPacket;
-import org.bytedeco.ffmpeg.avformat.AVIOContext;
-import org.bytedeco.ffmpeg.avutil.AVDictionary;
-import org.jmisb.core.video.FfmpegUtils;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
-
-import java.io.IOException;
-import java.util.concurrent.*;
-
 import static org.bytedeco.ffmpeg.global.avcodec.av_packet_alloc;
 import static org.bytedeco.ffmpeg.global.avcodec.av_packet_clone;
 import static org.bytedeco.ffmpeg.global.avcodec.av_packet_free;
@@ -21,14 +11,19 @@ import static org.bytedeco.ffmpeg.global.avformat.avio_find_protocol_name;
 import static org.bytedeco.ffmpeg.global.avformat.avio_open;
 import static org.bytedeco.ffmpeg.global.avutil.AVERROR_EOF;
 import static org.bytedeco.ffmpeg.global.avutil.av_dict_free;
-import static org.bytedeco.ffmpeg.global.avutil.av_dict_set;
 import static org.bytedeco.ffmpeg.presets.avutil.AVERROR_EAGAIN;
 
-/**
- * Manages an outgoing video stream
- */
-public class VideoStreamOutput extends VideoOutput implements IVideoStreamOutput
-{
+import java.io.IOException;
+import java.util.concurrent.*;
+import org.bytedeco.ffmpeg.avcodec.AVPacket;
+import org.bytedeco.ffmpeg.avformat.AVIOContext;
+import org.bytedeco.ffmpeg.avutil.AVDictionary;
+import org.jmisb.core.video.FfmpegUtils;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+
+/** Manages an outgoing video stream. */
+public class VideoStreamOutput extends VideoOutput implements IVideoStreamOutput {
     private static Logger logger = LoggerFactory.getLogger(VideoStreamOutput.class);
     private String url;
 
@@ -46,26 +41,24 @@ public class VideoStreamOutput extends VideoOutput implements IVideoStreamOutput
     private OutputStatistics outputStatistics = new OutputStatistics();
 
     /**
-     * Constructor
-     * <p>
-     * Clients must use {@link VideoSystem#createOutputStream(VideoOutputOptions)} to construct new instances
+     * Constructor.
+     *
+     * @param options Options for video output
      */
-    VideoStreamOutput(VideoOutputOptions options)
-    {
+    public VideoStreamOutput(VideoOutputOptions options) {
         super(options);
     }
 
     @Override
-    public void open(String url) throws IOException
-    {
+    public void open(String url) throws IOException {
         logger.debug("Opening " + url);
 
         outputStatistics.reset();
 
         String protocol = avio_find_protocol_name(url);
-        if (protocol == null || !protocol.equals("udp"))
-        {
-            throw new IllegalArgumentException("Invalid protocol: " + url + "; currently only UDP is supported");
+        if (protocol == null || !protocol.equals("udp")) {
+            throw new IllegalArgumentException(
+                    "Invalid protocol: " + url + "; currently only UDP is supported");
         }
 
         // Attempt to open the url
@@ -73,8 +66,7 @@ public class VideoStreamOutput extends VideoOutput implements IVideoStreamOutput
         int ret;
         AVIOContext ioContext = new AVIOContext(null);
 
-        if ((ret = avio_open(ioContext, url, AVIO_FLAG_WRITE)) < 0)
-        {
+        if ((ret = avio_open(ioContext, url, AVIO_FLAG_WRITE)) < 0) {
             String message = "Error opening stream: " + FfmpegUtils.formatError(ret);
             logger.error(message);
             throw new IOException(message);
@@ -84,8 +76,7 @@ public class VideoStreamOutput extends VideoOutput implements IVideoStreamOutput
         initFormat();
         createVideoStream();
 
-        if (options.hasKlvStream())
-        {
+        if (options.hasKlvStream()) {
             createMetadataStream();
         }
 
@@ -93,8 +84,8 @@ public class VideoStreamOutput extends VideoOutput implements IVideoStreamOutput
 
         AVDictionary muxerOptions = new AVDictionary(null);
         // TODO: Set muxer private options disabling SDT and PAT?
-//        av_dict_set(muxerOptions, "sdt_period", "1000000", 0);
-//        av_dict_set(muxerOptions, "pat_period", "1000000", 0);
+        // av_dict_set(muxerOptions, "sdt_period", "1000000", 0);
+        // av_dict_set(muxerOptions, "pat_period", "1000000", 0);
         avformat_write_header(formatContext, muxerOptions);
         av_dict_free(muxerOptions);
 
@@ -109,33 +100,27 @@ public class VideoStreamOutput extends VideoOutput implements IVideoStreamOutput
     }
 
     @Override
-    public boolean isOpen()
-    {
+    public boolean isOpen() {
         return (senderFuture != null) && (!senderFuture.isCancelled());
     }
 
     @Override
-    public void close()
-    {
-        if (logger.isDebugEnabled())
-        {
+    public void close() {
+        if (logger.isDebugEnabled()) {
             logger.debug("Closing " + url);
         }
 
-        if (!isOpen())
-        {
+        if (!isOpen()) {
             logger.warn("Video output stream " + url + " is already closed; ignoring close() call");
             return;
         }
 
-        if (encoderFuture != null)
-        {
+        if (encoderFuture != null) {
             encoderFuture.cancel(true);
             videoFrames.clear();
         }
 
-        if (senderFuture != null)
-        {
+        if (senderFuture != null) {
             senderFuture.cancel(true);
             videoPackets.clear();
             klvPackets.clear();
@@ -152,146 +137,134 @@ public class VideoStreamOutput extends VideoOutput implements IVideoStreamOutput
     }
 
     @Override
-    public void queueVideoFrame(VideoFrame videoFrame)
-    {
-        videoFrames.offer(videoFrame);
+    public void queueVideoFrame(VideoFrame videoFrame) {
+        boolean wasAdded = videoFrames.offer(videoFrame);
+        if (!wasAdded) {
+            logger.info("Video frame could not be queued, possible lag");
+            return;
+        }
         outputStatistics.videoFrameQueued();
     }
 
     @Override
-    public void queueMetadataFrame(MetadataFrame metadataFrame) throws IOException
-    {
-        if (!options.hasKlvStream())
-        {
+    public void queueMetadataFrame(MetadataFrame metadataFrame) throws IOException {
+        if (!options.hasKlvStream()) {
             throw new IOException("Attempted to write metadata without a KLV stream");
         }
 
         AVPacket packet = convert(metadataFrame);
-        klvPackets.offer(av_packet_clone(packet));
+        boolean wasAdded = klvPackets.offer(av_packet_clone(packet));
+        if (!wasAdded) {
+            logger.info("Metadata Frame could not be queued, possible lag");
+            return;
+        }
         outputStatistics.metadataFrameQueued();
     }
 
     @Override
-    public OutputStatistics getStatistics()
-    {
+    public OutputStatistics getStatistics() {
         return outputStatistics;
     }
 
-    /**
-     * Create the video encoder runnable to be run in the background
-     */
-    private void createVideoEncoder()
-    {
-        videoEncoder = () -> {
+    /** Create the video encoder runnable to be run in the background. */
+    private void createVideoEncoder() {
+        videoEncoder =
+                () -> {
+                    boolean cancelled = false;
+                    while (!cancelled) {
+                        try {
+                            // Block waiting for a frame from the client
+                            VideoFrame frame = videoFrames.take();
+                            encodeFrame(frame);
+                            outputStatistics.videoFrameEncoded();
 
-            boolean cancelled = false;
-            while (!cancelled)
-            {
-                try
-                {
-                    // Block waiting for a frame from the client
-                    VideoFrame frame = videoFrames.take();
-                    encodeFrame(frame);
-                    outputStatistics.videoFrameEncoded();
+                            // TODO: not sure we should be allocating here; avcodec_receive_packet
+                            // below says packet will be allocated by the encoder
+                            AVPacket packet = av_packet_alloc();
 
-                    // TODO: not sure we should be allocating here; avcodec_receive_packet below
-                    // says packet will be allocated by the encoder
-                    AVPacket packet = av_packet_alloc();
-
-                    int ret = avcodec_receive_packet(videoCodecContext, packet);
-                    if (ret == 0)
-                    {
-                        videoPackets.offer(av_packet_clone(packet));
-                    } else if (ret == AVERROR_EOF)
-                    {
-                        logger.info("Received EOF from encoder");
-                        cancelled = true;
-                    } else if (ret != AVERROR_EAGAIN())
-                    {
-                        throw new IOException("Video encoder error: " + FfmpegUtils.formatError(ret));
-                    }
-                } catch (IOException e)
-                {
-                    // TODO: notify client of error
-                    logger.error("IOException while encoding frame", e);
-                    cancelled = true;
-                } catch (InterruptedException e)
-                {
-                    // Normal way of shutting down; don't log as an error
-                    cancelled = true;
-                }
-            }
-        };
-    }
-
-    /**
-     * Create the packet sender runnable, to be called once every 1/frame_rate seconds
-     */
-    private void createPacketSender()
-    {
-        packetSender = () -> {
-
-            boolean cancelled = false;
-            long lastVideoPts = 0;
-            while (!cancelled)
-            {
-                // Block waiting for a video packet
-                AVPacket packet;
-                try
-                {
-                    packet = videoPackets.take();
-                    int ret;
-                    if ((ret = av_write_frame(formatContext, packet)) < 0)
-                    {
-                        logger.error("Error writing video packet: " + FfmpegUtils.formatError(ret));
-                    } else
-                    {
-                        lastVideoPts = packet.pts();
-                        outputStatistics.videoFrameSent();
-                    }
-                    av_packet_free(packet);
-                } catch (InterruptedException e)
-                {
-                    cancelled = true;
-                }
-
-                // Send all KLV packets whose PTS <= the last video packet's PTS
-                while (klvPackets.peek() != null && klvPackets.peek().pts() <= lastVideoPts)
-                {
-                    try
-                    {
-                        AVPacket pkt = klvPackets.take();
-                        int ret;
-                        if ((ret = av_write_frame(formatContext, pkt)) < 0)
-                        {
-                            logger.error("Error writing metadata packet: " + FfmpegUtils.formatError(ret));
-                        } else
-                        {
-                            outputStatistics.metadataFrameSent();
+                            int ret = avcodec_receive_packet(videoCodecContext, packet);
+                            if (ret == 0) {
+                                boolean wasQueued = videoPackets.offer(av_packet_clone(packet));
+                                if (!wasQueued) {
+                                    logger.info(
+                                            "Packet could not be queued, possible lag in stream");
+                                    return;
+                                }
+                            } else if (ret == AVERROR_EOF) {
+                                logger.info("Received EOF from encoder");
+                                cancelled = true;
+                            } else if (ret != AVERROR_EAGAIN()) {
+                                throw new IOException(
+                                        "Video encoder error: " + FfmpegUtils.formatError(ret));
+                            }
+                        } catch (IOException e) {
+                            // TODO: notify client of error
+                            logger.error("IOException while encoding frame", e);
+                            cancelled = true;
+                        } catch (InterruptedException e) {
+                            // Normal way of shutting down; don't log as an error
+                            cancelled = true;
                         }
-                        av_packet_free(pkt);
-                    } catch (InterruptedException e)
-                    {
-                        cancelled = true;
-                        break;
                     }
-                }
-            }
-            logger.debug("Packet sender thread exiting");
-        };
+                };
     }
 
-    private void shutdownExecSvc(ExecutorService service)
-    {
-        if (service != null)
-        {
+    /** Create the packet sender runnable, to be called once every 1/frame_rate seconds. */
+    private void createPacketSender() {
+        packetSender =
+                () -> {
+                    boolean cancelled = false;
+                    long lastVideoPts = 0;
+                    while (!cancelled) {
+                        // Block waiting for a video packet
+                        AVPacket packet;
+                        try {
+                            packet = videoPackets.take();
+                            int ret;
+                            if ((ret = av_write_frame(formatContext, packet)) < 0) {
+                                logger.error(
+                                        "Error writing video packet: "
+                                                + FfmpegUtils.formatError(ret));
+                            } else {
+                                lastVideoPts = packet.pts();
+                                outputStatistics.videoFrameSent();
+                            }
+                            av_packet_free(packet);
+                        } catch (InterruptedException e) {
+                            cancelled = true;
+                        }
+
+                        // Send all KLV packets whose PTS <= the last video packet's PTS
+                        while (klvPackets.peek() != null
+                                && klvPackets.peek().pts() <= lastVideoPts) {
+                            try {
+                                AVPacket pkt = klvPackets.take();
+                                int ret;
+                                if ((ret = av_write_frame(formatContext, pkt)) < 0) {
+                                    logger.error(
+                                            "Error writing metadata packet: "
+                                                    + FfmpegUtils.formatError(ret));
+                                } else {
+                                    outputStatistics.metadataFrameSent();
+                                }
+                                av_packet_free(pkt);
+                            } catch (InterruptedException e) {
+                                cancelled = true;
+                                break;
+                            }
+                        }
+                    }
+                    logger.debug("Packet sender thread exiting");
+                };
+    }
+
+    private void shutdownExecSvc(ExecutorService service) {
+        if (service != null) {
             logger.debug("Shutting down exec service");
             service.shutdown();
-            try
-            {
+            try {
                 service.awaitTermination(5, TimeUnit.SECONDS);
-            } catch (InterruptedException e)
-            {
+            } catch (InterruptedException e) {
                 logger.error("Interrupted while awaiting executor service termination", e);
             }
         }

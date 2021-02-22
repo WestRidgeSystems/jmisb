@@ -1,0 +1,17 @@
+name: JDK11 Build (Ubuntu 20.04 default)
+
+on:
+    push:
+      branches: [ develop ]
+    pull_request:
+      branches: [ develop ]
+
+jobs:
+  build:
+    runs-on: ubuntu-20.04
+
+    steps:
+      - uses: actions/checkout@v2
+      - name: Build and install
+        run: mvn -B install
+

@@ -3,11 +3,9 @@ package org.jmisb.api.klv;
 import org.testng.Assert;
 import org.testng.annotations.Test;
 
-public class BerDecoderTest
-{
+public class BerDecoderTest {
     @Test
-    public void testShortFormLengthField()
-    {
+    public void testShortFormLengthField() {
         // BER Short Form is always encoded in a single byte, and has its high order bit set to 0
         byte[] data = {0x00, 0x05, 0x7f}; // 1, 5, 127
         BerField l1 = BerDecoder.decode(data, 0, false);
@@ -24,9 +22,10 @@ public class BerDecoderTest
     }
 
     @Test
-    public void testLongFormLengthField()
-    {
-        byte[] data = {(byte)0x81, 0x05, (byte)0x82, 0x01, (byte)0x80, (byte)0x84, 0x01, 0x01, 0x01, 0x01};
+    public void testLongFormLengthField() {
+        byte[] data = {
+            (byte) 0x81, 0x05, (byte) 0x82, 0x01, (byte) 0x80, (byte) 0x84, 0x01, 0x01, 0x01, 0x01
+        };
 
         BerField l1 = BerDecoder.decode(data, 0, false);
         BerField l2 = BerDecoder.decode(data, 2, false);
@@ -39,5 +38,41 @@ public class BerDecoderTest
         Assert.assertEquals(l1.getLength(), 2);
         Assert.assertEquals(l2.getLength(), 3);
         Assert.assertEquals(l3.getLength(), 5);
+    }
+
+    @Test(expectedExceptions = IllegalArgumentException.class)
+    public void testParseBufferOverrun() {
+        byte[] data = {0x00, 0x05, 0x7f};
+        BerField l1 = BerDecoder.decode(data, 3, false);
+    }
+
+    @Test(expectedExceptions = IllegalArgumentException.class)
+    public void testParseBufferOverrunGreater() {
+        byte[] data = {0x00, 0x05, 0x7f};
+        BerField l1 = BerDecoder.decode(data, 4, false);
+    }
+
+    @Test(expectedExceptions = IllegalArgumentException.class)
+    public void testParseBufferOverrunOid() {
+        byte[] data = {0x00, 0x05, 0x7f};
+        BerField l1 = BerDecoder.decode(data, 3, true);
+    }
+
+    @Test(expectedExceptions = IllegalArgumentException.class)
+    public void testParseBufferOverrunLongform() {
+        byte[] data = {0x00, 0x05, (byte) 0x81};
+        BerField l1 = BerDecoder.decode(data, 2, false);
+    }
+
+    @Test(expectedExceptions = IllegalArgumentException.class)
+    public void testParseBufferOverrunLongform5() {
+        byte[] data = {(byte) 0x85, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00};
+        BerField l1 = BerDecoder.decode(data, 0, false);
+    }
+
+    @Test(expectedExceptions = IllegalArgumentException.class)
+    public void testParseIndexOverrunOid() {
+        byte[] data = {(byte) 0x80};
+        BerField l1 = BerDecoder.decode(data, 0, true);
     }
 }

@@ -1,4 +1,2 @@
-/**
- * Common interfaces and utilities
- */
+/** Common interfaces and utilities. */
 package org.jmisb.api.common;

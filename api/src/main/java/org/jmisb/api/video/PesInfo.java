@@ -2,66 +2,58 @@ package org.jmisb.api.video;
 
 import java.util.List;
 
-/**
- * Packetized Elementary Stream (PES) information
- */
-public class PesInfo
-{
+/** Packetized Elementary Stream (PES) information. */
+public class PesInfo {
     private final int index;
     private final PesType type;
     private final String codecName;
 
     /**
-     * Constructor
+     * Constructor.
      *
      * @param index The stream index
      * @param type The type
      * @param codecName The codec name
      */
-    public PesInfo(int index, PesType type, String codecName)
-    {
+    public PesInfo(int index, PesType type, String codecName) {
         this.index = index;
         this.type = type;
         this.codecName = codecName;
     }
 
     /**
-     * Get the stream index
+     * Get the stream index.
      *
      * @return The stream index
      */
-    public int getIndex()
-    {
+    public int getIndex() {
         return index;
     }
 
     /**
-     * Get the type
+     * Get the type.
      *
      * @return The type
      */
-    public PesType getType()
-    {
+    public PesType getType() {
         return type;
     }
 
     /**
-     * Get the codec name
+     * Get the codec name.
      *
      * @return The codec name
      */
-    public String getCodecName()
-    {
+    public String getCodecName() {
         return codecName;
     }
 
     /**
-     * Return a JSON string representing the value
+     * Return a JSON string representing the value.
      *
      * @return The JSON string
      */
-    public String asJson()
-    {
+    public String asJson() {
         // TODO: this might be tedious to maintain; consider gson
         StringBuilder sb = new StringBuilder();
         sb.append("{ ");
@@ -79,23 +71,20 @@ public class PesInfo
     }
 
     /**
-     * Return a JSON string containing a list of PesInfo objects
+     * Return a JSON string containing a list of PesInfo objects.
      *
      * @param list The list
      * @return The JSON string
      */
-    public static String asJson(List<PesInfo> list)
-    {
+    public static String asJson(List<PesInfo> list) {
         StringBuilder sb = new StringBuilder();
         sb.append("{\n");
         sb.append("    \"streams\": [\n");
         int i = 0;
-        for (PesInfo pes : list)
-        {
+        for (PesInfo pes : list) {
             sb.append("        ");
             sb.append(pes.asJson());
-            if (++i != list.size())
-                sb.append(",");
+            if (++i != list.size()) sb.append(",");
             sb.append("\n");
         }
         sb.append("    ]\n");

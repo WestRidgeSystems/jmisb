@@ -7,26 +7,25 @@ import org.testng.annotations.Test;
 public class TargetErrorEstimateCe90Test {
 
     @Test
-    public void testMinMax()
-    {
+    public void testMinMax() {
         TargetErrorEstimateCe90 errorEstimate = new TargetErrorEstimateCe90(0.0);
         byte[] bytes = errorEstimate.getBytes();
-        Assert.assertEquals(bytes, new byte[]{(byte) 0x00, (byte) 0x00});
+        Assert.assertEquals(bytes, new byte[] {(byte) 0x00, (byte) 0x00});
         Assert.assertEquals(errorEstimate.getMetres(), 0.0);
         Assert.assertEquals("0.0000m", errorEstimate.getDisplayableValue());
 
         errorEstimate = new TargetErrorEstimateCe90(4095.0);
         bytes = errorEstimate.getBytes();
-        Assert.assertEquals(bytes, new byte[]{(byte) 0xff, (byte) 0xff});
+        Assert.assertEquals(bytes, new byte[] {(byte) 0xff, (byte) 0xff});
         Assert.assertEquals(errorEstimate.getMetres(), 4095.0);
         Assert.assertEquals("4095.0000m", errorEstimate.getDisplayableValue());
 
-        bytes = new byte[]{(byte) 0x00, (byte) 0x00};
+        bytes = new byte[] {(byte) 0x00, (byte) 0x00};
         errorEstimate = new TargetErrorEstimateCe90(bytes);
         Assert.assertEquals(errorEstimate.getMetres(), 0.0);
         Assert.assertEquals(errorEstimate.getBytes(), bytes);
 
-        bytes = new byte[]{(byte) 0xff, (byte) 0xff};
+        bytes = new byte[] {(byte) 0xff, (byte) 0xff};
         errorEstimate = new TargetErrorEstimateCe90(bytes);
         Assert.assertEquals(errorEstimate.getMetres(), 4095.0);
         Assert.assertEquals(errorEstimate.getBytes(), bytes);
@@ -35,9 +34,8 @@ public class TargetErrorEstimateCe90Test {
     }
 
     @Test
-    public void testFactory() throws KlvParseException
-    {
-        byte[] bytes = new byte[]{(byte) 0x00, (byte) 0x00};
+    public void testFactory() throws KlvParseException {
+        byte[] bytes = new byte[] {(byte) 0x00, (byte) 0x00};
         IUasDatalinkValue v = UasDatalinkFactory.createValue(UasDatalinkTag.TargetErrorCe90, bytes);
         Assert.assertTrue(v instanceof TargetErrorEstimateCe90);
         Assert.assertEquals(v.getDisplayName(), "Target Error CE90");
@@ -45,14 +43,14 @@ public class TargetErrorEstimateCe90Test {
         Assert.assertEquals(errorEstimate.getMetres(), 0.0);
         Assert.assertEquals(errorEstimate.getBytes(), bytes);
 
-        bytes = new byte[]{(byte) 0xff, (byte) 0xff};
+        bytes = new byte[] {(byte) 0xff, (byte) 0xff};
         v = UasDatalinkFactory.createValue(UasDatalinkTag.TargetErrorCe90, bytes);
         Assert.assertTrue(v instanceof TargetErrorEstimateCe90);
         errorEstimate = (TargetErrorEstimateCe90) v;
         Assert.assertEquals(errorEstimate.getMetres(), 4095.0);
         Assert.assertEquals(errorEstimate.getBytes(), bytes);
 
-        bytes = new byte[]{(byte) 0x1A, (byte) 0x95};
+        bytes = new byte[] {(byte) 0x1A, (byte) 0x95};
         v = UasDatalinkFactory.createValue(UasDatalinkTag.TargetErrorCe90, bytes);
         Assert.assertTrue(v instanceof TargetErrorEstimateCe90);
         errorEstimate = (TargetErrorEstimateCe90) v;
@@ -62,20 +60,17 @@ public class TargetErrorEstimateCe90Test {
     }
 
     @Test(expectedExceptions = IllegalArgumentException.class)
-    public void testTooSmall()
-    {
+    public void testTooSmall() {
         new TargetErrorEstimateCe90(-0.01);
     }
 
     @Test(expectedExceptions = IllegalArgumentException.class)
-    public void testTooBig()
-    {
+    public void testTooBig() {
         new TargetErrorEstimateCe90(4095.01);
     }
 
     @Test(expectedExceptions = IllegalArgumentException.class)
-    public void badArrayLength()
-    {
-        new TargetErrorEstimateCe90(new byte[]{0x00, 0x00, 0x00});
+    public void badArrayLength() {
+        new TargetErrorEstimateCe90(new byte[] {0x00, 0x00, 0x00});
     }
 }

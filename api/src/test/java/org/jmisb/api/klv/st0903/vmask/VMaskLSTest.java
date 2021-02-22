@@ -1,35 +1,38 @@
 package org.jmisb.api.klv.st0903.vmask;
 
+import static org.testng.Assert.*;
+
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 import org.jmisb.api.common.KlvParseException;
-import org.jmisb.api.klv.st0903.IVmtiMetadataValue;
 import org.jmisb.api.klv.LoggerChecks;
-import static org.testng.Assert.*;
+import org.jmisb.api.klv.st0903.IVmtiMetadataValue;
 import org.testng.annotations.Test;
 
-/**
- * Tests for the ST0903 VMask LS.
- */
-public class VMaskLSTest extends LoggerChecks
-{
-    public VMaskLSTest()
-    {
+/** Tests for the ST0903 VMask LS. */
+public class VMaskLSTest extends LoggerChecks {
+    public VMaskLSTest() {
         super(VMaskLS.class);
     }
 
     @Test
-    public void parseTag1() throws KlvParseException
-    {
-        final byte[] bytes = new byte[]{
-            0x01, // Tag 1
-            0x09, // Length
-            0x02, 0x39, (byte)0xAA,
-            0x02, 0x39, (byte)0xBF,
-            0x02, 0x3B, 0x0B
-        };
+    public void parseTag1() throws KlvParseException {
+        final byte[] bytes =
+                new byte[] {
+                    0x01, // Tag 1
+                    0x09, // Length
+                    0x02,
+                    0x39,
+                    (byte) 0xAA,
+                    0x02,
+                    0x39,
+                    (byte) 0xBF,
+                    0x02,
+                    0x3B,
+                    0x0B
+                };
         VMaskLS localSet = new VMaskLS(bytes);
         assertNotNull(localSet);
         assertEquals(localSet.getTags().size(), 1);
@@ -37,15 +40,24 @@ public class VMaskLSTest extends LoggerChecks
     }
 
     @Test
-    public void parseTag2() throws KlvParseException
-    {
-        final byte[] bytes = new byte[]{
-            0x02, // Tag
-            0x0C, // Length
-            0x03, 0x01, 0x4A, 0x02, // (74, 2)
-            0x03, 0x01, 0x59, 0x04, // (89, 4)
-            0x03, 0x01, 0x6A, 0x02  // (106, 2)
-        };
+    public void parseTag2() throws KlvParseException {
+        final byte[] bytes =
+                new byte[] {
+                    0x02, // Tag
+                    0x0C, // Length
+                    0x03,
+                    0x01,
+                    0x4A,
+                    0x02, // (74, 2)
+                    0x03,
+                    0x01,
+                    0x59,
+                    0x04, // (89, 4)
+                    0x03,
+                    0x01,
+                    0x6A,
+                    0x02 // (106, 2)
+                };
         VMaskLS localSet = new VMaskLS(bytes);
         assertNotNull(localSet);
         assertEquals(localSet.getTags().size(), 1);
@@ -54,21 +66,39 @@ public class VMaskLSTest extends LoggerChecks
     }
 
     @Test
-    public void parseTagsWithUnknownTag() throws KlvParseException
-    {
-        final byte[] bytes = new byte[]{
-            0x03, 0x02, (byte) 0x80, (byte) 0xCA, // No such tag
-            0x01, // Tag 1
-            0x09, // Length
-            0x02, 0x39, (byte)0xAA,
-            0x02, 0x39, (byte)0xBF,
-            0x02, 0x3B, 0x0B,
-            0x02, // Tag 2
-            0x0C, // Length of bitmask series value
-            0x03, 0x01, 0x4A, 0x02, // (74, 2)
-            0x03, 0x01, 0x59, 0x04, // (89, 4)
-            0x03, 0x01, 0x6A, 0x02  // (106, 2)
-        };
+    public void parseTagsWithUnknownTag() throws KlvParseException {
+        final byte[] bytes =
+                new byte[] {
+                    0x03,
+                    0x02,
+                    (byte) 0x80,
+                    (byte) 0xCA, // No such tag
+                    0x01, // Tag 1
+                    0x09, // Length
+                    0x02,
+                    0x39,
+                    (byte) 0xAA,
+                    0x02,
+                    0x39,
+                    (byte) 0xBF,
+                    0x02,
+                    0x3B,
+                    0x0B,
+                    0x02, // Tag 2
+                    0x0C, // Length of bitmask series value
+                    0x03,
+                    0x01,
+                    0x4A,
+                    0x02, // (74, 2)
+                    0x03,
+                    0x01,
+                    0x59,
+                    0x04, // (89, 4)
+                    0x03,
+                    0x01,
+                    0x6A,
+                    0x02 // (106, 2)
+                };
         verifyNoLoggerMessages();
         VMaskLS localSet = new VMaskLS(bytes);
         this.verifySingleLoggerMessage("Unknown VMTI VMask Metadata tag: 3");
@@ -78,8 +108,7 @@ public class VMaskLSTest extends LoggerChecks
         checkBitmaskExample(localSet);
     }
 
-    public static void checkPolygonExample(VMaskLS localSet)
-    {
+    public static void checkPolygonExample(VMaskLS localSet) {
         assertTrue(localSet.getTags().contains(VMaskMetadataKey.polygon));
         IVmtiMetadataValue v = localSet.getField(VMaskMetadataKey.polygon);
         assertEquals(v.getDisplayName(), "Polygon");
@@ -87,13 +116,12 @@ public class VMaskLSTest extends LoggerChecks
         assertTrue(v instanceof PixelPolygon);
         PixelPolygon boundarySeries = (PixelPolygon) localSet.getField(VMaskMetadataKey.polygon);
         assertEquals(boundarySeries.getPolygon().size(), 3);
-        assertEquals((long)boundarySeries.getPolygon().get(0), 14762L);
-        assertEquals((long)boundarySeries.getPolygon().get(1), 14783L);
-        assertEquals((long)boundarySeries.getPolygon().get(2), 15115L);
+        assertEquals((long) boundarySeries.getPolygon().get(0), 14762L);
+        assertEquals((long) boundarySeries.getPolygon().get(1), 14783L);
+        assertEquals((long) boundarySeries.getPolygon().get(2), 15115L);
     }
 
-    public static void checkBitmaskExample(VMaskLS localSet)
-    {
+    public static void checkBitmaskExample(VMaskLS localSet) {
         assertTrue(localSet.getTags().contains(VMaskMetadataKey.bitMaskSeries));
         IVmtiMetadataValue v = localSet.getField(VMaskMetadataKey.bitMaskSeries);
         assertTrue(v instanceof BitMaskSeries);
@@ -107,17 +135,18 @@ public class VMaskLSTest extends LoggerChecks
         assertEquals(series.getRuns().get(2).getRun(), 2);
         assertEquals(v.getDisplayName(), "BitMask");
         assertEquals(v.getDisplayableValue(), "[Pixel / Run Pairs]");
-        assertEquals(v.getBytes(), new byte[]{
-            0x03, 0x01, 0x4A, 0x02, // (74, 2)
-            0x03, 0x01, 0x59, 0x04, // (89, 4)
-            0x03, 0x01, 0x6A, 0x02  // (106, 2)
-        });
+        assertEquals(
+                v.getBytes(),
+                new byte[] {
+                    0x03, 0x01, 0x4A, 0x02, // (74, 2)
+                    0x03, 0x01, 0x59, 0x04, // (89, 4)
+                    0x03, 0x01, 0x6A, 0x02 // (106, 2)
+                });
     }
 
     @Test
-    public void createUnknownTag() throws KlvParseException
-    {
-        final byte[] bytes = new byte[]{0x6A, 0x70};
+    public void createUnknownTag() throws KlvParseException {
+        final byte[] bytes = new byte[] {0x6A, 0x70};
         verifyNoLoggerMessages();
         IVmtiMetadataValue value = VMaskLS.createValue(VMaskMetadataKey.Undefined, bytes);
         this.verifySingleLoggerMessage("Unrecognized VMask tag: Undefined");
@@ -125,8 +154,7 @@ public class VMaskLSTest extends LoggerChecks
     }
 
     @Test
-    public void constructFromMap() throws KlvParseException
-    {
+    public void constructFromMap() throws KlvParseException {
         Map<VMaskMetadataKey, IVmtiMetadataValue> values = new HashMap<>();
         List<Long> points = new ArrayList<>();
         points.add(14762L);
@@ -138,24 +166,41 @@ public class VMaskLSTest extends LoggerChecks
         runs.add(new PixelRunPair(74L, 2));
         runs.add(new PixelRunPair(89L, 4));
         runs.add(new PixelRunPair(106L, 2));
-        BitMaskSeries bitmask = new BitMaskSeries(runs);values.put(VMaskMetadataKey.bitMaskSeries, bitmask);
+        BitMaskSeries bitmask = new BitMaskSeries(runs);
+        values.put(VMaskMetadataKey.bitMaskSeries, bitmask);
         VMaskLS localSet = new VMaskLS(values);
         assertNotNull(localSet);
         assertEquals(localSet.getTags().size(), 2);
         checkPolygonExample(localSet);
         checkBitmaskExample(localSet);
-        byte[] expectedBytes = new byte[]{
-            0x01, // Tag 1
-            0x09, // Length
-            0x02, 0x39, (byte)0xAA,
-            0x02, 0x39, (byte)0xBF,
-            0x02, 0x3B, 0x0B,
-            0x02, // Tag 2
-            0x0C, // Length of bitmask series value
-            0x03, 0x01, 0x4A, 0x02, // (74, 2)
-            0x03, 0x01, 0x59, 0x04, // (89, 4)
-            0x03, 0x01, 0x6A, 0x02  // (106, 2)
-        };
+        byte[] expectedBytes =
+                new byte[] {
+                    0x01, // Tag 1
+                    0x09, // Length
+                    0x02,
+                    0x39,
+                    (byte) 0xAA,
+                    0x02,
+                    0x39,
+                    (byte) 0xBF,
+                    0x02,
+                    0x3B,
+                    0x0B,
+                    0x02, // Tag 2
+                    0x0C, // Length of bitmask series value
+                    0x03,
+                    0x01,
+                    0x4A,
+                    0x02, // (74, 2)
+                    0x03,
+                    0x01,
+                    0x59,
+                    0x04, // (89, 4)
+                    0x03,
+                    0x01,
+                    0x6A,
+                    0x02 // (106, 2)
+                };
         assertEquals(localSet.getBytes(), expectedBytes);
     }
 }

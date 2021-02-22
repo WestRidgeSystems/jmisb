@@ -3,30 +3,26 @@ package org.jmisb.api.klv.st0903.vtracker;
 /**
  * Acceleration Pack.
  *
- * This data transfer object supports the VTarget Acceleration.
- * <p>
- * The Acceleration DLP structure captures data about the acceleration of a
- * moving object. The DLP is a truncation pack where groups of data are optional
- * unless needed (from the end only). There are three defined groups as shown in
- * Figure 18. The first, and highest priority group includes East, North and Up
- * components; these measurements provide acceleration along the coordinate axes
- * of the East-North-Up coordinate system specified by the Location pack for the
- * location of the moving object. The second group, Standard Deviations and
- * medium priority group, provides the standard deviations for the first group
- * measurements. The third group, Correlation Coefficients and lowest priority
- * group, provides the three correlation coefficients for the values in the
- * first group.
- * <p>
- * East, North and Up are always required.
- * <p>
- * If setting individual components, be aware that the standard deviations are
- * conceptually a single group. Similarly, the correlation values are "grouped".
- * Unless all the elements in a group are set, it won't make sense. Further, if
- * the correlation group values are set, the standard deviation group values
- * also need to be set.
+ * <p>This data transfer object supports the VTarget Acceleration.
+ *
+ * <p>The Acceleration DLP structure captures data about the acceleration of a moving object. The
+ * DLP is a truncation pack where groups of data are optional unless needed (from the end only).
+ * There are three defined groups as shown in Figure 18. The first, and highest priority group
+ * includes East, North and Up components; these measurements provide acceleration along the
+ * coordinate axes of the East-North-Up coordinate system specified by the Location pack for the
+ * location of the moving object. The second group, Standard Deviations and medium priority group,
+ * provides the standard deviations for the first group measurements. The third group, Correlation
+ * Coefficients and lowest priority group, provides the three correlation coefficients for the
+ * values in the first group.
+ *
+ * <p>East, North and Up are always required.
+ *
+ * <p>If setting individual components, be aware that the standard deviations are conceptually a
+ * single group. Similarly, the correlation values are "grouped". Unless all the elements in a group
+ * are set, it won't make sense. Further, if the correlation group values are set, the standard
+ * deviation group values also need to be set.
  */
-public class AccelerationPack
-{
+public class AccelerationPack {
 
     private Double east;
     private Double north;
@@ -45,8 +41,7 @@ public class AccelerationPack
      * @param north Acceleration along the North axis of the East-North-Up coordinate system.
      * @param up Acceleration along the Up axis of the East-North-Up coordinate system.
      */
-    public AccelerationPack(Double east, Double north, Double up)
-    {
+    public AccelerationPack(Double east, Double north, Double up) {
         this(east, north, up, null, null, null);
     }
 
@@ -60,8 +55,8 @@ public class AccelerationPack
      * @param sigNorth Standard deviation along North axis.
      * @param sigUp Standard deviation along Up axis.
      */
-    public AccelerationPack(Double east, Double north, Double up, Double sigEast, Double sigNorth, Double sigUp)
-    {
+    public AccelerationPack(
+            Double east, Double north, Double up, Double sigEast, Double sigNorth, Double sigUp) {
         this(east, north, up, sigEast, sigNorth, sigUp, null, null, null);
     }
 
@@ -78,8 +73,16 @@ public class AccelerationPack
      * @param rhoEastUp Correlation coefficient between East and Up components of error.
      * @param rhoNorthUp Correlation coefficient between North and Up components of error.
      */
-    public AccelerationPack(Double east, Double north, Double up, Double sigEast, Double sigNorth, Double sigUp, Double rhoEastNorth, Double rhoEastUp, Double rhoNorthUp)
-    {
+    public AccelerationPack(
+            Double east,
+            Double north,
+            Double up,
+            Double sigEast,
+            Double sigNorth,
+            Double sigUp,
+            Double rhoEastNorth,
+            Double rhoEastUp,
+            Double rhoNorthUp) {
         this.east = east;
         this.north = north;
         this.up = up;
@@ -96,8 +99,7 @@ public class AccelerationPack
      *
      * @return Acceleration in metres per second per second.
      */
-    public Double getEast()
-    {
+    public Double getEast() {
         return east;
     }
 
@@ -106,8 +108,7 @@ public class AccelerationPack
      *
      * @param east Acceleration in metres per second per second.
      */
-    public void setEast(Double east)
-    {
+    public void setEast(Double east) {
         this.east = east;
     }
 
@@ -116,8 +117,7 @@ public class AccelerationPack
      *
      * @return Acceleration in metres per second per second.
      */
-    public Double getNorth()
-    {
+    public Double getNorth() {
         return north;
     }
 
@@ -126,18 +126,16 @@ public class AccelerationPack
      *
      * @param north Acceleration in metres per second per second.
      */
-    public void setNorth(Double north)
-    {
+    public void setNorth(Double north) {
         this.north = north;
     }
 
     /**
-     * Get the vertical component of acceleration
+     * Get the vertical component of acceleration.
      *
      * @return Acceleration in metres per second per second (up positive).
      */
-    public Double getUp()
-    {
+    public Double getUp() {
         return up;
     }
 
@@ -146,68 +144,67 @@ public class AccelerationPack
      *
      * @param up Acceleration in metres per second per second (up positive).
      */
-    public void setUp(Double up)
-    {
+    public void setUp(Double up) {
         this.up = up;
     }
 
     /**
      * Get the standard deviation for the acceleration - East axis.
      *
-     * @return Standard deviation of the acceleration with respect to the ENU coordinate system East axis.
+     * @return Standard deviation of the acceleration with respect to the ENU coordinate system East
+     *     axis.
      */
-    public Double getSigEast()
-    {
+    public Double getSigEast() {
         return sigEast;
     }
 
     /**
      * Set the standard deviation for the acceleration - East axis.
      *
-     * @param sigEast Standard deviation of the acceleration with respect to the ENU coordinate system East axis.
+     * @param sigEast Standard deviation of the acceleration with respect to the ENU coordinate
+     *     system East axis.
      */
-    public void setSigEast(Double sigEast)
-    {
+    public void setSigEast(Double sigEast) {
         this.sigEast = sigEast;
     }
 
     /**
      * Get the standard deviation for the acceleration - North axis.
      *
-     * @return Standard deviation of the acceleration with respect to the ENU coordinate system North axis.
+     * @return Standard deviation of the acceleration with respect to the ENU coordinate system
+     *     North axis.
      */
-    public Double getSigNorth()
-    {
+    public Double getSigNorth() {
         return sigNorth;
     }
 
     /**
      * Set the standard deviation for the acceleration - North axis.
      *
-     * @param sigNorth Standard deviation of the acceleration with respect to the ENU coordinate system North axis.
+     * @param sigNorth Standard deviation of the acceleration with respect to the ENU coordinate
+     *     system North axis.
      */
-    public void setSigNorth(Double sigNorth)
-    {
+    public void setSigNorth(Double sigNorth) {
         this.sigNorth = sigNorth;
     }
 
     /**
      * Get the standard deviation for the acceleration - Up axis.
      *
-     * @return Standard deviation of the acceleration with respect to the ENU coordinate system Up axis.
+     * @return Standard deviation of the acceleration with respect to the ENU coordinate system Up
+     *     axis.
      */
-    public Double getSigUp()
-    {
+    public Double getSigUp() {
         return sigUp;
     }
 
     /**
      * Get the standard deviation for the acceleration - Up axis.
      *
-     * @param sigUp Standard deviation of the acceleration with respect to the ENU coordinate system Up axis.
+     * @param sigUp Standard deviation of the acceleration with respect to the ENU coordinate system
+     *     Up axis.
      */
-    public void setSigUp(Double sigUp)
-    {
+    public void setSigUp(Double sigUp) {
         this.sigUp = sigUp;
     }
 
@@ -216,8 +213,7 @@ public class AccelerationPack
      *
      * @return Correlation coefficient between the East and North components of error.
      */
-    public Double getRhoEastNorth()
-    {
+    public Double getRhoEastNorth() {
         return rhoEastNorth;
     }
 
@@ -226,8 +222,7 @@ public class AccelerationPack
      *
      * @param rhoEastNorth Correlation coefficient between the East and North components of error.
      */
-    public void setRhoEastNorth(Double rhoEastNorth)
-    {
+    public void setRhoEastNorth(Double rhoEastNorth) {
         this.rhoEastNorth = rhoEastNorth;
     }
 
@@ -236,8 +231,7 @@ public class AccelerationPack
      *
      * @return Correlation coefficient between the East and Up components of error.
      */
-    public Double getRhoEastUp()
-    {
+    public Double getRhoEastUp() {
         return rhoEastUp;
     }
 
@@ -246,8 +240,7 @@ public class AccelerationPack
      *
      * @param rhoEastUp Correlation coefficient between the East and Up components of error.
      */
-    public void setRhoEastUp(Double rhoEastUp)
-    {
+    public void setRhoEastUp(Double rhoEastUp) {
         this.rhoEastUp = rhoEastUp;
     }
 
@@ -256,8 +249,7 @@ public class AccelerationPack
      *
      * @return Correlation coefficient between the North and Up components of error.
      */
-    public Double getRhoNorthUp()
-    {
+    public Double getRhoNorthUp() {
         return rhoNorthUp;
     }
 
@@ -266,9 +258,7 @@ public class AccelerationPack
      *
      * @param rhoNorthUp Correlation coefficient between the North and Up components of error.
      */
-    public void setRhoNorthUp(Double rhoNorthUp)
-    {
+    public void setRhoNorthUp(Double rhoNorthUp) {
         this.rhoNorthUp = rhoNorthUp;
     }
-
 }

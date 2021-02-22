@@ -1,46 +1,51 @@
 package org.jmisb.api.klv.st0903;
 
 import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.List;
+import java.util.Set;
+import java.util.TreeSet;
 import org.jmisb.api.common.KlvParseException;
 import org.jmisb.api.klv.BerDecoder;
 import org.jmisb.api.klv.BerEncoder;
 import org.jmisb.api.klv.BerField;
+import org.jmisb.api.klv.IKlvKey;
+import org.jmisb.api.klv.IKlvValue;
+import org.jmisb.api.klv.INestedKlvValue;
 import org.jmisb.api.klv.st0903.algorithm.AlgorithmLS;
+import org.jmisb.api.klv.st0903.algorithm.AlgorithmMetadataKey;
+import org.jmisb.api.klv.st0903.shared.AlgorithmId;
 import org.jmisb.core.klv.ArrayUtils;
 
 /**
  * VMTI LS Algorithm Series (ST 0903 VMTI LS Tag 102).
- * <p>
- * From ST0903:
+ *
+ * <p>From ST0903:
+ *
  * <blockquote>
- * AlgorithmSeries is a Series type which contains one or more Algorithm Local
- * Sets. Within the VMTI LS the Tag for the algorithmSeries is Tag 102. The
- * Length field for the pack is the sum of all the data in the algorithmSeries
- * Value field. The Value field is comprised of one or more Algorithm LS, each
- * of which can be of a different size (thereby including different information)
+ *
+ * AlgorithmSeries is a Series type which contains one or more Algorithm Local Sets. Within the VMTI
+ * LS the Tag for the algorithmSeries is Tag 102. The Length field for the pack is the sum of all
+ * the data in the algorithmSeries Value field. The Value field is comprised of one or more
+ * Algorithm LS, each of which can be of a different size (thereby including different information)
  * parsed according to the Length provided for each LS.
- * <p>
- * The algorithmSeries enables assigning an algorithm to a detected target or a
- * generated track, whereas the algorithm item in the VTracker LS only assigns
- * an algorithm to a track. The recommendation is to use algorithmSeries because
- * 1) it affords specifying a multitude of algorithms as needed, and 2)
- * definition at the parent VMTI LS level is more bandwidth efficient when an
- * algorithm applies to more than one detection.
+ *
+ * <p>The algorithmSeries enables assigning an algorithm to a detected target or a generated track,
+ * whereas the algorithm item in the VTracker LS only assigns an algorithm to a track. The
+ * recommendation is to use algorithmSeries because 1) it affords specifying a multitude of
+ * algorithms as needed, and 2) definition at the parent VMTI LS level is more bandwidth efficient
+ * when an algorithm applies to more than one detection.
+ *
  * </blockquote>
  */
-public class AlgorithmSeries implements IVmtiMetadataValue
-{
+public class AlgorithmSeries implements IVmtiMetadataValue, INestedKlvValue {
     private final List<AlgorithmLS> localSets = new ArrayList<>();
 
     /**
-     * Create the message from a list of Algorithm Local Sets
+     * Create the message from a list of Algorithm Local Sets.
      *
      * @param values the local sets to include in the series.
      */
-    public AlgorithmSeries(List<AlgorithmLS> values)
-    {
+    public AlgorithmSeries(List<AlgorithmLS> values) {
         localSets.addAll(values);
     }
 
@@ -50,31 +55,27 @@ public class AlgorithmSeries implements IVmtiMetadataValue
      * @param bytes Encoded byte array
      * @throws KlvParseException if there is a parsing error on the byte array.
      */
-    public AlgorithmSeries(byte[] bytes) throws KlvParseException
-    {
+    public AlgorithmSeries(byte[] bytes) throws KlvParseException {
         int index = 0;
-        while (index < bytes.length - 1)
-        {
-            BerField lengthField = BerDecoder.decode(bytes, index, true);
+        while (index < bytes.length - 1) {
+            BerField lengthField = BerDecoder.decode(bytes, index, false);
             index += lengthField.getLength();
-            byte[] localSetBytes = Arrays.copyOfRange(bytes, index, index + lengthField.getValue());
-            AlgorithmLS algorithmLS = new AlgorithmLS(localSetBytes);
+            AlgorithmLS algorithmLS = new AlgorithmLS(bytes, index, lengthField.getValue());
             localSets.add(algorithmLS);
             index += lengthField.getValue();
         }
     }
 
     @Override
-    public byte[] getBytes()
-    {
+    public byte[] getBytes() {
         int len = 0;
         List<byte[]> chunks = new ArrayList<>();
-        for (AlgorithmLS localSet : localSets)
-        {
+        for (AlgorithmLS localSet : localSets) {
             byte[] localSetBytes = localSet.getBytes();
             byte[] lengthBytes = BerEncoder.encode(localSetBytes.length);
             chunks.add(lengthBytes);
-            len += lengthBytes.length;;
+            len += lengthBytes.length;
+            ;
             chunks.add(localSetBytes);
             len += localSetBytes.length;
         }
@@ -82,14 +83,12 @@ public class AlgorithmSeries implements IVmtiMetadataValue
     }
 
     @Override
-    public String getDisplayableValue()
-    {
+    public String getDisplayableValue() {
         return "[Algorithms]";
     }
 
     @Override
-    public String getDisplayName()
-    {
+    public String getDisplayName() {
         return "Algorithm Series";
     }
 
@@ -98,9 +97,33 @@ public class AlgorithmSeries implements IVmtiMetadataValue
      *
      * @return the algorithm information as a List
      */
-    public List<AlgorithmLS> getAlgorithms()
-    {
+    public List<AlgorithmLS> getAlgorithms() {
         return localSets;
     }
 
+    @Override
+    public IKlvValue getField(IKlvKey tag) {
+        int requiredId = tag.getIdentifier();
+        for (AlgorithmLS algorithmLS : localSets) {
+            AlgorithmId algorithmId = (AlgorithmId) algorithmLS.getField(AlgorithmMetadataKey.id);
+            if (algorithmId != null && requiredId == algorithmId.getValue()) {
+                return algorithmLS;
+            }
+        }
+        return null;
+    }
+
+    @Override
+    public Set<? extends IKlvKey> getIdentifiers() {
+        Set<AlgorithmIdentifierKey> identifiers = new TreeSet<>();
+        localSets.forEach(
+                (AlgorithmLS localSet) -> {
+                    if (localSet.getTags().contains(AlgorithmMetadataKey.id)) {
+                        AlgorithmId algorithmId =
+                                (AlgorithmId) localSet.getField(AlgorithmMetadataKey.id);
+                        identifiers.add(new AlgorithmIdentifierKey(algorithmId.getValue()));
+                    }
+                });
+        return identifiers;
+    }
 }

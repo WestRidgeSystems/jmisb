@@ -1,19 +1,18 @@
 package org.jmisb.api.klv.st0903.vtracker;
 
 import java.util.UUID;
+import org.jmisb.api.common.KlvParseException;
 import org.jmisb.api.klv.st0903.IVmtiMetadataValue;
+import org.jmisb.api.klv.st0903.shared.IVTrackMetadataValue;
 import org.jmisb.core.klv.UuidUtils;
 
 /**
  * Track ID (VTracker LS Tag 1).
- * <p>
- * Uniquely identifies a track, using a 128-bit (16-byte) Universal Unique
- * Identification (UUID) as standardized by the Open Software Foundation
- * according to ISO/IEC 9834-8.
- * </p>
+ *
+ * <p>Uniquely identifies a track, using a 128-bit (16-byte) Universal Unique Identification (UUID)
+ * as standardized by the Open Software Foundation according to ISO/IEC 9834-8.
  */
-public class TrackId implements IVmtiMetadataValue
-{
+public class TrackId implements IVmtiMetadataValue, IVTrackMetadataValue {
     private final UUID id;
 
     /**
@@ -21,23 +20,26 @@ public class TrackId implements IVmtiMetadataValue
      *
      * @param id Microseconds since the epoch
      */
-    public TrackId(UUID id)
-    {
+    public TrackId(UUID id) {
         this.id = id;
     }
 
     /**
-     * Create from encoded bytes
+     * Create from encoded bytes.
+     *
      * @param bytes Encoded byte array
+     * @throws KlvParseException if the TrackId could not be parsed.
      */
-    public TrackId(byte[] bytes)
-    {
-        id = UuidUtils.arrayToUuid(bytes, 0);
+    public TrackId(byte[] bytes) throws KlvParseException {
+        try {
+            id = UuidUtils.arrayToUuid(bytes, 0);
+        } catch (IllegalArgumentException ex) {
+            throw new KlvParseException(ex.getMessage());
+        }
     }
 
     @Override
-    public byte[] getBytes()
-    {
+    public byte[] getBytes() {
         return UuidUtils.uuidToArray(id);
     }
 
@@ -47,8 +49,7 @@ public class TrackId implements IVmtiMetadataValue
     }
 
     @Override
-    public String getDisplayName()
-    {
+    public String getDisplayName() {
         return "Track ID";
     }
 
@@ -57,8 +58,7 @@ public class TrackId implements IVmtiMetadataValue
      *
      * @return the UUID for this track.
      */
-    public UUID getUUID()
-    {
+    public UUID getUUID() {
         return id;
     }
 }

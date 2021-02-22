@@ -1,37 +1,28 @@
 package org.jmisb.api.video;
 
+import java.io.IOException;
+import org.jmisb.api.klv.LoggerChecks;
 import org.testng.Assert;
 import org.testng.annotations.Test;
 
-import java.io.IOException;
-import org.jmisb.api.klv.LoggerChecks;
-
-public class VideoStreamInputTest extends LoggerChecks
-{
-    public VideoStreamInputTest()
-    {
+public class VideoStreamInputTest extends LoggerChecks {
+    public VideoStreamInputTest() {
         super(VideoStreamInput.class);
     }
 
     @Test
-    public void createInputStream()
-    {
-        try (IVideoStreamInput stream = VideoSystem.createInputStream())
-        {
+    public void createInputStream() {
+        try (IVideoStreamInput stream = new VideoStreamInput()) {
             Assert.assertFalse(stream.isOpen());
-        }
-        catch (IOException e)
-        {
+        } catch (IOException e) {
             Assert.fail("Exception auto-closing stream");
         }
     }
 
     @Test(expectedExceptions = IOException.class)
-    public void checkOpenExceptions() throws IOException
-    {
+    public void checkOpenExceptions() throws IOException {
         this.verifyNoLoggerMessages();
-        try (IVideoStreamInput stream = VideoSystem.createInputStream())
-        {
+        try (IVideoStreamInput stream = new VideoStreamInput()) {
             stream.open("This url does not exist");
         }
     }

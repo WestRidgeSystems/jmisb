@@ -6,68 +6,139 @@ import java.util.Map;
 import java.util.Set;
 import java.util.SortedMap;
 import java.util.TreeMap;
+import org.jmisb.api.common.InvalidDataHandler;
 import org.jmisb.api.common.KlvParseException;
+import org.jmisb.api.klv.Ber;
 import org.jmisb.api.klv.BerDecoder;
 import org.jmisb.api.klv.BerEncoder;
 import org.jmisb.api.klv.BerField;
+import org.jmisb.api.klv.IKlvKey;
+import org.jmisb.api.klv.IKlvValue;
+import org.jmisb.api.klv.INestedKlvValue;
 import org.jmisb.api.klv.LdsField;
 import org.jmisb.api.klv.LdsParser;
 import org.jmisb.api.klv.st0903.IVmtiMetadataValue;
 import org.jmisb.api.klv.st0903.shared.AlgorithmId;
+import org.jmisb.api.klv.st0903.shared.EncodingMode;
 import org.jmisb.core.klv.ArrayUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
-public class VTargetPack {
+/**
+ * VMTI Target Pack.
+ *
+ * <p>The target pack represents a single VMTI target. It consists of a target id (integer value,
+ * always required) and a set of variable values that can be considered as attributes of the target.
+ */
+public class VTargetPack implements IKlvValue, INestedKlvValue {
 
     private static final Logger LOGGER = LoggerFactory.getLogger(VTargetPack.class);
 
-    /**
-     * Map containing all data elements in the message
-     */
+    /** Map containing all data elements in the message. */
     private final SortedMap<VTargetMetadataKey, IVmtiMetadataValue> map = new TreeMap<>();
 
     private final int targetId;
 
-    public VTargetPack(int targetId, Map<VTargetMetadataKey, IVmtiMetadataValue> values)
-    {
+    /**
+     * Construct from target values.
+     *
+     * @param targetId the target identifier
+     * @param values the VTarget metadata as a Map.
+     */
+    public VTargetPack(int targetId, Map<VTargetMetadataKey, IVmtiMetadataValue> values) {
         this.targetId = targetId;
         map.putAll(values);
     }
 
-    // TODO consider refactoring to pass in the original array instead of a copy
-    public VTargetPack(byte[] bytes) throws KlvParseException
-    {
-        int offset = 0;
+    /**
+     * Construct from encoded bytes.
+     *
+     * <p>This is used to parse out a single VTargetPack from the KLV-encoded byte array.
+     *
+     * <p>This constructor only supports ST0903.4 and later.
+     *
+     * @param bytes the byte array
+     * @param offset the offset into the {@code bytes} array to start parsing.
+     * @param length the number of bytes to parse
+     * @throws KlvParseException if there is a problem during parsing
+     * @deprecated use {@link #VTargetPack(byte[], int, int, EncodingMode)} instead
+     */
+    @Deprecated
+    public VTargetPack(byte[] bytes, int offset, int length) throws KlvParseException {
+        this(bytes, offset, length, EncodingMode.IMAPB);
+    }
+
+    /**
+     * Construct from encoded bytes.
+     *
+     * <p>This is used to parse out a single VTargetPack from the KLV-encoded byte array.
+     *
+     * <p>This constructor allows selection of which encoding rules (according to the ST903 version)
+     * to apply for floating point data.
+     *
+     * @param bytes the byte array
+     * @param offset the offset into the {@code bytes} array to start parsing.
+     * @param length the number of bytes to parse
+     * @param encodingMode which encoding mode the {@code bytes} parameter uses for floating point
+     *     data
+     * @throws KlvParseException if there is a problem during parsing
+     */
+    public VTargetPack(byte[] bytes, int offset, int length, EncodingMode encodingMode)
+            throws KlvParseException {
         BerField targetIdField = BerDecoder.decode(bytes, offset, true);
         offset += targetIdField.getLength();
         targetId = targetIdField.getValue();
-        List<LdsField> fields = LdsParser.parseFields(bytes, offset, bytes.length - offset);
-        for (LdsField field : fields)
-        {
+        List<LdsField> fields =
+                LdsParser.parseFields(bytes, offset, length - targetIdField.getLength());
+        for (LdsField field : fields) {
             VTargetMetadataKey key = VTargetMetadataKey.getKey(field.getTag());
-            if (key == VTargetMetadataKey.Undefined)
-            {
+            if (key == VTargetMetadataKey.Undefined) {
                 LOGGER.info("Unknown VMTI VTarget Metadata tag: {}", field.getTag());
-            }
-            else
-            {
-                IVmtiMetadataValue value = createValue(key, field.getData());
-                map.put(key, value);
+            } else {
+                try {
+                    IVmtiMetadataValue value = createValue(key, field.getData(), encodingMode);
+                    map.put(key, value);
+                } catch (KlvParseException | IllegalArgumentException ex) {
+                    InvalidDataHandler.getInstance()
+                            .handleInvalidFieldEncoding(LOGGER, ex.getMessage());
+                }
             }
         }
     }
 
     /**
-     * Create a {@link IVmtiMetadataValue} instance from encoded bytes
+     * Create a {@link IVmtiMetadataValue} instance from encoded bytes.
+     *
+     * <p>This method only supports ST0903.4 and later.
      *
      * @param tag The tag defining the value type
      * @param bytes Encoded bytes
      * @return The new instance
      * @throws KlvParseException if the bytes could not be parsed.
+     * @deprecated Use {@link #createValue(VTargetMetadataKey, byte[], EncodingMode)} to explicitly
+     *     identify the encoding format.
      */
-    public static IVmtiMetadataValue createValue(VTargetMetadataKey tag, byte[] bytes) throws KlvParseException
-    {
+    @Deprecated
+    public static IVmtiMetadataValue createValue(VTargetMetadataKey tag, byte[] bytes)
+            throws KlvParseException {
+        return createValue(tag, bytes, EncodingMode.IMAPB);
+    }
+
+    /**
+     * Create a {@link IVmtiMetadataValue} instance from encoded bytes.
+     *
+     * <p>This method allows selection of which encoding rules (according to the ST903 version) to
+     * apply.
+     *
+     * @param tag The tag defining the value type
+     * @param bytes Encoded bytes
+     * @param encodingMode which encoding mode the {@code bytes} parameter uses.
+     * @return The new instance
+     * @throws KlvParseException if the bytes could not be parsed.
+     */
+    public static IVmtiMetadataValue createValue(
+            VTargetMetadataKey tag, byte[] bytes, EncodingMode encodingMode)
+            throws KlvParseException {
         switch (tag) {
             case TargetCentroid:
                 return new TargetCentroid(bytes);
@@ -88,23 +159,23 @@ public class VTargetPack {
             case TargetIntensity:
                 return new TargetIntensity(bytes);
             case TargetLocationOffsetLat:
-                return new TargetLocationOffsetLat(bytes);
+                return new TargetLocationOffsetLat(bytes, encodingMode);
             case TargetLocationOffsetLon:
-                return new TargetLocationOffsetLon(bytes);
+                return new TargetLocationOffsetLon(bytes, encodingMode);
             case TargetHAE:
-                return new TargetHAE(bytes);
+                return new TargetHAE(bytes, encodingMode);
             case BoundaryTopLeftLatOffset:
-                return new BoundaryTopLeftLatOffset(bytes);
+                return new BoundaryTopLeftLatOffset(bytes, encodingMode);
             case BoundaryTopLeftLonOffset:
-                return new BoundaryTopLeftLonOffset(bytes);
+                return new BoundaryTopLeftLonOffset(bytes, encodingMode);
             case BoundaryBottomRightLatOffset:
-                return new BoundaryBottomRightLatOffset(bytes);
+                return new BoundaryBottomRightLatOffset(bytes, encodingMode);
             case BoundaryBottomRightLonOffset:
-                return new BoundaryBottomRightLonOffset(bytes);
+                return new BoundaryBottomRightLonOffset(bytes, encodingMode);
             case TargetLocation:
-                return new TargetLocation(bytes);
+                return new TargetLocation(bytes, encodingMode);
             case TargetBoundarySeries:
-                return new TargetBoundarySeries(bytes);
+                return new TargetBoundarySeries(bytes, encodingMode);
             case CentroidPixRow:
                 return new CentroidPixelRow(bytes);
             case CentroidPixColumn:
@@ -120,7 +191,7 @@ public class VTargetPack {
             case VFeature:
                 return new VFeature(bytes);
             case VTracker:
-                return new VTracker(bytes);
+                return new VTracker(bytes, encodingMode);
             case VChip:
                 return new VChip(bytes);
             case VChipSeries:
@@ -138,48 +209,44 @@ public class VTargetPack {
      *
      * @return target identifier.
      */
-    public int getTargetIdentifier()
-    {
+    public int getTargetIdentifier() {
         return targetId;
     }
 
     /**
-     * Get the set of tags with populated values
+     * Get the set of tags with populated values.
      *
      * @return The set of tags for which values have been set
      */
-    public Set<VTargetMetadataKey> getTags()
-    {
+    public Set<VTargetMetadataKey> getTags() {
         return map.keySet();
     }
 
     /**
-     * Get the value of a given tag
+     * Get the value of a given tag.
      *
      * @param tag Tag of the value to retrieve
      * @return The value, or null if no value was set
      */
-    public IVmtiMetadataValue getField(VTargetMetadataKey tag)
-    {
+    public IVmtiMetadataValue getField(VTargetMetadataKey tag) {
         return map.get(tag);
     }
 
     /**
      * Get the byte array corresponding to the value for this Local Set.
+     *
      * @return byte array with the encoded local set.
      */
-    public byte[] getBytes()
-    {
+    public byte[] getBytes() {
         int len = 0;
         List<byte[]> chunks = new ArrayList<>();
 
-        byte[] targetIdBytes = BerEncoder.encode(targetId);
+        byte[] targetIdBytes = BerEncoder.encode(targetId, Ber.OID);
         chunks.add(targetIdBytes);
         len += targetIdBytes.length;
 
-        for (VTargetMetadataKey tag: getTags())
-        {
-            chunks.add(new byte[]{(byte) tag.getTag()});
+        for (VTargetMetadataKey tag : getTags()) {
+            chunks.add(new byte[] {(byte) tag.getTag()});
             len += 1;
             IVmtiMetadataValue value = getField(tag);
             byte[] bytes = value.getBytes();
@@ -190,5 +257,25 @@ public class VTargetPack {
             len += bytes.length;
         }
         return ArrayUtils.arrayFromChunks(chunks, len);
+    }
+
+    @Override
+    public IKlvValue getField(IKlvKey tag) {
+        return this.getField((VTargetMetadataKey) tag);
+    }
+
+    @Override
+    public Set<VTargetMetadataKey> getIdentifiers() {
+        return this.getTags();
+    }
+
+    @Override
+    public String getDisplayName() {
+        return "VTarget";
+    }
+
+    @Override
+    public String getDisplayableValue() {
+        return "Target " + targetId;
     }
 }

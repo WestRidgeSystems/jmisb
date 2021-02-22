@@ -1,10 +1,7 @@
 package org.jmisb.core.video;
 
-/**
- * Utility methods for timing
- */
-public class TimingUtils
-{
+/** Utility methods for timing */
+public class TimingUtils {
     private TimingUtils() {}
 
     /**
@@ -12,13 +9,10 @@ public class TimingUtils
      *
      * @param millis Time to wait, in ms
      */
-    public static void shortWait(long millis)
-    {
-        try
-        {
+    public static void shortWait(long millis) {
+        try {
             Thread.sleep(millis);
-        } catch (InterruptedException e)
-        {
+        } catch (InterruptedException e) {
             // don't care
         }
     }

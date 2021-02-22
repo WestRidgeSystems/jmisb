@@ -1,63 +1,100 @@
 package org.jmisb.api.klv.st0805;
 
-/**
- * Represents a Platform Position CoT message
- */
-public class PlatformPosition extends CotMessage
-{
+/** Represents a Platform Position CoT message. */
+public class PlatformPosition extends CotMessage {
     public double sensorAzimuth;
     public double sensorFov;
     public double sensorVfov;
     public String sensorModel;
     public double sensorRange;
 
-    public double getSensorAzimuth()
-    {
+    /**
+     * Get sensor azimuth.
+     *
+     * @return sensor azimuth in degrees
+     */
+    public double getSensorAzimuth() {
         return sensorAzimuth;
     }
 
-    public void setSensorAzimuth(double sensorAzimuth)
-    {
+    /**
+     * Set sensor azimuth.
+     *
+     * @param sensorAzimuth sensor azimuth in degrees
+     */
+    public void setSensorAzimuth(double sensorAzimuth) {
         this.sensorAzimuth = sensorAzimuth;
     }
 
-    public double getSensorFov()
-    {
+    /**
+     * Get sensor field of view.
+     *
+     * @return field of view in degrees
+     */
+    public double getSensorFov() {
         return sensorFov;
     }
 
-    public void setSensorFov(double sensorFov)
-    {
+    /**
+     * Set sensor field of view.
+     *
+     * @param sensorFov field of view in degrees
+     */
+    public void setSensorFov(double sensorFov) {
         this.sensorFov = sensorFov;
     }
 
-    public double getSensorVfov()
-    {
+    /**
+     * Get sensor vertical field of view.
+     *
+     * @return vertical field of view in degrees
+     */
+    public double getSensorVfov() {
         return sensorVfov;
     }
 
-    public void setSensorVfov(double sensorVfov)
-    {
+    /**
+     * Set sensor vertical field of view.
+     *
+     * @param sensorVfov vertical field of view in degrees
+     */
+    public void setSensorVfov(double sensorVfov) {
         this.sensorVfov = sensorVfov;
     }
 
-    public String getSensorModel()
-    {
+    /**
+     * Get sensor model (e.g., "EOW", "EON").
+     *
+     * @return currently active sensor
+     */
+    public String getSensorModel() {
         return sensorModel;
     }
 
-    public void setSensorModel(String sensorModel)
-    {
+    /**
+     * Set sensor model.
+     *
+     * @param sensorModel currently active sensor
+     */
+    public void setSensorModel(String sensorModel) {
         this.sensorModel = sensorModel;
     }
 
-    public double getSensorRange()
-    {
+    /**
+     * Get sensor range.
+     *
+     * @return slant range in meters
+     */
+    public double getSensorRange() {
         return sensorRange;
     }
 
-    public void setSensorRange(double sensorRange)
-    {
+    /**
+     * Set sensor range.
+     *
+     * @param sensorRange slant range in meters
+     */
+    public void setSensorRange(double sensorRange) {
         this.sensorRange = sensorRange;
     }
 }
