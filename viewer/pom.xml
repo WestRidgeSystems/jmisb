@@ -108,12 +108,12 @@
                     <execution>
                         <phase>verify</phase>
                         <goals>
-                            <goal>makeAggregateBom</goal>
+                            <goal>makeBom</goal>
                         </goals>
                     </execution>
                 </executions>
                 <configuration>
-                    <projectType>library</projectType>
+                    <projectType>application</projectType>
                     <schemaVersion>${cyclonedx.schema.version}</schemaVersion>
                     <includeBomSerialNumber>true</includeBomSerialNumber>
                     <includeCompileScope>true</includeCompileScope>
@@ -156,4 +156,3 @@
         </profile>
     </profiles>
 </project>
-
