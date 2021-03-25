@@ -165,9 +165,8 @@ The result of `msg.getField(UasDatalinkTag.SensorLatitude)` will be an instance
 of the `SensorLatitude` class (`IUasDatalinkValue` is a superclass), and this
 relationship holds in general.
 
-More complete examples of usage may be found in the `viewer` demo
-application and in unit tests. Additional sample applications are a work in
-progress.
+For more complete examples of usage, see the [examples](./examples) directory,
+as well as [viewer](viewer), a Java Swing-based tool for displaying video and metadata.
 
 ## Versioning
 
@@ -190,6 +189,3 @@ Use of -SNAPSHOT within the version number indicates that the version is
 for internal development only, i.e., the artifact is not to be used in a
 production environment.
 
-## Examples
-
-We provide samples (of variable level of complexity and completeness). See [examples/README.md](examples/README.md) for more information.
