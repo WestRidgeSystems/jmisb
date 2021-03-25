@@ -159,7 +159,7 @@
                     <execution>
                         <phase>verify</phase>
                         <goals>
-                            <goal>makeAggregateBom</goal>
+                            <goal>makeBom</goal>
                         </goals>
                     </execution>
                 </executions>
@@ -240,5 +240,3 @@
         </profile>
     </profiles>
 </project>
-
-
