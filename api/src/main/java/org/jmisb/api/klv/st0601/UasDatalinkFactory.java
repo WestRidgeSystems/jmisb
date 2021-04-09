@@ -182,8 +182,7 @@ public class UasDatalinkFactory {
             case SensorEastVelocity:
                 return new SensorEastVelocity(bytes);
             case ImageHorizonPixelPack:
-                // TODO
-                return new OpaqueValue(bytes);
+                return new ImageHorizonPixelPack(bytes);
             case CornerLatPt1:
                 return new FullCornerLatitude(bytes, FullCornerLatitude.CORNER_LAT_1);
             case CornerLonPt1:
