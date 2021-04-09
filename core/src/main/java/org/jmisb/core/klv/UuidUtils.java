@@ -50,6 +50,21 @@ public class UuidUtils {
     }
 
     /**
+     * Get the content of a UUID as an array.
+     *
+     * @param uuid the UUID to convert
+     * @return the equivalent value as a long array.
+     */
+    public static long[] uuidToLongArray(UUID uuid) {
+        byte[] bytes = uuidToArray(uuid);
+        long[] longArray = new long[16];
+        for (int i = 0; i < bytes.length; ++i) {
+            longArray[i] = bytes[i] & 0xFF;
+        }
+        return longArray;
+    }
+
+    /**
      * Convert part of a byte array to a UUID.
      *
      * @param bytes the byte array

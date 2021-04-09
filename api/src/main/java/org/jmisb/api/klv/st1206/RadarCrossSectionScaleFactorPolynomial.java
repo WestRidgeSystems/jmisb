@@ -38,8 +38,12 @@ public class RadarCrossSectionScaleFactorPolynomial implements ISARMIMetadataVal
 
     @Override
     public byte[] getBytes() {
-        ElementProcessedEncoder encoder = new ElementProcessedEncoder(0, 1e6, 3);
-        return encoder.encode(values);
+        try {
+            ElementProcessedEncoder encoder = new ElementProcessedEncoder(0, 1e6, 3);
+            return encoder.encode(values);
+        } catch (KlvParseException ex) {
+            return new byte[0];
+        }
     }
 
     @Override

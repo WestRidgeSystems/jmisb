@@ -2,6 +2,7 @@ package org.jmisb.api.klv.st1303;
 
 import static org.testng.Assert.*;
 
+import org.jmisb.api.common.KlvParseException;
 import org.testng.annotations.Test;
 
 /** Unit tests for ElementProcessedEncoder */
@@ -10,7 +11,7 @@ public class ElementProcessedEncoderTest {
     public ElementProcessedEncoderTest() {}
 
     @Test
-    public void check1DSingleItem() {
+    public void check1DSingleItem() throws KlvParseException {
         ElementProcessedEncoder encoder = new ElementProcessedEncoder(-900.0, 19000.0, 3);
         byte[] encoded = encoder.encode(new double[] {10.0});
         assertEquals(
@@ -43,7 +44,7 @@ public class ElementProcessedEncoderTest {
     }
 
     @Test
-    public void check1DSingleItemFloat() {
+    public void check1DSingleItemFloat() throws KlvParseException {
         ElementProcessedEncoder encoder = new ElementProcessedEncoder(-900.0, 19000.0, 3);
         byte[] encoded = encoder.encode(new float[] {10.0f});
         assertEquals(
@@ -68,7 +69,7 @@ public class ElementProcessedEncoderTest {
     }
 
     @Test
-    public void check1DSimpleArray() {
+    public void check1DSimpleArray() throws KlvParseException {
         ElementProcessedEncoder encoder = new ElementProcessedEncoder(-900.0, 19000.0, 3);
         byte[] encoded = encoder.encode(new double[] {10.0, 0.0, -900.0, Double.NEGATIVE_INFINITY});
         assertEquals(
@@ -110,7 +111,7 @@ public class ElementProcessedEncoderTest {
     }
 
     @Test
-    public void check1DSimpleArrayFloat() {
+    public void check1DSimpleArrayFloat() throws KlvParseException {
         ElementProcessedEncoder encoder = new ElementProcessedEncoder(-900.0f, 19000.0f, 3);
         byte[] encoded =
                 encoder.encode(new float[] {10.0f, 0.0f, -900.0f, Float.NEGATIVE_INFINITY});
@@ -145,7 +146,7 @@ public class ElementProcessedEncoderTest {
     }
 
     @Test
-    public void check2DSingleItem() {
+    public void check2DSingleItem() throws KlvParseException {
         ElementProcessedEncoder encoder = new ElementProcessedEncoder(-900.0, 19000.0, 3);
         byte[] encoded = encoder.encode(new double[][] {{10.0}});
         assertEquals(
@@ -179,7 +180,7 @@ public class ElementProcessedEncoderTest {
     }
 
     @Test
-    public void check2DSingleItemFloat() {
+    public void check2DSingleItemFloat() throws KlvParseException {
         ElementProcessedEncoder encoder = new ElementProcessedEncoder(-900.0f, 19000.0f, 3);
         byte[] encoded = encoder.encode(new float[][] {{10.0f}});
         assertEquals(
@@ -205,7 +206,7 @@ public class ElementProcessedEncoderTest {
     }
 
     @Test
-    public void check2D() {
+    public void check2D() throws KlvParseException {
         ElementProcessedEncoder encoder = new ElementProcessedEncoder(-900.0, 19000.0, 3);
         byte[] encoded =
                 encoder.encode(new double[][] {{10.0, 0.0, -900.0, Double.NEGATIVE_INFINITY}});
@@ -249,7 +250,7 @@ public class ElementProcessedEncoderTest {
     }
 
     @Test
-    public void check2DSquare() {
+    public void check2DSquare() throws KlvParseException {
         ElementProcessedEncoder encoder = new ElementProcessedEncoder(-900.0, 19000.0, 3);
         byte[] encoded =
                 encoder.encode(new double[][] {{10.0, 0.0}, {-900.0, Double.NEGATIVE_INFINITY}});
@@ -290,5 +291,61 @@ public class ElementProcessedEncoderTest {
                     (byte) 0x00,
                     (byte) 0x00
                 });
+    }
+
+    @Test(expectedExceptions = KlvParseException.class)
+    public void check1DDoubleBadLength() throws KlvParseException {
+        ElementProcessedEncoder encoder = new ElementProcessedEncoder(-900.0, 19000.0, 3);
+        assertNotNull(encoder);
+        encoder.encode(new double[0]);
+    }
+
+    @Test(expectedExceptions = KlvParseException.class)
+    public void check1DFloatBadLength() throws KlvParseException {
+        ElementProcessedEncoder encoder = new ElementProcessedEncoder(-900.0, 19000.0, 3);
+        assertNotNull(encoder);
+        encoder.encode(new float[0]);
+    }
+
+    @Test(expectedExceptions = KlvParseException.class)
+    public void check2DFloatBadColumns() throws KlvParseException {
+        ElementProcessedEncoder encoder = new ElementProcessedEncoder(-900.0, 19000.0, 3);
+        assertNotNull(encoder);
+        encoder.encode(new float[1][0]);
+    }
+
+    @Test(expectedExceptions = KlvParseException.class)
+    public void check2DFloatBadRows() throws KlvParseException {
+        ElementProcessedEncoder encoder = new ElementProcessedEncoder(-900.0, 19000.0, 3);
+        assertNotNull(encoder);
+        encoder.encode(new float[0][1]);
+    }
+
+    @Test(expectedExceptions = KlvParseException.class)
+    public void check2DFloatBadRowsAndColumns() throws KlvParseException {
+        ElementProcessedEncoder encoder = new ElementProcessedEncoder(-900.0, 19000.0, 3);
+        assertNotNull(encoder);
+        encoder.encode(new float[0][0]);
+    }
+
+    @Test(expectedExceptions = KlvParseException.class)
+    public void check2DDoubleBadColumns() throws KlvParseException {
+        ElementProcessedEncoder encoder = new ElementProcessedEncoder(-900.0, 19000.0, 3);
+        assertNotNull(encoder);
+        encoder.encode(new double[1][0]);
+    }
+
+    @Test(expectedExceptions = KlvParseException.class)
+    public void check2DDoubleBadRows() throws KlvParseException {
+        ElementProcessedEncoder encoder = new ElementProcessedEncoder(-900.0, 19000.0, 3);
+        assertNotNull(encoder);
+        encoder.encode(new double[0][1]);
+    }
+
+    @Test(expectedExceptions = KlvParseException.class)
+    public void check2DDoubleBadRowsAndColumns() throws KlvParseException {
+        ElementProcessedEncoder encoder = new ElementProcessedEncoder(-900.0, 19000.0, 3);
+        assertNotNull(encoder);
+        encoder.encode(new double[0][0]);
     }
 }

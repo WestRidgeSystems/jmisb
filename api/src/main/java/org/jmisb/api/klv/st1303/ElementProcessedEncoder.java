@@ -1,5 +1,6 @@
 package org.jmisb.api.klv.st1303;
 
+import org.jmisb.api.common.KlvParseException;
 import org.jmisb.api.klv.ArrayBuilder;
 import org.jmisb.api.klv.st1201.FpEncoder;
 
@@ -43,11 +44,28 @@ public class ElementProcessedEncoder {
     /**
      * Constructor.
      *
+     * <p>The encoder is set up with the standard IMAPA parameters, which cannot be changed. Create
+     * a new instance if the parameters need to change.
+     *
+     * @param min the minimum value for the encoding (same as {@code a} parameter in IMAPA).
+     * @param max the maximum value for the encoding (same as {@code b} parameter in IMAPA).
+     * @param resolution the resolution to encode to (same as {@code g} parameter in IMAPA).
+     */
+    public ElementProcessedEncoder(double min, double max, double resolution) {
+        this.min = min;
+        this.max = max;
+        st1201encoder = new FpEncoder(min, max, resolution);
+        this.bytesPerEncodedValue = st1201encoder.getFieldLength();
+    }
+
+    /**
+     * Constructor.
+     *
      * <p>The encoder is set up with the standard IMAPB parameters, which cannot be changed. Create
      * a new instance if the parameters need to change.
      *
      * @param min the minimum value for the encoding (same as {@code a} parameter in IMAPB).
-     * @param max the maximum value for the encoding (same as {@code b} parameter in IMAPB)/
+     * @param max the maximum value for the encoding (same as {@code b} parameter in IMAPB).
      * @param ebytes the number of bytes to encode to (same as {@code L} parameter in IMAPB).
      */
     public ElementProcessedEncoder(float min, float max, int ebytes) {
@@ -66,8 +84,12 @@ public class ElementProcessedEncoder {
      *
      * @param data the array of floating point ({@code double}) values.
      * @return the encoded byte array including the MISB ST1303 header and array data.
+     * @throws KlvParseException if the encoding fails, such as for invalid array dimensions.
      */
-    public byte[] encode(double[] data) {
+    public byte[] encode(double[] data) throws KlvParseException {
+        if (data.length < 1) {
+            throw new KlvParseException("MDAP encoding requires each dimension to be at least 1");
+        }
         ArrayBuilder builder =
                 new ArrayBuilder()
                         // Number of dimensions
@@ -97,8 +119,12 @@ public class ElementProcessedEncoder {
      *
      * @param data the array of floating point ({@code float}) values.
      * @return the encoded byte array including the MISB ST1303 header and array data.
+     * @throws KlvParseException if the encoding fails, such as for invalid array dimensions.
      */
-    public byte[] encode(float[] data) {
+    public byte[] encode(float[] data) throws KlvParseException {
+        if (data.length < 1) {
+            throw new KlvParseException("MDAP encoding requires each dimension to be at least 1");
+        }
         ArrayBuilder builder =
                 new ArrayBuilder()
                         // Number of dimensions
@@ -128,8 +154,12 @@ public class ElementProcessedEncoder {
      *
      * @param data the array of arrays of floating point ({@code double}) values.
      * @return the encoded byte array including the MISB ST1303 header and array data.
+     * @throws KlvParseException if the encoding fails, such as for invalid array dimensions.
      */
-    public byte[] encode(double[][] data) {
+    public byte[] encode(double[][] data) throws KlvParseException {
+        if ((data.length < 1) || (data[0].length < 1)) {
+            throw new KlvParseException("MDAP encoding requires each dimension to be at least 1");
+        }
         ArrayBuilder builder =
                 new ArrayBuilder()
                         // Number of dimensions
@@ -163,8 +193,12 @@ public class ElementProcessedEncoder {
      *
      * @param data the array of arrays of floating point ({@code float}) values.
      * @return the encoded byte array including the MISB ST1303 header and array data.
+     * @throws KlvParseException if the encoding fails, such as for invalid array dimensions.
      */
-    public byte[] encode(float[][] data) {
+    public byte[] encode(float[][] data) throws KlvParseException {
+        if ((data.length < 1) || (data[0].length < 1)) {
+            throw new KlvParseException("MDAP encoding requires each dimension to be at least 1");
+        }
         ArrayBuilder builder =
                 new ArrayBuilder()
                         // Number of dimensions
