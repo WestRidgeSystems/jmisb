@@ -16,5 +16,6 @@
         <module>movingfeatures</module>
         <module>gstsink</module>
         <module>parserplugin</module>
+        <module>mimdgenerator</module>
     </modules>
 </project>
