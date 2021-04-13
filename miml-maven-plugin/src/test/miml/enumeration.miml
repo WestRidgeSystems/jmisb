@@ -1,0 +1,35 @@
+enumeration PositionMethod {
+    Document = ST1906;
+    00 = INS {On-board Inertial Navigation System};
+    01 = NAVSAT_GPS {GPS - U.S.};
+    02 = NAVSAT_GALILEO {Galileo - E.U.};
+    03 = NAVSAT_QZSS {QZSS - Japan};
+    04 = NAVSAT_NAVIC {NAVIC - India};
+    05 = NAVSAT_GLONASS {GLONASS - Russia};
+    06 = NAVSAT_BEIDOU_1 {BeiDou-1 - China};
+    07 = NAVSAT_BEIDOU_2 {BeiDou-2 - China};
+    08 = FIXED {Fixed point on earth};
+}
+enumeration PowerStatus {
+    Document = ST1907;
+    00 = Off {The device is powered off};
+    01 = On {The device is powered on};
+}
+enumeration TimeTransferMethod {
+    Document = ST1903;
+    00 = Unknown {Unknown Time Transfer Method};
+    01 = GPS {Global Positioning System (GPS) PPS};
+    02 = PTP_V1 {Precision Time Protocol (PTP) - Version 1};
+    03 = PTP_V2 {Precision Time Protocol (PTP) - Version 2};
+    04 = NTP_V3_3 {Network Time Protocol (NTP)};
+    05 = NTP_V4 {Network Time Protocol (NTP)};
+    06 = IRIG_A {Inter-range Instrumentation Group (IRIG-A)};
+    07 = IRIG_B {Inter-range Instrumentation Group (IRIG-B)};
+}
+enumeration CorrectionMethod {
+    Document = ST1903;
+    00 = Unknown {Unknown Correction Method};
+    01 = Jam {Jam Correction Method};
+    02 = Slew {Slew Correction Method};
+}
+

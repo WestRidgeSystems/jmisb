@@ -94,6 +94,7 @@
     <modules>
         <module>api</module>
         <module>core</module>
+        <module>miml-maven-plugin</module>
         <module>viewer</module>
         <module>examples</module>
     </modules>
@@ -242,5 +243,3 @@
         </profile>
     </profiles>
 </project>
-
-
