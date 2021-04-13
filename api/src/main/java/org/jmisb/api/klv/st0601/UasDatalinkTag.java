@@ -270,7 +270,7 @@ public enum UasDatalinkTag implements IKlvKey {
     SensorEastVelocity(80),
     /**
      * Tag 81; Location of earth-sky horizon in the Imagery; Value is an {@link
-     * ImageHorizonPixelPack}
+     * ImageHorizonPixelPack}.
      */
     ImageHorizonPixelPack(81),
     /** Tag 82; Frame latitude for upper left corner; Value is a {@link FullCornerLatitude}. */
