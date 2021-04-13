@@ -107,4 +107,15 @@ public class ST0603TimeStampTest {
     public void badArrayLength() {
         new ST0603TimeStamp(new byte[] {0x01, 0x02, 0x03, 0x04, 0x05, 0x06, 0x07, 0x08, 0x09});
     }
+
+    @Test
+    public void testDeepCopy() {
+        ST0603TimeStamp pts = new ST0603TimeStamp(987654321000000L);
+        ST0603TimeStamp copy = pts.deepCopy();
+        Assert.assertEquals(pts.getMicroseconds(), 987654321000000L);
+        Assert.assertEquals(copy.getMicroseconds(), 987654321000000L);
+        pts.microseconds = 0;
+        Assert.assertEquals(pts.getMicroseconds(), 0L);
+        Assert.assertEquals(copy.getMicroseconds(), 987654321000000L);
+    }
 }

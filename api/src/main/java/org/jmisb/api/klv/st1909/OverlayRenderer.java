@@ -9,6 +9,7 @@ import java.awt.Shape;
 import java.awt.font.GlyphVector;
 import java.awt.geom.Rectangle2D;
 import java.awt.image.BufferedImage;
+import org.jmisb.api.klv.st0603.ST0603TimeStamp;
 
 /**
  * Renderer for ST1909 Metadata Overlays.
@@ -47,8 +48,9 @@ public class OverlayRenderer {
      *
      * @param image the image to draw on
      * @param metadata the metadata key/value pairs
+     * @param timeStamp the motion imagery (frame) time stamp
      */
-    public void render(BufferedImage image, MetadataItems metadata) {
+    public void render(BufferedImage image, MetadataItems metadata, ST0603TimeStamp timeStamp) {
         graphics2D = image.createGraphics();
         graphics2D.setFont(configuration.getFont());
         fontMetrics = graphics2D.getFontMetrics();
@@ -64,11 +66,21 @@ public class OverlayRenderer {
         renderLaserSensorGroup(image, metadata);
         renderClassificationAndReleasabilityGroup(image, metadata);
         renderPlatformGroup(image, metadata);
-        renderDateTimeGroup(image, metadata);
+        renderDateTimeGroup(image, metadata, timeStamp);
         renderTargetGroup(image, metadata);
         // TODO: reticle - need to manage target location if not in frame center mode, which will be
         // messy.
         graphics2D.dispose();
+    }
+
+    /**
+     * Render the metadata over the given image.
+     *
+     * @param image the image to draw on
+     * @param metadata the metadata key/value pairs
+     */
+    public void render(BufferedImage image, MetadataItems metadata) {
+        render(image, metadata, null);
     }
 
     private void renderMainSensorGroup(BufferedImage image, MetadataItems metadata) {
@@ -212,14 +224,20 @@ public class OverlayRenderer {
         renderTextRightAligned(metadata, MetadataKey.SlantRange, columnAnchor, rowAnchor, -6);
     }
 
-    private void renderDateTimeGroup(BufferedImage image, MetadataItems metadata) {
+    private void renderDateTimeGroup(
+            BufferedImage image, MetadataItems metadata, ST0603TimeStamp motionImageryTimestamp) {
         // ST1909-44
         int columnAnchor = (int) (image.getWidth() * 0.5);
         // ST1909-43
         int rowAnchor = (int) (image.getHeight() * 0.963);
         // ST1909-45
         renderTextCentred(metadata, MetadataKey.MetadataTimestamp, columnAnchor, rowAnchor, 0);
-        // TODO: frame timestamp.
+        if (motionImageryTimestamp != null) {
+            // ST 1909-47 and ST 1909-48
+            String frameTime =
+                    "FT " + ST1909DateTimeFormatter.format(motionImageryTimestamp.getDateTime());
+            renderFormattedTextCentred(frameTime, columnAnchor, rowAnchor, -1);
+        }
     }
 
     private void renderTextLeftAligned(
@@ -242,10 +260,14 @@ public class OverlayRenderer {
             int lineNumber) {
         String text = metadata.getValue(metadataKey);
         if (text != null) {
-            int width = fontMetrics.stringWidth(text);
-            graphics2D.drawString(
-                    text, columnAnchor - width / 2, rowAnchor + lineNumber * lineSpacing);
+            renderFormattedTextCentred(text, columnAnchor, rowAnchor, lineNumber);
         }
+    }
+
+    private void renderFormattedTextCentred(
+            String text, int columnAnchor, int rowAnchor, int lineNumber) {
+        int width = fontMetrics.stringWidth(text);
+        graphics2D.drawString(text, columnAnchor - width / 2, rowAnchor + lineNumber * lineSpacing);
     }
 
     private void renderTextRightAligned(

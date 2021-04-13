@@ -139,7 +139,7 @@ public class TimeStatus {
      *
      * @return the encoded value, as a single byte.
      */
-    byte getEncodedValue() {
+    public byte getEncodedValue() {
         byte value = 0b00011111;
         if (discontinuity) {
             value |= DISCONTINUITY_BITMASK;
@@ -151,5 +151,17 @@ public class TimeStatus {
             value |= LOCK_UNKNOWN_BITMASK;
         }
         return value;
+    }
+
+    /**
+     * Create a deep copy of this time status.
+     *
+     * @return time status intialised with the same values, but a distinct copy.
+     */
+    public TimeStatus deepCopy() {
+        TimeStatus copy = new TimeStatus();
+        copy.setLocked(this.isLocked());
+        copy.setDiscontinuity(this.isDiscontinuity(), this.isReverse());
+        return copy;
     }
 }
