@@ -39,7 +39,7 @@ public class OntologyIdentifierKeyTest {
         OntologyIdentifierKey ontologyIdentifierKey = new OntologyIdentifierKey(2);
         assertFalse(ontologyIdentifierKey.equals(null));
         assertFalse(ontologyIdentifierKey.equals(new OntologyIdentifierKey(3)));
-        assertFalse(ontologyIdentifierKey.equals(new Integer(2)));
+        assertFalse(ontologyIdentifierKey.equals(2));
         assertTrue(ontologyIdentifierKey.equals(ontologyIdentifierKey));
     }
 }
