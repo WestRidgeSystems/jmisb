@@ -3,6 +3,7 @@ package org.jmisb.api.klv.st1909;
 import static org.testng.Assert.*;
 
 import java.awt.image.BufferedImage;
+import org.jmisb.api.klv.st0603.ST0603TimeStamp;
 import org.testng.annotations.Test;
 
 /** Unit tests for OverlayRenderer */
@@ -158,7 +159,8 @@ public class OverlayRendererTest {
         metadataItems.addItem(MetadataKey.TargetLatitude, "Target LAT");
         metadataItems.addItem(MetadataKey.TargetLongitude, "Target LON");
         metadataItems.addItem(MetadataKey.TargetWidth, "340.3m");
-        renderer.render(image, metadataItems);
+        ST0603TimeStamp miTimestamp = new ST0603TimeStamp(1444200822301748L);
+        renderer.render(image, metadataItems, miTimestamp);
         assertNotNull(image);
     }
 }

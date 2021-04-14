@@ -103,4 +103,25 @@ public class TimeStatusTest {
         assertFalse(timeStatus.isReverse());
         assertEquals(timeStatus.getEncodedValue(), (byte) 0b10011111);
     }
+
+    @Test
+    public void testCopy() {
+        TimeStatus timeStatus = new TimeStatus();
+        assertFalse(timeStatus.isLocked());
+        assertFalse(timeStatus.isDiscontinuity());
+        assertFalse(timeStatus.isReverse());
+        TimeStatus copy = timeStatus.deepCopy();
+        timeStatus.setLocked(true);
+        timeStatus.setDiscontinuity(true, true);
+        assertFalse(copy.isLocked());
+        assertFalse(copy.isDiscontinuity());
+        assertFalse(copy.isReverse());
+        assertTrue(timeStatus.isLocked());
+        assertTrue(timeStatus.isDiscontinuity());
+        assertTrue(timeStatus.isReverse());
+        copy = timeStatus.deepCopy();
+        assertTrue(copy.isLocked());
+        assertTrue(copy.isDiscontinuity());
+        assertTrue(timeStatus.isReverse());
+    }
 }

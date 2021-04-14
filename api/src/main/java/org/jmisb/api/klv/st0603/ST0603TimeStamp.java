@@ -117,4 +117,13 @@ public class ST0603TimeStamp {
         String displayableLocalDateTime = ldt.format(DateTimeFormatter.ISO_DATE_TIME);
         return displayableLocalDateTime;
     }
+
+    /**
+     * Create a deep copy of this time stamp.
+     *
+     * @return timestamp intialised with the same value, but a distinct copy.
+     */
+    public ST0603TimeStamp deepCopy() {
+        return new ST0603TimeStamp(this.getMicroseconds());
+    }
 }
