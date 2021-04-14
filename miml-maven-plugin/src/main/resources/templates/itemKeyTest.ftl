@@ -44,7 +44,7 @@ public class ${namespacedName}ItemKeyTest {
     @Test
     public void notEqualsDifferentType() {
         ${namespacedName}ItemKey uut1 = new ${namespacedName}ItemKey(1);
-        assertFalse(uut1.equals(new Integer(1)));
+        assertFalse(uut1.equals(new String()));
     }
 
     @Test
