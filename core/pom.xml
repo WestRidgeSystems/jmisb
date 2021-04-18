@@ -1,23 +1,16 @@
-<project xmlns="http://maven.apache.org/POM/4.0.0"
-         xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
-         xsi:schemaLocation="http://maven.apache.org/POM/4.0.0
-                      http://maven.apache.org/xsd/maven-4.0.0.xsd">
+<?xml version="1.0" encoding="UTF-8"?>
+<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://maven.apache.org/POM/4.0.0                       http://maven.apache.org/xsd/maven-4.0.0.xsd">
+
+    <modelVersion>4.0.0</modelVersion>
     <parent>
         <groupId>org.jmisb</groupId>
         <artifactId>jmisb</artifactId>
         <version>1.11.0-SNAPSHOT</version>
     </parent>
-
-    <modelVersion>4.0.0</modelVersion>
     <artifactId>jmisb-core</artifactId>
     <packaging>jar</packaging>
 
     <dependencies>
-        <dependency>
-            <groupId>org.testng</groupId>
-            <artifactId>testng</artifactId>
-            <scope>test</scope>
-        </dependency>
         <dependency>
             <groupId>org.slf4j</groupId>
             <artifactId>slf4j-api</artifactId>
@@ -25,6 +18,11 @@
         <dependency>
             <groupId>org.bytedeco</groupId>
             <artifactId>ffmpeg-platform</artifactId>
+        </dependency>
+        <dependency>
+            <groupId>org.testng</groupId>
+            <artifactId>testng</artifactId>
+            <scope>test</scope>
         </dependency>
     </dependencies>
 
@@ -38,14 +36,14 @@
                 <executions>
                     <execution>
                         <id>reformat-sources</id>
-                        <configuration>
-                            <style>AOSP</style>
-                            <fixImports>true</fixImports>
-                        </configuration>
                         <goals>
                             <goal>format</goal>
                         </goals>
                         <phase>process-sources</phase>
+                        <configuration>
+                            <style>AOSP</style>
+                            <fixImports>true</fixImports>
+                        </configuration>
                     </execution>
                 </executions>
             </plugin>
@@ -83,14 +81,6 @@
                 <groupId>org.cyclonedx</groupId>
                 <artifactId>cyclonedx-maven-plugin</artifactId>
                 <version>${cyclonedx.version}</version>
-                <executions>
-                    <execution>
-                        <phase>verify</phase>
-                        <goals>
-                            <goal>makeBom</goal>
-                        </goals>
-                    </execution>
-                </executions>
                 <configuration>
                     <projectType>library</projectType>
                     <schemaVersion>${cyclonedx.schema.version}</schemaVersion>
@@ -104,6 +94,14 @@
                     <outputFormat>all</outputFormat>
                     <outputName>${project.artifactId}-${project.version}-cyclonedx</outputName>
                 </configuration>
+                <executions>
+                    <execution>
+                        <goals>
+                            <goal>makeBom</goal>
+                        </goals>
+                        <phase>verify</phase>
+                    </execution>
+                </executions>
             </plugin>
         </plugins>
     </build>
