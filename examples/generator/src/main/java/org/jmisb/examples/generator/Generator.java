@@ -95,6 +95,7 @@ import org.jmisb.api.klv.st1206.ISARMIMetadataValue;
 import org.jmisb.api.klv.st1206.LookDirection;
 import org.jmisb.api.klv.st1206.SARMILocalSet;
 import org.jmisb.api.klv.st1206.SARMIMetadataKey;
+import org.jmisb.api.video.CodecIdentifier;
 import org.jmisb.api.video.IVideoFileOutput;
 import org.jmisb.api.video.KlvFormat;
 import org.jmisb.api.video.MetadataFrame;
@@ -106,8 +107,8 @@ import org.slf4j.LoggerFactory;
 
 public class Generator {
 
-    private final int width = 640;
-    private final int height = 480;
+    private final int width = 1280;
+    private final int height = 960;
     private final int bitRate = 500_000;
     private final int gopSize = 30;
     private final double frameRate = 15.0;
@@ -119,6 +120,7 @@ public class Generator {
     private final double slantRange = 2000.0;
     private final String missionId = "IntTesting";
     private KlvFormat klvFormat = KlvFormat.Asynchronous;
+    private CodecIdentifier codec = CodecIdentifier.H265;
     private byte version0601 = 16; // Last version supported by CMITT 1.3.0 is 9
     private byte version0102 = 12;
     private byte version0903 = 5;
@@ -131,6 +133,10 @@ public class Generator {
 
     public void setKlvFormat(KlvFormat klvFormat) {
         this.klvFormat = klvFormat;
+    }
+
+    public void setCodec(CodecIdentifier codec) {
+        this.codec = codec;
     }
 
     public void setVersion0601(byte version0601) {
@@ -164,13 +170,13 @@ public class Generator {
         try (IVideoFileOutput output =
                 new VideoFileOutput(
                         new VideoOutputOptions(
-                                width, height, bitRate, frameRate, gopSize, klvFormat))) {
+                                width, height, bitRate, frameRate, gopSize, klvFormat, codec))) {
             output.open(filename);
 
             // Write some frames
             BufferedImage image = new BufferedImage(width, height, BufferedImage.TYPE_3BYTE_BGR);
             try {
-                image = ImageIO.read(new File("test.jpg"));
+                image = ImageIO.read(new File("test1280.jpg"));
             } catch (IOException e) {
                 // TODO: log
             }

@@ -8,6 +8,7 @@ public class VideoOutputOptions {
     private final int bitRate;
     private final int gopSize;
     private final KlvFormat multiplexingMethod;
+    private final CodecIdentifier codec;
 
     /**
      * Construct with default values.
@@ -16,7 +17,7 @@ public class VideoOutputOptions {
      * @param height Video frame height, in pixels
      */
     public VideoOutputOptions(int width, int height) {
-        this(width, height, 1500000, 30.0, 30, KlvFormat.Asynchronous);
+        this(width, height, 1500000, 30.0, 30, KlvFormat.Asynchronous, CodecIdentifier.H264);
     }
 
     /**
@@ -28,7 +29,7 @@ public class VideoOutputOptions {
      * @param frameRate Stream frame rate in frames/second
      * @param gopSize Group of Picture size, i.e., the I-frame interval
      * @param hasKlvStream True to include a (asynchronous) KLV data stream
-     * @deprecated Use constructor taking KlvFormat argument instead.
+     * @deprecated Use constructor taking KlvFormat and Codec arguments instead.
      */
     @Deprecated
     public VideoOutputOptions(
@@ -48,6 +49,7 @@ public class VideoOutputOptions {
         } else {
             this.multiplexingMethod = KlvFormat.NoKlv;
         }
+        this.codec = CodecIdentifier.H264;
     }
 
     /**
@@ -58,8 +60,9 @@ public class VideoOutputOptions {
      * @param bitRate Target stream bit rate in bits/second
      * @param frameRate Stream frame rate in frames/second
      * @param gopSize Group of Picture size, i.e., the I-frame interval
-     * @param multiplexingMethod the multiplexing method to use for KLV metadat (NoKlv to disable
+     * @param multiplexingMethod the multiplexing method to use for KLV metadata (NoKlv to disable
      *     KLV)
+     * @deprecated Use constructor taking Codec argument instead.
      */
     public VideoOutputOptions(
             int width,
@@ -68,12 +71,36 @@ public class VideoOutputOptions {
             double frameRate,
             int gopSize,
             KlvFormat multiplexingMethod) {
+        this(width, height, bitRate, frameRate, gopSize, multiplexingMethod, CodecIdentifier.H264);
+    }
+
+    /**
+     * Constructor.
+     *
+     * @param width Video frame width, in pixels
+     * @param height Video frame height, in pixels
+     * @param bitRate Target stream bit rate in bits/second
+     * @param frameRate Stream frame rate in frames/second
+     * @param gopSize Group of Picture size, i.e., the I-frame interval
+     * @param multiplexingMethod the multiplexing method to use for KLV metadata (NoKlv to disable
+     *     KLV)
+     * @param codec the codec to use to encode video
+     */
+    public VideoOutputOptions(
+            int width,
+            int height,
+            int bitRate,
+            double frameRate,
+            int gopSize,
+            KlvFormat multiplexingMethod,
+            CodecIdentifier codec) {
         this.width = width;
         this.height = height;
         this.bitRate = bitRate;
         this.frameRate = frameRate;
         this.gopSize = gopSize;
         this.multiplexingMethod = multiplexingMethod;
+        this.codec = codec;
     }
 
     /**
@@ -139,5 +166,14 @@ public class VideoOutputOptions {
      */
     public KlvFormat getMultiplexingMethod() {
         return multiplexingMethod;
+    }
+
+    /**
+     * Get the codec to use for video encoding.
+     *
+     * @return the codec identifier
+     */
+    public CodecIdentifier getCodec() {
+        return codec;
     }
 }
