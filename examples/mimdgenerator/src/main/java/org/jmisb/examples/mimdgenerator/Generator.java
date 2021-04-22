@@ -42,9 +42,29 @@ import org.jmisb.api.klv.st1906.Orientation;
 import org.jmisb.api.klv.st1906.Position;
 import org.jmisb.api.klv.st1906.Position_Country;
 import org.jmisb.api.klv.st1906.Stage;
+import org.jmisb.api.klv.st1907.Correspondence;
+import org.jmisb.api.klv.st1907.CorrespondenceGroup;
+import org.jmisb.api.klv.st1907.CorrespondenceGroup_Rectangle;
+import org.jmisb.api.klv.st1907.Correspondence_Col;
+import org.jmisb.api.klv.st1907.Correspondence_Row;
+import org.jmisb.api.klv.st1907.DeviceError;
+import org.jmisb.api.klv.st1907.DeviceStatus;
+import org.jmisb.api.klv.st1907.DeviceWarning;
+import org.jmisb.api.klv.st1907.GISensorType;
 import org.jmisb.api.klv.st1907.GeoIntelligenceSensor;
+import org.jmisb.api.klv.st1907.GeoIntelligenceSensor_CorrespondenceGroups;
+import org.jmisb.api.klv.st1907.GeoIntelligenceSensor_Correspondences;
+import org.jmisb.api.klv.st1907.GeoIntelligenceSensor_NCols;
+import org.jmisb.api.klv.st1907.GeoIntelligenceSensor_NRows;
+import org.jmisb.api.klv.st1907.GeoIntelligenceSensor_Name;
+import org.jmisb.api.klv.st1907.LaserSensor;
+import org.jmisb.api.klv.st1907.LaserSensor_Wavelength;
+import org.jmisb.api.klv.st1907.MeasureMethod;
 import org.jmisb.api.klv.st1907.Payload;
 import org.jmisb.api.klv.st1907.Payload_GeoIntelligenceSensors;
+import org.jmisb.api.klv.st1907.Range;
+import org.jmisb.api.klv.st1907.Range_RangeDistance;
+import org.jmisb.api.klv.st1907.SafetyState;
 import org.jmisb.api.klv.st1908.FieldOfView;
 import org.jmisb.api.klv.st1908.FieldOfView_Horizontal;
 import org.jmisb.api.klv.st1908.FieldOfView_Vertical;
@@ -262,14 +282,119 @@ public class Generator {
     private Payload_GeoIntelligenceSensors getGeoIntelligenceSensors() throws KlvParseException {
         List<GeoIntelligenceSensor> sensorList = new ArrayList<>();
         sensorList.add(getGeoIntelligenceSensor());
+        sensorList.add(getGeoIntelligenceLaserSensor());
         Payload_GeoIntelligenceSensors sensors = new Payload_GeoIntelligenceSensors(sensorList);
         return sensors;
     }
 
+    private GeoIntelligenceSensor getGeoIntelligenceLaserSensor() throws KlvParseException {
+        GeoIntelligenceSensor sensor = new GeoIntelligenceSensor();
+        sensor.setType(GISensorType.LIDAR);
+        sensor.setNCols(new GeoIntelligenceSensor_NCols(1));
+        sensor.setNRows(new GeoIntelligenceSensor_NRows(1));
+        sensor.setStatus(DeviceStatus.Nominal);
+        sensor.setLaserSensor(getLaserSensor());
+        sensor.setError(DeviceError.Nominal);
+        sensor.setWarning(DeviceWarning.Nominal);
+        sensor.setCorrespondences(getLaserSensorCorrespondences());
+        return sensor;
+    }
+
+    private LaserSensor getLaserSensor() throws KlvParseException {
+        LaserSensor laserSensor = new LaserSensor();
+        laserSensor.setSafetyState(SafetyState.Firing);
+        laserSensor.setWavelength(new LaserSensor_Wavelength(1.0640));
+        return laserSensor;
+    }
+
+    private GeoIntelligenceSensor_Correspondences getLaserSensorCorrespondences()
+            throws KlvParseException {
+        List<Correspondence> laserSensorCorrespondences = new ArrayList<>();
+        Correspondence laserSensorCorrespondence =
+                createImageToLocationCorrespondence(0.5, 0.5, -35.35340, 149.08940);
+        laserSensorCorrespondence.setMimdId(new MimdId(1, 2));
+        laserSensorCorrespondence
+                .getPosition()
+                .setCountry(new Position_Country("ge:ISO1:3:VII-13:AUS"));
+        Range rangeToTarget = new Range();
+        rangeToTarget.setRangeDistance(new Range_RangeDistance(37.55));
+        rangeToTarget.setMeasureMethod(MeasureMethod.Measured);
+        laserSensorCorrespondence.setRange(rangeToTarget);
+        laserSensorCorrespondence.setCrossRef(
+                new MimdIdReference(1, 3, "crossRef", "Correspondence"));
+        laserSensorCorrespondences.add(laserSensorCorrespondence);
+        return new GeoIntelligenceSensor_Correspondences(laserSensorCorrespondences);
+    }
+
     private GeoIntelligenceSensor getGeoIntelligenceSensor() throws KlvParseException {
         GeoIntelligenceSensor sensor = new GeoIntelligenceSensor();
+        sensor.setType(GISensorType.EO);
+        sensor.setNCols(new GeoIntelligenceSensor_NCols(1280));
+        sensor.setNRows(new GeoIntelligenceSensor_NRows(960));
+        sensor.setName(new GeoIntelligenceSensor_Name("Some camera"));
+        sensor.setWarning(DeviceWarning.Nominal);
+        sensor.setError(DeviceError.Nominal);
         sensor.setImagerSystem(getImagerSystem());
+        List<CorrespondenceGroup> correspondenceGroups = new ArrayList<>();
+        CorrespondenceGroup footprint = getFootprint();
+        correspondenceGroups.add(footprint);
+        sensor.setCorrespondenceGroups(
+                new GeoIntelligenceSensor_CorrespondenceGroups(correspondenceGroups));
+        List<Correspondence> otherCorrespondences = new ArrayList<>();
+        Correspondence lrfLocationCorrespondence = buildBaseCorrespondence(302.5, 730.5);
+        lrfLocationCorrespondence.setMimdId(new MimdId(1, 3));
+        lrfLocationCorrespondence.setCrossRef(
+                new MimdIdReference(1, 2, "crossRef", "Correspondence"));
+        otherCorrespondences.add(lrfLocationCorrespondence);
+        sensor.setCorrespondences(new GeoIntelligenceSensor_Correspondences(otherCorrespondences));
         return sensor;
+    }
+
+    private CorrespondenceGroup getFootprint() throws KlvParseException {
+        CorrespondenceGroup footprint = new CorrespondenceGroup();
+        Correspondence centroid =
+                createImageToLocationCorrespondence(640.0, 480.0, -35.35300, 149.08920);
+        footprint.setCentroid(centroid);
+        List<Correspondence> cornerCoordinates = new ArrayList<>();
+        Correspondence corner1 =
+                createImageToLocationCorrespondence(0.0, 0.0, -35.35290, 149.08887);
+        cornerCoordinates.add(corner1);
+        Correspondence corner2 =
+                createImageToLocationCorrespondence(1280.0, 0.0, -35.35279, 149.08936);
+        cornerCoordinates.add(corner2);
+        Correspondence corner3 =
+                createImageToLocationCorrespondence(1280.0, 960.0, -35.35313, 149.08950);
+        cornerCoordinates.add(corner3);
+        Correspondence corner4 =
+                createImageToLocationCorrespondence(0.0, 960.0, -35.35325, 149.08900);
+        cornerCoordinates.add(corner4);
+        footprint.setRectangle(new CorrespondenceGroup_Rectangle(cornerCoordinates));
+        return footprint;
+    }
+
+    private Correspondence createImageToLocationCorrespondence(
+            double col, double row, double lat, double lon) throws KlvParseException {
+        Correspondence correspondence = buildBaseCorrespondence(col, row);
+        Position position = buildPositionLatLon(lat, lon);
+        correspondence.setPosition(position);
+        return correspondence;
+    }
+
+    private Position buildPositionLatLon(double lat, double lon) throws KlvParseException {
+        Position position = new Position();
+        AbsGeodetic geodeticPosition = new AbsGeodetic();
+        geodeticPosition.setLat(new AbsGeodetic_Lat(degToRadians(lat)));
+        geodeticPosition.setLon(new AbsGeodetic_Lon(degToRadians(lon)));
+        position.setAbsGeodetic(geodeticPosition);
+        return position;
+    }
+
+    private Correspondence buildBaseCorrespondence(double col, double row)
+            throws KlvParseException {
+        Correspondence correspondence = new Correspondence();
+        correspondence.setCol(new Correspondence_Col(col));
+        correspondence.setRow(new Correspondence_Row(row));
+        return correspondence;
     }
 
     private ImagerSystem getImagerSystem() throws KlvParseException {
@@ -282,8 +407,8 @@ public class Generator {
 
     private FieldOfView getFieldOfView() throws KlvParseException {
         FieldOfView fieldOfView = new FieldOfView();
-        fieldOfView.setHorizontal(new FieldOfView_Horizontal(144.571298 * Math.PI / 180.0));
-        fieldOfView.setVertical(new FieldOfView_Vertical(152.643626 * Math.PI / 180.0));
+        fieldOfView.setHorizontal(new FieldOfView_Horizontal(degToRadians(144.571298)));
+        fieldOfView.setVertical(new FieldOfView_Vertical(degToRadians(152.643626)));
         return fieldOfView;
     }
 
@@ -303,5 +428,9 @@ public class Generator {
         MinorCoreId minorCoreId = new MinorCoreId();
         minorCoreId.setUuid(uuid);
         return minorCoreId;
+    }
+
+    private double degToRadians(double degrees) {
+        return degrees * Math.PI / 180.0;
     }
 }

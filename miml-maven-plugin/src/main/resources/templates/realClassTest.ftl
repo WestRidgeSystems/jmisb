@@ -21,9 +21,9 @@ public class ${namespacedName}Test {
     public void displayableValue() throws KlvParseException {
         ${namespacedName} uut = new ${namespacedName}(0.0);
 <#if units?has_content>
-        assertEquals(uut.getDisplayableValue(), "0.000 ${units}");
+        assertEquals(uut.getDisplayableValue(), "0.000000 ${units}");
 <#else>
-        assertEquals(uut.getDisplayableValue(), "0.000");
+        assertEquals(uut.getDisplayableValue(), "0.000000");
 </#if>
     }
 
@@ -35,9 +35,9 @@ public class ${namespacedName}Test {
                     (byte) 0x00,
                     (byte) 0x00});
     <#if units?has_content>
-        assertEquals(uut.getDisplayableValue(), "${minValue?string["0.000"]} ${units}");
+        assertEquals(uut.getDisplayableValue(), "${minValue?string["0.000000"]} ${units}");
     <#else>
-        assertEquals(uut.getDisplayableValue(), "${minValue?string["0.000"]}");
+        assertEquals(uut.getDisplayableValue(), "${minValue?string["0.000000"]}");
     </#if>
     }
 
@@ -51,9 +51,9 @@ public class ${namespacedName}Test {
                     1,
                     3);
     <#if units?has_content>
-        assertEquals(uut.getDisplayableValue(), "${minValue?string["0.000"]} ${units}");
+        assertEquals(uut.getDisplayableValue(), "${minValue?string["0.000000"]} ${units}");
     <#else>
-        assertEquals(uut.getDisplayableValue(), "${minValue?string["0.000"]}");
+        assertEquals(uut.getDisplayableValue(), "${minValue?string["0.000000"]}");
     </#if>
     }
 
@@ -100,9 +100,9 @@ public class ${namespacedName}Test {
                     (byte) 0x00,
                     (byte) 0x00});
 <#if units?has_content>
-        assertEquals(uut.getDisplayableValue(), "2.000 ${units}");
+        assertEquals(uut.getDisplayableValue(), "2.000000 ${units}");
 <#else>
-        assertEquals(uut.getDisplayableValue(), "2.000");
+        assertEquals(uut.getDisplayableValue(), "2.000000");
 </#if>
     }
 
@@ -118,9 +118,9 @@ public class ${namespacedName}Test {
                     (byte) 0x00,
                     (byte) 0x00});
 <#if units?has_content>
-        assertEquals(uut.getDisplayableValue(), "2.000 ${units}");
+        assertEquals(uut.getDisplayableValue(), "2.000000 ${units}");
 <#else>
-        assertEquals(uut.getDisplayableValue(), "2.000");
+        assertEquals(uut.getDisplayableValue(), "2.000000");
 </#if>
     }
 
@@ -136,9 +136,9 @@ public class ${namespacedName}Test {
                     (byte) 0x00,
                     (byte) 0x00});
 <#if units?has_content>
-        assertEquals(uut.getDisplayableValue(), "-4.000 ${units}");
+        assertEquals(uut.getDisplayableValue(), "-4.000000 ${units}");
 <#else>
-        assertEquals(uut.getDisplayableValue(), "-4.000");
+        assertEquals(uut.getDisplayableValue(), "-4.000000");
 </#if>
     }
 
@@ -150,9 +150,9 @@ public class ${namespacedName}Test {
                     (byte) 0x00,
                     (byte) 0x00});
 <#if units?has_content>
-        assertEquals(uut.getDisplayableValue(), "2.000 ${units}");
+        assertEquals(uut.getDisplayableValue(), "2.000000 ${units}");
 <#else>
-        assertEquals(uut.getDisplayableValue(), "2.000");
+        assertEquals(uut.getDisplayableValue(), "2.000000");
 </#if>
     }
 
@@ -168,9 +168,9 @@ public class ${namespacedName}Test {
                     2,
                     4);
 <#if units?has_content>
-        assertEquals(uut.getDisplayableValue(), "2.000 ${units}");
+        assertEquals(uut.getDisplayableValue(), "2.000000 ${units}");
 <#else>
-        assertEquals(uut.getDisplayableValue(), "2.000");
+        assertEquals(uut.getDisplayableValue(), "2.000000");
 </#if>
     }
 
@@ -191,9 +191,9 @@ public class ${namespacedName}Test {
                     3,
                     8);
 <#if units?has_content>
-        assertEquals(uut.getDisplayableValue(), "2.000 ${units}");
+        assertEquals(uut.getDisplayableValue(), "2.000000 ${units}");
 <#else>
-        assertEquals(uut.getDisplayableValue(), "2.000");
+        assertEquals(uut.getDisplayableValue(), "2.000000");
 </#if>
     }
 

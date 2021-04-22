@@ -100,7 +100,7 @@ public class ClassModelEntry {
     /**
      * Get the corresponding display formatter for this entry.
      *
-     * <p>This might be "%.3f" for a Real type or "%d" for UInt or Integer types.
+     * <p>This might be "%.6f" for a Real type or "%d" for UInt or Integer types.
      *
      * @return a String containing the display format string for the type
      */
@@ -112,7 +112,7 @@ public class ClassModelEntry {
                 if (isArray()) {
                     return "%f";
                 } else {
-                    return "%.3f";
+                    return "%.6f";
                 }
             case "String":
                 return "%s";
