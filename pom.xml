@@ -46,7 +46,7 @@
         <failsafe.version>2.22.0</failsafe.version>
         <jacoco.version>0.8.6</jacoco.version>
         <coveralls.version>4.3.0</coveralls.version>
-        <owasp.version>6.1.2</owasp.version>
+        <owasp.version>6.1.5</owasp.version>
         <spotbugs.maven.version>4.0.0</spotbugs.maven.version>
         <spotbugs.version>4.0.2</spotbugs.version>
         <googleformatter.maven.plugin.version>1.7.3</googleformatter.maven.plugin.version>
