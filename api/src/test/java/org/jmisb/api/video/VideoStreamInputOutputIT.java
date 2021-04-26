@@ -69,7 +69,13 @@ public class VideoStreamInputOutputIT {
         try (IVideoStreamOutput output =
                 new VideoStreamOutput(
                         new VideoOutputOptions(
-                                width, height, bitRate, frameRate, gopSize, KlvFormat.NoKlv))) {
+                                width,
+                                height,
+                                bitRate,
+                                frameRate,
+                                gopSize,
+                                KlvFormat.NoKlv,
+                                CodecIdentifier.H264))) {
             output.open(url);
             Assert.assertTrue(output.isOpen());
 
@@ -102,7 +108,8 @@ public class VideoStreamInputOutputIT {
                                 bitRate,
                                 frameRate,
                                 gopSize,
-                                KlvFormat.Asynchronous))) {
+                                KlvFormat.Asynchronous,
+                                CodecIdentifier.H264))) {
             output.open(url);
 
             // Write some video and metadata frames
@@ -132,7 +139,8 @@ public class VideoStreamInputOutputIT {
                                     bitRate,
                                     frameRate,
                                     gopSize,
-                                    KlvFormat.Asynchronous));
+                                    KlvFormat.Asynchronous,
+                                    CodecIdentifier.H264));
 
             output.open(url);
             Assert.assertTrue(output.isOpen());
@@ -154,7 +162,8 @@ public class VideoStreamInputOutputIT {
                                 bitRate,
                                 frameRate,
                                 gopSize,
-                                KlvFormat.Synchronous))) {
+                                KlvFormat.Synchronous,
+                                CodecIdentifier.H264))) {
             output.open("http://127.0.0.1:30800/test.sdp");
         } catch (IOException ex) {
             Assert.fail("Caught IOException");
@@ -171,7 +180,8 @@ public class VideoStreamInputOutputIT {
                                 bitRate,
                                 frameRate,
                                 gopSize,
-                                KlvFormat.Asynchronous))) {
+                                KlvFormat.Asynchronous,
+                                CodecIdentifier.H264))) {
             output.open("udp://256.0.0.0:30800");
         }
     }
