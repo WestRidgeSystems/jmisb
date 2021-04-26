@@ -91,14 +91,14 @@ public class OverlayRenderer {
         // ST1909-31
         int size = configuration.getNorthCircleSize();
         graphics2D.drawOval(columnAnchor, rowAnchor - size, 2 * size, 2 * size);
-        drawLetterN(columnAnchor, rowAnchor);
+        drawNorthCircleLetters(metadata, columnAnchor, rowAnchor);
         drawNorthArrow(metadata, columnAnchor, rowAnchor);
     }
 
     private void drawNorthArrow(MetadataItems metadata, int columnAnchor, int rowAnchor)
             throws NumberFormatException {
         if (metadata.getItemKeys().contains(MetadataKey.NorthAngle)) {
-            // ST1909-32
+            // ST 1909-32
             double northAngle =
                     Double.parseDouble(metadata.getValue(MetadataKey.NorthAngle)) * Math.PI / 180.0;
             Polygon triangle = calculateNorthArrowPolygon(northAngle, columnAnchor, rowAnchor);
@@ -107,16 +107,23 @@ public class OverlayRenderer {
         }
     }
 
-    private void drawLetterN(int columnAnchor, int rowAnchor) {
+    private void drawNorthCircleLetters(MetadataItems metadata, int columnAnchor, int rowAnchor) {
+        // ST 1909.1-97
+        String letters = "N/A";
+        if (metadata.getItemKeys().contains(MetadataKey.NorthAngle)) {
+            // ST 1909-32
+            letters = "N";
+        }
         GlyphVector glyphVector =
-                configuration.getFont().createGlyphVector(graphics2D.getFontRenderContext(), "N");
+                configuration
+                        .getFont()
+                        .createGlyphVector(graphics2D.getFontRenderContext(), letters);
         Shape textShape = glyphVector.getOutline();
         Rectangle2D bounds = textShape.getBounds2D();
         int verticalOffset = (int) ((bounds.getMaxY() - bounds.getMinY()) / 2);
         int horizontalOffset = (int) ((bounds.getMaxX() - bounds.getMinX()) / 2);
-        // ST1909-32
         graphics2D.drawString(
-                "N",
+                letters,
                 columnAnchor + configuration.getNorthCircleSize() - horizontalOffset,
                 rowAnchor + verticalOffset);
     }

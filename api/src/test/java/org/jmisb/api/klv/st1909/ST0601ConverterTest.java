@@ -35,6 +35,7 @@ import org.jmisb.api.klv.st0601.LaserPrfCode;
 import org.jmisb.api.klv.st0601.NestedSecurityMetadata;
 import org.jmisb.api.klv.st0601.PrecisionTimeStamp;
 import org.jmisb.api.klv.st0601.SensorEllipsoidHeight;
+import org.jmisb.api.klv.st0601.SensorEllipsoidHeightExtended;
 import org.jmisb.api.klv.st0601.SensorLatitude;
 import org.jmisb.api.klv.st0601.SensorLongitude;
 import org.jmisb.api.klv.st0601.SensorRelativeAzimuth;
@@ -66,9 +67,8 @@ public class ST0601ConverterTest {
         UasDatalinkMessage st0601message = new UasDatalinkMessage(map);
         MetadataItems metadata = new MetadataItems();
         ST0601Converter.convertST0601(st0601message, metadata);
-        assertEquals(metadata.getItemKeys().size(), 2);
+        assertTrue(metadata.getItemKeys().size() >= 1);
         assertTrue(metadata.getItemKeys().contains(MetadataKey.PlatformName));
-        assertTrue(metadata.getItemKeys().contains(MetadataKey.LaserSensorName));
         assertEquals(metadata.getValue(MetadataKey.PlatformName), "Testname");
     }
 
@@ -84,9 +84,8 @@ public class ST0601ConverterTest {
         UasDatalinkMessage st0601message = new UasDatalinkMessage(map);
         MetadataItems metadata = new MetadataItems();
         ST0601Converter.convertST0601(st0601message, metadata);
-        assertEquals(metadata.getItemKeys().size(), 2);
+        assertTrue(metadata.getItemKeys().size() >= 1);
         assertTrue(metadata.getItemKeys().contains(MetadataKey.PlatformName));
-        assertTrue(metadata.getItemKeys().contains(MetadataKey.LaserSensorName));
         assertEquals(metadata.getValue(MetadataKey.PlatformName), "Testname Romeo Sierra");
     }
 
@@ -97,9 +96,8 @@ public class ST0601ConverterTest {
         UasDatalinkMessage st0601message = new UasDatalinkMessage(map);
         MetadataItems metadata = new MetadataItems();
         ST0601Converter.convertST0601(st0601message, metadata);
-        assertEquals(metadata.getItemKeys().size(), 2);
+        assertTrue(metadata.getItemKeys().size() >= 1);
         assertTrue(metadata.getItemKeys().contains(MetadataKey.PlatformLatitude));
-        assertTrue(metadata.getItemKeys().contains(MetadataKey.LaserSensorName));
         // ST1909-17, ST1909-18, ST1909-19
         assertEquals(metadata.getValue(MetadataKey.PlatformLatitude), "-34.3421\u00B0 LAT");
     }
@@ -111,9 +109,8 @@ public class ST0601ConverterTest {
         UasDatalinkMessage st0601message = new UasDatalinkMessage(map);
         MetadataItems metadata = new MetadataItems();
         ST0601Converter.convertST0601(st0601message, metadata);
-        assertEquals(metadata.getItemKeys().size(), 2);
+        assertTrue(metadata.getItemKeys().size() >= 1);
         assertTrue(metadata.getItemKeys().contains(MetadataKey.PlatformLongitude));
-        assertTrue(metadata.getItemKeys().contains(MetadataKey.LaserSensorName));
         // ST1909-20, ST1909-21, ST1909-22
         assertEquals(metadata.getValue(MetadataKey.PlatformLongitude), "150.8743\u00B0 LON");
     }
@@ -125,8 +122,7 @@ public class ST0601ConverterTest {
         UasDatalinkMessage st0601message = new UasDatalinkMessage(map);
         MetadataItems metadata = new MetadataItems();
         ST0601Converter.convertST0601(st0601message, metadata);
-        assertEquals(metadata.getItemKeys().size(), 2);
-        assertTrue(metadata.getItemKeys().contains(MetadataKey.LaserSensorName));
+        assertTrue(metadata.getItemKeys().size() >= 1);
         assertTrue(metadata.getItemKeys().contains(MetadataKey.PlatformAltitude));
         // ST1909-23, ST1909-24, ST1909-26, ST1909-27, ST1909-28
         assertEquals(metadata.getValue(MetadataKey.PlatformAltitude), "1150m HAE ALT");
@@ -139,8 +135,7 @@ public class ST0601ConverterTest {
         UasDatalinkMessage st0601message = new UasDatalinkMessage(map);
         MetadataItems metadata = new MetadataItems();
         ST0601Converter.convertST0601(st0601message, metadata);
-        assertEquals(metadata.getItemKeys().size(), 2);
-        assertTrue(metadata.getItemKeys().contains(MetadataKey.LaserSensorName));
+        assertTrue(metadata.getItemKeys().size() >= 1);
         assertTrue(metadata.getItemKeys().contains(MetadataKey.PlatformAltitude));
         // ST1909-23, ST1909-24, ST1909-25, ST1909-27, ST1909-28
         assertEquals(metadata.getValue(MetadataKey.PlatformAltitude), "1150m MSL ALT");
@@ -154,10 +149,40 @@ public class ST0601ConverterTest {
         UasDatalinkMessage st0601message = new UasDatalinkMessage(map);
         MetadataItems metadata = new MetadataItems();
         ST0601Converter.convertST0601(st0601message, metadata);
-        assertEquals(metadata.getItemKeys().size(), 2);
-        assertTrue(metadata.getItemKeys().contains(MetadataKey.LaserSensorName));
+        assertTrue(metadata.getItemKeys().size() >= 1);
         assertTrue(metadata.getItemKeys().contains(MetadataKey.PlatformAltitude));
         assertEquals(metadata.getValue(MetadataKey.PlatformAltitude), "1150m HAE ALT");
+    }
+
+    @Test
+    public void checkPlatformAltitudeExtendedHAE() {
+        SortedMap<UasDatalinkTag, IUasDatalinkValue> map = new TreeMap<>();
+        map.put(
+                UasDatalinkTag.SensorEllipsoidHeightExtended,
+                new SensorEllipsoidHeightExtended(1150.872));
+        UasDatalinkMessage st0601message = new UasDatalinkMessage(map);
+        MetadataItems metadata = new MetadataItems();
+        ST0601Converter.convertST0601(st0601message, metadata);
+        assertTrue(metadata.getItemKeys().size() >= 1);
+        assertTrue(metadata.getItemKeys().contains(MetadataKey.PlatformAltitude));
+        // ST1909-23, ST1909-24, ST1909-26, ST1909-27, ST1909-28, ST 1909.1-96
+        assertEquals(metadata.getValue(MetadataKey.PlatformAltitude), "1150m HAE ALT");
+    }
+
+    @Test
+    public void checkPlatformAltitudeExtendedPreferHAEoverMSL() {
+        SortedMap<UasDatalinkTag, IUasDatalinkValue> map = new TreeMap<>();
+        map.put(UasDatalinkTag.SensorEllipsoidHeight, new SensorEllipsoidHeight(1150.872));
+        map.put(
+                UasDatalinkTag.SensorEllipsoidHeightExtended,
+                new SensorEllipsoidHeightExtended(4350.7));
+        map.put(UasDatalinkTag.SensorTrueAltitude, new SensorTrueAltitude(2432.1));
+        UasDatalinkMessage st0601message = new UasDatalinkMessage(map);
+        MetadataItems metadata = new MetadataItems();
+        ST0601Converter.convertST0601(st0601message, metadata);
+        assertTrue(metadata.getItemKeys().size() >= 1);
+        assertTrue(metadata.getItemKeys().contains(MetadataKey.PlatformAltitude));
+        assertEquals(metadata.getValue(MetadataKey.PlatformAltitude), "4350m HAE ALT");
     }
 
     @Test
@@ -174,14 +199,13 @@ public class ST0601ConverterTest {
         UasDatalinkMessage st0601message = new UasDatalinkMessage(map);
         MetadataItems metadata = new MetadataItems();
         ST0601Converter.convertST0601(st0601message, metadata);
-        assertEquals(metadata.getItemKeys().size(), 4);
+        assertTrue(metadata.getItemKeys().size() >= 3);
         assertTrue(metadata.getItemKeys().contains(MetadataKey.PlatformName));
         assertEquals(metadata.getValue(MetadataKey.PlatformName), "Testname Romeo Sierra");
         assertTrue(metadata.getItemKeys().contains(MetadataKey.PlatformLatitude));
         assertEquals(metadata.getValue(MetadataKey.PlatformLatitude), "-34.3421\u00B0 LAT");
         assertTrue(metadata.getItemKeys().contains(MetadataKey.PlatformLongitude));
         assertEquals(metadata.getValue(MetadataKey.PlatformLongitude), "150.8743\u00B0 LON");
-        assertTrue(metadata.getItemKeys().contains(MetadataKey.LaserSensorName));
     }
 
     @Test
@@ -191,9 +215,8 @@ public class ST0601ConverterTest {
         UasDatalinkMessage st0601message = new UasDatalinkMessage(map);
         MetadataItems metadata = new MetadataItems();
         ST0601Converter.convertST0601(st0601message, metadata);
-        assertEquals(metadata.getItemKeys().size(), 2);
+        assertTrue(metadata.getItemKeys().size() >= 1);
         assertTrue(metadata.getItemKeys().contains(MetadataKey.SlantRange));
-        assertTrue(metadata.getItemKeys().contains(MetadataKey.LaserSensorName));
         assertEquals(metadata.getValue(MetadataKey.SlantRange), "8763m SR");
     }
 
@@ -204,9 +227,8 @@ public class ST0601ConverterTest {
         UasDatalinkMessage st0601message = new UasDatalinkMessage(map);
         MetadataItems metadata = new MetadataItems();
         ST0601Converter.convertST0601(st0601message, metadata);
-        assertEquals(metadata.getItemKeys().size(), 2);
+        assertTrue(metadata.getItemKeys().size() >= 1);
         assertTrue(metadata.getItemKeys().contains(MetadataKey.TargetWidth));
-        assertTrue(metadata.getItemKeys().contains(MetadataKey.LaserSensorName));
         assertEquals(metadata.getValue(MetadataKey.TargetWidth), "133m TW");
     }
 
@@ -217,9 +239,8 @@ public class ST0601ConverterTest {
         UasDatalinkMessage st0601message = new UasDatalinkMessage(map);
         MetadataItems metadata = new MetadataItems();
         ST0601Converter.convertST0601(st0601message, metadata);
-        assertEquals(metadata.getItemKeys().size(), 2);
+        assertTrue(metadata.getItemKeys().size() >= 1);
         assertTrue(metadata.getItemKeys().contains(MetadataKey.TargetWidth));
-        assertTrue(metadata.getItemKeys().contains(MetadataKey.LaserSensorName));
         assertEquals(metadata.getValue(MetadataKey.TargetWidth), "1500000m TW");
     }
 
@@ -230,11 +251,22 @@ public class ST0601ConverterTest {
         UasDatalinkMessage st0601message = new UasDatalinkMessage(map);
         MetadataItems metadata = new MetadataItems();
         ST0601Converter.convertST0601(st0601message, metadata);
-        assertEquals(metadata.getItemKeys().size(), 2);
-        assertTrue(metadata.getItemKeys().contains(MetadataKey.LaserSensorName));
+        assertTrue(metadata.getItemKeys().size() >= 1);
         assertTrue(metadata.getItemKeys().contains(MetadataKey.SlantRange));
         // ST1909-54, ST1909-55, ST1909-56, ST1909-57
         assertEquals(metadata.getValue(MetadataKey.SlantRange), "7654m SR");
+    }
+
+    @Test
+    public void checkSlantRangeMissing() {
+        SortedMap<UasDatalinkTag, IUasDatalinkValue> map = new TreeMap<>();
+        UasDatalinkMessage st0601message = new UasDatalinkMessage(map);
+        MetadataItems metadata = new MetadataItems();
+        ST0601Converter.convertST0601(st0601message, metadata);
+        assertTrue(metadata.getItemKeys().size() >= 1);
+        assertTrue(metadata.getItemKeys().contains(MetadataKey.SlantRange));
+        // ST1909-54, ST1909-55, ST1909-56, ST1909-57, ST1909.1-95
+        assertEquals(metadata.getValue(MetadataKey.SlantRange), "N/A SR");
     }
 
     @Test
@@ -244,8 +276,7 @@ public class ST0601ConverterTest {
         UasDatalinkMessage st0601message = new UasDatalinkMessage(map);
         MetadataItems metadata = new MetadataItems();
         ST0601Converter.convertST0601(st0601message, metadata);
-        assertEquals(metadata.getItemKeys().size(), 2);
-        assertTrue(metadata.getItemKeys().contains(MetadataKey.LaserSensorName));
+        assertTrue(metadata.getItemKeys().size() >= 1);
         assertTrue(metadata.getItemKeys().contains(MetadataKey.TargetWidth));
         // ST1909-58, ST1909-59, ST1909-60
         assertEquals(metadata.getValue(MetadataKey.TargetWidth), "154m TW");
@@ -258,8 +289,7 @@ public class ST0601ConverterTest {
         UasDatalinkMessage st0601message = new UasDatalinkMessage(map);
         MetadataItems metadata = new MetadataItems();
         ST0601Converter.convertST0601(st0601message, metadata);
-        assertEquals(metadata.getItemKeys().size(), 2);
-        assertTrue(metadata.getItemKeys().contains(MetadataKey.LaserSensorName));
+        assertTrue(metadata.getItemKeys().size() >= 1);
         assertTrue(metadata.getItemKeys().contains(MetadataKey.TargetWidth));
         // ST1909-58, ST1909-59, ST1909-60
         assertEquals(metadata.getValue(MetadataKey.TargetWidth), "113154m TW");
@@ -273,11 +303,22 @@ public class ST0601ConverterTest {
         UasDatalinkMessage st0601message = new UasDatalinkMessage(map);
         MetadataItems metadata = new MetadataItems();
         ST0601Converter.convertST0601(st0601message, metadata);
-        assertEquals(metadata.getItemKeys().size(), 2);
-        assertTrue(metadata.getItemKeys().contains(MetadataKey.LaserSensorName));
+        assertTrue(metadata.getItemKeys().size() >= 1);
         assertTrue(metadata.getItemKeys().contains(MetadataKey.TargetWidth));
         // ST1909-58, ST1909-59, ST1909-60
         assertEquals(metadata.getValue(MetadataKey.TargetWidth), "113154m TW");
+    }
+
+    @Test
+    public void checkTargetWidthMissing() {
+        SortedMap<UasDatalinkTag, IUasDatalinkValue> map = new TreeMap<>();
+        UasDatalinkMessage st0601message = new UasDatalinkMessage(map);
+        MetadataItems metadata = new MetadataItems();
+        ST0601Converter.convertST0601(st0601message, metadata);
+        assertTrue(metadata.getItemKeys().size() >= 1);
+        assertTrue(metadata.getItemKeys().contains(MetadataKey.TargetWidth));
+        // ST1909-58, ST1909-59, ST1909-60, ST 1909.1-95
+        assertEquals(metadata.getValue(MetadataKey.TargetWidth), "N/A TW");
     }
 
     @Test
@@ -287,11 +328,22 @@ public class ST0601ConverterTest {
         UasDatalinkMessage st0601message = new UasDatalinkMessage(map);
         MetadataItems metadata = new MetadataItems();
         ST0601Converter.convertST0601(st0601message, metadata);
-        assertEquals(metadata.getItemKeys().size(), 2);
-        assertTrue(metadata.getItemKeys().contains(MetadataKey.LaserSensorName));
+        assertTrue(metadata.getItemKeys().size() >= 1);
         assertTrue(metadata.getItemKeys().contains(MetadataKey.HorizontalFOV));
         // ST1909-61, ST1909-62, ST1909-63
         assertEquals(metadata.getValue(MetadataKey.HorizontalFOV), "1.3400\u00B0 HFOV");
+    }
+
+    @Test
+    public void checkHorizontalFieldOfViewMissing() {
+        SortedMap<UasDatalinkTag, IUasDatalinkValue> map = new TreeMap<>();
+        UasDatalinkMessage st0601message = new UasDatalinkMessage(map);
+        MetadataItems metadata = new MetadataItems();
+        ST0601Converter.convertST0601(st0601message, metadata);
+        assertTrue(metadata.getItemKeys().size() >= 1);
+        assertTrue(metadata.getItemKeys().contains(MetadataKey.HorizontalFOV));
+        // ST1909-61, ST1909-62, ST1909-63
+        assertEquals(metadata.getValue(MetadataKey.HorizontalFOV), "N/A HFOV");
     }
 
     @Test
@@ -301,8 +353,7 @@ public class ST0601ConverterTest {
         UasDatalinkMessage st0601message = new UasDatalinkMessage(map);
         MetadataItems metadata = new MetadataItems();
         ST0601Converter.convertST0601(st0601message, metadata);
-        assertEquals(metadata.getItemKeys().size(), 2);
-        assertTrue(metadata.getItemKeys().contains(MetadataKey.LaserSensorName));
+        assertTrue(metadata.getItemKeys().size() >= 1);
         assertTrue(metadata.getItemKeys().contains(MetadataKey.VerticalFOV));
         // ST1909-64, ST1909-65, ST1909-66
         assertEquals(metadata.getValue(MetadataKey.VerticalFOV), "0.9865\u00B0 VFOV");
@@ -315,11 +366,22 @@ public class ST0601ConverterTest {
         UasDatalinkMessage st0601message = new UasDatalinkMessage(map);
         MetadataItems metadata = new MetadataItems();
         ST0601Converter.convertST0601(st0601message, metadata);
-        assertEquals(metadata.getItemKeys().size(), 2);
-        assertTrue(metadata.getItemKeys().contains(MetadataKey.LaserSensorName));
+        assertTrue(metadata.getItemKeys().size() >= 1);
         assertTrue(metadata.getItemKeys().contains(MetadataKey.VerticalFOV));
         // ST1909-64, ST1909-65, ST1909-66
         assertEquals(metadata.getValue(MetadataKey.VerticalFOV), "180.0000\u00B0 VFOV");
+    }
+
+    @Test
+    public void checkVerticalFieldOfViewMissing() {
+        SortedMap<UasDatalinkTag, IUasDatalinkValue> map = new TreeMap<>();
+        UasDatalinkMessage st0601message = new UasDatalinkMessage(map);
+        MetadataItems metadata = new MetadataItems();
+        ST0601Converter.convertST0601(st0601message, metadata);
+        assertTrue(metadata.getItemKeys().size() >= 1);
+        assertTrue(metadata.getItemKeys().contains(MetadataKey.VerticalFOV));
+        // ST1909-64, ST1909-65, ST1909-66
+        assertEquals(metadata.getValue(MetadataKey.VerticalFOV), "N/A VFOV");
     }
 
     @Test
@@ -331,9 +393,8 @@ public class ST0601ConverterTest {
         UasDatalinkMessage st0601message = new UasDatalinkMessage(map);
         MetadataItems metadata = new MetadataItems();
         ST0601Converter.convertST0601(st0601message, metadata);
-        assertEquals(metadata.getItemKeys().size(), 2);
+        assertTrue(metadata.getItemKeys().size() >= 1);
         assertTrue(metadata.getItemKeys().contains(MetadataKey.MainSensorName));
-        assertTrue(metadata.getItemKeys().contains(MetadataKey.LaserSensorName));
         assertEquals(metadata.getValue(MetadataKey.MainSensorName), "EO Nose");
     }
 
@@ -344,9 +405,8 @@ public class ST0601ConverterTest {
         UasDatalinkMessage st0601message = new UasDatalinkMessage(map);
         MetadataItems metadata = new MetadataItems();
         ST0601Converter.convertST0601(st0601message, metadata);
-        assertEquals(metadata.getItemKeys().size(), 2);
+        assertTrue(metadata.getItemKeys().size() >= 1);
         assertTrue(metadata.getItemKeys().contains(MetadataKey.AzAngle));
-        assertTrue(metadata.getItemKeys().contains(MetadataKey.LaserSensorName));
         // ST1909-05 and ST1909-06
         assertEquals(metadata.getValue(MetadataKey.AzAngle), "REL AZ    0.0000\u00B0");
     }
@@ -358,11 +418,22 @@ public class ST0601ConverterTest {
         UasDatalinkMessage st0601message = new UasDatalinkMessage(map);
         MetadataItems metadata = new MetadataItems();
         ST0601Converter.convertST0601(st0601message, metadata);
-        assertEquals(metadata.getItemKeys().size(), 2);
+        assertTrue(metadata.getItemKeys().size() >= 1);
         assertTrue(metadata.getItemKeys().contains(MetadataKey.AzAngle));
-        assertTrue(metadata.getItemKeys().contains(MetadataKey.LaserSensorName));
         // ST1909-05 and ST1909-06
         assertEquals(metadata.getValue(MetadataKey.AzAngle), "REL AZ  360.0000\u00B0");
+    }
+
+    @Test
+    public void checkMainSensorRelativeAzimuthMissing() {
+        SortedMap<UasDatalinkTag, IUasDatalinkValue> map = new TreeMap<>();
+        UasDatalinkMessage st0601message = new UasDatalinkMessage(map);
+        MetadataItems metadata = new MetadataItems();
+        ST0601Converter.convertST0601(st0601message, metadata);
+        assertTrue(metadata.getItemKeys().size() >= 1);
+        assertTrue(metadata.getItemKeys().contains(MetadataKey.AzAngle));
+        // ST1909-05 and ST1909-06, plus email guidance from Rick C.
+        assertEquals(metadata.getValue(MetadataKey.AzAngle), "REL AZ        N/A");
     }
 
     @Test
@@ -372,9 +443,8 @@ public class ST0601ConverterTest {
         UasDatalinkMessage st0601message = new UasDatalinkMessage(map);
         MetadataItems metadata = new MetadataItems();
         ST0601Converter.convertST0601(st0601message, metadata);
-        assertEquals(metadata.getItemKeys().size(), 2);
+        assertTrue(metadata.getItemKeys().size() >= 1);
         assertTrue(metadata.getItemKeys().contains(MetadataKey.ElAngle));
-        assertTrue(metadata.getItemKeys().contains(MetadataKey.LaserSensorName));
         // ST1909-07 and ST1909-08
         assertEquals(metadata.getValue(MetadataKey.ElAngle), "REL EL    0.0000\u00B0");
     }
@@ -386,9 +456,8 @@ public class ST0601ConverterTest {
         UasDatalinkMessage st0601message = new UasDatalinkMessage(map);
         MetadataItems metadata = new MetadataItems();
         ST0601Converter.convertST0601(st0601message, metadata);
-        assertEquals(metadata.getItemKeys().size(), 2);
+        assertTrue(metadata.getItemKeys().size() >= 1);
         assertTrue(metadata.getItemKeys().contains(MetadataKey.ElAngle));
-        assertTrue(metadata.getItemKeys().contains(MetadataKey.LaserSensorName));
         // ST1909-07 and ST1909-08
         assertEquals(metadata.getValue(MetadataKey.ElAngle), "REL EL -180.0000\u00B0");
     }
@@ -400,11 +469,22 @@ public class ST0601ConverterTest {
         UasDatalinkMessage st0601message = new UasDatalinkMessage(map);
         MetadataItems metadata = new MetadataItems();
         ST0601Converter.convertST0601(st0601message, metadata);
-        assertEquals(metadata.getItemKeys().size(), 2);
+        assertTrue(metadata.getItemKeys().size() >= 1);
         assertTrue(metadata.getItemKeys().contains(MetadataKey.ElAngle));
-        assertTrue(metadata.getItemKeys().contains(MetadataKey.LaserSensorName));
         // ST1909-07 and ST1909-08
         assertEquals(metadata.getValue(MetadataKey.ElAngle), "REL EL  180.0000\u00B0");
+    }
+
+    @Test
+    public void checkMainSensorRelativeElevationMissing() {
+        SortedMap<UasDatalinkTag, IUasDatalinkValue> map = new TreeMap<>();
+        UasDatalinkMessage st0601message = new UasDatalinkMessage(map);
+        MetadataItems metadata = new MetadataItems();
+        ST0601Converter.convertST0601(st0601message, metadata);
+        assertTrue(metadata.getItemKeys().size() >= 1);
+        assertTrue(metadata.getItemKeys().contains(MetadataKey.ElAngle));
+        // ST1909-07 and ST1909-08, plus email guidance from Rick C.
+        assertEquals(metadata.getValue(MetadataKey.ElAngle), "REL EL        N/A");
     }
 
     @Test
@@ -416,7 +496,7 @@ public class ST0601ConverterTest {
         UasDatalinkMessage st0601message = new UasDatalinkMessage(map);
         MetadataItems metadata = new MetadataItems();
         ST0601Converter.convertST0601(st0601message, metadata);
-        assertEquals(metadata.getItemKeys().size(), 2);
+        assertTrue(metadata.getItemKeys().size() >= 1);
         assertTrue(metadata.getItemKeys().contains(MetadataKey.LaserSensorStatus));
         // ST1909-38
         assertEquals(metadata.getValue(MetadataKey.LaserSensorStatus), "Laser ON");
@@ -431,7 +511,7 @@ public class ST0601ConverterTest {
         UasDatalinkMessage st0601message = new UasDatalinkMessage(map);
         MetadataItems metadata = new MetadataItems();
         ST0601Converter.convertST0601(st0601message, metadata);
-        assertEquals(metadata.getItemKeys().size(), 2);
+        assertTrue(metadata.getItemKeys().size() >= 1);
         assertTrue(metadata.getItemKeys().contains(MetadataKey.LaserSensorStatus));
         // ST1909-39
         assertEquals(metadata.getValue(MetadataKey.LaserSensorStatus), "Laser OFF");
@@ -445,10 +525,22 @@ public class ST0601ConverterTest {
         UasDatalinkMessage st0601message = new UasDatalinkMessage(map);
         MetadataItems metadata = new MetadataItems();
         ST0601Converter.convertST0601(st0601message, metadata);
-        assertEquals(metadata.getItemKeys().size(), 2);
+        assertTrue(metadata.getItemKeys().size() >= 1);
         assertTrue(metadata.getItemKeys().contains(MetadataKey.LaserSensorStatus));
         // ST1909-39
         assertEquals(metadata.getValue(MetadataKey.LaserSensorStatus), "Laser OFF");
+    }
+
+    @Test
+    public void checkLaserStatusMissing() {
+        SortedMap<UasDatalinkTag, IUasDatalinkValue> map = new TreeMap<>();
+        UasDatalinkMessage st0601message = new UasDatalinkMessage(map);
+        MetadataItems metadata = new MetadataItems();
+        ST0601Converter.convertST0601(st0601message, metadata);
+        assertTrue(metadata.getItemKeys().size() >= 1);
+        assertTrue(metadata.getItemKeys().contains(MetadataKey.LaserSensorStatus));
+        // ST1909-38
+        assertEquals(metadata.getValue(MetadataKey.LaserSensorStatus), "N/A");
     }
 
     @Test
@@ -458,9 +550,8 @@ public class ST0601ConverterTest {
         UasDatalinkMessage st0601message = new UasDatalinkMessage(map);
         MetadataItems metadata = new MetadataItems();
         ST0601Converter.convertST0601(st0601message, metadata);
-        assertEquals(metadata.getItemKeys().size(), 2);
+        assertTrue(metadata.getItemKeys().size() >= 1);
         assertTrue(metadata.getItemKeys().contains(MetadataKey.LaserPrfCode));
-        assertTrue(metadata.getItemKeys().contains(MetadataKey.LaserSensorName));
         // ST1909-40, ST1909-41, ST1909-42
         assertEquals(metadata.getValue(MetadataKey.LaserPrfCode), "Laser PRF Code    111");
     }
@@ -472,11 +563,22 @@ public class ST0601ConverterTest {
         UasDatalinkMessage st0601message = new UasDatalinkMessage(map);
         MetadataItems metadata = new MetadataItems();
         ST0601Converter.convertST0601(st0601message, metadata);
-        assertEquals(metadata.getItemKeys().size(), 2);
+        assertTrue(metadata.getItemKeys().size() >= 1);
         assertTrue(metadata.getItemKeys().contains(MetadataKey.LaserPrfCode));
-        assertTrue(metadata.getItemKeys().contains(MetadataKey.LaserSensorName));
         // ST1909-40, ST1909-41, ST1909-42
         assertEquals(metadata.getValue(MetadataKey.LaserPrfCode), "Laser PRF Code   8888");
+    }
+
+    @Test
+    public void checkLaserPRFcodeMissing() {
+        SortedMap<UasDatalinkTag, IUasDatalinkValue> map = new TreeMap<>();
+        UasDatalinkMessage st0601message = new UasDatalinkMessage(map);
+        MetadataItems metadata = new MetadataItems();
+        ST0601Converter.convertST0601(st0601message, metadata);
+        assertTrue(metadata.getItemKeys().size() >= 1);
+        assertTrue(metadata.getItemKeys().contains(MetadataKey.LaserPrfCode));
+        // ST1909-40, ST1909-41, ST1909-42
+        assertEquals(metadata.getValue(MetadataKey.LaserPrfCode), "Laser PRF Code    N/A");
     }
 
     @Test
@@ -488,8 +590,7 @@ public class ST0601ConverterTest {
         UasDatalinkMessage st0601message = new UasDatalinkMessage(map);
         MetadataItems metadata = new MetadataItems();
         ST0601Converter.convertST0601(st0601message, metadata);
-        assertEquals(metadata.getItemKeys().size(), 4);
-        assertTrue(metadata.getItemKeys().contains(MetadataKey.LaserSensorName));
+        assertTrue(metadata.getItemKeys().size() >= 3);
         assertTrue(metadata.getItemKeys().contains(MetadataKey.TargetLatitude));
         // ST1909-81, ST1909-82, ST1909-83
         assertEquals(metadata.getValue(MetadataKey.TargetLatitude), "-34.3421\u00B0 TL LAT");
@@ -510,7 +611,7 @@ public class ST0601ConverterTest {
         UasDatalinkMessage st0601message = new UasDatalinkMessage(map);
         MetadataItems metadata = new MetadataItems();
         ST0601Converter.convertST0601(st0601message, metadata);
-        assertEquals(metadata.getItemKeys().size(), 4);
+        assertTrue(metadata.getItemKeys().size() >= 3);
         assertTrue(metadata.getItemKeys().contains(MetadataKey.LaserSensorName));
         assertTrue(metadata.getItemKeys().contains(MetadataKey.TargetLatitude));
         // ST1909-69, ST1909-70, ST1909-71
@@ -532,8 +633,7 @@ public class ST0601ConverterTest {
         UasDatalinkMessage st0601message = new UasDatalinkMessage(map);
         MetadataItems metadata = new MetadataItems();
         ST0601Converter.convertST0601(st0601message, metadata);
-        assertEquals(metadata.getItemKeys().size(), 4);
-        assertTrue(metadata.getItemKeys().contains(MetadataKey.LaserSensorName));
+        assertTrue(metadata.getItemKeys().size() >= 3);
         assertTrue(metadata.getItemKeys().contains(MetadataKey.TargetLatitude));
         // ST1909-69, ST1909-70, ST1909-71
         assertEquals(metadata.getValue(MetadataKey.TargetLatitude), "-34.3421\u00B0 FC LAT");
@@ -555,8 +655,7 @@ public class ST0601ConverterTest {
         UasDatalinkMessage st0601message = new UasDatalinkMessage(map);
         MetadataItems metadata = new MetadataItems();
         ST0601Converter.convertST0601(st0601message, metadata);
-        assertEquals(metadata.getItemKeys().size(), 4);
-        assertTrue(metadata.getItemKeys().contains(MetadataKey.LaserSensorName));
+        assertTrue(metadata.getItemKeys().size() >= 3);
         assertTrue(metadata.getItemKeys().contains(MetadataKey.TargetLatitude));
         // ST1909-69, ST1909-70, ST1909-71
         assertEquals(metadata.getValue(MetadataKey.TargetLatitude), "-34.3421\u00B0 FC LAT");
@@ -576,14 +675,14 @@ public class ST0601ConverterTest {
         UasDatalinkMessage st0601message = new UasDatalinkMessage(map);
         MetadataItems metadata = new MetadataItems();
         ST0601Converter.convertST0601(st0601message, metadata);
-        assertEquals(metadata.getItemKeys().size(), 3);
-        assertTrue(metadata.getItemKeys().contains(MetadataKey.LaserSensorName));
+        assertTrue(metadata.getItemKeys().size() >= 2);
         assertTrue(metadata.getItemKeys().contains(MetadataKey.TargetLatitude));
         // ST1909-69, ST1909-70, ST1909-71
         assertEquals(metadata.getValue(MetadataKey.TargetLatitude), "-34.3421\u00B0 FC LAT");
         assertTrue(metadata.getItemKeys().contains(MetadataKey.TargetLongitude));
         // ST1909-72, ST1909-73, ST1909-74
         assertEquals(metadata.getValue(MetadataKey.TargetLongitude), "150.8743\u00B0 FC LON");
+        assertEquals(metadata.getValue(MetadataKey.TargetElevation), "N/A FC EL");
     }
 
     @Test
@@ -600,8 +699,7 @@ public class ST0601ConverterTest {
         UasDatalinkMessage st0601message = new UasDatalinkMessage(map);
         MetadataItems metadata = new MetadataItems();
         ST0601Converter.convertST0601(st0601message, metadata);
-        assertEquals(metadata.getItemKeys().size(), 4);
-        assertTrue(metadata.getItemKeys().contains(MetadataKey.LaserSensorName));
+        assertTrue(metadata.getItemKeys().size() >= 3);
         assertTrue(metadata.getItemKeys().contains(MetadataKey.TargetLatitude));
         // ST1909-81, ST1909-82, ST1909-83
         assertEquals(metadata.getValue(MetadataKey.TargetLatitude), "-34.3421\u00B0 TL LAT");
@@ -624,8 +722,7 @@ public class ST0601ConverterTest {
         UasDatalinkMessage st0601message = new UasDatalinkMessage(map);
         MetadataItems metadata = new MetadataItems();
         ST0601Converter.convertST0601(st0601message, metadata);
-        assertEquals(metadata.getItemKeys().size(), 4);
-        assertTrue(metadata.getItemKeys().contains(MetadataKey.LaserSensorName));
+        assertTrue(metadata.getItemKeys().size() >= 3);
         assertTrue(metadata.getItemKeys().contains(MetadataKey.TargetLatitude));
         // ST1909-69, ST1909-70, ST1909-71
         assertEquals(metadata.getValue(MetadataKey.TargetLatitude), "-34.3421\u00B0 FC LAT");
@@ -649,8 +746,7 @@ public class ST0601ConverterTest {
         UasDatalinkMessage st0601message = new UasDatalinkMessage(map);
         MetadataItems metadata = new MetadataItems();
         ST0601Converter.convertST0601(st0601message, metadata);
-        assertEquals(metadata.getItemKeys().size(), 4);
-        assertTrue(metadata.getItemKeys().contains(MetadataKey.LaserSensorName));
+        assertTrue(metadata.getItemKeys().size() >= 3);
         assertTrue(metadata.getItemKeys().contains(MetadataKey.TargetLatitude));
         // ST1909-69, ST1909-70, ST1909-71
         assertEquals(metadata.getValue(MetadataKey.TargetLatitude), "-34.3421\u00B0 FC LAT");
@@ -673,8 +769,7 @@ public class ST0601ConverterTest {
         UasDatalinkMessage st0601message = new UasDatalinkMessage(map);
         MetadataItems metadata = new MetadataItems();
         ST0601Converter.convertST0601(st0601message, metadata);
-        assertEquals(metadata.getItemKeys().size(), 4);
-        assertTrue(metadata.getItemKeys().contains(MetadataKey.LaserSensorName));
+        assertTrue(metadata.getItemKeys().size() >= 3);
         assertTrue(metadata.getItemKeys().contains(MetadataKey.TargetLatitude));
         // ST1909-69, ST1909-70, ST1909-71
         assertEquals(metadata.getValue(MetadataKey.TargetLatitude), "-34.3421\u00B0 FC LAT");
@@ -693,9 +788,16 @@ public class ST0601ConverterTest {
         UasDatalinkMessage st0601message = new UasDatalinkMessage(map);
         MetadataItems metadata = new MetadataItems();
         ST0601Converter.convertST0601(st0601message, metadata);
-        // ST1909-67 and ST1909-68
-        assertEquals(metadata.getItemKeys().size(), 1);
-        assertTrue(metadata.getItemKeys().contains(MetadataKey.LaserSensorName));
+        assertTrue(metadata.getItemKeys().size() >= 3);
+        assertTrue(metadata.getItemKeys().contains(MetadataKey.TargetLatitude));
+        // ST1909-69, ST1909-70, ST1909-71
+        assertEquals(metadata.getValue(MetadataKey.TargetLatitude), "N/A FC LAT");
+        assertTrue(metadata.getItemKeys().contains(MetadataKey.TargetLongitude));
+        // ST1909-72, ST1909-73, ST1909-74
+        assertEquals(metadata.getValue(MetadataKey.TargetLongitude), "N/A FC LON");
+        assertTrue(metadata.getItemKeys().contains(MetadataKey.TargetElevation));
+        // ST1909-75, ST1909-76, ST1909-77, ST1909-79, ST1909-80
+        assertEquals(metadata.getValue(MetadataKey.TargetElevation), "N/A FC EL");
     }
 
     @Test
@@ -708,8 +810,7 @@ public class ST0601ConverterTest {
         UasDatalinkMessage st0601message = new UasDatalinkMessage(map);
         MetadataItems metadata = new MetadataItems();
         ST0601Converter.convertST0601(st0601message, metadata);
-        assertEquals(metadata.getItemKeys().size(), 2);
-        assertTrue(metadata.getItemKeys().contains(MetadataKey.LaserSensorName));
+        assertTrue(metadata.getItemKeys().size() >= 1);
         assertTrue(metadata.getItemKeys().contains(MetadataKey.MetadataTimestamp));
         // ST1909-46, ST1909-49, ST1909-50
         assertEquals(metadata.getValue(MetadataKey.MetadataTimestamp), "MT 2020-07-21T10:59:24.1Z");
@@ -744,8 +845,7 @@ public class ST0601ConverterTest {
         UasDatalinkMessage st0601message = new UasDatalinkMessage(map);
         MetadataItems metadata = new MetadataItems();
         ST0601Converter.convertST0601(st0601message, metadata);
-        assertEquals(metadata.getItemKeys().size(), 2);
-        assertTrue(metadata.getItemKeys().contains(MetadataKey.LaserSensorName));
+        assertTrue(metadata.getItemKeys().size() >= 1);
         assertTrue(
                 metadata.getItemKeys().contains(MetadataKey.ClassificationAndReleasabilityLine1));
         assertFalse(
@@ -773,8 +873,10 @@ public class ST0601ConverterTest {
         UasDatalinkMessage st0601message = new UasDatalinkMessage(map);
         MetadataItems metadata = new MetadataItems();
         ST0601Converter.convertST0601(st0601message, metadata);
-        assertEquals(metadata.getItemKeys().size(), 1);
-        assertTrue(metadata.getItemKeys().contains(MetadataKey.LaserSensorName));
+        assertFalse(
+                metadata.getItemKeys().contains(MetadataKey.ClassificationAndReleasabilityLine1));
+        assertFalse(
+                metadata.getItemKeys().contains(MetadataKey.ClassificationAndReleasabilityLine2));
     }
 
     @Test
@@ -792,8 +894,10 @@ public class ST0601ConverterTest {
         UasDatalinkMessage st0601message = new UasDatalinkMessage(map);
         MetadataItems metadata = new MetadataItems();
         ST0601Converter.convertST0601(st0601message, metadata);
-        assertEquals(metadata.getItemKeys().size(), 1);
-        assertTrue(metadata.getItemKeys().contains(MetadataKey.LaserSensorName));
+        assertFalse(
+                metadata.getItemKeys().contains(MetadataKey.ClassificationAndReleasabilityLine1));
+        assertFalse(
+                metadata.getItemKeys().contains(MetadataKey.ClassificationAndReleasabilityLine2));
     }
 
     @Test
@@ -817,8 +921,7 @@ public class ST0601ConverterTest {
         UasDatalinkMessage st0601message = new UasDatalinkMessage(map);
         MetadataItems metadata = new MetadataItems();
         ST0601Converter.convertST0601(st0601message, metadata);
-        assertEquals(metadata.getItemKeys().size(), 2);
-        assertTrue(metadata.getItemKeys().contains(MetadataKey.LaserSensorName));
+        assertTrue(metadata.getItemKeys().size() >= 1);
         assertTrue(
                 metadata.getItemKeys().contains(MetadataKey.ClassificationAndReleasabilityLine1));
         assertFalse(
@@ -858,8 +961,7 @@ public class ST0601ConverterTest {
         UasDatalinkMessage st0601message = new UasDatalinkMessage(map);
         MetadataItems metadata = new MetadataItems();
         ST0601Converter.convertST0601(st0601message, metadata);
-        assertEquals(metadata.getItemKeys().size(), 2);
-        assertTrue(metadata.getItemKeys().contains(MetadataKey.LaserSensorName));
+        assertTrue(metadata.getItemKeys().size() >= 1);
         assertTrue(metadata.getItemKeys().contains(MetadataKey.NorthAngle));
         assertEquals(metadata.getValue(MetadataKey.NorthAngle), "0.0");
     }
@@ -894,8 +996,7 @@ public class ST0601ConverterTest {
         UasDatalinkMessage st0601message = new UasDatalinkMessage(map);
         MetadataItems metadata = new MetadataItems();
         ST0601Converter.convertST0601(st0601message, metadata);
-        assertEquals(metadata.getItemKeys().size(), 2);
-        assertTrue(metadata.getItemKeys().contains(MetadataKey.LaserSensorName));
+        assertTrue(metadata.getItemKeys().size() >= 1);
         assertTrue(metadata.getItemKeys().contains(MetadataKey.NorthAngle));
         assertEquals(metadata.getValue(MetadataKey.NorthAngle), "360.0");
     }
@@ -930,8 +1031,7 @@ public class ST0601ConverterTest {
         UasDatalinkMessage st0601message = new UasDatalinkMessage(map);
         MetadataItems metadata = new MetadataItems();
         ST0601Converter.convertST0601(st0601message, metadata);
-        assertEquals(metadata.getItemKeys().size(), 2);
-        assertTrue(metadata.getItemKeys().contains(MetadataKey.LaserSensorName));
+        assertTrue(metadata.getItemKeys().size() >= 1);
         assertTrue(metadata.getItemKeys().contains(MetadataKey.NorthAngle));
         assertEquals(metadata.getValue(MetadataKey.NorthAngle), "360.0");
     }
@@ -966,8 +1066,7 @@ public class ST0601ConverterTest {
         UasDatalinkMessage st0601message = new UasDatalinkMessage(map);
         MetadataItems metadata = new MetadataItems();
         ST0601Converter.convertST0601(st0601message, metadata);
-        assertEquals(metadata.getItemKeys().size(), 2);
-        assertTrue(metadata.getItemKeys().contains(MetadataKey.LaserSensorName));
+        assertTrue(metadata.getItemKeys().size() >= 1);
         assertTrue(metadata.getItemKeys().contains(MetadataKey.NorthAngle));
         assertEquals(metadata.getValue(MetadataKey.NorthAngle), "180.0");
     }
@@ -1002,8 +1101,7 @@ public class ST0601ConverterTest {
         UasDatalinkMessage st0601message = new UasDatalinkMessage(map);
         MetadataItems metadata = new MetadataItems();
         ST0601Converter.convertST0601(st0601message, metadata);
-        assertEquals(metadata.getItemKeys().size(), 2);
-        assertTrue(metadata.getItemKeys().contains(MetadataKey.LaserSensorName));
+        assertTrue(metadata.getItemKeys().size() >= 1);
         assertTrue(metadata.getItemKeys().contains(MetadataKey.NorthAngle));
         assertEquals(metadata.getValue(MetadataKey.NorthAngle), "180.0");
     }
@@ -1038,8 +1136,7 @@ public class ST0601ConverterTest {
         UasDatalinkMessage st0601message = new UasDatalinkMessage(map);
         MetadataItems metadata = new MetadataItems();
         ST0601Converter.convertST0601(st0601message, metadata);
-        assertEquals(metadata.getItemKeys().size(), 2);
-        assertTrue(metadata.getItemKeys().contains(MetadataKey.LaserSensorName));
+        assertTrue(metadata.getItemKeys().size() >= 1);
         assertTrue(metadata.getItemKeys().contains(MetadataKey.NorthAngle));
         assertEquals(metadata.getValue(MetadataKey.NorthAngle), "0.0");
     }
@@ -1074,8 +1171,7 @@ public class ST0601ConverterTest {
         UasDatalinkMessage st0601message = new UasDatalinkMessage(map);
         MetadataItems metadata = new MetadataItems();
         ST0601Converter.convertST0601(st0601message, metadata);
-        assertEquals(metadata.getItemKeys().size(), 2);
-        assertTrue(metadata.getItemKeys().contains(MetadataKey.LaserSensorName));
+        assertTrue(metadata.getItemKeys().size() >= 1);
         assertTrue(metadata.getItemKeys().contains(MetadataKey.NorthAngle));
         assertEquals(metadata.getValue(MetadataKey.NorthAngle).substring(0, 5), "13.28");
     }
@@ -1110,8 +1206,7 @@ public class ST0601ConverterTest {
         UasDatalinkMessage st0601message = new UasDatalinkMessage(map);
         MetadataItems metadata = new MetadataItems();
         ST0601Converter.convertST0601(st0601message, metadata);
-        assertEquals(metadata.getItemKeys().size(), 2);
-        assertTrue(metadata.getItemKeys().contains(MetadataKey.LaserSensorName));
+        assertTrue(metadata.getItemKeys().size() >= 1);
         assertTrue(metadata.getItemKeys().contains(MetadataKey.NorthAngle));
         assertEquals(metadata.getValue(MetadataKey.NorthAngle), "360.0");
     }
@@ -1146,8 +1241,7 @@ public class ST0601ConverterTest {
         UasDatalinkMessage st0601message = new UasDatalinkMessage(map);
         MetadataItems metadata = new MetadataItems();
         ST0601Converter.convertST0601(st0601message, metadata);
-        assertEquals(metadata.getItemKeys().size(), 2);
-        assertTrue(metadata.getItemKeys().contains(MetadataKey.LaserSensorName));
+        assertTrue(metadata.getItemKeys().size() >= 1);
         assertTrue(metadata.getItemKeys().contains(MetadataKey.NorthAngle));
         assertEquals(metadata.getValue(MetadataKey.NorthAngle), "360.0");
     }
@@ -1182,8 +1276,7 @@ public class ST0601ConverterTest {
         UasDatalinkMessage st0601message = new UasDatalinkMessage(map);
         MetadataItems metadata = new MetadataItems();
         ST0601Converter.convertST0601(st0601message, metadata);
-        assertEquals(metadata.getItemKeys().size(), 2);
-        assertTrue(metadata.getItemKeys().contains(MetadataKey.LaserSensorName));
+        assertTrue(metadata.getItemKeys().size() >= 1);
         assertTrue(metadata.getItemKeys().contains(MetadataKey.NorthAngle));
         assertEquals(metadata.getValue(MetadataKey.NorthAngle), "180.0");
     }
@@ -1218,8 +1311,7 @@ public class ST0601ConverterTest {
         UasDatalinkMessage st0601message = new UasDatalinkMessage(map);
         MetadataItems metadata = new MetadataItems();
         ST0601Converter.convertST0601(st0601message, metadata);
-        assertEquals(metadata.getItemKeys().size(), 2);
-        assertTrue(metadata.getItemKeys().contains(MetadataKey.LaserSensorName));
+        assertTrue(metadata.getItemKeys().size() >= 1);
         assertTrue(metadata.getItemKeys().contains(MetadataKey.NorthAngle));
         assertEquals(metadata.getValue(MetadataKey.NorthAngle), "180.0");
     }
@@ -1254,8 +1346,7 @@ public class ST0601ConverterTest {
         UasDatalinkMessage st0601message = new UasDatalinkMessage(map);
         MetadataItems metadata = new MetadataItems();
         ST0601Converter.convertST0601(st0601message, metadata);
-        assertEquals(metadata.getItemKeys().size(), 2);
-        assertTrue(metadata.getItemKeys().contains(MetadataKey.LaserSensorName));
+        assertTrue(metadata.getItemKeys().size() >= 1);
         assertTrue(metadata.getItemKeys().contains(MetadataKey.NorthAngle));
         assertEquals(metadata.getValue(MetadataKey.NorthAngle), "180.0");
     }
@@ -1290,8 +1381,7 @@ public class ST0601ConverterTest {
         UasDatalinkMessage st0601message = new UasDatalinkMessage(map);
         MetadataItems metadata = new MetadataItems();
         ST0601Converter.convertST0601(st0601message, metadata);
-        assertEquals(metadata.getItemKeys().size(), 2);
-        assertTrue(metadata.getItemKeys().contains(MetadataKey.LaserSensorName));
+        assertTrue(metadata.getItemKeys().size() >= 1);
         assertTrue(metadata.getItemKeys().contains(MetadataKey.NorthAngle));
         assertEquals(metadata.getValue(MetadataKey.NorthAngle).substring(0, 6), "175.26");
     }
