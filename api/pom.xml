@@ -1,14 +1,12 @@
-<project xmlns="http://maven.apache.org/POM/4.0.0"
-         xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
-         xsi:schemaLocation="http://maven.apache.org/POM/4.0.0
-                      http://maven.apache.org/xsd/maven-4.0.0.xsd">
+<?xml version="1.0" encoding="UTF-8"?>
+<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://maven.apache.org/POM/4.0.0                       http://maven.apache.org/xsd/maven-4.0.0.xsd">
+
+    <modelVersion>4.0.0</modelVersion>
     <parent>
         <groupId>org.jmisb</groupId>
         <artifactId>jmisb</artifactId>
         <version>1.11.0-SNAPSHOT</version>
     </parent>
-
-    <modelVersion>4.0.0</modelVersion>
     <artifactId>jmisb-api</artifactId>
     <packaging>jar</packaging>
 
@@ -24,13 +22,13 @@
             <artifactId>ffmpeg-platform</artifactId>
         </dependency>
         <dependency>
+            <groupId>org.slf4j</groupId>
+            <artifactId>slf4j-api</artifactId>
+        </dependency>
+        <dependency>
             <groupId>org.testng</groupId>
             <artifactId>testng</artifactId>
             <scope>test</scope>
-        </dependency>
-        <dependency>
-            <groupId>org.slf4j</groupId>
-            <artifactId>slf4j-api</artifactId>
         </dependency>
         <dependency>
             <groupId>uk.org.lidalia</groupId>
@@ -62,14 +60,14 @@
                 <executions>
                     <execution>
                         <id>reformat-sources</id>
-                        <configuration>
-                            <style>AOSP</style>
-                            <fixImports>true</fixImports>
-                        </configuration>
                         <goals>
                             <goal>format</goal>
                         </goals>
                         <phase>process-sources</phase>
+                        <configuration>
+                            <style>AOSP</style>
+                            <fixImports>true</fixImports>
+                        </configuration>
                     </execution>
                 </executions>
             </plugin>
@@ -89,6 +87,11 @@
                 <groupId>org.apache.maven.plugins</groupId>
                 <artifactId>maven-failsafe-plugin</artifactId>
                 <version>${failsafe.version}</version>
+                <configuration>
+                    <suiteXmlFiles>
+                        <suiteXmlFile>testng-integration.xml</suiteXmlFile>
+                    </suiteXmlFiles>
+                </configuration>
                 <executions>
                     <execution>
                         <goals>
@@ -97,16 +100,14 @@
                         </goals>
                     </execution>
                 </executions>
-                <configuration>
-                    <suiteXmlFiles>
-                        <suiteXmlFile>testng-integration.xml</suiteXmlFile>
-                    </suiteXmlFiles>
-                </configuration>
             </plugin>
             <plugin>
                 <groupId>com.github.spotbugs</groupId>
                 <artifactId>spotbugs-maven-plugin</artifactId>
                 <version>${spotbugs.maven.version}</version>
+                <configuration>
+                    <excludeFilterFile>SpotBugsFilter.xml</excludeFilterFile>
+                </configuration>
                 <dependencies>
                     <dependency>
                         <groupId>com.github.spotbugs</groupId>
@@ -114,9 +115,6 @@
                         <version>${spotbugs.version}</version>
                     </dependency>
                 </dependencies>
-                <configuration>
-                    <excludeFilterFile>SpotBugsFilter.xml</excludeFilterFile>
-                </configuration>
                 <executions>
                     <execution>
                         <goals>
@@ -139,10 +137,10 @@
                 <executions>
                     <execution>
                         <id>validate</id>
-                        <phase>validate</phase>
                         <goals>
                             <goal>check</goal>
                         </goals>
+                        <phase>validate</phase>
                     </execution>
                 </executions>
             </plugin>
@@ -155,14 +153,6 @@
                 <groupId>org.cyclonedx</groupId>
                 <artifactId>cyclonedx-maven-plugin</artifactId>
                 <version>${cyclonedx.version}</version>
-                <executions>
-                    <execution>
-                        <phase>verify</phase>
-                        <goals>
-                            <goal>makeBom</goal>
-                        </goals>
-                    </execution>
-                </executions>
                 <configuration>
                     <projectType>library</projectType>
                     <schemaVersion>${cyclonedx.schema.version}</schemaVersion>
@@ -176,6 +166,14 @@
                     <outputFormat>all</outputFormat>
                     <outputName>${project.artifactId}-${project.version}-cyclonedx</outputName>
                 </configuration>
+                <executions>
+                    <execution>
+                        <goals>
+                            <goal>makeBom</goal>
+                        </goals>
+                        <phase>verify</phase>
+                    </execution>
+                </executions>
             </plugin>
             <plugin>
                 <groupId>org.jmisb.maven</groupId>
@@ -217,10 +215,10 @@
                         <executions>
                             <execution>
                                 <id>make-assembly</id>
-                                <phase>package</phase>
                                 <goals>
                                     <goal>single</goal>
                                 </goals>
+                                <phase>package</phase>
                             </execution>
                         </executions>
                     </plugin>

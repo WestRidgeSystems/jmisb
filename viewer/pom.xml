@@ -6,8 +6,6 @@
         <artifactId>jmisb</artifactId>
         <version>1.11.0-SNAPSHOT</version>
     </parent>
-
-    <modelVersion>4.0.0</modelVersion>
     <artifactId>jmisb-viewer</artifactId>
     <packaging>jar</packaging>
 
@@ -61,14 +59,14 @@
                 <executions>
                     <execution>
                         <id>reformat-sources</id>
-                        <configuration>
-                            <style>AOSP</style>
-                            <fixImports>true</fixImports>
-                        </configuration>
                         <goals>
                             <goal>format</goal>
                         </goals>
                         <phase>process-sources</phase>
+                        <configuration>
+                            <style>AOSP</style>
+                            <fixImports>true</fixImports>
+                        </configuration>
                     </execution>
                 </executions>
             </plugin>
@@ -83,7 +81,7 @@
                         <argument>-Xms512m</argument>
                         <argument>-Xmx2048m</argument>
                         <argument>-classpath</argument>
-                        <classpath/>
+                        <classpath></classpath>
                         <argument>org.jmisb.viewer.MisbViewer</argument>
                     </arguments>
                 </configuration>
@@ -92,6 +90,9 @@
                 <groupId>com.github.spotbugs</groupId>
                 <artifactId>spotbugs-maven-plugin</artifactId>
                 <version>${spotbugs.maven.version}</version>
+                <configuration>
+                    <excludeFilterFile>SpotBugsFilter.xml</excludeFilterFile>
+                </configuration>
                 <dependencies>
                     <dependency>
                         <groupId>com.github.spotbugs</groupId>
@@ -99,9 +100,6 @@
                         <version>${spotbugs.version}</version>
                     </dependency>
                 </dependencies>
-                <configuration>
-                    <excludeFilterFile>SpotBugsFilter.xml</excludeFilterFile>
-                </configuration>
                 <executions>
                     <execution>
                         <goals>
@@ -114,14 +112,6 @@
                 <groupId>org.cyclonedx</groupId>
                 <artifactId>cyclonedx-maven-plugin</artifactId>
                 <version>${cyclonedx.version}</version>
-                <executions>
-                    <execution>
-                        <phase>verify</phase>
-                        <goals>
-                            <goal>makeBom</goal>
-                        </goals>
-                    </execution>
-                </executions>
                 <configuration>
                     <projectType>application</projectType>
                     <schemaVersion>${cyclonedx.schema.version}</schemaVersion>
@@ -135,6 +125,14 @@
                     <outputFormat>all</outputFormat>
                     <outputName>${project.artifactId}-${project.version}-cyclonedx</outputName>
                 </configuration>
+                <executions>
+                    <execution>
+                        <goals>
+                            <goal>makeBom</goal>
+                        </goals>
+                        <phase>verify</phase>
+                    </execution>
+                </executions>
             </plugin>
             <plugin>
                 <groupId>org.apache.maven.plugins</groupId>
