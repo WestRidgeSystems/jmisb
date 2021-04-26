@@ -11,25 +11,29 @@ Or they may run but generate incorrect / invalid results.
 
 We welcome corrections and updates.
 
-## systemout
-
-It does a console dump of the KLV metadata in a file to standard output (`System.out` in Java, hence the name). This example is considered complete. See [its README](systemout/README.md) for more information.
-
 ## generator
 
 It generates a test file with video and KLV metadata. This example is a work-in-progress. See [its README](generator/README.md) for more information.
-
-## movingfeatures
-
-It converts KLV metadata with ST 0903 Video Moving Target Indication local set information into OGC Moving Features (Trajectory JSON).
-This example is a work-in-progress. See [its README](movingfeatures/README.md) for more information.
 
 ## gstsink
 
 It provides a GStreamer Sink for KLV metadata.
 This example is a work-in-progress. See [its README](gstsink/README.md) for more information.
 
+## mimdgenerator
+
+It generates a test file with video and KLV metadata using the MIMD (ST1901 through ST 1908) standards. This example is a work-in-progress. See [its README](mimdgenerator/README.md) for more information.
+
+## movingfeatures
+
+It converts KLV metadata with ST 0903 Video Moving Target Indication local set information into OGC Moving Features (Trajectory JSON).
+This example is a work-in-progress. See [its README](movingfeatures/README.md) for more information.
+
 ## parserplugin
 
 It shows how to parse an unsupported KLV blob (perhaps a local set or universal set) without changing jMISB.
 This example considered complete. See [its README](parserplugin/README.md) for more information.
+
+## systemout
+
+It does a console dump of the KLV metadata in a file to standard output (`System.out` in Java, hence the name). This example is considered complete. See [its README](systemout/README.md) for more information.

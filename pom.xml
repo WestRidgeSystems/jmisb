@@ -1,7 +1,5 @@
-<project xmlns="http://maven.apache.org/POM/4.0.0"
-         xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
-         xsi:schemaLocation="http://maven.apache.org/POM/4.0.0
-                      http://maven.apache.org/xsd/maven-4.0.0.xsd">
+<?xml version="1.0" encoding="UTF-8"?>
+<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://maven.apache.org/POM/4.0.0                       http://maven.apache.org/xsd/maven-4.0.0.xsd">
     <modelVersion>4.0.0</modelVersion>
 
     <groupId>org.jmisb</groupId>
@@ -13,11 +11,9 @@
     <description>jMISB is an open source Java library implementing various MISB standards.</description>
     <url>https://github.com/WestRidgeSystems/jmisb</url>
 
-    <scm>
-        <url>https://github.com/WestRidgeSystems/jmisb</url>
-        <connection>scm:git:git://github.com/WestRidgeSystems/jmisb.git</connection>
-        <developerConnection>scm:git:ssh://git@github.com/WestRidgeSystems/jmisb.git</developerConnection>
-    </scm>
+    <organization>
+        <name>West Ridge Systems</name>
+    </organization>
 
     <licenses>
         <license>
@@ -26,10 +22,6 @@
             <distribution>repo</distribution>
         </license>
     </licenses>
-
-    <organization>
-        <name>West Ridge Systems</name>
-    </organization>
 
     <developers>
         <developer>
@@ -40,31 +32,46 @@
         </developer>
     </developers>
 
-    <properties>
-        <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
-        <surefire.version>2.22.0</surefire.version>
-        <failsafe.version>2.22.0</failsafe.version>
-        <jacoco.version>0.8.6</jacoco.version>
-        <coveralls.version>4.3.0</coveralls.version>
-        <owasp.version>6.1.5</owasp.version>
-        <spotbugs.maven.version>4.0.0</spotbugs.maven.version>
-        <spotbugs.version>4.0.2</spotbugs.version>
-        <googleformatter.maven.plugin.version>1.7.3</googleformatter.maven.plugin.version>
-        <maven.assembly.plugin.version>3.1.0</maven.assembly.plugin.version>
-        <cyclonedx.version>2.3.0</cyclonedx.version>
-        <cyclonedx.schema.version>1.2</cyclonedx.schema.version>
-    </properties>
+    <modules>
+        <module>api</module>
+        <module>core</module>
+        <module>miml-maven-plugin</module>
+        <module>viewer</module>
+        <module>examples</module>
+    </modules>
+
+    <scm>
+        <connection>scm:git:git://github.com/WestRidgeSystems/jmisb.git</connection>
+        <developerConnection>scm:git:ssh://git@github.com/WestRidgeSystems/jmisb.git</developerConnection>
+        <url>https://github.com/WestRidgeSystems/jmisb</url>
+    </scm>
 
     <distributionManagement>
-        <snapshotRepository>
-            <id>ossrh</id>
-            <url>https://oss.sonatype.org/content/repositories/snapshots</url>
-        </snapshotRepository>
         <repository>
             <id>ossrh</id>
             <url>https://oss.sonatype.org/service/local/staging/deploy/maven2/</url>
         </repository>
+        <snapshotRepository>
+            <id>ossrh</id>
+            <url>https://oss.sonatype.org/content/repositories/snapshots</url>
+        </snapshotRepository>
     </distributionManagement>
+
+    <properties>
+        <coveralls.version>4.3.0</coveralls.version>
+        <cyclonedx.schema.version>1.2</cyclonedx.schema.version>
+        <cyclonedx.version>2.3.0</cyclonedx.version>
+        <failsafe.version>2.22.0</failsafe.version>
+        <googleformatter.maven.plugin.version>1.7.3</googleformatter.maven.plugin.version>
+        <jacoco.version>0.8.6</jacoco.version>
+        <maven.assembly.plugin.version>3.1.0</maven.assembly.plugin.version>
+        <owasp.version>6.1.2</owasp.version>
+        <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
+        <sortpom.version>2.15.0</sortpom.version>
+        <spotbugs.maven.version>4.0.0</spotbugs.maven.version>
+        <spotbugs.version>4.0.2</spotbugs.version>
+        <surefire.version>2.22.0</surefire.version>
+    </properties>
 
     <dependencyManagement>
         <dependencies>
@@ -90,14 +97,6 @@
             </dependency>
         </dependencies>
     </dependencyManagement>
-
-    <modules>
-        <module>api</module>
-        <module>core</module>
-        <module>miml-maven-plugin</module>
-        <module>viewer</module>
-        <module>examples</module>
-    </modules>
 
     <build>
         <plugins>
@@ -193,10 +192,10 @@
                     </execution>
                     <execution>
                         <id>report</id>
-                        <phase>prepare-package</phase>
                         <goals>
                             <goal>report</goal>
                         </goals>
+                        <phase>prepare-package</phase>
                     </execution>
                 </executions>
             </plugin>
@@ -204,6 +203,28 @@
                 <groupId>org.eluder.coveralls</groupId>
                 <artifactId>coveralls-maven-plugin</artifactId>
                 <version>${coveralls.version}</version>
+            </plugin>
+            <plugin>
+                <groupId>com.github.ekryd.sortpom</groupId>
+                <artifactId>sortpom-maven-plugin</artifactId>
+                <version>${sortpom.version}</version>
+                <configuration>
+                    <predefinedSortOrder>recommended_2008_06</predefinedSortOrder>
+                    <lineSeparator>\n</lineSeparator>
+                    <encoding>${project.build.sourceEncoding}</encoding>
+                    <nrOfIndentSpace>4</nrOfIndentSpace>
+                    <sortProperties>true</sortProperties>
+                    <keepBlankLines>true</keepBlankLines>
+                    <sortDependencies>scope</sortDependencies>
+                </configuration>
+                <executions>
+                    <execution>
+                        <goals>
+                            <goal>sort</goal>
+                        </goals>
+                        <phase>verify</phase>
+                    </execution>
+                </executions>
             </plugin>
         </plugins>
     </build>
@@ -226,10 +247,10 @@
                         <executions>
                             <execution>
                                 <id>sign-artifacts</id>
-                                <phase>verify</phase>
                                 <goals>
                                     <goal>sign</goal>
                                 </goals>
+                                <phase>verify</phase>
                             </execution>
                         </executions>
                     </plugin>
