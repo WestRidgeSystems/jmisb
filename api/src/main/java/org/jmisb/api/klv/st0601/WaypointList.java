@@ -40,8 +40,8 @@ import org.jmisb.core.klv.PrimitiveConverter;
  */
 public class WaypointList implements IUasDatalinkValue {
     private final List<Waypoint> waypoints = new ArrayList<>();
-    private static int MANUAL_MODE = 0x01;
-    private static int ADHOC_SOURCE = 0x02;
+    private static byte MANUAL_MODE = 0x01;
+    private static byte ADHOC_SOURCE = 0x02;
 
     private final FpEncoder latDecoder = new FpEncoder(-90, 90, 4);
     private final FpEncoder lonDecoder = new FpEncoder(-180, 180, 4);
