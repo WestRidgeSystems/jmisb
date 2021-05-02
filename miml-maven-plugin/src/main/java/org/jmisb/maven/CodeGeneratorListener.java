@@ -8,6 +8,7 @@ import java.io.File;
 import java.io.FileNotFoundException;
 import java.io.FileOutputStream;
 import java.io.IOException;
+import java.io.OutputStream;
 import java.io.OutputStreamWriter;
 import java.io.Writer;
 import java.nio.charset.StandardCharsets;
@@ -373,9 +374,10 @@ public class CodeGeneratorListener implements MIML_v3Listener {
     private void processTemplate(String templateFile, File outputFile, ClassModelEntry entry)
             throws FileNotFoundException, IOException, TemplateException {
         Template temp = templateConfiguration.getTemplate(templateFile);
-        Writer out =
-                new OutputStreamWriter(new FileOutputStream(outputFile), StandardCharsets.UTF_8);
-        temp.process(entry, out);
+        try (OutputStream outputStream = new FileOutputStream(outputFile);
+                Writer out = new OutputStreamWriter(outputStream, StandardCharsets.UTF_8)) {
+            temp.process(entry, out);
+        }
     }
 
     private void setupTemplateEngine() {
