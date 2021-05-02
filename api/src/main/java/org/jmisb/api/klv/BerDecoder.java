@@ -71,8 +71,8 @@ public class BerDecoder {
             value = tag;
         }
 
-        if (length < 1 || value < 0) {
-            throw new IllegalArgumentException("BER: error decoding length");
+        if (value < 0) {
+            throw new IllegalArgumentException("BER: error decoding value");
         }
 
         return new BerField(length, value);
