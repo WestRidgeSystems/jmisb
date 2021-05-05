@@ -48,10 +48,10 @@ public class SensorFootprintPainter implements Painter<JXMapViewer> {
         if (localCorners.size() != 4) {
             return;
         }
-        Integer count = 1;
+        int count = 1;
         for (GeoPosition gp : localCorners) {
             Point2D pt = map.getTileFactory().geoToPixel(gp, map.getZoom());
-            g.drawString(count.toString(), (int) pt.getX(), (int) pt.getY());
+            g.drawString(Integer.toString(count), (int) pt.getX(), (int) pt.getY());
             count += 1;
             if (first) {
                 firstX = (int) pt.getX();
