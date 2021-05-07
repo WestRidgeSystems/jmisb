@@ -88,9 +88,9 @@ public class WaypointList implements IUasDatalinkValue {
         waypoint.setProsecutionOrder(PrimitiveConverter.toInt16(waypointBytes, idx));
         idx += Short.BYTES;
         BerField waypointInfoField = BerDecoder.decode(waypointBytes, idx, false);
-        Boolean infoManual = ((waypointInfoField.getValue() & MANUAL_MODE) == MANUAL_MODE);
+        boolean infoManual = ((waypointInfoField.getValue() & MANUAL_MODE) == MANUAL_MODE);
         waypoint.setManualMode(infoManual);
-        Boolean adhocSource = ((waypointInfoField.getValue() & ADHOC_SOURCE) == ADHOC_SOURCE);
+        boolean adhocSource = ((waypointInfoField.getValue() & ADHOC_SOURCE) == ADHOC_SOURCE);
         waypoint.setAdhocSource(adhocSource);
         idx += waypointInfoField.getLength();
         Location location = new Location();
