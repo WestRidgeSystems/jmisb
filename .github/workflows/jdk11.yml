@@ -1,4 +1,4 @@
-name: JDK11 Build (Ubuntu 20.04 default)
+name: JDK11 Build
 
 on:
     push:
@@ -9,7 +9,7 @@ on:
 
 jobs:
   build:
-    runs-on: ubuntu-20.04
+    runs-on: ubuntu-latest
 
     steps:
       - uses: actions/checkout@v2
@@ -19,6 +19,6 @@ jobs:
           java-version: '11'
           distribution: 'adopt'
           architecture: x64
-      - name: Build and install
+      - name: Build and test
         run: mvn --batch-mode --update-snapshots verify
 
