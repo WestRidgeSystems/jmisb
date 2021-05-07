@@ -65,7 +65,7 @@
         <googleformatter.maven.plugin.version>1.7.3</googleformatter.maven.plugin.version>
         <jacoco.version>0.8.6</jacoco.version>
         <maven.assembly.plugin.version>3.1.0</maven.assembly.plugin.version>
-        <owasp.version>6.1.2</owasp.version>
+        <owasp.version>6.1.6</owasp.version>
         <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
         <sortpom.version>2.15.0</sortpom.version>
         <spotbugs.maven.version>4.0.0</spotbugs.maven.version>
