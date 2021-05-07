@@ -1,4 +1,4 @@
-name: JDK11 Build
+name: Linux Build - JDK 11
 
 on:
     push:
