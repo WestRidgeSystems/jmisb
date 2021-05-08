@@ -13,5 +13,5 @@ jobs:
     steps:
       - uses: actions/checkout@v2
       - name: Build and install
-        run: mvn -B install
+        run: mvn -B install -Pdebug
 

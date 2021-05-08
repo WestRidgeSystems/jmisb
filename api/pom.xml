@@ -80,6 +80,15 @@
                     <suiteXmlFiles>
                         <suiteXmlFile>testng-unit.xml</suiteXmlFile>
                     </suiteXmlFiles>
+                    <systemPropertyVariables>
+                        <org.bytedeco.javacpp.logger.debug>${javacpp.logging.debug}</org.bytedeco.javacpp.logger.debug>
+                    </systemPropertyVariables>
+                    <properties>
+                        <property>
+                            <name>surefire.testng.verbose</name>
+                            <value>${surefire.verbosity}</value>
+                        </property>
+                    </properties>
                 </configuration>
             </plugin>
             <plugin>
@@ -91,6 +100,15 @@
                     <suiteXmlFiles>
                         <suiteXmlFile>testng-integration.xml</suiteXmlFile>
                     </suiteXmlFiles>
+                    <systemPropertyVariables>
+                        <org.bytedeco.javacpp.logger.debug>${javacpp.logging.debug}</org.bytedeco.javacpp.logger.debug>
+                    </systemPropertyVariables>
+                    <properties>
+                        <property>
+                            <name>surefire.testng.verbose</name>
+                            <value>${surefire.verbosity}</value>
+                        </property>
+                    </properties>
                 </configuration>
                 <executions>
                     <execution>

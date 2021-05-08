@@ -61,16 +61,18 @@
         <coveralls.version>4.3.0</coveralls.version>
         <cyclonedx.schema.version>1.2</cyclonedx.schema.version>
         <cyclonedx.version>2.3.0</cyclonedx.version>
-        <failsafe.version>2.22.0</failsafe.version>
+        <failsafe.version>2.22.2</failsafe.version>
         <googleformatter.maven.plugin.version>1.7.3</googleformatter.maven.plugin.version>
         <jacoco.version>0.8.6</jacoco.version>
+        <javacpp.logging.debug>false</javacpp.logging.debug>
         <maven.assembly.plugin.version>3.1.0</maven.assembly.plugin.version>
         <owasp.version>6.1.6</owasp.version>
         <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
         <sortpom.version>2.15.0</sortpom.version>
         <spotbugs.maven.version>4.0.0</spotbugs.maven.version>
         <spotbugs.version>4.0.2</spotbugs.version>
-        <surefire.version>2.22.0</surefire.version>
+        <surefire.verbosity>0</surefire.verbosity>
+        <surefire.version>2.22.2</surefire.version>
     </properties>
 
     <dependencyManagement>
@@ -261,6 +263,13 @@
                     </plugin>
                 </plugins>
             </build>
+        </profile>
+        <profile>
+            <id>debug</id>
+            <properties>
+                <javacpp.logging.debug>true</javacpp.logging.debug>
+                <surefire.verbosity>10</surefire.verbosity>
+            </properties>
         </profile>
     </profiles>
 </project>
