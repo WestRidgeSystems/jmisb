@@ -88,6 +88,7 @@
                 <artifactId>maven-failsafe-plugin</artifactId>
                 <version>${failsafe.version}</version>
                 <configuration>
+                    <forkCount>0</forkCount>
                     <suiteXmlFiles>
                         <suiteXmlFile>testng-integration.xml</suiteXmlFile>
                     </suiteXmlFiles>
