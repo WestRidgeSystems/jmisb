@@ -358,7 +358,9 @@ public class MisbViewer extends JFrame implements ActionListener {
                         if (url != null) {
                             try {
                                 VideoStreamInputOptions options = new VideoStreamInputOptions();
-
+                                if (videoInput != null) {
+                                    videoInput.close();
+                                }
                                 videoInput = new VideoStreamInput(options);
 
                                 videoInput.open(url);
