@@ -17,4 +17,4 @@ jobs:
         with:
           java-version: 1.11
       - name: Build and check dependencies
-        run: mvn -B install --file pom.xml -Pdependencycheck -DskipTests
+        run: mvn -B verify -Pdependencycheck -DskipTests || mvn -B verify -Pdependencycheck -DskipTests || mvn -B verify -Pdependencycheck -DskipTests
