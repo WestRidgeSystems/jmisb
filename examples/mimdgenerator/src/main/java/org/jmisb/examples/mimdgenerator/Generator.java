@@ -53,6 +53,7 @@ import org.jmisb.api.klv.st1908.ImagerSystem_Name;
 import org.jmisb.api.klv.st1908.MIIS;
 import org.jmisb.api.klv.st1908.MinorCoreId;
 import org.jmisb.api.klv.st1908.MinorCoreId_Uuid;
+import org.jmisb.api.video.CodecIdentifier;
 import org.jmisb.api.video.IVideoFileOutput;
 import org.jmisb.api.video.KlvFormat;
 import org.jmisb.api.video.MetadataFrame;
@@ -89,7 +90,13 @@ public class Generator {
 
         VideoOutputOptions options =
                 new VideoOutputOptions(
-                        width, height, bitRate, frameRate, gopSize, KlvFormat.Asynchronous);
+                        width,
+                        height,
+                        bitRate,
+                        frameRate,
+                        gopSize,
+                        KlvFormat.Asynchronous,
+                        CodecIdentifier.H264);
         try (IVideoFileOutput output = new VideoFileOutput(options)) {
             output.open(filename);
 
