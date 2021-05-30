@@ -33,9 +33,10 @@
     </developers>
 
     <modules>
-        <module>api</module>
+        <module>core-common</module>
         <module>core</module>
         <module>miml-maven-plugin</module>
+        <module>api</module>
         <module>viewer</module>
         <module>examples</module>
     </modules>
