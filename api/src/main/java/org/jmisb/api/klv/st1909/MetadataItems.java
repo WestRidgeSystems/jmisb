@@ -32,13 +32,27 @@ public class MetadataItems {
     }
 
     /**
-     * Add an item to the set of metadata key/value paris.
+     * Add an item to the set of metadata key/value pairs.
      *
      * @param key the key
      * @param value the string value, including any required prefix/suffix.
      */
     public void addItem(MetadataKey key, String value) {
         items.put(key, value);
+    }
+
+    /**
+     * Add an item to the set of metadata key/value pairs if not already present.
+     *
+     * <p>This is useful for adding fallback things ("N/A").
+     *
+     * @param key the key
+     * @param value the string value, including any required prefix/suffix.
+     */
+    public void addItemIfMissing(MetadataKey key, String value) {
+        if (!items.containsKey(key)) {
+            items.put(key, value);
+        }
     }
 
     /**

@@ -17,6 +17,7 @@ import org.jmisb.api.klv.st0601.IUasDatalinkValue;
 import org.jmisb.api.klv.st0601.NestedSecurityMetadata;
 import org.jmisb.api.klv.st0601.PrecisionTimeStamp;
 import org.jmisb.api.klv.st0601.SensorEllipsoidHeight;
+import org.jmisb.api.klv.st0601.SensorEllipsoidHeightExtended;
 import org.jmisb.api.klv.st0601.SensorTrueAltitude;
 import org.jmisb.api.klv.st0601.SlantRange;
 import org.jmisb.api.klv.st0601.TargetLocationElevation;
@@ -64,18 +65,20 @@ public class ST0601Converter {
             UasDatalinkMessage message, MetadataItems metadata) {
         convertTagIfPresent(
                 message, UasDatalinkTag.ImageSourceSensor, metadata, MetadataKey.MainSensorName);
-        convertTagIfPresent(
+        convertTagIfPresentLabelLeft(
                 message,
                 UasDatalinkTag.SensorRelativeAzimuthAngle,
                 metadata,
                 MetadataKey.AzAngle,
-                "REL AZ %1$10s");
-        convertTagIfPresent(
+                "REL AZ",
+                "%1$10s");
+        convertTagIfPresentLabelLeft(
                 message,
                 UasDatalinkTag.SensorRelativeElevationAngle,
                 metadata,
                 MetadataKey.ElAngle,
-                "REL EL %1$10s");
+                "REL EL",
+                "%1$10s");
     }
 
     private static void convertClassificationAndReleasabilityGroupValues(
@@ -178,20 +181,28 @@ public class ST0601Converter {
                 metadata.addItem(
                         MetadataKey.TargetElevation,
                         "" + (int) (frameCenterElevation.getMeters()) + "m MSL FC EL");
+            } else {
+                metadata.addItemIfMissing(MetadataKey.TargetElevation, "N/A FC EL");
             }
+        } else {
+            metadata.addItemIfMissing(MetadataKey.TargetLatitude, "N/A FC LAT");
+            metadata.addItemIfMissing(MetadataKey.TargetLongitude, "N/A FC LON");
+            metadata.addItemIfMissing(MetadataKey.TargetElevation, "N/A FC EL");
         }
-        convertTagIfPresent(
+        convertTagIfPresentLabelRight(
                 message,
                 UasDatalinkTag.SensorHorizontalFov,
                 metadata,
                 MetadataKey.HorizontalFOV,
-                "%s HFOV");
-        convertTagIfPresent(
+                "HFOV",
+                "%s");
+        convertTagIfPresentLabelRight(
                 message,
                 UasDatalinkTag.SensorVerticalFov,
                 metadata,
                 MetadataKey.VerticalFOV,
-                "%s VFOV");
+                "VFOV",
+                "%s");
         convertTargetWidthExtendedOrTargetWidthIfPresent(message, metadata);
         convertSlantRangeIfPresent(message, metadata);
     }
@@ -202,6 +213,8 @@ public class ST0601Converter {
         if (slantRangeValue != null) {
             SlantRange slantRange = (SlantRange) slantRangeValue;
             metadata.addItem(MetadataKey.SlantRange, "" + (int) slantRange.getMeters() + "m SR");
+        } else {
+            metadata.addItemIfMissing(MetadataKey.SlantRange, "N/A SR");
         }
     }
 
@@ -217,6 +230,8 @@ public class ST0601Converter {
             String targetWidth =
                     "" + Math.round(((TargetWidth) targetWidthValue).getMeters()) + "m TW";
             metadata.addItem(MetadataKey.TargetWidth, targetWidth);
+        } else {
+            metadata.addItemIfMissing(MetadataKey.TargetWidth, "N/A TW");
         }
     }
 
@@ -237,20 +252,32 @@ public class ST0601Converter {
                         metadata,
                         MetadataKey.PlatformName);
             }
+        } else {
+            metadata.addItemIfMissing(MetadataKey.PlatformName, "N/A");
         }
-        convertTagIfPresent(
+        convertTagIfPresentLabelRight(
                 message,
                 UasDatalinkTag.SensorLatitude,
                 metadata,
                 MetadataKey.PlatformLatitude,
-                "%s LAT");
-        convertTagIfPresent(
+                "LAT",
+                "%s");
+        convertTagIfPresentLabelRight(
                 message,
                 UasDatalinkTag.SensorLongitude,
                 metadata,
                 MetadataKey.PlatformLongitude,
-                "%s LON");
-        if (message.getIdentifiers().contains(UasDatalinkTag.SensorEllipsoidHeight)) {
+                "LON",
+                "%s");
+        if (message.getIdentifiers().contains(UasDatalinkTag.SensorEllipsoidHeightExtended)) {
+            IUasDatalinkValue value =
+                    message.getField(UasDatalinkTag.SensorEllipsoidHeightExtended);
+            SensorEllipsoidHeightExtended sensorEllipsoidHeight =
+                    (SensorEllipsoidHeightExtended) value;
+            metadata.addItem(
+                    MetadataKey.PlatformAltitude,
+                    "" + (int) (sensorEllipsoidHeight.getMeters()) + "m HAE ALT");
+        } else if (message.getIdentifiers().contains(UasDatalinkTag.SensorEllipsoidHeight)) {
             IUasDatalinkValue value = message.getField(UasDatalinkTag.SensorEllipsoidHeight);
             SensorEllipsoidHeight sensorEllipsoidHeight = (SensorEllipsoidHeight) value;
             metadata.addItem(
@@ -396,17 +423,40 @@ public class ST0601Converter {
             MetadataKey st1909DestinationKey) {
         if (message.getIdentifiers().contains(sourceTag)) {
             convertTag(message, sourceTag, metadata, st1909DestinationKey);
+        } else {
+            // ST 1909.1-95
+            metadata.addItemIfMissing(st1909DestinationKey, "N/A");
         }
     }
 
-    private static void convertTagIfPresent(
+    private static void convertTagIfPresentLabelLeft(
             UasDatalinkMessage message,
             UasDatalinkTag sourceTag,
             MetadataItems metadata,
             MetadataKey st1909DestinationKey,
+            String label,
             String format) {
         if (message.getIdentifiers().contains(sourceTag)) {
-            convertTag(message, sourceTag, metadata, st1909DestinationKey, format);
+            convertTag(message, sourceTag, metadata, st1909DestinationKey, label + " " + format);
+        } else {
+            // ST 1909.1-95
+            metadata.addItemIfMissing(
+                    st1909DestinationKey, String.format(label + " " + format, "N/A"));
+        }
+    }
+
+    private static void convertTagIfPresentLabelRight(
+            UasDatalinkMessage message,
+            UasDatalinkTag sourceTag,
+            MetadataItems metadata,
+            MetadataKey st1909DestinationKey,
+            String label,
+            String format) {
+        if (message.getIdentifiers().contains(sourceTag)) {
+            convertTag(message, sourceTag, metadata, st1909DestinationKey, format + " " + label);
+        } else {
+            // ST 1909.1-95
+            metadata.addItemIfMissing(st1909DestinationKey, "N/A " + label);
         }
     }
 
@@ -432,22 +482,27 @@ public class ST0601Converter {
 
     private static void convertLaserSensorGroupValues(
             UasDatalinkMessage message, MetadataItems metadata) {
-        // ST1909-37 - probably needs to be changed in the spec.
-        metadata.addItem(MetadataKey.LaserSensorName, "Laser Rangefinder");
+        // ST1909-37
+        metadata.addItem(MetadataKey.LaserSensorName, "Laser");
         if (message.getIdentifiers().contains(UasDatalinkTag.GenericFlagData01)) {
             GenericFlagData01 flagData =
                     (GenericFlagData01) message.getField(UasDatalinkTag.GenericFlagData01);
             if (flagData.getField(FlagDataKey.LaserRange).getValue().toLowerCase().contains("on")) {
+                // ST 1909-38
                 metadata.addItem(MetadataKey.LaserSensorStatus, "Laser ON");
             } else {
+                // ST 1909-39
                 metadata.addItem(MetadataKey.LaserSensorStatus, "Laser OFF");
             }
+        } else {
+            metadata.addItemIfMissing(MetadataKey.LaserSensorStatus, "N/A");
         }
-        convertTagIfPresent(
+        convertTagIfPresentLabelLeft(
                 message,
                 UasDatalinkTag.LaserPrfCode,
                 metadata,
                 MetadataKey.LaserPrfCode,
-                "Laser PRF Code %1$6s");
+                "Laser PRF Code",
+                "%1$6s");
     }
 }
