@@ -25,6 +25,7 @@ import javax.swing.SwingConstants;
 import javax.swing.event.MouseInputListener;
 import net.harawata.appdirs.AppDirs;
 import net.harawata.appdirs.AppDirsFactory;
+import org.jmisb.api.klv.IKlvKey;
 import org.jmisb.api.klv.IMisbMessage;
 import org.jmisb.api.klv.st0601.CornerOffset;
 import org.jmisb.api.klv.st0601.FullCornerLatitude;
@@ -33,6 +34,22 @@ import org.jmisb.api.klv.st0601.UasDatalinkLatitude;
 import org.jmisb.api.klv.st0601.UasDatalinkLongitude;
 import org.jmisb.api.klv.st0601.UasDatalinkMessage;
 import org.jmisb.api.klv.st0601.UasDatalinkTag;
+import org.jmisb.api.klv.st1903.MIMD;
+import org.jmisb.api.klv.st1903.MIMD_Platforms;
+import org.jmisb.api.klv.st1905.Platform;
+import org.jmisb.api.klv.st1905.Platform_Payloads;
+import org.jmisb.api.klv.st1905.Platform_Stages;
+import org.jmisb.api.klv.st1906.AbsGeodetic;
+import org.jmisb.api.klv.st1906.Position;
+import org.jmisb.api.klv.st1906.Stage;
+import org.jmisb.api.klv.st1907.Correspondence;
+import org.jmisb.api.klv.st1907.CorrespondenceGroup;
+import org.jmisb.api.klv.st1907.CorrespondenceGroupType;
+import org.jmisb.api.klv.st1907.CorrespondenceGroup_Rectangle;
+import org.jmisb.api.klv.st1907.GeoIntelligenceSensor;
+import org.jmisb.api.klv.st1907.GeoIntelligenceSensor_CorrespondenceGroups;
+import org.jmisb.api.klv.st1907.Payload;
+import org.jmisb.api.klv.st1907.Payload_GeoIntelligenceSensors;
 import org.jmisb.api.video.IMetadataListener;
 import org.jmisb.api.video.MetadataFrame;
 import org.jxmapviewer.JXMapViewer;
@@ -251,6 +268,9 @@ public class MapFrame implements IMetadataListener {
         if (message instanceof UasDatalinkMessage) {
             onST0601MetadataReceived((UasDatalinkMessage) message);
         }
+        if (message instanceof MIMD) {
+            onMIMDReceived((MIMD) message);
+        }
         try {
             mapViewer.repaint();
         } catch (Exception ex) {
@@ -378,6 +398,111 @@ public class MapFrame implements IMetadataListener {
             return geoPosition;
         } else {
             return null;
+        }
+    }
+
+    private void onMIMDReceived(MIMD mimd) {
+        // TODO: find sensor location
+        MIMD_Platforms platforms = mimd.getPlatforms();
+        if (platforms == null) {
+            return;
+        }
+        for (IKlvKey platformKey : platforms.getIdentifiers()) {
+            Platform platform = (Platform) platforms.getField(platformKey);
+            processMIMDStages(platform);
+            processPayloads(platform);
+        }
+    }
+
+    private void processPayloads(Platform platform) {
+        Platform_Payloads payloads = platform.getPayloads();
+        if (payloads == null) {
+            return;
+        }
+        for (IKlvKey payloadKey : payloads.getIdentifiers()) {
+            Payload payload = (Payload) payloads.getField(payloadKey);
+            Payload_GeoIntelligenceSensors geoIntelligenceSensors =
+                    payload.getGeoIntelligenceSensors();
+            if (geoIntelligenceSensors == null) {
+                continue;
+            }
+            for (IKlvKey geoIntelligenceSensorKey : geoIntelligenceSensors.getIdentifiers()) {
+                GeoIntelligenceSensor geoIntelligenceSensor =
+                        (GeoIntelligenceSensor)
+                                geoIntelligenceSensors.getField(geoIntelligenceSensorKey);
+                GeoIntelligenceSensor_CorrespondenceGroups correspondenceGroups =
+                        geoIntelligenceSensor.getCorrespondenceGroups();
+                if (correspondenceGroups == null) {
+                    continue;
+                }
+                for (IKlvKey correspondenceGroupKey : correspondenceGroups.getIdentifiers()) {
+                    CorrespondenceGroup correspondenceGroup =
+                            (CorrespondenceGroup)
+                                    correspondenceGroups.getField(correspondenceGroupKey);
+                    if ((correspondenceGroup.getType() == CorrespondenceGroupType.Footprint)
+                            && (correspondenceGroup.getRectangle() != null)
+                            && (correspondenceGroup.getCentroid() != null)) {
+                        updateFootprint(
+                                correspondenceGroup.getRectangle(),
+                                correspondenceGroup.getCentroid());
+                    }
+                }
+            }
+        }
+    }
+
+    // We probably need to track multiple instances somewhere.
+    private void updateFootprint(CorrespondenceGroup_Rectangle rectangle, Correspondence centroid) {
+        List<GeoPosition> tempCorners = new ArrayList<>();
+        for (IKlvKey rectangleCornerKey : rectangle.getIdentifiers()) {
+            Correspondence cornerCorrespondence =
+                    (Correspondence) rectangle.getField(rectangleCornerKey);
+            GeoPosition geoPosition = getGeoPosition(cornerCorrespondence.getPosition());
+            if (geoPosition != null) {
+                tempCorners.add(geoPosition);
+            }
+        }
+        // TODO: handle centroid?
+        if (tempCorners.size() > 2) {
+            corners.clear();
+            corners.addAll(tempCorners);
+            if (autoFollowCheckBox.isSelected()) {
+                mapViewer.zoomToBestFit(new HashSet<>(corners), 0.7);
+            }
+        }
+    }
+
+    private GeoPosition getGeoPosition(Position position) {
+        if (position.getAbsGeodetic() == null) {
+            return null;
+        }
+        AbsGeodetic geodeticPos = position.getAbsGeodetic();
+        double latDegrees = geodeticPos.getLat().getValue() * 180.0 / Math.PI;
+        double lonDegrees = geodeticPos.getLon().getValue() * 180.0 / Math.PI;
+        GeoPosition geoPosition = new GeoPosition(latDegrees, lonDegrees);
+        return geoPosition;
+    }
+
+    private void processMIMDStages(Platform platform) {
+        Platform_Stages stages = platform.getStages();
+        for (IKlvKey stageKey : stages.getIdentifiers()) {
+            Stage stage = (Stage) stages.getField(stageKey);
+            if (stage != null) {
+                processMIMDStage(stage);
+            }
+        }
+    }
+
+    private void processMIMDStage(Stage stage) {
+        Position position = stage.getPosition();
+        // We probably need to walk the stages
+        if (position == null) {
+            return;
+        }
+        GeoPosition sensorGeoPosition = getGeoPosition(position);
+        if (sensorGeoPosition != null) {
+            sensorLocations.clear();
+            sensorLocations.add(sensorGeoPosition);
         }
     }
 }

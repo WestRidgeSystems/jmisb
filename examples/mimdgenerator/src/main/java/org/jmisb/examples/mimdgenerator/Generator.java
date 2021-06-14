@@ -44,6 +44,7 @@ import org.jmisb.api.klv.st1906.Position_Country;
 import org.jmisb.api.klv.st1906.Stage;
 import org.jmisb.api.klv.st1907.Correspondence;
 import org.jmisb.api.klv.st1907.CorrespondenceGroup;
+import org.jmisb.api.klv.st1907.CorrespondenceGroupType;
 import org.jmisb.api.klv.st1907.CorrespondenceGroup_Rectangle;
 import org.jmisb.api.klv.st1907.Correspondence_Col;
 import org.jmisb.api.klv.st1907.Correspondence_Row;
@@ -369,6 +370,7 @@ public class Generator {
                 createImageToLocationCorrespondence(0.0, 960.0, -35.35325, 149.08900);
         cornerCoordinates.add(corner4);
         footprint.setRectangle(new CorrespondenceGroup_Rectangle(cornerCoordinates));
+        footprint.setType(CorrespondenceGroupType.Footprint);
         return footprint;
     }
 
