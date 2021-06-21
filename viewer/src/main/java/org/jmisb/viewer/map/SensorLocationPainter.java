@@ -59,7 +59,7 @@ public class SensorLocationPainter implements Painter<JXMapViewer> {
                 (int) sensorCentrePoint.getY() - RADIUS,
                 RADIUS * 2,
                 RADIUS * 2);
-        List<GeoPosition> localCorners = new ArrayList(corners);
+        List<GeoPosition> localCorners = new ArrayList<>(corners);
         if (localCorners.size() != 4) {
             return;
         }
