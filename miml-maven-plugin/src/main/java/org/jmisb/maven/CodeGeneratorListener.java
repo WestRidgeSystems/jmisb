@@ -391,7 +391,7 @@ public class CodeGeneratorListener implements MIML_v3Listener {
     }
 
     private void log(String message) {
-        System.out.println(message);
+        // System.out.println(message);
     }
 
     @Override
@@ -414,7 +414,7 @@ public class CodeGeneratorListener implements MIML_v3Listener {
                     "We only support Grammar Version 3.0, but this one claims to be "
                             + mimlVersion);
         }
-        System.out.println("Parsing as grammar version " + mimlVersion);
+        // System.out.println("Parsing as grammar version " + mimlVersion);
     }
 
     @Override
@@ -422,7 +422,7 @@ public class CodeGeneratorListener implements MIML_v3Listener {
 
     @Override
     public void enterModelVer(MIML_v3Parser.ModelVerContext ctx) {
-        System.out.println("Model version: " + ctx.MODELVERNUM());
+        // System.out.println("Model version: " + ctx.MODELVERNUM());
     }
 
     @Override
