@@ -67,14 +67,18 @@ public class CrcCcitt {
     /**
      * Add byte array data to the CRC-16 calculation.
      *
-     * @param key the bytes to compute over.
+     * @param data the bytes to compute over.
      */
-    public void addData(byte[] key) {
-        for (int i = 0; i < key.length; i++) {
+    public void addData(byte[] data) {
+        addData(data, data.length);
+    }
+
+    private void addData(byte[] data, int length) {
+        for (int i = 0; i < length; i++) {
             tVal = TABLE[lookUp];
             aVal = (tVal >> 8);
             bVal = (tVal & 255);
-            lookUp = aVal ^ lastBVal ^ key[i] & 0xFF;
+            lookUp = aVal ^ lastBVal ^ data[i] & 0xFF;
             lastBVal = bVal;
         }
     }
@@ -93,5 +97,30 @@ public class CrcCcitt {
         byte highByte = (byte) (returnVal >>> 8);
         byte lowByte = (byte) (returnVal & 0xFF);
         return new byte[] {highByte, lowByte};
+    }
+
+    /**
+     * Verify CRC-16 checksum for byte array.
+     *
+     * <p>This uses the CRC-16 algorithm specified by the Motion Imagery Handbook (October 2019)
+     *
+     * <p>This is not the same checksum as is used in ST0601.
+     *
+     * @param fullMessage Byte array of the full message packet
+     * @param expected expected checksum value
+     * @return true if expected checksum validates against data.
+     */
+    public static boolean verify(byte[] fullMessage, byte[] expected) {
+        if (fullMessage.length < 2) {
+            return false;
+        }
+        if (expected.length != 2) {
+            return false;
+        }
+        CrcCcitt crc16 = new CrcCcitt();
+        crc16.addData(fullMessage, fullMessage.length - 2);
+        byte[] result = crc16.getCrc();
+        boolean matches = (result[0] == expected[0]) && (result[1] == expected[1]);
+        return matches;
     }
 }
