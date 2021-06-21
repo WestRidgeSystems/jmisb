@@ -44,7 +44,7 @@ public class SensorFootprintPainter implements Painter<JXMapViewer> {
         int firstX = 0;
         int firstY = 0;
         boolean first = true;
-        List<GeoPosition> localCorners = new ArrayList(corners);
+        List<GeoPosition> localCorners = new ArrayList<>(corners);
         if (localCorners.size() != 4) {
             return;
         }
