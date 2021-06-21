@@ -241,6 +241,7 @@ public abstract class VideoOutput extends VideoIO {
     /**
      * Open the video codec.
      *
+     * @param codecConfiguration special codec options, or null for defaults.
      * @return false if the codec could not be opened (e.g., unsupported by the OS/hardware)
      */
     private boolean openVideoCodec(CodecConfiguration codecConfiguration) {
