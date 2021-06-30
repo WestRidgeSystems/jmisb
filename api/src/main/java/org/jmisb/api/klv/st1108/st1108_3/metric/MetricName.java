@@ -14,6 +14,7 @@ import org.jmisb.api.klv.st1108.*;
  * the following strings for consistency.
  *
  * <table border="1">
+ * <caption>Metric Assigned Names</caption>
  * <tbody>
  * <tr><td>Metric Name</td><td>Meaning</td></tr>
  * <tr><td>GSD</td><td>Ground Sample Density</td></tr>
