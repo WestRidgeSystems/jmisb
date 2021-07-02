@@ -213,13 +213,28 @@ public class ArrayBuilder {
      * @return this instance, to support method chaining.
      */
     public ArrayBuilder prependLength() {
+        return prependLengthPlus(0);
+    }
+
+    /**
+     * Prepend a BER encoded length of the following bytes to the byte array.
+     *
+     * <p>This is like {@code prependLength}, but allows an additional (known) number of bytes to be
+     * include in the length, which is useful for adding checksum-type information.
+     *
+     * <p>Be careful about subsequent operations that append to the array, because this length field
+     * will not be updated.
+     *
+     * @param additionalLength additional length to add to the calculated length.
+     * @return this instance, to support method chaining.
+     */
+    public ArrayBuilder prependLengthPlus(int additionalLength) {
         flushBitBuffer();
-        byte[] encodedBytes = BerEncoder.encode(numBytesInChunks);
+        byte[] encodedBytes = BerEncoder.encode(numBytesInChunks + additionalLength);
         numBytesInChunks += encodedBytes.length;
         chunks.add(0, encodedBytes);
         return this;
     }
-
     /**
      * Build the byte array from the appended parts.
      *
