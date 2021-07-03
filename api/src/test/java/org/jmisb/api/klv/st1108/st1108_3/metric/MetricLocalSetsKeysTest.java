@@ -5,9 +5,9 @@ import static org.testng.Assert.*;
 import org.testng.annotations.Test;
 
 /** @author bradh */
-public class MetricLocalSetsKeys {
+public class MetricLocalSetsKeysTest {
 
-    public MetricLocalSetsKeys() {}
+    public MetricLocalSetsKeysTest() {}
 
     @Test
     public void checkToString() {
