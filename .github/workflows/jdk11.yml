@@ -14,4 +14,22 @@ jobs:
       - uses: actions/checkout@v2
       - name: Build and install
         run: mvn -B install -Pdebug || mvn -B install -Pdebug || mvn -B install -Pdebug
+      - name: Upload core-common test results to Codecov
+        uses: codecov/codecov-action@v1.5.0
+        with:
+          token: ${{ secrets.CODECOV_TOKEN }}
+          file: ./core/target/site/jacoco/jacoco.xml
+          flags: unittests
+      - name: Upload core test results to Codecov
+        uses: codecov/codecov-action@v1.5.0
+        with:
+          token: ${{ secrets.CODECOV_TOKEN }}
+          file: ./core/target/site/jacoco/jacoco.xml
+          flags: unittests
+      - name: Upload api test results to Codecov
+        uses: codecov/codecov-action@v1.5.0
+        with:
+          token: ${{ secrets.CODECOV_TOKEN }}
+          file: ./api/target/site/jacoco/jacoco.xml
+          flags: unittests
 
