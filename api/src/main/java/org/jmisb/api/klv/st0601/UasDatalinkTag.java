@@ -395,7 +395,7 @@ public enum UasDatalinkTag implements IKlvKey {
      * RadarAltimeter}.
      */
     RadarAltimeter(114),
-    /** Tag 115; Record of command from GCS to Aircraft; Value is a {@link ControlCommand}. */
+    /** Tag 115; Record of command from GCS to Aircraft; Value is a {@link ControlCommands}. */
     ControlCommand(115),
     /**
      * Tag 116; Acknowledgment of one or more control commands were received by the platform; Value

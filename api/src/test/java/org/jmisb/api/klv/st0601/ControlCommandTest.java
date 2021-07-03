@@ -9,7 +9,7 @@ import org.jmisb.api.common.KlvParseException;
 import org.testng.annotations.Test;
 
 public class ControlCommandTest {
-    private final byte[] ST_EXAMPLE_BYTES =
+    private static final byte[] ST_EXAMPLE_BYTES =
             new byte[] {
                 (byte) 0x05,
                 (byte) 0x11,
@@ -31,8 +31,8 @@ public class ControlCommandTest {
                 (byte) 0x20,
                 (byte) 0x31
             };
-    private final int ST_EXAMPLE_ID = 5;
-    private final String ST_EXAMPLE_COMMAND = "Fly to Waypoint 1";
+    public static final int ST_EXAMPLE_ID = 5;
+    public static final String ST_EXAMPLE_COMMAND = "Fly to Waypoint 1";
     private final long EXAMPLE_TIMESTAMP = 1587194489117472L;
 
     private final byte[] ST_EXAMPLE_BYTES_PLUS_TIMESTAMP =
@@ -106,7 +106,7 @@ public class ControlCommandTest {
         checkValuesForExamplePlusPTS(controlCommand);
     }
 
-    private void checkValuesForExample(ControlCommand controlCommand) {
+    public static void checkValuesForExample(ControlCommand controlCommand) {
         assertEquals(controlCommand.getBytes(), ST_EXAMPLE_BYTES);
         assertEquals(controlCommand.getCommandId(), ST_EXAMPLE_ID);
         assertEquals(controlCommand.getCommand(), ST_EXAMPLE_COMMAND);

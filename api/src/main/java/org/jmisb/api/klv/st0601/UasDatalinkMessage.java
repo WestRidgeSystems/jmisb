@@ -55,6 +55,8 @@ public class UasDatalinkMessage implements IMisbMessage {
             UasDatalinkTag tag = UasDatalinkTag.getTag(field.getTag());
             if (tag == UasDatalinkTag.Undefined) {
                 logger.info("Unknown UAS Datalink tag: " + field.getTag());
+            } else if (tag == UasDatalinkTag.ControlCommand) {
+                processControlCommand(tag, field.getData());
             } else if (tag == UasDatalinkTag.Checksum) {
                 checksumFound = true;
                 byte[] expected = Checksum.compute(bytes, false);
@@ -76,6 +78,19 @@ public class UasDatalinkMessage implements IMisbMessage {
         // Handle the case where the mandatory checksum is missing
         if (!checksumFound) {
             InvalidDataHandler.getInstance().handleMissingChecksum(logger, "Missing checksum");
+        }
+    }
+
+    private void processControlCommand(UasDatalinkTag tag, byte[] fieldBytes)
+            throws KlvParseException {
+        ControlCommand controlCommand =
+                (ControlCommand) UasDatalinkFactory.createValue(tag, fieldBytes);
+        if (map.containsKey(UasDatalinkTag.ControlCommand)) {
+            ControlCommands controlCommands =
+                    (ControlCommands) map.get(UasDatalinkTag.ControlCommand);
+            controlCommands.add(controlCommand);
+        } else {
+            setField(UasDatalinkTag.ControlCommand, new ControlCommands(controlCommand));
         }
     }
 
@@ -136,12 +151,17 @@ public class UasDatalinkMessage implements IMisbMessage {
             }
 
             IUasDatalinkValue value = entry.getValue();
-            byte[] bytes = value.getBytes();
-            if (bytes != null && bytes.length > 0) {
-                // Add key, length, value to chunks
-                chunks.add(BerEncoder.encode(tag.getCode(), Ber.OID));
-                chunks.add(BerEncoder.encode(bytes.length));
-                chunks.add(bytes.clone());
+            if (value instanceof ISpecialFraming) {
+                ISpecialFraming specialFramingEntry = (ISpecialFraming) value;
+                chunks.add(specialFramingEntry.getEncodedValue());
+            } else {
+                byte[] bytes = value.getBytes();
+                if (bytes != null && bytes.length > 0) {
+                    // Add key, length, value to chunks
+                    chunks.add(BerEncoder.encode(tag.getCode(), Ber.OID));
+                    chunks.add(BerEncoder.encode(bytes.length));
+                    chunks.add(bytes.clone());
+                }
             }
         }
 
