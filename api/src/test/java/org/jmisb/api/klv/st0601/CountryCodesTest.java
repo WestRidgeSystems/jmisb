@@ -167,4 +167,12 @@ public class CountryCodesTest {
     public void truncatedBad5() throws KlvParseException {
         new CountryCodes(new byte[] {0x01});
     }
+
+    @Test
+    public void testKeys() throws KlvParseException {
+        assertEquals(CountryCodeKey.CodingMethod.getIdentifier(), 0);
+        assertEquals(CountryCodeKey.OverflightCountry.getIdentifier(), 1);
+        assertEquals(CountryCodeKey.OperatorCountry.getIdentifier(), 2);
+        assertEquals(CountryCodeKey.CountryOfManufacture.getIdentifier(), 3);
+    }
 }
