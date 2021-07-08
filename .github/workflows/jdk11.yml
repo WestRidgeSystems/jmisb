@@ -17,19 +17,16 @@ jobs:
       - name: Upload core-common test results to Codecov
         uses: codecov/codecov-action@v1.5.0
         with:
-          token: ${{ secrets.CODECOV_TOKEN }}
           file: ./core/target/site/jacoco/jacoco.xml
-          flags: unittests
+          flags: unittests-core-common
       - name: Upload core test results to Codecov
         uses: codecov/codecov-action@v1.5.0
         with:
-          token: ${{ secrets.CODECOV_TOKEN }}
           file: ./core/target/site/jacoco/jacoco.xml
-          flags: unittests
+          flags: unittests-core
       - name: Upload api test results to Codecov
         uses: codecov/codecov-action@v1.5.0
         with:
-          token: ${{ secrets.CODECOV_TOKEN }}
           file: ./api/target/site/jacoco/jacoco.xml
-          flags: unittests
+          flags: unittests-api
 
