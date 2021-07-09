@@ -1,7 +1,7 @@
 # jMISB
 
 ![Build Status](https://github.com/WestRidgeSystems/jmisb/actions/workflows/jdk11.yml/badge.svg)
-[![Coverage Status](https://coveralls.io/repos/github/WestRidgeSystems/jmisb/badge.svg?branch=develop)](https://coveralls.io/github/WestRidgeSystems/jmisb?branch=develop)
+[![codecov](https://codecov.io/gh/WestRidgeSystems/jmisb/branch/develop/graph/badge.svg?token=SWXQJKERQY)](https://codecov.io/gh/WestRidgeSystems/jmisb)
 [![Maven Central](https://maven-badges-generator.herokuapp.com/maven-central/org.jmisb/jmisb/badge.svg)](https://maven-badges-generator.herokuapp.com/maven-central/org.jmisb/jmisb)
 [![Gitter](https://badges.gitter.im/jmisb/community.svg)](https://gitter.im/jmisb/community?utm_source=badge&utm_medium=badge&utm_campaign=pr-badge)
 
