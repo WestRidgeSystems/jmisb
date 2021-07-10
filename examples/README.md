@@ -11,6 +11,11 @@ Or they may run but generate incorrect / invalid results.
 
 We welcome corrections and updates.
 
+## cotconverter
+
+It provides a Cursor on Target converter for KLV metadata.
+This example is a work-in-progress. See [its README](cotconverter/README.md) for more information.
+
 ## generator
 
 It generates a test file with video and KLV metadata. This example is a work-in-progress. See [its README](generator/README.md) for more information.

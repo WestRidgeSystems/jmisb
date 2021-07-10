@@ -1,5 +1,7 @@
 package org.jmisb.api.klv.st0805;
 
+import java.time.Clock;
+
 /**
  * Represents a Sensor Point of Interest (SPI) CoT message.
  *
@@ -7,42 +9,61 @@ package org.jmisb.api.klv.st0805;
  * the platform producing the sensor feed.
  */
 public class SensorPointOfInterest extends CotMessage {
-    public String linkType;
-    public String linkUid;
 
-    /**
-     * Get the link type (CoT type of the producing {@link PlatformPosition}).
-     *
-     * @return link type
-     */
-    public String getLinkType() {
-        return linkType;
+    private Link link;
+
+    SensorPointOfInterest(Clock clock) {
+        super(clock);
+        setType("b-m-p-s-p-i");
     }
 
     /**
-     * Set the link type (CoT type of the producing {@link PlatformPosition}).
+     * Get the link detail for this CoT message.
      *
-     * @param linkType link type
+     * @return the link, or null if not set.
      */
-    public void setLinkType(String linkType) {
-        this.linkType = linkType;
+    public Link getLink() {
+        return link;
     }
 
     /**
-     * Get the link UID (unique ID of the producing {@link PlatformPosition}).
+     * Set the link detail for this CoT message.
      *
-     * @return link UID
+     * @param link the link to set.
      */
-    public String getLinkUid() {
-        return linkUid;
+    public void setLink(Link link) {
+        this.link = link;
     }
 
     /**
-     * Set the link UID (unique ID of the producing {@link PlatformPosition}).
+     * Write the SensorPointOfInterest out as XML.
      *
-     * @param linkUid link UID
+     * @return string serialization of the values.
      */
-    public void setLinkUid(String linkUid) {
-        this.linkUid = linkUid;
+    public String toXml() {
+        StringBuilder sb = new StringBuilder();
+        addXmlHeader(sb);
+        writeAsXML(sb);
+        return sb.toString();
+    }
+
+    @Override
+    void writeAsXML(StringBuilder sb) {
+        addEventLevelAttributesToXML(sb);
+        closeEventStartInXML(sb);
+        if (getPoint() != null) {
+            getPoint().writeAsXML(sb);
+        }
+        writeStartElement(sb, "detail");
+        writeFlowTags(sb);
+        writeLink(sb);
+        writeEndElement(sb, "detail");
+        addEventEndToXML(sb);
+    }
+
+    protected void writeLink(StringBuilder sb) {
+        if (getLink() != null) {
+            getLink().writeAsXML(sb);
+        }
     }
 }
