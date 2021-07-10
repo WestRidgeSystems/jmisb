@@ -39,6 +39,7 @@
         <module>api</module>
         <module>viewer</module>
         <module>examples</module>
+        <module>elevation</module>
     </modules>
 
     <scm>

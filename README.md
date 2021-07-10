@@ -71,6 +71,12 @@ reach the widest audience possible. The OSes we are initially targeting are:
 3. Android
 4. MacOS
 
+## Elevation
+
+While not a core focus, jMISB provides some elevation / terrain related support. This includes:
+
+- EGM 96 conversion of altitude between ellipsoid (aka HAE) and geoidal (aka MSL).
+
 ## Building
 
 To build the library from the command line, simply run the Maven command:
