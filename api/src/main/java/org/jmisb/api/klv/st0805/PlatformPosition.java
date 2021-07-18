@@ -1,100 +1,60 @@
 package org.jmisb.api.klv.st0805;
 
+import java.time.Clock;
+
 /** Represents a Platform Position CoT message. */
 public class PlatformPosition extends CotMessage {
-    public double sensorAzimuth;
-    public double sensorFov;
-    public double sensorVfov;
-    public String sensorModel;
-    public double sensorRange;
 
-    /**
-     * Get sensor azimuth.
-     *
-     * @return sensor azimuth in degrees
-     */
-    public double getSensorAzimuth() {
-        return sensorAzimuth;
+    public CotSensor sensor;
+
+    PlatformPosition(Clock clock) {
+        super(clock);
+        setType("a-f");
     }
 
     /**
-     * Set sensor azimuth.
+     * Get the Sensor detail.
      *
-     * @param sensorAzimuth sensor azimuth in degrees
+     * @return sensor detail, or null if not set
      */
-    public void setSensorAzimuth(double sensorAzimuth) {
-        this.sensorAzimuth = sensorAzimuth;
+    public CotSensor getSensor() {
+        return sensor;
     }
 
     /**
-     * Get sensor field of view.
+     * Set the Sensor detail.
      *
-     * @return field of view in degrees
+     * @param sensor the sensor detail
      */
-    public double getSensorFov() {
-        return sensorFov;
+    public void setSensor(CotSensor sensor) {
+        this.sensor = sensor;
     }
 
     /**
-     * Set sensor field of view.
+     * Write the PlatformPosition out as XML.
      *
-     * @param sensorFov field of view in degrees
+     * @return string serialization of the values.
      */
-    public void setSensorFov(double sensorFov) {
-        this.sensorFov = sensorFov;
+    public String toXml() {
+        StringBuilder sb = new StringBuilder();
+        addXmlHeader(sb);
+        this.writeAsXML(sb);
+        return sb.toString();
     }
 
-    /**
-     * Get sensor vertical field of view.
-     *
-     * @return vertical field of view in degrees
-     */
-    public double getSensorVfov() {
-        return sensorVfov;
-    }
-
-    /**
-     * Set sensor vertical field of view.
-     *
-     * @param sensorVfov vertical field of view in degrees
-     */
-    public void setSensorVfov(double sensorVfov) {
-        this.sensorVfov = sensorVfov;
-    }
-
-    /**
-     * Get sensor model (e.g., "EOW", "EON").
-     *
-     * @return currently active sensor
-     */
-    public String getSensorModel() {
-        return sensorModel;
-    }
-
-    /**
-     * Set sensor model.
-     *
-     * @param sensorModel currently active sensor
-     */
-    public void setSensorModel(String sensorModel) {
-        this.sensorModel = sensorModel;
-    }
-
-    /**
-     * Get sensor range.
-     *
-     * @return slant range in meters
-     */
-    public double getSensorRange() {
-        return sensorRange;
-    }
-
-    /**
-     * Set sensor range.
-     *
-     * @param sensorRange slant range in meters
-     */
-    public void setSensorRange(double sensorRange) {
-        this.sensorRange = sensorRange;
+    @Override
+    public void writeAsXML(StringBuilder sb) {
+        addEventLevelAttributesToXML(sb);
+        closeEventStartInXML(sb);
+        if (getPoint() != null) {
+            getPoint().writeAsXML(sb);
+        }
+        writeStartElement(sb, "detail");
+        writeFlowTags(sb);
+        if (getSensor() != null) {
+            getSensor().writeAsXML(sb);
+        }
+        writeEndElement(sb, "detail");
+        addEventEndToXML(sb);
     }
 }

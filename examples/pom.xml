@@ -17,5 +17,6 @@
         <module>gstsink</module>
         <module>parserplugin</module>
         <module>mimdgenerator</module>
+        <module>cotconverter</module>
     </modules>
 </project>

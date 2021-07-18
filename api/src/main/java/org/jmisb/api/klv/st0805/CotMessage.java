@@ -1,113 +1,51 @@
 package org.jmisb.api.klv.st0805;
 
+import java.time.Clock;
+import java.time.ZoneOffset;
+import java.time.ZonedDateTime;
+import java.time.format.DateTimeFormatter;
+import org.jmisb.api.klv.st0603.ST0603TimeStamp;
+
 /** A Cursor-on-Target (CoT) message. */
-public class CotMessage {
-    private double pointLat;
-    private double pointLon;
-    private double pointHae;
-    private double pointCe;
-    private double pointLe;
+public abstract class CotMessage extends CotElement {
+    private static final String COT_VERSION = "2.0";
+    private static final DateTimeFormatter DT_FORMATTER =
+            DateTimeFormatter.ofPattern("yyyy-MM-dd'T'HH:mm:ss.SSS'Z'");
+    private CotPoint point;
     private String type;
-    private String uid;
-    private long time;
-    private long start;
-    private long stale;
-    private String how;
-    private final long flowTags;
+    private String uid = "jmisb";
+    private Long time;
+    private Long start;
+    private Long stale;
+    private String how = "m";
+    private final FlowTags flowTags = new FlowTags();
 
-    /** Constructor. */
-    public CotMessage() {
-        this.flowTags = System.currentTimeMillis();
+    /**
+     * Constructor.
+     *
+     * @param clock reference clock for the message
+     */
+    public CotMessage(Clock clock) {
+        ZonedDateTime now = clock.instant().atZone(ZoneOffset.UTC);
+        flowTags.addFlowTag("ST0601CoT", now);
     }
 
     /**
-     * Get the latitude.
+     * Get the point location associated with this message.
      *
-     * @return latitude
+     * @return the point location, or null if not set
      */
-    public double getPointLat() {
-        return pointLat;
+    public CotPoint getPoint() {
+        return point;
     }
 
     /**
-     * Set the latitude.
+     * Set the point location associated with this message.
      *
-     * @param pointLat The latitude
+     * @param point the point location
      */
-    public void setPointLat(double pointLat) {
-        this.pointLat = pointLat;
-    }
-
-    /**
-     * Get the longitude.
-     *
-     * @return longitude
-     */
-    public double getPointLon() {
-        return pointLon;
-    }
-
-    /**
-     * Set the longitude.
-     *
-     * @param pointLon longitude
-     */
-    public void setPointLon(double pointLon) {
-        this.pointLon = pointLon;
-    }
-
-    /**
-     * Get the altitude (height above ellipsoid).
-     *
-     * @return altitude in meters HAE
-     */
-    public double getPointHae() {
-        return pointHae;
-    }
-
-    /**
-     * Set the altitude (height above ellipsoid).
-     *
-     * @param pointHae altitude in meters HAE
-     */
-    public void setPointHae(double pointHae) {
-        this.pointHae = pointHae;
-    }
-
-    /**
-     * Get the circular error.
-     *
-     * @return circular error
-     */
-    public double getPointCe() {
-        return pointCe;
-    }
-
-    /**
-     * Set the circular error.
-     *
-     * @param pointCe circular error
-     */
-    public void setPointCe(double pointCe) {
-        this.pointCe = pointCe;
-    }
-
-    /**
-     * Get the lateral error.
-     *
-     * @return lateral error
-     */
-    public double getPointLe() {
-        return pointLe;
-    }
-
-    /**
-     * Set the lateral error.
-     *
-     * @param pointLe lateral error
-     */
-    public void setPointLe(double pointLe) {
-        this.pointLe = pointLe;
+    public void setPoint(CotPoint point) {
+        this.point = point;
     }
 
     /**
@@ -115,7 +53,7 @@ public class CotMessage {
      *
      * @return CoT message type
      */
-    public String getType() {
+    public final String getType() {
         return type;
     }
 
@@ -124,7 +62,7 @@ public class CotMessage {
      *
      * @param type CoT message type
      */
-    public void setType(String type) {
+    public final void setType(String type) {
         this.type = type;
     }
 
@@ -149,9 +87,9 @@ public class CotMessage {
     /**
      * Get the time.
      *
-     * @return time the message was generated
+     * @return time the message was generated, or null if not set
      */
-    public long getTime() {
+    public Long getTime() {
         return time;
     }
 
@@ -167,9 +105,9 @@ public class CotMessage {
     /**
      * Get the start time.
      *
-     * @return time the message becomes valid
+     * @return time the message becomes valid, or null if not set
      */
-    public long getStart() {
+    public Long getStart() {
         return start;
     }
 
@@ -185,9 +123,9 @@ public class CotMessage {
     /**
      * Get the stale time.
      *
-     * @return time the message becomes invalid
+     * @return time the message becomes invalid, or null if not set
      */
-    public long getStale() {
+    public Long getStale() {
         return stale;
     }
 
@@ -223,7 +161,47 @@ public class CotMessage {
      *
      * @return flow tags
      */
-    public long getFlowTags() {
+    public FlowTags getFlowTags() {
         return flowTags;
+    }
+
+    protected void closeEventStartInXML(StringBuilder sb) {
+        sb.append(">");
+    }
+
+    protected void addEventLevelAttributesToXML(StringBuilder sb) {
+        sb.append("<event");
+        writeAttribute(sb, "version", COT_VERSION);
+        writeAttribute(sb, "type", getType());
+        writeAttribute(sb, "uid", getUid());
+        if (getTime() != null) {
+            writeAttribute(
+                    sb, "time", new ST0603TimeStamp(getTime()).getDateTime().format(DT_FORMATTER));
+        }
+        if (getStart() != null) {
+            writeAttribute(
+                    sb,
+                    "start",
+                    new ST0603TimeStamp(getStart()).getDateTime().format(DT_FORMATTER));
+        }
+        if (getStale() != null) {
+            writeAttribute(
+                    sb,
+                    "stale",
+                    new ST0603TimeStamp(getStale()).getDateTime().format(DT_FORMATTER));
+        }
+        writeAttribute(sb, "how", getHow());
+    }
+
+    protected void addEventEndToXML(StringBuilder sb) {
+        writeEndElement(sb, "event");
+    }
+
+    protected void addXmlHeader(StringBuilder sb) {
+        sb.append("<?xml version='1.0' standalone='yes'?>");
+    }
+
+    protected void writeFlowTags(StringBuilder sb) {
+        getFlowTags().writeAsXML(sb);
     }
 }
