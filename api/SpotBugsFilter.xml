@@ -4,7 +4,9 @@
     <Match>
         <Bug code="Wa,UR" />
     </Match>
-
+    <Match>
+        <Bug pattern="EI_EXPOSE_REP,MS_EXPOSE_REP,EI_EXPOSE_REP2" />
+    </Match>
     <!-- All bugs in test classes, except for JUnit-specific bugs -->
     <Match>
         <Class name="~.*\.*Test" />

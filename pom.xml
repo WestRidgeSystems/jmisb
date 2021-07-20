@@ -70,8 +70,8 @@
         <owasp.version>6.1.6</owasp.version>
         <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
         <sortpom.version>2.15.0</sortpom.version>
-        <spotbugs.maven.version>4.0.0</spotbugs.maven.version>
-        <spotbugs.version>4.0.2</spotbugs.version>
+        <spotbugs.maven.version>4.2.0</spotbugs.maven.version>
+        <spotbugs.version>4.3.0</spotbugs.version>
         <surefire.verbosity>0</surefire.verbosity>
         <surefire.version>2.22.2</surefire.version>
     </properties>

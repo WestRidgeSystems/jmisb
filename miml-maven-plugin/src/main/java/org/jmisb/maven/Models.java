@@ -4,7 +4,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 /** Collection of class and enumeration models for this MIML instance. */
-public class Models {
+class Models {
 
     private final List<EnumerationModel> enumerationModels = new ArrayList<>();
     private final List<ClassModel> classModels = new ArrayList<>();

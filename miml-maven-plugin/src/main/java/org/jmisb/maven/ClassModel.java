@@ -3,6 +3,7 @@ package org.jmisb.maven;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
+import java.util.stream.Collectors;
 
 public class ClassModel extends AbstractModel {
 
@@ -38,7 +39,7 @@ public class ClassModel extends AbstractModel {
     }
 
     public List<ClassModelEntry> getEntries() {
-        return entries;
+        return entries.stream().collect(Collectors.toList());
     }
 
     public void addEntry(ClassModelEntry entry) {
@@ -86,7 +87,7 @@ public class ClassModel extends AbstractModel {
         this.needListForm = needListForm;
     }
 
-    public void setParent(Models parent) {
+    void setParent(Models parent) {
         this.parent = parent;
     }
 }
