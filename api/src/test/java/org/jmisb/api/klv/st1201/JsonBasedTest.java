@@ -31,7 +31,9 @@ public class JsonBasedTest {
     private void runForwardTest(TestVector testVector) {
         // System.out.println("forward: " + testVector.a + ", " + testVector.b + ", " +
         // testVector.L);
-        FpEncoder encoder = new FpEncoder(testVector.a, testVector.b, testVector.L);
+        FpEncoder encoder =
+                new FpEncoder(
+                        testVector.a, testVector.b, testVector.L, OutOfRangeBehaviour.Default);
         byte[] expected = parseHexString(testVector.forwardResultHex);
         try {
             Double x = Double.parseDouble(testVector.x);
@@ -55,7 +57,9 @@ public class JsonBasedTest {
     private void runReverseTest(TestVector testVector) {
         //  System.out.println("reverse: " + testVector.a + ", " + testVector.b + ", " +
         // testVector.L);
-        FpEncoder encoder = new FpEncoder(testVector.a, testVector.b, testVector.L);
+        FpEncoder encoder =
+                new FpEncoder(
+                        testVector.a, testVector.b, testVector.L, OutOfRangeBehaviour.Default);
         byte[] input = parseHexString(testVector.forwardResultHex);
         try {
             Double expected = Double.parseDouble(testVector.x);
@@ -77,7 +81,9 @@ public class JsonBasedTest {
     private void runReverseSpecialTest(TestVector testVector) {
         // System.out.println(
         //        "reverseSpecial: " + testVector.a + ", " + testVector.b + ", " + testVector.L);
-        FpEncoder encoder = new FpEncoder(testVector.a, testVector.b, testVector.L);
+        FpEncoder encoder =
+                new FpEncoder(
+                        testVector.a, testVector.b, testVector.L, OutOfRangeBehaviour.Default);
         byte[] input = parseHexString(testVector.forwardResultHex);
         try {
             Double expected = Double.parseDouble(testVector.x);
