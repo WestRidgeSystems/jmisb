@@ -7,6 +7,7 @@ import org.jmisb.api.klv.BerEncoder;
 import org.jmisb.api.klv.BerField;
 import org.jmisb.api.klv.st0601.dto.Location;
 import org.jmisb.api.klv.st1201.FpEncoder;
+import org.jmisb.api.klv.st1201.OutOfRangeBehaviour;
 import org.jmisb.core.klv.ArrayUtils;
 
 /**
@@ -182,13 +183,15 @@ public class AirbaseLocations implements IUasDatalinkValue {
             totalLength += takeoffLenBytes.length;
         } else {
             int takeoffLen = 0;
-            byte[] latBytes = latDecoder.encode(takeoffLocation.getLatitude());
+            byte[] latBytes =
+                    latDecoder.encode(takeoffLocation.getLatitude(), OutOfRangeBehaviour.Clamp);
             takeoffLen += latBytes.length;
-            byte[] lonBytes = lonDecoder.encode(takeoffLocation.getLongitude());
+            byte[] lonBytes =
+                    lonDecoder.encode(takeoffLocation.getLongitude(), OutOfRangeBehaviour.Clamp);
             takeoffLen += lonBytes.length;
             byte[] haeBytes = new byte[] {};
             if (!(takeoffLocation.getHAE() < -900.0)) {
-                haeBytes = haeDecoder.encode(takeoffLocation.getHAE());
+                haeBytes = haeDecoder.encode(takeoffLocation.getHAE(), OutOfRangeBehaviour.Clamp);
                 takeoffLen += haeBytes.length;
             }
             byte[] takeoffLenBytes = BerEncoder.encode(takeoffLen);
@@ -207,13 +210,15 @@ public class AirbaseLocations implements IUasDatalinkValue {
             // Nothing - its just omitted
         } else {
             int recoveryLen = 0;
-            byte[] latBytes = latDecoder.encode(recoveryLocation.getLatitude());
+            byte[] latBytes =
+                    latDecoder.encode(recoveryLocation.getLatitude(), OutOfRangeBehaviour.Clamp);
             recoveryLen += latBytes.length;
-            byte[] lonBytes = lonDecoder.encode(recoveryLocation.getLongitude());
+            byte[] lonBytes =
+                    lonDecoder.encode(recoveryLocation.getLongitude(), OutOfRangeBehaviour.Clamp);
             recoveryLen += lonBytes.length;
             byte[] haeBytes = new byte[] {};
             if (!(recoveryLocation.getHAE() < -900.0)) {
-                haeBytes = haeDecoder.encode(recoveryLocation.getHAE());
+                haeBytes = haeDecoder.encode(recoveryLocation.getHAE(), OutOfRangeBehaviour.Clamp);
                 recoveryLen += haeBytes.length;
             }
             byte[] recoveryLenBytes = BerEncoder.encode(recoveryLen);

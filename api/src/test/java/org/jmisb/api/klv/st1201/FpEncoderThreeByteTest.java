@@ -15,7 +15,7 @@ public class FpEncoderThreeByteTest {
     @Test
     public void testEncode3byte_0() {
         FpEncoder fpEncoder = new FpEncoder(-900, 9000, 3);
-        byte[] encoded = fpEncoder.encode(-900.0);
+        byte[] encoded = fpEncoder.encode(-900.0, OutOfRangeBehaviour.Clamp);
         byte[] expected = {(byte) 0x00, (byte) 0x00, (byte) 0x00};
         Assert.assertEquals(encoded, expected);
     }
@@ -31,7 +31,7 @@ public class FpEncoderThreeByteTest {
     @Test
     public void testEncode3byte_0_1() {
         FpEncoder fpEncoder = new FpEncoder(-900, 9000, 3);
-        byte[] encoded = fpEncoder.encode(-899.998046875);
+        byte[] encoded = fpEncoder.encode(-899.998046875, OutOfRangeBehaviour.Clamp);
         byte[] expected = {(byte) 0x00, (byte) 0x00, (byte) 0x01};
         Assert.assertEquals(encoded, expected);
     }
@@ -47,7 +47,7 @@ public class FpEncoderThreeByteTest {
     @Test
     public void testEncode3byte_1() {
         FpEncoder fpEncoder = new FpEncoder(-900, 9000, 3);
-        byte[] encoded = fpEncoder.encode(200.0);
+        byte[] encoded = fpEncoder.encode(200.0, OutOfRangeBehaviour.Clamp);
         byte[] expected = {(byte) 0x08, (byte) 0x98, (byte) 0x00};
         Assert.assertEquals(encoded, expected);
     }
@@ -63,7 +63,7 @@ public class FpEncoderThreeByteTest {
     @Test
     public void testEncode3byte_1_1() {
         FpEncoder fpEncoder = new FpEncoder(-900, 9000, 3);
-        byte[] encoded = fpEncoder.encode(200.001953125);
+        byte[] encoded = fpEncoder.encode(200.001953125, OutOfRangeBehaviour.Clamp);
         byte[] expected = {(byte) 0x08, (byte) 0x98, (byte) 0x01};
         Assert.assertEquals(encoded, expected);
     }

@@ -1,6 +1,7 @@
 package org.jmisb.api.klv.st0601;
 
 import org.jmisb.api.klv.st1201.FpEncoder;
+import org.jmisb.api.klv.st1201.OutOfRangeBehaviour;
 
 /**
  * Range To Recovery Location (Item 109).
@@ -67,7 +68,7 @@ public class RangeToRecoveryLocation implements IUasDatalinkValue {
     @Override
     public byte[] getBytes() {
         FpEncoder encoder = new FpEncoder(MIN_VAL, MAX_VAL, RECOMMENDED_BYTES);
-        return encoder.encode(this.range);
+        return encoder.encode(this.range, OutOfRangeBehaviour.Clamp);
     }
 
     @Override

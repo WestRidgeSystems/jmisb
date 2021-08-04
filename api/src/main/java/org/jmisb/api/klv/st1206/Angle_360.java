@@ -1,6 +1,7 @@
 package org.jmisb.api.klv.st1206;
 
 import org.jmisb.api.klv.st1201.FpEncoder;
+import org.jmisb.api.klv.st1201.OutOfRangeBehaviour;
 
 /**
  * Shared ST1206 implementation of angle between 0 and 360 degrees.
@@ -44,6 +45,6 @@ public abstract class Angle_360 extends AbstractAngle implements ISARMIMetadataV
     @Override
     public byte[] getBytes() {
         FpEncoder encoder = new FpEncoder(MIN_VAL, MAX_VAL, NUM_BYTES);
-        return encoder.encode(this.value);
+        return encoder.encode(this.value, OutOfRangeBehaviour.Clamp);
     }
 }

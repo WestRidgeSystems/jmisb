@@ -14,6 +14,7 @@ import org.jmisb.api.klv.st0903.shared.LocVelAccPackKey;
 import org.jmisb.api.klv.st0903.shared.LocationPack;
 import org.jmisb.api.klv.st0903.shared.VmtiTextString;
 import org.jmisb.api.klv.st1201.FpEncoder;
+import org.jmisb.api.klv.st1201.OutOfRangeBehaviour;
 import org.jmisb.core.klv.ArrayUtils;
 import org.jmisb.core.klv.PrimitiveConverter;
 
@@ -308,19 +309,32 @@ public class TargetLocation
         int len = 0;
         List<byte[]> chunks = new ArrayList<>();
         if (hasRequiredValues(targetLocationPack)) {
-            chunks.add(LatEncoder.encode(targetLocationPack.getLat()));
-            chunks.add(LonEncoder.encode(targetLocationPack.getLon()));
-            chunks.add(HaeEncoder.encode(targetLocationPack.getHae()));
+            chunks.add(LatEncoder.encode(targetLocationPack.getLat(), OutOfRangeBehaviour.Clamp));
+            chunks.add(LonEncoder.encode(targetLocationPack.getLon(), OutOfRangeBehaviour.Clamp));
+            chunks.add(HaeEncoder.encode(targetLocationPack.getHae(), OutOfRangeBehaviour.Clamp));
             len += COORDINATES_GROUP_LEN;
             if (hasStandardDeviations(targetLocationPack)) {
-                chunks.add(SigmaEncoder.encode(targetLocationPack.getSigEast()));
-                chunks.add(SigmaEncoder.encode(targetLocationPack.getSigNorth()));
-                chunks.add(SigmaEncoder.encode(targetLocationPack.getSigUp()));
+                chunks.add(
+                        SigmaEncoder.encode(
+                                targetLocationPack.getSigEast(), OutOfRangeBehaviour.Clamp));
+                chunks.add(
+                        SigmaEncoder.encode(
+                                targetLocationPack.getSigNorth(), OutOfRangeBehaviour.Clamp));
+                chunks.add(
+                        SigmaEncoder.encode(
+                                targetLocationPack.getSigUp(), OutOfRangeBehaviour.Clamp));
                 len += STANDARD_DEVIATIONS_GROUP_LEN;
                 if (hasCorrelations(targetLocationPack)) {
-                    chunks.add(RhoEncoder.encode(targetLocationPack.getRhoEastNorth()));
-                    chunks.add(RhoEncoder.encode(targetLocationPack.getRhoEastUp()));
-                    chunks.add(RhoEncoder.encode(targetLocationPack.getRhoNorthUp()));
+                    chunks.add(
+                            RhoEncoder.encode(
+                                    targetLocationPack.getRhoEastNorth(),
+                                    OutOfRangeBehaviour.Clamp));
+                    chunks.add(
+                            RhoEncoder.encode(
+                                    targetLocationPack.getRhoEastUp(), OutOfRangeBehaviour.Clamp));
+                    chunks.add(
+                            RhoEncoder.encode(
+                                    targetLocationPack.getRhoNorthUp(), OutOfRangeBehaviour.Clamp));
                     len += CORRELATION_GROUP_LEN;
                 }
             }

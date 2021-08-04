@@ -3,6 +3,7 @@ package org.jmisb.api.klv.st0903.vtarget;
 import org.jmisb.api.klv.st0903.IVmtiMetadataValue;
 import org.jmisb.api.klv.st0903.shared.EncodingMode;
 import org.jmisb.api.klv.st1201.FpEncoder;
+import org.jmisb.api.klv.st1201.OutOfRangeBehaviour;
 import org.jmisb.core.klv.PrimitiveConverter;
 
 /**
@@ -91,7 +92,7 @@ public class TargetHAE implements IVmtiMetadataValue {
     @Override
     public byte[] getBytes() {
         FpEncoder encoder = new FpEncoder(MIN_VAL, MAX_VAL, NUM_BYTES);
-        return encoder.encode(this.value);
+        return encoder.encode(this.value, OutOfRangeBehaviour.Clamp);
     }
 
     @Override

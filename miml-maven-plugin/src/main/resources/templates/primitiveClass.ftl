@@ -143,7 +143,7 @@ public class ${namespacedName} implements IMimdMetadataValue {
         <#else>
         org.jmisb.api.klv.st1201.FpEncoder encoder = new org.jmisb.api.klv.st1201.FpEncoder(${minValue}, ${maxValue}, Float.BYTES);
         </#if>
-        return encoder.encode(implementingValue);
+        return encoder.encode(implementingValue, org.jmisb.api.klv.st1201.OutOfRangeBehaviour.Clamp);
     <#else>
         // TODO: consider a version that allows selection of length 4 or 8 bytes.
         return org.jmisb.core.klv.PrimitiveConverter.float64ToBytes(implementingValue);

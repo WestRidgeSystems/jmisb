@@ -1,6 +1,7 @@
 package org.jmisb.api.klv.st0601;
 
 import org.jmisb.api.klv.st1201.FpEncoder;
+import org.jmisb.api.klv.st1201.OutOfRangeBehaviour;
 
 /**
  * Transmission Frequency (Item 132).
@@ -64,7 +65,7 @@ public class TransmissionFrequency implements IUasDatalinkValue {
     @Override
     public byte[] getBytes() {
         FpEncoder encoder = new FpEncoder(MIN_VAL, MAX_VAL, RECOMMENDED_BYTES);
-        return encoder.encode(this.frequency);
+        return encoder.encode(this.frequency, OutOfRangeBehaviour.Clamp);
     }
 
     @Override

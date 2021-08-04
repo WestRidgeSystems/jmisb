@@ -13,6 +13,7 @@ import org.jmisb.api.klv.st0903.shared.IVTrackItemMetadataValue;
 import org.jmisb.api.klv.st0903.shared.LocVelAccPackKey;
 import org.jmisb.api.klv.st0903.shared.VmtiTextString;
 import org.jmisb.api.klv.st1201.FpEncoder;
+import org.jmisb.api.klv.st1201.OutOfRangeBehaviour;
 import org.jmisb.core.klv.ArrayUtils;
 import org.jmisb.core.klv.PrimitiveConverter;
 
@@ -235,19 +236,20 @@ public class Velocity implements IVmtiMetadataValue, IVTrackItemMetadataValue, I
         int len = 0;
         List<byte[]> chunks = new ArrayList<>();
         if (hasRequiredValues()) {
-            chunks.add(VelocityEncoder.encode(value.getEast()));
-            chunks.add(VelocityEncoder.encode(value.getNorth()));
-            chunks.add(VelocityEncoder.encode(value.getUp()));
+            chunks.add(VelocityEncoder.encode(value.getEast(), OutOfRangeBehaviour.Clamp));
+            chunks.add(VelocityEncoder.encode(value.getNorth(), OutOfRangeBehaviour.Clamp));
+            chunks.add(VelocityEncoder.encode(value.getUp(), OutOfRangeBehaviour.Clamp));
             len += VELOCITY_GROUP_LEN;
             if (hasStandardDeviations()) {
-                chunks.add(SigmaEncoder.encode(value.getSigEast()));
-                chunks.add(SigmaEncoder.encode(value.getSigNorth()));
-                chunks.add(SigmaEncoder.encode(value.getSigUp()));
+                chunks.add(SigmaEncoder.encode(value.getSigEast(), OutOfRangeBehaviour.Clamp));
+                chunks.add(SigmaEncoder.encode(value.getSigNorth(), OutOfRangeBehaviour.Clamp));
+                chunks.add(SigmaEncoder.encode(value.getSigUp(), OutOfRangeBehaviour.Clamp));
                 len += STANDARD_DEVIATIONS_GROUP_LEN;
                 if (hasCorrelations()) {
-                    chunks.add(RhoEncoder.encode(value.getRhoEastNorth()));
-                    chunks.add(RhoEncoder.encode(value.getRhoEastUp()));
-                    chunks.add(RhoEncoder.encode(value.getRhoNorthUp()));
+                    chunks.add(
+                            RhoEncoder.encode(value.getRhoEastNorth(), OutOfRangeBehaviour.Clamp));
+                    chunks.add(RhoEncoder.encode(value.getRhoEastUp(), OutOfRangeBehaviour.Clamp));
+                    chunks.add(RhoEncoder.encode(value.getRhoNorthUp(), OutOfRangeBehaviour.Clamp));
                     len += CORRELATION_GROUP_LEN;
                 }
             }

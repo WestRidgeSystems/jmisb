@@ -1,6 +1,7 @@
 package org.jmisb.api.klv.st0601;
 
 import org.jmisb.api.klv.st1201.FpEncoder;
+import org.jmisb.api.klv.st1201.OutOfRangeBehaviour;
 
 /**
  * Platform Course Angle (ST 0601 Item 112).
@@ -71,7 +72,7 @@ public class PlatformCourseAngle implements IUasDatalinkValue {
     @Override
     public byte[] getBytes() {
         FpEncoder encoder = new FpEncoder(MIN_VAL, MAX_VAL, RECOMMENDED_BYTES);
-        return encoder.encode(this.angle);
+        return encoder.encode(this.angle, OutOfRangeBehaviour.Clamp);
     }
 
     @Override

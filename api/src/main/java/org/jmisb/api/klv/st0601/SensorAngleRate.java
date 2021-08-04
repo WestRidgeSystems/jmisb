@@ -1,6 +1,7 @@
 package org.jmisb.api.klv.st0601;
 
 import org.jmisb.api.klv.st1201.FpEncoder;
+import org.jmisb.api.klv.st1201.OutOfRangeBehaviour;
 
 /**
  * Shared implementation of Sensor Angle Rate.
@@ -54,7 +55,7 @@ public abstract class SensorAngleRate implements IUasDatalinkValue {
     @Override
     public byte[] getBytes() {
         FpEncoder encoder = new FpEncoder(MIN_VAL, MAX_VAL, RECOMMENDED_BYTES);
-        return encoder.encode(this.angleRate);
+        return encoder.encode(this.angleRate, OutOfRangeBehaviour.Clamp);
     }
 
     @Override

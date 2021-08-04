@@ -59,7 +59,9 @@ public class FpEncoder {
     private static final byte POSITIVE_SIGNAL_NAN_HIGH_BYTE = (byte) 0b11011000;
     private static final byte NEGATIVE_SIGNAL_NAN_HIGH_BYTE = (byte) 0b11111000;
     private static final byte RESERVED_KIND1_HIGH_BYTE = (byte) 0b10000000;
-    private static final byte RESERVED_KIND2_HIGH_BYTE = (byte) 0b11100000;
+    private static final byte MISB_DEFINED_HIGH_BYTE = (byte) 0b11100000;
+    private static final byte IMAP_BELOW_MINIMUM = MISB_DEFINED_HIGH_BYTE | (byte) 0b000;
+    private static final byte IMAP_ABOVE_MAXIMUM = MISB_DEFINED_HIGH_BYTE | (byte) 0b001;
     private static final byte USER_DEFINED_HIGH_BYTE = (byte) 0b11000000;
     private static final byte HIGH_BITS_MASK = (byte) 0b11111000;
     private static final byte LOW_BITS_MASK = (byte) 0b00000111;
@@ -122,16 +124,36 @@ public class FpEncoder {
      * Encode a floating point value as a byte array.
      *
      * <p>Note: Positive and negative infinity and NaN will be encoded by setting special flags
-     * defined by ST1204. To send other special value bit patterns, use the {@link
+     * defined by ST1201. To send other special value bit patterns, use the {@link
      * #encodeSpecial(ValueMappingKind, long)} method.
      *
      * @param val The value to encode
      * @return The encoded byte array
-     * @throws IllegalArgumentException if the value is not within the specified range
+     * @throws IllegalArgumentException if the field length is not valid or if the value is not
+     *     within the valid range.
+     * @deprecated This method uses the legacy behavior in the event {@code val} is out of range.
+     *     Use the {@link encode(double, OutOfRangeBehaviour)} replacement instead.
      */
+    @Deprecated
     public byte[] encode(double val) {
-        byte[] encoded = null;
+        return encode(val, OutOfRangeBehaviour.Throw);
+    }
 
+    /**
+     * Encode a floating point value as a byte array.
+     *
+     * <p>Note: Positive and negative infinity and NaN will be encoded by setting special flags
+     * defined by ST1201. To send other special value bit patterns, use the {@link
+     * #encodeSpecial(ValueMappingKind, long)} method.
+     *
+     * @param val The value to encode
+     * @param behaviour The required behaviour in the event that {@code val} is out of range.
+     * @return The encoded byte array
+     * @throws IllegalArgumentException if the field length is not valid, or the "Throw" {@code
+     *     behaviour} is specified and the value is not within the valid range
+     */
+    public byte[] encode(double val, OutOfRangeBehaviour behaviour) {
+        byte[] encoded = null;
         // Special values defined by the ST
         if (val == Double.POSITIVE_INFINITY) {
             encoded = new byte[fieldLength];
@@ -144,9 +166,23 @@ public class FpEncoder {
             // encodeSpecial method
             encoded = new byte[fieldLength];
             encoded[0] = POSITIVE_QUIET_NAN_HIGH_BYTE;
-        } else if (val < a || val > b) {
+        } else if ((val < a || val > b) && (behaviour == OutOfRangeBehaviour.Throw)) {
             throw new IllegalArgumentException("Value must be in range [" + a + "," + b + "]");
+        } else if ((val < a) && (behaviour == OutOfRangeBehaviour.Flag)) {
+            encoded = new byte[fieldLength];
+            encoded[0] = IMAP_BELOW_MINIMUM;
+        } else if ((val > b) && (behaviour == OutOfRangeBehaviour.Flag)) {
+            encoded = new byte[fieldLength];
+            encoded[0] = IMAP_ABOVE_MAXIMUM;
         } else {
+            if (behaviour == OutOfRangeBehaviour.Clamp) {
+                if (val < a) {
+                    val = a;
+                }
+                if (val > b) {
+                    val = b;
+                }
+            }
             // Value is normal and in range
             double d = Math.floor(sF * (val - a) + zOffset);
             switch (fieldLength) {
@@ -267,7 +303,7 @@ public class FpEncoder {
                 break;
             default:
                 fillBytes(encoded, identifier);
-                setHighBits(encoded, RESERVED_KIND2_HIGH_BYTE);
+                setHighBits(encoded, MISB_DEFINED_HIGH_BYTE);
                 break;
         }
         return encoded;
@@ -326,7 +362,14 @@ public class FpEncoder {
                 return decodeAsNormalMappedValue(bytes, offset);
             }
         }
-        byte highByteHighBits = (byte) (bytes[offset] & HIGH_BITS_MASK);
+        byte highByte = bytes[offset];
+        if (highByte == IMAP_BELOW_MINIMUM) {
+            return a;
+        }
+        if (highByte == IMAP_ABOVE_MAXIMUM) {
+            return b;
+        }
+        byte highByteHighBits = (byte) (highByte & HIGH_BITS_MASK);
         if (highByteHighBits == POSITIVE_INFINITY_HIGH_BYTE) {
             return Double.POSITIVE_INFINITY;
         } else if (highByteHighBits == NEGATIVE_INFINITY_HIGH_BYTE) {
@@ -339,7 +382,7 @@ public class FpEncoder {
     /**
      * Decode an encoded floating point value from a byte array starting at an offset.
      *
-     * <p>This method supports all the special value encodings from ST1204. If you only need basic
+     * <p>This method supports all the special value encodings from ST1201. If you only need basic
      * values (normal mapped values, positive and negative infinity) and can tolerate everything
      * else being mapped to {@code Double.NaN}, then you can use {@link #decode(byte[], int)} to get
      * a double value back directly.
@@ -399,7 +442,7 @@ public class FpEncoder {
             decodeResult.setKind(ValueMappingKind.UserDefined);
             decodeResult.setIdentifier(getIdentifier(bytes, offset));
         } else {
-            decodeResult.setKind(ValueMappingKind.ReservedKind2);
+            decodeResult.setKind(ValueMappingKind.MISBDefined);
             decodeResult.setIdentifier(getIdentifier(bytes, offset));
         }
         return decodeResult;
@@ -425,7 +468,7 @@ public class FpEncoder {
     /**
      * Decode an encoded floating point value from a byte array.
      *
-     * <p>This method supports all the special value encodings from ST1204. If you only need basic
+     * <p>This method supports all the special value encodings from ST1201. If you only need basic
      * values (normal mapped values, positive and negative infinity) and can tolerate everything
      * else being mapped to {@code Double.NaN}, then you can use {@link #decode(byte[])} to get a
      * double value back directly.

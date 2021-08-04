@@ -2,6 +2,7 @@ package org.jmisb.api.klv.st0903.vobject;
 
 import org.jmisb.api.klv.st0903.IVmtiMetadataValue;
 import org.jmisb.api.klv.st1201.FpEncoder;
+import org.jmisb.api.klv.st1201.OutOfRangeBehaviour;
 
 /**
  * Classification Confidence (VObject LS Tag 4).
@@ -46,7 +47,7 @@ public class Confidence2 implements IVmtiMetadataValue {
     @Override
     public byte[] getBytes() {
         FpEncoder encoder = new FpEncoder(0, 100.0, 2);
-        return encoder.encode(confidence);
+        return encoder.encode(confidence, OutOfRangeBehaviour.Clamp);
     }
 
     @Override

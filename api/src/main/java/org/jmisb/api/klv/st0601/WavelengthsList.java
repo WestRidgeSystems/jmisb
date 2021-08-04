@@ -10,6 +10,7 @@ import org.jmisb.api.klv.BerEncoder;
 import org.jmisb.api.klv.BerField;
 import org.jmisb.api.klv.st0601.dto.Wavelengths;
 import org.jmisb.api.klv.st1201.FpEncoder;
+import org.jmisb.api.klv.st1201.OutOfRangeBehaviour;
 
 /**
  * Wavelengths List (Item 128).
@@ -127,9 +128,9 @@ public class WavelengthsList implements IUasDatalinkValue {
             int packLength = 0;
             byte[] idBytes = BerEncoder.encode(wavelengths.getId());
             packLength += idBytes.length;
-            byte[] minBytes = decoder.encode(wavelengths.getMin());
+            byte[] minBytes = decoder.encode(wavelengths.getMin(), OutOfRangeBehaviour.Clamp);
             packLength += minBytes.length;
-            byte[] maxBytes = decoder.encode(wavelengths.getMax());
+            byte[] maxBytes = decoder.encode(wavelengths.getMax(), OutOfRangeBehaviour.Clamp);
             packLength += maxBytes.length;
             byte[] nameBytes = wavelengths.getName().getBytes(StandardCharsets.UTF_8);
             packLength += nameBytes.length;

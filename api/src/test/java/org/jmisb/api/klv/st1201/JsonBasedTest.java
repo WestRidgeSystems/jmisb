@@ -35,11 +35,11 @@ public class JsonBasedTest {
         byte[] expected = parseHexString(testVector.forwardResultHex);
         try {
             Double x = Double.parseDouble(testVector.x);
-            byte[] encoded = encoder.encode(x);
+            byte[] encoded = encoder.encode(x, OutOfRangeBehaviour.Clamp);
             assertEquals(encoded, expected);
         } catch (NumberFormatException nfe) {
             if ("+QNaN".equals(testVector.x)) {
-                byte[] encoded = encoder.encode(Double.NaN);
+                byte[] encoded = encoder.encode(Double.NaN, OutOfRangeBehaviour.Clamp);
                 assertEquals(encoded, expected);
                 encoded = encoder.encodeSpecial(ValueMappingKind.PostiveQuietNaN);
                 assertEquals(encoded, expected);

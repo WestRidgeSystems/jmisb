@@ -11,6 +11,7 @@ import org.jmisb.api.klv.BerField;
 import org.jmisb.api.klv.st0601.dto.Location;
 import org.jmisb.api.klv.st0601.dto.Waypoint;
 import org.jmisb.api.klv.st1201.FpEncoder;
+import org.jmisb.api.klv.st1201.OutOfRangeBehaviour;
 import org.jmisb.core.klv.ArrayUtils;
 import org.jmisb.core.klv.PrimitiveConverter;
 
@@ -133,11 +134,14 @@ public class WaypointList implements IUasDatalinkValue {
             }
             byte[] infoBytes = BerEncoder.encode(infoVal, Ber.OID);
             len += infoBytes.length;
-            byte[] latBytes = latDecoder.encode(wp.getLocation().getLatitude());
+            byte[] latBytes =
+                    latDecoder.encode(wp.getLocation().getLatitude(), OutOfRangeBehaviour.Clamp);
             len += latBytes.length;
-            byte[] lonBytes = lonDecoder.encode(wp.getLocation().getLongitude());
+            byte[] lonBytes =
+                    lonDecoder.encode(wp.getLocation().getLongitude(), OutOfRangeBehaviour.Clamp);
             len += lonBytes.length;
-            byte[] haeBytes = haeDecoder.encode(wp.getLocation().getHAE());
+            byte[] haeBytes =
+                    haeDecoder.encode(wp.getLocation().getHAE(), OutOfRangeBehaviour.Clamp);
             len += haeBytes.length;
             byte[] lenBytes = BerEncoder.encode(len);
             chunks.add(lenBytes);

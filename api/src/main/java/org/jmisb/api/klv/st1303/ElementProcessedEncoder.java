@@ -3,6 +3,7 @@ package org.jmisb.api.klv.st1303;
 import org.jmisb.api.common.KlvParseException;
 import org.jmisb.api.klv.ArrayBuilder;
 import org.jmisb.api.klv.st1201.FpEncoder;
+import org.jmisb.api.klv.st1201.OutOfRangeBehaviour;
 
 /**
  * MISB ST 1201 Element Processing Encoder.
@@ -105,7 +106,7 @@ public class ElementProcessedEncoder {
                         .appendAsFloat64Primitive(this.max);
         // Array Of Elements
         for (int r = 0; r < data.length; ++r) {
-            builder.append(st1201encoder.encode(data[r]));
+            builder.append(st1201encoder.encode(data[r], OutOfRangeBehaviour.Clamp));
         }
         return builder.toBytes();
     }
@@ -140,7 +141,7 @@ public class ElementProcessedEncoder {
                         .appendAsFloat32Primitive((float) this.max);
         // Array Of Elements
         for (int r = 0; r < data.length; ++r) {
-            builder.append(st1201encoder.encode(data[r]));
+            builder.append(st1201encoder.encode(data[r], OutOfRangeBehaviour.Clamp));
         }
         return builder.toBytes();
     }
@@ -178,7 +179,7 @@ public class ElementProcessedEncoder {
         // Array Of Elements
         for (int r = 0; r < data.length; ++r) {
             for (int c = 0; c < data[r].length; ++c) {
-                builder.append(st1201encoder.encode(data[r][c]));
+                builder.append(st1201encoder.encode(data[r][c], OutOfRangeBehaviour.Clamp));
             }
         }
         return builder.toBytes();
@@ -216,7 +217,7 @@ public class ElementProcessedEncoder {
                         .appendAsFloat32Primitive((float) this.max);
         for (int r = 0; r < data.length; ++r) {
             for (int c = 0; c < data[r].length; ++c) {
-                builder.append(st1201encoder.encode(data[r][c]));
+                builder.append(st1201encoder.encode(data[r][c], OutOfRangeBehaviour.Clamp));
             }
         }
         return builder.toBytes();

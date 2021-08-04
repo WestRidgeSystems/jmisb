@@ -31,27 +31,60 @@ public class FpEncoderTest {
     }
 
     @Test(expectedExceptions = IllegalArgumentException.class)
-    public void testInvalidLength() {
+    public void testInvalidLengthClamp() {
         FpEncoder invalid = new FpEncoder(0.0, 10.0, 27);
-        invalid.encode(3.14159);
+        invalid.encode(3.14159, OutOfRangeBehaviour.Clamp);
+    }
+
+    @Test(expectedExceptions = IllegalArgumentException.class)
+    public void testInvalidLengthFlag() {
+        FpEncoder invalid = new FpEncoder(0.0, 10.0, 27);
+        invalid.encode(3.14159, OutOfRangeBehaviour.Flag);
+    }
+
+    @Test(expectedExceptions = IllegalArgumentException.class)
+    public void testInvalidLengthThrow() {
+        FpEncoder invalid = new FpEncoder(0.0, 10.0, 27);
+        invalid.encode(3.14159, OutOfRangeBehaviour.Throw);
     }
 
     @Test(expectedExceptions = IllegalArgumentException.class)
     public void testInvalidPrecision() {
         FpEncoder invalid = new FpEncoder(0.0, 1e9, 1e-30);
-        invalid.encode(3.14159);
+        invalid.encode(3.14159, OutOfRangeBehaviour.Clamp);
     }
 
     @Test(expectedExceptions = IllegalArgumentException.class)
-    public void testOutOfRange() {
+    @SuppressWarnings("deprecation")
+    public void testOutOfRangeLegacy() {
         FpEncoder encoder = new FpEncoder(-100.0, 100.0, 4);
         encoder.encode(-500.0);
     }
 
     @Test(expectedExceptions = IllegalArgumentException.class)
+    public void testOutOfRange() {
+        FpEncoder encoder = new FpEncoder(-100.0, 100.0, 4);
+        encoder.encode(-500.0, OutOfRangeBehaviour.Throw);
+    }
+
+    public void testOutOfRangeFlag() {
+        FpEncoder encoder = new FpEncoder(-100.0, 100.0, 4);
+        Assert.assertEquals(
+                encoder.encode(-500.0, OutOfRangeBehaviour.Flag),
+                new byte[] {(byte) 0xD0, 0x00, 0x00, 0x00});
+    }
+
+    @Test(expectedExceptions = IllegalArgumentException.class)
     public void testOutOfRangeOver() {
         FpEncoder encoder = new FpEncoder(-100.0, 100.0, 4);
-        encoder.encode(100.1);
+        encoder.encode(100.1, OutOfRangeBehaviour.Throw);
+    }
+
+    public void testOutOfRangeOverFlag() {
+        FpEncoder encoder = new FpEncoder(-100.0, 100.0, 4);
+        Assert.assertEquals(
+                encoder.encode(100.1, OutOfRangeBehaviour.Flag),
+                new byte[] {(byte) 0xD1, 0x00, 0x00, 0x00});
     }
 
     @Test(expectedExceptions = IllegalArgumentException.class)
@@ -79,7 +112,8 @@ public class FpEncoderTest {
     }
 
     @Test
-    public void testEncode() {
+    @SuppressWarnings("deprecation")
+    public void testEncodeLegacy() {
         FpEncoder fpEncoder = new FpEncoder(0.0, 1e9, 8);
 
         // Test a normal floating point number, pi
@@ -106,11 +140,38 @@ public class FpEncoderTest {
     }
 
     @Test
+    public void testEncode() {
+        FpEncoder fpEncoder = new FpEncoder(0.0, 1e9, 8);
+
+        // Test a normal floating point number, pi
+        double value = 3.14159;
+        byte[] expected = {0x00, 0x00, 0x00, 0x06, 0x48, 0x7e, 0x7c, 0x06};
+        byte[] encoded = fpEncoder.encode(value, OutOfRangeBehaviour.Clamp);
+        Assert.assertEquals(encoded.length, 8);
+        Assert.assertEquals(encoded, expected);
+
+        // Test +infinity
+        value = Double.POSITIVE_INFINITY;
+        encoded = fpEncoder.encode(value, OutOfRangeBehaviour.Clamp);
+        Assert.assertEquals(encoded[0], (byte) 0xc8);
+
+        // Test -infinity
+        value = Double.NEGATIVE_INFINITY;
+        encoded = fpEncoder.encode(value, OutOfRangeBehaviour.Clamp);
+        Assert.assertEquals(encoded[0], (byte) 0xe8);
+
+        // Test NaN
+        value = Double.NaN;
+        encoded = fpEncoder.encode(value, OutOfRangeBehaviour.Clamp);
+        Assert.assertEquals(encoded[0], (byte) 0xd0);
+    }
+
+    @Test
     public void testEncodeLen1() {
         FpEncoder fpEncoder = new FpEncoder(0.0, 10.0, 1);
         double value = 6.0;
         byte[] expected = {0x30};
-        byte[] encoded = fpEncoder.encode(value);
+        byte[] encoded = fpEncoder.encode(value, OutOfRangeBehaviour.Clamp);
         Assert.assertEquals(encoded.length, 1);
         Assert.assertEquals(encoded, expected);
     }
@@ -533,17 +594,45 @@ public class FpEncoderTest {
     }
 
     @Test(expectedExceptions = IllegalArgumentException.class)
-    public void testTooLongEncode() {
+    public void testTooLongEncodeClamp() {
         TestEncoder fpEncoder = new TestEncoder();
         fpEncoder.setFieldLength(9);
-        fpEncoder.encode(0);
+        fpEncoder.encode(0, OutOfRangeBehaviour.Clamp);
+    }
+
+    @Test(expectedExceptions = IllegalArgumentException.class)
+    public void testTooShortEncodeClamp() {
+        TestEncoder fpEncoder = new TestEncoder();
+        fpEncoder.setFieldLength(0);
+        fpEncoder.encode(0, OutOfRangeBehaviour.Clamp);
+    }
+
+    @Test(expectedExceptions = IllegalArgumentException.class)
+    public void testTooLongEncodeFlag() {
+        TestEncoder fpEncoder = new TestEncoder();
+        fpEncoder.setFieldLength(9);
+        fpEncoder.encode(0, OutOfRangeBehaviour.Flag);
+    }
+
+    @Test(expectedExceptions = IllegalArgumentException.class)
+    public void testTooShortEncodeFlag() {
+        TestEncoder fpEncoder = new TestEncoder();
+        fpEncoder.setFieldLength(0);
+        fpEncoder.encode(0, OutOfRangeBehaviour.Flag);
+    }
+
+    @Test(expectedExceptions = IllegalArgumentException.class)
+    public void testTooLongEncodeThrow() {
+        TestEncoder fpEncoder = new TestEncoder();
+        fpEncoder.setFieldLength(9);
+        fpEncoder.encode(0, OutOfRangeBehaviour.Throw);
     }
 
     @Test(expectedExceptions = IllegalArgumentException.class)
     public void testTooShortEncode() {
         TestEncoder fpEncoder = new TestEncoder();
         fpEncoder.setFieldLength(0);
-        fpEncoder.encode(0);
+        fpEncoder.encode(0, OutOfRangeBehaviour.Throw);
     }
 
     @Test(expectedExceptions = IllegalArgumentException.class)
