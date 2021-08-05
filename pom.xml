@@ -61,20 +61,24 @@
 
     <properties>
         <coveralls.version>4.3.0</coveralls.version>
-        <cyclonedx.schema.version>1.2</cyclonedx.schema.version>
-        <cyclonedx.version>2.3.0</cyclonedx.version>
-        <failsafe.version>2.22.2</failsafe.version>
-        <googleformatter.maven.plugin.version>1.7.3</googleformatter.maven.plugin.version>
-        <jacoco.version>0.8.6</jacoco.version>
+        <cyclonedx.schema.version>1.3</cyclonedx.schema.version>
+        <cyclonedx.version>2.5.1</cyclonedx.version>
+        <failsafe.version>3.0.0-M5</failsafe.version>
+        <googleformatter.maven.plugin.version>1.7.5</googleformatter.maven.plugin.version>
+        <jackson.version>2.12.4</jackson.version>
+        <jacoco.version>0.8.7</jacoco.version>
         <javacpp.logging.debug>false</javacpp.logging.debug>
-        <maven.assembly.plugin.version>3.1.0</maven.assembly.plugin.version>
-        <owasp.version>6.1.6</owasp.version>
+        <jqf.version>1.7</jqf.version>
+        <maven.assembly.plugin.version>3.3.0</maven.assembly.plugin.version>
+        <owasp.version>6.2.2</owasp.version>
         <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
-        <sortpom.version>2.15.0</sortpom.version>
-        <spotbugs.maven.version>4.2.0</spotbugs.maven.version>
+        <slf4j.version>1.7.32</slf4j.version>
+        <sortpom.version>3.0.0</sortpom.version>
+        <spotbugs.maven.version>4.3.0</spotbugs.maven.version>
         <spotbugs.version>4.3.0</spotbugs.version>
         <surefire.verbosity>0</surefire.verbosity>
-        <surefire.version>2.22.2</surefire.version>
+        <surefire.version>3.0.0-M5</surefire.version>
+        <testng.version>7.4.0</testng.version>
     </properties>
 
     <dependencyManagement>
@@ -82,12 +86,12 @@
             <dependency>
                 <groupId>org.testng</groupId>
                 <artifactId>testng</artifactId>
-                <version>7.4.0</version>
+                <version>${testng.version}</version>
             </dependency>
             <dependency>
                 <groupId>org.slf4j</groupId>
                 <artifactId>slf4j-api</artifactId>
-                <version>1.7.30</version>
+                <version>${slf4j.version}</version>
             </dependency>
             <dependency>
                 <groupId>org.apache.logging.log4j</groupId>
@@ -119,7 +123,7 @@
             <plugin>
                 <groupId>org.apache.maven.plugins</groupId>
                 <artifactId>maven-jar-plugin</artifactId>
-                <version>3.1.2</version>
+                <version>3.2.0</version>
                 <configuration>
                     <excludes>
                         <exclude>**/log4j.properties</exclude>
@@ -142,7 +146,7 @@
             <plugin>
                 <groupId>org.apache.maven.plugins</groupId>
                 <artifactId>maven-javadoc-plugin</artifactId>
-                <version>3.1.1</version>
+                <version>3.3.0</version>
                 <configuration>
                     <quiet>true</quiet>
                     <source>8</source>
@@ -169,7 +173,7 @@
             <plugin>
                 <groupId>org.apache.maven.plugins</groupId>
                 <artifactId>maven-enforcer-plugin</artifactId>
-                <version>3.0.0-M2</version>
+                <version>3.0.0</version>
                 <executions>
                     <execution>
                         <id>enforce-maven</id>
@@ -250,7 +254,7 @@
                     <plugin>
                         <groupId>org.apache.maven.plugins</groupId>
                         <artifactId>maven-gpg-plugin</artifactId>
-                        <version>1.6</version>
+                        <version>3.0.1</version>
                         <executions>
                             <execution>
                                 <id>sign-artifacts</id>

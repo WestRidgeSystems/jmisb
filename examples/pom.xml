@@ -10,6 +10,7 @@
     <packaging>pom</packaging>
     <name>Examples</name>
     <description>Parent project for jMISB code examples</description>
+
     <modules>
         <module>generator</module>
         <module>systemout</module>
@@ -19,4 +20,14 @@
         <module>mimdgenerator</module>
         <module>cotconverter</module>
     </modules>
+
+    <dependencyManagement>
+        <dependencies>
+            <dependency>
+                <groupId>org.slf4j</groupId>
+                <artifactId>slf4j-simple</artifactId>
+                <version>${slf4j.version}</version>
+            </dependency>
+        </dependencies>
+    </dependencyManagement>
 </project>

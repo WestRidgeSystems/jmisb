@@ -6,11 +6,11 @@
     <version>1.0-SNAPSHOT</version>
     <packaging>jar</packaging>
     <properties>
-        <googleformatter.maven.plugin.version>1.7.3</googleformatter.maven.plugin.version>
+        <googleformatter.maven.plugin.version>1.7.5</googleformatter.maven.plugin.version>
         <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
-        <sortpom.version>2.15.0</sortpom.version>
-        <spotbugs.maven.version>4.0.0</spotbugs.maven.version>
-        <spotbugs.version>4.0.2</spotbugs.version>
+        <sortpom.version>3.0.0</sortpom.version>
+        <spotbugs.maven.version>4.3.0</spotbugs.maven.version>
+        <spotbugs.version>4.3.0</spotbugs.version>
     </properties>
     <dependencies>
         <dependency>
