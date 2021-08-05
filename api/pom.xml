@@ -9,6 +9,8 @@
     </parent>
     <artifactId>jmisb-api</artifactId>
     <packaging>jar</packaging>
+    <name>API</name>
+    <description>The primary public API for reading/writing video and metadata</description>
 
     <dependencies>
         <dependency>

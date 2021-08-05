@@ -9,6 +9,8 @@
     </parent>
     <artifactId>jmisb-viewer</artifactId>
     <packaging>jar</packaging>
+    <name>Viewer</name>
+    <description>Java Swing-based GUI to visualize video and metadata on the desktop</description>
 
     <dependencies>
         <dependency>

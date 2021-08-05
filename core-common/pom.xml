@@ -8,6 +8,8 @@
     </parent>
     <artifactId>jmisb-core-common</artifactId>
     <packaging>jar</packaging>
+    <name>Core common</name>
+    <description>Library-wide utility classes, intended for internal use</description>
 
     <dependencies>
         <dependency>

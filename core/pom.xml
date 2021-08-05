@@ -9,6 +9,8 @@
     </parent>
     <artifactId>jmisb-core</artifactId>
     <packaging>jar</packaging>
+    <name>Core</name>
+    <description>Utility classes using FFmpeg, intended for internal use</description>
 
     <dependencies>
         <dependency>
