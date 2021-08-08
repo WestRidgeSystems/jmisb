@@ -167,7 +167,7 @@
             <plugin>
                 <groupId>edu.berkeley.cs.jqf</groupId>
                 <artifactId>jqf-maven-plugin</artifactId>
-                <version>${jqf.version}</version>
+                <version>${jqf.plugin.version}</version>
             </plugin>
             <plugin>
                 <groupId>org.cyclonedx</groupId>

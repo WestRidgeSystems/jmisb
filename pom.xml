@@ -68,6 +68,7 @@
         <jackson.version>2.12.4</jackson.version>
         <jacoco.version>0.8.7</jacoco.version>
         <javacpp.logging.debug>false</javacpp.logging.debug>
+        <jqf.plugin.version>1.5</jqf.plugin.version>
         <jqf.version>1.7</jqf.version>
         <maven.assembly.plugin.version>3.3.0</maven.assembly.plugin.version>
         <owasp.version>6.2.2</owasp.version>
