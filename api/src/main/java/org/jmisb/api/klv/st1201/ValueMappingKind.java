@@ -18,7 +18,7 @@ public enum ValueMappingKind {
      * This part of the bit space is reserved.
      *
      * <p>There are two parts of reserved bit space. This represents the part where the high bit is
-     * zero, and the next most significant bit is 0.
+     * 1, and the next most-significant bit is 0.
      *
      * <p>Note that is not valid with an encoded value of 0, since that would result in a normal
      * value mapping (max value).
@@ -31,28 +31,28 @@ public enum ValueMappingKind {
     /**
      * The value is a positive Quiet Not a Number (NaN) value.
      *
-     * <p>MISB allows this to be combined with a set of low bits (the @code{NaN Id}) which needs to
+     * <p>MISB allows this to be combined with a set of low bits (the @code{NaN Id}) which need to
      * be coordinated with the MISB.
      */
     PostiveQuietNaN,
     /**
      * The value is a negative Quiet Not a Number (NaN) value.
      *
-     * <p>MISB allows this to be combined with a set of low bits (the @code{NaN Id}) which needs to
+     * <p>MISB allows this to be combined with a set of low bits (the @code{NaN Id}) which need to
      * be coordinated with the MISB.
      */
     NegativeQuietNaN,
     /**
      * The value is a positive Signaling Not a Number (NaN) value.
      *
-     * <p>MISB allows this to be combined with a set of low bits (the @code{NaN Id}) which needs to
+     * <p>MISB allows this to be combined with a set of low bits (the @code{NaN Id}) which need to
      * be coordinated with the MISB.
      */
     PositiveSignalNaN,
     /**
      * The value is a negative Signaling Not a Number (NaN) value.
      *
-     * <p>MISB allows this to be combined with a set of low bits (the @code{NaN Id}) which needs to
+     * <p>MISB allows this to be combined with a set of low bits (the @code{NaN Id}) which need to
      * be coordinated with the MISB.
      */
     NegativeSignalNaN,
@@ -68,7 +68,8 @@ public enum ValueMappingKind {
      *
      * <p>While ST1201.4 does not make it explicit, this is conceptually a NaN value.
      *
-     * <p>MISB allows this to be combined with a set of low bits which are user defined.
+     * <p>MISB allows this to be combined with a set of low bits which are user defined. In this
+     * context, "user defined" means by an invoking specification.
      */
     UserDefined
 }

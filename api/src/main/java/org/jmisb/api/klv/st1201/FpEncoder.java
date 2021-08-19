@@ -12,7 +12,7 @@ import org.jmisb.core.klv.PrimitiveConverter;
  * document.
  *
  * <p>The typical case for this kind of conversion is IMAPB, which is used extensively in ST0601
- * amongst other standards. You create an encoder specifying the minimum value of the range, maximum
+ * among other standards. You create an encoder specifying the minimum value of the range, maximum
  * value of the range and number of bytes; then use that to encoding and decoding conversions
  * between the floating point representation and the byte array equivalent. An example is shown
  * here:
@@ -29,8 +29,8 @@ import org.jmisb.core.klv.PrimitiveConverter;
  * </blockquote>
  *
  * <p>It is also possible to construct an encoder that produces a specified level of accuracy rather
- * than needing to specify the number of bytes to use. This is known as IMAPA, and is not generally
- * used.
+ * than needing to specify the number of bytes to use. This is known as IMAPA, and is used in MIMD,
+ * but is otherwise uncommon.
  */
 public class FpEncoder {
 
@@ -492,7 +492,7 @@ public class FpEncoder {
      * @param max The maximum floating point value to be encoded
      * @param length The field length, in bytes
      */
-    protected void computeConstants(double min, double max, int length) {
+    protected final void computeConstants(double min, double max, int length) {
         fieldLength = length;
         a = min;
         b = max;

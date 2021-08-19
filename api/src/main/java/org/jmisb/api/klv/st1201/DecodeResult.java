@@ -17,7 +17,7 @@ public class DecodeResult {
     /**
      * The kind of result.
      *
-     * <p>This can be thought of as a namespace, and indicates how to intepret the rest of the
+     * <p>This can be thought of as a namespace, and indicates how to interpret the rest of the
      * result. For {@link ValueMappingKind#NormalMappedValue}, the result value is provided by
      * {@link #getValue()}. For other kinds of results, the result value is provided by {@link
      * #getIdentifier()} if applicable.
@@ -31,7 +31,7 @@ public class DecodeResult {
     /**
      * Set the kind of result.
      *
-     * <p>This can be thought of as a namespace, and indicates how to intepret the rest of the
+     * <p>This can be thought of as a namespace, and indicates how to interpret the rest of the
      * result. For {@link ValueMappingKind#NormalMappedValue}, the result value is set by {@link
      * #setValue}. For other kinds of results, the result value is set by {@link #setIdentifier} if
      * applicable.
