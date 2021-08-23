@@ -39,6 +39,13 @@ This example is a work-in-progress. See [its README](movingfeatures/README.md) f
 It shows how to parse an unsupported KLV blob (perhaps a local set or universal set) without changing jMISB.
 This example considered complete. See [its README](parserplugin/README.md) for more information.
 
+## rawklv
+
+It does a console dump of the raw KLV in a file to standard output. In this context, "raw" is the de-multiplexed stream content.
+This example is considered complete. See [its README](rawklv/README.md) for more information.
+
 ## systemout
 
-It does a console dump of the KLV metadata in a file to standard output (`System.out` in Java, hence the name). This example is considered complete. See [its README](systemout/README.md) for more information.
+It does a console dump of the KLV metadata in a file to standard output (`System.out` in Java, hence the name).
+This example differs from the rawklv example in that it takes an MPEG Transport Stream (typical format) rather than a de-multiplexed stream.
+This example is considered complete. See [its README](systemout/README.md) for more information.
