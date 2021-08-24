@@ -19,6 +19,7 @@
         <module>parserplugin</module>
         <module>mimdgenerator</module>
         <module>cotconverter</module>
+        <module>rawklv</module>
     </modules>
 
     <dependencyManagement>
