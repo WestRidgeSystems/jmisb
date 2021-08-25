@@ -37,9 +37,9 @@ public class ${name}Test extends LoggerChecks {
 
    <#elseif entry.name == "mimdId">
         // mimdId
-        IMimdMetadataValue id = ${name}.createValue(${name}MetadataKey.${entry.name}, new byte[]{(byte) 0x01});
-        assertTrue(id instanceof MimdId);
-        values.put(${name}MetadataKey.${entry.name}, id);
+        IMimdMetadataValue _id = ${name}.createValue(${name}MetadataKey.${entry.name}, new byte[]{(byte) 0x01});
+        assertTrue(_id instanceof MimdId);
+        values.put(${name}MetadataKey.${entry.name}, _id);
 
     <#elseif entry.ref && ! entry.array>
         // Ref
