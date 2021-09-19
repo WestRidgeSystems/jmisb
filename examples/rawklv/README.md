@@ -19,13 +19,13 @@ mvn clean install
 There are several ways to invoke it. One way is:
 
 ``` sh
-java -jar target/rawklv-1.11.0-SNAPSHOT-jar-with-dependencies.jar  {filename}
+java -jar target/rawklv-2.0.0-SNAPSHOT-jar-with-dependencies.jar  {filename}
 ```
 
 For example:
 
 ``` sh
-java -jar target/rawklv-1.11.0-SNAPSHOT-jar-with-dependencies.jar ~/MIMD_0.01.bin
+java -jar target/rawklv-2.0.0-SNAPSHOT-jar-with-dependencies.jar ~/MIMD_0.01.bin
 ```
 
 You should adjust the version part to match the current version number.

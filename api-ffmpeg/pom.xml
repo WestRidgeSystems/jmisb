@@ -1,22 +1,26 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://maven.apache.org/POM/4.0.0                       http://maven.apache.org/xsd/maven-4.0.0.xsd">
-
     <modelVersion>4.0.0</modelVersion>
+
     <parent>
         <groupId>org.jmisb</groupId>
         <artifactId>jmisb</artifactId>
         <version>2.0.0-SNAPSHOT</version>
     </parent>
-    <artifactId>api</artifactId>
+    <artifactId>api-ffmpeg</artifactId>
     <packaging>jar</packaging>
-    <name>api</name>
-    <description>The primary public API for reading/writing video and metadata</description>
+    <name>api-ffmpeg</name>
+    <description>The public API for encoding and decoding video using FFmpeg</description>
 
     <dependencies>
         <dependency>
             <groupId>org.jmisb</groupId>
-            <artifactId>core</artifactId>
+            <artifactId>api</artifactId>
             <version>${project.version}</version>
+        </dependency>
+        <dependency>
+            <groupId>org.bytedeco</groupId>
+            <artifactId>ffmpeg-platform</artifactId>
         </dependency>
         <dependency>
             <groupId>org.slf4j</groupId>
@@ -53,10 +57,38 @@
             <plugin>
                 <groupId>org.apache.maven.plugins</groupId>
                 <artifactId>maven-surefire-plugin</artifactId>
+                <configuration>
+                    <suiteXmlFiles>
+                        <suiteXmlFile>testng-unit.xml</suiteXmlFile>
+                    </suiteXmlFiles>
+                    <systemPropertyVariables>
+                        <org.bytedeco.javacpp.logger.debug>${javacpp.logging.debug}</org.bytedeco.javacpp.logger.debug>
+                    </systemPropertyVariables>
+                    <properties>
+                        <property>
+                            <name>surefire.testng.verbose</name>
+                            <value>${surefire.verbosity}</value>
+                        </property>
+                    </properties>
+                </configuration>
             </plugin>
             <plugin>
                 <groupId>org.apache.maven.plugins</groupId>
                 <artifactId>maven-failsafe-plugin</artifactId>
+                <configuration>
+                    <suiteXmlFiles>
+                        <suiteXmlFile>testng-integration.xml</suiteXmlFile>
+                    </suiteXmlFiles>
+                    <systemPropertyVariables>
+                        <org.bytedeco.javacpp.logger.debug>${javacpp.logging.debug}</org.bytedeco.javacpp.logger.debug>
+                    </systemPropertyVariables>
+                    <properties>
+                        <property>
+                            <name>surefire.testng.verbose</name>
+                            <value>${surefire.verbosity}</value>
+                        </property>
+                    </properties>
+                </configuration>
             </plugin>
             <plugin>
                 <groupId>com.github.spotbugs</groupId>
@@ -76,10 +108,6 @@
             <plugin>
                 <groupId>org.cyclonedx</groupId>
                 <artifactId>cyclonedx-maven-plugin</artifactId>
-            </plugin>
-            <plugin>
-                <groupId>org.jmisb.maven</groupId>
-                <artifactId>miml-maven-plugin</artifactId>
             </plugin>
         </plugins>
     </build>
