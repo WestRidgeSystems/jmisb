@@ -17,6 +17,8 @@ package org.jmisb.api.klv.st0601;
  * </blockquote>
  */
 public class AlternatePlatformLatitude extends UasDatalinkLatitude {
+    private static final String DISPLAY_NAME = "Alternate Platform Latitude";
+
     /**
      * Create from value.
      *
@@ -24,7 +26,7 @@ public class AlternatePlatformLatitude extends UasDatalinkLatitude {
      *     represent an error condition
      */
     public AlternatePlatformLatitude(double degrees) {
-        super(degrees);
+        super(degrees, DISPLAY_NAME);
     }
 
     /**
@@ -33,11 +35,6 @@ public class AlternatePlatformLatitude extends UasDatalinkLatitude {
      * @param bytes Latitude, encoded as a 4-byte int
      */
     public AlternatePlatformLatitude(byte[] bytes) {
-        super(bytes);
-    }
-
-    @Override
-    public String getDisplayName() {
-        return "Alternate Platform Latitude";
+        super(bytes, DISPLAY_NAME);
     }
 }

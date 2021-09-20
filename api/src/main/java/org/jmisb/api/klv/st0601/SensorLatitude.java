@@ -16,6 +16,8 @@ package org.jmisb.api.klv.st0601;
  * </blockquote>
  */
 public class SensorLatitude extends UasDatalinkLatitude {
+    private static final String DISPLAY_NAME = "Sensor Latitude";
+
     /**
      * Create from value.
      *
@@ -23,7 +25,7 @@ public class SensorLatitude extends UasDatalinkLatitude {
      *     represent an error condition
      */
     public SensorLatitude(double degrees) {
-        super(degrees);
+        super(degrees, DISPLAY_NAME);
     }
 
     /**
@@ -32,11 +34,6 @@ public class SensorLatitude extends UasDatalinkLatitude {
      * @param bytes Latitude, encoded as a 4-byte int
      */
     public SensorLatitude(byte[] bytes) {
-        super(bytes);
-    }
-
-    @Override
-    public String getDisplayName() {
-        return "Sensor Latitude";
+        super(bytes, DISPLAY_NAME);
     }
 }

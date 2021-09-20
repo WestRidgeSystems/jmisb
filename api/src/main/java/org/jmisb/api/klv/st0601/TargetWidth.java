@@ -18,11 +18,11 @@ import org.jmisb.core.klv.PrimitiveConverter;
  * </blockquote>
  */
 public class TargetWidth implements IUasDatalinkValue {
-    private double meters;
-    private static double MIN_VAL = 0.0;
-    private static double MAX_VAL = 10000.0;
-    private static double MAXINT = 65535.0; // 2^16 - 1
-    public static double DELTA = 0.08; // +/- .08 meters
+    private final double meters;
+    private static final double MIN_VAL = 0.0;
+    private static final double MAX_VAL = 10000.0;
+    private static final double MAXINT = 65535.0; // 2^16 - 1
+    public static final double DELTA = 0.08; // +/- .08 meters
 
     /**
      * Create from value.

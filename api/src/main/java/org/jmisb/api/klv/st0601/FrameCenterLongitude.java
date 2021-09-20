@@ -16,6 +16,8 @@ package org.jmisb.api.klv.st0601;
  * </blockquote>
  */
 public class FrameCenterLongitude extends UasDatalinkLongitude {
+    private static final String DISPLAY_NAME = "Frame Center Longitude";
+
     /**
      * Create from value.
      *
@@ -23,7 +25,7 @@ public class FrameCenterLongitude extends UasDatalinkLongitude {
      *     represent an error condition
      */
     public FrameCenterLongitude(double degrees) {
-        super(degrees);
+        super(degrees, DISPLAY_NAME);
     }
 
     /**
@@ -32,11 +34,6 @@ public class FrameCenterLongitude extends UasDatalinkLongitude {
      * @param bytes Longitude, encoded as a 4-byte int
      */
     public FrameCenterLongitude(byte[] bytes) {
-        super(bytes);
-    }
-
-    @Override
-    public String getDisplayName() {
-        return "Frame Center Longitude";
+        super(bytes, DISPLAY_NAME);
     }
 }

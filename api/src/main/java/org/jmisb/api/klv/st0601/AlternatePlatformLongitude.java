@@ -17,6 +17,8 @@ package org.jmisb.api.klv.st0601;
  * </blockquote>
  */
 public class AlternatePlatformLongitude extends UasDatalinkLongitude {
+    private static final String DISPLAY_NAME = "Alternate Platform Longitude";
+
     /**
      * Construct from value.
      *
@@ -24,7 +26,7 @@ public class AlternatePlatformLongitude extends UasDatalinkLongitude {
      *     Double.POSITIVE_INFINITY} to represent an error condition
      */
     public AlternatePlatformLongitude(double degrees) {
-        super(degrees);
+        super(degrees, DISPLAY_NAME);
     }
 
     /**
@@ -33,11 +35,6 @@ public class AlternatePlatformLongitude extends UasDatalinkLongitude {
      * @param bytes The byte array of length 4
      */
     public AlternatePlatformLongitude(byte[] bytes) {
-        super(bytes);
-    }
-
-    @Override
-    public String getDisplayName() {
-        return "Alternate Platform Longitude";
+        super(bytes, DISPLAY_NAME);
     }
 }
