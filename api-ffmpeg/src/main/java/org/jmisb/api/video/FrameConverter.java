@@ -8,14 +8,14 @@ import org.bytedeco.ffmpeg.avutil.AVFrame;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
-/** Convert video frames between AVFrame and BufferedImage */
+/** Convert video frames between AVFrame and BufferedImage. */
 public class FrameConverter {
     private static final Logger logger = LoggerFactory.getLogger(FrameConverter.class);
 
     private BufferedImage bufferedImage;
 
     /**
-     * Convert an AVFrame to a BufferedImage
+     * Convert an AVFrame to a BufferedImage.
      *
      * @param frame The AVFrame; must be 3-byte BGR format
      * @return The BufferedImage
