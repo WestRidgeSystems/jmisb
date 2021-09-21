@@ -79,11 +79,7 @@ public class CodecConfiguration {
     public AVDictionary getOptions() {
         AVDictionary optionsDictionary = new AVDictionary(null);
         codecOptions
-                .entrySet()
-                .forEach(
-                        option -> {
-                            av_dict_set(optionsDictionary, option.getKey(), option.getValue(), 0);
-                        });
+            .forEach((key, value) -> av_dict_set(optionsDictionary, key, value, 0));
         return optionsDictionary;
     }
 }

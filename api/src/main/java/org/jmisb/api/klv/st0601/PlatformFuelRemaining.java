@@ -22,9 +22,9 @@ import org.jmisb.core.klv.PrimitiveConverter;
  * </blockquote>
  */
 public class PlatformFuelRemaining implements IUasDatalinkValue {
-    private double kilograms;
-    private static double FLOAT_RANGE = 10000.0;
-    private static double INT_RANGE = 65535.0;
+    private final double kilograms;
+    private static final double FLOAT_RANGE = 10000.0;
+    private static final double INT_RANGE = 65535.0;
 
     /**
      * Create from value.

@@ -14,7 +14,7 @@ import org.jmisb.core.klv.PrimitiveConverter;
  * </blockquote>
  */
 public class TelemetryAccuracyIndicator implements IRvtMetadataValue {
-    private int value;
+    private final int value;
     private static final int MIN_VALUE = 0;
     private static final int MAX_VALUE = 255;
     private static final int REQUIRED_BYTES = 1;

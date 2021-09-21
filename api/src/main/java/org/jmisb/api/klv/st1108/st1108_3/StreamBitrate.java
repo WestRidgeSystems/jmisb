@@ -18,7 +18,7 @@ import org.jmisb.core.klv.PrimitiveConverter;
  * </blockquote>
  */
 public class StreamBitrate implements IInterpretabilityQualityMetadataValue {
-    private int bitrate;
+    private final int bitrate;
     private static final int MIN_VALUE = 0;
     private static final int MAX_VALUE = 65535;
     private static final int REQUIRED_BYTES = 2;

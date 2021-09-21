@@ -10,7 +10,7 @@ import org.jmisb.core.klv.PrimitiveConverter;
 /** ST0603 Timestamp. */
 public class ST0603TimeStamp {
     // this is conceptually unsigned, so be careful when manipulating it.
-    protected long microseconds;
+    protected final long microseconds;
 
     /**
      * Create from value.
@@ -114,7 +114,6 @@ public class ST0603TimeStamp {
      */
     public String getDisplayableValueDateTime() {
         LocalDateTime ldt = getDateTime();
-        String displayableLocalDateTime = ldt.format(DateTimeFormatter.ISO_DATE_TIME);
-        return displayableLocalDateTime;
+        return ldt.format(DateTimeFormatter.ISO_DATE_TIME);
     }
 }

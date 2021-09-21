@@ -14,7 +14,7 @@ public enum AncillaryTextMetadataKey implements IKlvKey {
     Source(4),
     MessageCreationTime(5);
 
-    private int tag;
+    private final int tag;
 
     private static final Map<Integer, AncillaryTextMetadataKey> tagTable = new HashMap<>();
 
@@ -44,6 +44,6 @@ public enum AncillaryTextMetadataKey implements IKlvKey {
      * @return corresponding metadata key
      */
     public static AncillaryTextMetadataKey getKey(int tag) {
-        return tagTable.containsKey(tag) ? tagTable.get(tag) : Undefined;
+        return tagTable.getOrDefault(tag, Undefined);
     }
 }

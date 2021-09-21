@@ -20,7 +20,7 @@ import org.jmisb.core.klv.PrimitiveConverter;
  * </blockquote>
  */
 public class VideoInterpretability implements IInterpretabilityQualityMetadataValue {
-    private int interpretability;
+    private final int interpretability;
     private static final int MIN_VALUE = 0;
     private static final int MAX_VALUE = 14;
     private static final int REQUIRED_BYTES = 1;

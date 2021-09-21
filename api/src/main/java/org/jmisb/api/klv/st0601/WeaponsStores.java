@@ -40,7 +40,6 @@ public class WeaponsStores implements IUasDatalinkValue {
      * @param weapons list of WeaponStore values
      */
     public WeaponsStores(List<WeaponStore> weapons) {
-        this.weaponStores.clear();
         this.weaponStores.addAll(weapons);
     }
 

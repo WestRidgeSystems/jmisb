@@ -82,7 +82,7 @@ public class ArrayBuilder {
 
     /** Append a complete "bit buffer" byte to the chunks and reset position. */
     private void appendBitBuffer() {
-        chunks.add(new byte[] {(byte) bitBuffer});
+        chunks.add(new byte[] {bitBuffer});
         numBytesInChunks += Byte.BYTES;
         bitBuffer = 0x00;
         bitPosition = 0;
@@ -220,7 +220,7 @@ public class ArrayBuilder {
      * Prepend a BER encoded length of the following bytes to the byte array.
      *
      * <p>This is like {@code prependLength}, but allows an additional (known) number of bytes to be
-     * include in the length, which is useful for adding checksum-type information.
+     * included in the length, which is useful for adding checksum-type information.
      *
      * <p>Be careful about subsequent operations that append to the array, because this length field
      * will not be updated.

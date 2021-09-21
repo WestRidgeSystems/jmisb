@@ -81,7 +81,7 @@ public enum VTargetMetadataKey implements IKlvKey {
     /** Series of one or more VObject LS. */
     VObjectSeries(107);
 
-    private int tag;
+    private final int tag;
 
     private static final Map<Integer, VTargetMetadataKey> tagTable = new HashMap<>();
 
@@ -120,7 +120,7 @@ public enum VTargetMetadataKey implements IKlvKey {
      * @return the corresponding metadata key.
      */
     public static VTargetMetadataKey getKey(int tag) {
-        return tagTable.containsKey(tag) ? tagTable.get(tag) : Undefined;
+        return tagTable.getOrDefault(tag, Undefined);
     }
 
     @Override

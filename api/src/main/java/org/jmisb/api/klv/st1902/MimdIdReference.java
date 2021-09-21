@@ -7,10 +7,10 @@ import org.jmisb.api.klv.BerField;
 
 public class MimdIdReference implements IMimdMetadataValue {
 
-    private int serialNumber;
-    private int groupId = 0;
-    private String displayName;
-    private String refTargetType;
+    private final int serialNumber;
+    private final int groupId;
+    private final String displayName;
+    private final String refTargetType;
 
     /**
      * Construct a MimdIdReference from values.
@@ -47,6 +47,8 @@ public class MimdIdReference implements IMimdMetadataValue {
             if (index < offset + numBytes) {
                 BerField groupIdField = BerDecoder.decode(data, index, true);
                 groupId = groupIdField.getValue();
+            } else {
+                groupId = 0;
             }
             this.displayName = name;
             this.refTargetType = target;

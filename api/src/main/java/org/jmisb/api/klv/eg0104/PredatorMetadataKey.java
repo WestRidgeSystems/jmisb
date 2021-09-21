@@ -46,14 +46,14 @@ public enum PredatorMetadataKey implements IKlvKey {
     EpisodeNumber(PredatorMetadataConstants.EPISODE_NUMBER, 129),
     DeviceDesignation(PredatorMetadataConstants.DEVICE_DESIGATION, 130);
 
-    private UniversalLabel ul;
+    private final UniversalLabel ul;
     /**
      * Tag-like field.
      *
      * <p>EG 0104 doesn't use a local-set like value, and there aren't tags as used in most other
      * metadata types. This serves as a surrogate to make the interface uniform.
      */
-    private int key;
+    private final int key;
 
     private static final Map<UniversalLabel, PredatorMetadataKey> ulTable = new HashMap<>();
 
@@ -69,7 +69,7 @@ public enum PredatorMetadataKey implements IKlvKey {
      * @param ul The key's universal label
      * @param key an integer ident for this key.
      */
-    private PredatorMetadataKey(UniversalLabel ul, int key) {
+    PredatorMetadataKey(UniversalLabel ul, int key) {
         this.ul = ul;
         this.key = key;
     }
@@ -90,7 +90,7 @@ public enum PredatorMetadataKey implements IKlvKey {
      * @return The PredatorMetadataKey
      */
     public static PredatorMetadataKey getKey(UniversalLabel ul) {
-        return ulTable.containsKey(ul) ? ulTable.get(ul) : Undefined;
+        return ulTable.getOrDefault(ul, Undefined);
     }
 
     @Override

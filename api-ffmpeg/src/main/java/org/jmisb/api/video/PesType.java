@@ -17,7 +17,7 @@ public enum PesType {
     SUBTITLE(3),
     ATTACHMENT(4);
 
-    private int code;
+    private final int code;
 
     private static final Map<Integer, PesType> lookupTable = new HashMap<>();
 
@@ -27,7 +27,7 @@ public enum PesType {
         }
     }
 
-    private PesType(int c) {
+    PesType(int c) {
         code = c;
     }
 
@@ -47,6 +47,6 @@ public enum PesType {
      * @return the corresponding PES type.
      */
     public static PesType getType(int typeCode) {
-        return lookupTable.containsKey(typeCode) ? lookupTable.get(typeCode) : UNKNOWN;
+        return lookupTable.getOrDefault(typeCode, UNKNOWN);
     }
 }

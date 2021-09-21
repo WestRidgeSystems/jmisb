@@ -16,9 +16,9 @@ import org.jmisb.core.klv.PrimitiveConverter;
  * </blockquote>
  */
 public abstract class UasPressureMillibars implements IUasDatalinkValue {
-    private double pressure;
-    private static double RANGE = 5000.0;
-    private static double MAXINT = 65535.0; // 2^16 - 1
+    private final double pressure;
+    private static final double RANGE = 5000.0;
+    private static final double MAX_INT = 65535.0; // 2^16 - 1
 
     /**
      * Create from value.
@@ -44,7 +44,7 @@ public abstract class UasPressureMillibars implements IUasDatalinkValue {
         }
 
         int intVal = PrimitiveConverter.toUint16(bytes);
-        pressure = (intVal / MAXINT) * RANGE;
+        pressure = (intVal / MAX_INT) * RANGE;
     }
 
     /**
@@ -58,7 +58,7 @@ public abstract class UasPressureMillibars implements IUasDatalinkValue {
 
     @Override
     public byte[] getBytes() {
-        int intVal = (int) Math.round((pressure / RANGE) * MAXINT);
+        int intVal = (int) Math.round((pressure / RANGE) * MAX_INT);
         return PrimitiveConverter.uint16ToBytes(intVal);
     }
 

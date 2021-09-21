@@ -103,9 +103,6 @@ public class Location {
         if (Double.doubleToLongBits(this.longitude) != Double.doubleToLongBits(other.longitude)) {
             return false;
         }
-        if (Double.doubleToLongBits(this.hae) != Double.doubleToLongBits(other.hae)) {
-            return false;
-        }
-        return true;
+        return Double.doubleToLongBits(this.hae) == Double.doubleToLongBits(other.hae);
     }
 }

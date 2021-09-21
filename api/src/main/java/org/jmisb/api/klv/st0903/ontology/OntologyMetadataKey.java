@@ -21,7 +21,7 @@ public enum OntologyMetadataKey implements IKlvKey {
     /** A value representing a target class or type, as defined by the Ontology. */
     ontologyClass(4);
 
-    private int tag;
+    private final int tag;
 
     private static final Map<Integer, OntologyMetadataKey> tagTable = new HashMap<>();
 
@@ -51,7 +51,7 @@ public enum OntologyMetadataKey implements IKlvKey {
      * @return the corresponding Ontology tag.
      */
     public static OntologyMetadataKey getKey(int tag) {
-        return tagTable.containsKey(tag) ? tagTable.get(tag) : Undefined;
+        return tagTable.getOrDefault(tag, Undefined);
     }
 
     @Override

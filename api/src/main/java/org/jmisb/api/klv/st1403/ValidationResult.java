@@ -2,7 +2,7 @@ package org.jmisb.api.klv.st1403;
 
 /** Results of validation of one part (or sub-part) of a requirement. */
 public class ValidationResult {
-    private Validity validity;
+    private final Validity validity;
     private String traceability;
     private String description;
 

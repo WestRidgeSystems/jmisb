@@ -37,8 +37,8 @@ import org.jmisb.core.klv.PrimitiveConverter;
  * </blockquote>
  */
 public class ControlCommand implements IUasDatalinkValue {
-    private int id;
-    private String commandText;
+    private final int id;
+    private final String commandText;
     private long timestamp;
     private boolean timestampIsValid = false;
 

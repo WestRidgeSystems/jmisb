@@ -1,7 +1,6 @@
 package org.jmisb.api.klv.st1108.st1108_3.metric;
 
 import java.nio.charset.StandardCharsets;
-import org.jmisb.api.klv.st1108.*;
 
 /**
  * Metric Parameters.

@@ -19,7 +19,7 @@ import org.jmisb.api.klv.st0903.shared.IVTrackItemMetadataValue;
  * </blockquote>
  */
 public class FpaIndex implements IVmtiMetadataValue, IVTrackItemMetadataValue {
-    private FpaIndexPack value;
+    private final FpaIndexPack value;
     private static final int NUM_BYTES = 2;
 
     /**

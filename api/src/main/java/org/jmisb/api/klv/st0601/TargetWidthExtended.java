@@ -19,11 +19,11 @@ import org.jmisb.api.klv.st1201.FpEncoder;
  * </blockquote>
  */
 public class TargetWidthExtended implements IUasDatalinkValue {
-    private double metres;
-    private static double MIN_VAL = 0.0;
-    private static double MAX_VAL = 1500000.0;
-    private static int RECOMMENDED_BYTES = 3;
-    private static int MAX_BYTES = 8;
+    private final double meters;
+    private static final double MIN_VAL = 0.0;
+    private static final double MAX_VAL = 1500000.0;
+    private static final int RECOMMENDED_BYTES = 3;
+    private static final int MAX_BYTES = 8;
 
     /**
      * Create from value.
@@ -35,7 +35,7 @@ public class TargetWidthExtended implements IUasDatalinkValue {
             throw new IllegalArgumentException(
                     this.getDisplayName() + " must be in range [0,1500000]");
         }
-        this.metres = meters;
+        this.meters = meters;
     }
 
     /**
@@ -49,7 +49,7 @@ public class TargetWidthExtended implements IUasDatalinkValue {
                     this.getDisplayName() + " cannot be longer than " + MAX_BYTES + " bytes");
         }
         FpEncoder decoder = new FpEncoder(MIN_VAL, MAX_VAL, bytes.length);
-        metres = decoder.decode(bytes);
+        meters = decoder.decode(bytes);
     }
 
     /**
@@ -58,18 +58,18 @@ public class TargetWidthExtended implements IUasDatalinkValue {
      * @return Target width in meters
      */
     public double getMeters() {
-        return metres;
+        return meters;
     }
 
     @Override
     public byte[] getBytes() {
         FpEncoder encoder = new FpEncoder(MIN_VAL, MAX_VAL, RECOMMENDED_BYTES);
-        return encoder.encode(metres);
+        return encoder.encode(meters);
     }
 
     @Override
     public String getDisplayableValue() {
-        return String.format("%.1fm", metres);
+        return String.format("%.1fm", meters);
     }
 
     @Override

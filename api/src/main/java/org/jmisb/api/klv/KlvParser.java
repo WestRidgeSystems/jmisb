@@ -9,7 +9,7 @@ import org.slf4j.LoggerFactory;
 
 /** Parse metadata to extract individual {@link IMisbMessage} packets. */
 public class KlvParser {
-    private static Logger logger = LoggerFactory.getLogger(KlvParser.class);
+    private static final Logger logger = LoggerFactory.getLogger(KlvParser.class);
 
     private KlvParser() {}
 

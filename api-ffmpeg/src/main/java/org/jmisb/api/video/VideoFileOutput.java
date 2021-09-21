@@ -29,7 +29,7 @@ import org.slf4j.LoggerFactory;
 
 /** Write video/metadata to a file. */
 public class VideoFileOutput extends VideoOutput implements IVideoFileOutput {
-    private static Logger logger = LoggerFactory.getLogger(VideoFileOutput.class);
+    private static final Logger logger = LoggerFactory.getLogger(VideoFileOutput.class);
     private String filename;
 
     protected static final byte ASYNC_STREAM_ID = (byte) 0xBD;

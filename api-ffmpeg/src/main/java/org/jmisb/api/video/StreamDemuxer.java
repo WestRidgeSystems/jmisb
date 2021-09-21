@@ -10,7 +10,7 @@ import org.slf4j.LoggerFactory;
 
 /** Demux video/metadata contained in a network stream. */
 class StreamDemuxer extends Demuxer {
-    private static Logger logger = LoggerFactory.getLogger(StreamDemuxer.class);
+    private static final Logger logger = LoggerFactory.getLogger(StreamDemuxer.class);
     private final VideoInput inputStream;
 
     StreamDemuxer(

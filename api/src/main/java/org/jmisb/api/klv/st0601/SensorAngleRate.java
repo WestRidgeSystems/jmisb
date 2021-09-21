@@ -9,11 +9,11 @@ import org.jmisb.api.klv.st1201.FpEncoder;
  * Items 117, 118 and 119).
  */
 public abstract class SensorAngleRate implements IUasDatalinkValue {
-    private static double MIN_VAL = -1000.0;
-    private static double MAX_VAL = 1000.0;
-    private static int RECOMMENDED_BYTES = 3;
-    private static int MAX_BYTES = 4;
-    private double angleRate;
+    private static final double MIN_VAL = -1000.0;
+    private static final double MAX_VAL = 1000.0;
+    private static final int RECOMMENDED_BYTES = 3;
+    private static final int MAX_BYTES = 4;
+    private final double angleRate;
 
     /**
      * Create from value.

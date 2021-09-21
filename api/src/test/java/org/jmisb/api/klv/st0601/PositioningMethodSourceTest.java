@@ -22,6 +22,24 @@ public class PositioningMethodSourceTest {
                 source.getPositioningSource(),
                 PositioningMethodSource.GPS | PositioningMethodSource.INS);
 
+        // Use constants
+        source = new PositioningMethodSource(PositioningMethodSource.INS);
+        Assert.assertEquals(source.getPositioningSource(), PositioningMethodSource.INS);
+        source = new PositioningMethodSource(PositioningMethodSource.GPS);
+        Assert.assertEquals(source.getPositioningSource(), PositioningMethodSource.GPS);
+        source = new PositioningMethodSource(PositioningMethodSource.GALILEO);
+        Assert.assertEquals(source.getPositioningSource(), PositioningMethodSource.GALILEO);
+        source = new PositioningMethodSource(PositioningMethodSource.QZSS);
+        Assert.assertEquals(source.getPositioningSource(), PositioningMethodSource.QZSS);
+        source = new PositioningMethodSource(PositioningMethodSource.NAVIC);
+        Assert.assertEquals(source.getPositioningSource(), PositioningMethodSource.NAVIC);
+        source = new PositioningMethodSource(PositioningMethodSource.GLONASS);
+        Assert.assertEquals(source.getPositioningSource(), PositioningMethodSource.GLONASS);
+        source = new PositioningMethodSource(PositioningMethodSource.BEIDOU1);
+        Assert.assertEquals(source.getPositioningSource(), PositioningMethodSource.BEIDOU1);
+        source = new PositioningMethodSource(PositioningMethodSource.BEIDOU2);
+        Assert.assertEquals(source.getPositioningSource(), PositioningMethodSource.BEIDOU2);
+
         Assert.assertEquals(source.getDisplayName(), "Positioning Method Source");
     }
 

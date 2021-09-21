@@ -6,7 +6,7 @@ import org.jmisb.api.klv.st0102.ISecurityMetadataValue;
 
 /** Security classification level as defined by Security Metadata Universal Set (ST 0102 tag 1). */
 public class ClassificationUniversal implements ISecurityMetadataValue {
-    private Classification value;
+    private final Classification value;
 
     /**
      * Create from value.
@@ -57,7 +57,7 @@ public class ClassificationUniversal implements ISecurityMetadataValue {
 
     @Override
     public byte[] getBytes() {
-        String string = "";
+        String string;
         switch (value) {
             case TOP_SECRET:
                 string = "TOP SECRET//";

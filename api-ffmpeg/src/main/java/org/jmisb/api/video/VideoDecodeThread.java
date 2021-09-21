@@ -43,12 +43,12 @@ import org.slf4j.LoggerFactory;
  * up to the {@link VideoInput}.
  */
 class VideoDecodeThread extends ProcessingThread {
-    private static Logger logger = LoggerFactory.getLogger(VideoDecodeThread.class);
+    private static final Logger logger = LoggerFactory.getLogger(VideoDecodeThread.class);
     private static final int INPUT_QUEUE_SIZE = 100;
     private final VideoInput inputStream;
     private final AVStream videoStream;
     private AVCodecContext codecContext;
-    private BlockingQueue<AVPacket> packetQueue = new LinkedBlockingDeque<>(INPUT_QUEUE_SIZE);
+    private final BlockingQueue<AVPacket> packetQueue = new LinkedBlockingDeque<>(INPUT_QUEUE_SIZE);
 
     /** Image buffer in native stream format. */
     private AVFrame nativeFrame;

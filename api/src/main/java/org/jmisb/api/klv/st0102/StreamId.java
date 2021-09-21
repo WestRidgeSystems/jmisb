@@ -21,7 +21,7 @@ import org.jmisb.core.klv.PrimitiveConverter;
  * class.
  */
 public class StreamId implements ISecurityMetadataValue {
-    private int id;
+    private final int id;
 
     /**
      * Create from encoded bytes.

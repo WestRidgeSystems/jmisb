@@ -17,11 +17,11 @@ import org.jmisb.core.klv.PrimitiveConverter;
  * </blockquote>
  */
 public abstract class UasDatalinkAltitude implements IUasDatalinkValue {
-    private double meters;
+    private final double meters;
     private static final double MIN_VALUE = -900;
     private static final double MAX_VALUE = 19000;
     private static final double RANGE = 19900;
-    private static final double MAXINT = 65535.0; // 2^16 - 1
+    private static final double MAX_INT = 65535.0; // 2^16 - 1
     public static final double DELTA = 0.15; // +/- 0.15 meters
 
     /**
@@ -48,7 +48,7 @@ public abstract class UasDatalinkAltitude implements IUasDatalinkValue {
         }
 
         int intVal = PrimitiveConverter.toUint16(bytes);
-        meters = ((intVal / MAXINT) * RANGE) + MIN_VALUE;
+        meters = ((intVal / MAX_INT) * RANGE) + MIN_VALUE;
     }
 
     /**
@@ -62,7 +62,7 @@ public abstract class UasDatalinkAltitude implements IUasDatalinkValue {
 
     @Override
     public byte[] getBytes() {
-        int intVal = (int) Math.round(((meters - MIN_VALUE) / RANGE) * MAXINT);
+        int intVal = (int) Math.round(((meters - MIN_VALUE) / RANGE) * MAX_INT);
         return PrimitiveConverter.uint16ToBytes(intVal);
     }
 

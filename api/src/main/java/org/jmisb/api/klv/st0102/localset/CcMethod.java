@@ -7,7 +7,7 @@ import org.jmisb.api.klv.st0102.ISecurityMetadataValue;
 
 /** Classifying Country and Releasing Instructions Country Coding Method (ST 0102 tag 2). */
 public class CcMethod implements ISecurityMetadataValue {
-    private byte method;
+    private final byte method;
 
     /**
      * Create from value.

@@ -13,7 +13,7 @@ public abstract class UasDatalinkAltitudeExtended implements IUasDatalinkValue {
     protected static final double MIN_VAL = -900.0;
     protected static final double MAX_VAL = 40000.0;
     protected static final int RECOMMENDED_BYTES = 3;
-    private double metres;
+    private final double meters;
 
     /**
      * Create from value.
@@ -25,7 +25,7 @@ public abstract class UasDatalinkAltitudeExtended implements IUasDatalinkValue {
             throw new IllegalArgumentException(
                     this.getDisplayName() + " must be in range [0,40000]");
         }
-        this.metres = meters;
+        this.meters = meters;
     }
 
     /**
@@ -40,7 +40,7 @@ public abstract class UasDatalinkAltitudeExtended implements IUasDatalinkValue {
                     this.getDisplayName() + " cannot be longer than " + maxBytes + " bytes");
         }
         FpEncoder decoder = new FpEncoder(MIN_VAL, MAX_VAL, bytes.length);
-        metres = decoder.decode(bytes);
+        meters = decoder.decode(bytes);
     }
 
     /**
@@ -49,17 +49,17 @@ public abstract class UasDatalinkAltitudeExtended implements IUasDatalinkValue {
      * @return The density altitude in meters
      */
     public double getMeters() {
-        return this.metres;
+        return this.meters;
     }
 
     @Override
     public byte[] getBytes() {
         FpEncoder encoder = new FpEncoder(MIN_VAL, MAX_VAL, RECOMMENDED_BYTES);
-        return encoder.encode(metres);
+        return encoder.encode(meters);
     }
 
     @Override
     public String getDisplayableValue() {
-        return String.format("%.1fm", this.metres);
+        return String.format("%.1fm", this.meters);
     }
 }

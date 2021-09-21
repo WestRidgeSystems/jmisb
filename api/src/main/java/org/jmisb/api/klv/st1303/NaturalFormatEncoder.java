@@ -42,8 +42,8 @@ public class NaturalFormatEncoder {
                         // array processing algorithm (APA)
                         // note: no array processing algorithm support (APAS)
                         .appendAsOID(ArrayProcessingAlgorithm.NaturalFormat.getCode());
-        for (int i = 0; i < data.length; i++) {
-            builder.append(PrimitiveConverter.float64ToBytes(data[i]));
+        for (double datum : data) {
+            builder.append(PrimitiveConverter.float64ToBytes(datum));
         }
         return builder.toBytes();
     }
@@ -71,8 +71,8 @@ public class NaturalFormatEncoder {
                         // array processing algorithm (APA)
                         // note: no array processing algorithm support (APAS)
                         .appendAsOID(ArrayProcessingAlgorithm.NaturalFormat.getCode());
-        for (int c = 0; c < data.length; ++c) {
-            builder.append(PrimitiveConverter.int64ToBytes(data[c]));
+        for (long datum : data) {
+            builder.append(PrimitiveConverter.int64ToBytes(datum));
         }
         return builder.toBytes();
     }
@@ -103,8 +103,8 @@ public class NaturalFormatEncoder {
                         // note: no array processing algorithm support (APAS)
                         .appendAsOID(ArrayProcessingAlgorithm.NaturalFormat.getCode());
         for (long[] row : data) {
-            for (int c = 0; c < row.length; ++c) {
-                builder.append(PrimitiveConverter.int64ToBytes(row[c]));
+            for (long l : row) {
+                builder.append(PrimitiveConverter.int64ToBytes(l));
             }
         }
         return builder.toBytes();
@@ -123,8 +123,8 @@ public class NaturalFormatEncoder {
             throw new KlvParseException("MDAP encoding requires each dimension to be at least 1");
         }
         int minRequiredLength = 0;
-        for (int c = 0; c < data.length; ++c) {
-            byte[] bytes = PrimitiveConverter.uintToVariableBytes(data[c]);
+        for (long datum : data) {
+            byte[] bytes = PrimitiveConverter.uintToVariableBytes(datum);
             minRequiredLength = Math.max(minRequiredLength, bytes.length);
         }
         ArrayBuilder builder =
@@ -138,8 +138,8 @@ public class NaturalFormatEncoder {
                         // array processing algorithm (APA)
                         // note: no array processing algorithm support (APAS)
                         .appendAsOID(ArrayProcessingAlgorithm.NaturalFormat.getCode());
-        for (int c = 0; c < data.length; ++c) {
-            byte[] encodedValue = PrimitiveConverter.uintToVariableBytes(data[c]);
+        for (long datum : data) {
+            byte[] encodedValue = PrimitiveConverter.uintToVariableBytes(datum);
             int numPaddingBytes = minRequiredLength - encodedValue.length;
             for (int i = 0; i < numPaddingBytes; i++) {
                 builder.appendByte((byte) 0x00);
@@ -162,9 +162,9 @@ public class NaturalFormatEncoder {
             throw new KlvParseException("MDAP encoding requires each dimension to be at least 1");
         }
         int minRequiredLength = 0;
-        for (int r = 0; r < data.length; ++r) {
-            for (int c = 0; c < data[r].length; ++c) {
-                byte[] bytes = PrimitiveConverter.uintToVariableBytes(data[r][c]);
+        for (long[] datum : data) {
+            for (long l : datum) {
+                byte[] bytes = PrimitiveConverter.uintToVariableBytes(l);
                 minRequiredLength = Math.max(minRequiredLength, bytes.length);
             }
         }
@@ -181,9 +181,9 @@ public class NaturalFormatEncoder {
                         // array processing algorithm (APA)
                         // note: no array processing algorithm support (APAS)
                         .appendAsOID(ArrayProcessingAlgorithm.NaturalFormat.getCode());
-        for (int r = 0; r < data.length; ++r) {
-            for (int c = 0; c < data[r].length; ++c) {
-                byte[] encodedValue = PrimitiveConverter.uintToVariableBytes(data[r][c]);
+        for (long[] datum : data) {
+            for (long l : datum) {
+                byte[] encodedValue = PrimitiveConverter.uintToVariableBytes(l);
                 int numPaddingBytes = minRequiredLength - encodedValue.length;
                 for (int i = 0; i < numPaddingBytes; i++) {
                     builder.appendByte((byte) 0x00);

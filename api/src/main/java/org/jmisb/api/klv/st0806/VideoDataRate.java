@@ -11,9 +11,8 @@ import org.jmisb.core.klv.PrimitiveConverter;
  */
 public class VideoDataRate implements IRvtMetadataValue {
     private final long dataRate;
-
-    private static long MIN_VALUE = 0;
-    private static long MAX_VALUE = 4294967295L;
+    private static final long MIN_VALUE = 0;
+    private static final long MAX_VALUE = 4294967295L;
     private static final int REQUIRED_BYTE_LENGTH = 4;
 
     /**

@@ -23,7 +23,7 @@ import org.jmisb.api.klv.st0102.localset.SecurityMetadataLocalSet;
  * </blockquote>
  */
 public class NestedSecurityMetadata implements IUasDatalinkValue, INestedKlvValue {
-    private SecurityMetadataLocalSet localSet;
+    private final SecurityMetadataLocalSet localSet;
 
     /**
      * Wrap an existing {@link SecurityMetadataLocalSet}.

@@ -12,7 +12,7 @@ public class CodecConfigurations {
     private final List<CodecConfiguration> codecs = new LinkedList<>();
 
     private CodecConfigurations() {
-        // HW first, then fallback to best sofware options.
+        // HW first, then fallback to best software options.
         codecs.add(
                 new CodecConfiguration("hevc_nvenc", "NVIDIA", CodecIdentifier.H265)
                         .addCodecOption("tune", "zerolatency")
@@ -52,9 +52,7 @@ public class CodecConfigurations {
         codecs.stream()
                 .filter(c -> (c.getIdentifier().equals(codecIdentifier)))
                 .forEachOrdered(
-                        c -> {
-                            filteredCodecs.add(c);
-                        });
+                    filteredCodecs::add);
         return filteredCodecs;
     }
 

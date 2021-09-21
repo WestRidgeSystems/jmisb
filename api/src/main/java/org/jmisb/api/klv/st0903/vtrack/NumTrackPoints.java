@@ -1,6 +1,5 @@
 package org.jmisb.api.klv.st0903.vtrack;
 
-import org.jmisb.api.klv.st0903.*;
 import org.jmisb.api.klv.st0903.shared.IVTrackMetadataValue;
 import org.jmisb.api.klv.st0903.shared.VmtiV3Value;
 

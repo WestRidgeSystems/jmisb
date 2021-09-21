@@ -3,7 +3,6 @@ package org.jmisb.api.klv.st0903.vmask;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
-import org.jmisb.api.common.KlvParseException;
 import org.jmisb.api.klv.BerDecoder;
 import org.jmisb.api.klv.BerEncoder;
 import org.jmisb.api.klv.BerField;
@@ -52,9 +51,8 @@ public class PixelPolygon implements IVmtiMetadataValue {
      * Create from encoded bytes.
      *
      * @param bytes Encoded byte array comprising the polygon
-     * @throws KlvParseException if the byte array could not be parsed.
      */
-    public PixelPolygon(byte[] bytes) throws KlvParseException {
+    public PixelPolygon(byte[] bytes) {
         int index = 0;
         while (index < bytes.length - 1) {
             BerField lengthField = BerDecoder.decode(bytes, index, false);
@@ -106,9 +104,9 @@ public class PixelPolygon implements IVmtiMetadataValue {
             throw new IllegalArgumentException("Pixel number encoding is up to 6 bytes");
         }
         long pixelNumber = 0;
-        for (int i = 0; i < bytes.length; ++i) {
+        for (byte aByte : bytes) {
             pixelNumber = pixelNumber << 8;
-            pixelNumber += ((int) bytes[i] & 0xFF);
+            pixelNumber += ((int) aByte & 0xFF);
         }
         return pixelNumber;
     }

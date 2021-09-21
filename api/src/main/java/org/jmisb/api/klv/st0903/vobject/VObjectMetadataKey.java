@@ -18,7 +18,7 @@ public enum VObjectMetadataKey {
     /** The amount of confidence in the classification of this object. */
     confidence(4);
 
-    private int tag;
+    private final int tag;
 
     private static final Map<Integer, VObjectMetadataKey> tagTable = new HashMap<>();
 
@@ -48,6 +48,6 @@ public enum VObjectMetadataKey {
      * @return the corresponding VObject tag.
      */
     public static VObjectMetadataKey getKey(int tag) {
-        return tagTable.containsKey(tag) ? tagTable.get(tag) : Undefined;
+        return tagTable.getOrDefault(tag, Undefined);
     }
 }

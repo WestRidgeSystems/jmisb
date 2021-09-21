@@ -20,7 +20,7 @@ import org.jmisb.core.klv.PrimitiveConverter;
  * information. That is, there is no Document Version or equivalent tag until ST 1108.3.
  */
 public class DocumentVersion implements IInterpretabilityQualityMetadataValue {
-    private int version;
+    private final int version;
     private static final int MIN_VALUE = 3;
     private static final int MAX_VALUE = 255;
     private static final int REQUIRED_BYTES = 1;

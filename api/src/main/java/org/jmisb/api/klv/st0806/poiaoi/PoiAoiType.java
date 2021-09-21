@@ -78,8 +78,7 @@ public class PoiAoiType implements IRvtPoiAoiMetadataValue {
 
     @Override
     public byte[] getBytes() {
-        byte[] bytes = new byte[] {value};
-        return bytes;
+        return new byte[] {value};
     }
 
     @Override
@@ -115,9 +114,6 @@ public class PoiAoiType implements IRvtPoiAoiMetadataValue {
             return false;
         }
         final PoiAoiType other = (PoiAoiType) obj;
-        if (this.value != other.value) {
-            return false;
-        }
-        return true;
+        return this.value == other.value;
     }
 }

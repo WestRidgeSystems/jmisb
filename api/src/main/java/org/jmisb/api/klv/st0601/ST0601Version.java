@@ -16,7 +16,7 @@ import org.jmisb.core.klv.PrimitiveConverter;
  * </blockquote>
  */
 public class ST0601Version implements IUasDatalinkValue {
-    private short version;
+    private final short version;
 
     /**
      * Create from value.

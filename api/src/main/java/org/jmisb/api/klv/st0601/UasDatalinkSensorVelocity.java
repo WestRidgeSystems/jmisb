@@ -18,7 +18,7 @@ import org.jmisb.core.klv.PrimitiveConverter;
  * </blockquote>
  */
 public abstract class UasDatalinkSensorVelocity implements IUasDatalinkValue {
-    private double velocity;
+    private final double velocity;
     private static final byte[] invalidBytes = new byte[] {(byte) 0x80, (byte) 0x00};
     private static final double FLOAT_RANGE = 654.0;
     private static final double INT_RANGE = 65534.0; // 2^15-1

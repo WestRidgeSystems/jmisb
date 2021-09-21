@@ -29,10 +29,8 @@ public class AncillaryTextLocalSet implements IMisbMessage {
      * @param tag The tag defining the value type
      * @param bytes Encoded bytes
      * @return The new instance
-     * @throws KlvParseException if the byte array could not be parsed.
      */
-    static IAncillaryTextMetadataValue createValue(AncillaryTextMetadataKey tag, byte[] bytes)
-            throws KlvParseException {
+    static IAncillaryTextMetadataValue createValue(AncillaryTextMetadataKey tag, byte[] bytes) {
         // This is fully implemented as of ST0808.2
         switch (tag) {
             case Originator:

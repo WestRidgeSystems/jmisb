@@ -50,7 +50,7 @@ public enum VTrackMetadataKey implements IKlvKey {
     /** Series of one or more Ontology Local Sets. */
     OntologySeries(103);
 
-    private int tag;
+    private final int tag;
 
     private static final Map<Integer, VTrackMetadataKey> tagTable = new HashMap<>();
 
@@ -67,7 +67,7 @@ public enum VTrackMetadataKey implements IKlvKey {
      *
      * @param tag the tag value to initialise the enumeration value.
      */
-    private VTrackMetadataKey(int tag) {
+    VTrackMetadataKey(int tag) {
         this.tag = tag;
     }
 
@@ -90,6 +90,6 @@ public enum VTrackMetadataKey implements IKlvKey {
      * @return the corresponding metadata key.
      */
     public static VTrackMetadataKey getKey(int tag) {
-        return tagTable.containsKey(tag) ? tagTable.get(tag) : Undefined;
+        return tagTable.getOrDefault(tag, Undefined);
     }
 }

@@ -8,8 +8,8 @@ import org.jmisb.api.klv.UniversalLabel;
 /**
  * ST 0102 key.
  *
- * <p>Each metadata element within ST0102 consists of a key represented by a instance of this
- * enumeration, and a value represented by a instance implementing {@link ISecurityMetadataValue}.
+ * <p>Each metadata element within ST0102 consists of a key represented by an instance of this
+ * enumeration, and a value represented by an instance implementing {@link ISecurityMetadataValue}.
  *
  * <p>The key has two representations - a tag number for the local set, and a universal label for
  * the universal set.
@@ -35,7 +35,7 @@ public enum SecurityMetadataKey implements IKlvKey {
     /**
      * Coding method for Classifying Country and Releasing Instructions.
      *
-     * <p>This indicates how the {@link ClassifyingCountry} and {@link ReleasingInstructions} are to
+     * <p>This indicates how the {@link #ClassifyingCountry} and {@link #ReleasingInstructions} are to
      * be interpreted. Value is a {@link CountryCodingMethod}.
      *
      * <p>This item is required for the security local set or universal set to be valid.
@@ -49,7 +49,7 @@ public enum SecurityMetadataKey implements IKlvKey {
      * SecurityMetadataString} with a {@code displayName} of {@code CLASSIFYING_COUNTRY} and a
      * {@code value} corresponding to the country code preceded by {@code //}.
      *
-     * <p>For example, if the {@link CcCodingMethod} is {@code ISO3166_THREE_LETTER}, then Australia
+     * <p>For example, if the {@link #CcCodingMethod} is {@code ISO3166_THREE_LETTER}, then Australia
      * would be represented as {@code new
      * SecurityMetadataString(SecurityMetadataString.CLASSIFYING_COUNTRY, "//AUS")}.
      *
@@ -100,7 +100,7 @@ public enum SecurityMetadataKey implements IKlvKey {
      *
      * <p>Value is a {@link SecurityMetadataString} with a {@code displayName} of {@code
      * RELEASING_INSTRUCTIONS} and a {@code value} corresponding to the country codes separated by
-     * spaces. For example, if the {@link CcCodingMethod} is {@code ISO3166_THREE_LETTER}, then
+     * spaces. For example, if the {@link #CcCodingMethod} is {@code ISO3166_THREE_LETTER}, then
      * release to Canada and the United States would be represented as {@code new
      * SecurityMetadataString(SecurityMetadataString.RELEASING_INSTRUCTIONS, "CAN USA")}.
      *
@@ -173,7 +173,7 @@ public enum SecurityMetadataKey implements IKlvKey {
      * Object Country Coding Method.
      *
      * <p>The Object Country Coding Method metadata element identifies the coding method for the
-     * {@link ObjectCountryCodes} metadata. This element allows use of GEC two-letter or four-letter
+     * {@link #ObjectCountryCodes} metadata. This element allows use of GEC two-letter or four-letter
      * alphabetic country code (legacy systems only); ISO-3166 two-letter, three-letter, or
      * three-digit numeric; STANAG 1059 two-letter or three-letter codes; and GENC two-letter,
      * three-letter, three-digit numeric or administrative subdivisions. Early (ST0102-5 and
@@ -202,7 +202,7 @@ public enum SecurityMetadataKey implements IKlvKey {
      * geographic region under the center of the image frame.
      *
      * <p>Value is a {@link ObjectCountryCodeString} with a {@code value} corresponding to the
-     * country code or codes. For example, if the {@link OcCodingMethod} is {@code
+     * country code or codes. For example, if the {@link #OcCodingMethod} is {@code
      * ISO3166_THREE_LETTER}, then Australia would be represented as {@code new
      * ObjectCountryCodeString("AUS")}. If the imagery also contained part of New Zealand, then it
      * could be represented {@code new ObjectCountryCodeString("AUS;NZL")}
@@ -229,7 +229,7 @@ public enum SecurityMetadataKey implements IKlvKey {
      * <p>This is a legacy identifier, no longer valid, provided to support ST0102.10 and earlier.
      *
      * <p>In MPEG-2 Program Streams and Packetized Elementary Streams (PES) it specifies the type
-     * and number of the Elementary Stream. In MPEG-2 Transport Streams the it may be set by the
+     * and number of the Elementary Stream. In MPEG-2 Transport Streams the id may be set by the
      * user to any valid value which correctly describes the Elementary Stream type.
      *
      * <p>Note that the current MISB position is that the security metadata applies to the
@@ -306,8 +306,8 @@ public enum SecurityMetadataKey implements IKlvKey {
      */
     OcCodingMethodVersionDate(24, SecurityMetadataConstants.ocCodingMethodVersionDateUl);
 
-    private int tag;
-    private UniversalLabel ul;
+    private final int tag;
+    private final UniversalLabel ul;
 
     private static final Map<Integer, SecurityMetadataKey> tagTable = new HashMap<>();
     private static final Map<UniversalLabel, SecurityMetadataKey> ulTable = new HashMap<>();
@@ -347,7 +347,7 @@ public enum SecurityMetadataKey implements IKlvKey {
      * @return the corresponding SecurityMetadataKey.
      */
     public static SecurityMetadataKey getKey(int tag) {
-        return tagTable.containsKey(tag) ? tagTable.get(tag) : Undefined;
+        return tagTable.getOrDefault(tag, Undefined);
     }
 
     /**
@@ -357,6 +357,6 @@ public enum SecurityMetadataKey implements IKlvKey {
      * @return the corresponding SecurityMetadataKey.
      */
     public static SecurityMetadataKey getKey(UniversalLabel ul) {
-        return ulTable.containsKey(ul) ? ulTable.get(ul) : Undefined;
+        return ulTable.getOrDefault(ul, Undefined);
     }
 }

@@ -17,7 +17,7 @@ import org.slf4j.LoggerFactory;
  * a list of the minimum set of UAS Datalink LS metadata items.
  */
 public class UasDatalinkMessage implements IMisbMessage {
-    private static Logger logger = LoggerFactory.getLogger(UasDatalinkMessage.class);
+    private static final Logger logger = LoggerFactory.getLogger(UasDatalinkMessage.class);
 
     // TODO: should we make this class immutable? May have benefits for stability in multi-threaded
     // environments.

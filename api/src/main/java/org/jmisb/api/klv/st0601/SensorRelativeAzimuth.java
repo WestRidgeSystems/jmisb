@@ -19,9 +19,9 @@ import org.jmisb.core.klv.PrimitiveConverter;
  * </blockquote>
  */
 public class SensorRelativeAzimuth implements IUasDatalinkValue {
-    private double degrees;
-    private static double RANGE = 360.0;
-    private static double MAXINT = 4294967295.0; // 2^32-1
+    private final double degrees;
+    private static final double RANGE = 360.0;
+    private static final double MAX_INT = 4294967295.0; // 2^32-1
 
     /**
      * Create from value.
@@ -47,7 +47,7 @@ public class SensorRelativeAzimuth implements IUasDatalinkValue {
                     "Sensor Relative Azimuth encoding is a 4-byte unsigned int");
         }
         long longVal = PrimitiveConverter.toUint32(bytes);
-        this.degrees = (longVal / MAXINT) * RANGE;
+        this.degrees = (longVal / MAX_INT) * RANGE;
     }
 
     /**
@@ -61,7 +61,7 @@ public class SensorRelativeAzimuth implements IUasDatalinkValue {
 
     @Override
     public byte[] getBytes() {
-        long longVal = Math.round((degrees / RANGE) * MAXINT);
+        long longVal = Math.round((degrees / RANGE) * MAX_INT);
         return PrimitiveConverter.uint32ToBytes(longVal);
     }
 

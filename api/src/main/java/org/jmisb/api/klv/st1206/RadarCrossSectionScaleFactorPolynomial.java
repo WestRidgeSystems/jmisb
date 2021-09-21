@@ -15,7 +15,7 @@ import org.jmisb.api.klv.st1303.MDAPDecoder;
  */
 public class RadarCrossSectionScaleFactorPolynomial implements ISARMIMetadataValue {
 
-    private double[][] values;
+    private final double[][] values;
     /**
      * Create from value.
      *

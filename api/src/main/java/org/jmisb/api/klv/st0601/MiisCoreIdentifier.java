@@ -20,7 +20,7 @@ import org.jmisb.api.klv.st1204.CoreIdentifier;
  */
 public class MiisCoreIdentifier implements IUasDatalinkValue {
 
-    private CoreIdentifier coreIdentifier;
+    private final CoreIdentifier coreIdentifier;
 
     /**
      * Create from value.

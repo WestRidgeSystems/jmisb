@@ -16,7 +16,7 @@ import org.slf4j.LoggerFactory;
 
 /** Utility methods for demuxing. */
 class DemuxerUtils {
-    private static Logger logger = LoggerFactory.getLogger(DemuxerUtils.class);
+    private static final Logger logger = LoggerFactory.getLogger(DemuxerUtils.class);
 
     private DemuxerUtils() {}
 

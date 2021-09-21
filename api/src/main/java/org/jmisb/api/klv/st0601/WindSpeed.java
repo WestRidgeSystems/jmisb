@@ -18,11 +18,11 @@ import org.jmisb.core.klv.PrimitiveConverter;
  * </blockquote>
  */
 public class WindSpeed implements IUasDatalinkValue {
-    private double windspeed;
-    private static double MIN_VALUE = 0;
-    private static double MAX_VALUE = 100;
-    private static double RANGE = 100;
-    private static double MAXINT = 255.0; // 2^8 - 1
+    private final double windSpeed;
+    private static final double MIN_VALUE = 0;
+    private static final double MAX_VALUE = 100;
+    private static final double RANGE = 100;
+    private static final double MAX_INT = 255.0; // 2^8 - 1
 
     /**
      * Create from value.
@@ -33,7 +33,7 @@ public class WindSpeed implements IUasDatalinkValue {
         if (speed > MAX_VALUE || speed < MIN_VALUE) {
             throw new IllegalArgumentException("Wind speed must be in range [0,100]");
         }
-        windspeed = speed;
+        windSpeed = speed;
     }
 
     /**
@@ -47,7 +47,7 @@ public class WindSpeed implements IUasDatalinkValue {
         }
 
         int intVal = PrimitiveConverter.toUint8(bytes);
-        windspeed = ((intVal / MAXINT) * RANGE) + MIN_VALUE;
+        windSpeed = ((intVal / MAX_INT) * RANGE) + MIN_VALUE;
     }
 
     /**
@@ -56,18 +56,18 @@ public class WindSpeed implements IUasDatalinkValue {
      * @return The wind speed in meters/second
      */
     public double getMetersPerSecond() {
-        return windspeed;
+        return windSpeed;
     }
 
     @Override
     public byte[] getBytes() {
-        short intVal = (short) Math.round(((windspeed - MIN_VALUE) / RANGE) * MAXINT);
+        short intVal = (short) Math.round(((windSpeed - MIN_VALUE) / RANGE) * MAX_INT);
         return PrimitiveConverter.uint8ToBytes(intVal);
     }
 
     @Override
     public String getDisplayableValue() {
-        return String.format("%.1fm/s", windspeed);
+        return String.format("%.1fm/s", windSpeed);
     }
 
     @Override

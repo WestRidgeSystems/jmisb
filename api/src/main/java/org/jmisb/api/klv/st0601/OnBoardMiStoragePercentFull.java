@@ -19,11 +19,11 @@ import org.jmisb.api.klv.st1201.FpEncoder;
  * </blockquote>
  */
 public class OnBoardMiStoragePercentFull implements IUasDatalinkValue {
-    private static double MIN_VAL = 0.0;
-    private static double MAX_VAL = 100.0;
-    private static int RECOMMENDED_BYTES = 2;
-    private static int MAX_BYTES = 3;
-    private double percentage;
+    private static final double MIN_VAL = 0.0;
+    private static final double MAX_VAL = 100.0;
+    private static final int RECOMMENDED_BYTES = 2;
+    private static final int MAX_BYTES = 3;
+    private final double percentage;
 
     /**
      * Create from value.

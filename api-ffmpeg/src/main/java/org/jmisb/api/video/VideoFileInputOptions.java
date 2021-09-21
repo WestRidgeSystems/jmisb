@@ -3,7 +3,7 @@ package org.jmisb.api.video;
 /** Options to be specified when opening an input file. */
 public class VideoFileInputOptions extends VideoInputOptions {
     /** Indicates playback will be paused when the file is first opened. */
-    private boolean initiallyPaused;
+    private final boolean initiallyPaused;
 
     /** Constructor specifying default options. */
     public VideoFileInputOptions() {

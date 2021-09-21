@@ -104,8 +104,8 @@ public class ElementProcessedEncoder {
                         .appendAsFloat64Primitive(this.min)
                         .appendAsFloat64Primitive(this.max);
         // Array Of Elements
-        for (int r = 0; r < data.length; ++r) {
-            builder.append(st1201encoder.encode(data[r]));
+        for (double datum : data) {
+            builder.append(st1201encoder.encode(datum));
         }
         return builder.toBytes();
     }
@@ -139,8 +139,8 @@ public class ElementProcessedEncoder {
                         .appendAsFloat32Primitive((float) this.min)
                         .appendAsFloat32Primitive((float) this.max);
         // Array Of Elements
-        for (int r = 0; r < data.length; ++r) {
-            builder.append(st1201encoder.encode(data[r]));
+        for (float datum : data) {
+            builder.append(st1201encoder.encode(datum));
         }
         return builder.toBytes();
     }
@@ -176,9 +176,9 @@ public class ElementProcessedEncoder {
                         .appendAsFloat64Primitive(this.min)
                         .appendAsFloat64Primitive(this.max);
         // Array Of Elements
-        for (int r = 0; r < data.length; ++r) {
-            for (int c = 0; c < data[r].length; ++c) {
-                builder.append(st1201encoder.encode(data[r][c]));
+        for (double[] datum : data) {
+            for (double v : datum) {
+                builder.append(st1201encoder.encode(v));
             }
         }
         return builder.toBytes();
@@ -214,9 +214,9 @@ public class ElementProcessedEncoder {
                         // array processing algorithm support (APAS) values - min and max
                         .appendAsFloat32Primitive((float) this.min)
                         .appendAsFloat32Primitive((float) this.max);
-        for (int r = 0; r < data.length; ++r) {
-            for (int c = 0; c < data[r].length; ++c) {
-                builder.append(st1201encoder.encode(data[r][c]));
+        for (float[] datum : data) {
+            for (float v : datum) {
+                builder.append(st1201encoder.encode(v));
             }
         }
         return builder.toBytes();

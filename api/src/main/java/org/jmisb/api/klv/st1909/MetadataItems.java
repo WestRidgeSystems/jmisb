@@ -10,7 +10,7 @@ import java.util.Set;
  * <p>This is used to transfer metadata between the source format (e.g. ST0601) and the renderer.
  */
 public class MetadataItems {
-    private Map<MetadataKey, String> items = new HashMap<>();
+    private final Map<MetadataKey, String> items = new HashMap<>();
 
     /**
      * The keys in the metadata set.

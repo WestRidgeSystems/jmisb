@@ -312,7 +312,7 @@ public class VideoFileInput extends VideoInput implements IVideoFileInput {
     @Override
     public void notifyEOF() {
         if (queuesAreEmpty()) {
-            fileEventListeners.forEach(listener -> listener.onEndOfFile());
+            fileEventListeners.forEach(IFileEventListener::onEndOfFile);
         }
     }
 }

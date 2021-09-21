@@ -9,8 +9,8 @@ import org.jmisb.core.klv.PrimitiveConverter;
  */
 public abstract class VmtiV3Value implements IVmtiMetadataValue {
     protected int value;
-    private static int MIN_VALUE = 0;
-    private static int MAX_VALUE = 16777215;
+    private static final int MIN_VALUE = 0;
+    private static final int MAX_VALUE = 16777215;
 
     /**
      * Construct from integer value.
@@ -41,9 +41,9 @@ public abstract class VmtiV3Value implements IVmtiMetadataValue {
 
     protected final void parse(byte[] bytes) {
         value = 0;
-        for (int i = 0; i < bytes.length; ++i) {
+        for (byte aByte : bytes) {
             value = value << 8;
-            value += ((int) bytes[i] & 0xFF);
+            value += ((int) aByte & 0xFF);
         }
     }
 

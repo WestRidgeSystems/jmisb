@@ -47,7 +47,7 @@ public enum VmtiMetadataKey implements IKlvKey {
     /** Series of one or more Ontology LS. */
     OntologySeries(103);
 
-    private int tag;
+    private final int tag;
 
     private static final Map<Integer, VmtiMetadataKey> tagTable = new HashMap<>();
 
@@ -87,6 +87,6 @@ public enum VmtiMetadataKey implements IKlvKey {
      * @return the corresponding metadata key.
      */
     public static VmtiMetadataKey getKey(int tag) {
-        return tagTable.containsKey(tag) ? tagTable.get(tag) : Undefined;
+        return tagTable.getOrDefault(tag, Undefined);
     }
 }

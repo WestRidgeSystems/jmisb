@@ -26,11 +26,11 @@ import org.slf4j.LoggerFactory;
  * <p>This thread decodes KLV metadata and sends {@link IMisbMessage}s up to the {@link VideoInput}.
  */
 class MetadataDecodeThread extends ProcessingThread {
-    private static Logger logger = LoggerFactory.getLogger(MetadataDecodeThread.class);
+    private static final Logger logger = LoggerFactory.getLogger(MetadataDecodeThread.class);
     private static final int INPUT_QUEUE_SIZE = 100;
     private final VideoInput inputStream;
     private final AVStream dataStream;
-    private BlockingQueue<AVPacket> packetQueue = new LinkedBlockingDeque<>(INPUT_QUEUE_SIZE);
+    private final BlockingQueue<AVPacket> packetQueue = new LinkedBlockingDeque<>(INPUT_QUEUE_SIZE);
 
     /**
      * Constructor.

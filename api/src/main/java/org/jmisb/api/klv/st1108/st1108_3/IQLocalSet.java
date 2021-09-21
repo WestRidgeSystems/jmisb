@@ -35,7 +35,7 @@ public class IQLocalSet implements IMisbMessage {
     private final SortedMap<IQMetadataKey, IInterpretabilityQualityMetadataValue> map =
             new TreeMap<>();
 
-    private IQLocalSet() {};
+    private IQLocalSet() {}
 
     /**
      * Create the local set from the given key/value pairs.

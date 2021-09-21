@@ -215,7 +215,7 @@ public class VTrackLocalSet implements IMisbMessage {
 
     private void updateVersion() {
         ST0903Version version = (ST0903Version) getField(VTrackMetadataKey.VersionNumber);
-        // If we're missing a version, or its too old, update it to current. Otherwise leave it
+        // If we're missing a version, or it's too old, update it to current. Otherwise, leave it
         // alone.
         if ((version == null) || (version.getVersion() < 4)) {
             version = new ST0903Version(VmtiMetadataConstants.ST_VERSION_NUMBER);

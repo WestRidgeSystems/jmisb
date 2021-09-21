@@ -17,5 +17,5 @@ public interface INestedKlvValue {
      *
      * @return The set of item identifiers for which values have been set
      */
-    public Set<? extends IKlvKey> getIdentifiers();
+    Set<? extends IKlvKey> getIdentifiers();
 }

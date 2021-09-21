@@ -18,7 +18,7 @@ public enum VFeatureMetadataKey {
      */
     schemaFeature(2);
 
-    private int tag;
+    private final int tag;
 
     private static final Map<Integer, VFeatureMetadataKey> tagTable = new HashMap<>();
 
@@ -48,6 +48,6 @@ public enum VFeatureMetadataKey {
      * @return the corresponding VFeature tag.
      */
     public static VFeatureMetadataKey getKey(int tag) {
-        return tagTable.containsKey(tag) ? tagTable.get(tag) : Undefined;
+        return tagTable.getOrDefault(tag, Undefined);
     }
 }

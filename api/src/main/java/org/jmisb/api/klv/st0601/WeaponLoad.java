@@ -31,10 +31,10 @@ package org.jmisb.api.klv.st0601;
  * </blockquote>
  */
 public class WeaponLoad implements IUasDatalinkValue {
-    private int stationNumber;
-    private int substationNumber;
-    private int weaponType;
-    private int weaponVariant;
+    private final int stationNumber;
+    private final int substationNumber;
+    private final int weaponType;
+    private final int weaponVariant;
     /**
      * Create from value.
      *

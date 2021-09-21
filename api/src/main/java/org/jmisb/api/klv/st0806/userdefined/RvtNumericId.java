@@ -50,7 +50,7 @@ public class RvtNumericId implements IRvtUserDefinedMetadataValue {
     @Override
     public String getDisplayableValue() {
         int dataType = getDataType();
-        String dataTypeRepresentation = "";
+        String dataTypeRepresentation;
         switch (dataType) {
             case 0:
                 dataTypeRepresentation = "String: ";

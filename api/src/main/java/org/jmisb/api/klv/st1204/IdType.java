@@ -101,7 +101,7 @@ public enum IdType {
 
     private final int value;
 
-    private IdType(int v) {
+    IdType(int v) {
         this.value = v;
     }
 

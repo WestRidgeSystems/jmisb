@@ -20,7 +20,7 @@ public class WeaponStore {
     /**
      * Get the station identifier.
      *
-     * <p>In this case, this is not a "weapon station" - see hardpoint. Instead it is the "payload
+     * <p>In this case, this is not a "weapon station" - see hardpoint. Instead, it is the "payload
      * station" in the sense used by STANAG 4586 (see AEP-84) for the stores management system
      * (SMS).
      *
@@ -33,7 +33,7 @@ public class WeaponStore {
     /**
      * Set the station identifier.
      *
-     * <p>In this case, this is not a "weapon station" - see hardpoint. Instead it is the "payload
+     * <p>In this case, this is not a "weapon station" - see hardpoint. Instead, it is the "payload
      * station" in the sense used by STANAG 4586 (see AEP-84) for the stores management system
      * (SMS).
      *

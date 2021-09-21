@@ -11,7 +11,7 @@ import org.slf4j.LoggerFactory;
 /** Demux video/metadata contained in a file. */
 class FileDemuxer extends Demuxer {
 
-    private static Logger logger = LoggerFactory.getLogger(FileDemuxer.class);
+    private static final Logger logger = LoggerFactory.getLogger(FileDemuxer.class);
     private final VideoInput inputStream;
 
     private double videoFrameRate;

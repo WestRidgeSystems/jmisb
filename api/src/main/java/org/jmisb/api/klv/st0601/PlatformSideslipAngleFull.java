@@ -20,7 +20,7 @@ import org.jmisb.core.klv.PrimitiveConverter;
  * </blockquote>
  */
 public class PlatformSideslipAngleFull implements IUasDatalinkValue {
-    private double degrees;
+    private final double degrees;
     private static final byte[] invalidBytes =
             new byte[] {(byte) 0x80, (byte) 0x00, (byte) 0x00, (byte) 0x00};
     private static final double FLOAT_RANGE = 180.0;

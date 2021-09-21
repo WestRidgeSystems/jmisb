@@ -18,7 +18,7 @@ public class UasDatalinkString implements IUasDatalinkValue {
     public static final String TARGET_ID = "Target ID";
 
     private final String displayName;
-    private String stringValue;
+    private final String stringValue;
 
     /**
      * Create from value.

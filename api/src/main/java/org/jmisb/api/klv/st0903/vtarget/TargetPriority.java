@@ -20,8 +20,8 @@ import org.jmisb.core.klv.PrimitiveConverter;
 public class TargetPriority implements IVmtiMetadataValue, IVTrackItemMetadataValue {
 
     private final short priority;
-    private static int MIN_VALUE = 1;
-    private static int MAX_VALUE = 255;
+    private static final int MIN_VALUE = 1;
+    private static final int MAX_VALUE = 255;
 
     /**
      * Create from value.

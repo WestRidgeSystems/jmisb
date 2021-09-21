@@ -31,7 +31,7 @@ public class LegacyIQLocalSet implements IMisbMessage {
     private final SortedMap<LegacyIQMetadataKey, IInterpretabilityQualityMetadataValue> map =
             new TreeMap<>();
 
-    private LegacyIQLocalSet() {};
+    private LegacyIQLocalSet() {}
 
     /**
      * Create the local set from the given key/value pairs.

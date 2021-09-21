@@ -68,95 +68,95 @@ public class SARMIValidator {
 
     /** Required Metadata Items from ST0601, from ST 1403.2 Table 1. */
     private static final Map<UasDatalinkTag, Class> REQUIRED_ST0601_ITEMS =
-            new TreeMap<UasDatalinkTag, Class>() {
-                {
-                    /* No Checksum - that will get added / removed on serialisation */
-                    put(UasDatalinkTag.PrecisionTimeStamp, PrecisionTimeStamp.class);
-                    put(UasDatalinkTag.MissionId, UasDatalinkString.class);
-                    put(UasDatalinkTag.PlatformDesignation, UasDatalinkString.class);
-                    put(UasDatalinkTag.ImageSourceSensor, UasDatalinkString.class);
-                    put(UasDatalinkTag.SensorLatitude, SensorLatitude.class);
-                    put(UasDatalinkTag.SensorLongitude, SensorLongitude.class);
-                    put(UasDatalinkTag.SlantRange, SlantRange.class);
-                    put(UasDatalinkTag.FrameCenterLatitude, FrameCenterLatitude.class);
-                    put(UasDatalinkTag.FrameCenterLongitude, FrameCenterLongitude.class);
-                    put(UasDatalinkTag.CornerLatPt1, FullCornerLatitude.class);
-                    put(UasDatalinkTag.CornerLonPt1, FullCornerLongitude.class);
-                    put(UasDatalinkTag.CornerLatPt2, FullCornerLatitude.class);
-                    put(UasDatalinkTag.CornerLonPt2, FullCornerLongitude.class);
-                    put(UasDatalinkTag.CornerLatPt3, FullCornerLatitude.class);
-                    put(UasDatalinkTag.CornerLonPt3, FullCornerLongitude.class);
-                    put(UasDatalinkTag.CornerLatPt4, FullCornerLatitude.class);
-                    put(UasDatalinkTag.CornerLonPt4, FullCornerLongitude.class);
-                    put(UasDatalinkTag.SecurityLocalMetadataSet, NestedSecurityMetadata.class);
-                    put(UasDatalinkTag.UasLdsVersionNumber, ST0601Version.class);
-                    /* Ellipsoid Height | Ellipsoid Height Extended is special case */
-                    put(UasDatalinkTag.FrameCenterHae, FrameCenterHae.class);
-                    put(UasDatalinkTag.MiisCoreIdentifier, MiisCoreIdentifier.class);
-                    put(UasDatalinkTag.SarMotionImageryMetadata, NestedSARMILocalSet.class);
-                }
-            };
+        new TreeMap<>() {
+            {
+                /* No Checksum - that will get added / removed on serialisation */
+                put(UasDatalinkTag.PrecisionTimeStamp, PrecisionTimeStamp.class);
+                put(UasDatalinkTag.MissionId, UasDatalinkString.class);
+                put(UasDatalinkTag.PlatformDesignation, UasDatalinkString.class);
+                put(UasDatalinkTag.ImageSourceSensor, UasDatalinkString.class);
+                put(UasDatalinkTag.SensorLatitude, SensorLatitude.class);
+                put(UasDatalinkTag.SensorLongitude, SensorLongitude.class);
+                put(UasDatalinkTag.SlantRange, SlantRange.class);
+                put(UasDatalinkTag.FrameCenterLatitude, FrameCenterLatitude.class);
+                put(UasDatalinkTag.FrameCenterLongitude, FrameCenterLongitude.class);
+                put(UasDatalinkTag.CornerLatPt1, FullCornerLatitude.class);
+                put(UasDatalinkTag.CornerLonPt1, FullCornerLongitude.class);
+                put(UasDatalinkTag.CornerLatPt2, FullCornerLatitude.class);
+                put(UasDatalinkTag.CornerLonPt2, FullCornerLongitude.class);
+                put(UasDatalinkTag.CornerLatPt3, FullCornerLatitude.class);
+                put(UasDatalinkTag.CornerLonPt3, FullCornerLongitude.class);
+                put(UasDatalinkTag.CornerLatPt4, FullCornerLatitude.class);
+                put(UasDatalinkTag.CornerLonPt4, FullCornerLongitude.class);
+                put(UasDatalinkTag.SecurityLocalMetadataSet, NestedSecurityMetadata.class);
+                put(UasDatalinkTag.UasLdsVersionNumber, ST0601Version.class);
+                /* Ellipsoid Height | Ellipsoid Height Extended is special case */
+                put(UasDatalinkTag.FrameCenterHae, FrameCenterHae.class);
+                put(UasDatalinkTag.MiisCoreIdentifier, MiisCoreIdentifier.class);
+                put(UasDatalinkTag.SarMotionImageryMetadata, NestedSARMILocalSet.class);
+            }
+        };
 
     /** Required Metadata Items from ST0102, from ST 1403.2 Table 1. */
     private static final Map<SecurityMetadataKey, Class> REQUIRED_ST0102_ITEMS =
-            new TreeMap<SecurityMetadataKey, Class>() {
-                {
-                    put(SecurityMetadataKey.SecurityClassification, ClassificationLocal.class);
-                    put(SecurityMetadataKey.CcCodingMethod, CcMethod.class);
-                    put(SecurityMetadataKey.ClassifyingCountry, SecurityMetadataString.class);
-                    // TODO: what to put in for this?
-                    // put(SecurityMetadataKey.SciShiInfo, SecurityMetadataString.class);
-                    // put(SecurityMetadataKey.Caveats, SecurityMetadataString.class);
-                    // put(SecurityMetadataKey.ReleasingInstructions, SecurityMetadataString.class);
-                    put(SecurityMetadataKey.OcCodingMethod, OcMethod.class);
-                    put(SecurityMetadataKey.ObjectCountryCodes, ObjectCountryCodeString.class);
-                    put(SecurityMetadataKey.Version, ST0102Version.class);
-                }
-            };
+        new TreeMap<>() {
+            {
+                put(SecurityMetadataKey.SecurityClassification, ClassificationLocal.class);
+                put(SecurityMetadataKey.CcCodingMethod, CcMethod.class);
+                put(SecurityMetadataKey.ClassifyingCountry, SecurityMetadataString.class);
+                // TODO: what to put in for this?
+                // put(SecurityMetadataKey.SciShiInfo, SecurityMetadataString.class);
+                // put(SecurityMetadataKey.Caveats, SecurityMetadataString.class);
+                // put(SecurityMetadataKey.ReleasingInstructions, SecurityMetadataString.class);
+                put(SecurityMetadataKey.OcCodingMethod, OcMethod.class);
+                put(SecurityMetadataKey.ObjectCountryCodes, ObjectCountryCodeString.class);
+                put(SecurityMetadataKey.Version, ST0102Version.class);
+            }
+        };
 
     /** Required Metadata Items from ST1206, from ST 1403.2 Table 1. */
     private static final Map<SARMIMetadataKey, Class> REQUIRED_ST1206_ITEMS =
-            new TreeMap<SARMIMetadataKey, Class>() {
-                {
-                    put(SARMIMetadataKey.GrazingAngle, GrazingAngle.class);
-                    put(SARMIMetadataKey.GroundPlaneSquintAngle, GroundPlaneSquintAngle.class);
-                    put(SARMIMetadataKey.LookDirection, LookDirection.class);
-                    put(SARMIMetadataKey.ImagePlane, ImagePlane.class);
-                    put(SARMIMetadataKey.RangeResolution, RangeResolution.class);
-                    put(SARMIMetadataKey.RangeImagePlanePixelSize, RangeImagePlanePixelSize.class);
-                    put(
-                            SARMIMetadataKey.CrossRangeImagePlanePixelSize,
-                            CrossRangeImagePlanePixelSize.class);
-                    put(SARMIMetadataKey.ImageRows, ImageRows.class);
-                    put(SARMIMetadataKey.ImageColumns, ImageColumns.class);
-                    put(
-                            SARMIMetadataKey.RangeDirectionAngleRelativeToTrueNorth,
-                            RangeDirectionAngleRelativeToTrueNorth.class);
-                    put(
-                            SARMIMetadataKey.TrueNorthDirectionRelativeToTopImageEdge,
-                            TrueNorthDirectionRelativeToTopImageEdge.class);
-                    put(
-                            SARMIMetadataKey.RangeLayoverAngleRelativeToTrueNorth,
-                            RangeLayoverAngleRelativeToTrueNorth.class);
-                    put(SARMIMetadataKey.DocumentVersion, DocumentVersion.class);
-                }
-            };
+        new TreeMap<>() {
+            {
+                put(SARMIMetadataKey.GrazingAngle, GrazingAngle.class);
+                put(SARMIMetadataKey.GroundPlaneSquintAngle, GroundPlaneSquintAngle.class);
+                put(SARMIMetadataKey.LookDirection, LookDirection.class);
+                put(SARMIMetadataKey.ImagePlane, ImagePlane.class);
+                put(SARMIMetadataKey.RangeResolution, RangeResolution.class);
+                put(SARMIMetadataKey.RangeImagePlanePixelSize, RangeImagePlanePixelSize.class);
+                put(
+                    SARMIMetadataKey.CrossRangeImagePlanePixelSize,
+                    CrossRangeImagePlanePixelSize.class);
+                put(SARMIMetadataKey.ImageRows, ImageRows.class);
+                put(SARMIMetadataKey.ImageColumns, ImageColumns.class);
+                put(
+                    SARMIMetadataKey.RangeDirectionAngleRelativeToTrueNorth,
+                    RangeDirectionAngleRelativeToTrueNorth.class);
+                put(
+                    SARMIMetadataKey.TrueNorthDirectionRelativeToTopImageEdge,
+                    TrueNorthDirectionRelativeToTopImageEdge.class);
+                put(
+                    SARMIMetadataKey.RangeLayoverAngleRelativeToTrueNorth,
+                    RangeLayoverAngleRelativeToTrueNorth.class);
+                put(SARMIMetadataKey.DocumentVersion, DocumentVersion.class);
+            }
+        };
 
     /** Additional Metadata Items from ST1206, from ST 1403.2 Table 2. */
     private static final Map<SARMIMetadataKey, Class> ADDITIONAL_ST1206_ITEMS =
-            new TreeMap<SARMIMetadataKey, Class>() {
-                {
-                    put(
-                            SARMIMetadataKey.ReferenceFramePrecisionTimeStamp,
-                            ReferenceFramePrecisionTimeStamp.class);
-                    put(
-                            SARMIMetadataKey.ReferenceFrameGrazingAngle,
-                            ReferenceFrameGrazingAngle.class);
-                    put(
-                            SARMIMetadataKey.ReferenceFrameGroundPlaneSquintAngle,
-                            ReferenceFrameGroundPlaneSquintAngle.class);
-                }
-            };
+        new TreeMap<>() {
+            {
+                put(
+                    SARMIMetadataKey.ReferenceFramePrecisionTimeStamp,
+                    ReferenceFramePrecisionTimeStamp.class);
+                put(
+                    SARMIMetadataKey.ReferenceFrameGrazingAngle,
+                    ReferenceFrameGrazingAngle.class);
+                put(
+                    SARMIMetadataKey.ReferenceFrameGroundPlaneSquintAngle,
+                    ReferenceFrameGroundPlaneSquintAngle.class);
+            }
+        };
 
     /**
      * Validate that the given local set meets the requirements of ST 1403.2 for SAR Motion Imagery.

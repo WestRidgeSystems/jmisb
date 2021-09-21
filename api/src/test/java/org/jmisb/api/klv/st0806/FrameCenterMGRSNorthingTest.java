@@ -6,18 +6,18 @@ import static org.testng.Assert.assertTrue;
 import org.jmisb.api.common.KlvParseException;
 import org.testng.annotations.Test;
 
-public class FrameCentreMGRSNorthingTest {
+public class FrameCenterMGRSNorthingTest {
     @Test
     public void testConstructFromValue() {
         // Min
-        FrameCentreMGRSNorthing northing = new FrameCentreMGRSNorthing(0);
+        FrameCenterMGRSNorthing northing = new FrameCenterMGRSNorthing(0);
         assertEquals(northing.getBytes(), new byte[] {(byte) 0x00, (byte) 0x00, (byte) 0x00});
 
         // Max
-        northing = new FrameCentreMGRSNorthing(99999);
+        northing = new FrameCenterMGRSNorthing(99999);
         assertEquals(northing.getBytes(), new byte[] {(byte) 0x01, (byte) 0x86, (byte) 0x9F});
 
-        northing = new FrameCentreMGRSNorthing(74565);
+        northing = new FrameCenterMGRSNorthing(74565);
         assertEquals(northing.getBytes(), new byte[] {(byte) 0x01, (byte) 0x23, (byte) 0x45});
 
         assertEquals(northing.getDisplayName(), "Frame Center MGRS Northing");
@@ -26,19 +26,19 @@ public class FrameCentreMGRSNorthingTest {
     @Test
     public void testConstructFromEncoded() {
         // Min
-        FrameCentreMGRSNorthing northing =
-                new FrameCentreMGRSNorthing(new byte[] {(byte) 0x00, (byte) 0x00, (byte) 0x00});
+        FrameCenterMGRSNorthing northing =
+                new FrameCenterMGRSNorthing(new byte[] {(byte) 0x00, (byte) 0x00, (byte) 0x00});
         assertEquals(northing.getValue(), 0);
         assertEquals(northing.getBytes(), new byte[] {(byte) 0x00, (byte) 0x00, (byte) 0x00});
         assertEquals(northing.getDisplayableValue(), "0");
 
         // Max
-        northing = new FrameCentreMGRSNorthing(new byte[] {(byte) 0x01, (byte) 0x86, (byte) 0x9F});
+        northing = new FrameCenterMGRSNorthing(new byte[] {(byte) 0x01, (byte) 0x86, (byte) 0x9F});
         assertEquals(northing.getValue(), 99999);
         assertEquals(northing.getBytes(), new byte[] {(byte) 0x01, (byte) 0x86, (byte) 0x9F});
         assertEquals(northing.getDisplayableValue(), "99999");
 
-        northing = new FrameCentreMGRSNorthing(new byte[] {(byte) 0x01, (byte) 0x23, (byte) 0x45});
+        northing = new FrameCenterMGRSNorthing(new byte[] {(byte) 0x01, (byte) 0x23, (byte) 0x45});
         assertEquals(northing.getValue(), 74565);
         assertEquals(northing.getBytes(), new byte[] {(byte) 0x01, (byte) 0x23, (byte) 0x45});
         assertEquals(northing.getDisplayableValue(), "74565");
@@ -50,8 +50,8 @@ public class FrameCentreMGRSNorthingTest {
         byte[] bytes = new byte[] {(byte) 0x01, (byte) 0x23, (byte) 0x45};
         IRvtMetadataValue v =
                 RvtLocalSet.createValue(RvtMetadataKey.MGRSNorthingSecondValue, bytes);
-        assertTrue(v instanceof FrameCentreMGRSNorthing);
-        FrameCentreMGRSNorthing northing = (FrameCentreMGRSNorthing) v;
+        assertTrue(v instanceof FrameCenterMGRSNorthing);
+        FrameCenterMGRSNorthing northing = (FrameCenterMGRSNorthing) v;
         assertEquals(northing.getValue(), 74565);
         assertEquals(northing.getBytes(), new byte[] {(byte) 0x01, (byte) 0x23, (byte) 0x45});
         assertEquals(northing.getDisplayableValue(), "74565");
@@ -60,16 +60,16 @@ public class FrameCentreMGRSNorthingTest {
 
     @Test(expectedExceptions = IllegalArgumentException.class)
     public void testTooSmall() {
-        new FrameCentreMGRSNorthing(-1);
+        new FrameCenterMGRSNorthing(-1);
     }
 
     @Test(expectedExceptions = IllegalArgumentException.class)
     public void testTooBig() {
-        new FrameCentreMGRSNorthing(100000);
+        new FrameCenterMGRSNorthing(100000);
     }
 
     @Test(expectedExceptions = IllegalArgumentException.class)
     public void badArrayLength() {
-        new FrameCentreMGRSNorthing(new byte[] {0x01, 0x02, 0x03, 0x04});
+        new FrameCenterMGRSNorthing(new byte[] {0x01, 0x02, 0x03, 0x04});
     }
 }

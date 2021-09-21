@@ -245,21 +245,6 @@ public class TargetLocationTest {
     }
 
     @Test
-    @SuppressWarnings("deprecation")
-    public void testLocationPackParseFromEncodedBytes() {
-        LocationPack location = TargetLocation.targetLocationPackFromBytes(coordinateBytes);
-        assertEquals(location.getLat(), -10.5423886331461, 0.0001);
-        assertEquals(location.getLon(), 29.157890122923, 0.0001);
-        assertEquals(location.getHae(), 3216.0, 0.02);
-        assertNull(location.getSigEast());
-        assertNull(location.getSigNorth());
-        assertNull(location.getSigUp());
-        assertNull(location.getRhoEastNorth());
-        assertNull(location.getRhoEastUp());
-        assertNull(location.getRhoNorthUp());
-    }
-
-    @Test
     public void testLocationPackParseFromEncodedBytesExplicitEncodingIMAP() {
         LocationPack location =
                 TargetLocation.targetLocationPackFromBytes(coordinateBytes, EncodingMode.IMAPB);

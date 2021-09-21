@@ -8,7 +8,7 @@ import org.slf4j.LoggerFactory;
 public class ObjectCountryCodeString implements ISecurityMetadataValue {
     private static final Logger LOG = LoggerFactory.getLogger(ObjectCountryCodeString.class);
 
-    private String stringValue;
+    private final String stringValue;
 
     /**
      * Create from value.

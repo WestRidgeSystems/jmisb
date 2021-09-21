@@ -23,21 +23,21 @@ import org.slf4j.LoggerFactory;
 
 /** Manages an outgoing video stream. */
 public class VideoStreamOutput extends VideoOutput implements IVideoStreamOutput {
-    private static Logger logger = LoggerFactory.getLogger(VideoStreamOutput.class);
+    private static final Logger logger = LoggerFactory.getLogger(VideoStreamOutput.class);
     private String url;
 
     private Runnable videoEncoder;
     private Future<?> encoderFuture;
-    private BlockingQueue<VideoFrame> videoFrames = new LinkedBlockingDeque<>();
+    private final BlockingQueue<VideoFrame> videoFrames = new LinkedBlockingDeque<>();
     private ExecutorService encoderExecSvc;
 
     private Runnable packetSender;
     private Future<?> senderFuture;
-    private BlockingQueue<AVPacket> videoPackets = new LinkedBlockingDeque<>();
-    private BlockingQueue<AVPacket> klvPackets = new LinkedBlockingDeque<>();
+    private final BlockingQueue<AVPacket> videoPackets = new LinkedBlockingDeque<>();
+    private final BlockingQueue<AVPacket> klvPackets = new LinkedBlockingDeque<>();
     private ExecutorService senderExecSvc;
 
-    private OutputStatistics outputStatistics = new OutputStatistics();
+    private final OutputStatistics outputStatistics = new OutputStatistics();
 
     /**
      * Constructor.

@@ -35,10 +35,10 @@ public class UnsignedIntegerEncodingEncoder {
             throw new KlvParseException("MDAP encoding requires each dimension to be at least 1");
         }
         long minimumValue = Long.MAX_VALUE;
-        for (int r = 0; r < data.length; r++) {
-            for (int c = 0; c < data[r].length; c++) {
-                if (data[r][c] < minimumValue) {
-                    minimumValue = data[r][c];
+        for (long[] datum : data) {
+            for (long l : datum) {
+                if (l < minimumValue) {
+                    minimumValue = l;
                 }
             }
         }
@@ -56,9 +56,9 @@ public class UnsignedIntegerEncodingEncoder {
                         .appendAsOID(ArrayProcessingAlgorithm.UnsignedInteger.getCode())
                         // array processing algorithm support (APAS)
                         .appendAsOID((int) minimumValue);
-        for (int r = 0; r < data.length; ++r) {
-            for (int c = 0; c < data[r].length; ++c) {
-                int relativeValue = (int) (data[r][c] - minimumValue);
+        for (long[] datum : data) {
+            for (long l : datum) {
+                int relativeValue = (int) (l - minimumValue);
                 builder.appendAsOID(relativeValue);
             }
         }
@@ -78,9 +78,9 @@ public class UnsignedIntegerEncodingEncoder {
             throw new KlvParseException("MDAP encoding requires each dimension to be at least 1");
         }
         long minimumValue = Long.MAX_VALUE;
-        for (int i = 0; i < data.length; i++) {
-            if (data[i] < minimumValue) {
-                minimumValue = data[i];
+        for (long datum : data) {
+            if (datum < minimumValue) {
+                minimumValue = datum;
             }
         }
         ArrayBuilder builder =
@@ -95,8 +95,8 @@ public class UnsignedIntegerEncodingEncoder {
                         .appendAsOID(ArrayProcessingAlgorithm.UnsignedInteger.getCode())
                         // array processing algorithm support (APAS)
                         .appendAsOID((int) minimumValue);
-        for (int i = 0; i < data.length; ++i) {
-            int relativeValue = (int) (data[i] - minimumValue);
+        for (long datum : data) {
+            int relativeValue = (int) (datum - minimumValue);
             builder.appendAsOID(relativeValue);
         }
         return builder.toBytes();

@@ -2,8 +2,9 @@ package org.jmisb.api.klv.st0601;
 
 /** Represents a UAS Datalink value that is not interpreted by the library. */
 public class OpaqueValue implements IUasDatalinkValue {
-    byte[] bytes;
-    public static final String DISPLAYNAME = "Opaque Value";
+    private final byte[] bytes;
+    public static final String DISPLAY_NAME = "Opaque Value";
+
     /**
      * Create from encoded bytes.
      *
@@ -25,6 +26,6 @@ public class OpaqueValue implements IUasDatalinkValue {
 
     @Override
     public final String getDisplayName() {
-        return DISPLAYNAME;
+        return DISPLAY_NAME;
     }
 }

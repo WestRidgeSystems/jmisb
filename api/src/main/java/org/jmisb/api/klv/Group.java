@@ -21,5 +21,5 @@ public enum Group {
      * Defined Length Packs eliminate both key and length fields and use pre-defined lengths for all
      * elements.
      */
-    DEFINED_LENGTH_PACK;
+    DEFINED_LENGTH_PACK
 }

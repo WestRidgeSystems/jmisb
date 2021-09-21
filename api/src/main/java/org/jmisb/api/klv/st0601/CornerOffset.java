@@ -42,7 +42,7 @@ public class CornerOffset implements IUasDatalinkValue {
     /** Display name for fourth offset corner longitude. */
     public static final String CORNER_LON_4 = "Offset Corner Longitude Point 4";
 
-    private double degrees;
+    private final double degrees;
     private static final byte[] invalidBytes = new byte[] {(byte) 0x80, (byte) 0x00};
     private static final double FLOAT_RANGE = 0.15;
     private static final double INT_RANGE = 65534.0; // 2^15-1

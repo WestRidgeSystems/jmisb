@@ -3,10 +3,10 @@ package org.jmisb.api.video;
 /** Options to be specified when opening an input stream. */
 public class VideoStreamInputOptions extends VideoInputOptions {
     /** Timeout before failing when opening a stream, in milliseconds. */
-    private long openTimeout;
+    private final long openTimeout;
 
     /** Maximum analyze duration, in milliseconds. */
-    private long maxAnalyzeDuration;
+    private final long maxAnalyzeDuration;
 
     /** Constructor specifying default options. */
     public VideoStreamInputOptions() {

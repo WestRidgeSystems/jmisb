@@ -20,7 +20,7 @@ public abstract class UasDatalinkAngle implements IUasDatalinkValue {
     static final byte[] invalidBytes = new byte[] {(byte) 0x80, (byte) 0x00};
     protected static final double FLOAT_RANGE = 40.0;
     protected static final double INT_RANGE = 65534.0; // 2^15-1
-    protected double degrees;
+    protected final double degrees;
 
     /**
      * Create from value.

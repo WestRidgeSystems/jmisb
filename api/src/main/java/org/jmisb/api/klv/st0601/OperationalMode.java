@@ -18,7 +18,7 @@ import java.util.stream.Collectors;
  * </blockquote>
  */
 public class OperationalMode extends UasEnumeration {
-    static final Map<Integer, String> DISPLAY_VALUES =
+    private static final Map<Integer, String> DISPLAY_VALUES =
             Arrays.stream(
                             new Object[][] {
                                 {0, "Other"},

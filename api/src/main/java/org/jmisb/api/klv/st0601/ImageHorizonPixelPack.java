@@ -30,10 +30,10 @@ import org.jmisb.core.klv.PrimitiveConverter;
  */
 public class ImageHorizonPixelPack implements IUasDatalinkValue {
 
-    private int x0;
-    private int y0;
-    private int x1;
-    private int y1;
+    private final int x0;
+    private final int y0;
+    private final int x1;
+    private final int y1;
 
     private double latitude0 = Double.NaN;
     private double longitude0 = Double.NaN;

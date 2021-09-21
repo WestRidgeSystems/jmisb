@@ -79,9 +79,6 @@ public abstract class VmtiEnumeration implements IVmtiMetadataValue {
             return false;
         }
         final VmtiEnumeration other = (VmtiEnumeration) obj;
-        if (this.value != other.value) {
-            return false;
-        }
-        return true;
+        return this.value == other.value;
     }
 }

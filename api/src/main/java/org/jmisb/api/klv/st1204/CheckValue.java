@@ -66,8 +66,7 @@ class CheckValue {
             int qLookup = Q_PERMUTATIONS[i % 15][hexValue];
             qCheck = qCheck ^ qLookup;
         }
-        int checkValue = (pCheck << 4) + qCheck;
-        return checkValue;
+        return (pCheck << 4) + qCheck;
     }
 
     static int checkString(String s) {

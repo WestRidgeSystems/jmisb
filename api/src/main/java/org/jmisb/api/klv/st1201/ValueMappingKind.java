@@ -34,7 +34,7 @@ public enum ValueMappingKind {
      * <p>MISB allows this to be combined with a set of low bits (the @code{NaN Id}) which need to
      * be coordinated with the MISB.
      */
-    PostiveQuietNaN,
+    PositiveQuietNaN,
     /**
      * The value is a negative Quiet Not a Number (NaN) value.
      *

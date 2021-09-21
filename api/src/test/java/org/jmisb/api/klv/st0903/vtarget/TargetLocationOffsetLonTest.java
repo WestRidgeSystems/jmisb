@@ -22,17 +22,6 @@ public class TargetLocationOffsetLonTest {
     }
 
     @Test
-    @SuppressWarnings("deprecation")
-    public void testConstructFromEncodedBytes() {
-        TargetLocationOffsetLon offset =
-                new TargetLocationOffsetLon(new byte[] {(byte) 0x3A, (byte) 0x66, (byte) 0x67});
-        assertEquals(offset.getBytes(), new byte[] {(byte) 0x3A, (byte) 0x66, (byte) 0x67});
-        assertEquals(offset.getDisplayName(), "Target Location Offset Longitude");
-        assertEquals(offset.getDisplayableValue(), "10.00000\u00B0");
-        assertEquals(offset.getValue(), 10.0);
-    }
-
-    @Test
     public void testConstructFromEncodedBytesExplicitEncodingIMAP() {
         TargetLocationOffsetLon offset =
                 new TargetLocationOffsetLon(

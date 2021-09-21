@@ -17,7 +17,7 @@ import org.jmisb.api.klv.st0603.ST0603TimeStamp;
  */
 public class MetricTime implements IMetricLocalSetValue {
 
-    private ST0603TimeStamp time;
+    private final ST0603TimeStamp time;
     private static final int REQUIRED_BYTES = 8;
 
     /**

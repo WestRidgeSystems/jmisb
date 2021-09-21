@@ -203,24 +203,6 @@ public class AccelerationTest {
     }
 
     @Test
-    @SuppressWarnings("deprecation")
-    public void testConstructFromEncodedBytes() {
-        Acceleration acceleration = new Acceleration(accelerationBytes);
-        assertEquals(acceleration.getBytes(), accelerationBytes);
-        assertEquals(acceleration.getDisplayName(), "Acceleration");
-        assertEquals(acceleration.getDisplayableValue(), "[Acceleration]");
-        assertEquals(acceleration.getAcceleration().getEast(), 300, 0.1);
-        assertEquals(acceleration.getAcceleration().getNorth(), 200, 0.1);
-        assertEquals(acceleration.getAcceleration().getUp(), 100, 0.1);
-        assertNull(acceleration.getAcceleration().getSigEast());
-        assertNull(acceleration.getAcceleration().getSigNorth());
-        assertNull(acceleration.getAcceleration().getSigUp());
-        assertNull(acceleration.getAcceleration().getRhoEastNorth());
-        assertNull(acceleration.getAcceleration().getRhoEastUp());
-        assertNull(acceleration.getAcceleration().getRhoNorthUp());
-    }
-
-    @Test
     public void testConstructFromEncodedBytesExplicitEncodingIMAP() {
         Acceleration acceleration = new Acceleration(accelerationBytes, EncodingMode.IMAPB);
         assertEquals(acceleration.getBytes(), accelerationBytes);

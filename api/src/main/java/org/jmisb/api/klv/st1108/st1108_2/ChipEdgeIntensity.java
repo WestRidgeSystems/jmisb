@@ -13,7 +13,7 @@ import org.jmisb.core.klv.PrimitiveConverter;
  * <p>See ST 1108.2 Section 7.12.
  */
 public class ChipEdgeIntensity implements IInterpretabilityQualityMetadataValue {
-    private int intensity;
+    private final int intensity;
     private static final int MIN_VALUE = 0;
     private static final int MAX_VALUE = 1000;
     private static final int REQUIRED_BYTES = 2;

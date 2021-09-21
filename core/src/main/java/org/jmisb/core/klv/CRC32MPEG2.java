@@ -55,7 +55,7 @@ public class CRC32MPEG2 {
                 0xBCB4666D, 0xB8757BDA, 0xB5365D03, 0xB1F740B4
             };
 
-    public CRC32MPEG2() {};
+    public CRC32MPEG2() {}
 
     public void update(byte[] bytes, int meaningfulLength) {
         for (int byteIndex = 0; byteIndex < meaningfulLength; ++byteIndex) {

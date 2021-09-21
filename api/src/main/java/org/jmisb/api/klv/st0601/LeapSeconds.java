@@ -29,10 +29,8 @@ import org.jmisb.core.klv.PrimitiveConverter;
  * </blockquote>
  */
 public class LeapSeconds implements IUasDatalinkValue {
-    private int seconds;
-    private static long MIN_VAL = -2147483648; // -2^31
-    private static long MAX_VAL = 2147483647; // 2^31-1
-    private static int MAX_BYTES = 4;
+    private final int seconds;
+    private static final int MAX_BYTES = 4;
 
     /**
      * Create from value.

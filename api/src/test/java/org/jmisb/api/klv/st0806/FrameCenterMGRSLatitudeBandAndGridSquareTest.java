@@ -6,11 +6,11 @@ import static org.testng.Assert.assertTrue;
 import org.jmisb.api.common.KlvParseException;
 import org.testng.annotations.Test;
 
-public class FrameCentreMGRSLatitudeBandAndGridSquareTest {
+public class FrameCenterMGRSLatitudeBandAndGridSquareTest {
     @Test
     public void testConstructFromValue() {
-        FrameCentreMGRSLatitudeBandAndGridSquare locAndGridSquare =
-                new FrameCentreMGRSLatitudeBandAndGridSquare("QFJ");
+        FrameCenterMGRSLatitudeBandAndGridSquare locAndGridSquare =
+                new FrameCenterMGRSLatitudeBandAndGridSquare("QFJ");
         assertEquals(
                 locAndGridSquare.getBytes(), new byte[] {(byte) 0x51, (byte) 0x46, (byte) 0x4A});
         assertEquals(
@@ -23,8 +23,8 @@ public class FrameCentreMGRSLatitudeBandAndGridSquareTest {
 
     @Test
     public void testConstructFromEncoded() {
-        FrameCentreMGRSLatitudeBandAndGridSquare locAndGridSquare =
-                new FrameCentreMGRSLatitudeBandAndGridSquare(
+        FrameCenterMGRSLatitudeBandAndGridSquare locAndGridSquare =
+                new FrameCenterMGRSLatitudeBandAndGridSquare(
                         new byte[] {(byte) 0x51, (byte) 0x46, (byte) 0x4A});
         assertEquals(locAndGridSquare.getDisplayableValue(), "QFJ");
         assertEquals(
@@ -42,9 +42,9 @@ public class FrameCentreMGRSLatitudeBandAndGridSquareTest {
         IRvtMetadataValue v =
                 RvtLocalSet.createValue(
                         RvtMetadataKey.MGRSLatitudeBandAndGridSquareSecondValue, bytes);
-        assertTrue(v instanceof FrameCentreMGRSLatitudeBandAndGridSquare);
-        FrameCentreMGRSLatitudeBandAndGridSquare locAndGridSquare =
-                (FrameCentreMGRSLatitudeBandAndGridSquare) v;
+        assertTrue(v instanceof FrameCenterMGRSLatitudeBandAndGridSquare);
+        FrameCenterMGRSLatitudeBandAndGridSquare locAndGridSquare =
+                (FrameCenterMGRSLatitudeBandAndGridSquare) v;
         assertEquals(
                 locAndGridSquare.getBytes(), new byte[] {(byte) 0x51, (byte) 0x46, (byte) 0x4A});
         assertEquals(locAndGridSquare.getDisplayableValue(), "QFJ");
@@ -57,26 +57,26 @@ public class FrameCentreMGRSLatitudeBandAndGridSquareTest {
 
     @Test(expectedExceptions = IllegalArgumentException.class)
     public void badArrayLengthShort() {
-        new FrameCentreMGRSLatitudeBandAndGridSquare(new byte[] {0x51, 0x46});
+        new FrameCenterMGRSLatitudeBandAndGridSquare(new byte[] {0x51, 0x46});
     }
 
     @Test(expectedExceptions = IllegalArgumentException.class)
     public void badArrayLengthLong() {
-        new FrameCentreMGRSLatitudeBandAndGridSquare(new byte[] {0x51, 0x46, 0x4A, 0x30});
+        new FrameCenterMGRSLatitudeBandAndGridSquare(new byte[] {0x51, 0x46, 0x4A, 0x30});
     }
 
     @Test(expectedExceptions = IllegalArgumentException.class)
     public void badStringLengthShort() {
-        new FrameCentreMGRSLatitudeBandAndGridSquare("QF");
+        new FrameCenterMGRSLatitudeBandAndGridSquare("QF");
     }
 
     @Test(expectedExceptions = IllegalArgumentException.class)
     public void badStringLengthLong() {
-        new FrameCentreMGRSLatitudeBandAndGridSquare("QFQA");
+        new FrameCenterMGRSLatitudeBandAndGridSquare("QFQA");
     }
 
     @Test(expectedExceptions = IllegalArgumentException.class)
     public void badStringLengthEmpty() {
-        new FrameCentreMGRSLatitudeBandAndGridSquare("");
+        new FrameCenterMGRSLatitudeBandAndGridSquare("");
     }
 }

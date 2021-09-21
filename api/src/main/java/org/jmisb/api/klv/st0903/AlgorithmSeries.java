@@ -75,7 +75,6 @@ public class AlgorithmSeries implements IVmtiMetadataValue, INestedKlvValue {
             byte[] lengthBytes = BerEncoder.encode(localSetBytes.length);
             chunks.add(lengthBytes);
             len += lengthBytes.length;
-            ;
             chunks.add(localSetBytes);
             len += localSetBytes.length;
         }

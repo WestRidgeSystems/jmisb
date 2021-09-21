@@ -19,7 +19,7 @@ public abstract class UasRange implements IUasDatalinkValue {
 
     protected static final double MIN_VAL = 0.0;
     protected static final double MAX_VAL = 5000000.0;
-    protected static final double MAXINT = 4294967295.0; // 2^32-1
+    protected static final double MAX_INT = 4294967295.0; // 2^32-1
     public static final double DELTA = 0.6e-3; // +/- 0.6 mm
     protected double meters;
 
@@ -47,7 +47,7 @@ public abstract class UasRange implements IUasDatalinkValue {
                     this.getDisplayName() + " encoding is a 4-byte unsigned int");
         }
         long longVal = PrimitiveConverter.toUint32(bytes);
-        this.meters = (longVal / MAXINT) * MAX_VAL;
+        this.meters = (longVal / MAX_INT) * MAX_VAL;
     }
 
     /**
@@ -61,7 +61,7 @@ public abstract class UasRange implements IUasDatalinkValue {
 
     @Override
     public byte[] getBytes() {
-        long longVal = Math.round((meters / MAX_VAL) * MAXINT);
+        long longVal = Math.round((meters / MAX_VAL) * MAX_INT);
         return PrimitiveConverter.uint32ToBytes(longVal);
     }
 

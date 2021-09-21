@@ -50,9 +50,9 @@ public class BooleanArrayEncoder {
                         // note no array processing algorithm support (APAS) values
                         .appendAsOID(ArrayProcessingAlgorithm.BooleanArray.getCode());
         // Array Of Elements
-        for (int r = 0; r < data.length; ++r) {
-            for (int c = 0; c < data[r].length; ++c) {
-                builder.appendAsBit(data[r][c]);
+        for (boolean[] datum : data) {
+            for (boolean b : datum) {
+                builder.appendAsBit(b);
             }
         }
         return builder.toBytes();

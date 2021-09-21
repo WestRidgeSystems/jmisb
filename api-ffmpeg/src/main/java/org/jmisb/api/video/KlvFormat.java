@@ -11,5 +11,5 @@ public enum KlvFormat {
     /** KLV is multiplexed using the SMPTE RP 217 Asynchronous method. */
     Asynchronous,
     /** KLV is multiplexed using the ISO/IEC 13818-1 Synchronous method. */
-    Synchronous;
+    Synchronous
 }

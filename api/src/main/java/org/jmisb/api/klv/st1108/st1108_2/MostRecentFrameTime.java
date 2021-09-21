@@ -21,7 +21,7 @@ import org.jmisb.api.klv.st1108.IInterpretabilityQualityMetadataValue;
  */
 public class MostRecentFrameTime implements IInterpretabilityQualityMetadataValue {
 
-    private ST0603TimeStamp time;
+    private final ST0603TimeStamp time;
     private static final int REQUIRED_BYTES = 8;
 
     /**

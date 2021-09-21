@@ -41,27 +41,10 @@ public class TrackHistorySeriesTest {
             };
 
     @Test
-    @SuppressWarnings("deprecation")
-    public void testConstructFromEncodedBytes() throws KlvParseException {
-        TrackHistorySeries trackHistorySeries = new TrackHistorySeries(bytesTwoLocations);
-        verifyTwoLocations(trackHistorySeries);
-    }
-
-    @Test
     public void testConstructFromEncodedBytesExplicitEncodingIMAP() throws KlvParseException {
         TrackHistorySeries trackHistorySeries =
                 new TrackHistorySeries(bytesTwoLocations, EncodingMode.IMAPB);
         verifyTwoLocations(trackHistorySeries);
-    }
-
-    @Test
-    @SuppressWarnings("deprecation")
-    public void testFactoryEncodedBytes() throws KlvParseException {
-        IVmtiMetadataValue value =
-                VTrackerLS.createValue(VTrackerMetadataKey.trackHistorySeries, bytesTwoLocations);
-        assertTrue(value instanceof TrackHistorySeries);
-        TrackHistorySeries targetTrackHistorySeries = (TrackHistorySeries) value;
-        verifyTwoLocations(targetTrackHistorySeries);
     }
 
     @Test
@@ -98,12 +81,6 @@ public class TrackHistorySeriesTest {
         packs.add(new LocationPack(-10.54238867760, 29.15789818763, 3216.0));
         TrackHistorySeries trackHistorySeries = new TrackHistorySeries(packs);
         verifyTwoLocations(trackHistorySeries);
-    }
-
-    @Test(expectedExceptions = IllegalArgumentException.class)
-    @SuppressWarnings("deprecation")
-    public void badArrayLength() throws KlvParseException {
-        new TrackHistorySeries(new byte[] {0x01, 0x02, 0x03});
     }
 
     @Test(expectedExceptions = IllegalArgumentException.class)

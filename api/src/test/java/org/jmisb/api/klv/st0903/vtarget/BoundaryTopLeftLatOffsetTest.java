@@ -22,17 +22,6 @@ public class BoundaryTopLeftLatOffsetTest {
     }
 
     @Test
-    @SuppressWarnings("deprecation")
-    public void testConstructFromEncodedBytes() {
-        BoundaryTopLeftLatOffset offset =
-                new BoundaryTopLeftLatOffset(new byte[] {(byte) 0x3A, (byte) 0x66, (byte) 0x67});
-        assertEquals(offset.getBytes(), new byte[] {(byte) 0x3A, (byte) 0x66, (byte) 0x67});
-        assertEquals(offset.getDisplayName(), "Boundary Top Left Lat Offset");
-        assertEquals(offset.getDisplayableValue(), "10.00000\u00B0");
-        assertEquals(offset.getValue(), 10.0);
-    }
-
-    @Test
     public void testConstructFromEncodedBytesExplicitEncodingIMAP() {
         BoundaryTopLeftLatOffset offset =
                 new BoundaryTopLeftLatOffset(

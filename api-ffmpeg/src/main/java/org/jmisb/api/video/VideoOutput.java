@@ -62,7 +62,7 @@ import org.slf4j.LoggerFactory;
 /** Abstract base class for video output. */
 public abstract class VideoOutput extends VideoIO {
 
-    private static Logger logger = LoggerFactory.getLogger(VideoOutput.class);
+    private static final Logger logger = LoggerFactory.getLogger(VideoOutput.class);
 
     protected static final int METADATA_AU_HEADER_LEN = 5;
 
@@ -73,7 +73,6 @@ public abstract class VideoOutput extends VideoIO {
 
     // Video codec
     AVCodecContext videoCodecContext;
-    private AVDictionary codecOptions;
     private AVCodec videoCodec;
 
     // Metadata codec
@@ -270,6 +269,7 @@ public abstract class VideoOutput extends VideoIO {
         videoCodecContext.has_b_frames(0);
         videoCodecContext.max_b_frames(0);
         // Open the codec
+        AVDictionary codecOptions;
         if (codecConfiguration != null) {
             codecOptions = codecConfiguration.getOptions();
         } else {
@@ -462,8 +462,7 @@ public abstract class VideoOutput extends VideoIO {
         packet.pts(pts);
 
         // TODO: how to set dts?
-        long dts = pts;
-        packet.dts(dts);
+        packet.dts(pts);
 
         // Set packet data
         byte[] bytes = frame.getMisbMessage().frameMessage(false);

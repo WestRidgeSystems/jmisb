@@ -21,15 +21,15 @@ import org.slf4j.LoggerFactory;
 
 /** Abstract base class for video input. */
 public abstract class VideoInput extends VideoIO implements IVideoInput {
-    private static Logger logger = LoggerFactory.getLogger(VideoInput.class);
-    private Set<IVideoListener> videoListeners = new HashSet<>();
-    private Set<IMetadataListener> metadataListeners = new HashSet<>();
+    private static final Logger logger = LoggerFactory.getLogger(VideoInput.class);
+    private final Set<IVideoListener> videoListeners = new HashSet<>();
+    private final Set<IMetadataListener> metadataListeners = new HashSet<>();
 
     /** Queue of decoded video frames ready to be sent to listeners. */
-    private BlockingQueue<VideoFrame> decodedVideo = new LinkedBlockingQueue<>(QUEUE_SIZE);
+    private final BlockingQueue<VideoFrame> decodedVideo = new LinkedBlockingQueue<>(QUEUE_SIZE);
 
     /** Queue of metadata frames ready to be sent to listeners. */
-    private BlockingQueue<MetadataFrame> decodedMetadata = new LinkedBlockingQueue<>(QUEUE_SIZE);
+    private final BlockingQueue<MetadataFrame> decodedMetadata = new LinkedBlockingQueue<>(QUEUE_SIZE);
 
     VideoNotifier videoNotifier;
     MetadataNotifier metadataNotifier;
@@ -175,7 +175,7 @@ public abstract class VideoInput extends VideoIO implements IVideoInput {
     /** Thread to notify clients of new video frames. */
     protected class VideoNotifier extends Thread {
         private volatile boolean shutdown = false;
-        private boolean paused = false;
+        private boolean paused;
         private boolean getOneFrame = false;
 
         VideoNotifier(boolean paused) {
@@ -232,7 +232,7 @@ public abstract class VideoInput extends VideoIO implements IVideoInput {
     /** Thread to notify clients of new metadata. */
     protected class MetadataNotifier extends Thread {
         private volatile boolean shutdown = false;
-        private boolean paused = false;
+        private boolean paused;
 
         MetadataNotifier(boolean paused) {
             this.paused = paused;

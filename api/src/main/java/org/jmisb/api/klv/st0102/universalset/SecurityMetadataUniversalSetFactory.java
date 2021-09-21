@@ -6,9 +6,6 @@ import org.jmisb.api.klv.IMisbMessageFactory;
 /** Factory method for SecurityMetadataUniversalSet. */
 public class SecurityMetadataUniversalSetFactory implements IMisbMessageFactory {
 
-    static {
-    }
-
     @Override
     public SecurityMetadataUniversalSet create(byte[] bytes) throws KlvParseException {
         return new SecurityMetadataUniversalSet(bytes);

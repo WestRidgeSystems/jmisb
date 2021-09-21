@@ -31,6 +31,7 @@ public class ValidationResults {
         for (ValidationResult result : validationResults) {
             if (result.getValidity().equals(Validity.DoesNotConform)) {
                 isConformant = false;
+                break;
             }
         }
         return isConformant;
@@ -46,9 +47,7 @@ public class ValidationResults {
         validationResults.stream()
                 .filter(result -> result.getValidity().equals(Validity.DoesNotConform))
                 .forEach(
-                        (ValidationResult result) -> {
-                            nonConformances.add(result);
-                        });
+                    nonConformances::add);
         return nonConformances;
     }
 }

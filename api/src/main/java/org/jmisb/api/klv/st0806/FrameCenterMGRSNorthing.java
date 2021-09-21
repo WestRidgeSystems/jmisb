@@ -8,7 +8,7 @@ package org.jmisb.api.klv.st0806;
  *
  * <p>Resolution: 1 meter
  */
-public class FrameCentreMGRSNorthing extends AbstractMGRSEastingOrNorthing
+public class FrameCenterMGRSNorthing extends AbstractMGRSEastingOrNorthing
         implements IRvtMetadataValue {
     public static final String FRAME_CENTRE_MGRS_NORTHING = "Frame Center MGRS Northing";
 
@@ -17,7 +17,7 @@ public class FrameCentreMGRSNorthing extends AbstractMGRSEastingOrNorthing
      *
      * @param value integer value, in the range 1 to 60.
      */
-    public FrameCentreMGRSNorthing(int value) {
+    public FrameCenterMGRSNorthing(int value) {
         super(FRAME_CENTRE_MGRS_NORTHING, value);
     }
 
@@ -26,7 +26,7 @@ public class FrameCentreMGRSNorthing extends AbstractMGRSEastingOrNorthing
      *
      * @param bytes Encoded byte array, of length 3 bytes.
      */
-    public FrameCentreMGRSNorthing(byte[] bytes) {
+    public FrameCenterMGRSNorthing(byte[] bytes) {
         super(FRAME_CENTRE_MGRS_NORTHING, bytes);
     }
 }

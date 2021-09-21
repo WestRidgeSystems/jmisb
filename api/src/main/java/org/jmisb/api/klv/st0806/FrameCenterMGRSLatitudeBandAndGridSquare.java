@@ -8,7 +8,7 @@ package org.jmisb.api.klv.st0806;
  * the 2 character alpha code for the grid square designator (WGS 84). Note that latitude bands A
  * &amp; B correspond to Antarctic UPS regions and Y &amp; Z correspond to Arctic UPS regions.
  */
-public class FrameCentreMGRSLatitudeBandAndGridSquare
+public class FrameCenterMGRSLatitudeBandAndGridSquare
         extends AbstractMGRSLatitudeBandAndGridSquare {
     public static final String FRAME_CENTER_MGRS_LATITUDE_BAND_AND_GRID_SQUARE =
             "Frame Center MGRS Latitude Band and Grid Square";
@@ -18,7 +18,7 @@ public class FrameCentreMGRSLatitudeBandAndGridSquare
      *
      * @param value The string value, which can only use the ASCII subset of UTF-8.
      */
-    public FrameCentreMGRSLatitudeBandAndGridSquare(String value) {
+    public FrameCenterMGRSLatitudeBandAndGridSquare(String value) {
         super(FRAME_CENTER_MGRS_LATITUDE_BAND_AND_GRID_SQUARE, value);
     }
 
@@ -27,7 +27,7 @@ public class FrameCentreMGRSLatitudeBandAndGridSquare
      *
      * @param bytes Encoded byte array
      */
-    public FrameCentreMGRSLatitudeBandAndGridSquare(byte[] bytes) {
+    public FrameCenterMGRSLatitudeBandAndGridSquare(byte[] bytes) {
         super(FRAME_CENTER_MGRS_LATITUDE_BAND_AND_GRID_SQUARE, bytes);
     }
 }

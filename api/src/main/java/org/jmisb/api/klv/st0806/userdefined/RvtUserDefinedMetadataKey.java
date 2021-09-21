@@ -11,7 +11,7 @@ public enum RvtUserDefinedMetadataKey implements IKlvKey {
     NumericId(1),
     UserData(2);
 
-    private int tag;
+    private final int tag;
 
     private static final Map<Integer, RvtUserDefinedMetadataKey> tagTable = new HashMap<>();
 
@@ -44,6 +44,6 @@ public enum RvtUserDefinedMetadataKey implements IKlvKey {
      * @return corresponding metadata key
      */
     public static RvtUserDefinedMetadataKey getKey(int tag) {
-        return tagTable.containsKey(tag) ? tagTable.get(tag) : Undefined;
+        return tagTable.getOrDefault(tag, Undefined);
     }
 }

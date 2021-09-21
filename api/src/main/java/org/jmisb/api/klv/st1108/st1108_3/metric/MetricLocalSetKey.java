@@ -60,7 +60,7 @@ public enum MetricLocalSetKey implements IKlvKey {
      */
     MetricValue(6);
 
-    private int tag;
+    private final int tag;
 
     private static final Map<Integer, MetricLocalSetKey> tagTable = new HashMap<>();
 

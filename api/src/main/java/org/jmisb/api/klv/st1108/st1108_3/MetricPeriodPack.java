@@ -23,8 +23,8 @@ import org.jmisb.core.klv.PrimitiveConverter;
  */
 public class MetricPeriodPack implements IInterpretabilityQualityMetadataValue {
 
-    private ST0603TimeStamp startTime;
-    private long timeOffset;
+    private final ST0603TimeStamp startTime;
+    private final long timeOffset;
     private static final int REQUIRED_BYTES_TIMESTAMP = 8;
     private static final int REQUIRED_BYTES_OFFSET = 4;
     private static final int REQUIRED_BYTES = REQUIRED_BYTES_TIMESTAMP + REQUIRED_BYTES_OFFSET;

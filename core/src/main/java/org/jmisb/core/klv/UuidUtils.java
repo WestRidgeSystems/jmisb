@@ -1,7 +1,7 @@
 package org.jmisb.core.klv;
 
 import java.nio.ByteBuffer;
-import java.nio.charset.Charset;
+import java.nio.charset.StandardCharsets;
 import java.util.Arrays;
 import java.util.UUID;
 
@@ -32,8 +32,7 @@ public class UuidUtils {
         sb.append(uuidParts[5]);
         sb.append(uuidParts[6]);
         sb.append(uuidParts[7]);
-        UUID uuid = UUID.fromString(sb.toString());
-        return uuid;
+        return UUID.fromString(sb.toString());
     }
 
     /**
@@ -87,15 +86,13 @@ public class UuidUtils {
      */
     public static String formatUUID(UUID uuid) {
         String standardFormatUUID = uuid.toString().toUpperCase();
-        String misbFormatUUID =
-                standardFormatUUID.substring(0, 4)
-                        + "-"
-                        + standardFormatUUID.substring(4, 28)
-                        + "-"
-                        + standardFormatUUID.substring(28, 32)
-                        + "-"
-                        + standardFormatUUID.substring(32);
-        return misbFormatUUID;
+        return standardFormatUUID.substring(0, 4)
+                + "-"
+                + standardFormatUUID.substring(4, 28)
+                + "-"
+                + standardFormatUUID.substring(28, 32)
+                + "-"
+                + standardFormatUUID.substring(32);
     }
 
     public static UUID convertHashOutputToVersion5UUID(byte[] uuidBytes) {
@@ -116,6 +113,6 @@ public class UuidUtils {
      * @return corresponding byte array.
      */
     public static byte[] uuidStringToByteArray(String uuidString) {
-        return uuidString.replaceAll("-", "").toUpperCase().getBytes(Charset.forName("US-ASCII"));
+        return uuidString.replaceAll("-", "").toUpperCase().getBytes(StandardCharsets.US_ASCII);
     }
 }

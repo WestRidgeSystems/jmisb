@@ -87,8 +87,6 @@ public class MetricLocalSets implements IInterpretabilityQualityMetadataValue, I
     @Override
     public void appendBytesToBuilder(ArrayBuilder arrayBuilder) {
         metricLocalSets.forEach(
-                metricLocalSet -> {
-                    metricLocalSet.appendBytesToBuilder(arrayBuilder);
-                });
+                metricLocalSet -> metricLocalSet.appendBytesToBuilder(arrayBuilder));
     }
 }
