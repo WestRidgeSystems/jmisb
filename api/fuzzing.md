@@ -6,7 +6,7 @@ jMISB has some input fuzzing support, using JQF.
 It is integrated into maven, so you can do:
 
 ``` sh
-mvn jqf:fuzz -Dclass=org.jmisb.api.klv.st0601.UasDatalinkFactoryFuzzTest -Dmethod=checkCreateValue -Dtime=25m
+./mvnw jqf:fuzz -pl :api -Dclass=org.jmisb.api.klv.st0601.UasDatalinkFactoryFuzzTest -Dmethod=checkCreateValue -Dtime=25m
 ```
 
 (the `-Dtime` argument is minutes in this case, you can use `s` for seconds if preferred)
@@ -18,7 +18,7 @@ the `failure` directory of that has the failure cases.
 If there are any failure cases, you can reproduce a failure using:
 
 ``` sh
-mvn jqf:repro -Dclass=org.jmisb.api.klv.st0601.UasDatalinkFactoryFuzzTest -Dmethod=checkCreateValue -Dinput=target/fuzz-results/org.jmisb.api.klv.st0601.UasDatalinkFactoryFuzzTest/checkCreateValue/failures/id_000000 -DprintArgs
+./mvnw jqf:repro -pl :api -Dclass=org.jmisb.api.klv.st0601.UasDatalinkFactoryFuzzTest -Dmethod=checkCreateValue -Dinput=api/target/fuzz-results/org.jmisb.api.klv.st0601.UasDatalinkFactoryFuzzTest/checkCreateValue/failures/id_000000 -DprintArgs
 ```
 
 where the `id_000000` part corresponds to the failure.
