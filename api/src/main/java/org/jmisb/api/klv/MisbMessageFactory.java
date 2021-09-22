@@ -70,10 +70,9 @@ public class MisbMessageFactory {
      * @throws KlvParseException if the message handler throws.
      */
     public IMisbMessage handleMessage(byte[] messageData) throws KlvParseException {
-        UniversalLabel ul =
-                new UniversalLabel(Arrays.copyOfRange(messageData, 0, UniversalLabel.LENGTH));
+        var ul = new UniversalLabel(Arrays.copyOfRange(messageData, 0, UniversalLabel.LENGTH));
         if (MESSAGE_HANDLERS.containsKey(ul)) {
-            IMisbMessageFactory factory = MESSAGE_HANDLERS.get(ul);
+            var factory = MESSAGE_HANDLERS.get(ul);
             return factory.create(messageData);
         }
         return new RawMisbMessage(ul, messageData);
