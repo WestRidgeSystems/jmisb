@@ -8,8 +8,8 @@ import org.jmisb.core.klv.PrimitiveConverter;
 public abstract class PixelNumber implements IVmtiMetadataValue, IVTrackMetadataValue {
 
     private long pixelNumber;
-    private static long MIN_VALUE = 1;
-    private static long MAX_VALUE = 281_474_976_710_655L;
+    private static final long MIN_VALUE = 1;
+    private static final long MAX_VALUE = 281_474_976_710_655L;
 
     /**
      * Create from value.
@@ -35,9 +35,9 @@ public abstract class PixelNumber implements IVmtiMetadataValue, IVTrackMetadata
             throw new IllegalArgumentException("Pixel number encoding is up to 6 bytes");
         }
         pixelNumber = 0;
-        for (int i = 0; i < bytes.length; ++i) {
+        for (byte aByte : bytes) {
             pixelNumber = pixelNumber << 8;
-            pixelNumber += ((int) bytes[i] & 0xFF);
+            pixelNumber += ((int) aByte & 0xFF);
         }
     }
 

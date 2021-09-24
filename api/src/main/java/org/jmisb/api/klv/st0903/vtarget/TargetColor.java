@@ -19,11 +19,11 @@ import org.jmisb.api.klv.st0903.shared.IVTrackItemMetadataValue;
  */
 public class TargetColor implements IVmtiMetadataValue, IVTrackItemMetadataValue {
 
-    private short red;
-    private short green;
-    private short blue;
-    private static int MIN_VALUE = 0;
-    private static int MAX_VALUE = 255;
+    private final short red;
+    private final short green;
+    private final short blue;
+    private static final int MIN_VALUE = 0;
+    private static final int MAX_VALUE = 255;
 
     /**
      * Create from values.
@@ -67,8 +67,7 @@ public class TargetColor implements IVmtiMetadataValue, IVTrackItemMetadataValue
 
     @Override
     public byte[] getBytes() {
-        byte[] bytes = new byte[] {(byte) red, (byte) green, (byte) blue};
-        return bytes;
+        return new byte[] {(byte) red, (byte) green, (byte) blue};
     }
 
     @Override

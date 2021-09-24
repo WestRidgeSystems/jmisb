@@ -35,11 +35,10 @@ import org.jmisb.core.klv.PrimitiveConverter;
 public class FpEncoder {
 
     private double a, b;
-    private double bPow, dPow;
     private double sF, sR;
     private double zOffset;
     protected int fieldLength;
-    private static double logOf2 = Math.log(2.0);
+    private static final double logOf2 = Math.log(2.0);
     private static final byte[] EIGHT_BYTE_HIGH_BIT =
             new byte[] {
                 (byte) 0x80,
@@ -130,7 +129,7 @@ public class FpEncoder {
      * @throws IllegalArgumentException if the value is not within the specified range
      */
     public byte[] encode(double val) {
-        byte[] encoded = null;
+        byte[] encoded;
 
         // Special values defined by the ST
         if (val == Double.POSITIVE_INFINITY) {
@@ -245,7 +244,7 @@ public class FpEncoder {
             case NegativeInfinity:
                 encoded[0] = NEGATIVE_INFINITY_HIGH_BYTE;
                 break;
-            case PostiveQuietNaN:
+            case PositiveQuietNaN:
                 fillBytes(encoded, identifier);
                 setHighBits(encoded, POSITIVE_QUIET_NAN_HIGH_BYTE);
                 break;
@@ -384,7 +383,7 @@ public class FpEncoder {
             decodeResult.setValue(Double.NEGATIVE_INFINITY);
             decodeResult.setIdentifier(0L);
         } else if (highByteHighBits == POSITIVE_QUIET_NAN_HIGH_BYTE) {
-            decodeResult.setKind(ValueMappingKind.PostiveQuietNaN);
+            decodeResult.setKind(ValueMappingKind.PositiveQuietNaN);
             decodeResult.setIdentifier(getIdentifier(bytes, offset));
         } else if (highByteHighBits == NEGATIVE_QUIET_NAN_HIGH_BYTE) {
             decodeResult.setKind(ValueMappingKind.NegativeQuietNaN);
@@ -418,8 +417,7 @@ public class FpEncoder {
     private long getIdentifier(byte[] bytes, int offset) {
         byte[] copy = Arrays.copyOfRange(bytes, offset, fieldLength);
         copy[0] &= LOW_BITS_MASK;
-        long identifier = PrimitiveConverter.variableBytesToUint64(copy);
-        return identifier;
+        return PrimitiveConverter.variableBytesToUint64(copy);
     }
 
     /**
@@ -443,7 +441,7 @@ public class FpEncoder {
 
     private double decodeAsNormalMappedValue(byte[] bytes, int offset)
             throws IllegalArgumentException {
-        double val = 0.0;
+        double val;
         ByteBuffer wrapped = ByteBuffer.wrap(bytes, offset, fieldLength);
         switch (fieldLength) {
             case 1:
@@ -464,7 +462,7 @@ public class FpEncoder {
             case 5:
             case 6:
             case 7:
-                long lx = (long) wrapped.getInt() & 0xFFFFFFFFl;
+                long lx = (long) wrapped.getInt() & 0xFFFFFFFFL;
                 for (int j = 0; j < (fieldLength - Integer.BYTES); ++j) {
                     byte byt = wrapped.get(offset + Integer.BYTES + j);
                     lx = (lx << 8) + (byt & 0xFF);
@@ -496,8 +494,8 @@ public class FpEncoder {
         fieldLength = length;
         a = min;
         b = max;
-        bPow = Math.ceil(log2(b - a));
-        dPow = 8 * fieldLength - 1;
+        double bPow = Math.ceil(log2(b - a));
+        double dPow = 8 * fieldLength - 1;
         sF = Math.pow(2, dPow - bPow);
         sR = Math.pow(2, bPow - dPow);
         zOffset = 0.0;
@@ -527,9 +525,7 @@ public class FpEncoder {
             throw new IllegalArgumentException(
                     "Identifier is too large to fit into specified ST1201 field length");
         }
-        for (int i = 0; i < identifierBytes.length; ++i) {
-            encoded[offset + i] = identifierBytes[i];
-        }
+        System.arraycopy(identifierBytes, 0, encoded, offset, identifierBytes.length);
     }
 
     private void setHighBits(byte[] encoded, byte highByteBits) {

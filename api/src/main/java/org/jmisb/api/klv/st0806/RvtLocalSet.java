@@ -2,13 +2,8 @@ package org.jmisb.api.klv.st0806;
 
 import static org.jmisb.api.klv.KlvConstants.RvtLocalSetUl;
 
-import java.util.ArrayList;
-import java.util.List;
-import java.util.Map;
-import java.util.Set;
-import java.util.SortedMap;
-import java.util.TreeMap;
-import java.util.TreeSet;
+import java.util.*;
+
 import org.jmisb.api.common.InvalidDataHandler;
 import org.jmisb.api.common.KlvParseException;
 import org.jmisb.api.klv.ArrayBuilder;
@@ -85,13 +80,13 @@ public class RvtLocalSet implements IMisbMessage {
             case MGRSNorthing:
                 return new AircraftMGRSNorthing(bytes);
             case MGRSZoneSecondValue:
-                return new FrameCentreMGRSZone(bytes);
+                return new FrameCenterMGRSZone(bytes);
             case MGRSLatitudeBandAndGridSquareSecondValue:
-                return new FrameCentreMGRSLatitudeBandAndGridSquare(bytes);
+                return new FrameCenterMGRSLatitudeBandAndGridSquare(bytes);
             case MGRSEastingSecondValue:
-                return new FrameCentreMGRSEasting(bytes);
+                return new FrameCenterMGRSEasting(bytes);
             case MGRSNorthingSecondValue:
-                return new FrameCentreMGRSNorthing(bytes);
+                return new FrameCenterMGRSNorthing(bytes);
             default:
                 LOGGER.info("Unknown Remote Video Terminal Metadata tag: {}", tag);
         }
@@ -120,7 +115,7 @@ public class RvtLocalSet implements IMisbMessage {
     }
 
     /**
-     * Build a RVT Local Set from encoded bytes.
+     * Build an RVT Local Set from encoded bytes.
      *
      * @param bytes the bytes to build from
      * @param was0601Nested true if this local set was nested in ST0601, false if this is standalone
@@ -165,7 +160,7 @@ public class RvtLocalSet implements IMisbMessage {
                 case UserDefinedLS:
                     RvtUserDefinedLocalSet userDefinedLocalSet =
                             (RvtUserDefinedLocalSet) createValue(key, field.getData());
-                    if (userDefinedLocalSet
+                    if (Objects.requireNonNull(userDefinedLocalSet)
                             .getTags()
                             .contains(RvtUserDefinedMetadataKey.NumericId)) {
                         RvtNumericId rvtNumericId =
@@ -177,7 +172,7 @@ public class RvtLocalSet implements IMisbMessage {
                     break;
                 case PointOfInterestLS:
                     RvtPoiLocalSet poi = (RvtPoiLocalSet) createValue(key, field.getData());
-                    if (poi.getTags().contains(RvtPoiMetadataKey.PoiAoiNumber)) {
+                    if (Objects.requireNonNull(poi).getTags().contains(RvtPoiMetadataKey.PoiAoiNumber)) {
                         PoiAoiNumber poiNumber =
                                 (PoiAoiNumber) poi.getField(RvtPoiMetadataKey.PoiAoiNumber);
                         pois.put(poiNumber.getNumber(), poi);
@@ -185,7 +180,7 @@ public class RvtLocalSet implements IMisbMessage {
                     break;
                 case AreaOfInterestLS:
                     RvtAoiLocalSet aoi = (RvtAoiLocalSet) createValue(key, field.getData());
-                    if (aoi.getTags().contains(RvtAoiMetadataKey.PoiAoiNumber)) {
+                    if (Objects.requireNonNull(aoi).getTags().contains(RvtAoiMetadataKey.PoiAoiNumber)) {
                         PoiAoiNumber aoiNumber =
                                 (PoiAoiNumber) aoi.getField(RvtAoiMetadataKey.PoiAoiNumber);
                         aois.put(aoiNumber.getNumber(), aoi);
@@ -201,54 +196,41 @@ public class RvtLocalSet implements IMisbMessage {
 
     @Override
     public byte[] frameMessage(boolean isNested) {
-        int len = 0;
         List<byte[]> chunks = new ArrayList<>();
         for (RvtMetadataKey tag : map.keySet()) {
             if (tag == RvtMetadataKey.CRC32) {
                 continue;
             }
             chunks.add(new byte[] {(byte) tag.getIdentifier()});
-            len += 1;
             IRvtMetadataValue value = getField(tag);
             byte[] bytes = value.getBytes();
             byte[] lengthBytes = BerEncoder.encode(bytes.length);
             chunks.add(lengthBytes);
-            len += lengthBytes.length;
             chunks.add(bytes);
-            len += bytes.length;
         }
         for (Integer numericId : getUserDefinedIndexes()) {
             RvtUserDefinedLocalSet userDefinedLocalSet = getUserDefinedLocalSet(numericId);
             chunks.add(new byte[] {(byte) (RvtMetadataKey.UserDefinedLS.getIdentifier())});
-            len += 1;
             byte[] localSetBytes = userDefinedLocalSet.getBytes();
             byte[] lengthBytes = BerEncoder.encode(localSetBytes.length);
             chunks.add(lengthBytes);
-            len += lengthBytes.length;
             chunks.add(localSetBytes);
-            len += localSetBytes.length;
         }
         for (Integer poiNumber : getPOIIndexes()) {
             RvtPoiLocalSet poiLocalSet = getPOI(poiNumber);
             chunks.add(new byte[] {(byte) (RvtMetadataKey.PointOfInterestLS.getIdentifier())});
-            len += 1;
             byte[] localSetBytes = poiLocalSet.getBytes();
             byte[] lengthBytes = BerEncoder.encode(localSetBytes.length);
             chunks.add(lengthBytes);
-            len += lengthBytes.length;
             chunks.add(localSetBytes);
-            len += localSetBytes.length;
         }
         for (Integer aoiNumber : getAOIIndexes()) {
             RvtAoiLocalSet aoiLocalSet = getAOI(aoiNumber);
             chunks.add(new byte[] {(byte) (RvtMetadataKey.AreaOfInterestLS.getIdentifier())});
-            len += 1;
             byte[] localSetBytes = aoiLocalSet.getBytes();
             byte[] lengthBytes = BerEncoder.encode(localSetBytes.length);
             chunks.add(lengthBytes);
-            len += lengthBytes.length;
             chunks.add(localSetBytes);
-            len += localSetBytes.length;
         }
         // Figure out value length
         final int keyLength = UniversalLabel.LENGTH;
@@ -288,31 +270,23 @@ public class RvtLocalSet implements IMisbMessage {
 
     @Override
     public Set<IKlvKey> getIdentifiers() {
-        Set<IKlvKey> identifiers = new TreeSet<>();
+        Set<IKlvKey> identifiers = new HashSet<>();
         map.keySet()
                 .forEach(
-                        (key) -> {
-                            identifiers.add(
-                                    new RvtMetadataIdentifier(
-                                            RvtMetadataKind.PLAIN, key.getIdentifier()));
-                        });
+                        (key) -> identifiers.add(
+                                new RvtMetadataIdentifier(
+                                        RvtMetadataKind.PLAIN, key.getIdentifier())));
         aois.keySet()
                 .forEach(
-                        (i) -> {
-                            identifiers.add(new RvtMetadataIdentifier(RvtMetadataKind.AOI, i));
-                        });
+                        (i) -> identifiers.add(new RvtMetadataIdentifier(RvtMetadataKind.AOI, i)));
         pois.keySet()
                 .forEach(
-                        (i) -> {
-                            identifiers.add(new RvtMetadataIdentifier(RvtMetadataKind.POI, i));
-                        });
+                        (i) -> identifiers.add(new RvtMetadataIdentifier(RvtMetadataKind.POI, i)));
         userDefined
                 .keySet()
                 .forEach(
-                        (i) -> {
-                            identifiers.add(
-                                    new RvtMetadataIdentifier(RvtMetadataKind.USER_DEFINED, i));
-                        });
+                        (i) -> identifiers.add(
+                                new RvtMetadataIdentifier(RvtMetadataKind.USER_DEFINED, i)));
         return identifiers;
     }
 

@@ -22,18 +22,6 @@ public class BoundaryBottomRightLatOffsetTest {
     }
 
     @Test
-    @SuppressWarnings("deprecation")
-    public void testConstructFromEncodedBytes() {
-        BoundaryBottomRightLatOffset offset =
-                new BoundaryBottomRightLatOffset(
-                        new byte[] {(byte) 0x3A, (byte) 0x66, (byte) 0x67});
-        assertEquals(offset.getBytes(), new byte[] {(byte) 0x3A, (byte) 0x66, (byte) 0x67});
-        assertEquals(offset.getDisplayName(), "Boundary Bottom Right Lat Offset");
-        assertEquals(offset.getDisplayableValue(), "10.00000\u00B0");
-        assertEquals(offset.getValue(), 10.0);
-    }
-
-    @Test
     public void testConstructFromEncodedBytesExplicitEncodingIMAP() {
         BoundaryBottomRightLatOffset offset =
                 new BoundaryBottomRightLatOffset(

@@ -18,17 +18,6 @@ public class VmtiVerticalFieldOfViewTest {
     }
 
     @Test
-    @SuppressWarnings("deprecation")
-    public void testConstructFromEncodedBytes() {
-        VmtiVerticalFieldOfView fov =
-                new VmtiVerticalFieldOfView(new byte[] {(byte) 0x05, (byte) 0x00});
-        assertEquals(fov.getBytes(), new byte[] {(byte) 0x05, (byte) 0x00});
-        assertEquals(fov.getDisplayName(), "Vertical Field of View");
-        assertEquals(fov.getDisplayableValue(), "10.0\u00B0");
-        assertEquals(fov.getFieldOfView(), 10.0);
-    }
-
-    @Test
     public void testConstructFromEncodedBytesExplicitIMAP() {
         VmtiVerticalFieldOfView fov =
                 new VmtiVerticalFieldOfView(

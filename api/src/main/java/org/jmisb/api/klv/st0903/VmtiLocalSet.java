@@ -162,21 +162,17 @@ public class VmtiLocalSet implements IMisbMessage {
     @Override
     public byte[] frameMessage(boolean isNested) {
         updateVersion();
-        int len = 0;
         List<byte[]> chunks = new ArrayList<>();
         for (VmtiMetadataKey tag : getIdentifiers()) {
             if (tag == VmtiMetadataKey.Checksum) {
                 continue;
             }
             chunks.add(new byte[] {(byte) tag.getIdentifier()});
-            len += 1;
             IVmtiMetadataValue value = getField(tag);
             byte[] bytes = value.getBytes();
             byte[] lengthBytes = BerEncoder.encode(bytes.length);
             chunks.add(lengthBytes);
-            len += lengthBytes.length;
             chunks.add(bytes);
-            len += bytes.length;
         }
 
         // Figure out value length
@@ -249,7 +245,7 @@ public class VmtiLocalSet implements IMisbMessage {
 
     private void updateVersion() {
         ST0903Version version = (ST0903Version) getField(VmtiMetadataKey.VersionNumber);
-        // If we're missing a version, or its too old, update it to current. Otherwise leave it
+        // If we're missing a version, or it's too old, update it to current. Otherwise, leave it
         // alone.
         if ((version == null) || (version.getVersion() < 4)) {
             version = new ST0903Version(VmtiMetadataConstants.ST_VERSION_NUMBER);

@@ -47,7 +47,7 @@ public enum CompressionType implements IInterpretabilityQualityMetadataValue {
         }
     }
 
-    private byte value;
+    private final byte value;
 
     @Override
     public String getDisplayName() {
@@ -72,14 +72,14 @@ public enum CompressionType implements IInterpretabilityQualityMetadataValue {
         }
     }
 
-    private CompressionType(int value) {
+    CompressionType(int value) {
         this.value = (byte) value;
     }
 
     @Override
     public void appendBytesToBuilder(ArrayBuilder arrayBuilder) {
         arrayBuilder.appendAsOID(IQMetadataKey.CompressionType.getIdentifier());
-        byte[] valueBytes = new byte[] {(byte) value};
+        byte[] valueBytes = new byte[] {value};
         arrayBuilder.appendAsBerLength(valueBytes.length);
         arrayBuilder.append(valueBytes);
     }

@@ -16,8 +16,8 @@ import org.jmisb.api.klv.st1201.FpEncoder;
  * length is 1.
  */
 public class Confidence2 implements IVmtiMetadataValue {
-    private static int MIN_VALUE = 0;
-    private static int MAX_VALUE = 100;
+    private static final int MIN_VALUE = 0;
+    private static final int MAX_VALUE = 100;
     private final double confidence;
 
     /**

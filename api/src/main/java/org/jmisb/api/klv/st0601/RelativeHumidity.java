@@ -19,11 +19,11 @@ import org.jmisb.core.klv.PrimitiveConverter;
  * </blockquote>
  */
 public class RelativeHumidity implements IUasDatalinkValue {
-    private double relativeHumidity;
-    private static double MIN_VALUE = 0;
-    private static double MAX_VALUE = 100;
-    private static double RANGE = 100;
-    private static double MAXINT = 255.0; // 2^8 - 1
+    private final double relativeHumidity;
+    private static final double MIN_VALUE = 0;
+    private static final double MAX_VALUE = 100;
+    private static final double RANGE = 100;
+    private static final double MAX_INT = 255.0; // 2^8 - 1
 
     /**
      * Create from value.
@@ -49,7 +49,7 @@ public class RelativeHumidity implements IUasDatalinkValue {
         }
 
         int intVal = PrimitiveConverter.toUint8(bytes);
-        relativeHumidity = ((intVal / MAXINT) * RANGE) + MIN_VALUE;
+        relativeHumidity = ((intVal / MAX_INT) * RANGE) + MIN_VALUE;
     }
 
     /**
@@ -63,7 +63,7 @@ public class RelativeHumidity implements IUasDatalinkValue {
 
     @Override
     public byte[] getBytes() {
-        short intVal = (short) Math.round(((relativeHumidity - MIN_VALUE) / RANGE) * MAXINT);
+        short intVal = (short) Math.round(((relativeHumidity - MIN_VALUE) / RANGE) * MAX_INT);
         return PrimitiveConverter.uint8ToBytes(intVal);
     }
 

@@ -13,7 +13,7 @@ import java.time.format.DateTimeParseException;
  * automatically declassified.
  */
 public class DeclassificationDate implements ISecurityMetadataValue {
-    private LocalDate date;
+    private final LocalDate date;
 
     /**
      * Construct DeclassificationDate from a LocalDate.

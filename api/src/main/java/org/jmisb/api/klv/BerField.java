@@ -3,10 +3,10 @@ package org.jmisb.api.klv;
 /** Represents a BER-encoded field (length and integer value). */
 public class BerField {
     /** Size of the field in bytes. */
-    private int length;
+    private final int length;
 
     /** The encoded value. */
-    private int value;
+    private final int value;
 
     /**
      * Constructor.

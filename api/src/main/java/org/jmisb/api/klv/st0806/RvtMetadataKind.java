@@ -18,5 +18,5 @@ public enum RvtMetadataKind {
     /** A Point of Interest. */
     POI,
     /** User Defined Local Set. */
-    USER_DEFINED;
+    USER_DEFINED
 }

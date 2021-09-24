@@ -410,8 +410,7 @@ public class MDAPDecoder {
     }
 
     private long[] decodeInt1D_NaturalFormat(
-            byte[] bytes, final int offset, final int numElements, final int eBytes)
-            throws KlvParseException {
+            byte[] bytes, final int offset, final int numElements, final int eBytes) {
         int index = offset;
         long[] result = new long[numElements];
         for (int i = 0; i < numElements; ++i) {
@@ -473,8 +472,7 @@ public class MDAPDecoder {
             final int offset,
             final int numRows,
             final int numColumns,
-            final int eBytes)
-            throws KlvParseException {
+            final int eBytes) {
         int index = offset;
         long[][] result = new long[numRows][numColumns];
         for (int r = 0; r < numRows; ++r) {
@@ -534,8 +532,7 @@ public class MDAPDecoder {
     }
 
     private long[] decodeUInt_NaturalFormat(
-            byte[] bytes, final int offset, final int numElements, final int eBytes)
-            throws KlvParseException {
+            byte[] bytes, final int offset, final int numElements, final int eBytes) {
         int index = offset;
         long[] result = new long[numElements];
         for (int i = 0; i < numElements; ++i) {
@@ -612,8 +609,7 @@ public class MDAPDecoder {
             final int offset,
             final int numRows,
             final int numColumns,
-            final int eBytes)
-            throws KlvParseException {
+            final int eBytes) {
         int index = offset;
         long[][] result = new long[numRows][numColumns];
         for (int r = 0; r < numRows; ++r) {

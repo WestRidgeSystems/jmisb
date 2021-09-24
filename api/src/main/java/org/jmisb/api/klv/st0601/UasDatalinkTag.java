@@ -503,7 +503,7 @@ public enum UasDatalinkTag implements IKlvKey {
     /** Tag 141; List of waypoints and their status; Value is a {@link WaypointList}. */
     WaypointList(141);
 
-    private int code;
+    private final int code;
 
     private static final Map<Integer, UasDatalinkTag> lookupTable = new HashMap<>();
 
@@ -513,7 +513,7 @@ public enum UasDatalinkTag implements IKlvKey {
         }
     }
 
-    private UasDatalinkTag(int c) {
+    UasDatalinkTag(int c) {
         code = c;
     }
 
@@ -533,7 +533,7 @@ public enum UasDatalinkTag implements IKlvKey {
      * @return The UasDatalinkTag
      */
     public static UasDatalinkTag getTag(int tagCode) {
-        return lookupTable.containsKey(tagCode) ? lookupTable.get(tagCode) : Undefined;
+        return lookupTable.getOrDefault(tagCode, Undefined);
     }
 
     @Override

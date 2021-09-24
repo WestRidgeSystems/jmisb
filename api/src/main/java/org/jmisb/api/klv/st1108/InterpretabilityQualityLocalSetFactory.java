@@ -61,7 +61,6 @@ public class InterpretabilityQualityLocalSetFactory implements IMisbMessageFacto
         int offset = UniversalLabel.LENGTH;
         BerField len = BerDecoder.decode(bytes, offset, false);
         offset += len.getLength();
-        List<LdsField> fields = LdsParser.parseFields(bytes, offset, len.getValue());
-        return fields;
+        return LdsParser.parseFields(bytes, offset, len.getValue());
     }
 }

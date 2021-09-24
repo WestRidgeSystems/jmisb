@@ -22,8 +22,8 @@ import org.jmisb.core.klv.PrimitiveConverter;
 public class PercentageOfTargetPixels implements IVmtiMetadataValue, IVTrackItemMetadataValue {
 
     private final short percentage;
-    private static int MIN_VALUE = 1;
-    private static int MAX_VALUE = 100;
+    private static final int MIN_VALUE = 1;
+    private static final int MAX_VALUE = 100;
 
     /**
      * Create from value.

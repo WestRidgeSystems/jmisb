@@ -16,7 +16,7 @@ import java.time.format.DateTimeParseException;
  * methods, so this metadata item can be used to identify the exact version of the coding method.
  */
 public class OcmDate implements ISecurityMetadataValue {
-    private LocalDate date;
+    private final LocalDate date;
 
     /**
      * Construct OcmDate from a LocalDate.

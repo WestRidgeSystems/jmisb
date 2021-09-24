@@ -12,7 +12,7 @@ import org.jmisb.core.klv.PrimitiveConverter;
  * <p>See ST 1108.2 Section 7.13 and RP 1203.3.
  */
 public class ChipFrequencyRatio implements IInterpretabilityQualityMetadataValue {
-    private int ratio;
+    private final int ratio;
     private static final int MIN_VALUE = 0;
     private static final int MAX_VALUE = 65535;
     private static final int REQUIRED_BYTES = 2;

@@ -16,6 +16,8 @@ package org.jmisb.api.klv.st0601;
  * </blockquote>
  */
 public class SensorLongitude extends UasDatalinkLongitude {
+    private static final String DISPLAY_NAME = "Sensor Longitude";
+
     /**
      * Create from value.
      *
@@ -23,7 +25,7 @@ public class SensorLongitude extends UasDatalinkLongitude {
      *     represent an error condition
      */
     public SensorLongitude(double degrees) {
-        super(degrees);
+        super(degrees, DISPLAY_NAME);
     }
 
     /**
@@ -32,11 +34,6 @@ public class SensorLongitude extends UasDatalinkLongitude {
      * @param bytes Longitude, encoded as a 4-byte int
      */
     public SensorLongitude(byte[] bytes) {
-        super(bytes);
-    }
-
-    @Override
-    public String getDisplayName() {
-        return "Sensor Longitude";
+        super(bytes, DISPLAY_NAME);
     }
 }

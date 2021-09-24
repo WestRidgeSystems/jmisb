@@ -5,7 +5,6 @@ import java.io.ByteArrayInputStream;
 import java.io.ByteArrayOutputStream;
 import java.io.IOException;
 import javax.imageio.ImageIO;
-import org.jmisb.api.common.KlvParseException;
 import org.jmisb.api.klv.st0903.IVmtiMetadataValue;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -34,9 +33,8 @@ public class EmbeddedImage implements IVmtiMetadataValue {
      * Create from encoded bytes.
      *
      * @param bytes byte array corresponding to the image data.
-     * @throws KlvParseException if the image could not be read or parsed
      */
-    public EmbeddedImage(byte[] bytes) throws KlvParseException {
+    public EmbeddedImage(byte[] bytes) {
         try {
             ByteArrayInputStream byteArrayInputStream = new ByteArrayInputStream(bytes);
             embeddedImage = ImageIO.read(byteArrayInputStream);

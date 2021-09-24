@@ -23,7 +23,7 @@ public enum LocVelAccPackKey implements IKlvKey {
     rhoEastUp(8),
     rhoNorthUp(9);
 
-    private LocVelAccPackKey(int key) {
+    LocVelAccPackKey(int key) {
         this.tag = key;
     }
 

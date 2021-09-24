@@ -13,9 +13,9 @@ import org.jmisb.core.klv.PrimitiveConverter;
  * end-user, which may be large when utilizing BLOS data links.
  */
 public class ApertureDuration implements ISARMIMetadataValue {
-    private long duration;
-    private static long MIN_VALUE = 0;
-    private static long MAX_VALUE = 4294967295L;
+    private final long duration;
+    private static final long MIN_VALUE = 0;
+    private static final long MAX_VALUE = 4294967295L;
 
     /**
      * Create from value.

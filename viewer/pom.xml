@@ -5,17 +5,17 @@
     <parent>
         <groupId>org.jmisb</groupId>
         <artifactId>jmisb</artifactId>
-        <version>1.11.0-SNAPSHOT</version>
+        <version>2.0.0-SNAPSHOT</version>
     </parent>
-    <artifactId>jmisb-viewer</artifactId>
+    <artifactId>viewer</artifactId>
     <packaging>jar</packaging>
-    <name>Viewer</name>
+    <name>viewer</name>
     <description>Java Swing-based GUI to visualize video and metadata on the desktop</description>
 
     <dependencies>
         <dependency>
             <groupId>org.jmisb</groupId>
-            <artifactId>jmisb-api</artifactId>
+            <artifactId>api-ffmpeg</artifactId>
             <version>${project.version}</version>
         </dependency>
         <dependency>
@@ -27,57 +27,56 @@
             <artifactId>log4j-slf4j-impl</artifactId>
         </dependency>
         <dependency>
-            <groupId>org.bytedeco</groupId>
-            <artifactId>ffmpeg-platform</artifactId>
-        </dependency>
-        <dependency>
             <groupId>com.miglayout</groupId>
             <artifactId>miglayout-core</artifactId>
-            <version>5.2</version>
         </dependency>
         <dependency>
             <groupId>com.miglayout</groupId>
             <artifactId>miglayout-swing</artifactId>
-            <version>5.2</version>
         </dependency>
         <dependency>
             <groupId>org.jxmapviewer</groupId>
             <artifactId>jxmapviewer2</artifactId>
-            <version>2.6</version>
         </dependency>
         <dependency>
             <groupId>net.harawata</groupId>
             <artifactId>appdirs</artifactId>
-            <version>1.2.1</version>
         </dependency>
     </dependencies>
 
     <build>
         <plugins>
             <plugin>
-                <!-- java source code formatter -->
                 <groupId>com.theoryinpractise</groupId>
                 <artifactId>googleformatter-maven-plugin</artifactId>
-                <version>${googleformatter.maven.plugin.version}</version>
-                <executions>
-                    <execution>
-                        <id>reformat-sources</id>
-                        <goals>
-                            <goal>format</goal>
-                        </goals>
-                        <phase>process-sources</phase>
-                        <configuration>
-                            <style>AOSP</style>
-                            <fixImports>true</fixImports>
-                        </configuration>
-                    </execution>
-                </executions>
+            </plugin>
+            <plugin>
+                <groupId>com.github.spotbugs</groupId>
+                <artifactId>spotbugs-maven-plugin</artifactId>
+                <configuration>
+                    <excludeFilterFile>SpotBugsFilter.xml</excludeFilterFile>
+                </configuration>
+            </plugin>
+            <plugin>
+                <groupId>org.cyclonedx</groupId>
+                <artifactId>cyclonedx-maven-plugin</artifactId>
+            </plugin>
+            <plugin>
+                <groupId>org.apache.maven.plugins</groupId>
+                <artifactId>maven-assembly-plugin</artifactId>
+                <configuration>
+                    <archive>
+                        <manifest>
+                            <addClasspath>true</addClasspath>
+                            <mainClass>org.jmisb.viewer.MisbViewer</mainClass>
+                        </manifest>
+                    </archive>
+                </configuration>
             </plugin>
             <plugin>
                 <!-- Allow running from the command-line using mvn exec:exec -->
                 <groupId>org.codehaus.mojo</groupId>
                 <artifactId>exec-maven-plugin</artifactId>
-                <version>1.6.0</version>
                 <configuration>
                     <executable>java</executable>
                     <arguments>
@@ -89,106 +88,6 @@
                     </arguments>
                 </configuration>
             </plugin>
-            <plugin>
-                <groupId>com.github.spotbugs</groupId>
-                <artifactId>spotbugs-maven-plugin</artifactId>
-                <version>${spotbugs.maven.version}</version>
-                <configuration>
-                    <excludeFilterFile>SpotBugsFilter.xml</excludeFilterFile>
-                </configuration>
-                <dependencies>
-                    <dependency>
-                        <groupId>com.github.spotbugs</groupId>
-                        <artifactId>spotbugs</artifactId>
-                        <version>${spotbugs.version}</version>
-                    </dependency>
-                </dependencies>
-                <executions>
-                    <execution>
-                        <goals>
-                            <goal>check</goal>
-                        </goals>
-                    </execution>
-                </executions>
-            </plugin>
-            <plugin>
-                <groupId>org.cyclonedx</groupId>
-                <artifactId>cyclonedx-maven-plugin</artifactId>
-                <version>${cyclonedx.version}</version>
-                <configuration>
-                    <projectType>application</projectType>
-                    <schemaVersion>${cyclonedx.schema.version}</schemaVersion>
-                    <includeBomSerialNumber>true</includeBomSerialNumber>
-                    <includeCompileScope>true</includeCompileScope>
-                    <includeProvidedScope>true</includeProvidedScope>
-                    <includeRuntimeScope>true</includeRuntimeScope>
-                    <includeSystemScope>true</includeSystemScope>
-                    <includeTestScope>false</includeTestScope>
-                    <includeLicenseText>false</includeLicenseText>
-                    <outputFormat>all</outputFormat>
-                    <outputName>${project.artifactId}-${project.version}-cyclonedx</outputName>
-                </configuration>
-                <executions>
-                    <execution>
-                        <goals>
-                            <goal>makeBom</goal>
-                        </goals>
-                        <phase>verify</phase>
-                    </execution>
-                </executions>
-            </plugin>
-            <plugin>
-                <groupId>org.apache.maven.plugins</groupId>
-                <artifactId>maven-assembly-plugin</artifactId>
-                <version>${maven.assembly.plugin.version}</version>
-                <configuration>
-                    <descriptorRefs>
-                        <descriptorRef>jar-with-dependencies</descriptorRef>
-                    </descriptorRefs>
-                    <archive>
-                        <manifest>
-                            <addClasspath>true</addClasspath>
-                            <mainClass>org.jmisb.viewer.MisbViewer</mainClass>
-                        </manifest>
-                    </archive>
-                </configuration>
-                <executions>
-                    <execution>
-                        <id>make-assembly</id>
-                        <goals>
-                            <goal>single</goal>
-                        </goals>
-                        <phase>package</phase>
-                    </execution>
-                </executions>
-            </plugin>
         </plugins>
     </build>
-
-    <profiles>
-        <!-- Dependency version checks -->
-        <profile>
-            <id>dependencycheck</id>
-            <build>
-                <plugins>
-                    <plugin>
-                        <groupId>org.owasp</groupId>
-                        <artifactId>dependency-check-maven</artifactId>
-                        <version>${owasp.version}</version>
-                        <configuration>
-                            <failBuildOnAnyVulnerability>true</failBuildOnAnyVulnerability>
-                            <assemblyAnalyzerEnabled>false</assemblyAnalyzerEnabled>
-                        </configuration>
-                        <executions>
-                            <execution>
-                                <goals>
-                                    <goal>check</goal>
-                                </goals>
-                            </execution>
-                        </executions>
-                    </plugin>
-                </plugins>
-            </build>
-        </profile>
-    </profiles>
 </project>

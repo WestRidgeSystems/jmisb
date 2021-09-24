@@ -99,10 +99,8 @@ public class RvtMetadataIdentifier implements IKlvKey, Comparable<RvtMetadataIde
     }
 
     private static Comparator<RvtMetadataIdentifier> getComparator() {
-        Comparator<RvtMetadataIdentifier> result =
-                Comparator.comparing(RvtMetadataIdentifier::getKind)
+        return Comparator.comparing(RvtMetadataIdentifier::getKind)
                         .thenComparing(RvtMetadataIdentifier::getKindId);
-        return result;
     }
 
     @Override

@@ -10,7 +10,7 @@ import org.slf4j.LoggerFactory;
 
 /** Parse fields from a Local Data Set (LDS). */
 public class LdsParser {
-    private static Logger logger = LoggerFactory.getLogger(LdsParser.class);
+    private static final Logger logger = LoggerFactory.getLogger(LdsParser.class);
 
     private LdsParser() {}
 

@@ -160,9 +160,6 @@ public class MimdId implements IMimdMetadataValue {
         if (this.serialNumber != other.serialNumber) {
             return false;
         }
-        if (this.groupIdentifier != other.groupIdentifier) {
-            return false;
-        }
-        return true;
+        return this.groupIdentifier == other.groupIdentifier;
     }
 }

@@ -15,5 +15,5 @@ public interface ISpecialFraming {
      *
      * @return byte array corresponding to the encoded KLV value.
      */
-    public byte[] getEncodedValue();
+    byte[] getEncodedValue();
 }

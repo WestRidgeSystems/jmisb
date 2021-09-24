@@ -19,7 +19,7 @@ import org.slf4j.LoggerFactory;
  */
 public class SecurityMetadataLocalSet extends SecurityMetadataMessage {
 
-    private static Logger logger = LoggerFactory.getLogger(SecurityMetadataLocalSet.class);
+    private static final Logger logger = LoggerFactory.getLogger(SecurityMetadataLocalSet.class);
 
     /**
      * Create the message from the given key/value pairs.

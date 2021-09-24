@@ -120,7 +120,6 @@ public class CrcCcitt {
         CrcCcitt crc16 = new CrcCcitt();
         crc16.addData(fullMessage, fullMessage.length - 2);
         byte[] result = crc16.getCrc();
-        boolean matches = (result[0] == expected[0]) && (result[1] == expected[1]);
-        return matches;
+        return (result[0] == expected[0]) && (result[1] == expected[1]);
     }
 }

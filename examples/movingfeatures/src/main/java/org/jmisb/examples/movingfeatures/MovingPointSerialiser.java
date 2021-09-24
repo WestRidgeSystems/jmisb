@@ -39,7 +39,6 @@ public class MovingPointSerialiser extends StdSerializer<MovingPoint> {
         jg.writeEndObject();
         jg.writeObjectFieldStart("properties");
         jg.writeArrayFieldStart("datetimes");
-        List<String> datetimeAsString = new ArrayList<>();
         for (ZonedDateTime zdt : t.getDatetimesList()) {
             jg.writeString(zdt.format(DateTimeFormatter.ISO_DATE_TIME));
         }

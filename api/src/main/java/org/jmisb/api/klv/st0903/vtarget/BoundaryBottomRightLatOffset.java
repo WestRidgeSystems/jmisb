@@ -35,26 +35,12 @@ public class BoundaryBottomRightLatOffset extends AbstractTargetLocationOffset {
     /**
      * Create from encoded bytes.
      *
-     * <p>Note: this constructor only supports ST0903.4 and later.
-     *
-     * @param bytes Encoded byte array
-     * @deprecated use {@link #BoundaryBottomRightLatOffset(byte[], EncodingMode)} to explicitly
-     *     specify the encoding.
-     */
-    @Deprecated
-    public BoundaryBottomRightLatOffset(byte[] bytes) {
-        super(bytes);
-    }
-
-    /**
-     * Create from encoded bytes.
-     *
      * <p>ST0903 changed the encoding to 3-byte IMAPB in ST0903.4. Earlier versions used a variable
-     * length (1-3 bytes) byte array to represent an integer in the range [-2^23-1, 2^23-1]that was
+     * length (1-3 bytes) byte array to represent an integer in the range [-2^23-1, 2^23-1] that was
      * then mapped into the range [-19.2,19.2]. The three byte case could potentially represent
      * either kind of formatting, and which formatting applies can only be determined from the
      * version in the parent {@link org.jmisb.api.klv.st0903.VmtiLocalSet}. The {@code
-     * compatibilityMode} parameter determines whether to parse using the legacy encoding or current
+     * encodingMode} parameter determines whether to parse using the legacy encoding or current
      * encoding.
      *
      * <p>Note that this only affects parsing. Output encoding is always IMAPB (ST0903.4 or later).

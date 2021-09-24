@@ -27,8 +27,8 @@ import org.jmisb.core.klv.PrimitiveConverter;
  * </blockquote>
  */
 public class CorrectionOffset implements IUasDatalinkValue {
-    private long microseconds;
-    private static int MAX_BYTES = 8;
+    private final long microseconds;
+    private static final int MAX_BYTES = 8;
 
     /**
      * Create from value.

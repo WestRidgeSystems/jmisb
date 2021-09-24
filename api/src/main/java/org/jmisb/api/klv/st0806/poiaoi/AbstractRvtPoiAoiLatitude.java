@@ -9,7 +9,7 @@ public abstract class AbstractRvtPoiAoiLatitude implements IRvtPoiAoiMetadataVal
             new byte[] {(byte) 0x80, (byte) 0x00, (byte) 0x00, (byte) 0x00};
     private static final double FLOAT_RANGE = 90.0;
     private static final double MAX_INT = 2147483647.0;
-    private double degrees;
+    private final double degrees;
 
     /**
      * Create from value.

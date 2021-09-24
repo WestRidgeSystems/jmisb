@@ -42,7 +42,7 @@ public enum WeaponStoreStatus {
     /** No Status Available - Unknown status. */
     NoStatusAvailable((byte) 11);
 
-    private byte code;
+    private final byte code;
 
     private static final Map<Byte, WeaponStoreStatus> lookupTable = new HashMap<>();
 

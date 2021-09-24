@@ -4,12 +4,12 @@
     <parent>
         <groupId>org.jmisb</groupId>
         <artifactId>jmisb</artifactId>
-        <version>1.11.0-SNAPSHOT</version>
+        <version>2.0.0-SNAPSHOT</version>
     </parent>
 
     <groupId>org.jmisb.maven</groupId>
     <artifactId>miml-maven-plugin</artifactId>
-    <version>1.11.0-SNAPSHOT</version>
+    <version>2.0.0-SNAPSHOT</version>
     <packaging>maven-plugin</packaging>
 
     <name>MIML Maven Plugin</name>
@@ -86,8 +86,6 @@
         <dependency>
             <groupId>org.testng</groupId>
             <artifactId>testng</artifactId>
-            <version>${testng.version}</version>
-            <type>jar</type>
             <scope>test</scope>
         </dependency>
     </dependencies>
@@ -104,10 +102,6 @@
                 <plugin>
                     <artifactId>maven-resources-plugin</artifactId>
                     <version>3.0.2</version>
-                </plugin>
-                <plugin>
-                    <artifactId>maven-compiler-plugin</artifactId>
-                    <version>3.8.0</version>
                 </plugin>
                 <plugin>
                     <artifactId>maven-plugin-plugin</artifactId>
@@ -175,23 +169,8 @@
                 </executions>
             </plugin>
             <plugin>
-                <!-- java source code formatter -->
                 <groupId>com.theoryinpractise</groupId>
                 <artifactId>googleformatter-maven-plugin</artifactId>
-                <version>${googleformatter.maven.plugin.version}</version>
-                <executions>
-                    <execution>
-                        <id>reformat-sources</id>
-                        <goals>
-                            <goal>format</goal>
-                        </goals>
-                        <phase>process-sources</phase>
-                        <configuration>
-                            <style>AOSP</style>
-                            <fixImports>true</fixImports>
-                        </configuration>
-                    </execution>
-                </executions>
             </plugin>
             <plugin>
                 <groupId>org.cyclonedx</groupId>
@@ -243,30 +222,4 @@
             </plugin>
         </plugins>
     </build>
-    <profiles>
-        <!-- Dependency version checks -->
-        <profile>
-            <id>dependencycheck</id>
-            <build>
-                <plugins>
-                    <plugin>
-                        <groupId>org.owasp</groupId>
-                        <artifactId>dependency-check-maven</artifactId>
-                        <version>${owasp.version}</version>
-                        <configuration>
-                            <failBuildOnAnyVulnerability>true</failBuildOnAnyVulnerability>
-                            <assemblyAnalyzerEnabled>false</assemblyAnalyzerEnabled>
-                        </configuration>
-                        <executions>
-                            <execution>
-                                <goals>
-                                    <goal>check</goal>
-                                </goals>
-                            </execution>
-                        </executions>
-                    </plugin>
-                </plugins>
-            </build>
-        </profile>
-    </profiles>
 </project>

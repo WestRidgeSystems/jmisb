@@ -32,7 +32,6 @@ public class ControlCommandVerification implements IUasDatalinkValue {
      * @param commandIds list of command id values
      */
     public ControlCommandVerification(List<Integer> commandIds) {
-        this.commands.clear();
         this.commands.addAll(commandIds);
     }
 
@@ -75,9 +74,7 @@ public class ControlCommandVerification implements IUasDatalinkValue {
     public String getDisplayableValue() {
         List<String> idsAsText = new ArrayList<>();
         commands.forEach(
-                (id) -> {
-                    idsAsText.add("" + id);
-                });
+                (id) -> idsAsText.add("" + id));
         return "" + String.join(",", idsAsText);
     }
 

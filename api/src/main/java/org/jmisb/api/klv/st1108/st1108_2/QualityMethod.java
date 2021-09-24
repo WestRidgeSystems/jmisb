@@ -17,7 +17,7 @@ import org.jmisb.core.klv.PrimitiveConverter;
  * </blockquote>
  */
 public class QualityMethod implements IInterpretabilityQualityMetadataValue {
-    private int methodId;
+    private final int methodId;
     private static final int MIN_VALUE = 0;
     private static final int REQUIRED_BYTES = 1;
 

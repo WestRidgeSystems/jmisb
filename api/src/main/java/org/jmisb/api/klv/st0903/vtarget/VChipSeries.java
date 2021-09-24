@@ -65,7 +65,6 @@ public class VChipSeries implements IVmtiMetadataValue, IVTrackItemMetadataValue
             byte[] lengthBytes = BerEncoder.encode(localSetBytes.length);
             chunks.add(lengthBytes);
             len += lengthBytes.length;
-            ;
             chunks.add(localSetBytes);
             len += localSetBytes.length;
         }

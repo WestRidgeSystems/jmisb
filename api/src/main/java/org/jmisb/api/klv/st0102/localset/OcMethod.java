@@ -9,8 +9,8 @@ import org.jmisb.api.klv.st0102.ISecurityMetadataValue;
 
 /** Object Country Coding Method (ST 0102 tag 12). */
 public class OcMethod implements ISecurityMetadataValue {
-    private byte method;
-    private static Set<Byte> legal =
+    private final byte method;
+    private static final Set<Byte> legal =
             new HashSet<>(
                     Arrays.asList(
                             (byte) 0x01,

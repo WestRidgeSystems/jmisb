@@ -22,7 +22,7 @@ import java.util.Arrays;
  * constructor for this class.
  */
 public class ItemDesignatorId implements ISecurityMetadataValue {
-    private byte[] itemDesignatorId;
+    private final byte[] itemDesignatorId;
 
     /**
      * Create from encoded bytes or value.

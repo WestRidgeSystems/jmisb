@@ -17,7 +17,7 @@ import org.jmisb.core.klv.PrimitiveConverter;
  * </blockquote>
  */
 public class RatingDuration implements IInterpretabilityQualityMetadataValue {
-    private int duration;
+    private final int duration;
     private static final int MIN_VALUE = 0;
     private static final int MAX_VALUE = 65535;
     private static final int REQUIRED_BYTES = 2;

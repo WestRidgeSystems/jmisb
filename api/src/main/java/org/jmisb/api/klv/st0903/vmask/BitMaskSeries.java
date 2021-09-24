@@ -3,7 +3,6 @@ package org.jmisb.api.klv.st0903.vmask;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
-import org.jmisb.api.common.KlvParseException;
 import org.jmisb.api.klv.BerDecoder;
 import org.jmisb.api.klv.BerEncoder;
 import org.jmisb.api.klv.BerField;
@@ -50,9 +49,8 @@ public class BitMaskSeries implements IVmtiMetadataValue {
      * Create from encoded bytes.
      *
      * @param bytes Encoded byte array comprising the bit mask
-     * @throws KlvParseException if the byte array could not be parsed.
      */
-    public BitMaskSeries(byte[] bytes) throws KlvParseException {
+    public BitMaskSeries(byte[] bytes) {
         int index = 0;
         while (index < bytes.length - 1) {
             BerField lengthField = BerDecoder.decode(bytes, index, false);
@@ -122,7 +120,6 @@ public class BitMaskSeries implements IVmtiMetadataValue {
         index += lengthField.getValue();
         BerField runField = BerDecoder.decode(valueBytes, index, true);
         int runValue = runField.getValue();
-        PixelRunPair run = new PixelRunPair(pixelNumber, runValue);
-        return run;
+        return new PixelRunPair(pixelNumber, runValue);
     }
 }

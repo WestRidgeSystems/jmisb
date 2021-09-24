@@ -21,9 +21,9 @@ import org.jmisb.core.klv.PrimitiveConverter;
  * </blockquote>
  */
 public class NumTrackPoints implements IVmtiMetadataValue {
-    private int value;
-    private static int MIN_VALUE = 1;
-    private static int MAX_VALUE = 65535;
+    private final int value;
+    private static final int MIN_VALUE = 1;
+    private static final int MAX_VALUE = 65535;
 
     /**
      * Create from value.

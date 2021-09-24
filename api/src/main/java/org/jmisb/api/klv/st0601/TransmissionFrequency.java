@@ -19,11 +19,11 @@ import org.jmisb.api.klv.st1201.FpEncoder;
  * </blockquote>
  */
 public class TransmissionFrequency implements IUasDatalinkValue {
-    private static double MIN_VAL = 1.0;
-    private static double MAX_VAL = 99999.0;
-    private static int RECOMMENDED_BYTES = 3;
-    private static int MAX_BYTES = 4;
-    private double frequency;
+    private static final double MIN_VAL = 1.0;
+    private static final double MAX_VAL = 99999.0;
+    private static final int RECOMMENDED_BYTES = 3;
+    private static final int MAX_BYTES = 4;
+    private final double frequency;
 
     /**
      * Create from value.

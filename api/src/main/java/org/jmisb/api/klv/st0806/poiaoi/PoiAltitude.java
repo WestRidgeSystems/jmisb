@@ -12,7 +12,7 @@ import org.jmisb.core.klv.PrimitiveConverter;
  * <p>Resolution: ~0.3 meters.
  */
 public class PoiAltitude implements IRvtPoiAoiMetadataValue {
-    private double meters;
+    private final double meters;
     private static final double MIN_VALUE = -900;
     private static final double MAX_VALUE = 19000;
     private static final double RANGE = 19900;

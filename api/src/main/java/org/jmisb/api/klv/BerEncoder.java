@@ -4,7 +4,7 @@ import java.util.Arrays;
 
 /** Encode data using Basic Encoding Rules (BER). */
 public class BerEncoder {
-    private static int SHORT_FORM_MAX_LENGTH = 127;
+    private static final int SHORT_FORM_MAX_LENGTH = 127;
 
     private BerEncoder() {}
 

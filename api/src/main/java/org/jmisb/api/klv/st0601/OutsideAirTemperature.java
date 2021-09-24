@@ -18,9 +18,9 @@ package org.jmisb.api.klv.st0601;
  * </blockquote>
  */
 public class OutsideAirTemperature implements IUasDatalinkValue {
-    private byte temperature;
-    private static double MIN_VAL = -128;
-    private static double MAX_VAL = 127;
+    private final byte temperature;
+    private static final double MIN_VAL = -128;
+    private static final double MAX_VAL = 127;
 
     /**
      * Create from value.

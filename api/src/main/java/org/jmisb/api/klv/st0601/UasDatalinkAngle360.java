@@ -21,7 +21,7 @@ import org.jmisb.core.klv.PrimitiveConverter;
 public abstract class UasDatalinkAngle360 implements IUasDatalinkValue {
     protected static final double RANGE = 360.0;
     protected static final double MAXINT = 65535.0; // 2^16 - 1
-    protected double degrees;
+    protected final double degrees;
 
     /**
      * Create from value.

@@ -20,7 +20,7 @@ public enum VChipMetadataKey {
     /** An image “chip” of the image type specified by Tag 1. */
     embeddedImage(3);
 
-    private int tag;
+    private final int tag;
 
     private static final Map<Integer, VChipMetadataKey> tagTable = new HashMap<>();
 
@@ -50,6 +50,6 @@ public enum VChipMetadataKey {
      * @return the corresponding VChip tag.
      */
     public static VChipMetadataKey getKey(int tag) {
-        return tagTable.containsKey(tag) ? tagTable.get(tag) : Undefined;
+        return tagTable.getOrDefault(tag, Undefined);
     }
 }

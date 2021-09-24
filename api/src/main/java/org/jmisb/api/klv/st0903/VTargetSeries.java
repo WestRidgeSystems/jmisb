@@ -42,9 +42,7 @@ public class VTargetSeries implements IVmtiMetadataValue, INestedKlvValue {
      */
     public VTargetSeries(List<VTargetPack> values) {
         values.forEach(
-                (targetPack) -> {
-                    targetPacks.put(targetPack.getTargetIdentifier(), targetPack);
-                });
+                (targetPack) -> targetPacks.put(targetPack.getTargetIdentifier(), targetPack));
     }
     /**
      * Create from encoded bytes.
@@ -91,7 +89,6 @@ public class VTargetSeries implements IVmtiMetadataValue, INestedKlvValue {
             byte[] lengthBytes = BerEncoder.encode(localSetBytes.length);
             chunks.add(lengthBytes);
             len += lengthBytes.length;
-            ;
             chunks.add(localSetBytes);
             len += localSetBytes.length;
         }
@@ -114,9 +111,7 @@ public class VTargetSeries implements IVmtiMetadataValue, INestedKlvValue {
      * @return the VTargets as a List
      */
     public List<VTargetPack> getVTargets() {
-        List<VTargetPack> vtargets = new ArrayList<>();
-        vtargets.addAll(targetPacks.values());
-        return vtargets;
+        return new ArrayList<>(targetPacks.values());
     }
 
     @Override
@@ -131,9 +126,7 @@ public class VTargetSeries implements IVmtiMetadataValue, INestedKlvValue {
         targetPacks
                 .keySet()
                 .forEach(
-                        (Integer ident) -> {
-                            identifiers.add(new TargetIdentifierKey(ident));
-                        });
+                        (Integer ident) -> identifiers.add(new TargetIdentifierKey(ident)));
         return identifiers;
     }
 }

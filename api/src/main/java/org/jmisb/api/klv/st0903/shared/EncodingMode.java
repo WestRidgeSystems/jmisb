@@ -22,5 +22,5 @@ public enum EncodingMode {
      *
      * <p>This is the 0903.3 and earlier format.
      */
-    LEGACY;
+    LEGACY
 }

@@ -21,8 +21,8 @@ public class SecurityMetadataString implements ISecurityMetadataValue {
     public static final String SCI_SHI_INFO = "Security-SCI/SHI Information";
     public static final String COUNTRY_CODING_METHOD = "Country Coding Method";
 
-    private String stringValue;
-    private String displayName;
+    private final String stringValue;
+    private final String displayName;
 
     /**
      * Create from value.

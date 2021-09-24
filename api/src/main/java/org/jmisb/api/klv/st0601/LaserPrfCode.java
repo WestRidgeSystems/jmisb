@@ -25,9 +25,9 @@ import org.jmisb.core.klv.PrimitiveConverter;
  * <p>Resolution: N.A. Exact - integer code.
  */
 public class LaserPrfCode implements IUasDatalinkValue {
-    private int code;
-    private static double MIN_VALUE = 111;
-    private static double MAX_VALUE = 8888;
+    private final int code;
+    private static final double MIN_VALUE = 111;
+    private static final double MAX_VALUE = 8888;
 
     /**
      * Create from value.

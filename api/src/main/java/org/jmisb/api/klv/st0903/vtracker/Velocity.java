@@ -72,10 +72,10 @@ public class Velocity implements IVmtiMetadataValue, IVTrackItemMetadataValue, I
      * Create from encoded bytes.
      *
      * <p>ST0903 changed the encoding for each element to 2-byte IMAPB in ST0903.4. Earlier versions
-     * used a two-byte unsigned integer structure in the range [0, 2^16-1]that was then mapped into
+     * used a two-byte unsigned integer structure in the range [0, 2^16-1] that was then mapped into
      * the same ranges that the IMAPB encoding uses. Which formatting applies can only be determined
      * from the ST0903 version in the parent {@link org.jmisb.api.klv.st0903.VmtiLocalSet}. The
-     * {@code compatibilityMode} parameter determines whether to parse using the legacy encoding or
+     * {@code encodingMode} parameter determines whether to parse using the legacy encoding or
      * current encoding.
      *
      * <p>Note that this only affects parsing. Output encoding is always IMAPB (ST0903.4 or later).

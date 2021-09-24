@@ -16,9 +16,9 @@ import org.jmisb.core.klv.PrimitiveConverter;
  * <p>The significant step is from 3 to 4, which changed floating point encoding.
  */
 public class ST0903Version implements IVmtiMetadataValue, IVTrackMetadataValue {
-    private int version;
-    private static int MIN_VALUE = 0;
-    private static int MAX_VALUE = 65535;
+    private final int version;
+    private static final int MIN_VALUE = 0;
+    private static final int MAX_VALUE = 65535;
 
     /**
      * Create from value.

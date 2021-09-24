@@ -369,8 +369,7 @@ public class ST0601Converter {
                 angleRightSide += 360.0;
             }
         }
-        double averageAngle = (angleLeftSide + angleRightSide) / 2.0;
-        return averageAngle;
+        return (angleLeftSide + angleRightSide) / 2.0;
     }
 
     private static double getNorthAngleFromFullCorners(UasDatalinkMessage message) {
@@ -412,8 +411,7 @@ public class ST0601Converter {
                 angleRightSide += 360.0;
             }
         }
-        double averageAngle = (angleLeftSide + angleRightSide) / 2.0;
-        return averageAngle;
+        return (angleLeftSide + angleRightSide) / 2.0;
     }
 
     private static void convertTagIfPresent(

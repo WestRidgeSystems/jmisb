@@ -18,7 +18,7 @@ import org.jmisb.core.klv.PrimitiveConverter;
  * </blockquote>
  */
 public class CompressionRatio implements IInterpretabilityQualityMetadataValue {
-    private double compressionRatio;
+    private final double compressionRatio;
     private static final int MIN_VALUE = 0;
 
     /**

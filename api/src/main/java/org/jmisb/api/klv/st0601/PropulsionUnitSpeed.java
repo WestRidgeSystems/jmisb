@@ -24,10 +24,10 @@ import org.jmisb.core.klv.PrimitiveConverter;
  * </blockquote>
  */
 public class PropulsionUnitSpeed implements IUasDatalinkValue {
-    private long speed;
-    private static long MIN_VAL = 0;
-    private static long MAX_VAL = 4294967295L; // 2^32-1
-    private static int MAX_BYTES = 4;
+    private final long speed;
+    private static final long MIN_VAL = 0;
+    private static final long MAX_VAL = 4294967295L; // 2^32-1
+    private static final int MAX_BYTES = 4;
 
     /**
      * Create from value.

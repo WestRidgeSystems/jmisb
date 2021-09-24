@@ -13,9 +13,8 @@ import org.jmisb.core.klv.PrimitiveConverter;
  */
 public class FragCircleRadius implements IRvtMetadataValue {
     private final int radius;
-
-    private static long MIN_VALUE = 0;
-    private static long MAX_VALUE = 65535;
+    private static final long MIN_VALUE = 0;
+    private static final long MAX_VALUE = 65535;
     private static final int REQUIRED_BYTE_LENGTH = 2;
 
     /**

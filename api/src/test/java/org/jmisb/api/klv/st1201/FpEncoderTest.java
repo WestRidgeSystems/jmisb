@@ -287,7 +287,7 @@ public class FpEncoderTest {
     public void testEncodeSpecial8BytesPositiveQNaN0() {
         FpEncoder fpEncoder = new FpEncoder(0.0, 1e9, 8);
 
-        byte[] encoded = fpEncoder.encodeSpecial(ValueMappingKind.PostiveQuietNaN);
+        byte[] encoded = fpEncoder.encodeSpecial(ValueMappingKind.PositiveQuietNaN);
         Assert.assertEquals(
                 encoded,
                 new byte[] {
@@ -306,7 +306,7 @@ public class FpEncoderTest {
     public void testEncodeSpecial8BytesPositiveQNaN2() {
         FpEncoder fpEncoder = new FpEncoder(0.0, 1e9, 8);
 
-        byte[] encoded = fpEncoder.encodeSpecial(ValueMappingKind.PostiveQuietNaN, 2);
+        byte[] encoded = fpEncoder.encodeSpecial(ValueMappingKind.PositiveQuietNaN, 2);
         Assert.assertEquals(
                 encoded,
                 new byte[] {
@@ -325,7 +325,7 @@ public class FpEncoderTest {
     public void testEncodeSpecial1BytePositiveQNaN2() {
         FpEncoder fpEncoder = new FpEncoder(0.0, 1e9, 1);
 
-        byte[] encoded = fpEncoder.encodeSpecial(ValueMappingKind.PostiveQuietNaN, 2);
+        byte[] encoded = fpEncoder.encodeSpecial(ValueMappingKind.PositiveQuietNaN, 2);
         Assert.assertEquals(encoded, new byte[] {(byte) 0xd2});
     }
 

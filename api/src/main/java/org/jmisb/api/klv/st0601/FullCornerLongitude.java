@@ -25,8 +25,6 @@ public class FullCornerLongitude extends UasDatalinkLongitude {
     /** Display name for fourth corner longitude. Point 4 is the lower left corner. */
     public static final String CORNER_LON_4 = "Corner Longitude Point 4 (Full)";
 
-    private final String displayName;
-
     /**
      * Create from value.
      *
@@ -35,8 +33,7 @@ public class FullCornerLongitude extends UasDatalinkLongitude {
      * @param displayName human readable (display) name for this type - see static values
      */
     public FullCornerLongitude(double degrees, String displayName) {
-        super(degrees);
-        this.displayName = displayName;
+        super(degrees, displayName);
     }
 
     /**
@@ -46,12 +43,6 @@ public class FullCornerLongitude extends UasDatalinkLongitude {
      * @param displayName human readable (display) name for this type - see static values
      */
     public FullCornerLongitude(byte[] bytes, String displayName) {
-        super(bytes);
-        this.displayName = displayName;
-    }
-
-    @Override
-    public String getDisplayName() {
-        return displayName;
+        super(bytes, displayName);
     }
 }

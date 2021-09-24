@@ -23,7 +23,7 @@ public enum AlgorithmMetadataKey implements IKlvKey {
     /** Number of frames algorithm operates over. */
     nFrames(5);
 
-    private int tag;
+    private final int tag;
 
     private static final Map<Integer, AlgorithmMetadataKey> tagTable = new HashMap<>();
 

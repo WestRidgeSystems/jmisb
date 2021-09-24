@@ -65,7 +65,7 @@ public enum SARMIMetadataKey implements IKlvKey {
     /** Document Version. */
     DocumentVersion(28);
 
-    private int tag;
+    private final int tag;
 
     private static final Map<Integer, SARMIMetadataKey> tagTable = new HashMap<>();
 
@@ -75,7 +75,7 @@ public enum SARMIMetadataKey implements IKlvKey {
         }
     }
 
-    private SARMIMetadataKey(int tag) {
+    SARMIMetadataKey(int tag) {
         this.tag = tag;
     }
 
@@ -95,6 +95,6 @@ public enum SARMIMetadataKey implements IKlvKey {
      * @return corresponding metadata key
      */
     public static SARMIMetadataKey getKey(int tag) {
-        return tagTable.containsKey(tag) ? tagTable.get(tag) : Undefined;
+        return tagTable.getOrDefault(tag, Undefined);
     }
 }

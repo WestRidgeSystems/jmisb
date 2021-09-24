@@ -88,6 +88,7 @@ public class RunLengthEncodingEncoder {
                         for (int j = 0; j < horizontalRunLength; j++) {
                             if (data[r][c] != data[r + i][c + j]) {
                                 isRectangular = false;
+                                break;
                             }
                         }
                     }

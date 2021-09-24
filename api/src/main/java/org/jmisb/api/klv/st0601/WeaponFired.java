@@ -22,8 +22,8 @@ package org.jmisb.api.klv.st0601;
  * </blockquote>
  */
 public class WeaponFired implements IUasDatalinkValue {
-    private int stationNumber;
-    private int substationNumber;
+    private final int stationNumber;
+    private final int substationNumber;
 
     /**
      * Create from value.
@@ -57,7 +57,6 @@ public class WeaponFired implements IUasDatalinkValue {
         byte b = bytes[0];
         substationNumber = b & 0x0F;
         stationNumber = (b & 0xF0) >> 4;
-        ;
     }
 
     @Override

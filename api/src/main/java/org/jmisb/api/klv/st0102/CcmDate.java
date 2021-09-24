@@ -19,7 +19,7 @@ import java.time.format.DateTimeParseException;
  */
 public class CcmDate implements ISecurityMetadataValue {
 
-    private LocalDate date;
+    private final LocalDate date;
 
     /**
      * Construct CcmDate from a LocalDate.

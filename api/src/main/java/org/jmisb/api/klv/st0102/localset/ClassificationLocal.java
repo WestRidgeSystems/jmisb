@@ -5,7 +5,7 @@ import org.jmisb.api.klv.st0102.ISecurityMetadataValue;
 
 /** Security classification level as defined by Security Metadata Local Set (ST 0102 tag 1). */
 public class ClassificationLocal implements ISecurityMetadataValue {
-    private Classification value;
+    private final Classification value;
 
     /**
      * Create from value.

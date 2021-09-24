@@ -29,7 +29,7 @@ class MetadataEntry {
 
     @Override
     public String toString() {
-        if (displayName.equals(OpaqueValue.DISPLAYNAME)) {
+        if (displayName.equals(OpaqueValue.DISPLAY_NAME)) {
             return tag + ": " + value;
         }
         return displayName + ": " + value;

@@ -63,7 +63,6 @@ public class VObjectSeries implements IVmtiMetadataValue, IVTrackItemMetadataVal
             byte[] lengthBytes = BerEncoder.encode(localSetBytes.length);
             chunks.add(lengthBytes);
             len += lengthBytes.length;
-            ;
             chunks.add(localSetBytes);
             len += localSetBytes.length;
         }

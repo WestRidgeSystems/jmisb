@@ -167,10 +167,10 @@ While not a core focus, jMISB provides some elevation / terrain related support.
 
 ## Building
 
-To build the library from the command line, simply run the Maven command:
+To build the library from the command line, run the Maven wrapper:
 
 ```sh
-mvn install
+./mvnw install
 ```
 
 This will compile the source code, run unit tests, and install the JARs to your local Maven repository.
@@ -180,8 +180,7 @@ with some test data. This is a sample application intended mainly to aid in
 development. To run it from the command line, issue:
 
 ```sh
-cd viewer
-mvn exec:exec
+./mvnw exec:exec -pl :viewer
 ```
 
 ## Versioning

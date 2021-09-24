@@ -48,7 +48,7 @@ public enum VTrackerMetadataKey implements IKlvKey {
     /** Identifier indicating which algorithm in the Algorithm Series tracked this target. */
     algorithmId(12);
 
-    private int tag;
+    private final int tag;
 
     private static final Map<Integer, VTrackerMetadataKey> tagTable = new HashMap<>();
 
@@ -78,7 +78,7 @@ public enum VTrackerMetadataKey implements IKlvKey {
      * @return the corresponding VTracker tag.
      */
     public static VTrackerMetadataKey getKey(int tag) {
-        return tagTable.containsKey(tag) ? tagTable.get(tag) : Undefined;
+        return tagTable.getOrDefault(tag, Undefined);
     }
 
     @Override

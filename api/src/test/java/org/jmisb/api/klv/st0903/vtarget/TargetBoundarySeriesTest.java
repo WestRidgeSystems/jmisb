@@ -40,27 +40,10 @@ public class TargetBoundarySeriesTest {
             };
 
     @Test
-    @SuppressWarnings("deprecation")
-    public void testConstructFromEncodedBytes() throws KlvParseException {
-        TargetBoundarySeries boundarySeries = new TargetBoundarySeries(bytesTwoLocations);
-        verifyTwoLocations(boundarySeries);
-    }
-
-    @Test
-    public void testConstructFromEncodedBytesExplicitEncodingIMAPB() throws KlvParseException {
+    public void testConstructFromEncodedBytesExplicitEncodingIMAPB() {
         TargetBoundarySeries boundarySeries =
                 new TargetBoundarySeries(bytesTwoLocations, EncodingMode.IMAPB);
         verifyTwoLocations(boundarySeries);
-    }
-
-    @Test
-    @SuppressWarnings("deprecation")
-    public void testFactoryEncodedBytes() throws KlvParseException {
-        IVmtiMetadataValue value =
-                VTargetPack.createValue(VTargetMetadataKey.TargetBoundarySeries, bytesTwoLocations);
-        assertTrue(value instanceof TargetBoundarySeries);
-        TargetBoundarySeries targetBoundarySeries = (TargetBoundarySeries) value;
-        verifyTwoLocations(targetBoundarySeries);
     }
 
     @Test

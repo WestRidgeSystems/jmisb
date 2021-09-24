@@ -10,9 +10,9 @@ import org.jmisb.core.klv.PrimitiveConverter;
  * <p>Resolution: 2 pixels.
  */
 public abstract class TargetTrackGateSize implements IUasDatalinkValue {
-    private short pixels;
-    private static short MIN_VALUE = 0;
-    private static short MAX_VALUE = 510;
+    private final short pixels;
+    private static final short MIN_VALUE = 0;
+    private static final short MAX_VALUE = 510;
 
     /**
      * Create from value.

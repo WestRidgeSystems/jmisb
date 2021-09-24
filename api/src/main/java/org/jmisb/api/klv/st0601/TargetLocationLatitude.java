@@ -17,6 +17,8 @@ package org.jmisb.api.klv.st0601;
  * </blockquote>
  */
 public class TargetLocationLatitude extends UasDatalinkLatitude {
+    private static final String DISPLAY_NAME = "Target Location Latitude";
+
     /**
      * Create from value.
      *
@@ -24,7 +26,7 @@ public class TargetLocationLatitude extends UasDatalinkLatitude {
      *     represent an error condition
      */
     public TargetLocationLatitude(double degrees) {
-        super(degrees);
+        super(degrees, DISPLAY_NAME);
     }
 
     /**
@@ -33,7 +35,7 @@ public class TargetLocationLatitude extends UasDatalinkLatitude {
      * @param bytes The byte array of length 4
      */
     public TargetLocationLatitude(byte[] bytes) {
-        super(bytes);
+        super(bytes, DISPLAY_NAME);
     }
 
     @Override

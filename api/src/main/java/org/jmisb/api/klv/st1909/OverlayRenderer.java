@@ -156,8 +156,7 @@ public class OverlayRenderer {
 
     // Exposed for unit testing purposes
     protected int calculateColumnOffset(int size, double northAngle) {
-        int columnOffset = (int) Math.round(Math.cos((-1 * northAngle) + (Math.PI / 2)) * size);
-        return columnOffset;
+        return (int) Math.round(Math.cos((-1 * northAngle) + (Math.PI / 2)) * size);
     }
 
     private void renderLaserSensorGroup(BufferedImage image, MetadataItems metadata) {

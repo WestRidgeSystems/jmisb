@@ -66,7 +66,7 @@ public enum ArrayProcessingAlgorithm {
      *
      * @param code the code for the algorithm.
      */
-    private ArrayProcessingAlgorithm(int code) {
+    ArrayProcessingAlgorithm(int code) {
         this.code = code;
     }
 
@@ -80,12 +80,12 @@ public enum ArrayProcessingAlgorithm {
     }
 
     /**
-     * Look up a Array Processing Algorithm by code value.
+     * Look up an Array Processing Algorithm by code value.
      *
      * @param code the APA value (per ST1303.2 Table 3).
      * @return the corresponding ArrayProcessingAlgorithm.
      */
     public static ArrayProcessingAlgorithm getValue(int code) {
-        return algorithmTable.containsKey(code) ? algorithmTable.get(code) : Unused;
+        return algorithmTable.getOrDefault(code, Unused);
     }
 }

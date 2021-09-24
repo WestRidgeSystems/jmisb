@@ -5,7 +5,6 @@ import org.jmisb.api.klv.IKlvKey;
 
 /** Pseudo-key item for payload identifier. */
 public class PayloadIdentifierKey implements IKlvKey, Comparable<PayloadIdentifierKey> {
-
     private final Integer identifier;
 
     /**

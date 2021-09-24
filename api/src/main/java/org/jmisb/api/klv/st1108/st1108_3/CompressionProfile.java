@@ -90,7 +90,7 @@ public enum CompressionProfile implements IInterpretabilityQualityMetadataValue 
         }
     }
 
-    private byte value;
+    private final byte value;
 
     @Override
     public String getDisplayName() {
@@ -123,14 +123,14 @@ public enum CompressionProfile implements IInterpretabilityQualityMetadataValue 
         }
     }
 
-    private CompressionProfile(int value) {
+    CompressionProfile(int value) {
         this.value = (byte) value;
     }
 
     @Override
     public void appendBytesToBuilder(ArrayBuilder arrayBuilder) {
         arrayBuilder.appendAsOID(IQMetadataKey.CompressionProfile.getIdentifier());
-        byte[] valueBytes = new byte[] {(byte) value};
+        byte[] valueBytes = new byte[] {value};
         arrayBuilder.appendAsBerLength(valueBytes.length);
         arrayBuilder.append(valueBytes);
     }

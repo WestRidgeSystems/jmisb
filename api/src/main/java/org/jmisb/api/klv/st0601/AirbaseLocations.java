@@ -150,7 +150,6 @@ public class AirbaseLocations implements IUasDatalinkValue {
                     idx += 4;
                     double hae = haeDecoder.decode(bytes, idx);
                     recoveryLocation.setHAE(hae);
-                    idx += 3;
                     break;
                 case 8:
                     recoveryLocationIsUnknown = false;
@@ -158,7 +157,6 @@ public class AirbaseLocations implements IUasDatalinkValue {
                     recoveryLocation.setLatitude(latDecoder.decode(bytes, idx));
                     idx += 4;
                     recoveryLocation.setLongitude(lonDecoder.decode(bytes, idx));
-                    idx += 4;
                     recoveryLocation.setHAE(-1000.0);
                     break;
                 case 0:
@@ -181,50 +179,37 @@ public class AirbaseLocations implements IUasDatalinkValue {
             chunks.add(takeoffLenBytes);
             totalLength += takeoffLenBytes.length;
         } else {
-            int takeoffLen = 0;
-            byte[] latBytes = latDecoder.encode(takeoffLocation.getLatitude());
-            takeoffLen += latBytes.length;
-            byte[] lonBytes = lonDecoder.encode(takeoffLocation.getLongitude());
-            takeoffLen += lonBytes.length;
-            byte[] haeBytes = new byte[] {};
-            if (!(takeoffLocation.getHAE() < -900.0)) {
-                haeBytes = haeDecoder.encode(takeoffLocation.getHAE());
-                takeoffLen += haeBytes.length;
-            }
-            byte[] takeoffLenBytes = BerEncoder.encode(takeoffLen);
-            chunks.add(takeoffLenBytes);
-            chunks.add(latBytes);
-            chunks.add(lonBytes);
-            chunks.add(haeBytes);
-            totalLength += takeoffLen;
-            totalLength += takeoffLenBytes.length;
+            totalLength = getTotalLength(chunks, totalLength, takeoffLocation);
         }
         if (recoveryLocationIsUnknown) {
             byte[] recoveryLenBytes = BerEncoder.encode(0);
             chunks.add(recoveryLenBytes);
             totalLength += recoveryLenBytes.length;
-        } else if (takeoffAndRecoveryLocationsAreTheSame()) {
-            // Nothing - its just omitted
-        } else {
-            int recoveryLen = 0;
-            byte[] latBytes = latDecoder.encode(recoveryLocation.getLatitude());
-            recoveryLen += latBytes.length;
-            byte[] lonBytes = lonDecoder.encode(recoveryLocation.getLongitude());
-            recoveryLen += lonBytes.length;
-            byte[] haeBytes = new byte[] {};
-            if (!(recoveryLocation.getHAE() < -900.0)) {
-                haeBytes = haeDecoder.encode(recoveryLocation.getHAE());
-                recoveryLen += haeBytes.length;
-            }
-            byte[] recoveryLenBytes = BerEncoder.encode(recoveryLen);
-            chunks.add(recoveryLenBytes);
-            chunks.add(latBytes);
-            chunks.add(lonBytes);
-            chunks.add(haeBytes);
-            totalLength += recoveryLen;
-            totalLength += recoveryLenBytes.length;
+        } else if (!takeoffAndRecoveryLocationsAreTheSame()) {
+            totalLength = getTotalLength(chunks, totalLength, recoveryLocation);
         }
         return ArrayUtils.arrayFromChunks(chunks, totalLength);
+    }
+
+    private int getTotalLength(List<byte[]> chunks, int totalLength, Location recoveryLocation) {
+        int recoveryLen = 0;
+        byte[] latBytes = latDecoder.encode(recoveryLocation.getLatitude());
+        recoveryLen += latBytes.length;
+        byte[] lonBytes = lonDecoder.encode(recoveryLocation.getLongitude());
+        recoveryLen += lonBytes.length;
+        byte[] haeBytes = new byte[] {};
+        if (!(recoveryLocation.getHAE() < -900.0)) {
+            haeBytes = haeDecoder.encode(recoveryLocation.getHAE());
+            recoveryLen += haeBytes.length;
+        }
+        byte[] recoveryLenBytes = BerEncoder.encode(recoveryLen);
+        chunks.add(recoveryLenBytes);
+        chunks.add(latBytes);
+        chunks.add(lonBytes);
+        chunks.add(haeBytes);
+        totalLength += recoveryLen;
+        totalLength += recoveryLenBytes.length;
+        return totalLength;
     }
 
     /**

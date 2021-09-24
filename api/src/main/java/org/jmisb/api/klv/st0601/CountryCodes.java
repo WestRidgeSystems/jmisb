@@ -151,7 +151,6 @@ public class CountryCodes implements IUasDatalinkValue, INestedKlvValue {
                         idx,
                         countryOfManufactureLengthField.getValue(),
                         StandardCharsets.UTF_8);
-        idx += countryOfManufactureLengthField.getValue();
     }
 
     @Override

@@ -14,7 +14,7 @@ import org.slf4j.LoggerFactory;
 /** Security Metadata Universal Set message packet defined by ST 0102. */
 public class SecurityMetadataUniversalSet extends SecurityMetadataMessage {
 
-    private static Logger logger = LoggerFactory.getLogger(SecurityMetadataUniversalSet.class);
+    private static final Logger logger = LoggerFactory.getLogger(SecurityMetadataUniversalSet.class);
 
     /**
      * Create the message from the given key/value pairs.

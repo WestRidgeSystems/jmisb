@@ -41,9 +41,9 @@ import org.jmisb.core.klv.PrimitiveConverter;
  * <p>Bit 7. BeiDou-2
  */
 public class PositioningMethodSource implements IUasDatalinkValue {
-    private int source;
-    private static int MIN_VALUE = 1;
-    private static int MAX_VALUE = 255;
+    private final int source;
+    private static final int MIN_VALUE = 1;
+    private static final int MAX_VALUE = 255;
 
     public static final int INS = 1;
     public static final int GPS = 2;
@@ -52,7 +52,7 @@ public class PositioningMethodSource implements IUasDatalinkValue {
     public static final int NAVIC = 16;
     public static final int GLONASS = 32;
     public static final int BEIDOU1 = 64;
-    public static final int BIEDOU2 = 128;
+    public static final int BEIDOU2 = 128;
 
     /**
      * Create from value.

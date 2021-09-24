@@ -32,7 +32,7 @@ public enum LegacyIQMetadataKey implements IKlvKey {
     ChipFrequencyRatio(13),
     ChipPSNR(14);
 
-    private int tag;
+    private final int tag;
 
     private static final Map<Integer, LegacyIQMetadataKey> tagTable = new HashMap<>();
 

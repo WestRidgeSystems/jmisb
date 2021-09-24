@@ -30,7 +30,7 @@ public enum RvtMetadataKey implements IKlvKey {
     MGRSEastingSecondValue(20),
     MGRSNorthingSecondValue(21);
 
-    private int tag;
+    private final int tag;
 
     private static final Map<Integer, RvtMetadataKey> tagTable = new HashMap<>();
 
@@ -60,6 +60,6 @@ public enum RvtMetadataKey implements IKlvKey {
      * @return corresponding metadata key
      */
     public static RvtMetadataKey getKey(int tag) {
-        return tagTable.containsKey(tag) ? tagTable.get(tag) : Undefined;
+        return tagTable.getOrDefault(tag, Undefined);
     }
 }

@@ -15,7 +15,7 @@ import org.jmisb.core.klv.PrimitiveConverter;
  * </blockquote>
  */
 public class ST0806Version implements IRvtMetadataValue {
-    private int version;
+    private final int version;
     private static final int MIN_VALUE = 0;
     private static final int MAX_VALUE = 255;
     private static final int REQUIRED_BYTES = 1;

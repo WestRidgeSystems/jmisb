@@ -43,7 +43,7 @@ public enum VTrackItemMetadataKey implements IKlvKey {
     VChipSeries(106),
     VObjectSeries(107);
 
-    private int tag;
+    private final int tag;
 
     private static final Map<Integer, VTrackItemMetadataKey> tagTable = new HashMap<>();
 
@@ -60,7 +60,7 @@ public enum VTrackItemMetadataKey implements IKlvKey {
      *
      * @param tag the tag value to initialise the enumeration value.
      */
-    private VTrackItemMetadataKey(int tag) {
+    VTrackItemMetadataKey(int tag) {
         this.tag = tag;
     }
 
@@ -83,6 +83,6 @@ public enum VTrackItemMetadataKey implements IKlvKey {
      * @return the corresponding metadata key.
      */
     public static VTrackItemMetadataKey getKey(int tag) {
-        return tagTable.containsKey(tag) ? tagTable.get(tag) : Undefined;
+        return tagTable.getOrDefault(tag, Undefined);
     }
 }

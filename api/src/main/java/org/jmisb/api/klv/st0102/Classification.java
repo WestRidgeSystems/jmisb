@@ -31,7 +31,7 @@ public enum Classification {
     /** Top Secret. */
     TOP_SECRET((byte) 0x05);
 
-    private byte code;
+    private final byte code;
 
     private static final Map<Byte, Classification> lookupTable = new HashMap<>();
 

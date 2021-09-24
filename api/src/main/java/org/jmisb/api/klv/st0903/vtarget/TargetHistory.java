@@ -21,8 +21,8 @@ import org.jmisb.core.klv.PrimitiveConverter;
 public class TargetHistory implements IVmtiMetadataValue, IVTrackItemMetadataValue {
 
     private final int history;
-    private static int MIN_VALUE = 0;
-    private static int MAX_VALUE = 65535;
+    private static final int MIN_VALUE = 0;
+    private static final int MAX_VALUE = 65535;
 
     /**
      * Create from value.

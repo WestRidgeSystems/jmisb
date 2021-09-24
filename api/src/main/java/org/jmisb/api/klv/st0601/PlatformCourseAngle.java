@@ -27,11 +27,11 @@ import org.jmisb.api.klv.st1201.FpEncoder;
  */
 public class PlatformCourseAngle implements IUasDatalinkValue {
 
-    private static double MIN_VAL = 0.0;
-    private static double MAX_VAL = 360.0;
-    private static int RECOMMENDED_BYTES = 2;
-    private static int MAX_BYTES = 8;
-    private double angle;
+    private static final double MIN_VAL = 0.0;
+    private static final double MAX_VAL = 360.0;
+    private static final int RECOMMENDED_BYTES = 2;
+    private static final int MAX_BYTES = 8;
+    private final double angle;
 
     /**
      * Create from value.

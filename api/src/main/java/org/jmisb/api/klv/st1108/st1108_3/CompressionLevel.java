@@ -20,7 +20,7 @@ import org.jmisb.api.klv.st1108.IInterpretabilityQualityMetadataValue;
  * </blockquote>
  */
 public class CompressionLevel implements IInterpretabilityQualityMetadataValue {
-    private String level;
+    private final String level;
     private static final int MAX_LENGTH = 3;
 
     /**

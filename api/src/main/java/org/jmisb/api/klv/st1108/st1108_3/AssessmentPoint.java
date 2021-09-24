@@ -67,7 +67,7 @@ public enum AssessmentPoint implements IInterpretabilityQualityMetadataValue {
         }
     }
 
-    private byte value;
+    private final byte value;
 
     @Override
     public String getDisplayName() {
@@ -92,14 +92,14 @@ public enum AssessmentPoint implements IInterpretabilityQualityMetadataValue {
         }
     }
 
-    private AssessmentPoint(int value) {
+    AssessmentPoint(int value) {
         this.value = (byte) value;
     }
 
     @Override
     public void appendBytesToBuilder(ArrayBuilder arrayBuilder) {
         arrayBuilder.appendAsOID(IQMetadataKey.AssessmentPoint.getIdentifier());
-        byte[] valueBytes = new byte[] {(byte) value};
+        byte[] valueBytes = new byte[] {value};
         arrayBuilder.appendAsBerLength(valueBytes.length);
         arrayBuilder.append(valueBytes);
     }

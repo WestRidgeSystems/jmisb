@@ -19,7 +19,7 @@ public enum RvtPoiMetadataKey implements IKlvKey {
     PoiAoiLabel(9),
     OperationId(10);
 
-    private int tag;
+    private final int tag;
 
     private static final Map<Integer, RvtPoiMetadataKey> tagTable = new HashMap<>();
 
@@ -47,7 +47,7 @@ public enum RvtPoiMetadataKey implements IKlvKey {
      * @return corresponding metadata key
      */
     public static RvtPoiMetadataKey getKey(int tag) {
-        return tagTable.containsKey(tag) ? tagTable.get(tag) : Undefined;
+        return tagTable.getOrDefault(tag, Undefined);
     }
 
     @Override

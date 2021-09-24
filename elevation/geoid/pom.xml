@@ -4,7 +4,7 @@
     <parent>
         <groupId>org.jmisb</groupId>
         <artifactId>elevation</artifactId>
-        <version>1.11.0-SNAPSHOT</version>
+        <version>2.0.0-SNAPSHOT</version>
     </parent>
     <groupId>org.jmisb.elevation</groupId>
     <artifactId>geoid</artifactId>
@@ -22,137 +22,25 @@
     <build>
         <plugins>
             <plugin>
-                <!-- java source code formatter -->
                 <groupId>com.theoryinpractise</groupId>
                 <artifactId>googleformatter-maven-plugin</artifactId>
-                <version>${googleformatter.maven.plugin.version}</version>
-                <executions>
-                    <execution>
-                        <id>reformat-sources</id>
-                        <goals>
-                            <goal>format</goal>
-                        </goals>
-                        <phase>process-sources</phase>
-                        <configuration>
-                            <style>AOSP</style>
-                            <fixImports>true</fixImports>
-                        </configuration>
-                    </execution>
-                </executions>
             </plugin>
             <plugin>
-                <!-- surefire plugin for unit tests -->
                 <groupId>org.apache.maven.plugins</groupId>
                 <artifactId>maven-surefire-plugin</artifactId>
-                <version>${surefire.version}</version>
-                <configuration>
-                    <suiteXmlFiles>
-                        <suiteXmlFile>testng-unit.xml</suiteXmlFile>
-                    </suiteXmlFiles>
-                    <properties>
-                        <property>
-                            <name>surefire.testng.verbose</name>
-                            <value>${surefire.verbosity}</value>
-                        </property>
-                    </properties>
-                </configuration>
             </plugin>
             <plugin>
                 <groupId>com.github.spotbugs</groupId>
                 <artifactId>spotbugs-maven-plugin</artifactId>
-                <version>${spotbugs.maven.version}</version>
-                <dependencies>
-                    <dependency>
-                        <groupId>com.github.spotbugs</groupId>
-                        <artifactId>spotbugs</artifactId>
-                        <version>${spotbugs.version}</version>
-                    </dependency>
-                </dependencies>
-                <executions>
-                    <execution>
-                        <goals>
-                            <goal>check</goal>
-                        </goals>
-                    </execution>
-                </executions>
             </plugin>
             <plugin>
                 <groupId>org.cyclonedx</groupId>
                 <artifactId>cyclonedx-maven-plugin</artifactId>
-                <version>${cyclonedx.version}</version>
-                <configuration>
-                    <projectType>library</projectType>
-                    <schemaVersion>${cyclonedx.schema.version}</schemaVersion>
-                    <includeBomSerialNumber>true</includeBomSerialNumber>
-                    <includeCompileScope>true</includeCompileScope>
-                    <includeProvidedScope>true</includeProvidedScope>
-                    <includeRuntimeScope>true</includeRuntimeScope>
-                    <includeSystemScope>true</includeSystemScope>
-                    <includeTestScope>false</includeTestScope>
-                    <includeLicenseText>false</includeLicenseText>
-                    <outputFormat>all</outputFormat>
-                    <outputName>${project.artifactId}-${project.version}-cyclonedx</outputName>
-                </configuration>
-                <executions>
-                    <execution>
-                        <goals>
-                            <goal>makeBom</goal>
-                        </goals>
-                        <phase>verify</phase>
-                    </execution>
-                </executions>
             </plugin>
-
             <plugin>
                 <groupId>org.apache.maven.plugins</groupId>
                 <artifactId>maven-checkstyle-plugin</artifactId>
-                <version>3.1.1</version>
-                <configuration>
-                    <configLocation>checkstyle.xml</configLocation>
-                    <encoding>UTF-8</encoding>
-                    <consoleOutput>true</consoleOutput>
-                    <failsOnError>true</failsOnError>
-                    <failOnViolation>true</failOnViolation>
-                    <linkXRef>false</linkXRef>
-                </configuration>
-                <executions>
-                    <execution>
-                        <id>validate</id>
-                        <goals>
-                            <goal>check</goal>
-                        </goals>
-                        <phase>validate</phase>
-                    </execution>
-                </executions>
             </plugin>
         </plugins>
     </build>
-
-    <profiles>
-        <!-- Dependency version checks -->
-        <profile>
-            <id>dependencycheck</id>
-            <build>
-                <plugins>
-                    <plugin>
-                        <groupId>org.owasp</groupId>
-                        <artifactId>dependency-check-maven</artifactId>
-                        <version>${owasp.version}</version>
-                        <configuration>
-                            <failBuildOnAnyVulnerability>true</failBuildOnAnyVulnerability>
-                            <assemblyAnalyzerEnabled>false</assemblyAnalyzerEnabled>
-                        </configuration>
-                        <executions>
-                            <execution>
-                                <goals>
-                                    <goal>check</goal>
-                                </goals>
-                            </execution>
-                        </executions>
-                    </plugin>
-                </plugins>
-            </build>
-        </profile>
-    </profiles>
-
 </project>

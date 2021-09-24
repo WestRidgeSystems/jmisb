@@ -10,9 +10,9 @@ import org.jmisb.core.klv.PrimitiveConverter;
  * <p>Resolution: 1 metre/second.
  */
 public abstract class UasDatalinkSpeed implements IUasDatalinkValue {
-    private int speed;
-    private static double MIN_VALUE = 0;
-    private static double MAX_VALUE = 255;
+    private final int speed;
+    private static final double MIN_VALUE = 0;
+    private static final double MAX_VALUE = 255;
 
     /**
      * Create from value.
@@ -37,8 +37,7 @@ public abstract class UasDatalinkSpeed implements IUasDatalinkValue {
                     getDisplayName() + " encoding is a 1-byte unsigned int");
         }
 
-        int intVal = PrimitiveConverter.toUint8(bytes);
-        speed = intVal;
+        speed = PrimitiveConverter.toUint8(bytes);
     }
 
     /**

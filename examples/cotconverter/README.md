@@ -19,13 +19,13 @@ mvn clean install
 There are several ways to invoke it. One way is:
 
 ``` sh
-java -jar target/cotconverter-1.11.0-SNAPSHOT-jar-with-dependencies.jar  {filename}
+java -jar target/cotconverter-2.0.0-SNAPSHOT-jar-with-dependencies.jar  {filename}
 ```
 
 For example:
 
 ``` sh
-java -jar target/cotconverter-1.11.0-SNAPSHOT-jar-with-dependencies.jar ~/KLV_samples/CheyenneVAhospital.mpeg4
+java -jar target/cotconverter-2.0.0-SNAPSHOT-jar-with-dependencies.jar ~/KLV_samples/CheyenneVAhospital.mpeg4
 ```
 
 You should adjust the version part to match the current version number.

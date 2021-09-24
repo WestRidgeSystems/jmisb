@@ -18,11 +18,11 @@ import org.jmisb.core.klv.PrimitiveConverter;
  * </blockquote>
  */
 public class HorizontalFov implements IUasDatalinkValue {
-    private double degrees;
-    private static double MIN_VALUE = 0;
-    private static double MAX_VALUE = 180;
-    private static double RANGE = 180;
-    private static double MAXINT = 65535.0; // 2^16 - 1
+    private final double degrees;
+    private static final double MIN_VALUE = 0;
+    private static final double MAX_VALUE = 180;
+    private static final double RANGE = 180;
+    private static final double MAX_INT = 65535.0; // 2^16 - 1
 
     /**
      * Create from value.
@@ -48,7 +48,7 @@ public class HorizontalFov implements IUasDatalinkValue {
         }
 
         int intVal = PrimitiveConverter.toUint16(bytes);
-        degrees = ((intVal / MAXINT) * RANGE);
+        degrees = ((intVal / MAX_INT) * RANGE);
     }
 
     /**
@@ -62,7 +62,7 @@ public class HorizontalFov implements IUasDatalinkValue {
 
     @Override
     public byte[] getBytes() {
-        int intVal = (int) Math.round((degrees / RANGE) * MAXINT);
+        int intVal = (int) Math.round((degrees / RANGE) * MAX_INT);
         return PrimitiveConverter.uint16ToBytes(intVal);
     }
 

@@ -5,5 +5,5 @@ public enum Validity {
     /** The requirement is considered to conform. */
     Conforms,
     /** The requirement is considered to not conform. */
-    DoesNotConform;
+    DoesNotConform
 }

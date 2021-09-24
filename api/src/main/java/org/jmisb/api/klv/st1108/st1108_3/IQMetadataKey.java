@@ -88,7 +88,7 @@ public enum IQMetadataKey implements IKlvKey {
      */
     CRC16CCITT(11);
 
-    private int tag;
+    private final int tag;
 
     private static final Map<Integer, IQMetadataKey> tagTable = new HashMap<>();
 

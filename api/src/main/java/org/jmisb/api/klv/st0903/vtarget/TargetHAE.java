@@ -55,10 +55,10 @@ public class TargetHAE implements IVmtiMetadataValue {
      * Create from encoded bytes.
      *
      * <p>ST0903 changed the encoding to 2-byte IMAPB in ST0903.4. Earlier versions used a variable
-     * length (1-2 bytes) byte array to represent an integer in the range [0, 2^16-1]that was then
+     * length (1-2 bytes) byte array to represent an integer in the range [0, 2^16-1] that was then
      * mapped into the range [-900.0,19000.0]. The two byte case could potentially represent either
      * kind of formatting, and which formatting applies can only be determined from the version in
-     * the parent {@link org.jmisb.api.klv.st0903.VmtiLocalSet}. The {@code compatibilityMode}
+     * the parent {@link org.jmisb.api.klv.st0903.VmtiLocalSet}. The {@code encodingMode}
      * parameter determines whether to parse using the legacy encoding or current encoding.
      *
      * <p>Note that this only affects parsing. Output encoding is IMAPB (ST0903.4 or later).

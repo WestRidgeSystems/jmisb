@@ -41,7 +41,7 @@ public class JsonBasedTest {
             if ("+QNaN".equals(testVector.x)) {
                 byte[] encoded = encoder.encode(Double.NaN);
                 assertEquals(encoded, expected);
-                encoded = encoder.encodeSpecial(ValueMappingKind.PostiveQuietNaN);
+                encoded = encoder.encodeSpecial(ValueMappingKind.PositiveQuietNaN);
                 assertEquals(encoded, expected);
             } else if ("-QNaN".equals(testVector.x)) {
                 byte[] encoded = encoder.encodeSpecial(ValueMappingKind.NegativeQuietNaN);
@@ -95,7 +95,7 @@ public class JsonBasedTest {
         } catch (NumberFormatException nfe) {
             DecodeResult decodeResult = encoder.decodeSpecial(input);
             if ("+QNaN".equals(testVector.x)) {
-                assertEquals(decodeResult.getKind(), ValueMappingKind.PostiveQuietNaN);
+                assertEquals(decodeResult.getKind(), ValueMappingKind.PositiveQuietNaN);
                 assertEquals(decodeResult.getIdentifier(), 0L);
             } else if ("-QNaN".equals(testVector.x)) {
                 assertEquals(decodeResult.getKind(), ValueMappingKind.NegativeQuietNaN);

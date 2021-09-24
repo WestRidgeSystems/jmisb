@@ -18,7 +18,7 @@ public enum VMaskMetadataKey {
      */
     bitMaskSeries(2);
 
-    private int tag;
+    private final int tag;
 
     private static final Map<Integer, VMaskMetadataKey> tagTable = new HashMap<>();
 
@@ -48,6 +48,6 @@ public enum VMaskMetadataKey {
      * @return the corresponding VMask tag.
      */
     public static VMaskMetadataKey getKey(int tag) {
-        return tagTable.containsKey(tag) ? tagTable.get(tag) : Undefined;
+        return tagTable.getOrDefault(tag, Undefined);
     }
 }
