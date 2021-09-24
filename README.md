@@ -77,7 +77,7 @@ jMISB as a dependency. For Maven, add the following to your `pom.xml`:
     <dependency>
         <groupId>org.jmisb</groupId>
         <artifactId>jmisb-api</artifactId>
-        <version>1.10.0</version>
+        <version>2.0.0</version>
     </dependency>
 ```
 
@@ -85,7 +85,7 @@ For Gradle, include the following:
 
 ```groovy
 dependencies {
-    implementation 'org.jmisb:jmisb-api:1.10.0'
+    implementation 'org.jmisb:jmisb-api:2.0.0'
 }
 ```
 
