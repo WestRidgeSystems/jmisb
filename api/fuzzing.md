@@ -1,7 +1,7 @@
 Input fuzzing
 =============
 
-jMISB has some input fuzzing support, using JQF.
+jmisb has some input fuzzing support, using JQF.
 
 It is integrated into maven, so you can do:
 

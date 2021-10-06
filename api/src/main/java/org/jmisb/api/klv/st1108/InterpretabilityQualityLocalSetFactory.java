@@ -18,7 +18,7 @@ import org.slf4j.LoggerFactory;
  * Factory method for InterpretabilityQualityLocalSet.
  *
  * <p>This is used to link the ST 1108 Interpretability and Quality Metadata Local Set handling into
- * the wider jMISB implementation, and is not usually required directly.
+ * the wider jmisb implementation, and is not usually required directly.
  */
 public class InterpretabilityQualityLocalSetFactory implements IMisbMessageFactory {
     private static final int ST1108_UNKNOWN_VERSION = 0;

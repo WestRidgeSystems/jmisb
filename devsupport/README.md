@@ -1,4 +1,4 @@
-# jMISB development support tools and utilities
+# jmisb development support tools and utilities
 
 ## egm96
 

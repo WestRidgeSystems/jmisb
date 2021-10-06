@@ -1,4 +1,4 @@
-# jMISB viewer
+# jmisb viewer
 
 This directory contains a Java Swing-based GUI to visualize video and metadata on the desktop. It is primarily intended to exercise the API for development and testing, and not as an end user tool.
 

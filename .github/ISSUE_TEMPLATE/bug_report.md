@@ -23,7 +23,7 @@ If applicable, add screenshots to help explain your problem.
 **Configuration (please complete the following information):**
  - OS: [e.g. Linux]
  - JDK [e.g. OpenJDK 8u172]
- - jMISB version or commit [e.g. 1.1.0]
+ - jmisb version or commit [e.g. 1.1.0]
 
 **Additional context**
 Add any other context about the problem here.

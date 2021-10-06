@@ -1,6 +1,6 @@
 # How to Contribute
 
-As a new project, there are many areas where jMISB could use your help.
+As a new project, there are many areas where jmisb could use your help.
 To get an idea of some of the things on our road map, see the
 [issues board](https://github.com/WestRidgeSystems/jmisb/issues). New contributors
 are encouraged to get started on smaller tasks, which we will tag using the
@@ -45,7 +45,7 @@ We would very much appreciate any help in the following areas:
 Growing a community is our #1 priority right now.
 
 * **Test Data**. One of our main challenges is procuring data to adequately
-represent what jMISB will encounter in production. If you have any sample data
+represent what jmisb will encounter in production. If you have any sample data
 to share (or a means to simulate it), please let us know!
 
 * **Feature Requests**. Even if you do not have the time to develop a new

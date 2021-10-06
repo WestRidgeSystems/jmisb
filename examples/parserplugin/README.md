@@ -1,12 +1,12 @@
-# Parser Plugin example for jMISB
+# Parser Plugin example for jmisb
 
 This is demonstration / example code for <https://github.com/WestRidgeSystems/jmisb>
 
-It shows how to add a parser to jMISB without modifying the source code. This might be useful
+It shows how to add a parser to jmisb without modifying the source code. This might be useful
 where you need to support a custom (not MISB standardised) local set or universal set.
 
 In this example (based on a production system), there is a message that is not parsed correctly by
-jMISB, and is to returned as a `RawMisbMessage`.
+jmisb, and is to returned as a `RawMisbMessage`.
 
 The structure looks like:
 

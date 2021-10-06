@@ -217,7 +217,7 @@ public class Generator {
     private Platform getPlatform() throws KlvParseException {
         Platform platform = new Platform();
         platform.setName(new Platform_Name("Test System"));
-        platform.setIdentity(new Platform_Identity("jMISB Test 1"));
+        platform.setIdentity(new Platform_Identity("jmisb Test 1"));
         platform.setType(PlatformType.Pole);
         platform.setStages(getStages());
         platform.setPayloads(getPayloads());

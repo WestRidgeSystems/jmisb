@@ -1,4 +1,4 @@
-# Simple command line example for jMISB
+# Simple command line example for jmisb
 
 This is demonstration / example code for <https://github.com/WestRidgeSystems/jmisb>
 

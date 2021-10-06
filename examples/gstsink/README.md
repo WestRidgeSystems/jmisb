@@ -1,4 +1,4 @@
-# GStreamer Sink example for jMISB
+# GStreamer Sink example for jmisb
 
 This is demonstration / example code for <https://github.com/WestRidgeSystems/jmisb>
 

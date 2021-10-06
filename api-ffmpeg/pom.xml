@@ -7,7 +7,7 @@
         <artifactId>jmisb</artifactId>
         <version>2.0.0-SNAPSHOT</version>
     </parent>
-    <artifactId>api-ffmpeg</artifactId>
+    <artifactId>jmisb-api-ffmpeg</artifactId>
     <packaging>jar</packaging>
     <name>api-ffmpeg</name>
     <description>The public API for encoding and decoding video using FFmpeg</description>
@@ -15,7 +15,7 @@
     <dependencies>
         <dependency>
             <groupId>org.jmisb</groupId>
-            <artifactId>api</artifactId>
+            <artifactId>jmisb-api</artifactId>
             <version>${project.version}</version>
         </dependency>
         <dependency>

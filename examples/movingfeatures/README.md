@@ -1,4 +1,4 @@
-# VMTI to Moving Features example for jMISB
+# VMTI to Moving Features example for jmisb
 
 This is demonstration / example code for <https://github.com/WestRidgeSystems/jmisb>
 

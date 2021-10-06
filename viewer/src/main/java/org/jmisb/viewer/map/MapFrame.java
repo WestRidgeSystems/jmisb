@@ -124,7 +124,7 @@ public class MapFrame implements IMetadataListener {
      * <p>Use the factory method instead.
      */
     private MapFrame() {
-        frame = new JFrame("jMISB Viewer Map");
+        frame = new JFrame("jmisb Viewer Map");
         mapViewer = new JXMapViewer();
     }
 

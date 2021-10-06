@@ -1,4 +1,4 @@
-# jMISB
+# jmisb
 
 ![Build Status](https://github.com/WestRidgeSystems/jmisb/actions/workflows/jdk11.yml/badge.svg)
 [![codecov](https://codecov.io/gh/WestRidgeSystems/jmisb/branch/develop/graph/badge.svg?token=SWXQJKERQY)](https://codecov.io/gh/WestRidgeSystems/jmisb)
@@ -8,29 +8,29 @@
 
 ## About
 
-jMISB is an open source Java library implementing various
+jmisb is an open source Java library implementing various
 [MISB](http://www.gwg.nga.mil/misb/ "MISB home page") standards.
 It leverages the excellent work by
 [bytedeco](https://github.com/bytedeco) on bringing video support to Java.
 Stay tuned here for updates, and please join us on [gitter](https://gitter.im/jmisb/community) if you need help
 or would like to participate!
 
-## Why jMISB?
+## Why jmisb?
 
 The Motion Imagery Standards Board, or MISB's mission is to develop and
 maintain standards for interoperability between motion imagery systems in use
 within the Department of Defense (DoD) and Intelligence Community (IC).
 
-The goal of the jMISB project is to provide an open implementation of
+The goal of the jmisb project is to provide an open implementation of
 these standards and allow government and industry to leverage them more easily
-and effectively. The jMISB project is not affiliated with, nor endorsed by
+and effectively. The jmisb project is not affiliated with, nor endorsed by
 MISB in any way.
 
 ## Scope
 
 The MISB has been quite prolific in creation of new standards since its
 inception in 2000. As of April 2021, over four dozen standards are listed
-on its web site. While the scope of the jMISB project is to support as many of
+on its web site. While the scope of the jmisb project is to support as many of
 these standards as possible, the initial focus will be on those
 in most widespread use. 
 
@@ -62,7 +62,7 @@ The table below lists the status of currently-supported standards:
 | ST 1908    | Motion Imagery Metadata (MIMD): Imager System                                   | Implemented as of ST 1908.1. No interoperability testing.                                                          |                                                                                                                          |
 | ST 1909    | Metadata Overlay for Visualization                                              | Mostly implemented as of ST 1909.1. No support for Frame Time, next zoom or the reticle.                           | [#97](https://github.com/WestRidgeSystems/jmisb/issues/97)                                                                |
 
-jMISB aims to be cross-platform to run on any modern operating system. However,
+jmisb aims to be cross-platform to run on any modern operating system. However,
 since efficient video coding tends to leverage natively-compiled binaries, currently
 platform support is limited to Linux, Windows, and MacOS. Android is next on our roadmap
 (see [#253](https://github.com/WestRidgeSystems/jmisb/issues/253)).
@@ -71,7 +71,7 @@ platform support is limited to Linux, Windows, and MacOS. Android is next on our
 
 If you are using a dependency management tool such as Maven with access to the
 [Central Repository](https://search.maven.org/), you can configure it to use
-jMISB as a dependency. For Maven, add the following to your `pom.xml`:
+jmisb as a dependency. For Maven, add the following to your `pom.xml`:
 
 ```xml
     <dependency>
@@ -91,7 +91,7 @@ dependencies {
 
 ## API Usage
 
-A primary objective of jMISB is to provide an easy-to-use API allowing
+A primary objective of jmisb is to provide an easy-to-use API allowing
 non-domain experts to create applications leveraging MISB standards.
 
 The primary API for reading/writing video and metadata is in the `org.jmisb.api` package.
@@ -161,7 +161,7 @@ as well as [viewer](viewer), a Java Swing-based tool for displaying video and me
 
 ## Elevation
 
-While not a core focus, jMISB provides some elevation / terrain related support. This includes:
+While not a core focus, jmisb provides some elevation / terrain related support. This includes:
 
 - EGM 96 conversion of altitude between ellipsoid (aka HAE) and geoidal (aka MSL).
 
@@ -185,7 +185,7 @@ development. To run it from the command line, issue:
 
 ## Versioning
 
-jMISB adheres to *semantic versioning* to communicate to client
+jmisb adheres to *semantic versioning* to communicate to client
 developers about the scope of changes in any new release. Version numbers
 are formatted as `major.minor.patch`, where:
 

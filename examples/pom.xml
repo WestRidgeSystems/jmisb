@@ -9,7 +9,7 @@
     <artifactId>examples</artifactId>
     <packaging>pom</packaging>
     <name>Examples</name>
-    <description>Parent project for jMISB code examples</description>
+    <description>Parent project for jmisb code examples</description>
 
     <modules>
         <module>generator</module>

@@ -14,7 +14,7 @@
     <dependencies>
         <dependency>
             <groupId>org.jmisb</groupId>
-            <artifactId>api-ffmpeg</artifactId>
+            <artifactId>jmisb-api-ffmpeg</artifactId>
             <version>${project.version}</version>
         </dependency>
     </dependencies>

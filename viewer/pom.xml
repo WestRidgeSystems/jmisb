@@ -7,7 +7,7 @@
         <artifactId>jmisb</artifactId>
         <version>2.0.0-SNAPSHOT</version>
     </parent>
-    <artifactId>viewer</artifactId>
+    <artifactId>jmisb-viewer</artifactId>
     <packaging>jar</packaging>
     <name>viewer</name>
     <description>Java Swing-based GUI to visualize video and metadata on the desktop</description>
@@ -15,7 +15,7 @@
     <dependencies>
         <dependency>
             <groupId>org.jmisb</groupId>
-            <artifactId>api-ffmpeg</artifactId>
+            <artifactId>jmisb-api-ffmpeg</artifactId>
             <version>${project.version}</version>
         </dependency>
         <dependency>

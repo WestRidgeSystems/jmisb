@@ -1,8 +1,8 @@
-# Test file generator example for jMISB
+# Test file generator example for jmisb
 
 This is demonstration / example code for <https://github.com/WestRidgeSystems/jmisb>
 
-It generates a test video and KLV metadata file with synthetic data. The output is intended for testing / validating other parts of jMISB, especially nested ST0903 items.
+It generates a test video and KLV metadata file with synthetic data. The output is intended for testing / validating other parts of jmisb, especially nested ST0903 items.
 
 This is a work-in-progress (WIP), and is intended for developers. It does not generate compliant test files at this point.
 

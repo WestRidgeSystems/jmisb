@@ -274,7 +274,7 @@ public enum SecurityMetadataKey implements IKlvKey {
      *
      * <p>Value is a {@link ST0102Version}. As an example, {@code new
      * ST0102Version(SecurityMetadataConstants.ST_VERSION_NUMBER)} for the current version supported
-     * by jMISB.
+     * by jmisb.
      */
     Version(22, SecurityMetadataConstants.versionUl),
     /**

@@ -1,4 +1,4 @@
-# Examples for jMISB
+# Examples for jmisb
 
 This is demonstration / example code for <https://github.com/WestRidgeSystems/jmisb>
 
@@ -36,7 +36,7 @@ This example is a work-in-progress. See [its README](movingfeatures/README.md) f
 
 ## parserplugin
 
-It shows how to parse an unsupported KLV blob (perhaps a local set or universal set) without changing jMISB.
+It shows how to parse an unsupported KLV blob (perhaps a local set or universal set) without changing jmisb.
 This example considered complete. See [its README](parserplugin/README.md) for more information.
 
 ## rawklv

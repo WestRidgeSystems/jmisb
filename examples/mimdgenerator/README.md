@@ -1,10 +1,10 @@
-# MIMD test file generator example for jMISB
+# MIMD test file generator example for jmisb
 
 This is demonstration / example code for <https://github.com/WestRidgeSystems/jmisb>
 
 It generates a test video and KLV metadata file with synthetic data consistent with ST 1801 Situational Awareness
 profile (i.e. this is MIMD data per ST 190x, rather than ST 0601 / ST 0903 style). The output is intended for
-testing / validating other parts of jMISB, primarily MIMD.
+testing / validating other parts of jmisb, primarily MIMD.
 
 This is a work-in-progress (WIP), and is intended for developers. It does not generate compliant test files at this
 point.

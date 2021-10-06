@@ -440,7 +440,7 @@ public class SecurityMetadataLocalSet extends SecurityMetadataMessage {
          * For example, ST 0102.12 would have the value {@code 12}.
          *
          * <p>{@link org.jmisb.api.klv.st0102.SecurityMetadataConstants#ST_VERSION_NUMBER} will
-         * provide the current version supported by jMISB.
+         * provide the current version supported by jmisb.
          *
          * <p>This value is required for the local set to be valid, and the value of {@link
          * org.jmisb.api.klv.st0102.SecurityMetadataConstants#ST_VERSION_NUMBER} will be used as a

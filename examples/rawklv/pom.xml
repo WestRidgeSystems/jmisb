@@ -14,7 +14,7 @@
     <dependencies>
         <dependency>
             <groupId>org.jmisb</groupId>
-            <artifactId>api</artifactId>
+            <artifactId>jmisb-api</artifactId>
             <version>${project.version}</version>
         </dependency>
         <dependency>

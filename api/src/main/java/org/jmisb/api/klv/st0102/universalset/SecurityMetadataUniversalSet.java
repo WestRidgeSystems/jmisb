@@ -408,7 +408,7 @@ public class SecurityMetadataUniversalSet extends SecurityMetadataMessage {
          * For example, ST 0102.12 would have the value {@code 12}.
          *
          * <p>{@link org.jmisb.api.klv.st0102.SecurityMetadataConstants#ST_VERSION_NUMBER} will
-         * provide the current version supported by jMISB.
+         * provide the current version supported by jmisb.
          *
          * @param value the version number of ST 0102 document
          * @return instance of this Builder, to support method chaining.

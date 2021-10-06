@@ -70,7 +70,7 @@ public class InvalidDataHandler {
      * <p>Invalid in this case means that the checksum is present, but does not have the expected
      * value. This usually indicates some kind of data corruption in the message between production
      * and processing. It could mean that the producer has an incorrect checksum implementation. Its
-     * possible that it indicates an error in the jMISB implementation.
+     * possible that it indicates an error in the jmisb implementation.
      *
      * @param logger source logger, not null
      * @param message a message associated with the source event, ideally describing the nature of
