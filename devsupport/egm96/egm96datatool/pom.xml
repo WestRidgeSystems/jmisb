@@ -9,8 +9,8 @@
         <googleformatter.maven.plugin.version>1.7.5</googleformatter.maven.plugin.version>
         <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
         <sortpom.version>3.0.0</sortpom.version>
-        <spotbugs.maven.version>4.3.0</spotbugs.maven.version>
-        <spotbugs.version>4.3.0</spotbugs.version>
+        <spotbugs.maven.version>4.4.1</spotbugs.maven.version>
+        <spotbugs.version>4.4.1</spotbugs.version>
     </properties>
     <dependencies>
         <dependency>
