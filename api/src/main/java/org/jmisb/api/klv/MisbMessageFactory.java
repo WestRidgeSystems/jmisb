@@ -8,6 +8,10 @@ import org.jmisb.api.klv.eg0104.PredatorUavMessageFactory;
 import org.jmisb.api.klv.st0102.localset.SecurityMetadataLocalSetFactory;
 import org.jmisb.api.klv.st0102.universalset.SecurityMetadataUniversalSetFactory;
 import org.jmisb.api.klv.st0601.UasDatalinkMessageFactory;
+import org.jmisb.api.klv.st0602.AnnotationActiveLinesPerFrameFactory;
+import org.jmisb.api.klv.st0602.AnnotationActiveSamplesPerLineFactory;
+import org.jmisb.api.klv.st0602.AnnotationByteOrderFactory;
+import org.jmisb.api.klv.st0602.AnnotationMetadataUniversalSetFactory;
 import org.jmisb.api.klv.st0808.AncillaryTextLocalSetFactory;
 import org.jmisb.api.klv.st0903.vtrack.VTrackLocalSetFactory;
 import org.jmisb.api.klv.st1108.InterpretabilityQualityLocalSetFactory;
@@ -38,6 +42,15 @@ public class MisbMessageFactory {
         registerHandler(
                 KlvConstants.InterpretabilityQualityLocalSetUl,
                 new InterpretabilityQualityLocalSetFactory());
+        registerHandler(KlvConstants.AnnotationByteOrderUl, new AnnotationByteOrderFactory());
+        registerHandler(
+                KlvConstants.AnnotationActiveLinesPerFrameUl,
+                new AnnotationActiveLinesPerFrameFactory());
+        registerHandler(
+                KlvConstants.AnnotationActiveSamplesPerLineUl,
+                new AnnotationActiveSamplesPerLineFactory());
+        registerHandler(
+                KlvConstants.AnnotationUniversalSetUl, new AnnotationMetadataUniversalSetFactory());
     }
 
     /**

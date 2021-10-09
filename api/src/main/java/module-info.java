@@ -12,6 +12,7 @@ module org.jmisb.api {
     exports org.jmisb.api.klv.st0102.universalset;
     exports org.jmisb.api.klv.st0601;
     exports org.jmisb.api.klv.st0601.dto;
+    exports org.jmisb.api.klv.st0602;
     exports org.jmisb.api.klv.st0603;
     exports org.jmisb.api.klv.st0604;
     exports org.jmisb.api.klv.st0805;
