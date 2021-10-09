@@ -20,6 +20,7 @@
         <module>mimdgenerator</module>
         <module>cotconverter</module>
         <module>rawklv</module>
+        <module>annotations</module>
     </modules>
 
     <dependencyManagement>
