@@ -160,7 +160,8 @@ public class AnnotationMetadataUniversalSet implements IMisbMessage {
 
     @Override
     public String displayHeader() {
-        return "ST 0602 (universal)";
+        return "ST 0602, ID: "
+                + map.get(AnnotationMetadataKey.LocallyUniqueIdentifier).getDisplayableValue();
     }
 
     /**
@@ -190,6 +191,29 @@ public class AnnotationMetadataUniversalSet implements IMisbMessage {
 
     @Override
     public Set<? extends IKlvKey> getIdentifiers() {
+        return map.keySet();
+    }
+
+    /**
+     * Merge the metadata from another set into this set.
+     *
+     * <p>Existing items will be overwritten, and new items will be added.
+     *
+     * @param set the set to merge from.
+     */
+    public void mergeAndUpdate(AnnotationMetadataUniversalSet set) {
+        for (AnnotationMetadataKey entry : set.getMetadataKeys()) {
+            IAnnotationMetadataValue value = set.getField(entry);
+            setField(entry, value);
+        }
+    }
+
+    /**
+     * Get the metadata keys that are set on this Set.
+     *
+     * @return Set of metadata keys.
+     */
+    public Set<AnnotationMetadataKey> getMetadataKeys() {
         return map.keySet();
     }
 }

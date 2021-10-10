@@ -26,28 +26,30 @@ public class GeneratorCLI {
         CommandLine commandLine;
         try {
             commandLine = commandLineParser.parse(commandLineOptions, args);
-            Generator generator = new Generator();
-            if (commandLine.hasOption("h")) {
-                showHelp(commandLineOptions);
-                return;
-            }
-            if (commandLine.hasOption("st0102version")) {
-                generator.setVersion0102(
-                        Byte.parseByte(commandLine.getOptionValue("st0102version")));
-            }
-            if (commandLine.hasOption("coding")) {
-                String codecName = commandLine.getOptionValue("coding");
-                if (codecName.equalsIgnoreCase("H.264") || codecName.equalsIgnoreCase("H264")) {
-                    generator.setCodec(CodecIdentifier.H264);
-                } else if (codecName.equalsIgnoreCase("H.265")
-                        || codecName.equalsIgnoreCase("H265")) {
-                    generator.setCodec(CodecIdentifier.H265);
+            for (String format : new String[] {"image/png", "image/jpeg", "image/x-ms-bmp"}) {
+                Generator generator = new Generator(format);
+                if (commandLine.hasOption("h")) {
+                    showHelp(commandLineOptions);
+                    return;
                 }
+                if (commandLine.hasOption("st0102version")) {
+                    generator.setVersion0102(
+                            Byte.parseByte(commandLine.getOptionValue("st0102version")));
+                }
+                if (commandLine.hasOption("coding")) {
+                    String codecName = commandLine.getOptionValue("coding");
+                    if (codecName.equalsIgnoreCase("H.264") || codecName.equalsIgnoreCase("H264")) {
+                        generator.setCodec(CodecIdentifier.H264);
+                    } else if (codecName.equalsIgnoreCase("H.265")
+                            || codecName.equalsIgnoreCase("H265")) {
+                        generator.setCodec(CodecIdentifier.H265);
+                    }
+                }
+                if (commandLine.hasOption("outputFileBase")) {
+                    generator.setOutputFile(commandLine.getOptionValue("outputFile"));
+                }
+                generator.generate();
             }
-            if (commandLine.hasOption("outputFileBase")) {
-                generator.setOutputFile(commandLine.getOptionValue("outputFile"));
-            }
-            generator.generate();
         } catch (ParseException ex) {
             showHelp(commandLineOptions);
         }

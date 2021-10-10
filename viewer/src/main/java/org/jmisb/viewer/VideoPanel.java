@@ -110,6 +110,7 @@ public class VideoPanel extends JPanel
     public void clear() {
         bufferedImage = null;
         this.metadata.clear();
+        this.annotations.clear();
         repaint(0, 0, getWidth(), getHeight());
     }
 

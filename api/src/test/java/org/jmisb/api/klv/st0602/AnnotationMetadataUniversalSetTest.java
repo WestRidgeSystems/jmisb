@@ -33,7 +33,7 @@ public class AnnotationMetadataUniversalSetTest {
 
     @Test
     public void testDisplayHeader() {
-        Assert.assertEquals(minimalUniversalSet.displayHeader(), "ST 0602 (universal)");
+        Assert.assertEquals(minimalUniversalSet.displayHeader(), "ST 0602, ID: 3");
     }
 
     @Test
@@ -124,7 +124,7 @@ public class AnnotationMetadataUniversalSetTest {
                     (byte) 0x31
                 };
         AnnotationMetadataUniversalSet universalSet = new AnnotationMetadataUniversalSet(bytes);
-        Assert.assertEquals(universalSet.displayHeader(), "ST 0602 (universal)");
+        Assert.assertEquals(universalSet.displayHeader(), "ST 0602, ID: 3");
         Assert.assertEquals(
                 universalSet.getUniversalLabel(), KlvConstants.AnnotationUniversalSetUl);
         Assert.assertEquals(universalSet.getIdentifiers().size(), 2);

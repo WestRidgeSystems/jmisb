@@ -38,4 +38,31 @@ public class MIMEMediaType implements IAnnotationMetadataValue {
     public String getDisplayableValue() {
         return mimeType;
     }
+
+    /**
+     * Check is the media type is PNG.
+     *
+     * @return true if the value is "image/png", otherwise false.
+     */
+    public boolean isPNG() {
+        return "image/png".equals(mimeType);
+    }
+    
+    /**
+     * Check is the media type is JPEG.
+     *
+     * @return true if the value is "image/jpeg", otherwise false.
+     */
+    public boolean isJPEG() {
+        return "image/jpeg".equals(mimeType);
+    }
+
+    /**
+     * Check is the media type is BMP.
+     *
+     * @return true if the value is "image/x-ms-bmp", otherwise false.
+     */
+    public boolean isBMP() {
+        return "image/x-ms-bmp".equals(mimeType);
+    }
 }

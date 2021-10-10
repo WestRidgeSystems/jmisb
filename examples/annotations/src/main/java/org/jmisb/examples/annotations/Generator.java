@@ -7,7 +7,6 @@ import java.io.ByteArrayOutputStream;
 import java.io.IOException;
 import java.util.SortedMap;
 import java.util.TreeMap;
-import java.util.UUID;
 import java.util.logging.Level;
 import javax.imageio.ImageIO;
 import org.jmisb.api.klv.st0102.Classification;
@@ -33,7 +32,6 @@ import org.jmisb.api.klv.st0602.ModificationHistory;
 import org.jmisb.api.klv.st0602.XViewportPosition;
 import org.jmisb.api.klv.st0602.YViewportPosition;
 import org.jmisb.api.klv.st0602.ZOrder;
-import org.jmisb.api.klv.st1204.CoreIdentifier;
 import org.jmisb.api.video.CodecIdentifier;
 import org.jmisb.api.video.IVideoFileOutput;
 import org.jmisb.api.video.KlvFormat;
@@ -57,6 +55,8 @@ public class Generator {
     private final LocallyUniqueIdentifier identifierAnnotationBox1 = new LocallyUniqueIdentifier(3);
     private final LocallyUniqueIdentifier identifierAnnotationBox2 = new LocallyUniqueIdentifier(7);
     private final LocallyUniqueIdentifier identifierAnnotationBox3 = new LocallyUniqueIdentifier(6);
+    private final LocallyUniqueIdentifier identifierAnnotationBox4 =
+            new LocallyUniqueIdentifier(65536);
 
     private static final int ANNOTATION_BOX_HEIGHT = 80;
     private static final int ANNOTATION_BOX_WIDTH = 120;
@@ -67,15 +67,17 @@ public class Generator {
     private final int gopSize = 30;
     private final double frameRate = 15.0;
     private final double frameDuration = 1.0 / frameRate;
-    private final int duration = 30;
+    private final int duration = 24;
     private KlvFormat klvFormat = KlvFormat.Synchronous;
     private CodecIdentifier codec = CodecIdentifier.H265;
     private byte version0102 = 12;
     private String filename = "annotations";
-
+    private final String fileFormat;
     private static final Logger LOG = LoggerFactory.getLogger(Generator.class);
 
-    public Generator() {}
+    public Generator(String fileFormat) {
+        this.fileFormat = fileFormat;
+    }
 
     public void setKlvFormat(KlvFormat klvFormat) {
         this.klvFormat = klvFormat;
@@ -96,16 +98,25 @@ public class Generator {
     public void generate() {
 
         showConfiguration();
-        CoreIdentifier coreIdentifier = new CoreIdentifier();
-        coreIdentifier.setMinorUUID(UUID.randomUUID());
-        coreIdentifier.setVersion(1);
 
+        if (fileFormat.equals("image/png")) {
+            generateFile(filename + "-png.mpeg");
+        } else if (fileFormat.equals("image/jpeg")) {
+            generateFile(filename + "-jpeg.mpeg");
+        } else if (fileFormat.equals("image/x-ms-bmp")) {
+            generateFile(filename + "-bmp.mpeg");
+        } else {
+            throw new IllegalArgumentException("Unsupport file format");
+        }
+    }
+
+    private void generateFile(String filename) {
         // TODO: rework to make this a command line option
         try (IVideoFileOutput output =
                 new VideoFileOutput(
                         new VideoOutputOptions(
                                 width, height, bitRate, frameRate, gopSize, klvFormat, codec))) {
-            output.open(filename + "-png.mpeg");
+            output.open(filename);
 
             BufferedImage image0 = new BufferedImage(width, height, BufferedImage.TYPE_3BYTE_BGR);
             drawBorderBoxFor(image0.getGraphics(), BOX1_X, BOX1_Y);
@@ -144,26 +155,37 @@ public class Generator {
                             "2 right boxes should be filled (blue with white border), left boxes empty, no red visible",
                             50,
                             height / 2);
+            BufferedImage image4 = new BufferedImage(width, height, BufferedImage.TYPE_3BYTE_BGR);
+            drawFilledBorderedBoxAt(image4.getGraphics(), BOX1_X, BOX1_Y);
+            drawFilledBorderedBoxAt(image4.getGraphics(), BOX2_X, BOX2_Y);
+            drawFilledBorderedBoxAt(image4.getGraphics(), BOX3_X, BOX3_Y);
+            drawFilledBorderedBoxAt(image4.getGraphics(), BOX4_X, BOX4_Y);
+            image4.getGraphics()
+                    .drawString(
+                            "All boxes should be filled (blue with white border), no red visible",
+                            50,
+                            height / 2);
             final long numFrames = duration * Math.round(frameRate);
             double pts = 1000.0 * System.currentTimeMillis(); // Close enough for this.
             output.addMetadataFrame(new MetadataFrame(getSecurityUniversalSet(), pts * 1.0e-6));
-            for (long i = 0; i < numFrames / 4; ++i) {
+            for (long i = 0; i < numFrames / 6; ++i) {
                 output.addVideoFrame(new VideoFrame(image0, pts * 1.0e-6));
                 pts += frameDuration * 1.0e6;
             }
             output.addMetadataFrame(new MetadataFrame(getSecurityUniversalSet(), pts * 1.0e-6));
             output.addMetadataFrame(new MetadataFrame(getNewAnnotationMessageBox1(), pts * 1.0e-6));
             output.addMetadataFrame(new MetadataFrame(getNewAnnotationMessageBox2(), pts * 1.0e-6));
-            for (long i = numFrames / 4; i < numFrames / 2; ++i) {
+            for (long i = numFrames / 6; i < 2 * numFrames / 6; ++i) {
                 output.addVideoFrame(new VideoFrame(image1, pts * 1.0e-6));
                 pts += frameDuration * 1.0e6;
             }
             output.addMetadataFrame(new MetadataFrame(getSecurityUniversalSet(), pts * 1.0e-6));
-            // TODO: status on annotation 1
+            output.addMetadataFrame(
+                    new MetadataFrame(getStatusAnnotationMessageBox1(), pts * 1.0e-6));
             output.addMetadataFrame(
                     new MetadataFrame(getDeleteAnnotation(identifierAnnotationBox2), pts * 1.0e-6));
             output.addMetadataFrame(new MetadataFrame(getNewAnnotationMessageBox3(), pts * 1.0e-6));
-            for (long i = numFrames / 2; i < numFrames * 3 / 4; ++i) {
+            for (long i = 2 * numFrames / 6; i < 3 * numFrames / 6; ++i) {
                 output.addVideoFrame(new VideoFrame(image2, pts * 1.0e-6));
                 pts += frameDuration * 1.0e6;
             }
@@ -171,12 +193,35 @@ public class Generator {
                     new MetadataFrame(getDeleteAnnotation(identifierAnnotationBox1), pts * 1.0e-6));
             output.addMetadataFrame(new MetadataFrame(getNewAnnotationMessageBox2(), pts * 1.0e-6));
             output.addMetadataFrame(new MetadataFrame(getSecurityUniversalSet(), pts * 1.0e-6));
-            // TODO: move annotation 3 to box 4 position
-            for (long i = numFrames * 3 / 4; i < numFrames; ++i) {
+            output.addMetadataFrame(
+                    new MetadataFrame(getMoveAnnotationMessageBox3ToBox4(), pts * 1.0e-6));
+            for (long i = numFrames * 3 / 6; i < numFrames * 4 / 6; ++i) {
                 output.addVideoFrame(new VideoFrame(image3, pts * 1.0e-6));
                 pts += frameDuration * 1.0e6;
             }
-
+            output.addMetadataFrame(new MetadataFrame(getNewAnnotationMessageBox2(), pts * 1.0e-6));
+            output.addMetadataFrame(new MetadataFrame(getNewAnnotationMessageBox4(), pts * 1.0e-6));
+            output.addMetadataFrame(new MetadataFrame(getNewAnnotationMessageBox1(), pts * 1.0e-6));
+            output.addMetadataFrame(
+                    new MetadataFrame(getModifyAnnotationMessageBox4ToBox3(), pts * 1.0e-6));
+            output.addMetadataFrame(new MetadataFrame(getSecurityUniversalSet(), pts * 1.0e-6));
+            for (long i = numFrames * 4 / 6; i < numFrames * 5 / 6; ++i) {
+                output.addVideoFrame(new VideoFrame(image4, pts * 1.0e-6));
+                pts += frameDuration * 1.0e6;
+            }
+            output.addMetadataFrame(
+                    new MetadataFrame(getDeleteAnnotation(identifierAnnotationBox1), pts * 1.0e-6));
+            output.addMetadataFrame(
+                    new MetadataFrame(getDeleteAnnotation(identifierAnnotationBox2), pts * 1.0e-6));
+            output.addMetadataFrame(
+                    new MetadataFrame(getDeleteAnnotation(identifierAnnotationBox3), pts * 1.0e-6));
+            output.addMetadataFrame(
+                    new MetadataFrame(getDeleteAnnotation(identifierAnnotationBox4), pts * 1.0e-6));
+            output.addMetadataFrame(new MetadataFrame(getSecurityUniversalSet(), pts * 1.0e-6));
+            for (long i = numFrames * 5 / 6; i < numFrames; ++i) {
+                output.addVideoFrame(new VideoFrame(image0, pts * 1.0e-6));
+                pts += frameDuration * 1.0e6;
+            }
         } catch (IOException e) {
             LOG.error("Failed to write file", e);
         }
@@ -215,6 +260,16 @@ public class Generator {
                 identifierAnnotationBox1, "Annotation 1", (short) BOX1_X, (short) BOX1_Y);
     }
 
+    private AnnotationMetadataUniversalSet getStatusAnnotationMessageBox1() {
+        AnnotationMetadataUniversalSet box =
+                getNewAnnotationBox(
+                        identifierAnnotationBox1, "Annotation 1", (short) BOX1_X, (short) BOX1_Y);
+        box.setField(
+                AnnotationMetadataKey.EventIndication,
+                new EventIndication(EventIndicationKind.STATUS));
+        return box;
+    }
+
     private AnnotationMetadataUniversalSet getNewAnnotationMessageBox2() {
         return getNewAnnotationBox(
                 identifierAnnotationBox2, "Annotation 2", (short) BOX2_X, (short) BOX2_Y);
@@ -223,6 +278,11 @@ public class Generator {
     private AnnotationMetadataUniversalSet getNewAnnotationMessageBox3() {
         return getNewAnnotationBox(
                 identifierAnnotationBox3, "Annotation 3", (short) BOX3_X, (short) BOX3_Y);
+    }
+
+    private AnnotationMetadataUniversalSet getNewAnnotationMessageBox4() {
+        return getNewAnnotationBox(
+                identifierAnnotationBox4, "Annotation 4", (short) BOX4_X, (short) BOX4_Y);
     }
 
     private AnnotationMetadataUniversalSet getNewAnnotationBox(
@@ -238,8 +298,8 @@ public class Generator {
         values.put(AnnotationMetadataKey.SamplesPerFrame, new ActiveSamplesPerLine(width));
         values.put(AnnotationMetadataKey.LocallyUniqueIdentifier, identifier);
         values.put(AnnotationMetadataKey.AnnotationSource, new AnnotationSource(4));
-        values.put(AnnotationMetadataKey.MIMEMediaType, new MIMEMediaType("image/png"));
-        values.put(AnnotationMetadataKey.MIMEData, new MIMEData(getAnnotationPNG(annotationText)));
+        values.put(AnnotationMetadataKey.MIMEMediaType, new MIMEMediaType(fileFormat));
+        values.put(AnnotationMetadataKey.MIMEData, new MIMEData(getAnnotation(annotationText)));
         values.put(
                 AnnotationMetadataKey.ModificationHistory, new ModificationHistory("Brad Hards"));
         values.put(AnnotationMetadataKey.XViewportPosition, new XViewportPosition(xPosition));
@@ -248,7 +308,7 @@ public class Generator {
         return new AnnotationMetadataUniversalSet(values);
     }
 
-    private byte[] getAnnotationPNG(String annotationText) {
+    private byte[] getAnnotation(String annotationText) {
         try {
             BufferedImage bufferedImage =
                     new BufferedImage(
@@ -261,13 +321,50 @@ public class Generator {
             g.setColor(Color.YELLOW);
             g.drawString(annotationText, ANNOTATION_BOX_WIDTH / 10, ANNOTATION_BOX_HEIGHT / 2);
             ByteArrayOutputStream byteArrayOutputStream = new ByteArrayOutputStream();
-            ImageIO.write(bufferedImage, "png", byteArrayOutputStream);
+            if (fileFormat.equals("image/png")) {
+                ImageIO.write(bufferedImage, "png", byteArrayOutputStream);
+            } else if (fileFormat.equals("image/jpeg")) {
+                ImageIO.write(bufferedImage, "jpeg", byteArrayOutputStream);
+            } else if (fileFormat.equals("image/x-ms-bmp")) {
+                ImageIO.write(bufferedImage, "bmp", byteArrayOutputStream);
+            } else {
+                throw new IllegalArgumentException("unsupported file format");
+            }
             return byteArrayOutputStream.toByteArray();
         } catch (IOException ex) {
             java.util.logging.Logger.getLogger(Generator.class.getName())
                     .log(Level.SEVERE, null, ex);
         }
         return null;
+    }
+
+    private AnnotationMetadataUniversalSet getMoveAnnotationMessageBox3ToBox4() {
+        SortedMap<AnnotationMetadataKey, IAnnotationMetadataValue> values = new TreeMap<>();
+        values.put(
+                AnnotationMetadataKey.EventIndication,
+                new EventIndication(EventIndicationKind.MOVE));
+        values.put(AnnotationMetadataKey.LocallyUniqueIdentifier, identifierAnnotationBox3);
+        values.put(AnnotationMetadataKey.ModificationHistory, new ModificationHistory("bradh"));
+        values.put(AnnotationMetadataKey.XViewportPosition, new XViewportPosition((short) BOX4_X));
+        values.put(AnnotationMetadataKey.YViewportPosition, new YViewportPosition((short) BOX4_Y));
+        values.put(AnnotationMetadataKey.ZOrder, new ZOrder(1));
+        return new AnnotationMetadataUniversalSet(values);
+    }
+
+    private AnnotationMetadataUniversalSet getModifyAnnotationMessageBox4ToBox3() {
+        SortedMap<AnnotationMetadataKey, IAnnotationMetadataValue> values = new TreeMap<>();
+        values.put(
+                AnnotationMetadataKey.EventIndication,
+                new EventIndication(EventIndicationKind.MODIFY));
+        values.put(AnnotationMetadataKey.LocallyUniqueIdentifier, identifierAnnotationBox3);
+        values.put(AnnotationMetadataKey.MIMEMediaType, new MIMEMediaType(fileFormat));
+        values.put(
+                AnnotationMetadataKey.MIMEData, new MIMEData(getAnnotation("Annotation 3 Mod.")));
+        values.put(AnnotationMetadataKey.ModificationHistory, new ModificationHistory("bradh"));
+        values.put(AnnotationMetadataKey.XViewportPosition, new XViewportPosition((short) BOX3_X));
+        values.put(AnnotationMetadataKey.YViewportPosition, new YViewportPosition((short) BOX3_Y));
+        values.put(AnnotationMetadataKey.ZOrder, new ZOrder(1));
+        return new AnnotationMetadataUniversalSet(values);
     }
 
     private SecurityMetadataUniversalSet getSecurityUniversalSet() {

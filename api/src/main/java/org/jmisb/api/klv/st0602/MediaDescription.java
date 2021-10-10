@@ -1,14 +1,37 @@
 package org.jmisb.api.klv.st0602;
 
+import java.nio.charset.StandardCharsets;
+
+/**
+ * Media description.
+ *
+ * <p>Freeform textual description (per SMPTE ISO/IEC RP 210) providing title or text description of
+ * enclosed MIME data.
+ */
 public class MediaDescription implements IAnnotationMetadataValue {
 
-    public MediaDescription(byte[] bytes) {}
+    private final String description;
+    /**
+     * Create from value.
+     *
+     * @param mediaDescription the media description.
+     */
+    public MediaDescription(String mediaDescription) {
+        description = mediaDescription;
+    }
+
+    /**
+     * Create from encoded bytes.
+     *
+     * @param bytes Byte array of ASCII encoded text
+     */
+    public MediaDescription(byte[] bytes) {
+        description = new String(bytes, StandardCharsets.US_ASCII);
+    }
 
     @Override
     public byte[] getBytes() {
-        throw new UnsupportedOperationException(
-                "Not supported yet."); // To change body of generated methods, choose Tools |
-        // Templates.
+        return description.getBytes(StandardCharsets.US_ASCII);
     }
 
     @Override
@@ -18,8 +41,6 @@ public class MediaDescription implements IAnnotationMetadataValue {
 
     @Override
     public String getDisplayableValue() {
-        throw new UnsupportedOperationException(
-                "Not supported yet."); // To change body of generated methods, choose Tools |
-        // Templates.
+        return description;
     }
 }
