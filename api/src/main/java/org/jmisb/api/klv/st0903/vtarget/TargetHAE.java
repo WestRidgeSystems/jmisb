@@ -3,6 +3,7 @@ package org.jmisb.api.klv.st0903.vtarget;
 import org.jmisb.api.klv.st0903.IVmtiMetadataValue;
 import org.jmisb.api.klv.st0903.shared.EncodingMode;
 import org.jmisb.api.klv.st1201.FpEncoder;
+import org.jmisb.api.klv.st1201.OutOfRangeBehaviour;
 import org.jmisb.core.klv.PrimitiveConverter;
 
 /**
@@ -84,13 +85,14 @@ public class TargetHAE implements IVmtiMetadataValue {
             throw new IllegalArgumentException(
                     this.getDisplayName() + " encoding is two byte IMAPB as of ST0903.4");
         }
-        FpEncoder decoder = new FpEncoder(MIN_VAL, MAX_VAL, bytes.length);
+        FpEncoder decoder =
+                new FpEncoder(MIN_VAL, MAX_VAL, bytes.length, OutOfRangeBehaviour.Default);
         this.value = decoder.decode(bytes);
     }
 
     @Override
     public byte[] getBytes() {
-        FpEncoder encoder = new FpEncoder(MIN_VAL, MAX_VAL, NUM_BYTES);
+        FpEncoder encoder = new FpEncoder(MIN_VAL, MAX_VAL, NUM_BYTES, OutOfRangeBehaviour.Default);
         return encoder.encode(this.value);
     }
 

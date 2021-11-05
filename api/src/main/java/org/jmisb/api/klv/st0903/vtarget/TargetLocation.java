@@ -14,6 +14,7 @@ import org.jmisb.api.klv.st0903.shared.LocVelAccPackKey;
 import org.jmisb.api.klv.st0903.shared.LocationPack;
 import org.jmisb.api.klv.st0903.shared.VmtiTextString;
 import org.jmisb.api.klv.st1201.FpEncoder;
+import org.jmisb.api.klv.st1201.OutOfRangeBehaviour;
 import org.jmisb.core.klv.ArrayUtils;
 import org.jmisb.core.klv.PrimitiveConverter;
 
@@ -57,13 +58,15 @@ public class TargetLocation
     private static final int NUM_BYTES = 2;
     private static final int NUM_BYTES_LAT_LON = 4;
     private static final FpEncoder LatEncoder =
-            new FpEncoder(MIN_LAT_VAL, MAX_LAT_VAL, NUM_BYTES_LAT_LON);
+            new FpEncoder(MIN_LAT_VAL, MAX_LAT_VAL, NUM_BYTES_LAT_LON, OutOfRangeBehaviour.Default);
     private static final FpEncoder LonEncoder =
-            new FpEncoder(MIN_LON_VAL, MAX_LON_VAL, NUM_BYTES_LAT_LON);
-    private static final FpEncoder HaeEncoder = new FpEncoder(MIN_HAE_VAL, MAX_HAE_VAL, NUM_BYTES);
+            new FpEncoder(MIN_LON_VAL, MAX_LON_VAL, NUM_BYTES_LAT_LON, OutOfRangeBehaviour.Default);
+    private static final FpEncoder HaeEncoder =
+            new FpEncoder(MIN_HAE_VAL, MAX_HAE_VAL, NUM_BYTES, OutOfRangeBehaviour.Default);
     private static final FpEncoder SigmaEncoder =
-            new FpEncoder(MIN_SIGMA_VAL, MAX_SIGMA_VAL, NUM_BYTES);
-    private static final FpEncoder RhoEncoder = new FpEncoder(MIN_RHO_VAL, MAX_RHO_VAL, NUM_BYTES);
+            new FpEncoder(MIN_SIGMA_VAL, MAX_SIGMA_VAL, NUM_BYTES, OutOfRangeBehaviour.Default);
+    private static final FpEncoder RhoEncoder =
+            new FpEncoder(MIN_RHO_VAL, MAX_RHO_VAL, NUM_BYTES, OutOfRangeBehaviour.Default);
 
     /**
      * Create from value.

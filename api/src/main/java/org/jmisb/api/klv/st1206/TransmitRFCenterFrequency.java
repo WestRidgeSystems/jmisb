@@ -1,6 +1,7 @@
 package org.jmisb.api.klv.st1206;
 
 import org.jmisb.api.klv.st1201.FpEncoder;
+import org.jmisb.api.klv.st1201.OutOfRangeBehaviour;
 
 /**
  * Transmit RF Center Frequency (ST 1206 Item 20).
@@ -45,13 +46,14 @@ public class TransmitRFCenterFrequency implements ISARMIMetadataValue {
                     String.format(
                             "%s encoding is %d byte IMAPB", this.getDisplayName(), NUM_BYTES));
         }
-        FpEncoder decoder = new FpEncoder(MIN_VAL, MAX_VAL, bytes.length);
+        FpEncoder decoder =
+                new FpEncoder(MIN_VAL, MAX_VAL, bytes.length, OutOfRangeBehaviour.Default);
         this.value = decoder.decode(bytes);
     }
 
     @Override
     public byte[] getBytes() {
-        FpEncoder encoder = new FpEncoder(MIN_VAL, MAX_VAL, NUM_BYTES);
+        FpEncoder encoder = new FpEncoder(MIN_VAL, MAX_VAL, NUM_BYTES, OutOfRangeBehaviour.Default);
         return encoder.encode(this.value);
     }
 

@@ -4,6 +4,7 @@ import org.jmisb.api.common.KlvParseException;
 import org.jmisb.api.klv.BerDecoder;
 import org.jmisb.api.klv.BerField;
 import org.jmisb.api.klv.st1201.FpEncoder;
+import org.jmisb.api.klv.st1201.OutOfRangeBehaviour;
 import org.jmisb.core.klv.PrimitiveConverter;
 
 /** Decoder for MISB ST1303 Multi-Dimensional Array Pack (MDAP) encoded byte arrays. */
@@ -93,14 +94,14 @@ public class MDAPDecoder {
                 {
                     double min = PrimitiveConverter.toFloat64(bytes, offset);
                     double max = PrimitiveConverter.toFloat64(bytes, offset + Double.BYTES);
-                    encoder = new FpEncoder(min, max, eBytes);
+                    encoder = new FpEncoder(min, max, eBytes, OutOfRangeBehaviour.Default);
                 }
                 break;
             case 2 * Float.BYTES:
                 {
                     double min = PrimitiveConverter.toFloat32(bytes, offset);
                     double max = PrimitiveConverter.toFloat32(bytes, offset + Float.BYTES);
-                    encoder = new FpEncoder(min, max, eBytes);
+                    encoder = new FpEncoder(min, max, eBytes, OutOfRangeBehaviour.Default);
                 }
                 break;
             default:
@@ -215,14 +216,14 @@ public class MDAPDecoder {
                 {
                     double min = PrimitiveConverter.toFloat64(bytes, offset);
                     double max = PrimitiveConverter.toFloat64(bytes, offset + Double.BYTES);
-                    encoder = new FpEncoder(min, max, eBytes);
+                    encoder = new FpEncoder(min, max, eBytes, OutOfRangeBehaviour.Default);
                 }
                 break;
             case 2 * Float.BYTES:
                 {
                     double min = PrimitiveConverter.toFloat32(bytes, offset);
                     double max = PrimitiveConverter.toFloat32(bytes, offset + Float.BYTES);
-                    encoder = new FpEncoder(min, max, eBytes);
+                    encoder = new FpEncoder(min, max, eBytes, OutOfRangeBehaviour.Default);
                 }
                 break;
             default:

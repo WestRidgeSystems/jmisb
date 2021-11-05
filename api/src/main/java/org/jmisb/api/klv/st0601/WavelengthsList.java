@@ -10,6 +10,7 @@ import org.jmisb.api.klv.BerEncoder;
 import org.jmisb.api.klv.BerField;
 import org.jmisb.api.klv.st0601.dto.Wavelengths;
 import org.jmisb.api.klv.st1201.FpEncoder;
+import org.jmisb.api.klv.st1201.OutOfRangeBehaviour;
 
 /**
  * Wavelengths List (Item 128).
@@ -59,7 +60,8 @@ public class WavelengthsList implements IUasDatalinkValue {
     private static final double MIN_VAL = 0.0;
     private static final double MAX_VAL = 1e9;
     private static final int IMAPB_BYTES = 4;
-    private static final FpEncoder decoder = new FpEncoder(MIN_VAL, MAX_VAL, IMAPB_BYTES);
+    private static final FpEncoder decoder =
+            new FpEncoder(MIN_VAL, MAX_VAL, IMAPB_BYTES, OutOfRangeBehaviour.Default);
 
     /**
      * Create from value.
