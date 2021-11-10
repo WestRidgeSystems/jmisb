@@ -7,7 +7,7 @@ import org.jmisb.core.klv.PrimitiveConverter;
  *
  * <p>Derived from Pilot tube and static pressure sensors.
  *
- * <p>Units are metres/second. 1 m/s = 1.94384449 knots.
+ * <p>Units are meters/second. 1 m/s = 1.94384449 knots.
  *
  * <p>Resolution: 1 meter/second.
  */

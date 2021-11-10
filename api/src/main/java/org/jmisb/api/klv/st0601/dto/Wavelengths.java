@@ -35,7 +35,7 @@ public class Wavelengths {
     /**
      * The minimum wavelength in the range.
      *
-     * @return the wavelength in nanometres (nm)
+     * @return the wavelength in nanometers (nm)
      */
     public double getMin() {
         return min;
@@ -44,7 +44,7 @@ public class Wavelengths {
     /**
      * Set the minimum wavelength.
      *
-     * @param min the wavelength in nanometres (nm)
+     * @param min the wavelength in nanometers (nm)
      */
     public void setMin(double min) {
         this.min = min;
@@ -53,7 +53,7 @@ public class Wavelengths {
     /**
      * The maximum wavelength in the range.
      *
-     * @return the wavelength in nanometres (nm)
+     * @return the wavelength in nanometers (nm)
      */
     public double getMax() {
         return max;
@@ -62,7 +62,7 @@ public class Wavelengths {
     /**
      * Set the maximum wavelength.
      *
-     * @param max the wavelength in nanometres (nm).
+     * @param max the wavelength in nanometers (nm).
      */
     public void setMax(double max) {
         this.max = max;

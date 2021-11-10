@@ -9,28 +9,28 @@ import org.jmisb.core.klv.PrimitiveConverter;
  *
  * From ST:
  *
- * <p>Map 0..(2^16-1) to 0..4095 metres
+ * <p>Map 0..(2^16-1) to 0..4095 meters
  *
- * <p>Resolution: ~0.0625 metres
+ * <p>Resolution: ~0.0625 meters
  *
  * </blockquote>
  */
 public abstract class UasDatalinkTargetErrorEstimate implements IUasDatalinkValue {
     protected static final double FLOAT_RANGE = 4095;
     protected static final double INT_RANGE = 65535.0; // (2^16) - 1
-    protected double metres;
+    protected double meters;
 
     /**
      * Create from value.
      *
-     * @param metres The value in metres
+     * @param meters The value in meters
      */
-    public UasDatalinkTargetErrorEstimate(double metres) {
-        if ((metres < 0) || (metres > 4095.0)) {
+    public UasDatalinkTargetErrorEstimate(double meters) {
+        if ((meters < 0) || (meters > 4095.0)) {
             throw new IllegalArgumentException(getDisplayName() + " must be in range [0,4095]");
         }
 
-        this.metres = metres;
+        this.meters = meters;
     }
 
     /**
@@ -45,26 +45,26 @@ public abstract class UasDatalinkTargetErrorEstimate implements IUasDatalinkValu
         }
 
         int intVal = PrimitiveConverter.toUint16(bytes);
-        this.metres = (intVal / INT_RANGE) * FLOAT_RANGE;
+        this.meters = (intVal / INT_RANGE) * FLOAT_RANGE;
     }
 
     /**
-     * Get the value in metres.
+     * Get the value in meters.
      *
-     * @return The error value in metres
+     * @return The error value in meters
      */
     public double getMetres() {
-        return metres;
+        return meters;
     }
 
     @Override
     public byte[] getBytes() {
-        int val = (int) Math.round((metres / FLOAT_RANGE) * INT_RANGE);
+        int val = (int) Math.round((meters / FLOAT_RANGE) * INT_RANGE);
         return PrimitiveConverter.uint16ToBytes(val);
     }
 
     @Override
     public String getDisplayableValue() {
-        return String.format("%.4fm", metres);
+        return String.format("%.4fm", meters);
     }
 }

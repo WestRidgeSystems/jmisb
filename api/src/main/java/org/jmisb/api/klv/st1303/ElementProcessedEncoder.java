@@ -3,6 +3,7 @@ package org.jmisb.api.klv.st1303;
 import org.jmisb.api.common.KlvParseException;
 import org.jmisb.api.klv.ArrayBuilder;
 import org.jmisb.api.klv.st1201.FpEncoder;
+import org.jmisb.api.klv.st1201.OutOfRangeBehaviour;
 
 /**
  * MISB ST 1201 Element Processing Encoder.
@@ -38,7 +39,7 @@ public class ElementProcessedEncoder {
         this.min = min;
         this.max = max;
         this.bytesPerEncodedValue = ebytes;
-        st1201encoder = new FpEncoder(min, max, ebytes);
+        st1201encoder = new FpEncoder(min, max, ebytes, OutOfRangeBehaviour.Default);
     }
 
     /**
@@ -54,7 +55,7 @@ public class ElementProcessedEncoder {
     public ElementProcessedEncoder(double min, double max, double resolution) {
         this.min = min;
         this.max = max;
-        st1201encoder = new FpEncoder(min, max, resolution);
+        st1201encoder = new FpEncoder(min, max, resolution, OutOfRangeBehaviour.Default);
         this.bytesPerEncodedValue = st1201encoder.getFieldLength();
     }
 
@@ -72,7 +73,7 @@ public class ElementProcessedEncoder {
         this.min = min;
         this.max = max;
         this.bytesPerEncodedValue = ebytes;
-        st1201encoder = new FpEncoder(min, max, ebytes);
+        st1201encoder = new FpEncoder(min, max, ebytes, OutOfRangeBehaviour.Default);
     }
 
     /**

@@ -11,6 +11,7 @@ import org.jmisb.api.klv.BerField;
 import org.jmisb.api.klv.st0601.dto.Location;
 import org.jmisb.api.klv.st0601.dto.Waypoint;
 import org.jmisb.api.klv.st1201.FpEncoder;
+import org.jmisb.api.klv.st1201.OutOfRangeBehaviour;
 import org.jmisb.core.klv.ArrayUtils;
 import org.jmisb.core.klv.PrimitiveConverter;
 
@@ -43,9 +44,9 @@ public class WaypointList implements IUasDatalinkValue {
     private static final byte MANUAL_MODE = 0x01;
     private static final byte ADHOC_SOURCE = 0x02;
 
-    private final FpEncoder latDecoder = new FpEncoder(-90, 90, 4);
-    private final FpEncoder lonDecoder = new FpEncoder(-180, 180, 4);
-    private final FpEncoder haeDecoder = new FpEncoder(-900, 9000, 3);
+    private final FpEncoder latDecoder = new FpEncoder(-90, 90, 4, OutOfRangeBehaviour.Default);
+    private final FpEncoder lonDecoder = new FpEncoder(-180, 180, 4, OutOfRangeBehaviour.Default);
+    private final FpEncoder haeDecoder = new FpEncoder(-900, 9000, 3, OutOfRangeBehaviour.Default);
 
     /**
      * Create from value.

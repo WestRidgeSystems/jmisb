@@ -96,7 +96,7 @@ public class VelocityPack {
     /**
      * Get the east component of the velocity.
      *
-     * @return Velocity in metres per second.
+     * @return Velocity in meters per second.
      */
     public Double getEast() {
         return east;
@@ -105,7 +105,7 @@ public class VelocityPack {
     /**
      * Set the east component of the velocity.
      *
-     * @param east Velocity in metres per second.
+     * @param east Velocity in meters per second.
      */
     public void setEast(Double east) {
         this.east = east;
@@ -114,7 +114,7 @@ public class VelocityPack {
     /**
      * Get the north component of the velocity.
      *
-     * @return Velocity in metres per second.
+     * @return Velocity in meters per second.
      */
     public Double getNorth() {
         return north;
@@ -123,7 +123,7 @@ public class VelocityPack {
     /**
      * Set the north component of the velocity.
      *
-     * @param north Velocity in metres per second.
+     * @param north Velocity in meters per second.
      */
     public void setNorth(Double north) {
         this.north = north;
@@ -132,7 +132,7 @@ public class VelocityPack {
     /**
      * Get the vertical component of velocity.
      *
-     * @return Velocity in metres per second (up positive).
+     * @return Velocity in meters per second (up positive).
      */
     public Double getUp() {
         return up;
@@ -141,7 +141,7 @@ public class VelocityPack {
     /**
      * Set the vertical component of velocity.
      *
-     * @param up Velocity in metres per second (up positive).
+     * @param up Velocity in meters per second (up positive).
      */
     public void setUp(Double up) {
         this.up = up;

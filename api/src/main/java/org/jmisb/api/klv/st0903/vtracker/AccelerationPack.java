@@ -97,7 +97,7 @@ public class AccelerationPack {
     /**
      * Get the east component of the acceleration.
      *
-     * @return Acceleration in metres per second per second.
+     * @return Acceleration in meters per second per second.
      */
     public Double getEast() {
         return east;
@@ -106,7 +106,7 @@ public class AccelerationPack {
     /**
      * Set the east component of the acceleration.
      *
-     * @param east Acceleration in metres per second per second.
+     * @param east Acceleration in meters per second per second.
      */
     public void setEast(Double east) {
         this.east = east;
@@ -115,7 +115,7 @@ public class AccelerationPack {
     /**
      * Get the north component of the acceleration.
      *
-     * @return Acceleration in metres per second per second.
+     * @return Acceleration in meters per second per second.
      */
     public Double getNorth() {
         return north;
@@ -124,7 +124,7 @@ public class AccelerationPack {
     /**
      * Set the north component of the acceleration.
      *
-     * @param north Acceleration in metres per second per second.
+     * @param north Acceleration in meters per second per second.
      */
     public void setNorth(Double north) {
         this.north = north;
@@ -133,7 +133,7 @@ public class AccelerationPack {
     /**
      * Get the vertical component of acceleration.
      *
-     * @return Acceleration in metres per second per second (up positive).
+     * @return Acceleration in meters per second per second (up positive).
      */
     public Double getUp() {
         return up;
@@ -142,7 +142,7 @@ public class AccelerationPack {
     /**
      * Set the vertical component of acceleration.
      *
-     * @param up Acceleration in metres per second per second (up positive).
+     * @param up Acceleration in meters per second per second (up positive).
      */
     public void setUp(Double up) {
         this.up = up;

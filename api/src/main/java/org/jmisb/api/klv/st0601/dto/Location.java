@@ -49,7 +49,7 @@ public class Location {
     /**
      * Get the elevation of the location.
      *
-     * @return the elevation in metres above the WGS84 ellipsoid, or -1000 for invalid / unknown
+     * @return the elevation in meters above the WGS84 ellipsoid, or -1000 for invalid / unknown
      */
     public double getHAE() {
         return hae;
@@ -58,7 +58,7 @@ public class Location {
     /**
      * Set the elevation of the location.
      *
-     * @param hae the elevation in metres above the WGS84 ellipsoid, or -1000 for invalid / unknown
+     * @param hae the elevation in meters above the WGS84 ellipsoid, or -1000 for invalid / unknown
      */
     public void setHAE(double hae) {
         this.hae = hae;

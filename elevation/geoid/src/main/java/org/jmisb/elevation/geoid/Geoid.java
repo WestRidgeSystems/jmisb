@@ -41,7 +41,7 @@ public class Geoid {
      * @param lat latitude of the location (degrees, WGS-84, north positive)
      * @param lon longitude of the location (degrees, WGS-84, east positive)
      * @param mslElevation the MSL elevation in meters
-     * @return the HAE elevation in metres
+     * @return the HAE elevation in meters
      */
     public double toHAE(final double lat, final double lon, final double mslElevation) {
         return mslElevation + getValueBicubic(lat, lon);
@@ -53,7 +53,7 @@ public class Geoid {
      * @param lat latitude of the location (degrees, WGS-84, north positive)
      * @param lon longitude of the location (degrees, WGS-84, east positive)
      * @param haeElevation the HAE elevation in meters
-     * @return the MSL elevation in metres
+     * @return the MSL elevation in meters
      */
     public double toMSL(final double lat, final double lon, final double haeElevation) {
         return haeElevation - getValueBicubic(lat, lon);

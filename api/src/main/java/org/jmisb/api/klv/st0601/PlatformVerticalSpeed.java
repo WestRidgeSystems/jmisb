@@ -34,7 +34,7 @@ public class PlatformVerticalSpeed implements IUasDatalinkValue {
     /**
      * Create from value.
      *
-     * @param speed The value in metres per second, or {@code Double.POSITIVE_INFINITY} to represent
+     * @param speed The value in meters per second, or {@code Double.POSITIVE_INFINITY} to represent
      *     "out of range"
      */
     public PlatformVerticalSpeed(final double speed) {
@@ -66,9 +66,9 @@ public class PlatformVerticalSpeed implements IUasDatalinkValue {
     }
 
     /**
-     * Get the value in metres per second.
+     * Get the value in meters per second.
      *
-     * @return The value in metres per second, or {@code Double.POSITIVE_INFINITY} if "out of range"
+     * @return The value in meters per second, or {@code Double.POSITIVE_INFINITY} if "out of range"
      */
     public double getVerticalSpeed() {
         return this.verticalSpeed;

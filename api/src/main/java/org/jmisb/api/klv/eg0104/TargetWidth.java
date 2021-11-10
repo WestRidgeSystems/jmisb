@@ -5,7 +5,7 @@ import org.jmisb.core.klv.PrimitiveConverter;
 /**
  * Target Width value for EG 0104.
  *
- * <p>This was Target Width in the NIMA-MIPO memo, but was in feet instead of metres.
+ * <p>This was Target Width in the NIMA-MIPO memo, but was in feet instead of meters.
  */
 public class TargetWidth implements IPredatorMetadataValue {
 

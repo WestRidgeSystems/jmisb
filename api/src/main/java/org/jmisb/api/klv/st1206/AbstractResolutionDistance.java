@@ -1,7 +1,7 @@
 package org.jmisb.api.klv.st1206;
 
 /**
- * Shared ST1206 implementation of a resolution in metres.
+ * Shared ST1206 implementation of a resolution in meters.
  *
  * <p>This is encoded as IMAPB(0, 1e6, 4).
  */
@@ -10,7 +10,7 @@ public abstract class AbstractResolutionDistance extends AbstractDistance {
     /**
      * Create from value.
      *
-     * @param resolution resolution in metres.
+     * @param resolution resolution in meters.
      */
     public AbstractResolutionDistance(double resolution) {
         super(resolution);
@@ -28,7 +28,7 @@ public abstract class AbstractResolutionDistance extends AbstractDistance {
     /**
      * Get the resolution.
      *
-     * @return resolution in metres.
+     * @return resolution in meters.
      */
     public final double getResolution() {
         return value;

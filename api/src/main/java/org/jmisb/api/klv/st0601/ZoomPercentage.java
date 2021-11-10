@@ -1,6 +1,7 @@
 package org.jmisb.api.klv.st0601;
 
 import org.jmisb.api.klv.st1201.FpEncoder;
+import org.jmisb.api.klv.st1201.OutOfRangeBehaviour;
 
 /**
  * Zoom Percentage (Item 134).
@@ -50,7 +51,8 @@ public class ZoomPercentage implements IUasDatalinkValue {
             throw new IllegalArgumentException(
                     this.getDisplayName() + " cannot be longer than " + MAX_BYTES + " bytes");
         }
-        FpEncoder decoder = new FpEncoder(MIN_VAL, MAX_VAL, bytes.length);
+        FpEncoder decoder =
+                new FpEncoder(MIN_VAL, MAX_VAL, bytes.length, OutOfRangeBehaviour.Default);
         this.percentage = decoder.decode(bytes);
     }
 
@@ -65,7 +67,8 @@ public class ZoomPercentage implements IUasDatalinkValue {
 
     @Override
     public byte[] getBytes() {
-        FpEncoder encoder = new FpEncoder(MIN_VAL, MAX_VAL, RECOMMENDED_BYTES);
+        FpEncoder encoder =
+                new FpEncoder(MIN_VAL, MAX_VAL, RECOMMENDED_BYTES, OutOfRangeBehaviour.Default);
         return encoder.encode(this.percentage);
     }
 

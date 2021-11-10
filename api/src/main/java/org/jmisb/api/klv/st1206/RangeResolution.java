@@ -20,7 +20,7 @@ public class RangeResolution extends AbstractResolutionDistance {
     /**
      * Create from value.
      *
-     * @param resolution resolution in metres.
+     * @param resolution resolution in meters.
      */
     public RangeResolution(double resolution) {
         super(resolution);

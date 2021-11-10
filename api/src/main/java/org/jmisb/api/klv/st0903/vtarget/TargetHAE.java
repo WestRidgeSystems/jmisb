@@ -3,6 +3,7 @@ package org.jmisb.api.klv.st0903.vtarget;
 import org.jmisb.api.klv.st0903.IVmtiMetadataValue;
 import org.jmisb.api.klv.st0903.shared.EncodingMode;
 import org.jmisb.api.klv.st1201.FpEncoder;
+import org.jmisb.api.klv.st1201.OutOfRangeBehaviour;
 import org.jmisb.core.klv.PrimitiveConverter;
 
 /**
@@ -27,7 +28,7 @@ public class TargetHAE implements IVmtiMetadataValue {
     /**
      * Create from value.
      *
-     * @param altitude height above ellipsoid in metres [-900, 19000]
+     * @param altitude height above ellipsoid in meters [-900, 19000]
      */
     public TargetHAE(double altitude) {
         if (altitude < MIN_VAL || altitude > MAX_VAL) {
@@ -84,13 +85,14 @@ public class TargetHAE implements IVmtiMetadataValue {
             throw new IllegalArgumentException(
                     this.getDisplayName() + " encoding is two byte IMAPB as of ST0903.4");
         }
-        FpEncoder decoder = new FpEncoder(MIN_VAL, MAX_VAL, bytes.length);
+        FpEncoder decoder =
+                new FpEncoder(MIN_VAL, MAX_VAL, bytes.length, OutOfRangeBehaviour.Default);
         this.value = decoder.decode(bytes);
     }
 
     @Override
     public byte[] getBytes() {
-        FpEncoder encoder = new FpEncoder(MIN_VAL, MAX_VAL, NUM_BYTES);
+        FpEncoder encoder = new FpEncoder(MIN_VAL, MAX_VAL, NUM_BYTES, OutOfRangeBehaviour.Default);
         return encoder.encode(this.value);
     }
 
@@ -102,7 +104,7 @@ public class TargetHAE implements IVmtiMetadataValue {
     /**
      * Get the height above ellipsoid.
      *
-     * @return the value in metres.
+     * @return the value in meters.
      */
     public double getHAE() {
         return this.value;

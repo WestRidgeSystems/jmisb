@@ -1,9 +1,10 @@
 package org.jmisb.api.klv.st1206;
 
 import org.jmisb.api.klv.st1201.FpEncoder;
+import org.jmisb.api.klv.st1201.OutOfRangeBehaviour;
 
 /**
- * Shared ST1206 implementation of a distance (resolution or pixel size) in metres.
+ * Shared ST1206 implementation of a distance (resolution or pixel size) in meters.
  *
  * <p>This is encoded as IMAPB(0, 1e6, 4).
  */
@@ -17,7 +18,7 @@ public abstract class AbstractDistance implements ISARMIMetadataValue {
     /**
      * Create from value.
      *
-     * @param distance pixel size in metres.
+     * @param distance pixel size in meters.
      */
     public AbstractDistance(double distance) {
         if (distance < MIN_VAL || distance > MAX_VAL) {
@@ -40,13 +41,14 @@ public abstract class AbstractDistance implements ISARMIMetadataValue {
                     String.format(
                             "%s encoding is %d byte IMAPB", this.getDisplayName(), NUM_BYTES));
         }
-        FpEncoder decoder = new FpEncoder(MIN_VAL, MAX_VAL, bytes.length);
+        FpEncoder decoder =
+                new FpEncoder(MIN_VAL, MAX_VAL, bytes.length, OutOfRangeBehaviour.Default);
         this.value = decoder.decode(bytes);
     }
 
     @Override
     public byte[] getBytes() {
-        FpEncoder encoder = new FpEncoder(MIN_VAL, MAX_VAL, NUM_BYTES);
+        FpEncoder encoder = new FpEncoder(MIN_VAL, MAX_VAL, NUM_BYTES, OutOfRangeBehaviour.Default);
         return encoder.encode(this.value);
     }
 

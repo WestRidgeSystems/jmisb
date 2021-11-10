@@ -6,6 +6,10 @@ import java.util.List;
 import java.util.SortedMap;
 import java.util.TreeMap;
 import org.jmisb.api.common.KlvParseException;
+import org.jmisb.api.klv.st0102.ST0102Version;
+import org.jmisb.api.klv.st0102.SecurityMetadataKey;
+import org.jmisb.api.klv.st0102.localset.SecurityMetadataLocalSet;
+import org.jmisb.api.klv.st0102.universalset.SecurityMetadataUniversalSet;
 import org.jmisb.api.klv.st0601.*;
 import org.jmisb.core.klv.ArrayUtils;
 import org.testng.Assert;
@@ -120,14 +124,14 @@ public class KlvParserTest {
                     (byte) 0x2b,
                     (byte) 0x34,
                     (byte) 0x02,
-                    (byte) 0x0b,
+                    (byte) 0x03,
                     (byte) 0x01,
                     (byte) 0x01,
                     (byte) 0x0e,
                     (byte) 0x01,
                     (byte) 0x03,
-                    (byte) 0x01,
-                    (byte) 0x01,
+                    (byte) 0x03,
+                    (byte) 0x02,
                     (byte) 0x00,
                     (byte) 0x00,
                     (byte) 0x00,
@@ -138,6 +142,9 @@ public class KlvParserTest {
             List<IMisbMessage> messages = KlvParser.parseBytes(bytes);
             Assert.assertEquals(messages.size(), 2);
             check0601Parse(messages);
+            IMisbMessage secondMessage = messages.get(1);
+            Assert.assertTrue(secondMessage instanceof SecurityMetadataLocalSet);
+            Assert.assertEquals(secondMessage.getIdentifiers().size(), 0);
         } catch (KlvParseException e) {
             Assert.fail("Parse exception");
         }
@@ -380,5 +387,107 @@ public class KlvParserTest {
         } catch (KlvParseException e) {
             Assert.fail("Parse exception");
         }
+    }
+
+    @Test
+    public void testMultipleMessages() {
+        byte[] bytes =
+                new byte[] {
+                    (byte) 0x06,
+                    (byte) 0x0e,
+                    (byte) 0x2b,
+                    (byte) 0x34,
+                    (byte) 0x02,
+                    (byte) 0x0b,
+                    (byte) 0x01,
+                    (byte) 0x01,
+                    (byte) 0x0e,
+                    (byte) 0x01,
+                    (byte) 0x03,
+                    (byte) 0x01,
+                    (byte) 0x01,
+                    (byte) 0x00,
+                    (byte) 0x00,
+                    (byte) 0x00,
+                    (byte) 0x14,
+                    (byte) 0x0d,
+                    (byte) 0x04,
+                    (byte) 0x3c,
+                    (byte) 0x4e,
+                    (byte) 0xad,
+                    (byte) 0xfa,
+                    (byte) 0x0e,
+                    (byte) 0x04,
+                    (byte) 0xcd,
+                    (byte) 0x6b,
+                    (byte) 0x78,
+                    (byte) 0x4e,
+                    (byte) 0x0f,
+                    (byte) 0x02,
+                    (byte) 0x1b,
+                    (byte) 0xc4,
+                    (byte) 0x01,
+                    (byte) 0x02,
+                    (byte) 0x2d,
+                    (byte) 0xc4,
+                    (byte) 0x06,
+                    (byte) 0x0e,
+                    (byte) 0x2b,
+                    (byte) 0x34,
+                    (byte) 0x02,
+                    (byte) 0x01,
+                    (byte) 0x01,
+                    (byte) 0x01,
+                    (byte) 0x02,
+                    (byte) 0x08,
+                    (byte) 0x02,
+                    (byte) 0x00,
+                    (byte) 0x00,
+                    (byte) 0x00,
+                    (byte) 0x00,
+                    (byte) 0x00,
+                    (byte) 0x13,
+                    (byte) 0x06,
+                    (byte) 0x0e,
+                    (byte) 0x2b,
+                    (byte) 0x34,
+                    (byte) 0x01,
+                    (byte) 0x01,
+                    (byte) 0x01,
+                    (byte) 0x01,
+                    (byte) 0x0e,
+                    (byte) 0x01,
+                    (byte) 0x02,
+                    (byte) 0x05,
+                    (byte) 0x04,
+                    (byte) 0x00,
+                    (byte) 0x00,
+                    (byte) 0x00,
+                    (byte) 0x02,
+                    (byte) 0x00,
+                    (byte) 0x0c
+                };
+
+        try {
+            List<IMisbMessage> messages = KlvParser.parseBytes(bytes);
+            Assert.assertEquals(messages.size(), 2);
+            check0601Parse(messages);
+            check0102Parse(messages.get(1));
+        } catch (KlvParseException e) {
+            Assert.fail("Parse exception");
+        }
+    }
+
+    private void check0102Parse(IMisbMessage message) {
+        Assert.assertTrue(message instanceof SecurityMetadataUniversalSet);
+        SecurityMetadataUniversalSet securityMessage = (SecurityMetadataUniversalSet) message;
+        Assert.assertEquals(
+                securityMessage.getUniversalLabel(), KlvConstants.SecurityMetadataUniversalSetUl);
+        Assert.assertEquals(securityMessage.getKeys().size(), 1);
+        Assert.assertEquals(securityMessage.getIdentifiers().size(), 1);
+        Assert.assertTrue(securityMessage.getIdentifiers().contains(SecurityMetadataKey.Version));
+        ST0102Version version =
+                (ST0102Version) securityMessage.getField(SecurityMetadataKey.Version);
+        Assert.assertEquals(version.getVersion(), 12);
     }
 }

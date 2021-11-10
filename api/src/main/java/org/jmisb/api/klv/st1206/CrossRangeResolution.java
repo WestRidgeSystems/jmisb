@@ -16,7 +16,7 @@ public class CrossRangeResolution extends AbstractResolutionDistance {
     /**
      * Create from value.
      *
-     * @param resolution resolution in metres.
+     * @param resolution resolution in meters.
      */
     public CrossRangeResolution(double resolution) {
         super(resolution);

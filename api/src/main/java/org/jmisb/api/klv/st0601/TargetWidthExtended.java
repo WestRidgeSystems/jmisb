@@ -1,6 +1,7 @@
 package org.jmisb.api.klv.st0601;
 
 import org.jmisb.api.klv.st1201.FpEncoder;
+import org.jmisb.api.klv.st1201.OutOfRangeBehaviour;
 
 /**
  * Target Width Extended (ST 0601 Item 96).
@@ -48,7 +49,8 @@ public class TargetWidthExtended implements IUasDatalinkValue {
             throw new IllegalArgumentException(
                     this.getDisplayName() + " cannot be longer than " + MAX_BYTES + " bytes");
         }
-        FpEncoder decoder = new FpEncoder(MIN_VAL, MAX_VAL, bytes.length);
+        FpEncoder decoder =
+                new FpEncoder(MIN_VAL, MAX_VAL, bytes.length, OutOfRangeBehaviour.Default);
         meters = decoder.decode(bytes);
     }
 
@@ -63,7 +65,8 @@ public class TargetWidthExtended implements IUasDatalinkValue {
 
     @Override
     public byte[] getBytes() {
-        FpEncoder encoder = new FpEncoder(MIN_VAL, MAX_VAL, RECOMMENDED_BYTES);
+        FpEncoder encoder =
+                new FpEncoder(MIN_VAL, MAX_VAL, RECOMMENDED_BYTES, OutOfRangeBehaviour.Default);
         return encoder.encode(meters);
     }
 

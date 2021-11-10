@@ -70,7 +70,7 @@ public class ${namespacedName} implements IMimdMetadataValue {
         try {
 <#if typeName=="Real">
     <#if minValue?? && maxValue??>
-            org.jmisb.api.klv.st1201.FpEncoder decoder = new org.jmisb.api.klv.st1201.FpEncoder(${minValue}, ${maxValue}, bytes.length);
+            org.jmisb.api.klv.st1201.FpEncoder decoder = new org.jmisb.api.klv.st1201.FpEncoder(${minValue}, ${maxValue}, bytes.length, org.jmisb.api.klv.st1201.OutOfRangeBehaviour.Default);
             this.implementingValue = decoder.decode(bytes);
     <#else>
             this.implementingValue = org.jmisb.core.klv.PrimitiveConverter.toFloat64(bytes);
@@ -112,7 +112,7 @@ public class ${namespacedName} implements IMimdMetadataValue {
         try {
 <#if typeName=="Real">
     <#if minValue?? && maxValue??>
-            org.jmisb.api.klv.st1201.FpEncoder decoder = new org.jmisb.api.klv.st1201.FpEncoder(${minValue}, ${maxValue}, length);
+            org.jmisb.api.klv.st1201.FpEncoder decoder = new org.jmisb.api.klv.st1201.FpEncoder(${minValue}, ${maxValue}, length, org.jmisb.api.klv.st1201.OutOfRangeBehaviour.Default);
             this.implementingValue = decoder.decode(bytes, offset);
     <#else>
             this.implementingValue = org.jmisb.core.klv.PrimitiveConverter.toFloat64(bytes, offset, length);
@@ -139,9 +139,9 @@ public class ${namespacedName} implements IMimdMetadataValue {
 <#if typeName=="Real">
     <#if minValue?? && maxValue??>
         <#if resolution??>
-        org.jmisb.api.klv.st1201.FpEncoder encoder = new org.jmisb.api.klv.st1201.FpEncoder(${minValue}, ${maxValue}, (double)${resolution});
+        org.jmisb.api.klv.st1201.FpEncoder encoder = new org.jmisb.api.klv.st1201.FpEncoder(${minValue}, ${maxValue}, (double)${resolution}, org.jmisb.api.klv.st1201.OutOfRangeBehaviour.Default);
         <#else>
-        org.jmisb.api.klv.st1201.FpEncoder encoder = new org.jmisb.api.klv.st1201.FpEncoder(${minValue}, ${maxValue}, Float.BYTES);
+        org.jmisb.api.klv.st1201.FpEncoder encoder = new org.jmisb.api.klv.st1201.FpEncoder(${minValue}, ${maxValue}, Float.BYTES, org.jmisb.api.klv.st1201.OutOfRangeBehaviour.Default);
         </#if>
         return encoder.encode(implementingValue);
     <#else>

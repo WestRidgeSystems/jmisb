@@ -1,6 +1,7 @@
 package org.jmisb.api.klv.st0601;
 
 import org.jmisb.api.klv.st1201.FpEncoder;
+import org.jmisb.api.klv.st1201.OutOfRangeBehaviour;
 
 /**
  * Shared implementation of IMAPB encoded altitude.
@@ -39,7 +40,8 @@ public abstract class UasDatalinkAltitudeExtended implements IUasDatalinkValue {
             throw new IllegalArgumentException(
                     this.getDisplayName() + " cannot be longer than " + maxBytes + " bytes");
         }
-        FpEncoder decoder = new FpEncoder(MIN_VAL, MAX_VAL, bytes.length);
+        FpEncoder decoder =
+                new FpEncoder(MIN_VAL, MAX_VAL, bytes.length, OutOfRangeBehaviour.Default);
         meters = decoder.decode(bytes);
     }
 
@@ -54,7 +56,8 @@ public abstract class UasDatalinkAltitudeExtended implements IUasDatalinkValue {
 
     @Override
     public byte[] getBytes() {
-        FpEncoder encoder = new FpEncoder(MIN_VAL, MAX_VAL, RECOMMENDED_BYTES);
+        FpEncoder encoder =
+                new FpEncoder(MIN_VAL, MAX_VAL, RECOMMENDED_BYTES, OutOfRangeBehaviour.Default);
         return encoder.encode(meters);
     }
 

@@ -4,7 +4,8 @@ package org.jmisb.api.klv.st1201;
  * Kind of value to be mapped using ST1201.
  *
  * <p>ST1201 can encode values outside of the normal range of a double. This enumeration is used to
- * represent the type of value that is encoded / decoded.
+ * represent the type of value that is encoded / decoded, as described in ST 1201.5 Table 1 "Bit
+ * Patterns" and Table 2 "Special Value Bit Patterns".
  */
 public enum ValueMappingKind {
     /**
@@ -17,11 +18,11 @@ public enum ValueMappingKind {
     /**
      * This part of the bit space is reserved.
      *
-     * <p>There are two parts of reserved bit space. This represents the part where the high bit is
-     * 1, and the next most-significant bit is 0.
+     * <p>Up to and including ST 1201.4, there were two parts of reserved bit space. This kind
+     * represents the part where the high bit is 1, and the next most significant bit is 0.
      *
-     * <p>Note that is not valid with an encoded value of 0, since that would result in a normal
-     * value mapping (max value).
+     * <p>Note that this kind is not valid with an encoded value of 0, since that would result in a
+     * normal value mapping (max value).
      */
     ReservedKind1,
     /** The value is positive infinity. */
@@ -57,19 +58,26 @@ public enum ValueMappingKind {
      */
     NegativeSignalNaN,
     /**
-     * This part of the bit space is reserved.
+     * The value is a MISB defined special value.
      *
-     * <p>There are two parts of reserved bit space. This represents the part where the most
-     * significant bits are @code{0b11100}.
+     * <p>Prior to ST 1201.5, this was reserved bit space.
      */
-    ReservedKind2,
+    MISBDefined,
     /**
      * The value is a user defined signaling value.
      *
-     * <p>While ST1201.4 does not make it explicit, this is conceptually a NaN value.
+     * <p>While ST1201.5 does not make it explicit, this is conceptually a NaN value.
      *
      * <p>MISB allows this to be combined with a set of low bits which are user defined. In this
      * context, "user defined" means by an invoking specification.
      */
-    UserDefined
+    UserDefined;
+
+    /**
+     * Value is in the second reserved bit space (ST 1201.4 legacy).
+     *
+     * <p>This provides an alias for ST 1201.4 and earlier for the second reserved bit space (most
+     * significant bits are @code{0b11100}). This was reallocated in ST 1201.5 to be MISB defined.
+     */
+    public static final ValueMappingKind ReservedKind2 = MISBDefined;
 }

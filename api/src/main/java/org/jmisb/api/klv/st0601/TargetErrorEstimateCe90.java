@@ -11,9 +11,9 @@ package org.jmisb.api.klv.st0601;
  *
  * <p>Specifies the radius of 90% probability on a plane tangent to the earth’s surface.
  *
- * <p>Map 0..(2^16-1) to 0..4095 metres
+ * <p>Map 0..(2^16-1) to 0..4095 meters
  *
- * <p>Resolution: ~0.0625 metres
+ * <p>Resolution: ~0.0625 meters
  *
  * </blockquote>
  */
@@ -21,10 +21,10 @@ public class TargetErrorEstimateCe90 extends UasDatalinkTargetErrorEstimate {
     /**
      * Create from value.
      *
-     * @param metres The value in metres, in the range [0..4095]
+     * @param meters The value in meters, in the range [0..4095]
      */
-    public TargetErrorEstimateCe90(double metres) {
-        super(metres);
+    public TargetErrorEstimateCe90(double meters) {
+        super(meters);
     }
 
     /**

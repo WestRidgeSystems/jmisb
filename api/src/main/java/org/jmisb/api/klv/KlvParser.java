@@ -35,7 +35,7 @@ public class KlvParser {
 
         while (pos < bytes.length) {
             // Get the next full message including UL (key), length, and value
-            byte[] nextMessage = getNextMessage(bytes);
+            byte[] nextMessage = getNextMessage(bytes, pos);
             pos += nextMessage.length;
 
             try {
@@ -55,22 +55,24 @@ public class KlvParser {
      * Extract the next top-level message.
      *
      * @param bytes The original byte array, assumed to begin with 16-byte UL
+     * @param pos the offset into the byte array to start parsing from
      * @return Byte array containing the full top-level message, including UL key, length, and value
      * @throws KlvParseException if a parsing error occurs
      */
-    private static byte[] getNextMessage(byte[] bytes) throws KlvParseException {
+    private static byte[] getNextMessage(byte[] bytes, int pos) throws KlvParseException {
         // Length of the key field (UL)
         final int keyLength = UniversalLabel.LENGTH;
-        BerField lengthField = BerDecoder.decode(bytes, keyLength, false);
+        BerField lengthField = BerDecoder.decode(bytes, pos + keyLength, false);
         final int totalLength = keyLength + lengthField.getLength() + lengthField.getValue();
 
-        // If the lengths are equal, just return the original array; otherwise copy a subrange.
-        if (totalLength > bytes.length) {
+        if (pos + totalLength > bytes.length) {
             throw new KlvParseException("Length exceeds available bytes");
-        } else if (totalLength == bytes.length) {
+        }
+        // If the lengths are equal, just return the original array; otherwise copy a subrange.
+        if ((pos == 0) && (totalLength == bytes.length)) {
             return bytes;
         } else {
-            return Arrays.copyOfRange(bytes, 0, totalLength);
+            return Arrays.copyOfRange(bytes, pos, pos + totalLength);
         }
     }
 }

@@ -21,7 +21,7 @@ public class CrossRangeImagePlanePixelSize extends AbstractPixelSizeDistance {
     /**
      * Create from value.
      *
-     * @param pixelSize pixel size in metres.
+     * @param pixelSize pixel size in meters.
      */
     public CrossRangeImagePlanePixelSize(double pixelSize) {
         super(pixelSize);
