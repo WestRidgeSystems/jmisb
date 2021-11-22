@@ -15,7 +15,7 @@ import org.testng.annotations.Test;
 
 /** Tests for the ST0903 VTrack Local Set. */
 public class VTrackLocalSetFactoryTest extends LoggerChecks {
-    VTrackLocalSetFactoryTest() {
+    public VTrackLocalSetFactoryTest() {
         super(VTrackLocalSet.class);
     }
 

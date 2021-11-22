@@ -16,7 +16,7 @@ import org.testng.annotations.Test;
 
 /** Tests for the ST0903 VMTI Local Set. */
 public class VmtiLocalSetTest extends LoggerChecks {
-    VmtiLocalSetTest() {
+    public VmtiLocalSetTest() {
         super(VmtiLocalSet.class);
     }
 

@@ -10,8 +10,6 @@ import java.nio.charset.StandardCharsets;
 import java.time.ZonedDateTime;
 import java.util.SortedMap;
 import java.util.TreeMap;
-import java.util.logging.Level;
-import java.util.logging.Logger;
 import org.jmisb.api.klv.IMisbMessage;
 import org.jmisb.api.klv.st0601.IUasDatalinkValue;
 import org.jmisb.api.klv.st0601.PrecisionTimeStamp;
@@ -26,9 +24,12 @@ import org.jmisb.api.video.IVideoFileInput;
 import org.jmisb.api.video.MetadataFrame;
 import org.jmisb.api.video.VideoFileInput;
 import org.jmisb.api.video.VideoFileInputOptions;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 public class Converter implements IMetadataListener, IFileEventListener {
 
+    private static final Logger LOGGER = LoggerFactory.getLogger(Converter.class);
     private IVideoFileInput fileInput;
     private final KlvToCot conv = new KlvToCot();
     private final InetAddress address;
@@ -72,7 +73,7 @@ public class Converter implements IMetadataListener, IFileEventListener {
         try {
             socket.send(packet);
         } catch (IOException ex) {
-            Logger.getLogger(Converter.class.getName()).log(Level.SEVERE, null, ex);
+            LOGGER.error("Failed to send UDP: " + ex.getMessage());
         }
     }
 

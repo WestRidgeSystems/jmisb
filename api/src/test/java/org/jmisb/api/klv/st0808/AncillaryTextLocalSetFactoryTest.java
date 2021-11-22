@@ -10,7 +10,7 @@ import org.testng.annotations.Test;
 
 /** Tests for the ST0808 Ancillary Text Local Set Factory. */
 public class AncillaryTextLocalSetFactoryTest extends LoggerChecks {
-    AncillaryTextLocalSetFactoryTest() {
+    public AncillaryTextLocalSetFactoryTest() {
         super(AncillaryTextLocalSet.class);
     }
 

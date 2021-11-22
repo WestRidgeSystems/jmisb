@@ -64,7 +64,7 @@ public class SecurityMetadataLocalSetTest extends LoggerChecks {
     }
 
     @Test
-    void testUniversalLabel() {
+    public void testUniversalLabel() {
         // Check that the correct universal label is applied
         Assert.assertEquals(localSet.getUniversalLabel(), KlvConstants.SecurityMetadataLocalSetUl);
     }

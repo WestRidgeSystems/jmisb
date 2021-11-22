@@ -14,7 +14,7 @@ import org.testng.annotations.Test;
 
 /** Tests for the ST 1108 Interpretability and Quality Local Set Factory. */
 public class InterpretabilityQualityLocalSetFactoryTest extends LoggerChecks {
-    InterpretabilityQualityLocalSetFactoryTest() {
+    public InterpretabilityQualityLocalSetFactoryTest() {
         super(IQLocalSet.class);
     }
 
