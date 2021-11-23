@@ -20,7 +20,7 @@
         </dependency>
         <dependency>
             <groupId>org.bytedeco</groupId>
-            <artifactId>ffmpeg-platform</artifactId>
+            <artifactId>ffmpeg-platform-gpl</artifactId>
         </dependency>
         <dependency>
             <groupId>org.slf4j</groupId>
@@ -29,21 +29,6 @@
         <dependency>
             <groupId>org.testng</groupId>
             <artifactId>testng</artifactId>
-            <scope>test</scope>
-        </dependency>
-        <dependency>
-            <groupId>uk.org.lidalia</groupId>
-            <artifactId>slf4j-test</artifactId>
-            <scope>test</scope>
-        </dependency>
-        <dependency>
-            <groupId>com.fasterxml.jackson.core</groupId>
-            <artifactId>jackson-databind</artifactId>
-            <scope>test</scope>
-        </dependency>
-        <dependency>
-            <groupId>edu.berkeley.cs.jqf</groupId>
-            <artifactId>jqf-fuzz</artifactId>
             <scope>test</scope>
         </dependency>
     </dependencies>
@@ -100,10 +85,6 @@
             <plugin>
                 <groupId>org.apache.maven.plugins</groupId>
                 <artifactId>maven-checkstyle-plugin</artifactId>
-            </plugin>
-            <plugin>
-                <groupId>edu.berkeley.cs.jqf</groupId>
-                <artifactId>jqf-maven-plugin</artifactId>
             </plugin>
             <plugin>
                 <groupId>org.cyclonedx</groupId>
