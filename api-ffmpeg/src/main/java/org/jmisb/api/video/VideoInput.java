@@ -29,7 +29,8 @@ public abstract class VideoInput extends VideoIO implements IVideoInput {
     private final BlockingQueue<VideoFrame> decodedVideo = new LinkedBlockingQueue<>(QUEUE_SIZE);
 
     /** Queue of metadata frames ready to be sent to listeners. */
-    private final BlockingQueue<MetadataFrame> decodedMetadata = new LinkedBlockingQueue<>(QUEUE_SIZE);
+    private final BlockingQueue<MetadataFrame> decodedMetadata =
+            new LinkedBlockingQueue<>(QUEUE_SIZE);
 
     VideoNotifier videoNotifier;
     MetadataNotifier metadataNotifier;
@@ -288,8 +289,16 @@ public abstract class VideoInput extends VideoIO implements IVideoInput {
         ColorModel cm = frame.getImage().getColorModel();
         boolean isAlphaPremultiplied = cm.isAlphaPremultiplied();
         WritableRaster raster = frame.getImage().copyData(null);
-        return new VideoFrame(
-                new BufferedImage(cm, raster, isAlphaPremultiplied, null), frame.getPts());
+        VideoFrame videoFrame =
+                new VideoFrame(
+                        new BufferedImage(cm, raster, isAlphaPremultiplied, null), frame.getPts());
+        if (frame.getTimeStamp() != null) {
+            videoFrame.setTimeStamp(frame.getTimeStamp());
+        }
+        if (frame.getTimeStatus() != null) {
+            videoFrame.setTimeStatus(frame.getTimeStatus().deepCopy());
+        }
+        return videoFrame;
     }
 
     /** Free the format context. */

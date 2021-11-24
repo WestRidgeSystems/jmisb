@@ -35,7 +35,7 @@ import org.testng.annotations.Test;
 
 /** Tests for the ST 1108 Interpretability and Quality Local Set. */
 public class IQLocalSetTest extends LoggerChecks {
-    IQLocalSetTest() {
+    public IQLocalSetTest() {
         super(IQLocalSet.class);
     }
 

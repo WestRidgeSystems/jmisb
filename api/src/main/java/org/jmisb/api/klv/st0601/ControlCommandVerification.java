@@ -73,8 +73,7 @@ public class ControlCommandVerification implements IUasDatalinkValue {
     @Override
     public String getDisplayableValue() {
         List<String> idsAsText = new ArrayList<>();
-        commands.forEach(
-                (id) -> idsAsText.add("" + id));
+        commands.forEach((id) -> idsAsText.add("" + id));
         return "" + String.join(",", idsAsText);
     }
 

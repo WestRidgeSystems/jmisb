@@ -9,10 +9,12 @@ import static org.bytedeco.ffmpeg.global.avcodec.avcodec_open2;
 import static org.bytedeco.ffmpeg.global.avcodec.avcodec_parameters_to_context;
 import static org.bytedeco.ffmpeg.global.avcodec.avcodec_receive_frame;
 import static org.bytedeco.ffmpeg.global.avcodec.avcodec_send_packet;
+import static org.bytedeco.ffmpeg.global.avutil.AV_FRAME_DATA_SEI_UNREGISTERED;
 import static org.bytedeco.ffmpeg.global.avutil.AV_PIX_FMT_BGR24;
 import static org.bytedeco.ffmpeg.global.avutil.av_dict_free;
 import static org.bytedeco.ffmpeg.global.avutil.av_frame_alloc;
 import static org.bytedeco.ffmpeg.global.avutil.av_frame_free;
+import static org.bytedeco.ffmpeg.global.avutil.av_frame_get_side_data;
 import static org.bytedeco.ffmpeg.global.avutil.av_image_fill_arrays;
 import static org.bytedeco.ffmpeg.global.avutil.av_image_get_buffer_size;
 import static org.bytedeco.ffmpeg.global.avutil.av_malloc;
@@ -31,8 +33,12 @@ import org.bytedeco.ffmpeg.avcodec.AVPacket;
 import org.bytedeco.ffmpeg.avformat.AVStream;
 import org.bytedeco.ffmpeg.avutil.AVDictionary;
 import org.bytedeco.ffmpeg.avutil.AVFrame;
+import org.bytedeco.ffmpeg.avutil.AVFrameSideData;
 import org.bytedeco.ffmpeg.swscale.SwsContext;
 import org.bytedeco.javacpp.*;
+import org.jmisb.api.klv.st0603.ST0603TimeStamp;
+import org.jmisb.api.klv.st0603.TimeStatus;
+import org.jmisb.api.klv.st0604.TimeStampUtilities;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -178,10 +184,29 @@ class VideoDecodeThread extends ProcessingThread {
                         // each call
                         BufferedImage image = frameConverter.convert(bgrFrame);
 
+                        ST0603TimeStamp motionImageryTimeStamp = null;
+                        TimeStatus timeStatus = null;
+                        AVFrameSideData sideData =
+                                av_frame_get_side_data(avFrame, AV_FRAME_DATA_SEI_UNREGISTERED);
+                        if (sideData != null) {
+                            int numBytesInSideData = sideData.size();
+                            if (numBytesInSideData >= 16) {
+                                byte[] sideDataBytes = new byte[numBytesInSideData];
+                                sideData.data().get(sideDataBytes);
+                                timeStatus = TimeStampUtilities.decodeTimeStatus(sideDataBytes);
+                                motionImageryTimeStamp =
+                                        TimeStampUtilities.decodePrecisionTimeStamp(sideDataBytes);
+                                // TODO: check the ST2101 UUID case.
+                            }
+                        }
+
                         // TODO: on a seek, the final frame before the seek often gets hung up here
                         boolean queued = false;
                         while (!queued && !isShutdown() && !isPauseRequested()) {
-                            queued = inputStream.queueVideoFrame(new VideoFrame(image, pts), 20);
+                            VideoFrame videoFrame = new VideoFrame(image, pts);
+                            videoFrame.setTimeStamp(motionImageryTimeStamp);
+                            videoFrame.setTimeStatus(timeStatus);
+                            queued = inputStream.queueVideoFrame(videoFrame, 20);
                         }
                     } else if (ret != -11 && ret != -35) // -11 = EAGAIN, -35 = EDEADLK
                     {
@@ -194,7 +219,9 @@ class VideoDecodeThread extends ProcessingThread {
             }
         }
 
-        if (logger.isDebugEnabled()) logger.debug("Video decoder exiting");
+        if (logger.isDebugEnabled()) {
+            logger.debug("Video decoder exiting");
+        }
 
         // Clean up resources
         avcodec_free_context(codecContext);

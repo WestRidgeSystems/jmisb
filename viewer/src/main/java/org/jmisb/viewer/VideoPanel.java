@@ -77,7 +77,7 @@ public class VideoPanel extends JPanel
 
         bufferedImage = frame.getImage();
         if (metadataOverlayEnabled && metadata.isValid()) {
-            overlayRenderer.render(bufferedImage, metadata);
+            overlayRenderer.render(bufferedImage, metadata, frame.getTimeStamp());
         }
 
         // Need to repaint on the EDT

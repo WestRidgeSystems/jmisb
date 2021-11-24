@@ -51,8 +51,7 @@ public class CodecConfigurations {
         List<CodecConfiguration> filteredCodecs = new LinkedList<>();
         codecs.stream()
                 .filter(c -> (c.getIdentifier().equals(codecIdentifier)))
-                .forEachOrdered(
-                    filteredCodecs::add);
+                .forEachOrdered(filteredCodecs::add);
         return filteredCodecs;
     }
 

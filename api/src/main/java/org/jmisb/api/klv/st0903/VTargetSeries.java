@@ -125,8 +125,7 @@ public class VTargetSeries implements IVmtiMetadataValue, INestedKlvValue {
         Set<TargetIdentifierKey> identifiers = new TreeSet<>();
         targetPacks
                 .keySet()
-                .forEach(
-                        (Integer ident) -> identifiers.add(new TargetIdentifierKey(ident)));
+                .forEach((Integer ident) -> identifiers.add(new TargetIdentifierKey(ident)));
         return identifiers;
     }
 }

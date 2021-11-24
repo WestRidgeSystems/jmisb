@@ -1,7 +1,5 @@
 package org.jmisb.api.klv.st1909;
 
-import java.time.format.DateTimeFormatter;
-import java.time.format.DateTimeFormatterBuilder;
 import java.util.Collection;
 import java.util.EnumSet;
 import org.jmisb.api.klv.st0102.SecurityMetadataKey;
@@ -28,17 +26,6 @@ import org.jmisb.api.klv.st0601.UasDatalinkTag;
 
 /** Utility converter for extracting ST1909 information from ST0601 metadata message. */
 public class ST0601Converter {
-
-    private static final DateTimeFormatter DATE_TIME_FORMATTER;
-
-    static {
-        DATE_TIME_FORMATTER =
-                new DateTimeFormatterBuilder()
-                        .append(DateTimeFormatter.ISO_DATE)
-                        .appendLiteral('T')
-                        .appendPattern("HH:mm:ss.S")
-                        .toFormatter();
-    }
 
     /**
      * Convert an ST0601 message into the ST1909 metadata format.
@@ -136,7 +123,7 @@ public class ST0601Converter {
         IUasDatalinkValue metadataTimestamp = message.getField(UasDatalinkTag.PrecisionTimeStamp);
         if (metadataTimestamp != null) {
             PrecisionTimeStamp precisionTimeStamp = (PrecisionTimeStamp) metadataTimestamp;
-            String mt = "MT " + DATE_TIME_FORMATTER.format(precisionTimeStamp.getDateTime()) + "Z";
+            String mt = "MT " + ST1909DateTimeFormatter.format(precisionTimeStamp.getDateTime());
             metadata.addItem(MetadataKey.MetadataTimestamp, mt);
         }
     }

@@ -104,7 +104,7 @@
         <maven.version>3.8.3</maven.version>
         <miglayout.version>11.0</miglayout.version>
         <nexus.staging.plugin.version>1.6.8</nexus.staging.plugin.version>
-        <owasp.version>6.3.1</owasp.version>
+        <owasp.dependency-check.version>6.5.0</owasp.dependency-check.version>
         <plexus.utils.version>3.4.1</plexus.utils.version>
         <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
         <slf4j.test.version>1.2.0</slf4j.test.version>
@@ -293,6 +293,20 @@
                     <groupId>com.theoryinpractise</groupId>
                     <artifactId>googleformatter-maven-plugin</artifactId>
                     <version>${googleformatter.maven.plugin.version}</version>
+                    <executions>
+                        <execution>
+                            <id>reformat-sources</id>
+                            <goals>
+                                <goal>format</goal>
+                            </goals>
+                            <phase>process-sources</phase>
+                            <configuration>
+                                <style>AOSP</style>
+                                <fixImports>true</fixImports>
+                            </configuration>
+                        </execution>
+                    </executions>
+
                 </plugin>
                 <plugin>
                     <groupId>com.github.spotbugs</groupId>
@@ -344,7 +358,7 @@
                 <plugin>
                     <groupId>org.owasp</groupId>
                     <artifactId>dependency-check-maven</artifactId>
-                    <version>${owasp.version}</version>
+                    <version>${owasp.dependency-check.version}</version>
                     <configuration>
                         <failBuildOnAnyVulnerability>true</failBuildOnAnyVulnerability>
                         <assemblyAnalyzerEnabled>false</assemblyAnalyzerEnabled>

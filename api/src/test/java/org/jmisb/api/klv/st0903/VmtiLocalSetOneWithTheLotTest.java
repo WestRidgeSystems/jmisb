@@ -31,7 +31,7 @@ import org.testng.annotations.Test;
 
 /** Tests for the ST0903 VMTI Local Set including nested parts */
 public class VmtiLocalSetOneWithTheLotTest extends LoggerChecks {
-    VmtiLocalSetOneWithTheLotTest() {
+    public VmtiLocalSetOneWithTheLotTest() {
         super(VmtiLocalSet.class);
     }
 

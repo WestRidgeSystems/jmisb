@@ -159,7 +159,8 @@ public class PayloadList implements IUasDatalinkValue, INestedKlvValue {
     public Set<? extends IKlvKey> getIdentifiers() {
         Set<PayloadIdentifierKey> identifiers = new TreeSet<>();
         payloadList.forEach(
-                (Payload payload) -> identifiers.add(new PayloadIdentifierKey(payload.getIdentifier())));
+                (Payload payload) ->
+                        identifiers.add(new PayloadIdentifierKey(payload.getIdentifier())));
         return identifiers;
     }
 }

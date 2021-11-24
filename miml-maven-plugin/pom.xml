@@ -108,10 +108,6 @@
                 <artifactId>googleformatter-maven-plugin</artifactId>
             </plugin>
             <plugin>
-                <groupId>org.cyclonedx</groupId>
-                <artifactId>cyclonedx-maven-plugin</artifactId>
-            </plugin>
-            <plugin>
                 <groupId>com.github.spotbugs</groupId>
                 <artifactId>spotbugs-maven-plugin</artifactId>
                 <configuration>
@@ -120,4 +116,24 @@
             </plugin>
         </plugins>
     </build>
+
+    <profiles>
+        <profile>
+            <id>generate-sbom-cyclonedx</id>
+            <activation>
+                <property>
+                    <name>performRelease</name>
+                    <value>true</value>
+                </property>
+            </activation>
+            <build>
+                <plugins>
+                    <plugin>
+                        <groupId>org.cyclonedx</groupId>
+                        <artifactId>cyclonedx-maven-plugin</artifactId>
+                    </plugin>
+                </plugins>
+            </build>
+        </profile>
+    </profiles>
 </project>
