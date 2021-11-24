@@ -293,6 +293,20 @@
                     <groupId>com.theoryinpractise</groupId>
                     <artifactId>googleformatter-maven-plugin</artifactId>
                     <version>${googleformatter.maven.plugin.version}</version>
+                    <executions>
+                        <execution>
+                            <id>reformat-sources</id>
+                            <goals>
+                                <goal>format</goal>
+                            </goals>
+                            <phase>process-sources</phase>
+                            <configuration>
+                                <style>AOSP</style>
+                                <fixImports>true</fixImports>
+                            </configuration>
+                        </execution>
+                    </executions>
+
                 </plugin>
                 <plugin>
                     <groupId>com.github.spotbugs</groupId>

@@ -31,8 +31,7 @@ public class VTrackItemSeries implements IVTrackMetadataValue, INestedKlvValue {
      * @param values the track item packs to include in the series.
      */
     public VTrackItemSeries(List<VTrackItem> values) {
-        values.forEach(
-                (trackItem) -> trackItems.put(trackItem.getTargetIdentifier(), trackItem));
+        values.forEach((trackItem) -> trackItems.put(trackItem.getTargetIdentifier(), trackItem));
     }
 
     /**
@@ -98,8 +97,7 @@ public class VTrackItemSeries implements IVTrackMetadataValue, INestedKlvValue {
         Set<TargetIdentifierKey> identifiers = new TreeSet<>();
         trackItems
                 .keySet()
-                .forEach(
-                        (Integer ident) -> identifiers.add(new TargetIdentifierKey(ident)));
+                .forEach((Integer ident) -> identifiers.add(new TargetIdentifierKey(ident)));
         return identifiers;
     }
 }

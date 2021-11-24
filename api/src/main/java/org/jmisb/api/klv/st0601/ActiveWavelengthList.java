@@ -85,7 +85,8 @@ public class ActiveWavelengthList implements IUasDatalinkValue {
     public String getDisplayableValue() {
         List<String> identifiersAsStrings = new ArrayList<>();
         wavelengthIdentifiers.forEach(
-                (wavelengthIdentifier) -> identifiersAsStrings.add(wavelengthIdentifier.toString()));
+                (wavelengthIdentifier) ->
+                        identifiersAsStrings.add(wavelengthIdentifier.toString()));
         return String.join(",", identifiersAsStrings);
     }
 

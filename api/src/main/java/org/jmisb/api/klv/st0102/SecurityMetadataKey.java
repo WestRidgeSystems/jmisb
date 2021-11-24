@@ -35,8 +35,8 @@ public enum SecurityMetadataKey implements IKlvKey {
     /**
      * Coding method for Classifying Country and Releasing Instructions.
      *
-     * <p>This indicates how the {@link #ClassifyingCountry} and {@link #ReleasingInstructions} are to
-     * be interpreted. Value is a {@link CountryCodingMethod}.
+     * <p>This indicates how the {@link #ClassifyingCountry} and {@link #ReleasingInstructions} are
+     * to be interpreted. Value is a {@link CountryCodingMethod}.
      *
      * <p>This item is required for the security local set or universal set to be valid.
      */
@@ -49,8 +49,8 @@ public enum SecurityMetadataKey implements IKlvKey {
      * SecurityMetadataString} with a {@code displayName} of {@code CLASSIFYING_COUNTRY} and a
      * {@code value} corresponding to the country code preceded by {@code //}.
      *
-     * <p>For example, if the {@link #CcCodingMethod} is {@code ISO3166_THREE_LETTER}, then Australia
-     * would be represented as {@code new
+     * <p>For example, if the {@link #CcCodingMethod} is {@code ISO3166_THREE_LETTER}, then
+     * Australia would be represented as {@code new
      * SecurityMetadataString(SecurityMetadataString.CLASSIFYING_COUNTRY, "//AUS")}.
      *
      * <p>This item is required for the security local set or universal set to be valid.
@@ -173,9 +173,9 @@ public enum SecurityMetadataKey implements IKlvKey {
      * Object Country Coding Method.
      *
      * <p>The Object Country Coding Method metadata element identifies the coding method for the
-     * {@link #ObjectCountryCodes} metadata. This element allows use of GEC two-letter or four-letter
-     * alphabetic country code (legacy systems only); ISO-3166 two-letter, three-letter, or
-     * three-digit numeric; STANAG 1059 two-letter or three-letter codes; and GENC two-letter,
+     * {@link #ObjectCountryCodes} metadata. This element allows use of GEC two-letter or
+     * four-letter alphabetic country code (legacy systems only); ISO-3166 two-letter, three-letter,
+     * or three-digit numeric; STANAG 1059 two-letter or three-letter codes; and GENC two-letter,
      * three-letter, three-digit numeric or administrative subdivisions. Early (ST0102-5 and
      * earlier) versions allowed this element to be optional; its absence indicates the default GENC
      * two-letter coding method was used in the Object Country Code element.

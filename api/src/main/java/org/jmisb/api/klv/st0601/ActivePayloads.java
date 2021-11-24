@@ -48,8 +48,7 @@ public class ActivePayloads implements IUasDatalinkValue {
      */
     public ActivePayloads(List<Integer> values) {
         payloads = BigInteger.valueOf(0);
-        values.forEach(
-                (i) -> payloads = payloads.setBit(i));
+        values.forEach((i) -> payloads = payloads.setBit(i));
     }
 
     @Override

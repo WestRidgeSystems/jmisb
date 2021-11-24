@@ -46,8 +46,7 @@ public class ValidationResults {
         List<ValidationResult> nonConformances = new ArrayList<>();
         validationResults.stream()
                 .filter(result -> result.getValidity().equals(Validity.DoesNotConform))
-                .forEach(
-                    nonConformances::add);
+                .forEach(nonConformances::add);
         return nonConformances;
     }
 }
