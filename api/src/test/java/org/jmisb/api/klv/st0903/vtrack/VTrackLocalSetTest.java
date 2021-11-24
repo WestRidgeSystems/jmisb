@@ -21,7 +21,7 @@ import org.testng.annotations.Test;
 
 /** Tests for the ST0903 VTrack Local Set. */
 public class VTrackLocalSetTest extends LoggerChecks {
-    VTrackLocalSetTest() {
+    public VTrackLocalSetTest() {
         super(VTrackLocalSet.class);
     }
 

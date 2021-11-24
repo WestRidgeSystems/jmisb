@@ -46,7 +46,7 @@ public class SecurityMetadataUniversalSetTest {
     }
 
     @Test
-    void testUniversalLabel() {
+    public void testUniversalLabel() {
         // Check that the correct universal label is applied
         Assert.assertEquals(
                 universalSet.getUniversalLabel(), KlvConstants.SecurityMetadataUniversalSetUl);

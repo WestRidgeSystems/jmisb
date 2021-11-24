@@ -12,7 +12,7 @@ import org.testng.annotations.Test;
 /** Tests for the ST1206 SAR Motion Imagery Local Set. */
 public class SARMILocalSetTest extends LoggerChecks {
 
-    SARMILocalSetTest() {
+    public SARMILocalSetTest() {
         super(SARMILocalSet.class);
     }
 

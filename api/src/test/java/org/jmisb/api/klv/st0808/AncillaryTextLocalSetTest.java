@@ -12,7 +12,7 @@ import org.testng.annotations.Test;
 
 /** Tests for the ST0808 Ancillary Text Local Set. */
 public class AncillaryTextLocalSetTest extends LoggerChecks {
-    AncillaryTextLocalSetTest() {
+    public AncillaryTextLocalSetTest() {
         super(AncillaryTextLocalSet.class);
     }
 

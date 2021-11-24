@@ -28,7 +28,7 @@ import org.testng.annotations.Test;
 
 /** Tests for the ST0806 Remote Video Terminal Local Set. */
 public class RvtLocalSetTest extends LoggerChecks {
-    RvtLocalSetTest() {
+    public RvtLocalSetTest() {
         super(RvtLocalSet.class);
     }
 

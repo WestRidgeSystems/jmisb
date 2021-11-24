@@ -38,7 +38,7 @@ import org.testng.annotations.Test;
  * <p>Some of the fields here may not be valid in ST0903.3, and are used for testing purposes only.
  */
 public class VmtiLocalSetOneWithTheLotLegacyModeTest extends LoggerChecks {
-    VmtiLocalSetOneWithTheLotLegacyModeTest() {
+    public VmtiLocalSetOneWithTheLotLegacyModeTest() {
         super(VmtiLocalSet.class);
     }
 

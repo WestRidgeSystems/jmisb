@@ -20,7 +20,7 @@ import org.testng.annotations.Test;
 
 /** Tests for the (legacy) ST 1108.2 Interpretability and Quality Local Set. */
 public class LegacyIQLocalSetTest extends LoggerChecks {
-    LegacyIQLocalSetTest() {
+    public LegacyIQLocalSetTest() {
         super(LegacyIQLocalSet.class);
     }
 
