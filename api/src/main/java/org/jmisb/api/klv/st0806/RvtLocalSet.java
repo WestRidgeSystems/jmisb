@@ -3,7 +3,6 @@ package org.jmisb.api.klv.st0806;
 import static org.jmisb.api.klv.KlvConstants.RvtLocalSetUl;
 
 import java.util.*;
-
 import org.jmisb.api.common.InvalidDataHandler;
 import org.jmisb.api.common.KlvParseException;
 import org.jmisb.api.klv.ArrayBuilder;
@@ -172,7 +171,9 @@ public class RvtLocalSet implements IMisbMessage {
                     break;
                 case PointOfInterestLS:
                     RvtPoiLocalSet poi = (RvtPoiLocalSet) createValue(key, field.getData());
-                    if (Objects.requireNonNull(poi).getTags().contains(RvtPoiMetadataKey.PoiAoiNumber)) {
+                    if (Objects.requireNonNull(poi)
+                            .getTags()
+                            .contains(RvtPoiMetadataKey.PoiAoiNumber)) {
                         PoiAoiNumber poiNumber =
                                 (PoiAoiNumber) poi.getField(RvtPoiMetadataKey.PoiAoiNumber);
                         pois.put(poiNumber.getNumber(), poi);
@@ -180,7 +181,9 @@ public class RvtLocalSet implements IMisbMessage {
                     break;
                 case AreaOfInterestLS:
                     RvtAoiLocalSet aoi = (RvtAoiLocalSet) createValue(key, field.getData());
-                    if (Objects.requireNonNull(aoi).getTags().contains(RvtAoiMetadataKey.PoiAoiNumber)) {
+                    if (Objects.requireNonNull(aoi)
+                            .getTags()
+                            .contains(RvtAoiMetadataKey.PoiAoiNumber)) {
                         PoiAoiNumber aoiNumber =
                                 (PoiAoiNumber) aoi.getField(RvtAoiMetadataKey.PoiAoiNumber);
                         aois.put(aoiNumber.getNumber(), aoi);
@@ -273,20 +276,21 @@ public class RvtLocalSet implements IMisbMessage {
         Set<IKlvKey> identifiers = new HashSet<>();
         map.keySet()
                 .forEach(
-                        (key) -> identifiers.add(
-                                new RvtMetadataIdentifier(
-                                        RvtMetadataKind.PLAIN, key.getIdentifier())));
+                        (key) ->
+                                identifiers.add(
+                                        new RvtMetadataIdentifier(
+                                                RvtMetadataKind.PLAIN, key.getIdentifier())));
         aois.keySet()
-                .forEach(
-                        (i) -> identifiers.add(new RvtMetadataIdentifier(RvtMetadataKind.AOI, i)));
+                .forEach((i) -> identifiers.add(new RvtMetadataIdentifier(RvtMetadataKind.AOI, i)));
         pois.keySet()
-                .forEach(
-                        (i) -> identifiers.add(new RvtMetadataIdentifier(RvtMetadataKind.POI, i)));
+                .forEach((i) -> identifiers.add(new RvtMetadataIdentifier(RvtMetadataKind.POI, i)));
         userDefined
                 .keySet()
                 .forEach(
-                        (i) -> identifiers.add(
-                                new RvtMetadataIdentifier(RvtMetadataKind.USER_DEFINED, i)));
+                        (i) ->
+                                identifiers.add(
+                                        new RvtMetadataIdentifier(
+                                                RvtMetadataKind.USER_DEFINED, i)));
         return identifiers;
     }
 

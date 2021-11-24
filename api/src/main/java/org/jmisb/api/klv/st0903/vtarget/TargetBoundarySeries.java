@@ -52,8 +52,8 @@ public class TargetBoundarySeries implements IVmtiMetadataValue, IVTrackItemMeta
      * Longitude) in ST0903.4. Earlier versions used a set of unsigned integer encoding that was
      * then mapped into the same ranges that the IMAPB encoding uses. Which formatting applies can
      * only be determined from the ST0903 version in the parent {@link
-     * org.jmisb.api.klv.st0903.VmtiLocalSet}. The {@code encodingMode} parameter determines
-     * whether to parse using the legacy encoding or current encoding.
+     * org.jmisb.api.klv.st0903.VmtiLocalSet}. The {@code encodingMode} parameter determines whether
+     * to parse using the legacy encoding or current encoding.
      *
      * @param bytes Encoded byte array comprising the TargetBoundarySeries
      * @param encodingMode which encoding mode the {@code bytes} parameter uses.
