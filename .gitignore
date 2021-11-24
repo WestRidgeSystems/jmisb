@@ -6,8 +6,19 @@ target/
 # Maven cruft
 *.versionsBackup
 
+# VSCode
+**/.classpath
+**/.project
+**/.settings
+**/.factorypath
+
 # Data
 *.ts
 *.mpeg
 *.dat
+
+# POM organiser
+**/pom.xml.bak
+
+# Netbeans
 /api/nbproject/
