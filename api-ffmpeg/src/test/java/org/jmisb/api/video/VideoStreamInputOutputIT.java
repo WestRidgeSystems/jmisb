@@ -17,7 +17,7 @@ import org.testng.annotations.Test;
 /** Integration test for {@link VideoStreamInput} and {@link VideoStreamOutput} */
 @Test(groups = {"integration-tests"})
 public class VideoStreamInputOutputIT {
-    private static Logger logger = LoggerFactory.getLogger(VideoStreamInputOutputIT.class);
+    private static final Logger logger = LoggerFactory.getLogger(VideoStreamInputOutputIT.class);
 
     private BufferedImage image;
     private UasDatalinkMessage message;

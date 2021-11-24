@@ -143,7 +143,7 @@ public class VideoFileInputOutputIT {
     }
 
     @Test
-    private void testRipKlv() {
+    public void testRipKlv() {
         // Disable video decoding, verify all metadata can be pulled out
         final double frameRate = 15.0;
         final int numFrames = 120;
