@@ -1,5 +1,7 @@
 package org.jmisb.api.klv.st0602;
 
+import org.jmisb.api.common.KlvParseException;
+
 /** Dynamically create {@link IAnnotationMetadataValue}s from {@link AnnotationMetadataKey}s. */
 public class UniversalSetFactory {
     private UniversalSetFactory() {}
@@ -10,10 +12,10 @@ public class UniversalSetFactory {
      * @param key identifier defining the value type
      * @param bytes Encoded bytes
      * @return The new instance
-     * @throws IllegalArgumentException if input is invalid
+     * @throws KlvParseException if input is invalid
      */
     public static IAnnotationMetadataValue createValue(AnnotationMetadataKey key, byte[] bytes)
-            throws IllegalArgumentException {
+            throws KlvParseException {
         // Keep the case statements in enum ordinal order so we can keep track of what is
         // implemented. Mark all unimplemented tags with TODO.
         switch (key) {
