@@ -5,9 +5,9 @@
     xsi:schemaLocation="https://github.com/spotbugs/filter/3.0.0 https://raw.githubusercontent.com/spotbugs/spotbugs/3.1.0/spotbugs/etc/findbugsfilter.xsd">
     <!-- Suppressions for ANTLR generated files -->
     <Match>
-        <Class name="org.jmisb.maven.MIMLLexerRules_v3" />
+        <Class name="org.jmisb.maven.miml.MIMLLexerRules_v3" />
     </Match>
     <Match>
-        <Class name="org.jmisb.maven.MIML_v3Parser" />
+        <Class name="org.jmisb.maven.miml.MIML_v3Parser" />
     </Match>
 </FindBugsFilter>
