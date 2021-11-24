@@ -2,9 +2,9 @@ name: Quality Assurance Checks
 
 on:
     push:
-      branches: [ develop ]
+      branches: [ develop, 2.x ]
     pull_request:
-      branches: [ develop ]
+      branches: [ develop, 2.x ]
 
 jobs:
   build:
