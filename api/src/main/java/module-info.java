@@ -13,6 +13,7 @@ module org.jmisb.api {
     exports org.jmisb.api.klv.st0601;
     exports org.jmisb.api.klv.st0601.dto;
     exports org.jmisb.api.klv.st0603;
+    exports org.jmisb.api.klv.st0604;
     exports org.jmisb.api.klv.st0805;
     exports org.jmisb.api.klv.st0806;
     exports org.jmisb.api.klv.st0806.poiaoi;
@@ -43,5 +44,4 @@ module org.jmisb.api {
     exports org.jmisb.api.klv.st1907;
     exports org.jmisb.api.klv.st1908;
     exports org.jmisb.api.klv.st1909;
-
 }
