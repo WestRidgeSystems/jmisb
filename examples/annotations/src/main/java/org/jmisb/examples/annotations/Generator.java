@@ -9,6 +9,7 @@ import java.util.SortedMap;
 import java.util.TreeMap;
 import java.util.logging.Level;
 import javax.imageio.ImageIO;
+import org.jmisb.api.common.KlvParseException;
 import org.jmisb.api.klv.st0102.Classification;
 import org.jmisb.api.klv.st0102.ISecurityMetadataValue;
 import org.jmisb.api.klv.st0102.ObjectCountryCodeString;
@@ -52,11 +53,10 @@ public class Generator {
     private static final int BOX3_Y = 600;
     private static final int BOX4_X = BOX2_X;
     private static final int BOX4_Y = BOX3_Y;
-    private final LocallyUniqueIdentifier identifierAnnotationBox1 = new LocallyUniqueIdentifier(3);
-    private final LocallyUniqueIdentifier identifierAnnotationBox2 = new LocallyUniqueIdentifier(7);
-    private final LocallyUniqueIdentifier identifierAnnotationBox3 = new LocallyUniqueIdentifier(6);
-    private final LocallyUniqueIdentifier identifierAnnotationBox4 =
-            new LocallyUniqueIdentifier(65536);
+    private final LocallyUniqueIdentifier identifierAnnotationBox1;
+    private final LocallyUniqueIdentifier identifierAnnotationBox2;
+    private final LocallyUniqueIdentifier identifierAnnotationBox3;
+    private final LocallyUniqueIdentifier identifierAnnotationBox4;
 
     private static final int ANNOTATION_BOX_HEIGHT = 80;
     private static final int ANNOTATION_BOX_WIDTH = 120;
@@ -75,7 +75,11 @@ public class Generator {
     private final String fileFormat;
     private static final Logger LOG = LoggerFactory.getLogger(Generator.class);
 
-    public Generator(String fileFormat) {
+    public Generator(String fileFormat) throws KlvParseException {
+        identifierAnnotationBox1 = new LocallyUniqueIdentifier(3);
+        identifierAnnotationBox2 = new LocallyUniqueIdentifier(7);
+        identifierAnnotationBox3 = new LocallyUniqueIdentifier(6);
+        identifierAnnotationBox4 = new LocallyUniqueIdentifier(65536);
         this.fileFormat = fileFormat;
     }
 
@@ -95,7 +99,7 @@ public class Generator {
         this.filename = filename;
     }
 
-    public void generate() {
+    public void generate() throws KlvParseException {
 
         showConfiguration();
 
@@ -110,7 +114,7 @@ public class Generator {
         }
     }
 
-    private void generateFile(String filename) {
+    private void generateFile(String filename) throws KlvParseException {
         // TODO: rework to make this a command line option
         try (IVideoFileOutput output =
                 new VideoFileOutput(
@@ -244,7 +248,7 @@ public class Generator {
     }
 
     private AnnotationMetadataUniversalSet getDeleteAnnotation(
-            LocallyUniqueIdentifier locallyUniqueIdentifier) {
+            LocallyUniqueIdentifier locallyUniqueIdentifier) throws KlvParseException {
         SortedMap<AnnotationMetadataKey, IAnnotationMetadataValue> values = new TreeMap<>();
         values.put(
                 AnnotationMetadataKey.EventIndication,
@@ -255,12 +259,13 @@ public class Generator {
         return new AnnotationMetadataUniversalSet(values);
     }
 
-    private AnnotationMetadataUniversalSet getNewAnnotationMessageBox1() {
+    private AnnotationMetadataUniversalSet getNewAnnotationMessageBox1() throws KlvParseException {
         return getNewAnnotationBox(
                 identifierAnnotationBox1, "Annotation 1", (short) BOX1_X, (short) BOX1_Y);
     }
 
-    private AnnotationMetadataUniversalSet getStatusAnnotationMessageBox1() {
+    private AnnotationMetadataUniversalSet getStatusAnnotationMessageBox1()
+            throws KlvParseException {
         AnnotationMetadataUniversalSet box =
                 getNewAnnotationBox(
                         identifierAnnotationBox1, "Annotation 1", (short) BOX1_X, (short) BOX1_Y);
@@ -270,17 +275,17 @@ public class Generator {
         return box;
     }
 
-    private AnnotationMetadataUniversalSet getNewAnnotationMessageBox2() {
+    private AnnotationMetadataUniversalSet getNewAnnotationMessageBox2() throws KlvParseException {
         return getNewAnnotationBox(
                 identifierAnnotationBox2, "Annotation 2", (short) BOX2_X, (short) BOX2_Y);
     }
 
-    private AnnotationMetadataUniversalSet getNewAnnotationMessageBox3() {
+    private AnnotationMetadataUniversalSet getNewAnnotationMessageBox3() throws KlvParseException {
         return getNewAnnotationBox(
                 identifierAnnotationBox3, "Annotation 3", (short) BOX3_X, (short) BOX3_Y);
     }
 
-    private AnnotationMetadataUniversalSet getNewAnnotationMessageBox4() {
+    private AnnotationMetadataUniversalSet getNewAnnotationMessageBox4() throws KlvParseException {
         return getNewAnnotationBox(
                 identifierAnnotationBox4, "Annotation 4", (short) BOX4_X, (short) BOX4_Y);
     }
@@ -289,13 +294,14 @@ public class Generator {
             LocallyUniqueIdentifier identifier,
             String annotationText,
             short xPosition,
-            short yPosition) {
+            short yPosition)
+            throws KlvParseException {
         SortedMap<AnnotationMetadataKey, IAnnotationMetadataValue> values = new TreeMap<>();
         values.put(
                 AnnotationMetadataKey.EventIndication,
                 new EventIndication(EventIndicationKind.NEW));
-        values.put(AnnotationMetadataKey.LinesPerFrame, new ActiveLinesPerFrame(height));
-        values.put(AnnotationMetadataKey.SamplesPerFrame, new ActiveSamplesPerLine(width));
+        values.put(AnnotationMetadataKey.ActiveLinesPerFrame, new ActiveLinesPerFrame(height));
+        values.put(AnnotationMetadataKey.ActiveSamplesPerLine, new ActiveSamplesPerLine(width));
         values.put(AnnotationMetadataKey.LocallyUniqueIdentifier, identifier);
         values.put(AnnotationMetadataKey.AnnotationSource, new AnnotationSource(4));
         values.put(AnnotationMetadataKey.MIMEMediaType, new MIMEMediaType(fileFormat));
@@ -338,7 +344,8 @@ public class Generator {
         return null;
     }
 
-    private AnnotationMetadataUniversalSet getMoveAnnotationMessageBox3ToBox4() {
+    private AnnotationMetadataUniversalSet getMoveAnnotationMessageBox3ToBox4()
+            throws KlvParseException {
         SortedMap<AnnotationMetadataKey, IAnnotationMetadataValue> values = new TreeMap<>();
         values.put(
                 AnnotationMetadataKey.EventIndication,
@@ -351,7 +358,8 @@ public class Generator {
         return new AnnotationMetadataUniversalSet(values);
     }
 
-    private AnnotationMetadataUniversalSet getModifyAnnotationMessageBox4ToBox3() {
+    private AnnotationMetadataUniversalSet getModifyAnnotationMessageBox4ToBox3()
+            throws KlvParseException {
         SortedMap<AnnotationMetadataKey, IAnnotationMetadataValue> values = new TreeMap<>();
         values.put(
                 AnnotationMetadataKey.EventIndication,

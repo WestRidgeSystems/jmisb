@@ -10,6 +10,13 @@ import org.jmisb.api.klv.IKlvValue;
  * <p>ST 0602 allows five kinds of events on an annotation.
  */
 public enum EventIndicationKind implements IKlvValue {
+    /**
+     * Unknown Indication.
+     *
+     * <p>This is not a valid item, and should not be created. It exists only to support parsing of
+     * future entities.
+     */
+    UNKNOWN(0x00),
     /** New annotation. */
     NEW(0x31),
     /** Annotation movement. */
@@ -58,12 +65,9 @@ public enum EventIndicationKind implements IKlvValue {
      * Look up the event indication kind for a given code.
      *
      * @param code the byte value for the EventIndicationKind value.
-     * @return the corresponding EventIndicationKind.
+     * @return the corresponding EventIndicationKind ({@code UNKNOWN} if no match).
      */
     public static EventIndicationKind getEventIndicationKind(byte code) {
-        if (lookupTable.containsKey(code)) {
-            return lookupTable.get(code);
-        }
-        throw new IllegalArgumentException("Invalid event indication kind code: " + code);
+        return lookupTable.getOrDefault(code, UNKNOWN);
     }
 }

@@ -3,6 +3,13 @@ package org.jmisb.api.klv.st0602;
 import java.nio.charset.StandardCharsets;
 import org.jmisb.api.common.KlvParseException;
 
+/**
+ * Identification of most recent significant event’s author.
+ *
+ * <p>The Modification History contains information identifying the author of the most recent
+ * significant event such as {@code NEW}, {@code MODIFY} and {@code DELETE}. The specific contents
+ * are user definable.
+ */
 public class ModificationHistory implements IAnnotationMetadataValue {
 
     private final String history;

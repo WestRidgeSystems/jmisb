@@ -1,5 +1,7 @@
 package org.jmisb.api.klv.st0602;
 
+import org.jmisb.api.common.KlvParseException;
+
 /** ST 0602 Event Indication. */
 public class EventIndication implements IAnnotationMetadataValue {
     private EventIndicationKind id;
@@ -10,7 +12,6 @@ public class EventIndication implements IAnnotationMetadataValue {
      * @param id The identifier
      */
     public EventIndication(EventIndicationKind id) {
-        // TODO this might be better as a smart enumeration
         this.id = id;
     }
 
@@ -18,10 +19,11 @@ public class EventIndication implements IAnnotationMetadataValue {
      * Create from encoded bytes.
      *
      * @param bytes Byte array of length 1
+     * @throws KlvParseException if {@code bytes} is not the correct length
      */
-    public EventIndication(byte[] bytes) {
+    public EventIndication(byte[] bytes) throws KlvParseException {
         if (bytes.length != 1) {
-            throw new IllegalArgumentException("Event indication encoding is a one-byte character");
+            throw new KlvParseException("Event indication encoding is a one-byte character");
         }
         id = EventIndicationKind.getEventIndicationKind(bytes[0]);
     }

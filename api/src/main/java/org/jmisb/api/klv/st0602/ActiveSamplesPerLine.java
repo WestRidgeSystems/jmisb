@@ -1,5 +1,6 @@
 package org.jmisb.api.klv.st0602;
 
+import org.jmisb.api.common.KlvParseException;
 import org.jmisb.core.klv.PrimitiveConverter;
 
 /**
@@ -13,9 +14,13 @@ public class ActiveSamplesPerLine implements IAnnotationMetadataValue {
     /**
      * Create from value.
      *
-     * @param samples the number of samples per line
+     * @param samples the number of samples per line (in the range [0, 65535]).
+     * @throws KlvParseException if {@code samples} is not in the valid range
      */
-    public ActiveSamplesPerLine(int samples) {
+    public ActiveSamplesPerLine(int samples) throws KlvParseException {
+        if ((samples < 0) || (samples > 65535)) {
+            throw new KlvParseException("Active Samples Per Line must be in the range [0, 65535]");
+        }
         number = samples;
     }
 
@@ -23,10 +28,11 @@ public class ActiveSamplesPerLine implements IAnnotationMetadataValue {
      * Create from encoded bytes.
      *
      * @param bytes Byte array of length 2
+     * @throws KlvParseException if the length is not valid
      */
-    public ActiveSamplesPerLine(byte[] bytes) {
+    public ActiveSamplesPerLine(byte[] bytes) throws KlvParseException {
         if (bytes.length != 2) {
-            throw new IllegalArgumentException(
+            throw new KlvParseException(
                     "Active Samples Per Line encoding is a two-byte unsigned int");
         }
         number = PrimitiveConverter.toUint16(bytes);

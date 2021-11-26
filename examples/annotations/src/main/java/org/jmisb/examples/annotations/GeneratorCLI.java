@@ -7,13 +7,14 @@ import org.apache.commons.cli.HelpFormatter;
 import org.apache.commons.cli.Option;
 import org.apache.commons.cli.Options;
 import org.apache.commons.cli.ParseException;
+import org.jmisb.api.common.KlvParseException;
 import org.jmisb.api.video.CodecIdentifier;
 
 /** Annotation file generator */
 public class GeneratorCLI {
 
     /** @param args the command line arguments */
-    public static void main(String[] args) {
+    public static void main(String[] args) throws KlvParseException {
         final Options commandLineOptions = new Options();
         commandLineOptions.addOption(
                 new Option("o", "outputFileBase", true, "Output file base name"));

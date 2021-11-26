@@ -26,9 +26,9 @@ public enum AnnotationMetadataKey implements IKlvKey {
     ByteOrder(AnnotationMetadataConstants.byteOrderUl),
 
     /** Active lines per frame. */
-    LinesPerFrame(AnnotationMetadataConstants.activeLinesPerFrameUl),
+    ActiveLinesPerFrame(AnnotationMetadataConstants.activeLinesPerFrameUl),
     /** Active samples per line. */
-    SamplesPerFrame(AnnotationMetadataConstants.activeSamplesPerLineUl),
+    ActiveSamplesPerLine(AnnotationMetadataConstants.activeSamplesPerLineUl),
     /**
      * Locally Unique Identifier.
      *

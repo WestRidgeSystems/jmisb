@@ -13,7 +13,7 @@ import org.slf4j.LoggerFactory;
 public class AnnotationMetadataUniversalSet implements IMisbMessage {
 
     private static Logger logger = LoggerFactory.getLogger(AnnotationMetadataUniversalSet.class);
-    private SortedMap<AnnotationMetadataKey, IAnnotationMetadataValue> map = new TreeMap<>();
+    private Map<AnnotationMetadataKey, IAnnotationMetadataValue> map = new HashMap<>();
 
     /**
      * Create the message from the given key/value pairs.
@@ -21,12 +21,12 @@ public class AnnotationMetadataUniversalSet implements IMisbMessage {
      * @param values Key/value pairs to be included in the message
      */
     public AnnotationMetadataUniversalSet(
-            SortedMap<AnnotationMetadataKey, IAnnotationMetadataValue> values) {
+            Map<AnnotationMetadataKey, IAnnotationMetadataValue> values) {
         this.map = values;
     }
 
     /**
-     * Create a Security Metadata Universal Set message by parsing the given byte array.
+     * Create an Annotation Metadata Universal Set message by parsing the given byte array.
      *
      * @param bytes Byte array containing a Security Metadata Universal Set message
      * @throws KlvParseException if a parsing error occurs
@@ -41,10 +41,12 @@ public class AnnotationMetadataUniversalSet implements IMisbMessage {
         for (UdsField field : fields) {
             try {
                 AnnotationMetadataKey key = AnnotationMetadataKey.getKey(field.getKey());
-                IAnnotationMetadataValue value =
-                        UniversalSetFactory.createValue(
-                                AnnotationMetadataKey.getKey(field.getKey()), field.getValue());
-                setField(key, value);
+                if (key != AnnotationMetadataKey.Undefined) {
+                    IAnnotationMetadataValue value =
+                            UniversalSetFactory.createValue(
+                                    AnnotationMetadataKey.getKey(field.getKey()), field.getValue());
+                    setField(key, value);
+                }
             } catch (IllegalArgumentException ex) {
                 InvalidDataHandler.getInstance()
                         .handleInvalidFieldEncoding(logger, ex.getMessage());
@@ -82,7 +84,7 @@ public class AnnotationMetadataUniversalSet implements IMisbMessage {
 
     private byte[] getActiveLinesPerFrameBytes() {
         IAnnotationMetadataValue lines =
-                map.getOrDefault(AnnotationMetadataKey.LinesPerFrame, null);
+                map.getOrDefault(AnnotationMetadataKey.ActiveLinesPerFrame, null);
         if (lines != null) {
             byte[] linesBytes = lines.getBytes();
             ArrayBuilder arrayBuilder = new ArrayBuilder();
@@ -97,7 +99,7 @@ public class AnnotationMetadataUniversalSet implements IMisbMessage {
 
     private byte[] getActiveSamplesPerLineBytes() {
         IAnnotationMetadataValue samples =
-                map.getOrDefault(AnnotationMetadataKey.SamplesPerFrame, null);
+                map.getOrDefault(AnnotationMetadataKey.ActiveSamplesPerLine, null);
         if (samples != null) {
             byte[] samplesBytes = samples.getBytes();
             ArrayBuilder arrayBuilder = new ArrayBuilder();
@@ -121,10 +123,10 @@ public class AnnotationMetadataUniversalSet implements IMisbMessage {
             if (key.equals(AnnotationMetadataKey.ByteOrder)) {
                 continue;
             }
-            if (key.equals(AnnotationMetadataKey.LinesPerFrame)) {
+            if (key.equals(AnnotationMetadataKey.ActiveLinesPerFrame)) {
                 continue;
             }
-            if (key.equals(AnnotationMetadataKey.SamplesPerFrame)) {
+            if (key.equals(AnnotationMetadataKey.ActiveSamplesPerLine)) {
                 continue;
             }
             IAnnotationMetadataValue value = entry.getValue();
@@ -160,8 +162,12 @@ public class AnnotationMetadataUniversalSet implements IMisbMessage {
 
     @Override
     public String displayHeader() {
-        return "ST 0602, ID: "
-                + map.get(AnnotationMetadataKey.LocallyUniqueIdentifier).getDisplayableValue();
+        if (map.containsKey(AnnotationMetadataKey.LocallyUniqueIdentifier)) {
+            return "ST 0602, ID: "
+                    + map.get(AnnotationMetadataKey.LocallyUniqueIdentifier).getDisplayableValue();
+        } else {
+            return "ST 0602, ID: Unknown";
+        }
     }
 
     /**
@@ -192,20 +198,6 @@ public class AnnotationMetadataUniversalSet implements IMisbMessage {
     @Override
     public Set<? extends IKlvKey> getIdentifiers() {
         return map.keySet();
-    }
-
-    /**
-     * Merge the metadata from another set into this set.
-     *
-     * <p>Existing items will be overwritten, and new items will be added.
-     *
-     * @param set the set to merge from.
-     */
-    public void mergeAndUpdate(AnnotationMetadataUniversalSet set) {
-        for (AnnotationMetadataKey entry : set.getMetadataKeys()) {
-            IAnnotationMetadataValue value = set.getField(entry);
-            setField(entry, value);
-        }
     }
 
     /**

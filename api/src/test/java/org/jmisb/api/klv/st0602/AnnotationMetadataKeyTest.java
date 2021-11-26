@@ -18,4 +18,18 @@ public class AnnotationMetadataKeyTest {
         assertEquals(
                 AnnotationMetadataKey.ByteOrder.getUl(), AnnotationMetadataConstants.byteOrderUl);
     }
+
+    @Test
+    public void checkIdentifierIdentity() {
+        assertEquals(
+                AnnotationMetadataKey.MIMEMediaType.getIdentifier(),
+                AnnotationMetadataKey.MIMEMediaType.getIdentifier());
+    }
+
+    @Test
+    public void checkIdentifierDifferent() {
+        assertNotEquals(
+                AnnotationMetadataKey.MIMEMediaType.getIdentifier(),
+                AnnotationMetadataKey.AnnotationSource.getIdentifier());
+    }
 }

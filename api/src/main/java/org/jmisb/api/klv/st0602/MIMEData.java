@@ -1,5 +1,11 @@
 package org.jmisb.api.klv.st0602;
 
+/**
+ * MIME encoded data of annotation message.
+ *
+ * <p>This is the data part of the annotation. For example, if the annotation is specified (via
+ * {@link MIMEMediaType}) to be be PNG, this the data corresponding to the PNG image.
+ */
 public class MIMEData implements IAnnotationMetadataValue {
 
     private final byte[] data;

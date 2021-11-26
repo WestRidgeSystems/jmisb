@@ -4,6 +4,7 @@ import static org.testng.Assert.assertEquals;
 import static org.testng.Assert.assertFalse;
 import static org.testng.Assert.assertTrue;
 
+import org.jmisb.api.common.KlvParseException;
 import org.testng.annotations.Test;
 
 /** Unit tests for ST 0602 MIME Media Type implementation. */
@@ -30,6 +31,25 @@ public class MIMEMediaTypeTest {
         MIMEMediaType uut =
                 new MIMEMediaType(
                         new byte[] {0x69, 0x6d, 0x61, 0x67, 0x65, 0x2f, 0x70, 0x6e, 0x67});
+        assertEquals(uut.getDisplayName(), "MIME Media Type");
+        assertEquals(uut.getDisplayableValue(), "image/png");
+        assertTrue(uut.isPNG());
+        assertFalse(uut.isJPEG());
+        assertFalse(uut.isBMP());
+        assertFalse(uut.isCGM());
+        assertFalse(uut.isSVG());
+        assertEquals(
+                uut.getBytes(), new byte[] {0x69, 0x6d, 0x61, 0x67, 0x65, 0x2f, 0x70, 0x6e, 0x67});
+    }
+
+    @Test
+    public void checkConstructionFromFactory() throws KlvParseException {
+        IAnnotationMetadataValue value =
+                UniversalSetFactory.createValue(
+                        AnnotationMetadataKey.MIMEMediaType,
+                        new byte[] {0x69, 0x6d, 0x61, 0x67, 0x65, 0x2f, 0x70, 0x6e, 0x67});
+        assertTrue(value instanceof MIMEMediaType);
+        MIMEMediaType uut = (MIMEMediaType) value;
         assertEquals(uut.getDisplayName(), "MIME Media Type");
         assertEquals(uut.getDisplayableValue(), "image/png");
         assertTrue(uut.isPNG());
