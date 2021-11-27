@@ -109,6 +109,37 @@ public class KlvConstants {
                         0x1C, 0x00, 0x00, 0x00
                     });
 
+    /**
+     * Universal label for Byte Order preface item for Annotation Universal Metadata Set (ST 0602).
+     */
+    public static final UniversalLabel AnnotationByteOrderUl =
+            new UniversalLabel(
+                    new byte[] {
+                        0x06, 0x0e, 0x2b, 0x34, 0x01, 0x01, 0x01, 0x01, 0x03, 0x01, 0x02, 0x01,
+                        0x02, 0x00, 0x00, 0x00
+                    });
+
+    /**
+     * Universal label for Active Lines per Frame preface item for Annotation Universal Metadata Set
+     * (ST 0602).
+     */
+    public static final UniversalLabel AnnotationActiveLinesPerFrameUl =
+            new UniversalLabel(
+                    new byte[] {
+                        0x06, 0x0e, 0x2b, 0x34, 0x01, 0x01, 0x01, 0x01, 0x04, 0x01, 0x03, 0x02,
+                        0x02, 0x00, 0x00, 0x00
+                    });
+    /**
+     * Universal label for Active Samples per Line preface item for Annotation Universal Metadata
+     * Set (ST 0602).
+     */
+    public static final UniversalLabel AnnotationActiveSamplesPerLineUl =
+            new UniversalLabel(
+                    new byte[] {
+                        0x06, 0x0e, 0x2b, 0x34, 0x01, 0x01, 0x01, 0x01, 0x04, 0x01, 0x05, 0x01,
+                        0x02, 0x00, 0x00, 0x00
+                    });
+
     /** Universal label for Annotation Universal Metadata Set (ST 0602). */
     public static final UniversalLabel AnnotationUniversalSetUl =
             new UniversalLabel(

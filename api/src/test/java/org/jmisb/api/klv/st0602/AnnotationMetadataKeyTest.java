@@ -15,8 +15,7 @@ public class AnnotationMetadataKeyTest {
 
     @Test
     public void checkGetter() {
-        assertEquals(
-                AnnotationMetadataKey.ByteOrder.getUl(), AnnotationMetadataConstants.byteOrderUl);
+        assertEquals(AnnotationMetadataKey.ByteOrder.getUl(), KlvConstants.AnnotationByteOrderUl);
     }
 
     @Test

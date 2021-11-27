@@ -3,6 +3,7 @@ package org.jmisb.api.klv.st0602;
 import java.util.HashMap;
 import java.util.Map;
 import org.jmisb.api.klv.IKlvKey;
+import org.jmisb.api.klv.KlvConstants;
 import org.jmisb.api.klv.UniversalLabel;
 
 /**
@@ -23,12 +24,12 @@ public enum AnnotationMetadataKey implements IKlvKey {
      *
      * <p>Byte order of the metadata.
      */
-    ByteOrder(AnnotationMetadataConstants.byteOrderUl),
+    ByteOrder(KlvConstants.AnnotationByteOrderUl),
 
     /** Active lines per frame. */
-    ActiveLinesPerFrame(AnnotationMetadataConstants.activeLinesPerFrameUl),
+    ActiveLinesPerFrame(KlvConstants.AnnotationActiveLinesPerFrameUl),
     /** Active samples per line. */
-    ActiveSamplesPerLine(AnnotationMetadataConstants.activeSamplesPerLineUl),
+    ActiveSamplesPerLine(KlvConstants.AnnotationActiveSamplesPerLineUl),
     /**
      * Locally Unique Identifier.
      *
@@ -120,10 +121,10 @@ public enum AnnotationMetadataKey implements IKlvKey {
     }
 
     /**
-     * Look up the SecurityMetadataKey by universal label.
+     * Look up the {@code AnnotationMetadataKey} by universal label.
      *
      * @param ul the universal label.
-     * @return the corresponding SecurityMetadataKey.
+     * @return the corresponding {@code AnnotationMetadataKey}.
      */
     public static AnnotationMetadataKey getKey(UniversalLabel ul) {
         return ulTable.containsKey(ul) ? ulTable.get(ul) : Undefined;

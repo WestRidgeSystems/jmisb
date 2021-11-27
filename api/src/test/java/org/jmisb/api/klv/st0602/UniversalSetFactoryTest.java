@@ -88,4 +88,9 @@ public class UniversalSetFactoryTest {
                 universalSet.getField(AnnotationMetadataKey.EventIndication).getDisplayableValue(),
                 "NEW");
     }
+
+    @Test(expectedExceptions = IllegalArgumentException.class)
+    public void checkBadValue() throws KlvParseException {
+        UniversalSetFactory.createValue(AnnotationMetadataKey.Undefined, new byte[] {0x01, 0x02});
+    }
 }

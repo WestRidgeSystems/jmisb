@@ -28,7 +28,7 @@ public class AnnotationMetadataUniversalSet implements IMisbMessage {
     /**
      * Create an Annotation Metadata Universal Set message by parsing the given byte array.
      *
-     * @param bytes Byte array containing a Security Metadata Universal Set message
+     * @param bytes Byte array containing an Annotation Metadata Universal Set message
      * @throws KlvParseException if a parsing error occurs
      */
     public AnnotationMetadataUniversalSet(byte[] bytes) throws KlvParseException {
@@ -65,7 +65,7 @@ public class AnnotationMetadataUniversalSet implements IMisbMessage {
             throw new IllegalArgumentException("ST 0602 universal set cannot be nested");
         }
         ArrayBuilder arrayBuilder = new ArrayBuilder();
-        arrayBuilder.append(getByteOrderBytes());
+        arrayBuilder.append(new AnnotationByteOrderMessage().frameMessage(false));
         arrayBuilder.append(getActiveLinesPerFrameBytes());
         arrayBuilder.append(getActiveSamplesPerLineBytes());
         arrayBuilder.append(getAnnotationUniversalSetBytes());
@@ -73,25 +73,14 @@ public class AnnotationMetadataUniversalSet implements IMisbMessage {
         return arrayBuilder.toBytes();
     }
 
-    private byte[] getByteOrderBytes() {
-        ArrayBuilder arrayBuilder = new ArrayBuilder();
-        byte[] byteOrderValue = new byte[] {0x4D, 0x4D};
-        arrayBuilder.append(AnnotationMetadataConstants.byteOrderUl);
-        arrayBuilder.appendAsBerLength(byteOrderValue.length);
-        arrayBuilder.append(byteOrderValue);
-        return arrayBuilder.toBytes();
-    }
-
     private byte[] getActiveLinesPerFrameBytes() {
         IAnnotationMetadataValue lines =
                 map.getOrDefault(AnnotationMetadataKey.ActiveLinesPerFrame, null);
-        if (lines != null) {
-            byte[] linesBytes = lines.getBytes();
-            ArrayBuilder arrayBuilder = new ArrayBuilder();
-            arrayBuilder.append(AnnotationMetadataConstants.activeLinesPerFrameUl);
-            arrayBuilder.appendAsBerLength(linesBytes.length);
-            arrayBuilder.append(linesBytes);
-            return arrayBuilder.toBytes();
+        if ((lines != null) && (lines instanceof ActiveLinesPerFrame)) {
+            ActiveLinesPerFrame activeLinesPerFrame = (ActiveLinesPerFrame) lines;
+            ActiveLinesPerFrameMessage message =
+                    new ActiveLinesPerFrameMessage(activeLinesPerFrame);
+            return message.frameMessage(false);
         } else {
             return new byte[] {};
         }
@@ -100,13 +89,11 @@ public class AnnotationMetadataUniversalSet implements IMisbMessage {
     private byte[] getActiveSamplesPerLineBytes() {
         IAnnotationMetadataValue samples =
                 map.getOrDefault(AnnotationMetadataKey.ActiveSamplesPerLine, null);
-        if (samples != null) {
-            byte[] samplesBytes = samples.getBytes();
-            ArrayBuilder arrayBuilder = new ArrayBuilder();
-            arrayBuilder.append(AnnotationMetadataConstants.activeSamplesPerLineUl);
-            arrayBuilder.appendAsBerLength(samplesBytes.length);
-            arrayBuilder.append(samplesBytes);
-            return arrayBuilder.toBytes();
+        if ((samples != null) && (samples instanceof ActiveSamplesPerLine)) {
+            ActiveSamplesPerLine activeSamplesPerLine = (ActiveSamplesPerLine) samples;
+            ActiveSamplesPerLineMessage message =
+                    new ActiveSamplesPerLineMessage(activeSamplesPerLine);
+            return message.frameMessage(false);
         } else {
             return new byte[] {};
         }
@@ -207,5 +194,19 @@ public class AnnotationMetadataUniversalSet implements IMisbMessage {
      */
     public Set<AnnotationMetadataKey> getMetadataKeys() {
         return map.keySet();
+    }
+
+    /**
+     * Merge the metadata from another set into this set.
+     *
+     * <p>Existing items will be overwritten, and new items will be added.
+     *
+     * @param set the set to merge from.
+     */
+    public void mergeAndUpdate(AnnotationMetadataUniversalSet set) {
+        for (AnnotationMetadataKey entry : set.getMetadataKeys()) {
+            IAnnotationMetadataValue value = set.getField(entry);
+            setField(entry, value);
+        }
     }
 }
