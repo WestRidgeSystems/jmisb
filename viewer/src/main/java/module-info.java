@@ -1,5 +1,6 @@
 module org.jmisb.viewer {
     requires org.jmisb.api.ffmpeg;
+    requires org.jmisb.api.awt;
     requires org.jmisb.api;
     requires org.slf4j;
     requires com.miglayout.swing;

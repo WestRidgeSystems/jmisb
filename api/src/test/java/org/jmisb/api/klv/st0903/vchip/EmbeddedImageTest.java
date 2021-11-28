@@ -1,13 +1,11 @@
 package org.jmisb.api.klv.st0903.vchip;
 
-import static java.awt.image.BufferedImage.TYPE_3BYTE_BGR;
+import static org.testng.Assert.assertEquals;
+import static org.testng.Assert.assertTrue;
 
-import java.awt.image.BufferedImage;
-import java.io.IOException;
 import org.jmisb.api.common.KlvParseException;
 import org.jmisb.api.klv.LoggerChecks;
 import org.jmisb.api.klv.st0903.IVmtiMetadataValue;
-import org.testng.Assert;
 import org.testng.annotations.Test;
 
 /* Note: logging isn't really tested */
@@ -40,46 +38,17 @@ public class EmbeddedImageTest extends LoggerChecks {
     @Test
     public void testImageFromBytes() throws KlvParseException {
         EmbeddedImage imageFromBytes = new EmbeddedImage(bytes);
-        Assert.assertEquals(imageFromBytes.getDisplayName(), "Embedded Image");
-        Assert.assertEquals(imageFromBytes.getDisplayableValue(), "[Image]");
-    }
-
-    @Test
-    public void testFromImage() throws KlvParseException, IOException {
-        BufferedImage bufferedImage = new BufferedImage(1, 1, TYPE_3BYTE_BGR);
-        bufferedImage.setRGB(0, 0, 0);
-        EmbeddedImage embeddedImage = new EmbeddedImage(bufferedImage);
-        Assert.assertEquals(embeddedImage.getDisplayName(), "Embedded Image");
-        Assert.assertEquals(embeddedImage.getDisplayableValue(), "[Image]");
-        byte[] embeddedImageBytes = embeddedImage.getBytes("jpg");
-        Assert.assertNotNull(embeddedImageBytes);
+        assertEquals(imageFromBytes.getDisplayName(), "Embedded Image");
+        assertEquals(imageFromBytes.getDisplayableValue(), "[Image]");
+        assertEquals(bytes, imageFromBytes.getBytes());
     }
 
     @Test
     public void testFactoryEmbeddedImage() throws KlvParseException {
-        IVmtiMetadataValue v = VChipLS.createValue(VChipMetadataKey.embeddedImage, bytes);
-        Assert.assertTrue(v instanceof EmbeddedImage);
-        EmbeddedImage embeddedImage = (EmbeddedImage) v;
-        Assert.assertEquals(embeddedImage.getDisplayName(), "Embedded Image");
-        BufferedImage image = embeddedImage.getImage();
-        Assert.assertNotNull(image);
-        Assert.assertEquals(image.getHeight(), 1);
-        Assert.assertEquals(image.getWidth(), 1);
-        byte[] embeddedImageBytes = embeddedImage.getBytes();
-        Assert.assertNotNull(embeddedImageBytes);
-        Assert.assertEquals(embeddedImageBytes[0], (byte) 0x89);
-        Assert.assertEquals(embeddedImageBytes[1], 'P');
-        Assert.assertEquals(embeddedImageBytes[2], 'N');
-        Assert.assertEquals(embeddedImageBytes[3], 'G');
-        Assert.assertEquals(embeddedImageBytes[4], '\r');
-        Assert.assertEquals(embeddedImageBytes[5], '\n');
-        embeddedImageBytes = embeddedImage.getBytes("png");
-        Assert.assertNotNull(embeddedImageBytes);
-        Assert.assertEquals(embeddedImageBytes[0], (byte) 0x89);
-        Assert.assertEquals(embeddedImageBytes[1], 'P');
-        Assert.assertEquals(embeddedImageBytes[2], 'N');
-        Assert.assertEquals(embeddedImageBytes[3], 'G');
-        Assert.assertEquals(embeddedImageBytes[4], '\r');
-        Assert.assertEquals(embeddedImageBytes[5], '\n');
+        IVmtiMetadataValue uut = VChipLS.createValue(VChipMetadataKey.embeddedImage, bytes);
+        assertTrue(uut instanceof EmbeddedImage);
+        EmbeddedImage embeddedImage = (EmbeddedImage) uut;
+        assertEquals(embeddedImage.getDisplayName(), "Embedded Image");
+        assertEquals(bytes, uut.getBytes());
     }
 }

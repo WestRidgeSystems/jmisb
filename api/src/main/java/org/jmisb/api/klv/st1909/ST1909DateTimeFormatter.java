@@ -23,7 +23,13 @@ public class ST1909DateTimeFormatter {
 
     private ST1909DateTimeFormatter() {};
 
-    static String format(LocalDateTime dateTime) {
+    /**
+     * Format a given date and time in the ST 1909 specified format.
+     *
+     * @param dateTime the date / time to format
+     * @return string containing the the formatted result
+     */
+    public static String format(LocalDateTime dateTime) {
         return DATE_TIME_FORMATTER.format(dateTime);
     }
 }

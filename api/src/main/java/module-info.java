@@ -1,8 +1,6 @@
 module org.jmisb.api {
     requires org.jmisb.core;
     requires org.slf4j;
-    // TODO: refactor to avoid needing this
-    requires java.desktop;
 
     exports org.jmisb.api.common;
     exports org.jmisb.api.klv;
