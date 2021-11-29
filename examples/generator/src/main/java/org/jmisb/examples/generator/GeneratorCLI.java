@@ -22,6 +22,12 @@ public class GeneratorCLI {
                 new Option(null, "st0601version", true, "The ST0601 version (default is 16)"));
         commandLineOptions.addOption(
                 new Option(null, "st0903version", true, "The ST0903 version (default is 5)"));
+        commandLineOptions.addOption(
+                new Option(
+                        null,
+                        "st1205id",
+                        true,
+                        "Add ST 1205 sequence identifier and metadata (default is not to add)"));
         commandLineOptions.addOption(new Option("o", "outputFile", true, "Output file name"));
         commandLineOptions.addOption(
                 new Option(
@@ -54,6 +60,10 @@ public class GeneratorCLI {
             if (commandLine.hasOption("st0903version")) {
                 generator.setVersion0903(
                         Byte.parseByte(commandLine.getOptionValue("st0903version")));
+            }
+            if (commandLine.hasOption("st1205id")) {
+                generator.setST1205SequenceIdentifier(
+                        Byte.parseByte(commandLine.getOptionValue("st1205id")));
             }
             if (commandLine.hasOption("coding")) {
                 String codecName = commandLine.getOptionValue("coding");

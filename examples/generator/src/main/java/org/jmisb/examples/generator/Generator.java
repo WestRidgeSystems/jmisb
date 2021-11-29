@@ -3,7 +3,10 @@ package org.jmisb.examples.generator;
 import java.awt.image.BufferedImage;
 import java.io.File;
 import java.io.IOException;
+import java.time.LocalDateTime;
+import java.time.ZoneOffset;
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 import java.util.SortedMap;
@@ -50,6 +53,7 @@ import org.jmisb.api.klv.st0601.UasDatalinkString;
 import org.jmisb.api.klv.st0601.UasDatalinkTag;
 import org.jmisb.api.klv.st0601.VerticalFov;
 import org.jmisb.api.klv.st0601.dto.Payload;
+import org.jmisb.api.klv.st0603.ST0603TimeStamp;
 import org.jmisb.api.klv.st0903.AlgorithmSeries;
 import org.jmisb.api.klv.st0903.FrameHeight;
 import org.jmisb.api.klv.st0903.FrameWidth;
@@ -88,6 +92,13 @@ import org.jmisb.api.klv.st0903.vtracker.VTrackerMetadataKey;
 import org.jmisb.api.klv.st0903.vtracker.Velocity;
 import org.jmisb.api.klv.st0903.vtracker.VelocityPack;
 import org.jmisb.api.klv.st1204.CoreIdentifier;
+import org.jmisb.api.klv.st1205.CalibrationLocalSet;
+import org.jmisb.api.klv.st1205.CalibrationPackMetadataKey;
+import org.jmisb.api.klv.st1205.CalibrationSequenceIdentifier;
+import org.jmisb.api.klv.st1205.ICalibrationMetadataValue;
+import org.jmisb.api.klv.st1205.SequenceDuration;
+import org.jmisb.api.klv.st1205.TimeStampOfCalibrationPackCreation;
+import org.jmisb.api.klv.st1205.TimeStampOfLastFrameInSequence;
 import org.jmisb.api.klv.st1206.DocumentVersion;
 import org.jmisb.api.klv.st1206.GrazingAngle;
 import org.jmisb.api.klv.st1206.GroundPlaneSquintAngle;
@@ -124,8 +135,10 @@ public class Generator {
     private byte version0601 = 16; // Last version supported by CMITT 1.3.0 is 9
     private byte version0102 = 12;
     private byte version0903 = 5;
+    private Byte st1205id = null;
     private boolean includeSARMI = false;
     private String filename = "generator_output.mpeg";
+    private ST0603TimeStamp startTime;
 
     private static final Logger LOG = LoggerFactory.getLogger(Generator.class);
 
@@ -149,6 +162,10 @@ public class Generator {
 
     public void setVersion0903(byte version0903) {
         this.version0903 = version0903;
+    }
+
+    public void setST1205SequenceIdentifier(byte st1205sequenceIdentifier) {
+        this.st1205id = st1205sequenceIdentifier;
     }
 
     public void setIncludeSARMI() {
@@ -184,6 +201,7 @@ public class Generator {
             final long numFrames = duration * Math.round(frameRate);
             final long switchingValue = numFrames / 6;
             double pts = 1000.0 * System.currentTimeMillis(); // Close enough for this.
+            startTime = new ST0603TimeStamp(LocalDateTime.now(ZoneOffset.UTC));
             for (long i = 0; i < numFrames; ++i) {
                 SortedMap<UasDatalinkTag, IUasDatalinkValue> values = new TreeMap<>();
 
@@ -271,6 +289,10 @@ public class Generator {
 
                 output.addVideoFrame(new VideoFrame(image, pts * 1.0e-6));
                 output.addMetadataFrame(new MetadataFrame(message, pts));
+                if (this.st1205id != null) {
+                    CalibrationLocalSet st1205 = generateCalibrationPack((int) numFrames);
+                    output.addMetadataFrame(new MetadataFrame(st1205, pts));
+                }
                 pts += frameDuration * 1.0e6;
             }
 
@@ -483,5 +505,22 @@ public class Generator {
                 + ",\nfilename="
                 + filename
                 + '}';
+    }
+
+    private CalibrationLocalSet generateCalibrationPack(int numFrames) {
+        Map<CalibrationPackMetadataKey, ICalibrationMetadataValue> values = new HashMap<>();
+        values.put(
+                CalibrationPackMetadataKey.TimeStampOfLastFrameInSequence,
+                new TimeStampOfLastFrameInSequence(
+                        startTime.getMicroseconds() + duration * 1000 * 1000));
+        values.put(
+                CalibrationPackMetadataKey.TimeStampOfCalibrationPackCreation,
+                new TimeStampOfCalibrationPackCreation(LocalDateTime.now(ZoneOffset.UTC)));
+        values.put(CalibrationPackMetadataKey.SequenceDuration, new SequenceDuration(numFrames));
+        values.put(
+                CalibrationPackMetadataKey.CalibrationSequenceIdentifier,
+                new CalibrationSequenceIdentifier(this.st1205id));
+        CalibrationLocalSet calibrationPack = new CalibrationLocalSet(values);
+        return calibrationPack;
     }
 }
