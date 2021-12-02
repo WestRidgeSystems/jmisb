@@ -13,7 +13,7 @@ public class MinimumDetectableVelocityTest {
         assertEquals(uut.getBytes(), new byte[] {(byte) 0x0a, (byte) 0x0});
         assertEquals(uut.getDisplayName(), "Minimum Detectable Velocity");
         assertEquals(uut.getDisplayableValue(), "10.000m/s");
-        assertEquals(uut.getBandwidth(), 10.0, 0.01);
+        assertEquals(uut.getVelocity(), 10.0, 0.01);
     }
 
     @Test
@@ -23,7 +23,7 @@ public class MinimumDetectableVelocityTest {
         assertEquals(uut.getBytes(), new byte[] {(byte) 0x00, (byte) 0x01});
         assertEquals(uut.getDisplayName(), "Minimum Detectable Velocity");
         assertEquals(uut.getDisplayableValue(), "0.004m/s");
-        assertEquals(uut.getBandwidth(), 0.004, 0.001);
+        assertEquals(uut.getVelocity(), 0.004, 0.001);
     }
 
     @Test
@@ -37,7 +37,7 @@ public class MinimumDetectableVelocityTest {
         assertEquals(uut.getBytes(), new byte[] {(byte) 0x01, (byte) 0x03});
         assertEquals(uut.getDisplayName(), "Minimum Detectable Velocity");
         assertEquals(uut.getDisplayableValue(), "1.012m/s");
-        assertEquals(uut.getBandwidth(), 1.012, 0.001);
+        assertEquals(uut.getVelocity(), 1.012, 0.001);
     }
 
     @Test(expectedExceptions = IllegalArgumentException.class)

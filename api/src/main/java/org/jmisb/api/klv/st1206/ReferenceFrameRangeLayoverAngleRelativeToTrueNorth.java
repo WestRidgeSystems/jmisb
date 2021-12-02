@@ -7,7 +7,7 @@ package org.jmisb.api.klv.st1206;
  * perpendicular to the sensor ground track angle at the aperture center of the reference SAR image
  * used in the creation of the SAR coherent products. The compliment for the current SAR image used
  * in the creation of the SAR coherent change products is defined
- * in @link{RangeLayoverAngleRelativeToTrueNorth}. .
+ * in @link{RangeLayoverAngleRelativeToTrueNorth}.
  *
  * <p>See ST1206 Section 6.3 for more information.
  */

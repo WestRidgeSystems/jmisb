@@ -8,23 +8,23 @@ import org.jmisb.api.klv.st1201.OutOfRangeBehaviour;
  *
  * <p>SARMI is essentially a form of Ground Moving Target Indicators (GMTI) displayed on full-
  * resolution Endo-clutter SAR frames rather than the classic 'blips' on a range-Doppler image. The
- * GMTI radial velocity is the projection of the mover's velocity vector upon the radar's line-of-
- * sight vector to the target. Hence, the radial velocity is not only a function of target velocity,
- * but also scene geometry.
+ * GMTI radial velocity is the projection of the mover's velocity vector upon the radar's
+ * line-of-sight vector to the target. Hence, the radial velocity is not only a function of target
+ * velocity, but also scene geometry.
  *
  * <p>The Minimum Detectable Velocity (MDV) is defined as the radial velocity when a target located
- * at the antenna beam’s cross-range center line transcends from the Endo- clutter (visible SAR
+ * at the antenna beam’s cross-range center line transcends from the Endo-clutter (visible SAR
  * image) boundary into Exo-clutter (not visible). Technically, the MDV could change within a SAR
  * image. However, for simplicity, assume the MDV is constant over the SAR coherent processing
- * interval. Estimation of the MDV using aforementioned SARMI metadata requires additional a priori
- * knowledge of sensor parameters. Hence, it is desirable to specify the MDV explicitly.
+ * interval. Estimation of the MDV using aforementioned SARMI metadata requires additional <i>a
+ * priori</i> knowledge of sensor parameters. Hence, it is desirable to specify the MDV explicitly.
  */
 public class MinimumDetectableVelocity implements ISARMIMetadataValue {
 
-    protected static final double MIN_VAL = 0.0;
-    protected static final double MAX_VAL = 100.0;
-    protected static final int NUM_BYTES = 2;
-    protected double value;
+    private static final double MIN_VAL = 0.0;
+    private static final double MAX_VAL = 100.0;
+    private static final int NUM_BYTES = 2;
+    private double value;
 
     /**
      * Create from value.
@@ -76,11 +76,11 @@ public class MinimumDetectableVelocity implements ISARMIMetadataValue {
     }
 
     /**
-     * Get the Transmit RF Bandwidth.
+     * Get the minimum detectable velocity.
      *
-     * @return bandwidth in Hertz
+     * @return velocity in m/s.
      */
-    public double getBandwidth() {
+    public double getVelocity() {
         return value;
     }
 }
