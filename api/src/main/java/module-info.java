@@ -8,6 +8,7 @@ module org.jmisb.api {
     exports org.jmisb.api.klv.st0102;
     exports org.jmisb.api.klv.st0102.localset;
     exports org.jmisb.api.klv.st0102.universalset;
+    exports org.jmisb.api.klv.st0107;
     exports org.jmisb.api.klv.st0601;
     exports org.jmisb.api.klv.st0601.dto;
     exports org.jmisb.api.klv.st0602;
@@ -18,6 +19,7 @@ module org.jmisb.api {
     exports org.jmisb.api.klv.st0806.poiaoi;
     exports org.jmisb.api.klv.st0806.userdefined;
     exports org.jmisb.api.klv.st0808;
+    exports org.jmisb.api.klv.st0809;
     exports org.jmisb.api.klv.st0903;
     exports org.jmisb.api.klv.st0903.algorithm;
     exports org.jmisb.api.klv.st0903.ontology;
