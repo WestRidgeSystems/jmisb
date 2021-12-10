@@ -1,6 +1,4 @@
-package org.jmisb.maven;
-
-import static org.testng.Assert.*;
+package org.jmisb.maven.miml;
 
 import java.io.IOException;
 import org.antlr.v4.runtime.CharStreams;

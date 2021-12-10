@@ -1,4 +1,4 @@
-package org.jmisb.maven;
+package org.jmisb.maven.miml;
 
 /** POJO class for an array dimension */
 public class ArrayDimension {

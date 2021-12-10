@@ -1,4 +1,4 @@
-package org.jmisb.maven;
+package org.jmisb.maven.miml;
 
 import static org.testng.Assert.*;
 

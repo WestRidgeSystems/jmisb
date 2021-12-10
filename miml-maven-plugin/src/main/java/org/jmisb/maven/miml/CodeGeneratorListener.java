@@ -1,4 +1,4 @@
-package org.jmisb.maven;
+package org.jmisb.maven.miml;
 
 import freemarker.template.Configuration;
 import freemarker.template.Template;

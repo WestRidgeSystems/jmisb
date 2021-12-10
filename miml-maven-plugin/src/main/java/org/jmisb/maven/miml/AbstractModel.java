@@ -1,4 +1,4 @@
-package org.jmisb.maven;
+package org.jmisb.maven.miml;
 
 /** Shared code between ClassModel and EnumerationModel. */
 public class AbstractModel {

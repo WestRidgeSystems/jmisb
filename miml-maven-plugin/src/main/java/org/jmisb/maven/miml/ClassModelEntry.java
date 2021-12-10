@@ -1,4 +1,4 @@
-package org.jmisb.maven;
+package org.jmisb.maven.miml;
 
 import java.util.ArrayList;
 import java.util.List;
