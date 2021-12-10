@@ -1,2 +1,1 @@
-module org.jmisb.elevation.geoid {
-}
+module org.jmisb.elevation.geoid {}
