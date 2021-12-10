@@ -97,11 +97,16 @@ public class MisbViewer extends JFrame implements ActionListener {
         streamInfo.addActionListener(this);
         viewMenu.add(streamInfo);
 
-        JCheckBoxMenuItem metadataOverlay = new JCheckBoxMenuItem("Metadata Overlay (ST1909)");
+        JCheckBoxMenuItem metadataOverlay = new JCheckBoxMenuItem("Metadata Overlay (ST 1909)");
         metadataOverlay.setName("View|MetadataOverlay");
         metadataOverlay.setMnemonic(KeyEvent.VK_O);
         metadataOverlay.addActionListener(this);
         viewMenu.add(metadataOverlay);
+
+        JCheckBoxMenuItem annotationOverlay = new JCheckBoxMenuItem("Annotations (ST 0602)");
+        annotationOverlay.setName("View|AnnotationsOverlay");
+        annotationOverlay.addActionListener(this);
+        viewMenu.add(annotationOverlay);
 
         JCheckBoxMenuItem mapPaneVisible = new JCheckBoxMenuItem("Map View");
         mapPaneVisible.setName("View|MapView");
@@ -153,6 +158,10 @@ public class MisbViewer extends JFrame implements ActionListener {
                 case "View|MetadataOverlay":
                     JCheckBoxMenuItem cbMetadataOverlay = (JCheckBoxMenuItem) item;
                     metadataOverlayState(cbMetadataOverlay.getState());
+                    break;
+                case "View|AnnotationsOverlay":
+                    JCheckBoxMenuItem cbAnnotationOverlay = (JCheckBoxMenuItem) item;
+                    annotationOverlayState(cbAnnotationOverlay.getState());
                     break;
                 case "View|MapView":
                     cbMapView = (JCheckBoxMenuItem) item;
@@ -239,6 +248,10 @@ public class MisbViewer extends JFrame implements ActionListener {
 
     private void metadataOverlayState(boolean state) {
         videoPanel.setMetadataOverlayState(state);
+    }
+
+    private void annotationOverlayState(boolean state) {
+        videoPanel.setAnnotationOverlayState(state);
     }
 
     private void mapViewState(boolean state) {

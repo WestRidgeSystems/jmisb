@@ -6,6 +6,7 @@ import java.awt.event.ComponentListener;
 import java.awt.image.BufferedImage;
 import javax.swing.*;
 import org.jmisb.api.klv.st0601.UasDatalinkMessage;
+import org.jmisb.api.klv.st0602.AnnotationMetadataUniversalSet;
 import org.jmisb.api.klv.st1909.MetadataItems;
 import org.jmisb.api.klv.st1909.OverlayRenderer;
 import org.jmisb.api.klv.st1909.ST0601Converter;
@@ -27,6 +28,8 @@ public class VideoPanel extends JPanel
     private final OverlayRenderer overlayRenderer = new OverlayRenderer();
     private final MetadataItems metadata = new MetadataItems();
     private boolean metadataOverlayEnabled = false;
+    private boolean annotationOverlayEnabled = false;
+    private final Annotations annotations = new Annotations();
 
     VideoPanel() {
         if (logger.isDebugEnabled()) {
@@ -79,6 +82,9 @@ public class VideoPanel extends JPanel
         if (metadataOverlayEnabled && metadata.isValid()) {
             overlayRenderer.render(bufferedImage, metadata, frame.getTimeStamp());
         }
+        if (annotationOverlayEnabled && (annotations != null)) {
+            annotations.render(bufferedImage.createGraphics());
+        }
 
         // Need to repaint on the EDT
         SwingUtilities.invokeLater(() -> repaint(0, 0, getWidth(), getHeight()));
@@ -92,11 +98,19 @@ public class VideoPanel extends JPanel
                 ST0601Converter.convertST0601(message, this.metadata);
             }
         }
+        if (annotationOverlayEnabled) {
+            if (metadataFrame.getMisbMessage() instanceof AnnotationMetadataUniversalSet) {
+                AnnotationMetadataUniversalSet message =
+                        (AnnotationMetadataUniversalSet) metadataFrame.getMisbMessage();
+                annotations.updateSet(message);
+            }
+        }
     }
 
     public void clear() {
         bufferedImage = null;
         this.metadata.clear();
+        this.annotations.clear();
         repaint(0, 0, getWidth(), getHeight());
     }
 
@@ -142,5 +156,9 @@ public class VideoPanel extends JPanel
 
     void setMetadataOverlayState(boolean state) {
         this.metadataOverlayEnabled = state;
+    }
+
+    void setAnnotationOverlayState(boolean state) {
+        this.annotationOverlayEnabled = state;
     }
 }

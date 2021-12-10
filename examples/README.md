@@ -11,6 +11,10 @@ Or they may run but generate incorrect / invalid results.
 
 We welcome corrections and updates.
 
+## annotations
+
+It generates a test file with video and annotations encoded as ST 0602 (KLV) metadata. This example is a work-in-progress. See [its README](annotations/README.md) for more information.
+
 ## cotconverter
 
 It provides a Cursor on Target converter for KLV metadata.
