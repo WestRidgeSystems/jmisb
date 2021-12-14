@@ -1,10 +1,5 @@
 package org.jmisb.api.klv.st0903.vchip;
 
-import java.awt.image.BufferedImage;
-import java.io.ByteArrayInputStream;
-import java.io.ByteArrayOutputStream;
-import java.io.IOException;
-import javax.imageio.ImageIO;
 import org.jmisb.api.klv.st0903.IVmtiMetadataValue;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -18,16 +13,7 @@ public class EmbeddedImage implements IVmtiMetadataValue {
 
     private static final Logger LOGGER = LoggerFactory.getLogger(EmbeddedImage.class);
 
-    private BufferedImage embeddedImage;
-
-    /**
-     * Create from image.
-     *
-     * @param image The image to embed.
-     */
-    public EmbeddedImage(BufferedImage image) {
-        embeddedImage = image;
-    }
+    private byte[] imageBytes;
 
     /**
      * Create from encoded bytes.
@@ -35,44 +21,12 @@ public class EmbeddedImage implements IVmtiMetadataValue {
      * @param bytes byte array corresponding to the image data.
      */
     public EmbeddedImage(byte[] bytes) {
-        try {
-            ByteArrayInputStream byteArrayInputStream = new ByteArrayInputStream(bytes);
-            embeddedImage = ImageIO.read(byteArrayInputStream);
-        } catch (IOException ex) {
-            LOGGER.error("", ex);
-            embeddedImage = null;
-        }
+        imageBytes = bytes;
     }
 
     @Override
     public byte[] getBytes() {
-        return getBytes("png");
-    }
-
-    /**
-     * Get the embedded image.
-     *
-     * @return the image as a BufferedImage.
-     */
-    public BufferedImage getImage() {
-        return embeddedImage;
-    }
-
-    /**
-     * Get the encoded bytes.
-     *
-     * @param format the output format (e.g. "png" or "jpeg")
-     * @return The encoded byte array
-     */
-    public byte[] getBytes(String format) {
-        try (ByteArrayOutputStream byteArrayOutputStream = new ByteArrayOutputStream()) {
-            ImageIO.write(embeddedImage, format, byteArrayOutputStream);
-            byteArrayOutputStream.flush();
-            return byteArrayOutputStream.toByteArray();
-        } catch (IOException ex) {
-            LOGGER.error("", ex);
-        }
-        return null;
+        return imageBytes;
     }
 
     @Override

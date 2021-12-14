@@ -1,9 +1,11 @@
-package org.jmisb.api.klv.st1909;
+package org.jmisb.api.awt.st1909;
 
 import static org.testng.Assert.*;
 
 import java.awt.image.BufferedImage;
 import org.jmisb.api.klv.st0603.ST0603TimeStamp;
+import org.jmisb.api.klv.st1909.MetadataItems;
+import org.jmisb.api.klv.st1909.MetadataKey;
 import org.testng.annotations.Test;
 
 /** Unit tests for OverlayRenderer */
