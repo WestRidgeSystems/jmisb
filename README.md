@@ -9,7 +9,7 @@
 ## About
 
 jmisb is an open source Java library implementing various
-[MISB](http://www.gwg.nga.mil/misb/ "MISB home page") standards.
+[MISB](https://gwg.nga.mil/gwg/focus-groups/misb/ "MISB home page") standards.
 It leverages the excellent work by
 [bytedeco](https://github.com/bytedeco) on bringing video support to Java.
 Stay tuned here for updates, and please join us on [gitter](https://gitter.im/jmisb/community) if you need help
