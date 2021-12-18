@@ -58,7 +58,7 @@ public class CoreIdentifier {
 
     private static final int UUID_BYTE_LEN = 16;
 
-    private int version;
+    private int version = 1;
     private IdType sensorIdType = IdType.None;
     private IdType platformIdType = IdType.None;
     private boolean hasWindowId;

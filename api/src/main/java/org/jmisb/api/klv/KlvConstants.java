@@ -36,6 +36,14 @@ public class KlvConstants {
                         0x05, 0x00, 0x00, 0x00
                     });
 
+    /** Universal label for MIIS Augmentation Identifiers (ST 1301). */
+    public static final UniversalLabel MiisLocalSetUl =
+            new UniversalLabel(
+                    new byte[] {
+                        0x06, 0x0E, 0x2B, 0x34, 0x02, 0x0B, 0x01, 0x01, 0x0E, 0x01, 0x03, 0x05,
+                        0x03, 0x00, 0x00, 0x00
+                    });
+
     /** Universal label for Remote Video Terminal (RVT) Metadata Local Set (ST0806). */
     public static final UniversalLabel RvtLocalSetUl =
             new UniversalLabel(
