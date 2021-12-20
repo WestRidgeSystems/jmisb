@@ -1,3 +1,6 @@
+### December 20, 2021, version 1.10.1
+ * Updated log4j to 2.17.0 (log4j is only used by viewer app)
+
 ### February 22, 2021, version 1.10.0
  * Implemented ST 0603, MISP Time System and Timestamps
  * Implemented ST 0806, Remote Video Terminal Metadata Set

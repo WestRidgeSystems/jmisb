@@ -21,13 +21,13 @@ mvn clean install
 There are several ways to invoke it. One way is:
 
 ``` sh
-java -jar target/movingfeatures-1.10.0-SNAPSHOT-jar-with-dependencies.jar  {filename}
+java -jar target/movingfeatures-1.10.1-jar-with-dependencies.jar  {filename}
 ```
 
 For example:
 
 ``` sh
-java -jar target/movingfeatures-1.10.0-SNAPSHOT-jar-with-dependencies.jar ~/KLV_samples/my-vmti.mpeg
+java -jar target/movingfeatures-1.10.1-jar-with-dependencies.jar ~/KLV_samples/my-vmti.mpeg
 ```
 
 You should adjust the version part to match the current version number.

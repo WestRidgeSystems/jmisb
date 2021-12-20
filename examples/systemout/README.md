@@ -19,13 +19,13 @@ mvn clean install
 There are several ways to invoke it. One way is:
 
 ``` sh
-java -jar target/systemout-1.10.0-SNAPSHOT-jar-with-dependencies.jar  {filename}
+java -jar target/systemout-1.10.1-jar-with-dependencies.jar  {filename}
 ```
 
 For example:
 
 ``` sh
-java -jar target/systemout-1.10.0-SNAPSHOT-jar-with-dependencies.jar ~/KLV_samples/CheyenneVAhospital.mpeg4
+java -jar target/systemout-1.10.1-jar-with-dependencies.jar ~/KLV_samples/CheyenneVAhospital.mpeg4
 ```
 
 You should adjust the version part to match the current version number.
@@ -98,7 +98,7 @@ for f in ~/KLV_samples/*
 do
     if test -f "$f"; then
         echo "Processing" "$f"
-        java -jar target/systemout-1.10.0-SNAPSHOT-jar-with-dependencies.jar "$f" > "$(basename "$f").klv.txt"
+        java -jar target/systemout-1.10.1-jar-with-dependencies.jar "$f" > "$(basename "$f").klv.txt"
     fi
 done
 ```
