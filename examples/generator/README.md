@@ -21,7 +21,7 @@ mvn clean install
 There are several ways to invoke it. One way is:
 
 ``` sh
-java -jar target/generator-1.10.0-SNAPSHOT-jar-with-dependencies.jar
+java -jar target/generator-1.10.1-jar-with-dependencies.jar
 ```
 
 There will be no command line output, but it will create a file called `generator_output.mpeg`.

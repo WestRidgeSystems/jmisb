@@ -22,13 +22,13 @@ mvn clean install
 There are several ways to invoke it. One way is:
 
 ``` sh
-java -jar target/gstsink-1.10.0-SNAPSHOT-jar-with-dependencies.jar  {filename}
+java -jar target/gstsink-1.10.1-jar-with-dependencies.jar  {filename}
 ```
 
 For example:
 
 ``` sh
-java -jar target/gstsink-1.10.0-SNAPSHOT-jar-with-dependencies.jar ~/KLV_samples/HD_H264_06011_TS_ASYN_V1_001.mpg
+java -jar target/gstsink-1.10.1-jar-with-dependencies.jar ~/KLV_samples/HD_H264_06011_TS_ASYN_V1_001.mpg
 ```
 
 You should adjust the version part to match the current version number.

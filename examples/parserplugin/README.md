@@ -67,7 +67,7 @@ mvn clean install
 There are several ways to invoke it. One way is:
 
 ``` sh
-java -jar target/parserplugin-1.10.0-SNAPSHOT-jar-with-dependencies.jar {filename}
+java -jar target/parserplugin-1.10.1-jar-with-dependencies.jar {filename}
 ```
 
 ## Helping us
