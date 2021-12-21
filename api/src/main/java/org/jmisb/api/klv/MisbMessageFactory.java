@@ -16,6 +16,7 @@ import org.jmisb.api.klv.st0808.AncillaryTextLocalSetFactory;
 import org.jmisb.api.klv.st0809.MeteorologicalMetadataLocalSetFactory;
 import org.jmisb.api.klv.st0903.vtrack.VTrackLocalSetFactory;
 import org.jmisb.api.klv.st1108.InterpretabilityQualityLocalSetFactory;
+import org.jmisb.api.klv.st1301.MiisLocalSetFactory;
 import org.jmisb.api.klv.st1902.MimdLocalSetFactory;
 
 /**
@@ -40,6 +41,7 @@ public class MisbMessageFactory {
         registerHandler(KlvConstants.PredatorMetadataLocalSetUl, new PredatorUavMessageFactory());
         registerHandler(KlvConstants.VTrackLocalSetUl, new VTrackLocalSetFactory());
         registerHandler(KlvConstants.MIMDLocalSetUl, new MimdLocalSetFactory());
+        registerHandler(KlvConstants.MiisLocalSetUl, new MiisLocalSetFactory());
         registerHandler(
                 KlvConstants.InterpretabilityQualityLocalSetUl,
                 new InterpretabilityQualityLocalSetFactory());

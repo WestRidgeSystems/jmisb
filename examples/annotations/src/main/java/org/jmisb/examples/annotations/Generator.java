@@ -5,10 +5,14 @@ import java.awt.Graphics;
 import java.awt.image.BufferedImage;
 import java.io.ByteArrayOutputStream;
 import java.io.IOException;
+import java.util.HashMap;
+import java.util.Map;
 import java.util.SortedMap;
 import java.util.TreeMap;
+import java.util.UUID;
 import javax.imageio.ImageIO;
 import org.jmisb.api.common.KlvParseException;
+import org.jmisb.api.klv.IMisbMessage;
 import org.jmisb.api.klv.st0102.Classification;
 import org.jmisb.api.klv.st0102.ISecurityMetadataValue;
 import org.jmisb.api.klv.st0102.ObjectCountryCodeString;
@@ -32,6 +36,13 @@ import org.jmisb.api.klv.st0602.ModificationHistory;
 import org.jmisb.api.klv.st0602.XViewportPosition;
 import org.jmisb.api.klv.st0602.YViewportPosition;
 import org.jmisb.api.klv.st0602.ZOrder;
+import org.jmisb.api.klv.st1204.CoreIdentifier;
+import org.jmisb.api.klv.st1301.IMiisMetadataValue;
+import org.jmisb.api.klv.st1301.MiisLocalSet;
+import org.jmisb.api.klv.st1301.MiisMetadataConstants;
+import org.jmisb.api.klv.st1301.MiisMetadataKey;
+import org.jmisb.api.klv.st1301.ST1301CoreIdentifier;
+import org.jmisb.api.klv.st1301.ST1301Version;
 import org.jmisb.api.video.CodecIdentifier;
 import org.jmisb.api.video.IVideoFileOutput;
 import org.jmisb.api.video.KlvFormat;
@@ -74,6 +85,7 @@ public class Generator {
     private byte version0102 = 12;
     private String filename = "annotations";
     private final String fileFormat;
+    private final UUID minorUUID = UUID.randomUUID();
 
     public Generator(String fileFormat) throws KlvParseException {
         identifierAnnotationBox1 = new LocallyUniqueIdentifier(3);
@@ -171,11 +183,13 @@ public class Generator {
                             height / 2);
             final long numFrames = duration * Math.round(frameRate);
             double pts = 1000.0 * System.currentTimeMillis(); // Close enough for this.
+            output.addMetadataFrame(new MetadataFrame(getMiisLocalSet(), pts * 1.0e-6));
             output.addMetadataFrame(new MetadataFrame(getSecurityUniversalSet(), pts * 1.0e-6));
             for (long i = 0; i < numFrames / 6; ++i) {
                 output.addVideoFrame(new VideoFrame(image0, pts * 1.0e-6));
                 pts += frameDuration * 1.0e6;
             }
+            output.addMetadataFrame(new MetadataFrame(getMiisLocalSet(), pts * 1.0e-6));
             output.addMetadataFrame(new MetadataFrame(getSecurityUniversalSet(), pts * 1.0e-6));
             output.addMetadataFrame(new MetadataFrame(getNewAnnotationMessageBox1(), pts * 1.0e-6));
             output.addMetadataFrame(new MetadataFrame(getNewAnnotationMessageBox2(), pts * 1.0e-6));
@@ -183,6 +197,7 @@ public class Generator {
                 output.addVideoFrame(new VideoFrame(image1, pts * 1.0e-6));
                 pts += frameDuration * 1.0e6;
             }
+            output.addMetadataFrame(new MetadataFrame(getMiisLocalSet(), pts * 1.0e-6));
             output.addMetadataFrame(new MetadataFrame(getSecurityUniversalSet(), pts * 1.0e-6));
             output.addMetadataFrame(
                     new MetadataFrame(getStatusAnnotationMessageBox1(), pts * 1.0e-6));
@@ -193,6 +208,7 @@ public class Generator {
                 output.addVideoFrame(new VideoFrame(image2, pts * 1.0e-6));
                 pts += frameDuration * 1.0e6;
             }
+            output.addMetadataFrame(new MetadataFrame(getMiisLocalSet(), pts * 1.0e-6));
             output.addMetadataFrame(
                     new MetadataFrame(getDeleteAnnotation(identifierAnnotationBox1), pts * 1.0e-6));
             output.addMetadataFrame(new MetadataFrame(getNewAnnotationMessageBox2(), pts * 1.0e-6));
@@ -203,6 +219,7 @@ public class Generator {
                 output.addVideoFrame(new VideoFrame(image3, pts * 1.0e-6));
                 pts += frameDuration * 1.0e6;
             }
+            output.addMetadataFrame(new MetadataFrame(getMiisLocalSet(), pts * 1.0e-6));
             output.addMetadataFrame(new MetadataFrame(getNewAnnotationMessageBox2(), pts * 1.0e-6));
             output.addMetadataFrame(new MetadataFrame(getNewAnnotationMessageBox4(), pts * 1.0e-6));
             output.addMetadataFrame(new MetadataFrame(getNewAnnotationMessageBox1(), pts * 1.0e-6));
@@ -213,6 +230,7 @@ public class Generator {
                 output.addVideoFrame(new VideoFrame(image4, pts * 1.0e-6));
                 pts += frameDuration * 1.0e6;
             }
+            output.addMetadataFrame(new MetadataFrame(getMiisLocalSet(), pts * 1.0e-6));
             output.addMetadataFrame(
                     new MetadataFrame(getDeleteAnnotation(identifierAnnotationBox1), pts * 1.0e-6));
             output.addMetadataFrame(
@@ -226,6 +244,7 @@ public class Generator {
                 output.addVideoFrame(new VideoFrame(image0, pts * 1.0e-6));
                 pts += frameDuration * 1.0e6;
             }
+            output.addMetadataFrame(new MetadataFrame(getMiisLocalSet(), pts * 1.0e-6));
         } catch (IOException e) {
             LOG.error("Failed to write file", e);
         }
@@ -393,5 +412,18 @@ public class Generator {
                         SecurityMetadataString.OBJECT_COUNTRY_CODING_METHOD, "GENC Two Letter"));
         values.put(SecurityMetadataKey.ObjectCountryCodes, new ObjectCountryCodeString("AU"));
         return new SecurityMetadataUniversalSet(values);
+    }
+
+    private IMisbMessage getMiisLocalSet() {
+        Map<MiisMetadataKey, IMiisMetadataValue> map = new HashMap<>();
+        CoreIdentifier coreIdentifier = new CoreIdentifier();
+        coreIdentifier.setMinorUUID(minorUUID);
+        coreIdentifier.setVersion(1);
+        map.put(
+                MiisMetadataKey.Version,
+                new ST1301Version(MiisMetadataConstants.ST_VERSION_NUMBER));
+        map.put(MiisMetadataKey.CoreIdentifier, new ST1301CoreIdentifier(coreIdentifier));
+        MiisLocalSet localSet = new MiisLocalSet(map);
+        return localSet;
     }
 }
