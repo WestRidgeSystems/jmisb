@@ -13,6 +13,7 @@ import org.jmisb.api.klv.st0602.AnnotationActiveSamplesPerLineFactory;
 import org.jmisb.api.klv.st0602.AnnotationByteOrderFactory;
 import org.jmisb.api.klv.st0602.AnnotationMetadataUniversalSetFactory;
 import org.jmisb.api.klv.st0808.AncillaryTextLocalSetFactory;
+import org.jmisb.api.klv.st0809.MeteorologicalMetadataLocalSetFactory;
 import org.jmisb.api.klv.st0903.vtrack.VTrackLocalSetFactory;
 import org.jmisb.api.klv.st1108.InterpretabilityQualityLocalSetFactory;
 import org.jmisb.api.klv.st1902.MimdLocalSetFactory;
@@ -51,6 +52,9 @@ public class MisbMessageFactory {
                 new AnnotationActiveSamplesPerLineFactory());
         registerHandler(
                 KlvConstants.AnnotationUniversalSetUl, new AnnotationMetadataUniversalSetFactory());
+        registerHandler(
+                KlvConstants.MeteorologicalMetadataLocalSetUl,
+                new MeteorologicalMetadataLocalSetFactory());
     }
 
     /**
