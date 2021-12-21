@@ -23,6 +23,7 @@
         <module>rawklv</module>
         <module>annotations</module>
         <module>timetransfer</module>
+        <module>rangeimagegenerator</module>
     </modules>
 
     <dependencyManagement>

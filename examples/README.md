@@ -52,6 +52,10 @@ This example considered complete. See [its README](parserplugin/README.md) for m
 It does a console dump of the raw KLV in a file to standard output. In this context, "raw" is the de-multiplexed stream content.
 This example is considered complete. See [its README](rawklv/README.md) for more information.
 
+## rangeimagegenerator
+
+It generates a test file with video and ST 1002 Range Image KLV metadata. This example is a work-in-progress.
+
 ## systemout
 
 It does a console dump of the KLV metadata in a file to standard output (`System.out` in Java, hence the name).

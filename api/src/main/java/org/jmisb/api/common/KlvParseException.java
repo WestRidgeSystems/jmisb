@@ -4,6 +4,7 @@ import java.util.Arrays;
 
 /** Indicates an error occurred during metadata parsing. */
 public class KlvParseException extends Exception {
+    /** Internal store for inner exception. */
     private final byte[] buffer;
 
     /**

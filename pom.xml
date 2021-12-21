@@ -49,7 +49,10 @@
         <module>st0809</module>
         <module>st0903</module>
         <module>st0903vtrack</module>
+        <module>st1002</module>
+        <module>st1010</module>
         <module>st1108</module>
+        <module>st1202</module>
         <module>st1206</module>
         <module>st1301</module>
         <module>st1403</module>
@@ -64,7 +67,6 @@
         <module>viewer</module>
         <module>elevation</module>
         <module>examples</module>
-
     </modules>
 
     <scm>
@@ -571,6 +573,7 @@
                 <configuration>
                     <quiet>true</quiet>
                     <source>11</source>
+                    <docfilessubdirs>true</docfilessubdirs>
                 </configuration>
                 <executions>
                     <execution>
