@@ -82,12 +82,11 @@
         <jqf.version>1.7</jqf.version>
         <jxmapviewer.version>2.6</jxmapviewer.version>
         <log4j.version>2.17.0</log4j.version>
-        <maven.annotations.version>3.6.1</maven.annotations.version>
+        <maven.annotations.version>3.6.2</maven.annotations.version>
         <maven.assembly.plugin.version>3.3.0</maven.assembly.plugin.version>
         <maven.checkstyle.plugin>3.1.2</maven.checkstyle.plugin>
         <maven.clean.plugin.version>3.1.0</maven.clean.plugin.version>
         <maven.compiler.plugin.version>3.8.1</maven.compiler.plugin.version>
-        <maven.core.version>3.8.3</maven.core.version>
         <maven.deploy.plugin.version>3.0.0-M1</maven.deploy.plugin.version>
         <maven.enforcer.plugin.version>3.0.0</maven.enforcer.plugin.version>
         <maven.exec.plugin.version>3.0.0</maven.exec.plugin.version>
@@ -97,12 +96,11 @@
         <maven.jar.plugin.version>3.2.0</maven.jar.plugin.version>
         <maven.javadoc.plugin.version>3.3.1</maven.javadoc.plugin.version>
         <maven.minimum.version>3.3.9</maven.minimum.version>
-        <maven.plugin.api.version>3.8.3</maven.plugin.api.version>
         <maven.plugin.plugin.version>3.6.1</maven.plugin.plugin.version>
         <maven.resources.plugin.version>3.2.0</maven.resources.plugin.version>
         <maven.site.plugin.version>3.9.1</maven.site.plugin.version>
         <maven.source.plugin.version>3.2.1</maven.source.plugin.version>
-        <maven.version>3.8.3</maven.version>
+        <maven.version>3.8.4</maven.version>
         <miglayout.version>11.0</miglayout.version>
         <nexus.staging.plugin.version>1.6.8</nexus.staging.plugin.version>
         <owasp.dependency-check.version>6.5.0</owasp.dependency-check.version>
@@ -214,12 +212,12 @@
             <dependency>
                 <groupId>org.apache.maven</groupId>
                 <artifactId>maven-plugin-api</artifactId>
-                <version>${maven.plugin.api.version}</version>
+                <version>${maven.version}</version>
             </dependency>
             <dependency>
                 <groupId>org.apache.maven</groupId>
                 <artifactId>maven-core</artifactId>
-                <version>${maven.core.version}</version>
+                <version>${maven.version}</version>
             </dependency>
             <dependency>
                 <groupId>org.codehaus.plexus</groupId>
