@@ -158,7 +158,7 @@ public class MapFrame implements IMetadataListener {
                             defaultConfigurationInputStream,
                             userConfigurationFile.toPath(),
                             StandardCopyOption.REPLACE_EXISTING);
-                } catch (IOException | NullPointerException ex) {
+                } catch (IOException ex) {
                     LOG.warn("Failed to create user configuration file from defaults.");
                 }
             }
