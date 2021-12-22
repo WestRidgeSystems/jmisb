@@ -75,7 +75,7 @@
         <googleformatter.maven.plugin.version>1.7.5</googleformatter.maven.plugin.version>
         <gstreamer.version>1.4.0</gstreamer.version>
         <guava.version>31.0.1-jre</guava.version>
-        <jackson.version>2.13.0</jackson.version>
+        <jackson.version>2.13.1</jackson.version>
         <jacoco.version>0.8.7</jacoco.version>
         <javacpp.logging.debug>false</javacpp.logging.debug>
         <jqf.plugin.version>1.7</jqf.plugin.version>
