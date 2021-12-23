@@ -1,5 +1,6 @@
 package org.jmisb.api.klv.st0903;
 
+import static org.jmisb.api.klv.st0903.VmtiMetadataKey.VTargetSeries;
 import static org.testng.Assert.*;
 
 import java.util.ArrayList;
@@ -8,6 +9,7 @@ import java.util.SortedMap;
 import java.util.TreeMap;
 import org.jmisb.api.common.KlvParseException;
 import org.jmisb.api.klv.IKlvValue;
+import org.jmisb.api.klv.st0903.shared.EncodingMode;
 import org.jmisb.api.klv.st0903.vtarget.CentroidPixelColumn;
 import org.jmisb.api.klv.st0903.vtarget.CentroidPixelRow;
 import org.jmisb.api.klv.st0903.vtarget.TargetHAE;
@@ -140,5 +142,78 @@ public class VTargetSeriesTest {
     @Test
     public void testGetDisplayName() {
         assertEquals(vTargetSeriesFromBytes.getDisplayName(), "Target Series");
+    }
+
+    @Test(expectedExceptions = KlvParseException.class)
+    public void testBitMaskSeries_fuzz_363_0() throws KlvParseException {
+        byte bytes[] =
+                new byte[] {
+                    0x06,
+                    0x26,
+                    0x65,
+                    0x05,
+                    0x02,
+                    0x03,
+                    0x01,
+                    0x05,
+                    (byte) 0xce,
+                    0x4f,
+                    (byte) 0x89,
+                    (byte) 0xe1,
+                    0x29,
+                    (byte) 0xb0,
+                    (byte) 0x8c,
+                    (byte) 0x84,
+                    0x60,
+                    0x34,
+                    (byte) 0xb9,
+                    0x53,
+                    (byte) 0x94,
+                    0x04
+                };
+        IVmtiMetadataValue v = VmtiLocalSet.createValue(VTargetSeries, bytes, EncodingMode.IMAPB);
+    }
+
+    @Test(expectedExceptions = KlvParseException.class)
+    public void testBitMaskSeries_fuzz_363_1() throws KlvParseException {
+        byte bytes[] =
+                new byte[] {
+                    0x06,
+                    0x26,
+                    0x65,
+                    0x05,
+                    0x02,
+                    0x03,
+                    0x01,
+                    0x02,
+                    (byte) 0xc7,
+                    (byte) 0xaa,
+                    0x05,
+                    (byte) 0xda,
+                    0x26,
+                    0x0e,
+                    0x5c,
+                    (byte) 0x90,
+                    0x2e,
+                    0x79,
+                    (byte) 0xb9,
+                    0x53,
+                    (byte) 0xa4,
+                    0x04,
+                    0x71,
+                    (byte) 0x96,
+                    0x44,
+                    (byte) 0xc8,
+                    (byte) 0xfa,
+                    (byte) 0xf3,
+                    (byte) 0xc7,
+                    (byte) 0x88,
+                    0x28,
+                    (byte) 0x84,
+                    (byte) 0xd2,
+                    0x2e,
+                    0x02,
+                };
+        IVmtiMetadataValue v = VmtiLocalSet.createValue(VTargetSeries, bytes, EncodingMode.IMAPB);
     }
 }
