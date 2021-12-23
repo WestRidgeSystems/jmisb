@@ -50,7 +50,8 @@ public class BitMaskSeries implements IVmtiMetadataValue {
      * Create from encoded bytes.
      *
      * @param bytes Encoded byte array comprising the bit mask
-     * @throws KlvParseException if the byte array could not be parsed.
+     * @throws KlvParseException if there are too few bytes to parse or the parsing is otherwise
+     *     invalid
      */
     public BitMaskSeries(byte[] bytes) throws KlvParseException {
         int index = 0;
@@ -107,7 +108,7 @@ public class BitMaskSeries implements IVmtiMetadataValue {
         return bitMask;
     }
 
-    private PixelRunPair parsePixelRunPair(byte[] valueBytes) {
+    private PixelRunPair parsePixelRunPair(byte[] valueBytes) throws KlvParseException {
         int index = 0;
         BerField lengthField = BerDecoder.decode(valueBytes, 0, false);
         index += lengthField.getLength();
@@ -115,6 +116,9 @@ public class BitMaskSeries implements IVmtiMetadataValue {
             throw new IllegalArgumentException("Pixel number encoding is up to 6 bytes");
         }
         long pixelNumber = 0;
+        if (valueBytes.length < index + lengthField.getValue()) {
+            throw new KlvParseException("Too few bytes to parse BitMaskSeries pixel pairs");
+        }
         for (int i = index; i < (index + lengthField.getValue()); ++i) {
             pixelNumber = pixelNumber << 8;
             pixelNumber += ((int) valueBytes[i] & 0xFF);
