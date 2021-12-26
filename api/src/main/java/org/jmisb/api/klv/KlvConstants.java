@@ -163,4 +163,20 @@ public class KlvConstants {
                         0x06, 0x0E, 0x2B, 0x34, 0x02, 0x2B, 0x01, 0x01, 0x0E, 0x01, 0x03, 0x01,
                         0x0E, 0x00, 0x00, 0x00
                     });
+
+    /** Universal label for Time Transfer Local Set (ST 1603). */
+    public static final UniversalLabel TimeTransferLocalSetUl =
+            new UniversalLabel(
+                    new byte[] {
+                        0x06, 0x0E, 0x2B, 0x34, 0x02, 0x0B, 0x01, 0x01, 0x0E, 0x01, 0x03, 0x02,
+                        0x02, 0x00, 0x00, 0x00
+                    });
+
+    /** Universal label for Nano Time Transfer Pack (ST 1603). */
+    public static final UniversalLabel NanoTimeTransferPackUl =
+            new UniversalLabel(
+                    new byte[] {
+                        0x06, 0x0E, 0x2B, 0x34, 0x02, 0x05, 0x01, 0x01, 0x0E, 0x01, 0x03, 0x02,
+                        0x09, 0x00, 0x00, 0x00
+                    });
 }
