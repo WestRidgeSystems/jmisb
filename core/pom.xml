@@ -1,23 +1,18 @@
-<project xmlns="http://maven.apache.org/POM/4.0.0"
-         xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
-         xsi:schemaLocation="http://maven.apache.org/POM/4.0.0
-                      http://maven.apache.org/xsd/maven-4.0.0.xsd">
+<?xml version="1.0" encoding="UTF-8"?>
+<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://maven.apache.org/POM/4.0.0                       http://maven.apache.org/xsd/maven-4.0.0.xsd">
+
+    <modelVersion>4.0.0</modelVersion>
     <parent>
         <groupId>org.jmisb</groupId>
         <artifactId>jmisb</artifactId>
-        <version>1.10.1</version>
+        <version>1.11.0</version>
     </parent>
-
-    <modelVersion>4.0.0</modelVersion>
     <artifactId>jmisb-core</artifactId>
     <packaging>jar</packaging>
+    <name>Core</name>
+    <description>Utility classes using FFmpeg, intended for internal use</description>
 
     <dependencies>
-        <dependency>
-            <groupId>org.testng</groupId>
-            <artifactId>testng</artifactId>
-            <scope>test</scope>
-        </dependency>
         <dependency>
             <groupId>org.slf4j</groupId>
             <artifactId>slf4j-api</artifactId>
@@ -25,6 +20,16 @@
         <dependency>
             <groupId>org.bytedeco</groupId>
             <artifactId>ffmpeg-platform</artifactId>
+        </dependency>
+        <dependency>
+            <groupId>${project.groupId}</groupId>
+            <artifactId>jmisb-core-common</artifactId>
+            <version>${project.version}</version>
+        </dependency>
+        <dependency>
+            <groupId>org.testng</groupId>
+            <artifactId>testng</artifactId>
+            <scope>test</scope>
         </dependency>
     </dependencies>
 
@@ -38,14 +43,14 @@
                 <executions>
                     <execution>
                         <id>reformat-sources</id>
-                        <configuration>
-                            <style>AOSP</style>
-                            <fixImports>true</fixImports>
-                        </configuration>
                         <goals>
                             <goal>format</goal>
                         </goals>
                         <phase>process-sources</phase>
+                        <configuration>
+                            <style>AOSP</style>
+                            <fixImports>true</fixImports>
+                        </configuration>
                     </execution>
                 </executions>
             </plugin>
@@ -58,12 +63,24 @@
                     <suiteXmlFiles>
                         <suiteXmlFile>testng-unit.xml</suiteXmlFile>
                     </suiteXmlFiles>
+                    <systemPropertyVariables>
+                        <org.bytedeco.javacpp.logger.debug>${javacpp.logging.debug}</org.bytedeco.javacpp.logger.debug>
+                    </systemPropertyVariables>
+                    <properties>
+                        <property>
+                            <name>surefire.testng.verbose</name>
+                            <value>${surefire.verbosity}</value>
+                        </property>
+                    </properties>
                 </configuration>
             </plugin>
             <plugin>
                 <groupId>com.github.spotbugs</groupId>
                 <artifactId>spotbugs-maven-plugin</artifactId>
                 <version>${spotbugs.maven.version}</version>
+                <configuration>
+                    <excludeFilterFile>SpotBugsFilter.xml</excludeFilterFile>
+                </configuration>
                 <dependencies>
                     <dependency>
                         <groupId>com.github.spotbugs</groupId>
@@ -76,6 +93,32 @@
                         <goals>
                             <goal>check</goal>
                         </goals>
+                    </execution>
+                </executions>
+            </plugin>
+            <plugin>
+                <groupId>org.cyclonedx</groupId>
+                <artifactId>cyclonedx-maven-plugin</artifactId>
+                <version>${cyclonedx.version}</version>
+                <configuration>
+                    <projectType>library</projectType>
+                    <schemaVersion>${cyclonedx.schema.version}</schemaVersion>
+                    <includeBomSerialNumber>true</includeBomSerialNumber>
+                    <includeCompileScope>true</includeCompileScope>
+                    <includeProvidedScope>true</includeProvidedScope>
+                    <includeRuntimeScope>true</includeRuntimeScope>
+                    <includeSystemScope>true</includeSystemScope>
+                    <includeTestScope>false</includeTestScope>
+                    <includeLicenseText>false</includeLicenseText>
+                    <outputFormat>all</outputFormat>
+                    <outputName>${project.artifactId}-${project.version}-cyclonedx</outputName>
+                </configuration>
+                <executions>
+                    <execution>
+                        <goals>
+                            <goal>makeBom</goal>
+                        </goals>
+                        <phase>verify</phase>
                     </execution>
                 </executions>
             </plugin>
@@ -109,5 +152,3 @@
         </profile>
     </profiles>
 </project>
-
-

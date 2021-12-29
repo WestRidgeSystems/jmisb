@@ -11,6 +11,7 @@ import org.jmisb.api.klv.BerField;
 import org.jmisb.api.klv.st0601.dto.Location;
 import org.jmisb.api.klv.st0601.dto.Waypoint;
 import org.jmisb.api.klv.st1201.FpEncoder;
+import org.jmisb.api.klv.st1201.OutOfRangeBehaviour;
 import org.jmisb.core.klv.ArrayUtils;
 import org.jmisb.core.klv.PrimitiveConverter;
 
@@ -40,12 +41,12 @@ import org.jmisb.core.klv.PrimitiveConverter;
  */
 public class WaypointList implements IUasDatalinkValue {
     private final List<Waypoint> waypoints = new ArrayList<>();
-    private static int MANUAL_MODE = 0x01;
-    private static int ADHOC_SOURCE = 0x02;
+    private static byte MANUAL_MODE = 0x01;
+    private static byte ADHOC_SOURCE = 0x02;
 
-    private final FpEncoder latDecoder = new FpEncoder(-90, 90, 4);
-    private final FpEncoder lonDecoder = new FpEncoder(-180, 180, 4);
-    private final FpEncoder haeDecoder = new FpEncoder(-900, 9000, 3);
+    private final FpEncoder latDecoder = new FpEncoder(-90, 90, 4, OutOfRangeBehaviour.Default);
+    private final FpEncoder lonDecoder = new FpEncoder(-180, 180, 4, OutOfRangeBehaviour.Default);
+    private final FpEncoder haeDecoder = new FpEncoder(-900, 9000, 3, OutOfRangeBehaviour.Default);
 
     /**
      * Create from value.
@@ -88,9 +89,9 @@ public class WaypointList implements IUasDatalinkValue {
         waypoint.setProsecutionOrder(PrimitiveConverter.toInt16(waypointBytes, idx));
         idx += Short.BYTES;
         BerField waypointInfoField = BerDecoder.decode(waypointBytes, idx, false);
-        Boolean infoManual = ((waypointInfoField.getValue() & MANUAL_MODE) == MANUAL_MODE);
+        boolean infoManual = ((waypointInfoField.getValue() & MANUAL_MODE) == MANUAL_MODE);
         waypoint.setManualMode(infoManual);
-        Boolean adhocSource = ((waypointInfoField.getValue() & ADHOC_SOURCE) == ADHOC_SOURCE);
+        boolean adhocSource = ((waypointInfoField.getValue() & ADHOC_SOURCE) == ADHOC_SOURCE);
         waypoint.setAdhocSource(adhocSource);
         idx += waypointInfoField.getLength();
         Location location = new Location();

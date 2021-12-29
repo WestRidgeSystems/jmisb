@@ -1,0 +1,21 @@
+name: JDK14 Build (Ubuntu 20.04)
+
+on:
+    push:
+      branches: [ develop ]
+    pull_request:
+      branches: [ develop ]
+
+jobs:
+  build:
+    runs-on: ubuntu-20.04
+
+    steps:
+      - uses: actions/checkout@v2
+      - name: Set up JDK
+        uses: actions/setup-java@v1
+        with:
+          java-version: 14
+      - name: Build and install
+        run: mvn -B install -Pdebug || mvn -B install -Pdebug || mvn -B install -Pdebug
+

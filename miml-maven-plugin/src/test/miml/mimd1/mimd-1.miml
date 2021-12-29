@@ -1,0 +1,679 @@
+//------------------------------------------------------------------------------------------------------------------------
+// Copyright (c) 2021 National Geospatial Agency (NGA). This file is made available as is with no liability on NGA's part.
+// Users can make changes as needed with sole responsibility to provide NGA a copy if enhancements are made or issues are
+// corrected. This file contains the Motion Imagery MetaData (MIMD) Model using the Motion Imagery Modeling Language
+// (MIML) grammar defined by the Motion Imagery Standards Board (MISB). Please refer to the MISB standards ST1901 through
+// ST1908 for further information on the MIMD model. Refer to the appropriate MIML grammar files (MIML_v#.g4 and
+// MIMLLexerRules_v#.g4, where # is the MIML grammar version number) to programmatically parse and process this file using
+// ANTLR4.
+//------------------------------------------------------------------------------------------------------------------------
+// Validated: 2021-01-26T02:15Z 
+//----------------------------------
+MIML_Grammar=3.0;
+Model_Version=1;
+class MIMD includes Base {
+  Document = ST1903;
+  33_version                        : UInt                   {None};
+  34_compositeProductSecurity       : REF<Security>          {None};
+  35_compositeMotionImagerySecurity : REF<Security>          {None};
+  36_compositeAudioSecurity         : REF<Security>          {None};
+  37_compositeMetadataSecurity      : REF<Security>          {None};
+  38_timers                         : LIST<Timer>     (1, *) {None};
+  39_platforms                      : LIST<Platform>         {None};
+  40_securityOptions                : LIST<Security>  (1, *) {None};
+  41_groupIdRange                   : Tuple           (2)    {None};
+  42_algorithms                     : LIST<Algorithm>        {None};
+  43_ontologies                     : LIST<Ontology>         {None};
+  44_tracks                         : LIST<Track>            {None};
+}
+class Algorithm includes Base {
+  Document = ST1903;
+  33_name       : String (100) {None};
+  34_version    : String (50)  {None};
+  35_type       : String (100) {None};
+  36_parameters : String (100) {None};
+}
+class Ontology includes Base {
+  Document = ST1903;
+  33_ontology : String (100) {None};
+}
+class Track includes Base {
+  Document = ST1907;
+  33_startTime      : UInt                                        {  ns};
+  34_confidence     : Real                      (0.0, 100.0, 0.1) {   %};
+  35_trackAlgorithm : REF<Algorithm>                              {None};
+  36_boundary       : LIST<Correspondence>      (0, 2)            {None};
+  37_detections     : REF<CorrespondenceGroup>[]                  {None};
+  38_tracks         : REF<Track>[]                                {None};
+  39_status         : TrackStatus                                 {None};
+}
+class CorrespondenceGroup includes Base {
+  Document = ST1907;
+  33_priority        : UInt                                        {None};
+  34_confidence      : Real                      (0.0, 100.0, 0.1) {   %};
+  35_color           : UInt[]                                      {None};
+  36_crossRef        : REF<CorrespondenceGroup>                    {None};
+  37_type            : CorrespondenceGroupType                     {None};
+  38_object          : LIST<Object>                                {None};
+  39_mask            : CorrespondenceGroupMask                     {None};
+  40_rectangle       : LIST<Correspondence>      (0, 2)            {None};
+  41_centroid        : Correspondence                              {None};
+  42_boundary        : LIST<Correspondence>                        {None};
+  43_algorithm       : REF<Algorithm>                              {None};
+  44_correspondences : REF<Correspondence>[]                       {None};
+}
+class CorrespondenceGroupMask includes Base {
+  Document = ST1907;
+  33_upperLeftRow : UInt         {None};
+  34_upperLeftCol : UInt         {None};
+  35_mask         : Boolean[][]  {None};
+}
+class Object includes Base {
+  Document = ST1907;
+  33_confidence  : Real          (0.0, 100.0, 0.1) {   %};
+  34_ontology    : REF<Ontology>                   {None};
+  35_designation : String        (100)             {None};
+}
+class Timer includes Base {
+  Document = ST1903;
+  33_nanoPrecisionTimestamp : UInt                     {  ns};
+  34_utcLeapSeconds         : Integer                  {   s};
+  35_timeTransferMethod     : TimeTransferMethod       {None};
+  36_correctionMethod       : CorrectionMethod         {None};
+  37_referenceSource        : ReferenceSource          {None};
+  38_syncPulseFreq          : Real               (0.0) {  Hz};
+  39_unlockTime             : UInt                     {  ns};
+  40_lastSyncDiff           : UInt                     {  ns};
+  41_driftRate              : Real                     {ns/s};
+  42_signalSourceDelay      : UInt                     {  ns};
+  43_source                 : REF<Stage>               {None};
+  44_correctionOffset       : Integer                  {  ns};
+}
+class Security includes Base {
+  Document = ST1903;
+  33_classifyingMethod : String (100) {None};
+  34_classification    : String (500) {None};
+}
+class Base {
+  Document = ST1904;
+  01_mimdId           : Tuple              (2) {None};
+  02_timer            : REF<Timer>             {None};
+  03_timerOffset      : Integer                {  ns};
+  04_numericPrecision : NumericalPrecision     {None};
+  05_security         : REF<Security>          {None};
+  06_reserved6        : RESERVED               {None};
+  07_reserved7        : RESERVED               {None};
+  08_reserved8        : RESERVED               {None};
+  09_reserved9        : RESERVED               {None};
+  10_reserved10       : RESERVED               {None};
+  11_reserved11       : RESERVED               {None};
+  12_reserved12       : RESERVED               {None};
+  13_reserved13       : RESERVED               {None};
+  14_reserved14       : RESERVED               {None};
+  15_reserved15       : RESERVED               {None};
+  16_reserved16       : RESERVED               {None};
+  17_reserved17       : RESERVED               {None};
+  18_reserved18       : RESERVED               {None};
+  19_reserved19       : RESERVED               {None};
+  20_reserved20       : RESERVED               {None};
+  21_reserved21       : RESERVED               {None};
+  22_reserved22       : RESERVED               {None};
+  23_reserved23       : RESERVED               {None};
+  24_reserved24       : RESERVED               {None};
+  25_reserved25       : RESERVED               {None};
+  26_reserved26       : RESERVED               {None};
+  27_reserved27       : RESERVED               {None};
+  28_reserved28       : RESERVED               {None};
+  29_reserved29       : RESERVED               {None};
+  30_reserved30       : RESERVED               {None};
+  31_reserved31       : RESERVED               {None};
+  32_reserved32       : RESERVED               {None};
+}
+class NumericalPrecision {
+  Document = ST1904;
+  33_refinedSources : LIST<RefinedSource> (1, *) {None};
+  34_sdcc           : SDCC                       {None};
+}
+class RefinedSource {
+  Document = ST1904;
+  33_instanceRef : REF<Base>      {None};
+  34_path        : UInt[]     (1) {None};
+  35_attributeId : UInt       (1) {None};
+}
+class SDCC {
+  Document = ST1904;
+  33_sdVals : Real[]  (0.0)       {None};
+  34_ccVals : Real[][](-1.0, 1.0) {None};
+}
+class Platform includes Base {
+  Document = ST1905;
+  33_name         : String        (100) {None};
+  34_identity     : String        (100) {None};
+  35_type         : PlatformType        {None};
+  36_atmosphere   : Atmosphere          {None};
+  37_surfaceWater : SurfaceWater        {None};
+  38_stages       : LIST<Stage>         {None};
+  39_payloads     : LIST<Payload>       {None};
+}
+class Atmosphere includes Base {
+  Document = ST1905;
+  33_airTemperature       : Real (-128.0, 127.0, 1.0)   { °C};
+  34_relativeHumidity     : Real (0.0, 100.0, 0.1)      {  %};
+  35_densityAltitude      : Real (-900.0, 40000.0, 0.3) {  m};
+  36_differentialPressure : Real (0.0, 5000.0)          {hPa};
+  37_staticPressure       : Real (0.0, 5000.0)          {hPa};
+  38_windDirection        : Real (0.0, TWO_PI)          {rad};
+  39_windSpeed            : Real (0.0, 200.0)           {m/s};
+}
+class SurfaceWater includes Base {
+  Document = ST1905;
+  33_waterTemperature : Real (-10.0, 100.0, 1.0) { °C};
+  34_currentDirection : Real (0.0, TWO_PI)       {rad};
+  35_currentSpeed     : Real (0.0, 200.0)        {m/s};
+}
+class Stage includes Base {
+  Document = ST1906;
+  33_parentStage : REF<Stage>    {None};
+  34_position    : Position      {None};
+  35_orientation : Orientation   {None};
+}
+class Position includes Base {
+  Document = ST1906;
+  33_country       : String          (100) {None};
+  34_absGeocentric : AbsGeocentric         {None};
+  35_absGeodetic   : AbsGeodetic           {None};
+  36_relPosition   : RelPosition           {None};
+  37_kinematics    : LIST<Kinematic>       {None};
+  38_sources       : LIST<Source>          {None};
+}
+class AbsGeocentric extends Position {
+  Document = ST1906;
+  33_x : Real (-6500000.0, 6500000.0, 0.01) {m};
+  34_y : Real (-6500000.0, 6500000.0, 0.01) {m};
+  35_z : Real (-6500000.0, 6500000.0, 0.01) {m};
+}
+class AbsGeodetic extends Position {
+  Document = ST1906;
+  33_lat        : Real       (-HALF_PI, HALF_PI, 1.00E-16) { rad};
+  34_lon        : Real       (-PI, PI, 1.00E-16)           { rad};
+  35_hae        : Real       (-12000.0, 50000.0, 1.00E-06) {   m};
+  36_confidence : Confidence                               {None};
+}
+class Confidence includes Base {
+  Document = ST1906;
+  33_circularError : Real (0.0, 10000.0, 1.00E-03) {m};
+  34_linearError   : Real (0.0, 10000.0, 1.00E-03) {m};
+  35_level         : Real (0.0, 100.0, 1.0)        {%};
+}
+class RelPosition extends Position {
+  Document = ST1906;
+  33_x : Real (-800000.0, 800000.0, 0.001) {m};
+  34_y : Real (-800000.0, 800000.0, 0.001) {m};
+  35_z : Real (-800000.0, 800000.0, 0.001) {m};
+}
+class Orientation includes Base {
+  Document = ST1906;
+  33_absEnu          : AbsEnu                                  {None};
+  34_relOrientation  : RelOrientation                          {None};
+  35_reserved        : RESERVED                                {None};
+  36_kinematics      : LIST<Kinematic>                         {None};
+  37_magneticHeading : Real            (0.0, TWO_PI, 1.745e-3) { rad};
+  38_course          : Real            (0.0, TWO_PI, 1.745e-3) { rad};
+}
+class AbsEnu extends Orientation {
+  Document = ST1906;
+  33_rotAboutEast  : Real (-PI, PI, 1.00E-16) {rad};
+  34_rotAboutNorth : Real (-PI, PI, 1.00E-16) {rad};
+  35_rotAboutUp    : Real (-PI, PI, 1.00E-16) {rad};
+}
+class RelOrientation extends Orientation {
+  Document = ST1906;
+  33_alpha : Real (-PI, PI, 1.00E-16) {rad};
+  34_beta  : Real (-PI, PI, 1.00E-16) {rad};
+  35_psi   : Real (-PI, PI, 1.00E-16) {rad};
+}
+class Kinematic includes Base {
+  Document = ST1906;
+  33_k1       : Real         {See Description};
+  34_k2       : Real         {See Description};
+  35_k3       : Real         {See Description};
+  36_reserved : RESERVED     {           None};
+  37_level    : UInt     (1) {           None};
+}
+class Source includes Base {
+  Document = ST1906;
+  33_positionMethod  : PositionMethod   { None};
+  34_numNavSatInView : UInt             {count};
+}
+class Payload includes Base {
+  Document = ST1907;
+  33_status                 : DeviceStatus                      {None};
+  34_powerStatus            : PowerStatus                       {None};
+  35_name                   : String                      (100) {None};
+  36_stages                 : LIST<Stage>                       {None};
+  37_geoIntelligenceSensors : LIST<GeoIntelligenceSensor>       {None};
+  38_warning                : DeviceWarning                     {None};
+  39_error                  : DeviceError                       {None};
+}
+class GeoIntelligenceSensor includes Base {
+  Document = ST1907;
+  33_nCols                : UInt                            {Columns};
+  34_nRows                : UInt                            {   Rows};
+  35_name                 : String                    (100) {   None};
+  36_type                 : GISensorType                    {   None};
+  37_status               : DeviceStatus                    {   None};
+  38_stages               : LIST<Stage>                     {   None};
+  39_correspondences      : LIST<Correspondence>            {   None};
+  40_imagerSystem         : ImagerSystem                    {   None};
+  41_laserSensor          : LaserSensor                     {   None};
+  42_correspondenceGroups : LIST<CorrespondenceGroup>       {   None};
+  43_warning              : DeviceWarning                   {   None};
+  44_error                : DeviceError                     {   None};
+}
+class Correspondence includes Base {
+  Document = ST1907;
+  33_col      : Real                (0.0) {Columns};
+  34_row      : Real                (0.0) {   Rows};
+  35_type     : CorrType                  {   None};
+  36_crossRef : REF<Correspondence>       {   None};
+  37_position : Position                  {   None};
+  38_range    : Range                     {   None};
+}
+class LaserSensor extends GeoIntelligenceSensor {
+  Document = ST1907;
+  33_laserCode           : UInt        (0, 65535)             {None};
+  34_lrfDivergence       : Real        (0.0, 785.0, 0.1)      {mrad};
+  35_wavelength          : Real        (0.0, 1000.0, 0.001)   {  µm};
+  36_peakPower           : Real        (0.0, 1000.0, 0.001)   {  MW};
+  37_averagePower        : Real        (0.0, 1000.0, 0.001)   {  KW};
+  38_pulseEnergy         : Real        (0.0, 1000.0, 0.001)   {   J};
+  39_pulseDuration       : Real        (0.0, 100.0, 1.00E-09) {   s};
+  40_pulseRepetitionRate : Real        (0.0, 500000.0, 0.1)   {  Hz};
+  41_beamSize            : Real        (0.0, 1.0, 0.001)      {  mm};
+  42_safetyState         : SafetyState                        {None};
+}
+class Range includes Base {
+  Document = ST1907;
+  33_rangeDistance : Real          (0.0, 5000000.0, 0.01) {   m};
+  34_measureMethod : MeasureMethod                        {None};
+}
+class ImagerSystem extends GeoIntelligenceSensor {
+  Document = ST1908;
+  33_name        : String       (127) {None};
+  34_controlMode : ControlMode        {None};
+  35_optics      : LIST<Optics>       {None};
+  36_imager      : Imager             {None};
+  37_fieldOfView : FieldOfView        {None};
+  38_calibration : Calibration        {None};
+  39_miis        : MIIS               {None};
+}
+class Optics includes Base {
+  Document = ST1908;
+  33_apertureSize       : Real                (0.0, 100.0, 1.0E-4) {   m};
+  34_focalLength        : Real                (0.0, 100.0, 1.0E-4) {   m};
+  35_activeDistortion   : REF<Distortion>                          {None};
+  36_activeTransmission : REF<Transmission>                        {None};
+  37_activeFilters      : REF<Filter>[]                            {None};
+  38_focusDistance      : Real                (0.0, 100.0)         {  km};
+  39_distortions        : LIST<Distortion>                         {None};
+  40_transmissions      : LIST<Transmission>                       {None};
+  41_filters            : LIST<Filter>                             {None};
+  42_stabilization      : Stabilization                            {None};
+}
+class Distortion includes Base {
+  Document = ST1908;
+  33_validRange                      : Real   {     mm};
+  34_constantParameter               : Real   {  mm/mm};
+  35_radialDistortionParameter1      : Real   {mm/mm^3};
+  36_radialDistortionParameter2      : Real   {mm/mm^5};
+  37_radialDistortionParameter3      : Real   {mm/mm^7};
+  38_tangentialDecenteringParameter1 : Real   {mm/mm^2};
+  39_tangentialDecenteringParameter2 : Real   {mm/mm^2};
+  40_tangentialDecenteringParameter3 : Real   { 1/mm^2};
+}
+class Transmission includes Base {
+  Document = ST1908;
+  33_startWavelength : Real (0.0, 1000.0, 1.00E-06) {µm};
+  34_endWavelength   : Real (0.0, 1000.0, 1.00E-06) {µm};
+  35_transmittance   : Real (0.0, 100.0, 0.1)       { %};
+}
+class Filter includes Base {
+  Document = ST1908;
+  33_filterType        : FilterType                         {None};
+  34_risingEdge        : Real       (0.0, 1000.0, 1.00E-06) {  µm};
+  35_fallingEdge       : Real       (0.0, 1000.0, 1.00E-06) {  µm};
+  36_centerWavelength  : Real       (0.0, 1000.0, 1.00E-06) {  µm};
+  37_transmission      : Real       (0.0, 100.0, 0.1)       {   %};
+  38_polarizationAngle : Real       (0.0, PI, 1.0)          { rad};
+}
+class Stabilization includes Base {
+  Document = ST1908;
+  33_offsetX : Real (-100.0, 100.0, 1.00E-06) {mm};
+  34_offsetY : Real (-100.0, 100.0, 1.00E-06) {mm};
+}
+class FieldOfView includes Base {
+  Document = ST1908;
+  33_horizontal : Real            (0.0, TWO_PI, 1.7E-5) { rad};
+  34_vertical   : Real            (0.0, TWO_PI, 1.7E-5) { rad};
+  35_name       : FieldOfViewName                       {None};
+}
+class Calibration includes Base {
+  Document = ST1908;
+  33_scale                  : Real   {mm/mm};
+  34_skew                   : Real   {mm/mm};
+  35_principalPointOffsetX  : Real   {   mm};
+  36_principalPointOffsetY  : Real   {   mm};
+  37_calibrationFocalLength : Real   {   mm};
+}
+class Imager includes Base {
+  Document = ST1908;
+  33_internalTemperature : Real   (-274.0, 127.0, 1.0) {    °C};
+  34_corner1Col          : UInt                        {Pixels};
+  35_corner1Row          : UInt                        {Pixels};
+  36_corner2Row          : UInt                        {Pixels};
+  37_corner2Col          : UInt                        {Pixels};
+  38_sensor              : Sensor                      {  None};
+}
+class Sensor includes Base {
+  Document = ST1908;
+  33_polarity                : ImagePolarity                                 {None};
+  34_xColumns                : UInt                                          {None};
+  35_yRows                   : UInt                                          {None};
+  36_xSampleSize             : Real                (0.0, 1000.0, 0.01)       {  µm};
+  37_ySampleSize             : Real                (0.0, 1000.0, 0.01)       {  µm};
+  38_xPitch                  : Real                (0.0, 1000.0, 0.01)       {  µm};
+  39_yPitch                  : Real                (0.0, 1000.0, 0.01)       {  µm};
+  40_exposureStartTimeOffset : Integer             (-1000000000, 1000000000) {  ns};
+  41_exposureEndTimeOffset   : Integer             (-1000000000, 1000000000) {  ns};
+  42_detectorGroups          : LIST<DetectorGroup>                           {None};
+  43_detectorElement         : DetectorElement                               {None};
+  44_detectorFilter          : DetectorFilter                                {None};
+  45_badDetectorMap          : BadDetectorMap                                {None};
+  46_sensorAdjustments       : SensorAdjustments                             {None};
+}
+class DetectorGroup includes Base {
+  Document = ST1908;
+  33_regions : LIST<Region>   {None};
+}
+class Region includes Base {
+  Document = ST1908;
+  33_sub1Detector1Row                : UInt   {Detectors};
+  34_sub1Detector1Col                : UInt   {Detectors};
+  35_sub1Detector1StartTimeOffset    : UInt   {       ns};
+  36_sub1Detector1EndTimeOffset      : UInt   {       ns};
+  37_sub1LastDetectorRow             : UInt   {Detectors};
+  38_sub1LastDetectorCol             : UInt   {Detectors};
+  39_sub1LastDetectorStartTimeOffset : UInt   {       ns};
+  40_sub2Detector1Row                : UInt   {Detectors};
+  41_sub2Detector1Col                : UInt   {Detectors};
+  42_sub2Detector1StartTimeOffset    : UInt   {       ns};
+  43_lastSubLastDetectorRow          : UInt   {Detectors};
+  44_lastSubLastDetectorCol          : UInt   {Detectors};
+}
+class DetectorElement includes Base {
+  Document = ST1908;
+  33_wellDepth         : UInt                           {Electrons};
+  34_readNoise         : Real   (0.0, 5000.0, 0.1)      {Electrons};
+  35_quantumEfficiency : Real   (0.0, 100.0, 0.1)       {        %};
+  36_fillFactor        : Real   (0.0, 100.0, 0.1)       {        %};
+  37_spectralBand      : Real[2](0.0, 1000.0, 1.00E-06) {       µm};
+  38_bitDepth          : UInt   (0, 32)                 {     None};
+}
+class DetectorFilter includes Base {
+  Document = ST1908;
+  33_wavelengths      : Real[][2](0.0, 1000.0, 1.00E-06) {  µm};
+  34_peakTransmission : Real[]   (0.0, 100.0, 0.1)       {   %};
+  35_pattern          : UInt[][]                         {None};
+}
+class BadDetectorMap includes Base {
+  Document = ST1908;
+  33_rows      : UInt[]     {Detector};
+  34_cols      : UInt[]     {Detector};
+  35_detectors : UInt[2][]  {Detector};
+}
+class SensorAdjustments includes Base {
+  Document = ST1908;
+  33_nucGain    : Real[][]   (0.0, 65536.0, 0.01) {None};
+  34_nucOffset  : Integer[][](-32768, 32767)      {None};
+  35_gain       : Real       (0.0, 65536.0, 0.01) {  dB};
+  36_nucApplied : NoYes                           {None};
+}
+class MIIS includes Base {
+  Document = ST1908;
+  33_version            : UInt                 {None};
+  34_foundationalCoreId : FoundationalCoreId   {None};
+  35_minorCoreId        : MinorCoreId          {None};
+}
+class FoundationalCoreId extends MIIS {
+  Document = ST1908;
+  33_idComponents : LIST<IdComponent>   {None};
+}
+class IdComponent includes Base {
+  Document = ST1908;
+  33_uuid        : UInt[16]               (0, 255) {None};
+  34_idType      : IdentifierType                  {None};
+  35_idComponent : IdentifierComponent             {None};
+}
+class MinorCoreId extends MIIS {
+  Document = ST1908;
+  33_uuid : UInt[16](0, 255) {None};
+}
+enumeration TimeTransferMethod {
+  Document = ST1903;
+  00 = Unknown  {Unknown Time Transfer Method };
+  01 = GPS      {Global Positioning System (GPS) PPS };
+  02 = PTP_V1   {Precision Time Protocol (PTP) - Version 1 };
+  03 = PTP_V2   {Precision Time Protocol (PTP) - Version 2 };
+  04 = NTP_V3_3 {Network Time Protocol (NTP) - Version 3.3 };
+  05 = NTP_V4   {Network Time Protocol (NTP) - Version 4 };
+  06 = IRIG_A   {Inter-range Instrumentation Group (IRIG-A) };
+  07 = IRIG_B   {Inter-range Instrumentation Group (IRIG-B) };
+}
+enumeration CorrectionMethod {
+  Document = ST1903;
+  00 = Unknown {Unknown Correction Method};
+  01 = Jam     {Jam Correction Method };
+  02 = Slew    {Slew Correction Method};
+}
+enumeration ReferenceSource {
+  Document = ST1903;
+  00 = Unknown          {Reference Source status is unknown};
+  01 = Not_Synchronized {Reference Source is not synchronized to an atomic source};
+  02 = Synchronized     {Reference Source is synchronized to an atomic source};
+}
+enumeration PlatformType {
+  Document = ST1905;
+  01 = Aircraft                   {Aircraft. See NTAX for detailed description};
+  02 = FixedWingAircraft          {Fixed-wing Manned Aircraft. See NTAX for detailed description};
+  03 = FixedWingMannedAircraft    {Fixed-wing Manned Aircraft. See NTAX for detailed description};
+  04 = FixedWingUAV               {Fixed-wing Unmanned Aerial Vehicle (UAV). See NTAX for detailed description};
+  05 = RotaryWingAircraft         {Rotary-wing Aircraft. See NTAX for detailed description};
+  06 = RotaryWingMannedAircraft   {Rotary-wing Manned Aircraft. See NTAX for detailed description};
+  07 = RotaryWingUAV              {Rotary-wing Unmanned Aerial Vehicle (UAV). See NTAX for detailed description};
+  08 = GroundVehicle              {Ground Vehicle. See NTAX for detailed description};
+  09 = ArmouredCombatVehicle      {Armoured Combat Vehicle. See NTAX for detailed description};
+  10 = ArmouredGroundPlatform     {Armoured Ground Platform. See NTAX for detailed description};
+  11 = ArmouredRecoveryVehicle    {Armoured Recovery Vehicle. See NTAX for detailed description};
+  12 = HalfTrackedArmouredVehicle {Half-tracked Armoured Vehicle. See NTAX for detailed description};
+  13 = HeavyArmouredCombatVehicle {Heavy Armoured Combat Vehicle. See NTAX for detailed description};
+  14 = LightArmouredCombatVehicle {Light Armoured Combat Vehicle. See NTAX for detailed description};
+  15 = LightTank                  {Light Tank. See NTAX for detailed description};
+  16 = MainBattleTank             {Main Battle Tank. See NTAX for detailed description};
+  17 = ArtilleryCommandVehicle    {Artillery Command Vehicle. See NTAX for detailed description};
+  18 = EngineeringVehicle         {Engineering Vehicle. See NTAX for detailed description};
+  19 = ArmouredBridgeLauncher     {Armoured Bridge Launcher. See NTAX for detailed description};
+  20 = CraneVehicle               {Crane Vehicle. See NTAX for detailed description};
+  21 = EarthMovingEquipment       {Earth-moving Equipment. See NTAX for detailed description};
+  22 = Bulldozer                  {Bulldozer. See NTAX for detailed description};
+  23 = Grader                     {Grader. See NTAX for detailed description};
+  24 = MobileExcavator            {Mobile Excavator. See NTAX for detailed description};
+  25 = MultipurposeEarthMover     {Multipurpose Earth Mover. See NTAX for detailed description};
+  26 = Scraper                    {Scraper. See NTAX for detailed description};
+  27 = Trencher                   {Trencher. See NTAX for detailed description};
+  28 = GroundAmbulance            {Ground Ambulance. See NTAX for detailed description};
+  29 = ArmouredTrackedAmbulance   {Armoured Tracked Ambulance. See NTAX for detailed description};
+  30 = ArmouredWheeledAmbulance   {Armoured Wheeled Ambulance. See NTAX for detailed description};
+  31 = TruckWheeledAmbulance      {Truck Wheeled Ambulance. See NTAX for detailed description};
+  32 = PetroleumOilLubVehicle     {Petroleum, Oil, and Lubricant (POL) Vehicle. See NTAX for detailed description};
+  33 = PetroleumOilLubPipeLayer   {Petroleum, Oil, and Lubricant (POL) Pipe-layer. See NTAX for detailed description};
+  34 = PetroleumOilLubTanker      {Petroleum, Oil, and Lubricant (POL) Tanker. See NTAX for detailed description};
+  35 = UnmannedGroundVehicle      {Unmanned Ground Vehicle. See NTAX for detailed description};
+  36 = WheeledCargoTransport      {Wheeled Cargo Transport. See NTAX for detailed description};
+  37 = CargoTruck                 {Cargo Truck. See NTAX for detailed description};
+  38 = DumpTruck                  {Dump Truck. See NTAX for detailed description};
+  39 = SemiTrailerTruck           {Semi-trailer Truck. See NTAX for detailed description};
+  40 = Trailer                    {Trailer. See NTAX for detailed description};
+  41 = TruckTractor               {Truck Tractor. See NTAX for detailed description};
+  42 = UtilityTruck               {Utility Truck. See NTAX for detailed description};
+  43 = MaritimeVessel             {Maritime Vessel. See NTAX for detailed description};
+  44 = AmphibiousTransporter      {Amphibious Transporter. See NTAX for detailed description};
+  45 = BridgeSupportBoat          {Bridge Support Boat. See NTAX for detailed description};
+  46 = Ferry                      {Ferry. See NTAX for detailed description};
+  47 = Hulk                       {Hulk. See NTAX for detailed description};
+  48 = NavalAuxiliaryShip         {Naval Auxiliary Ship. See NTAX for detailed description};
+  49 = NavalCombatantCraft        {Naval Combatant Craft. See NTAX for detailed description};
+  50 = NavalCombatantShip         {Naval Combatant Ship. See NTAX for detailed description};
+  51 = NavalSubmarine             {Naval Submarine. See NTAX for detailed description};
+  52 = NavalSupportCraft          {Naval Support Craft. See NTAX for detailed description};
+  53 = Pontoon                    {Pontoon. See NTAX for detailed description};
+  54 = Spacecraft                 {Spacecraft. See NTAX for detailed description};
+  55 = Satellite                  {Satellite. See NTAX for detailed description};
+  56 = SpaceLaunchVehicle         {Space Launch Vehicle. See NTAX for detailed description};
+  57 = Automobile                 {Platform is a four-wheeled commercial vehicle for carrying people (e.g., sedan, SUV, hatchback)};
+  58 = MotorCycle                 {Platform is a two or three wheeled motorized bike};
+  59 = Cycle                      {Platform is a two or three wheeled human powered bike};
+  60 = Animal                     {Platform is a living creature for body mounted sensor(s)};
+  61 = Human                      {Platform is a person for handheld or body mounted sensors(s)};
+  62 = Structure                  {Platform is a building or other structure for mounting sensor(s)};
+  63 = Pole                       {Platform is a pole (e.g., telephone pole or sensor tower), statically mounted in the ground};
+}
+enumeration PositionMethod {
+  Document = ST1906;
+  00 = INS             {On-board Inertial Navigation System};
+  01 = NAVSAT_GPS      {GPS - U.S.};
+  02 = NAVSAT_GALILEO  {Galileo - E.U.};
+  03 = NAVSAT_QZSS     {QZSS - Japan};
+  04 = NAVSAT_NAVIC    {NAVIC - India};
+  05 = NAVSAT_GLONASS  {GLONASS - Russia};
+  06 = NAVSAT_BEIDOU_1 {BeiDou-1 - China};
+  07 = NAVSAT_BEIDOU_2 {BeiDou-2 - China};
+  08 = FIXED           {Fixed point on earth};
+}
+enumeration DeviceStatus {
+  Document = ST1907;
+  00 = Nominal {The device is in a nominal state};
+  01 = Stowed  {The device is oriented in a manner that protects it or is in another temporary non-functioning state };
+}
+enumeration DeviceWarning {
+  Document = ST1907;
+  00 = Nominal             {No Warnings};
+  01 = Unspecified_Warning {The device is reporting a warning with unknown meaning};
+  02 = Over_Temperature    {The device is over its maximum temperature};
+  03 = Under_Temperature   {The device is under its minimum specified temperature};
+}
+enumeration DeviceError {
+  Document = ST1907;
+  00 = Nominal           {No Errors};
+  01 = Unspecified_Error {The device is reporting an error with unspecified meaning};
+  02 = Over_Temperature  {The device is over its maximum temperature};
+  03 = Under_Temperature {The device is under its minimum specified temperature};
+  04 = Stowage_Error     {The device has a problem while trying to stow or unstow};
+}
+enumeration PowerStatus {
+  Document = ST1907;
+  00 = Off {The device is powered off};
+  01 = On  {The device is powered on};
+}
+enumeration GISensorType {
+  Document = ST1907;
+  00 = EO     {Electro Optical Sensor};
+  01 = LIDAR  {LIDAR Sensor};
+  02 = RADAR  {RADAR Sensor};
+  03 = SIGINT {Signal Intelligence Sensor};
+  04 = SAR    {Synthetic Aperture Radar Sensor};
+}
+enumeration SafetyState {
+  Document = ST1907;
+  00 = Safe      {Laser is set to not be able to fire};
+  01 = Armed     {Laser is ready to fire};
+  02 = Firing    {Laser is actively propagating energy};
+  03 = Inhibited {Laser is prevented from firing for safety or other reasons (e.g., over temp)};
+}
+enumeration MeasureMethod {
+  Document = ST1907;
+  00 = Unknown  {The method is not known. This is the default.};
+  01 = Measured {The range distance attribute's value is a measurement using a geo-intelligence sensor such as an LRF};
+  02 = Computed {The range distance attribute's value is the result of a computation};
+}
+enumeration ControlMode {
+  Document = ST1908;
+  01 = HomePosition          {The sensor is in its 'home' or 'lock' position (e.g., locked for landing)};
+  02 = Uncontrolled          {No person or system is controlling the sensor};
+  03 = ManualControl         {A person is directing the sensor};
+  04 = Calibrating           {The sensor is calibrating (e.g., pointing to NUC target)};
+  05 = Auto_Holding_Position {An autonomous system is controlling the sensor positioning which is in a holding mode pointing at a specific stationary ground position};
+  06 = Auto_Tracking         {An autonomous system is controlling the sensor positioning which is tracking an object};
+}
+enumeration FilterType {
+  Document = ST1908;
+  00 = Low_Pass     {Wavelengths below a value pass through the filter, the remaining wavelengths are blocked.};
+  01 = High_Pass    {Wavelengths above a value pass through the filter, the remaining wavelengths are blocked.};
+  02 = Band_Pass    {All wavelengths are blocked except a middle range of frequencies. };
+  03 = Notch        {All wavelengths pass through the filter except a middle range which are blocked.};
+  04 = Polarization {The polarization of the light determines what light is passed/blocked.};
+}
+enumeration FieldOfViewName {
+  Document = ST1908;
+  00 = Narrowest       {Narrowest view};
+  01 = Ultranarrow_x4  {4x Ultranarrow view};
+  02 = Ultranarrow_x2  {2x Ultranarrow view};
+  03 = Ultranarrow     {Ultranarrow view};
+  04 = Narrow          {Narrow view};
+  05 = Medium          {Medium view};
+  06 = Wide            {Wide view};
+  07 = Ultrawide       {Ultrawide view};
+  08 = Ultrawide_x2    {2x Ultrawide view};
+  09 = Ultrawide_x4    {4x Ultrawide view};
+  10 = Widest          {Widest View};
+  11 = Continuous_Zoom {Continuous Zoom (variable view)};
+}
+enumeration ImagePolarity {
+  Document = ST1908;
+  00 = Black_Hot {Darker pixels indicate brighter object};
+  01 = White_Hot {Whiter pixels indicate brighter object};
+}
+enumeration NoYes {
+  Document = ST1908;
+  00 = No  {Negative response};
+  01 = Yes {Positive response};
+}
+enumeration IdentifierType {
+  Document = ST1908;
+  01 = Managed  {Device Identification inserted at control station};
+  02 = Virtual  {Device Identification inserted by platform system};
+  03 = Physical {Device Identification inserted within the sensor};
+}
+enumeration IdentifierComponent {
+  Document = ST1908;
+  00 = Platform {Identifier is for a platform};
+  01 = Sensor   {Identifier is for a sensor};
+  02 = Window   {Identifier is for a sub-section of the motion imagery image};
+}
+enumeration CorrespondenceGroupType {
+  Document = ST1907;
+  01 = Background {Background Object Group Type};
+  02 = MTI        {Moving Target Indicator Group Type};
+  03 = Footprint  {The CorrespondenceGroup defines the image footprint and image center point, may include the horizon line as needed.};
+}
+enumeration TrackStatus {
+  Document = ST1907;
+  01 = Active   {Target Track is active};
+  02 = InActive {Target track is not active};
+  03 = Dropped  {Target no longer being tracked};
+  04 = Stopped  {Target is not moving};
+  05 = Coast    {Target lost but tracking on an estimated trajectory};
+}
+enumeration CorrType {
+  Document = ST1907;
+  00 = General_Correspondence {Default value if not including type attribute in the Correspondence instance. If the type attribute is in the ROC_Unknown state, General Correspondence is assumed. };
+}

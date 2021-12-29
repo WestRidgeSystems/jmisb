@@ -35,6 +35,7 @@ public class VideoOutputOptionsTest {
     }
 
     @Test
+    @SuppressWarnings("deprecation")
     public void checkConstructor3() {
         VideoOutputOptions uut =
                 new VideoOutputOptions(640, 480, 1200000, 29.98, 10, KlvFormat.Synchronous);
@@ -44,6 +45,21 @@ public class VideoOutputOptionsTest {
         assertEquals(uut.getFrameRate(), 29.98, 0.001);
         assertEquals(uut.getGopSize(), 10);
         assertEquals(uut.getMultiplexingMethod(), KlvFormat.Synchronous);
+        assertTrue(uut.hasKlvStream());
+    }
+
+    @Test
+    public void checkConstructor4() {
+        VideoOutputOptions uut =
+                new VideoOutputOptions(
+                        640, 480, 1200000, 29.98, 10, KlvFormat.Synchronous, CodecIdentifier.H264);
+        assertEquals(uut.getWidth(), 640);
+        assertEquals(uut.getHeight(), 480);
+        assertEquals(uut.getBitRate(), 1200000);
+        assertEquals(uut.getFrameRate(), 29.98, 0.001);
+        assertEquals(uut.getGopSize(), 10);
+        assertEquals(uut.getMultiplexingMethod(), KlvFormat.Synchronous);
+        assertEquals(uut.getCodec(), CodecIdentifier.H264);
         assertTrue(uut.hasKlvStream());
     }
 }

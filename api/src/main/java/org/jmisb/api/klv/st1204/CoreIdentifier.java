@@ -371,7 +371,7 @@ public class CoreIdentifier {
     }
 
     private void parseVersionAndUsage(String versionAndUsage) {
-        Integer versionAndUsageValue = Integer.parseInt(versionAndUsage, 16);
+        int versionAndUsageValue = Integer.parseInt(versionAndUsage, 16);
         setVersion(versionAndUsageValue >> 8);
         int usage = versionAndUsageValue & 0xFF;
         parseUsage(usage);

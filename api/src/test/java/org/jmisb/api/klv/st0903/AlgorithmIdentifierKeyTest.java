@@ -39,7 +39,7 @@ public class AlgorithmIdentifierKeyTest {
         AlgorithmIdentifierKey algorithmIdentifierKey = new AlgorithmIdentifierKey(2);
         assertFalse(algorithmIdentifierKey.equals(null));
         assertFalse(algorithmIdentifierKey.equals(new AlgorithmIdentifierKey(3)));
-        assertFalse(algorithmIdentifierKey.equals(new Integer(2)));
+        assertFalse(algorithmIdentifierKey.equals(2));
         assertTrue(algorithmIdentifierKey.equals(algorithmIdentifierKey));
     }
 }

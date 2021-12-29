@@ -41,9 +41,9 @@ public class VideoFileInputOutputIT {
         final int bitRate = 1_500_000;
         final double frameRate = 30.0;
         final int gopSize = 30;
-        final boolean hasKlv = false;
         final double frameDuration = 1.0 / frameRate;
         final int numFrames = 300;
+        final CodecIdentifier codec = CodecIdentifier.H264;
 
         try (IVideoFileOutput output =
                 new VideoFileOutput(
@@ -53,7 +53,8 @@ public class VideoFileInputOutputIT {
                                 bitRate,
                                 frameRate,
                                 gopSize,
-                                KlvFormat.Asynchronous))) {
+                                KlvFormat.Asynchronous,
+                                codec))) {
             output.open(filename);
 
             // Write some frames
@@ -87,7 +88,37 @@ public class VideoFileInputOutputIT {
         final int numFrames = 120;
         final String filename = "testWithData.ts";
 
-        createFile(filename, frameRate, numFrames);
+        createFile(filename, frameRate, numFrames, CodecIdentifier.H264);
+        checkFileDuration(filename, frameRate, numFrames);
+
+        // Check metadata contents
+        try (IVideoFileInput input = new VideoFileInput()) {
+            input.open(filename);
+            List<PesInfo> pesList = input.getPesInfo();
+            Assert.assertEquals(pesList.size(), 2);
+
+            input.addMetadataListener(new MetadataListener());
+
+            // Play and read at least 1s of data
+            input.play();
+            Assert.assertTrue(input.isPlaying());
+            TimingUtils.shortWait(1000);
+
+        } catch (IOException e) {
+            logger.error("Failed to read file", e);
+            Assert.fail("Failed to read file");
+        }
+
+        Assert.assertTrue(true);
+    }
+
+    @Test
+    public void testWithDataH265() {
+        final double frameRate = 15.0;
+        final int numFrames = 120;
+        final String filename = "testWithData265.ts";
+
+        createFile(filename, frameRate, numFrames, CodecIdentifier.H265);
         checkFileDuration(filename, frameRate, numFrames);
 
         // Check metadata contents
@@ -118,7 +149,7 @@ public class VideoFileInputOutputIT {
         final int numFrames = 120;
         final String filename = "testRipKlv.ts";
 
-        createFile(filename, frameRate, numFrames);
+        createFile(filename, frameRate, numFrames, CodecIdentifier.H264);
 
         try (IVideoFileInput input =
                 new VideoFileInput(new VideoFileInputOptions(false, true, false, true))) {
@@ -144,12 +175,12 @@ public class VideoFileInputOutputIT {
         }
     }
 
-    private void createFile(String filename, double frameRate, int numFrames) {
+    private void createFile(
+            String filename, double frameRate, int numFrames, CodecIdentifier codec) {
         final int width = 640;
         final int height = 480;
         final int bitRate = 500_000;
         final int gopSize = 30;
-        final boolean hasKlv = true;
         final double frameDuration = 1.0 / frameRate;
 
         try (IVideoFileOutput output =
@@ -160,7 +191,8 @@ public class VideoFileInputOutputIT {
                                 bitRate,
                                 frameRate,
                                 gopSize,
-                                KlvFormat.Synchronous))) {
+                                KlvFormat.Synchronous,
+                                codec))) {
             output.open(filename);
 
             // Write some frames

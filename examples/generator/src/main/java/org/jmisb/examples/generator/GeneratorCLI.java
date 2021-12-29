@@ -7,6 +7,7 @@ import org.apache.commons.cli.HelpFormatter;
 import org.apache.commons.cli.Option;
 import org.apache.commons.cli.Options;
 import org.apache.commons.cli.ParseException;
+import org.jmisb.api.video.CodecIdentifier;
 import org.jmisb.api.video.KlvFormat;
 
 /** Simple MISB file generator */
@@ -30,6 +31,8 @@ public class GeneratorCLI {
                         "Include SAR Motion Imagery (implies synchronousMultiplex)"));
         commandLineOptions.addOption(
                 new Option("s", "synchronousMultiplex", false, "Use synchronous multiplexing."));
+        commandLineOptions.addOption(
+                new Option(null, "coding", true, "The video coding to use (H.264 or H.265)"));
         commandLineOptions.addOption(new Option("h", "help", false, "Show help message"));
         CommandLineParser commandLineParser = new DefaultParser();
         CommandLine commandLine;
@@ -51,6 +54,15 @@ public class GeneratorCLI {
             if (commandLine.hasOption("st0903version")) {
                 generator.setVersion0903(
                         Byte.parseByte(commandLine.getOptionValue("st0903version")));
+            }
+            if (commandLine.hasOption("coding")) {
+                String codecName = commandLine.getOptionValue("coding");
+                if (codecName.equalsIgnoreCase("H.264") || codecName.equalsIgnoreCase("H264")) {
+                    generator.setCodec(CodecIdentifier.H264);
+                } else if (codecName.equalsIgnoreCase("H.265")
+                        || codecName.equalsIgnoreCase("H265")) {
+                    generator.setCodec(CodecIdentifier.H265);
+                }
             }
             if (commandLine.hasOption("outputFile")) {
                 generator.setOutputFile(commandLine.getOptionValue("outputFile"));

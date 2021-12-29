@@ -103,10 +103,10 @@ public class PositioningMethodSource implements IUasDatalinkValue {
                 numberOfNavsatTypes++;
             }
         }
-        Boolean hasMultiNavsat = numberOfNavsatTypes > 1;
-        Boolean hasGPS = ((this.source & GPS) == GPS);
-        Boolean hasOtherNavsat = numberOfNavsatTypes > 0;
-        Boolean hasINS = ((this.source & INS) == INS);
+        boolean hasMultiNavsat = numberOfNavsatTypes > 1;
+        boolean hasGPS = ((this.source & GPS) == GPS);
+        boolean hasOtherNavsat = numberOfNavsatTypes > 0;
+        boolean hasINS = ((this.source & INS) == INS);
         StringBuilder sb = new StringBuilder();
         if (hasMultiNavsat) {
             sb.append("Mixed");

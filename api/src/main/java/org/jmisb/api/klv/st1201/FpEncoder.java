@@ -12,7 +12,7 @@ import org.jmisb.core.klv.PrimitiveConverter;
  * document.
  *
  * <p>The typical case for this kind of conversion is IMAPB, which is used extensively in ST0601
- * amongst other standards. You create an encoder specifying the minimum value of the range, maximum
+ * among other standards. You create an encoder specifying the minimum value of the range, maximum
  * value of the range and number of bytes; then use that to encoding and decoding conversions
  * between the floating point representation and the byte array equivalent. An example is shown
  * here:
@@ -29,8 +29,8 @@ import org.jmisb.core.klv.PrimitiveConverter;
  * </blockquote>
  *
  * <p>It is also possible to construct an encoder that produces a specified level of accuracy rather
- * than needing to specify the number of bytes to use. This is known as IMAPA, and is not generally
- * used.
+ * than needing to specify the number of bytes to use. This is known as IMAPA, and is used in MIMD,
+ * but is otherwise uncommon.
  */
 public class FpEncoder {
 
@@ -40,6 +40,7 @@ public class FpEncoder {
     private double zOffset;
     protected int fieldLength;
     private static double logOf2 = Math.log(2.0);
+    private final OutOfRangeBehaviour behaviour;
     private static final byte[] EIGHT_BYTE_HIGH_BIT =
             new byte[] {
                 (byte) 0x80,
@@ -59,7 +60,9 @@ public class FpEncoder {
     private static final byte POSITIVE_SIGNAL_NAN_HIGH_BYTE = (byte) 0b11011000;
     private static final byte NEGATIVE_SIGNAL_NAN_HIGH_BYTE = (byte) 0b11111000;
     private static final byte RESERVED_KIND1_HIGH_BYTE = (byte) 0b10000000;
-    private static final byte RESERVED_KIND2_HIGH_BYTE = (byte) 0b11100000;
+    private static final byte MISB_DEFINED_HIGH_BYTE = (byte) 0b11100000;
+    private static final byte IMAP_BELOW_MINIMUM = MISB_DEFINED_HIGH_BYTE | (byte) 0b000;
+    private static final byte IMAP_ABOVE_MAXIMUM = MISB_DEFINED_HIGH_BYTE | (byte) 0b001;
     private static final byte USER_DEFINED_HIGH_BYTE = (byte) 0b11000000;
     private static final byte HIGH_BITS_MASK = (byte) 0b11111000;
     private static final byte LOW_BITS_MASK = (byte) 0b00000111;
@@ -73,12 +76,31 @@ public class FpEncoder {
      * @param max The maximum floating point value to be encoded
      * @param length The field length, in bytes (1-8)
      * @throws IllegalArgumentException if the length is not supported
+     * @deprecated use alternative constructor with specific out-of-range behavior.
      */
+    @Deprecated
     public FpEncoder(double min, double max, int length) {
+        this(min, max, length, OutOfRangeBehaviour.Throw);
+    }
+
+    /**
+     * Construct an encoder with the desired field length.
+     *
+     * <p>This is the "Starting Point B" (IMAPB) from ST1201.
+     *
+     * @param min The minimum floating point value to be encoded
+     * @param max The maximum floating point value to be encoded
+     * @param length The field length, in bytes (1-8)
+     * @param outOfRangeBehavior behavior for out-of-range conditions (e.g. above {@code max}, or
+     *     below {@code min})
+     * @throws IllegalArgumentException if the length is not supported
+     */
+    public FpEncoder(double min, double max, int length, OutOfRangeBehaviour outOfRangeBehavior) {
         if (length < 1 || length > 8) {
             throw new IllegalArgumentException("Valid field length for FpEncoder is 1-8 bytes");
         } else {
             computeConstants(min, max, length);
+            this.behaviour = outOfRangeBehavior;
         }
     }
 
@@ -92,8 +114,27 @@ public class FpEncoder {
      * @param precision The required precision
      * @throws IllegalArgumentException if the range/precision is too large to represent within 64
      *     bits
+     * @deprecated use alternative constructor with specific out-of-range behavior.
      */
+    @Deprecated
     public FpEncoder(double min, double max, double precision) {
+        this(min, max, precision, OutOfRangeBehaviour.Throw);
+    }
+
+    /**
+     * Construct an encoder with the desired precision, automatically selecting field length.
+     *
+     * <p>This is the "Starting Point A" (IMAPA) from ST1201.
+     *
+     * @param min The minimum floating point value to be encoded
+     * @param max The maximum floating point value to be encoded
+     * @param precision The required precision
+     * @param behavior behavior for out-of-range conditions (e.g. above {@code max}, or below {@code
+     *     min})
+     * @throws IllegalArgumentException if the range/precision is too large to represent within 64
+     *     bits
+     */
+    public FpEncoder(double min, double max, double precision, OutOfRangeBehaviour behavior) {
         double bits = Math.ceil(log2((max - min) / precision) + 1);
         int length = (int) Math.ceil(bits / 8);
 
@@ -107,6 +148,7 @@ public class FpEncoder {
             throw new IllegalArgumentException(
                     "The specified range and precision cannot be represented using a 64-bit integer");
         }
+        this.behaviour = behavior;
     }
 
     /**
@@ -122,16 +164,16 @@ public class FpEncoder {
      * Encode a floating point value as a byte array.
      *
      * <p>Note: Positive and negative infinity and NaN will be encoded by setting special flags
-     * defined by ST1204. To send other special value bit patterns, use the {@link
+     * defined by ST1201. To send other special value bit patterns, use the {@link
      * #encodeSpecial(ValueMappingKind, long)} method.
      *
      * @param val The value to encode
      * @return The encoded byte array
-     * @throws IllegalArgumentException if the value is not within the specified range
+     * @throws IllegalArgumentException if the field length is not valid, or the "Throw" behavior is
+     *     specified and the value is not within the valid range
      */
     public byte[] encode(double val) {
         byte[] encoded = null;
-
         // Special values defined by the ST
         if (val == Double.POSITIVE_INFINITY) {
             encoded = new byte[fieldLength];
@@ -144,8 +186,14 @@ public class FpEncoder {
             // encodeSpecial method
             encoded = new byte[fieldLength];
             encoded[0] = POSITIVE_QUIET_NAN_HIGH_BYTE;
-        } else if (val < a || val > b) {
+        } else if ((val < a || val > b) && (behaviour == OutOfRangeBehaviour.Throw)) {
             throw new IllegalArgumentException("Value must be in range [" + a + "," + b + "]");
+        } else if (val < a) {
+            encoded = new byte[fieldLength];
+            encoded[0] = IMAP_BELOW_MINIMUM;
+        } else if (val > b) {
+            encoded = new byte[fieldLength];
+            encoded[0] = IMAP_ABOVE_MAXIMUM;
         } else {
             // Value is normal and in range
             double d = Math.floor(sF * (val - a) + zOffset);
@@ -267,7 +315,7 @@ public class FpEncoder {
                 break;
             default:
                 fillBytes(encoded, identifier);
-                setHighBits(encoded, RESERVED_KIND2_HIGH_BYTE);
+                setHighBits(encoded, MISB_DEFINED_HIGH_BYTE);
                 break;
         }
         return encoded;
@@ -326,7 +374,14 @@ public class FpEncoder {
                 return decodeAsNormalMappedValue(bytes, offset);
             }
         }
-        byte highByteHighBits = (byte) (bytes[offset] & HIGH_BITS_MASK);
+        byte highByte = bytes[offset];
+        if (highByte == IMAP_BELOW_MINIMUM) {
+            return a;
+        }
+        if (highByte == IMAP_ABOVE_MAXIMUM) {
+            return b;
+        }
+        byte highByteHighBits = (byte) (highByte & HIGH_BITS_MASK);
         if (highByteHighBits == POSITIVE_INFINITY_HIGH_BYTE) {
             return Double.POSITIVE_INFINITY;
         } else if (highByteHighBits == NEGATIVE_INFINITY_HIGH_BYTE) {
@@ -339,7 +394,7 @@ public class FpEncoder {
     /**
      * Decode an encoded floating point value from a byte array starting at an offset.
      *
-     * <p>This method supports all the special value encodings from ST1204. If you only need basic
+     * <p>This method supports all the special value encodings from ST1201. If you only need basic
      * values (normal mapped values, positive and negative infinity) and can tolerate everything
      * else being mapped to {@code Double.NaN}, then you can use {@link #decode(byte[], int)} to get
      * a double value back directly.
@@ -399,7 +454,7 @@ public class FpEncoder {
             decodeResult.setKind(ValueMappingKind.UserDefined);
             decodeResult.setIdentifier(getIdentifier(bytes, offset));
         } else {
-            decodeResult.setKind(ValueMappingKind.ReservedKind2);
+            decodeResult.setKind(ValueMappingKind.MISBDefined);
             decodeResult.setIdentifier(getIdentifier(bytes, offset));
         }
         return decodeResult;
@@ -425,7 +480,7 @@ public class FpEncoder {
     /**
      * Decode an encoded floating point value from a byte array.
      *
-     * <p>This method supports all the special value encodings from ST1204. If you only need basic
+     * <p>This method supports all the special value encodings from ST1201. If you only need basic
      * values (normal mapped values, positive and negative infinity) and can tolerate everything
      * else being mapped to {@code Double.NaN}, then you can use {@link #decode(byte[])} to get a
      * double value back directly.
@@ -492,7 +547,7 @@ public class FpEncoder {
      * @param max The maximum floating point value to be encoded
      * @param length The field length, in bytes
      */
-    protected void computeConstants(double min, double max, int length) {
+    protected final void computeConstants(double min, double max, int length) {
         fieldLength = length;
         a = min;
         b = max;

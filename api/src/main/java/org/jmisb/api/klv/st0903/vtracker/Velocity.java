@@ -13,6 +13,7 @@ import org.jmisb.api.klv.st0903.shared.IVTrackItemMetadataValue;
 import org.jmisb.api.klv.st0903.shared.LocVelAccPackKey;
 import org.jmisb.api.klv.st0903.shared.VmtiTextString;
 import org.jmisb.api.klv.st1201.FpEncoder;
+import org.jmisb.api.klv.st1201.OutOfRangeBehaviour;
 import org.jmisb.core.klv.ArrayUtils;
 import org.jmisb.core.klv.PrimitiveConverter;
 
@@ -39,10 +40,12 @@ public class Velocity implements IVmtiMetadataValue, IVTrackItemMetadataValue, I
     private static final double MIN_RHO_VAL = -1.0;
     private static final double MAX_RHO_VAL = 1.0;
     private static final int LEGACY_INT_RANGE = 65535;
-    private static final FpEncoder VelocityEncoder = new FpEncoder(MIN_VAL, MAX_VAL, NUM_BYTES);
+    private static final FpEncoder VelocityEncoder =
+            new FpEncoder(MIN_VAL, MAX_VAL, NUM_BYTES, OutOfRangeBehaviour.Default);
     private static final FpEncoder SigmaEncoder =
-            new FpEncoder(MIN_SIGMA_VAL, MAX_SIGMA_VAL, NUM_BYTES);
-    private static final FpEncoder RhoEncoder = new FpEncoder(MIN_RHO_VAL, MAX_RHO_VAL, NUM_BYTES);
+            new FpEncoder(MIN_SIGMA_VAL, MAX_SIGMA_VAL, NUM_BYTES, OutOfRangeBehaviour.Default);
+    private static final FpEncoder RhoEncoder =
+            new FpEncoder(MIN_RHO_VAL, MAX_RHO_VAL, NUM_BYTES, OutOfRangeBehaviour.Default);
     private VelocityPack value;
 
     /**

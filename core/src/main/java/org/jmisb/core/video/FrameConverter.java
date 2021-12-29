@@ -52,7 +52,8 @@ public class FrameConverter {
 
         byte[] a = ((DataBufferByte) out).getData();
 
-        ByteBuffer src = frame.data(0).capacity(frame.width() * frame.linesize(0)).asBuffer();
+        ByteBuffer src =
+                frame.data(0).capacity((long) frame.width() * (long) frame.linesize(0)).asBuffer();
         copy(src, frame.linesize(0), ByteBuffer.wrap(a, start, a.length - start), step);
 
         return bufferedImage;

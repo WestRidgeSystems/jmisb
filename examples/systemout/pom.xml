@@ -4,13 +4,13 @@
     <parent>
         <groupId>org.jmisb</groupId>
         <artifactId>examples</artifactId>
-        <version>1.10.1</version>
+        <version>1.11.0</version>
     </parent>
     <groupId>org.jmisb.examples</groupId>
     <artifactId>systemout</artifactId>
+    <packaging>jar</packaging>
     <name>System.out example</name>
     <description>Example code that dumps decoded KLV to standard output.</description>
-    <packaging>jar</packaging>
     <dependencies>
         <dependency>
             <groupId>org.jmisb</groupId>
@@ -20,7 +20,6 @@
         <dependency>
             <groupId>org.slf4j</groupId>
             <artifactId>slf4j-simple</artifactId>
-            <version>1.7.30</version>
         </dependency>
     </dependencies>
     <build>
@@ -33,14 +32,14 @@
                 <executions>
                     <execution>
                         <id>reformat-sources</id>
-                        <configuration>
-                            <style>AOSP</style>
-                            <fixImports>true</fixImports>
-                        </configuration>
                         <goals>
                             <goal>format</goal>
                         </goals>
                         <phase>process-sources</phase>
+                        <configuration>
+                            <style>AOSP</style>
+                            <fixImports>true</fixImports>
+                        </configuration>
                     </execution>
                 </executions>
             </plugin>
@@ -62,10 +61,10 @@
                 <executions>
                     <execution>
                         <id>make-assembly</id>
-                        <phase>package</phase> 
                         <goals>
                             <goal>single</goal>
                         </goals>
+                        <phase>package</phase>
                     </execution>
                 </executions>
             </plugin>

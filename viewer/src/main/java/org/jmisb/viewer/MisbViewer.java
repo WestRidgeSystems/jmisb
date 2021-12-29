@@ -15,18 +15,22 @@ import net.miginfocom.swing.MigLayout;
 import org.jmisb.api.common.InvalidDataHandler;
 import org.jmisb.api.common.LogOnInvalidDataStrategy;
 import org.jmisb.api.video.*;
+import org.jmisb.viewer.map.MapFrame;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 /** Main window for a sample Swing-based video player application */
 public class MisbViewer extends JFrame implements ActionListener {
+
     private static Logger logger = LoggerFactory.getLogger(MisbViewer.class);
     private IVideoInput videoInput;
     private VideoPanel videoPanel;
     private MetadataTreePanel metadataPanel;
+    private MapFrame mapFrame;
     private JScrollPane metadataPanelScroll;
     private PlaybackControlPanel controlPanel;
     private JMenu fileMenu;
+    private JCheckBoxMenuItem cbMapView;
     private List<JMenuItem> mruFiles;
     private int mruStartPos;
 
@@ -85,7 +89,7 @@ public class MisbViewer extends JFrame implements ActionListener {
 
         // View menu
         JMenu viewMenu = new JMenu("View");
-        fileMenu.setMnemonic(KeyEvent.VK_V);
+        viewMenu.setMnemonic(KeyEvent.VK_V);
         menuBar.add(viewMenu);
 
         JMenuItem streamInfo = new JMenuItem("Stream Info", KeyEvent.VK_I);
@@ -98,6 +102,12 @@ public class MisbViewer extends JFrame implements ActionListener {
         metadataOverlay.setMnemonic(KeyEvent.VK_O);
         metadataOverlay.addActionListener(this);
         viewMenu.add(metadataOverlay);
+
+        JCheckBoxMenuItem mapPaneVisible = new JCheckBoxMenuItem("Map View");
+        mapPaneVisible.setName("View|MapView");
+        mapPaneVisible.setMnemonic(KeyEvent.VK_M);
+        mapPaneVisible.addActionListener(this);
+        viewMenu.add(mapPaneVisible);
 
         setJMenuBar(menuBar);
 
@@ -116,6 +126,8 @@ public class MisbViewer extends JFrame implements ActionListener {
 
         controlPanel = new PlaybackControlPanel();
         add(controlPanel, "growx, alignx center");
+
+        createMapPanel();
     }
 
     @Override
@@ -139,8 +151,12 @@ public class MisbViewer extends JFrame implements ActionListener {
                     displayStreamInfo();
                     break;
                 case "View|MetadataOverlay":
-                    JCheckBoxMenuItem cbItem = (JCheckBoxMenuItem) item;
-                    metadataOverlayState(cbItem.getState());
+                    JCheckBoxMenuItem cbMetadataOverlay = (JCheckBoxMenuItem) item;
+                    metadataOverlayState(cbMetadataOverlay.getState());
+                    break;
+                case "View|MapView":
+                    cbMapView = (JCheckBoxMenuItem) item;
+                    mapViewState(cbMapView.getState());
                     break;
                 default:
                     if (item.getName().startsWith("File|Mru|")) {
@@ -199,6 +215,7 @@ public class MisbViewer extends JFrame implements ActionListener {
             fileInput.addFrameListener(videoPanel);
             fileInput.addMetadataListener(videoPanel);
             fileInput.addMetadataListener(metadataPanel);
+            fileInput.addMetadataListener(mapFrame);
             fileInput.addFrameListener(controlPanel);
 
             controlPanel.setInput(fileInput);
@@ -222,6 +239,10 @@ public class MisbViewer extends JFrame implements ActionListener {
 
     private void metadataOverlayState(boolean state) {
         videoPanel.setMetadataOverlayState(state);
+    }
+
+    private void mapViewState(boolean state) {
+        mapFrame.setVisible(state);
     }
 
     private void addMruMenuItems() {
@@ -279,6 +300,7 @@ public class MisbViewer extends JFrame implements ActionListener {
         }
         videoPanel.clear();
         metadataPanel.clear();
+        mapFrame.clear();
     }
 
     /** Close the application */
@@ -287,7 +309,12 @@ public class MisbViewer extends JFrame implements ActionListener {
         System.exit(0);
     }
 
+    private void createMapPanel() {
+        mapFrame = MapFrame.create();
+    }
+
     private class UrlDialog extends JDialog {
+
         private JTextField urlField;
         private JButton btnConnect;
         private JButton btnCancel;
@@ -331,7 +358,9 @@ public class MisbViewer extends JFrame implements ActionListener {
                         if (url != null) {
                             try {
                                 VideoStreamInputOptions options = new VideoStreamInputOptions();
-
+                                if (videoInput != null) {
+                                    videoInput.close();
+                                }
                                 videoInput = new VideoStreamInput(options);
 
                                 videoInput.open(url);

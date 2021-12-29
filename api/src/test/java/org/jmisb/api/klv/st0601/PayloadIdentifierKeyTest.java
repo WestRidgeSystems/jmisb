@@ -39,7 +39,7 @@ public class PayloadIdentifierKeyTest {
         PayloadIdentifierKey payloadIdentifierKey = new PayloadIdentifierKey(2);
         assertFalse(payloadIdentifierKey.equals(null));
         assertFalse(payloadIdentifierKey.equals(new PayloadIdentifierKey(3)));
-        assertFalse(payloadIdentifierKey.equals(new Integer(2)));
+        assertFalse(payloadIdentifierKey.equals(2));
         assertTrue(payloadIdentifierKey.equals(payloadIdentifierKey));
     }
 }

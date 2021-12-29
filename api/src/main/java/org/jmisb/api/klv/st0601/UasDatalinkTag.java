@@ -268,7 +268,10 @@ public enum UasDatalinkTag implements IKlvKey {
      * Tag 80; Easting velocity of the sensor or platform; Value is a {@link SensorEastVelocity}.
      */
     SensorEastVelocity(80),
-    /** Tag 81; Location of earth-sky horizon in the Imagery; Value is a {@link OpaqueValue}. */
+    /**
+     * Tag 81; Location of earth-sky horizon in the Imagery; Value is an {@link
+     * ImageHorizonPixelPack}.
+     */
     ImageHorizonPixelPack(81),
     /** Tag 82; Frame latitude for upper left corner; Value is a {@link FullCornerLatitude}. */
     CornerLatPt1(82),
@@ -392,7 +395,7 @@ public enum UasDatalinkTag implements IKlvKey {
      * RadarAltimeter}.
      */
     RadarAltimeter(114),
-    /** Tag 115; Record of command from GCS to Aircraft; Value is a {@link ControlCommand}. */
+    /** Tag 115; Record of command from GCS to Aircraft; Value is a {@link ControlCommands}. */
     ControlCommand(115),
     /**
      * Tag 116; Acknowledgment of one or more control commands were received by the platform; Value

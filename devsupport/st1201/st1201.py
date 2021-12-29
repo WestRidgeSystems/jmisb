@@ -1,6 +1,5 @@
 #!/usr/bin/env python3
 import sys
-import os
 import time
 import argparse
 import math
@@ -161,7 +160,7 @@ def doExample3(verbose):
     (sF, sR, Zoffset) = encoder.startingPointB(a, b, L)
     for (x, y) in [(-900.0, 0), (0.0, 230400), (10.0, 232960)]:
         Y = encoder.forwardMapping(sF, a, Zoffset, x, L)
-        assert y == y
+        assert y == Y
         X = encoder.reverseMapping(sR, a, Zoffset, y, L)
         assert x == X
 

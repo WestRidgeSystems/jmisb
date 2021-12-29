@@ -1,6 +1,7 @@
 package org.jmisb.api.klv.st1206;
 
 import org.jmisb.api.klv.st1201.FpEncoder;
+import org.jmisb.api.klv.st1201.OutOfRangeBehaviour;
 
 /**
  * Pulse Repetition Frequency Scale Factor (ST 1206 Item 19).
@@ -47,13 +48,14 @@ public class PulseRepetitionFrequencyScaleFactor implements ISARMIMetadataValue 
                     String.format(
                             "%s encoding is %d byte IMAPB", this.getDisplayName(), NUM_BYTES));
         }
-        FpEncoder decoder = new FpEncoder(MIN_VAL, MAX_VAL, bytes.length);
+        FpEncoder decoder =
+                new FpEncoder(MIN_VAL, MAX_VAL, bytes.length, OutOfRangeBehaviour.Default);
         this.value = decoder.decode(bytes);
     }
 
     @Override
     public byte[] getBytes() {
-        FpEncoder encoder = new FpEncoder(MIN_VAL, MAX_VAL, NUM_BYTES);
+        FpEncoder encoder = new FpEncoder(MIN_VAL, MAX_VAL, NUM_BYTES, OutOfRangeBehaviour.Default);
         return encoder.encode(this.value);
     }
 

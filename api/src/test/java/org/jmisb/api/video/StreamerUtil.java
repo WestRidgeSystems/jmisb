@@ -72,7 +72,8 @@ public class StreamerUtil {
                                 bitRate,
                                 frameRate,
                                 gopSize,
-                                KlvFormat.Asynchronous))) {
+                                KlvFormat.Asynchronous,
+                                CodecIdentifier.H264))) {
             output.open(url);
 
             double pts = 0.0;

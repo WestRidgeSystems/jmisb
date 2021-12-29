@@ -5,4 +5,7 @@
         <Class name="org.jmisb.viewer.MisbViewer" />
         <Bug pattern="DM_EXIT" />
     </Match>
+    <Match>
+        <Bug pattern="EI_EXPOSE_REP2" />
+    </Match>
 </FindBugsFilter>

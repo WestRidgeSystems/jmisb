@@ -32,7 +32,7 @@ public class TargetIdentifierKeyTest {
         TargetIdentifierKey targetIdentifierKey = new TargetIdentifierKey(2);
         assertFalse(targetIdentifierKey.equals(null));
         assertFalse(targetIdentifierKey.equals(new TargetIdentifierKey(3)));
-        assertFalse(targetIdentifierKey.equals(new Integer(2)));
+        assertFalse(targetIdentifierKey.equals(2));
         assertTrue(targetIdentifierKey.equals(targetIdentifierKey));
     }
 }

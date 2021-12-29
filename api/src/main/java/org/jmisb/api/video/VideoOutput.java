@@ -3,6 +3,7 @@ package org.jmisb.api.video;
 import static org.bytedeco.ffmpeg.avcodec.AVCodecContext.FF_PROFILE_KLVA_ASYNC;
 import static org.bytedeco.ffmpeg.avcodec.AVCodecContext.FF_PROFILE_KLVA_SYNC;
 import static org.bytedeco.ffmpeg.global.avcodec.AV_CODEC_ID_H264;
+import static org.bytedeco.ffmpeg.global.avcodec.AV_CODEC_ID_H265;
 import static org.bytedeco.ffmpeg.global.avcodec.AV_CODEC_ID_SMPTE_KLV;
 import static org.bytedeco.ffmpeg.global.avcodec.av_packet_alloc;
 import static org.bytedeco.ffmpeg.global.avcodec.avcodec_alloc_context3;
@@ -24,7 +25,6 @@ import static org.bytedeco.ffmpeg.global.avutil.AVMEDIA_TYPE_VIDEO;
 import static org.bytedeco.ffmpeg.global.avutil.AV_PIX_FMT_BGR24;
 import static org.bytedeco.ffmpeg.global.avutil.AV_PIX_FMT_YUV420P;
 import static org.bytedeco.ffmpeg.global.avutil.av_d2q;
-import static org.bytedeco.ffmpeg.global.avutil.av_dict_set;
 import static org.bytedeco.ffmpeg.global.avutil.av_frame_alloc;
 import static org.bytedeco.ffmpeg.global.avutil.av_frame_free;
 import static org.bytedeco.ffmpeg.global.avutil.av_image_alloc;
@@ -36,11 +36,12 @@ import static org.bytedeco.ffmpeg.global.swscale.sws_getCachedContext;
 import static org.bytedeco.ffmpeg.global.swscale.sws_scale;
 import static org.bytedeco.ffmpeg.presets.avutil.AVERROR_EAGAIN;
 
-import java.awt.*;
+import java.awt.Graphics2D;
 import java.awt.image.BufferedImage;
 import java.awt.image.DataBuffer;
 import java.awt.image.DataBufferByte;
 import java.io.IOException;
+import java.util.List;
 import org.bytedeco.ffmpeg.avcodec.AVCodec;
 import org.bytedeco.ffmpeg.avcodec.AVCodecContext;
 import org.bytedeco.ffmpeg.avcodec.AVCodecParameters;
@@ -52,13 +53,16 @@ import org.bytedeco.ffmpeg.avutil.AVDictionary;
 import org.bytedeco.ffmpeg.avutil.AVFrame;
 import org.bytedeco.ffmpeg.avutil.AVRational;
 import org.bytedeco.ffmpeg.swscale.SwsContext;
-import org.bytedeco.javacpp.*;
+import org.bytedeco.javacpp.BytePointer;
+import org.bytedeco.javacpp.DoublePointer;
+import org.bytedeco.javacpp.PointerPointer;
 import org.jmisb.core.video.FfmpegUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 /** Abstract base class for video output. */
 public abstract class VideoOutput extends VideoIO {
+
     private static Logger logger = LoggerFactory.getLogger(VideoOutput.class);
 
     protected static final int METADATA_AU_HEADER_LEN = 5;
@@ -107,41 +111,17 @@ public abstract class VideoOutput extends VideoIO {
      * @throws IOException if an error occurs
      */
     void initCodecs() throws IOException {
-        // Attempt to open hardware-accelerated codecs first; fall back on libx264
 
-        logger.debug("Trying NVIDIA encoder...");
-        videoCodec = avcodec_find_encoder_by_name("h264_nvenc");
-        videoCodecContext = avcodec_alloc_context3(videoCodec);
-        boolean codecOpened = false;
-        if (videoCodec != null && videoCodecContext != null) codecOpened = openVideoCodec();
-        if (videoCodec == null || videoCodecContext == null || !codecOpened) {
-            logger.debug("Trying Intel QuickSync encoder...");
-            videoCodec = avcodec_find_encoder_by_name("h264_qsv");
-            videoCodecContext = avcodec_alloc_context3(videoCodec);
-            if (videoCodec != null && videoCodecContext != null) codecOpened = openVideoCodec();
+        switch (options.getCodec()) {
+            case H264:
+                init264VideoCodec();
+                break;
+            case H265:
+                init265VideoCodec();
+                break;
+            default:
+                throw new IllegalArgumentException("Codec must be H.264 or H.265");
         }
-        if (videoCodec == null || videoCodecContext == null || !codecOpened) {
-            logger.debug("Trying VAAPI encoder...");
-            videoCodec = avcodec_find_encoder_by_name("h264_vaapi");
-            videoCodecContext = avcodec_alloc_context3(videoCodec);
-            if (videoCodec != null && videoCodecContext != null) codecOpened = openVideoCodec();
-        }
-        if (videoCodec == null || videoCodecContext == null || !codecOpened) {
-            logger.debug("Trying libx264 encoder...");
-            videoCodec = avcodec_find_encoder_by_name("libx264");
-            videoCodecContext = avcodec_alloc_context3(videoCodec);
-            if (videoCodec != null && videoCodecContext != null) codecOpened = openVideoCodec();
-        }
-        if (videoCodec == null || videoCodecContext == null || !codecOpened) {
-            logger.debug("Searching for any valid encoder...");
-            videoCodec = avcodec_find_encoder(AV_CODEC_ID_H264);
-            videoCodecContext = avcodec_alloc_context3(videoCodec);
-            if (videoCodec != null && videoCodecContext != null) codecOpened = openVideoCodec();
-        }
-        if (videoCodec == null || videoCodecContext == null || !codecOpened) {
-            throw new IOException("Could not initialize H.264 encoder");
-        }
-        logger.debug("video encoder = " + videoCodec.long_name().getString());
 
         // Allocate the metadata codec context
         if (options.hasKlvStream()) {
@@ -167,6 +147,80 @@ public abstract class VideoOutput extends VideoIO {
             }
         }
     }
+    /**
+     * Initialise a H.264 video encoder.
+     *
+     * @throws IOException if no valid encoder could be initialised.
+     */
+    private void init264VideoCodec() throws IOException {
+        boolean codecOpened =
+                tryCodecs(
+                        CodecConfigurations.getInstance().getCodecs(CodecIdentifier.H264),
+                        AV_CODEC_ID_H264);
+        if (videoCodec == null || videoCodecContext == null || !codecOpened) {
+            throw new IOException("Could not initialize H.264 encoder");
+        }
+        logger.debug("video encoder = " + videoCodec.long_name().getString());
+    }
+
+    /**
+     * Initialise a H.265 video encoder.
+     *
+     * @throws IOException if no valid encoder could be initialised.
+     */
+    private void init265VideoCodec() throws IOException {
+        // Attempt to open hardware-accelerated codecs first; fall back on libx265
+        boolean codecOpened =
+                tryCodecs(
+                        CodecConfigurations.getInstance().getCodecs(CodecIdentifier.H265),
+                        AV_CODEC_ID_H265);
+        if (videoCodec == null || videoCodecContext == null || !codecOpened) {
+            throw new IOException("Could not initialize H.265 encoder");
+        }
+        logger.info("video encoder = " + videoCodec.long_name().getString());
+    }
+
+    /**
+     * Try to initialise the video codecs in priority order.
+     *
+     * @param codecsToTry the codecs to try (name, description pairs), from highest priority to
+     *     lowest.
+     * @param fallbackCodecId a fallback codec ID, in case none of the codecs worked out.
+     * @return true on successful initialization, otherwise false.
+     */
+    private boolean tryCodecs(List<CodecConfiguration> codecsToTry, int fallbackCodecId) {
+        boolean codecOpened = false;
+        for (CodecConfiguration codec : codecsToTry) {
+            codecOpened = tryCodec(codec);
+            if (codecOpened) {
+                break;
+            }
+        }
+        if (!codecOpened) {
+            codecOpened = findCodec(fallbackCodecId);
+        }
+        return codecOpened;
+    }
+
+    private boolean tryCodec(CodecConfiguration codecConfiguration) {
+        logger.info("Trying " + codecConfiguration.getLabel() + " encoder...");
+        videoCodec = avcodec_find_encoder_by_name(codecConfiguration.getName());
+        videoCodecContext = avcodec_alloc_context3(videoCodec);
+        if ((videoCodec == null) || (videoCodecContext == null)) {
+            return false;
+        }
+        return openVideoCodec(codecConfiguration);
+    }
+
+    private boolean findCodec(int codecId) {
+        logger.info("Searching for any valid encoder...");
+        videoCodec = avcodec_find_encoder(codecId);
+        videoCodecContext = avcodec_alloc_context3(videoCodec);
+        if ((videoCodec == null) || (videoCodecContext == null)) {
+            return false;
+        }
+        return openVideoCodec(null);
+    }
 
     /**
      * Allocate the format context.
@@ -187,12 +241,13 @@ public abstract class VideoOutput extends VideoIO {
     /**
      * Open the video codec.
      *
+     * @param codecConfiguration special codec options, or null for defaults.
      * @return false if the codec could not be opened (e.g., unsupported by the OS/hardware)
      */
-    private boolean openVideoCodec() {
+    private boolean openVideoCodec(CodecConfiguration codecConfiguration) {
         // codec context options must be set before opening codec
         videoCodecContext.codec_type(AVMEDIA_TYPE_VIDEO);
-        videoCodecContext.codec_id(AV_CODEC_ID_H264);
+        videoCodecContext.codec_id(videoCodec.id());
 
         // Set dimensions
         videoCodecContext.width(options.getWidth());
@@ -215,13 +270,14 @@ public abstract class VideoOutput extends VideoIO {
         // Disable B frames
         videoCodecContext.has_b_frames(0);
         videoCodecContext.max_b_frames(0);
-
         // Open the codec
-        codecOptions = new AVDictionary(null);
-        av_dict_set(codecOptions, "tune", "zerolatency", 0);
-        av_dict_set(codecOptions, "preset", "ultrafast", 0);
+        if (codecConfiguration != null) {
+            codecOptions = codecConfiguration.getOptions();
+        } else {
+            codecOptions = new AVDictionary();
+        }
         int ret = avcodec_open2(videoCodecContext, videoCodec, codecOptions);
-        logger.debug("H.264 encoder options: " + CodecUtils.getCodecInfo(videoCodecContext));
+        logger.debug("Video encoder options: " + CodecUtils.getCodecInfo(videoCodecContext));
 
         return ret >= 0;
     }
