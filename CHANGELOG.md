@@ -1,3 +1,21 @@
+### December 29, 2021, version 1.11.0
+ * Completed ST 0805 implementation and added `cotconverter` example
+ * Implemented ST 1108, Interpretability and Quality Metadata Local Set
+ * Implemented ST 1303, Multi-Dimensional Array Pack (MDAP)
+ * Implemented STs 1901-1908, Motion Imagery Metadata (MIMD), via
+  `miml-maven-plugin`
+ * Implemented Image Horizon Pixel Pack (ST 0601 item 81)
+ * Support for multiple control commands within a single ST 0601 local set
+ * Updated ST 1201.4 to 1201.5
+ * Updated ST 1909 to 1909.1
+ * Initial work to decouple API from FFmpeg dependency; split non-FFmpeg 
+   code from `core` into a new `core-common` module
+ * Added H.265 (HEVC) encoding support
+ * Added `geoid` module for converting HAE and MSL elevation values
+ * Added map visualization to the viewer application
+ * Added Maven plugin to generate Software Bill of Materials (SBOM)
+ * Numerous bug fixes, code samples, and improved test coverage
+
 ### December 20, 2021, version 1.10.1
  * Updated log4j to 2.17.0 (log4j is only used by viewer app)
 
@@ -27,7 +45,7 @@
  * Added SpotBugs Maven plugin for static code analysis
  * Added input fuzz testing using JQF
  * Numerous bug fixes, code samples, and improved test coverage
- 
+
 ### April 11, 2020 version 1.9.0
  * Implemented ST 0903, Video Moving Target Indicator
  * Implemented ST 1204, MIIS Core Identifier
