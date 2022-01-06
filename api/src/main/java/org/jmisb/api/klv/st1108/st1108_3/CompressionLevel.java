@@ -1,7 +1,7 @@
 package org.jmisb.api.klv.st1108.st1108_3;
 
-import java.nio.charset.StandardCharsets;
 import org.jmisb.api.klv.ArrayBuilder;
+import org.jmisb.api.klv.st0107.Utf8String;
 import org.jmisb.api.klv.st1108.IInterpretabilityQualityMetadataValue;
 
 /**
@@ -20,7 +20,7 @@ import org.jmisb.api.klv.st1108.IInterpretabilityQualityMetadataValue;
  * </blockquote>
  */
 public class CompressionLevel implements IInterpretabilityQualityMetadataValue {
-    private final String level;
+    private final Utf8String level;
     private static final int MAX_LENGTH = 3;
 
     /**
@@ -33,7 +33,7 @@ public class CompressionLevel implements IInterpretabilityQualityMetadataValue {
             throw new IllegalArgumentException(
                     this.getDisplayName() + " maximum length is " + MAX_LENGTH);
         }
-        this.level = compressionLevel;
+        this.level = new Utf8String(compressionLevel);
     }
 
     /**
@@ -46,7 +46,7 @@ public class CompressionLevel implements IInterpretabilityQualityMetadataValue {
             throw new IllegalArgumentException(
                     this.getDisplayName() + " maximum length is " + MAX_LENGTH);
         }
-        this.level = new String(bytes, StandardCharsets.UTF_8);
+        this.level = new Utf8String(bytes);
     }
 
     /**
@@ -55,7 +55,7 @@ public class CompressionLevel implements IInterpretabilityQualityMetadataValue {
      * @return The compression level as a String
      */
     public String getCompressionLevel() {
-        return level;
+        return level.getValue();
     }
 
     @Override
@@ -71,7 +71,7 @@ public class CompressionLevel implements IInterpretabilityQualityMetadataValue {
     @Override
     public void appendBytesToBuilder(ArrayBuilder arrayBuilder) {
         arrayBuilder.appendAsOID(IQMetadataKey.CompressionLevel.getIdentifier());
-        byte[] valueBytes = level.getBytes(StandardCharsets.UTF_8);
+        byte[] valueBytes = level.getBytesWithLimit(MAX_LENGTH);
         arrayBuilder.appendAsBerLength(valueBytes.length);
         arrayBuilder.append(valueBytes);
     }

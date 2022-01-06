@@ -1,6 +1,6 @@
 package org.jmisb.api.klv.st1108.st1108_3.metric;
 
-import java.nio.charset.StandardCharsets;
+import org.jmisb.api.klv.st0107.Utf8String;
 
 /**
  * Metric Name.
@@ -29,7 +29,7 @@ import java.nio.charset.StandardCharsets;
  * </blockquote>
  */
 public class MetricName implements IMetricLocalSetValue {
-    private final String name;
+    private final Utf8String name;
 
     /**
      * Create from value.
@@ -37,7 +37,7 @@ public class MetricName implements IMetricLocalSetValue {
      * @param metricName the name of the metric (from the MISB defined list, or user defined).
      */
     public MetricName(String metricName) {
-        name = metricName;
+        name = new Utf8String(metricName);
     }
 
     /**
@@ -46,12 +46,12 @@ public class MetricName implements IMetricLocalSetValue {
      * @param bytes Byte array of the metric name encoded in UTF-8.
      */
     public MetricName(byte[] bytes) {
-        name = new String(bytes, StandardCharsets.UTF_8);
+        name = new Utf8String(bytes);
     }
 
     @Override
     public byte[] getBytes() {
-        return name.getBytes(StandardCharsets.UTF_8);
+        return name.getBytes();
     }
 
     @Override
@@ -70,6 +70,6 @@ public class MetricName implements IMetricLocalSetValue {
      * @return the metric name
      */
     public String getName() {
-        return name;
+        return name.getValue();
     }
 }
