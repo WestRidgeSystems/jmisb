@@ -69,7 +69,7 @@ public class TimeTransferLocalSet implements IMisbMessage, IKlvValue, INestedKlv
      * Build a Time Transfer Local Set from encoded bytes.
      *
      * <p>The encoding is assumed to be nested (i.e. it does not have the Universal Label or length
-     * parts).
+     * parts). You can use the constructor taking a byte array for the non-nested case.
      *
      * @param bytes the bytes to build from
      * @param offset the index into the {@code bytes} array to start parsing from
@@ -112,11 +112,10 @@ public class TimeTransferLocalSet implements IMisbMessage, IKlvValue, INestedKlv
      * Build a Time Transfer Local Set from encoded bytes.
      *
      * <p>The encoding is assumed to be non-nested (i.e. it has the Universal Label and length
-     * parts).
+     * parts). You can use {@link fromNestedBytes} for the nested case.
      *
      * @param bytes the bytes to build from
      * @throws KlvParseException if parsing fails
-     * @see {@link fromNestedBytes} for a way to handle a nested local set.
      */
     public TimeTransferLocalSet(final byte[] bytes) throws KlvParseException {
         int offset = UniversalLabel.LENGTH;
