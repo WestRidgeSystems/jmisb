@@ -27,8 +27,8 @@
         </dependency>
         <dependency>
             <groupId>net.frogmouth.chronyjava</groupId>
-            <artifactId>chrony-java</artifactId>
-            <version>0.6</version>
+            <artifactId>java-chrony-candm</artifactId>
+            <version>0.7</version>
         </dependency>
     </dependencies>
     <build>
