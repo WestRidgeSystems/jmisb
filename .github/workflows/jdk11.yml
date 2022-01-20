@@ -24,6 +24,11 @@ jobs:
         with:
           file: ./api/target/site/jacoco/jacoco.xml
           flags: unittests-api
+      - name: Upload api-awt test results to Codecov
+        uses: codecov/codecov-action@v1.5.0
+        with:
+          file: ./api-awt/target/site/jacoco/jacoco.xml
+          flags: unittests-awt
       - name: Upload api-ffmpeg test results to Codecov
         uses: codecov/codecov-action@v1.5.0
         with:
