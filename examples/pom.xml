@@ -21,6 +21,7 @@
         <module>cotconverter</module>
         <module>rawklv</module>
         <module>annotations</module>
+        <module>timetransfer</module>
     </modules>
 
     <dependencyManagement>

@@ -116,4 +116,17 @@ public class ST0603TimeStamp {
         LocalDateTime ldt = getDateTime();
         return ldt.format(DateTimeFormatter.ISO_DATE_TIME);
     }
+
+    /**
+     * Get an equivalent Nano Precision Time Stamp.
+     *
+     * <p>This converts the microsecond based value of this instance to a nanosecond based Nano
+     * Precision Time Stamp.
+     *
+     * @return the equivalent nanosecond-based time stamp
+     */
+    public NanoPrecisionTimeStamp toNanoPrecisionTimeStamp() {
+        long nanoseconds = microseconds * Constants.NANOS_PER_MICRO;
+        return new NanoPrecisionTimeStamp(nanoseconds);
+    }
 }

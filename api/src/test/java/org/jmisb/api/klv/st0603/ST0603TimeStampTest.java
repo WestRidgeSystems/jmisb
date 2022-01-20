@@ -107,4 +107,20 @@ public class ST0603TimeStampTest {
     public void badArrayLength() {
         new ST0603TimeStamp(new byte[] {0x01, 0x02, 0x03, 0x04, 0x05, 0x06, 0x07, 0x08, 0x09});
     }
+
+    @Test
+    public void toNanoPrecisionTimeStamp_73_1F() {
+        ST0603TimeStamp uut = new ST0603TimeStamp(0x0000001F);
+        Assert.assertEquals(uut.getMicroseconds(), 31);
+        Assert.assertEquals(uut.toNanoPrecisionTimeStamp().getNanoseconds(), 31000);
+        Assert.assertEquals(uut.toNanoPrecisionTimeStamp().getNanoseconds(), 0x00007918);
+    }
+
+    @Test
+    public void toNanoPrecisionTimeStamp_73_2565() {
+        ST0603TimeStamp uut = new ST0603TimeStamp(0x00002565);
+        Assert.assertEquals(uut.getMicroseconds(), 9573);
+        Assert.assertEquals(uut.toNanoPrecisionTimeStamp().getNanoseconds(), 9573000);
+        Assert.assertEquals(uut.toNanoPrecisionTimeStamp().getNanoseconds(), 0x00921288);
+    }
 }

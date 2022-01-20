@@ -53,3 +53,8 @@ This example is considered complete. See [its README](rawklv/README.md) for more
 It does a console dump of the KLV metadata in a file to standard output (`System.out` in Java, hence the name).
 This example differs from the rawklv example in that it takes an MPEG Transport Stream (typical format) rather than a de-multiplexed stream.
 This example is considered complete. See [its README](systemout/README.md) for more information.
+
+## timetransfer
+
+It generates a test file with video and time transfer (ST 1603) KLV metadata, based on a local installation of chrony.
+This example is a work-in-progress. See [its README](timetransfer/README.md) for more information.

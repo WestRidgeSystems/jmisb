@@ -17,6 +17,8 @@ import org.jmisb.api.klv.st0809.MeteorologicalMetadataLocalSetFactory;
 import org.jmisb.api.klv.st0903.vtrack.VTrackLocalSetFactory;
 import org.jmisb.api.klv.st1108.InterpretabilityQualityLocalSetFactory;
 import org.jmisb.api.klv.st1301.MiisLocalSetFactory;
+import org.jmisb.api.klv.st1603.localset.TimeTransferLocalSetFactory;
+import org.jmisb.api.klv.st1603.nanopack.NanoTimeTransferPackFactory;
 import org.jmisb.api.klv.st1902.MimdLocalSetFactory;
 
 /**
@@ -57,6 +59,8 @@ public class MisbMessageFactory {
         registerHandler(
                 KlvConstants.MeteorologicalMetadataLocalSetUl,
                 new MeteorologicalMetadataLocalSetFactory());
+        registerHandler(KlvConstants.TimeTransferLocalSetUl, new TimeTransferLocalSetFactory());
+        registerHandler(KlvConstants.NanoTimeTransferPackUl, new NanoTimeTransferPackFactory());
     }
 
     /**
