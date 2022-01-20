@@ -1,6 +1,6 @@
 package org.jmisb.api.klv.st1108.st1108_3.metric;
 
-import java.nio.charset.StandardCharsets;
+import org.jmisb.api.klv.st0107.Utf8String;
 import org.jmisb.api.klv.st1108.*;
 
 /**
@@ -18,7 +18,7 @@ import org.jmisb.api.klv.st1108.*;
  * </blockquote>
  */
 public class MetricVersion implements IMetricLocalSetValue {
-    private final String version;
+    private final Utf8String version;
 
     /**
      * Create from value.
@@ -26,7 +26,7 @@ public class MetricVersion implements IMetricLocalSetValue {
      * @param metricVersion the version of the metric algorithm, or "human".
      */
     public MetricVersion(String metricVersion) {
-        version = metricVersion;
+        version = new Utf8String(metricVersion);
     }
 
     /**
@@ -35,12 +35,12 @@ public class MetricVersion implements IMetricLocalSetValue {
      * @param bytes Byte array of the metric version encoded in UTF-8.
      */
     public MetricVersion(byte[] bytes) {
-        version = new String(bytes, StandardCharsets.UTF_8);
+        version = new Utf8String(bytes);
     }
 
     @Override
     public byte[] getBytes() {
-        return version.getBytes(StandardCharsets.UTF_8);
+        return version.getBytes();
     }
 
     @Override
@@ -59,6 +59,6 @@ public class MetricVersion implements IMetricLocalSetValue {
      * @return the metric version
      */
     public String getVersion() {
-        return version;
+        return version.getValue();
     }
 }

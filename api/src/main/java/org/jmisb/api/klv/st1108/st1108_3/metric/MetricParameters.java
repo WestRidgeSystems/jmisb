@@ -1,6 +1,6 @@
 package org.jmisb.api.klv.st1108.st1108_3.metric;
 
-import java.nio.charset.StandardCharsets;
+import org.jmisb.api.klv.st0107.Utf8String;
 
 /**
  * Metric Parameters.
@@ -17,7 +17,7 @@ import java.nio.charset.StandardCharsets;
  * </blockquote>
  */
 public class MetricParameters implements IMetricLocalSetValue {
-    private final String parameters;
+    private final Utf8String parameters;
 
     /**
      * Create from value.
@@ -25,7 +25,7 @@ public class MetricParameters implements IMetricLocalSetValue {
      * @param metricParameters the parameters for the metric calculation process.
      */
     public MetricParameters(String metricParameters) {
-        parameters = metricParameters;
+        parameters = new Utf8String(metricParameters);
     }
 
     /**
@@ -34,12 +34,12 @@ public class MetricParameters implements IMetricLocalSetValue {
      * @param bytes Byte array of the metric parameters encoded in UTF-8.
      */
     public MetricParameters(byte[] bytes) {
-        parameters = new String(bytes, StandardCharsets.UTF_8);
+        parameters = new Utf8String(bytes);
     }
 
     @Override
     public byte[] getBytes() {
-        return parameters.getBytes(StandardCharsets.UTF_8);
+        return parameters.getBytes();
     }
 
     @Override
@@ -58,6 +58,6 @@ public class MetricParameters implements IMetricLocalSetValue {
      * @return the metric parameters
      */
     public String getParameters() {
-        return parameters;
+        return parameters.getValue();
     }
 }
