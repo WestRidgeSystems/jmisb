@@ -73,23 +73,30 @@ platform support is limited to Linux, Windows, and MacOS. Android is next on our
 
 ## Including in Your Project
 
-If you are using a dependency management tool such as Maven with access to the
-[Central Repository](https://search.maven.org/), you can configure it to use
-jmisb as a dependency. For Maven, add the following to your `pom.xml`:
+NOTE: version 2 is under active development, and has not yet been released to Maven 
+[Central Repository](https://search.maven.org/).
+The latest 1.x release, available on the `main` branch, is the recommended version for most projects.
+
+To use version 2, you must first build jmisb locally (see [Building jmisb](#building-jmisb) section below).
+Once built, either add it to your Maven POM:
 
 ```xml
     <dependency>
         <groupId>org.jmisb</groupId>
-        <artifactId>jmisb-api</artifactId>
-        <version>2.0.0</version>
+        <artifactId>jmisb-api-ffmpeg</artifactId>
+        <version>2.0.0-SNAPSHOT</version>
     </dependency>
 ```
 
-For Gradle, include the following:
+Or for Gradle, include the following:
 
 ```groovy
+repositories {
+    mavenLocal()
+}
+
 dependencies {
-    implementation 'org.jmisb:jmisb-api:2.0.0'
+    implementation 'org.jmisb:jmisb-api-ffmpeg:2.0.0-SNAPSHOT'
 }
 ```
 
@@ -169,7 +176,7 @@ While not a core focus, jmisb provides some elevation / terrain related support.
 
 - EGM 96 conversion of altitude between ellipsoid (aka HAE) and geoidal (aka MSL).
 
-## Building
+## Building jmisb
 
 To build the library from the command line, run the Maven wrapper:
 
