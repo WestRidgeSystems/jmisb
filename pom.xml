@@ -82,7 +82,7 @@
         <jqf.version>1.8</jqf.version>
         <jxmapviewer.version>2.6</jxmapviewer.version>
         <log4j.version>2.17.1</log4j.version>
-        <maven.annotations.version>3.6.2</maven.annotations.version>
+        <maven.annotations.version>3.6.4</maven.annotations.version>
         <maven.assembly.plugin.version>3.3.0</maven.assembly.plugin.version>
         <maven.checkstyle.plugin>3.1.2</maven.checkstyle.plugin>
         <maven.clean.plugin.version>3.1.0</maven.clean.plugin.version>
