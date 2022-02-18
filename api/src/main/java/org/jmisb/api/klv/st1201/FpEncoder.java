@@ -37,7 +37,13 @@ public class FpEncoder {
     private double a, b;
     private double sF, sR;
     private double zOffset;
+    /**
+     * The field length.
+     *
+     * <p>This mainly intended for unit testing.
+     */
     protected int fieldLength;
+
     private static final double logOf2 = Math.log(2.0);
     private final OutOfRangeBehaviour behaviour;
     private static final byte[] EIGHT_BYTE_HIGH_BIT =

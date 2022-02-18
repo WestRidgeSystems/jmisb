@@ -10,7 +10,7 @@ package org.jmisb.api.klv.st0806;
  */
 public class FrameCenterMGRSLatitudeBandAndGridSquare
         extends AbstractMGRSLatitudeBandAndGridSquare {
-    public static final String FRAME_CENTER_MGRS_LATITUDE_BAND_AND_GRID_SQUARE =
+    private static final String FRAME_CENTER_MGRS_LATITUDE_BAND_AND_GRID_SQUARE =
             "Frame Center MGRS Latitude Band and Grid Square";
 
     /**

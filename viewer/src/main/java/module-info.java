@@ -1,3 +1,4 @@
+/** Demonstration Viewer application for jmisb. */
 module org.jmisb.viewer {
     requires org.jmisb.api.ffmpeg;
     requires org.jmisb.api.awt;

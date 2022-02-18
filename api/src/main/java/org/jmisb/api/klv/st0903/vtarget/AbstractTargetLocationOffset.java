@@ -12,12 +12,13 @@ import org.jmisb.core.klv.PrimitiveConverter;
  */
 public abstract class AbstractTargetLocationOffset implements IVmtiMetadataValue {
 
-    protected static final double MIN_VAL = -19.2;
-    protected static final double MAX_VAL = 19.2;
-    protected static final int NUM_BYTES = 3;
+    private static final double MIN_VAL = -19.2;
+    private static final double MAX_VAL = 19.2;
+    private static final int NUM_BYTES = 3;
+
     private static final int LEGACY_ERROR_INDICATOR = -8388608;
     private static final int LEGACY_INT_RANGE = 8388607; // 2^23 - 1
-    protected double value;
+    private double value;
 
     /**
      * Create from value.

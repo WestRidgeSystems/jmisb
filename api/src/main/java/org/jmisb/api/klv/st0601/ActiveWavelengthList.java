@@ -35,8 +35,6 @@ public class ActiveWavelengthList implements IUasDatalinkValue {
      * <p>This valid identifiers should be from the defined set (1-7), or 21 and higher as defined
      * by Item 128.
      *
-     * <p>
-     *
      * @param wavelengthIdentifiers the list of identifiers.
      */
     public ActiveWavelengthList(List<Integer> wavelengthIdentifiers) {
@@ -62,8 +60,6 @@ public class ActiveWavelengthList implements IUasDatalinkValue {
      * Get the list of wavelength identifiers.
      *
      * <p>This gets the live list, so it can also be used to add an entry, or to clear the list.
-     *
-     * <p>
      *
      * @return the wavelength identifiers, as a list.
      */

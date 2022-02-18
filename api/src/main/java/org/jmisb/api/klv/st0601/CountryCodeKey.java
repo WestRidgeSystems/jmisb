@@ -9,12 +9,16 @@ import org.jmisb.api.klv.IKlvKey;
  * have to be filled in.
  */
 public enum CountryCodeKey implements IKlvKey {
+    /** Coding Method. */
     CodingMethod(0),
+    /** Overflight Country. */
     OverflightCountry(1),
+    /** Operator Country. */
     OperatorCountry(2),
+    /** Country of Manufacture. */
     CountryOfManufacture(3);
 
-    CountryCodeKey(int key) {
+    private CountryCodeKey(int key) {
         this.tag = key;
     }
 

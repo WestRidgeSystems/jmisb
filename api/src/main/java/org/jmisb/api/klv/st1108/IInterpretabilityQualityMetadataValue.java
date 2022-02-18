@@ -3,6 +3,11 @@ package org.jmisb.api.klv.st1108;
 import org.jmisb.api.klv.ArrayBuilder;
 import org.jmisb.api.klv.IKlvValue;
 
+/**
+ * ST 1108 metadata value.
+ *
+ * <p>All ST 1108 Interpretability and Quality Local Set values implement this interface.
+ */
 public interface IInterpretabilityQualityMetadataValue extends IKlvValue {
     /**
      * Append the encoded bytes for this item to the byte array builder.

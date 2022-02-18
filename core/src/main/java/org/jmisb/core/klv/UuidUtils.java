@@ -95,6 +95,12 @@ public class UuidUtils {
                 + standardFormatUUID.substring(32);
     }
 
+    /**
+     * Convert a hash result to a version 5 UUID.
+     *
+     * @param uuidBytes the hash results
+     * @return the version 5 UUID equivalent of the hash result.
+     */
     public static UUID convertHashOutputToVersion5UUID(byte[] uuidBytes) {
         byte[] truncatedBytes = Arrays.copyOf(uuidBytes, 16);
         truncatedBytes[6] &= 15; // clear version

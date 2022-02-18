@@ -29,17 +29,27 @@ public enum VTrackMetadataKey implements IKlvKey {
      * <p>Microsecond count from Epoch of 1970; See MISP Time System - MISB ST 0603.
      */
     TrackTimeStamp(2),
+    /** Track Id. */
     TrackId(3),
+    /** Track Status. */
     TrackStatus(4),
+    /** Track Start Time. */
     TrackStartTime(5),
+    /** Track End Time. */
     TrackEndTime(6),
+    /** Track Boundary Series. */
     TrackBoundarySeries(7),
+    /** Track Algorithm. */
     TrackAlgorithm(8),
+    /** Track Confidence. */
     TrackConfidence(9),
+    /** System Name. */
     SystemName(10),
+    /** Version Number. */
     VersionNumber(11),
     /** String of VMTI source sensor. E.g. 'EO Nose', 'EO Zoom (DLTV)'. */
     SourceSensor(12),
+    /** Number of Track Points. */
     NumTrackPoints(13),
     /**
      * VTrackItem Packs ordered as a Series.

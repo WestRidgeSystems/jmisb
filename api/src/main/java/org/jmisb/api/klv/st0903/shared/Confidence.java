@@ -6,9 +6,9 @@ import org.jmisb.core.klv.PrimitiveConverter;
 /** Shared implementation of VTarget and VTracker confidence levels. */
 public abstract class Confidence implements IVmtiMetadataValue {
 
-    protected static final int MIN_VALUE = 0;
-    protected static final int MAX_VALUE = 100;
-    protected final short confidence;
+    private static final int MIN_VALUE = 0;
+    private static final int MAX_VALUE = 100;
+    private final short confidence;
 
     /**
      * Create from value.

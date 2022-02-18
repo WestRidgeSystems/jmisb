@@ -4,17 +4,29 @@ import java.nio.charset.StandardCharsets;
 
 /** Represents a string value in ST 0601. */
 public class UasDatalinkString implements IUasDatalinkValue {
+    /** Alternate Platform Name. */
     public static final String ALTERNATE_PLATFORM_NAME = "Alternate Platform Name";
+    /** Broadcast Source. */
     public static final String BROADCAST_SOURCE = "Broadcast Source";
+    /** Communications Method. */
     public static final String COMMUNICATIONS_METHOD = "Communications Method";
+    /** Image Coordinate System. */
     public static final String IMAGE_COORDINATE_SYSTEM = "Image Coordinate System";
+    /** Image Source Sensor. */
     public static final String IMAGE_SOURCE_SENSOR = "Image Source Sensor";
+    /** Mission ID. */
     public static final String MISSION_ID = "Mission ID";
+    /** Operational Base. */
     public static final String OPERATIONAL_BASE = "Operational Base";
+    /** Platform Call Sign. */
     public static final String PLATFORM_CALL_SIGN = "Platform Call Sign";
+    /** Platform Designation. */
     public static final String PLATFORM_DESIGNATION = "Platform Designation";
+    /** Platform Tail Number. */
     public static final String PLATFORM_TAIL_NUMBER = "Platform Tail Number";
+    /** Stream Designator. */
     public static final String STREAM_DESIGNATOR = "Stream Designator";
+    /** Target ID. */
     public static final String TARGET_ID = "Target ID";
 
     private final String displayName;

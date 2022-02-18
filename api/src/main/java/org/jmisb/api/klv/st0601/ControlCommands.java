@@ -18,7 +18,7 @@ import org.jmisb.api.klv.INestedKlvValue;
  */
 public class ControlCommands implements IUasDatalinkValue, INestedKlvValue, ISpecialFraming {
 
-    public List<ControlCommand> controlCommands = new ArrayList<>();
+    private List<ControlCommand> controlCommands = new ArrayList<>();
 
     /**
      * Create from a single command.

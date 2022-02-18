@@ -3,7 +3,10 @@ package org.jmisb.api.klv.st1206;
 /** Shared ST1206 implementation of an angle value. */
 public abstract class AbstractAngle implements ISARMIMetadataValue {
 
+    /** Number of bytes used for encoding. */
     protected static final int NUM_BYTES = 2;
+
+    /** The angular value. */
     protected double value;
 
     @Override

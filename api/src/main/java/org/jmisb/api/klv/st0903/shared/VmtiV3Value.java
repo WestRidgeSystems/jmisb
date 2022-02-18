@@ -8,7 +8,7 @@ import org.jmisb.core.klv.PrimitiveConverter;
  * values, three bytes maximum.
  */
 public abstract class VmtiV3Value implements IVmtiMetadataValue {
-    protected int value;
+    private int value;
     private static final int MIN_VALUE = 0;
     private static final int MAX_VALUE = 16777215;
 
@@ -39,7 +39,7 @@ public abstract class VmtiV3Value implements IVmtiMetadataValue {
         parse(bytes);
     }
 
-    protected final void parse(byte[] bytes) {
+    private void parse(byte[] bytes) {
         value = 0;
         for (byte aByte : bytes) {
             value = value << 8;
@@ -69,6 +69,6 @@ public abstract class VmtiV3Value implements IVmtiMetadataValue {
 
     @Override
     public String getDisplayableValue() {
-        return String.format("%d", value);
+        return String.format("%d", getValue());
     }
 }

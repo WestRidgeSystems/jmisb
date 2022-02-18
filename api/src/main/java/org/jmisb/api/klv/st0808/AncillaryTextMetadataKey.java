@@ -8,10 +8,15 @@ import org.jmisb.api.klv.IKlvKey;
 public enum AncillaryTextMetadataKey implements IKlvKey {
     /** Unknown key. This should not be created. */
     Undefined(0),
+    /** Originator. */
     Originator(1),
+    /** Precision Time Stamp. */
     PrecisionTimeStamp(2),
+    /** Message Body. */
     MessageBody(3),
+    /** Source. */
     Source(4),
+    /** Message Creation Time. */
     MessageCreationTime(5);
 
     private final int tag;

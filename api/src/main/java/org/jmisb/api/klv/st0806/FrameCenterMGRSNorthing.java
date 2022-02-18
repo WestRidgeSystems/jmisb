@@ -10,7 +10,7 @@ package org.jmisb.api.klv.st0806;
  */
 public class FrameCenterMGRSNorthing extends AbstractMGRSEastingOrNorthing
         implements IRvtMetadataValue {
-    public static final String FRAME_CENTRE_MGRS_NORTHING = "Frame Center MGRS Northing";
+    private static final String FRAME_CENTRE_MGRS_NORTHING = "Frame Center MGRS Northing";
 
     /**
      * Create from value.

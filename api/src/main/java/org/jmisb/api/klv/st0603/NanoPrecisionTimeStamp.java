@@ -12,10 +12,12 @@ import org.jmisb.core.klv.PrimitiveConverter;
  * are truncated to the nearest nanosecond.
  */
 public class NanoPrecisionTimeStamp implements IKlvValue {
+    /** Number of bytes for encoding. */
     public static final int BYTES = Long.BYTES;
 
     // this is conceptually unsigned, so be careful when manipulating it.
-    protected final long nanoseconds;
+    private final long nanoseconds;
+
     /**
      * Create from value.
      *

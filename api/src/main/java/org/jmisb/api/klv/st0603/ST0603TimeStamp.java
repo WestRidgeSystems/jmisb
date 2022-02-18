@@ -10,7 +10,7 @@ import org.jmisb.core.klv.PrimitiveConverter;
 /** ST0603 Timestamp. */
 public class ST0603TimeStamp {
     // this is conceptually unsigned, so be careful when manipulating it.
-    protected final long microseconds;
+    private final long microseconds;
 
     /**
      * Create from value.

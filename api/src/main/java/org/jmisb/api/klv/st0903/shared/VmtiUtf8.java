@@ -5,8 +5,8 @@ import org.jmisb.api.klv.st0903.IVmtiMetadataValue;
 
 /** Base class for URI and plain text string implementations. */
 public abstract class VmtiUtf8 implements IVmtiMetadataValue {
-    protected final String displayName;
-    protected final String stringValue;
+    private final String displayName;
+    private final String stringValue;
 
     /**
      * Create from value.

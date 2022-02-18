@@ -12,8 +12,22 @@ import org.jmisb.api.klv.IKlvKey;
  * See ${document} for more information on these values.
  */
 public enum ${name}MetadataKey implements IKlvKey {
+    /**
+     * Unknown / undefined value.
+     *
+     * This should not be intentionally created, and will not be serialised.
+     */
     Undefined(-1, true),
 <#list entries as entry>
+    /**
+     * ${entry.name}.
+     *
+     * <p>This value is encoded as ${entry.number}.
+<#if entry.deprecated>
+     *
+     * <p>This entry is deprecated.
+</#if>
+     */
     ${entry.name}(${entry.number}, ${entry.deprecated?c})<#sep>,</#sep><#if entry?is_last>;</#if>
 </#list>
 
@@ -52,6 +66,11 @@ public enum ${name}MetadataKey implements IKlvKey {
         return tagTable.containsKey(tag) ? tagTable.get(tag) : Undefined;
     }
 
+    /**
+     * Whether this item is deprecated.
+     *
+     * @return true if the item is deprecated, otherwise false.
+     */
     public boolean isDeprecated() {
         return deprecated;
     }

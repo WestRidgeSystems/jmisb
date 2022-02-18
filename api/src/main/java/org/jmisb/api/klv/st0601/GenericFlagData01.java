@@ -29,29 +29,29 @@ import org.jmisb.api.klv.INestedKlvValue;
  */
 public class GenericFlagData01 implements IUasDatalinkValue, INestedKlvValue {
 
-    protected static final String LASER_RANGE_STRING_KEY = "Laser Range";
-    protected static final String LASER_OFF = "Laser off";
-    protected static final String LASER_ON = "Laser on";
+    private static final String LASER_RANGE_STRING_KEY = "Laser Range";
+    private static final String LASER_OFF = "Laser off";
+    private static final String LASER_ON = "Laser on";
 
-    protected static final String AUTO_TRACK_STRING_KEY = "Auto-Track";
-    protected static final String AUTO_TRACK_OFF = "Auto-Track off";
-    protected static final String AUTO_TRACK_ON = "Auto-Track on";
+    private static final String AUTO_TRACK_STRING_KEY = "Auto-Track";
+    private static final String AUTO_TRACK_OFF = "Auto-Track off";
+    private static final String AUTO_TRACK_ON = "Auto-Track on";
 
-    protected static final String IR_POLARITY_STRING_KEY = "IR Polarity";
-    protected static final String WHITE_HOT = "White Hot";
-    protected static final String BLACK_HOT = "Black Hot";
+    private static final String IR_POLARITY_STRING_KEY = "IR Polarity";
+    private static final String WHITE_HOT = "White Hot";
+    private static final String BLACK_HOT = "Black Hot";
 
-    protected static final String ICING_STATUS_STRING_KEY = "Icing Status";
-    protected static final String NO_ICING_DETECTED = "No Icing Detected";
-    protected static final String ICING_DETECTED = "Icing Detected";
+    private static final String ICING_STATUS_STRING_KEY = "Icing Status";
+    private static final String NO_ICING_DETECTED = "No Icing Detected";
+    private static final String ICING_DETECTED = "Icing Detected";
 
-    protected static final String SLANT_RANGE_STRING_KEY = "Slant Range";
-    protected static final String CALCULATED = "Calculated";
-    protected static final String MEASURED = "Measured";
+    private static final String SLANT_RANGE_STRING_KEY = "Slant Range";
+    private static final String CALCULATED = "Calculated";
+    private static final String MEASURED = "Measured";
 
-    protected static final String IMAGE_INVALID_STRING_KEY = "Image Invalid";
-    protected static final String IMAGE_INVALID = "Image Invalid";
-    protected static final String IMAGE_VALID = "Image Valid";
+    private static final String IMAGE_INVALID_STRING_KEY = "Image Invalid";
+    private static final String IMAGE_INVALID = "Image Invalid";
+    private static final String IMAGE_VALID = "Image Valid";
 
     private final SortedMap<FlagDataKey, UasDatalinkString> map = new TreeMap<>();
 

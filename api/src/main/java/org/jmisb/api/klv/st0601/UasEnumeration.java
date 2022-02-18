@@ -5,6 +5,7 @@ import java.util.Map;
 
 /** Abstract base class for single-byte enumeration values in ST 0601. */
 public abstract class UasEnumeration implements IUasDatalinkValue {
+    /** Implementing / backing value for the enumeration. */
     protected byte value;
 
     /**

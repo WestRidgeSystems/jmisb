@@ -9,7 +9,7 @@ package org.jmisb.api.klv.st0806;
  * B correspond to Antarctic UPS regions and Y &amp; Z correspond to Arctic UPS regions.
  */
 public class AircraftMGRSLatitudeBandAndGridSquare extends AbstractMGRSLatitudeBandAndGridSquare {
-    public static final String AIRCRAFT_MGRS_LATITUDE_BAND_AND_GRID_SQUARE =
+    private static final String AIRCRAFT_MGRS_LATITUDE_BAND_AND_GRID_SQUARE =
             "Aircraft MGRS Latitude Band and Grid Square";
 
     /**

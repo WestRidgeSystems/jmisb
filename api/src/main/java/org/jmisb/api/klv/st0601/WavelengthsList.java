@@ -114,8 +114,6 @@ public class WavelengthsList implements IUasDatalinkValue {
      *
      * <p>This gets the live list, so it can also be used to add an entry, or to clear the list.
      *
-     * <p>
-     *
      * @return the known wavelengths, as a list.
      */
     public List<Wavelengths> getWavelengthsList() {

@@ -10,7 +10,7 @@ package org.jmisb.api.klv.st0806;
  */
 public class AircraftMGRSNorthing extends AbstractMGRSEastingOrNorthing
         implements IRvtMetadataValue {
-    public static final String AIRCRAFT_MGRS_NORTHING = "Aircraft MGRS Northing";
+    private static final String AIRCRAFT_MGRS_NORTHING = "Aircraft MGRS Northing";
 
     /**
      * Create from value.

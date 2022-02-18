@@ -5,7 +5,7 @@ import java.time.Clock;
 /** Represents a Platform Position CoT message. */
 public class PlatformPosition extends CotMessage {
 
-    public CotSensor sensor;
+    private CotSensor sensor;
 
     PlatformPosition(Clock clock) {
         super(clock);

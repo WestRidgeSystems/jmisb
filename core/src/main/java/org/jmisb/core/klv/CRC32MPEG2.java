@@ -55,8 +55,18 @@ public class CRC32MPEG2 {
                 0xBCB4666D, 0xB8757BDA, 0xB5365D03, 0xB1F740B4
             };
 
+    /** Constructor. */
     public CRC32MPEG2() {}
 
+    /**
+     * Update the CRC results with an array of bytes.
+     *
+     * <p>This allows for the the CRC to be calculated on less than the full byte array, by
+     * specifying an upper limit.
+     *
+     * @param bytes the byte array to read from
+     * @param meaningfulLength the number of bytes to read from the array
+     */
     public void update(byte[] bytes, int meaningfulLength) {
         for (int byteIndex = 0; byteIndex < meaningfulLength; ++byteIndex) {
             int ub = ((int) bytes[byteIndex]) & 0xff;
@@ -66,6 +76,11 @@ public class CRC32MPEG2 {
         }
     }
 
+    /**
+     * Get the CRC32 value.
+     *
+     * @return the calculated CRC value.
+     */
     public byte[] getCRC32() {
         return PrimitiveConverter.uint32ToBytes(m_crcAccum);
     }
@@ -76,8 +91,6 @@ public class CRC32MPEG2 {
      * <p>This uses the CRC32 checksum specified by ISO/IEC-13818-1. This is used in ST0806.
      *
      * <p>This is not the same checksum as is used in ST0601.
-     *
-     * <p>
      *
      * @param fullMessage Byte array of the full message packet
      * @return 4-byte checksum
@@ -96,8 +109,6 @@ public class CRC32MPEG2 {
      * <p>This uses the CRC32 checksum specified by ISO/IEC-13818-1. This is used in ST0806.
      *
      * <p>This is not the same checksum as is used in ST0601.
-     *
-     * <p>
      *
      * @param fullMessage Byte array of the full message packet
      * @param expected expected checksum value

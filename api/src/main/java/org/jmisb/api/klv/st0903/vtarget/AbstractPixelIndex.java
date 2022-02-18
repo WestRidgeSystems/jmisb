@@ -9,9 +9,9 @@ import org.jmisb.core.klv.PrimitiveConverter;
  * <p>Used by Tag 19 and Tag 20.
  */
 public abstract class AbstractPixelIndex implements IVmtiMetadataValue {
-    protected static final long MIN_VAL = 1;
-    protected static final long MAX_VAL = 4294967295L;
-    protected long value;
+    private static final long MIN_VAL = 1;
+    private static final long MAX_VAL = 4294967295L;
+    private long value;
 
     /**
      * Create from value.

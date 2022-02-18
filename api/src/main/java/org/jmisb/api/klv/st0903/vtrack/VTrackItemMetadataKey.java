@@ -12,35 +12,65 @@ import org.jmisb.api.klv.IKlvKey;
 public enum VTrackItemMetadataKey implements IKlvKey {
     /** Unknown key. This should not be created. */
     Undefined(0),
+    /** Target Time Stamp. */
     TargetTimeStamp(1),
+    /** Target Centroid Pixel Number. */
     TargetCentroidPixNum(2),
+    /** Target Centroid Pixel Row Number. */
     TargetCentroidPixRow(3),
+    /** Target Centroid Pixel Column Number. */
     TargetCentroidPixCol(4),
+    /** Boundary Top Left Pixel Number. */
     BoundaryTopLeftPixNum(5),
+    /** Boundary Bottom Right Pixel Number. */
     BoundaryBottomRightPixNum(6),
+    /** Target Priority. */
     TargetPriority(7),
+    /** Target Confidence Level. */
     TargetConfidenceLevel(8),
+    /** Target History. */
     TargetHistory(9),
+    /** Percentage Target Pixels. */
     PercentTargetPixels(10),
+    /** Target Color. */
     TargetColor(11),
+    /** Target Intensity. */
     TargetIntensity(12),
+    /** Target Location. */
     TargetLocation(13),
+    /** Target Boundary Series. */
     TargetBoundarySeries(14),
+    /** Velocity. */
     Velocity(15),
+    /** Acceleration. */
     Acceleration(16),
+    /** FPA Index. */
     FpaIndex(17),
+    /** Video Frame Number. */
     VideoFrameNumber(18),
+    /** Motion Imagery Identification System Identifier. */
     MiisId(19),
+    /** Frame Width. */
     FrameWidth(20),
+    /** Frame Height. */
     FrameHeight(21),
+    /** Sensor Horizontal Field of View. */
     SensorHorizontalFov(22),
+    /** Sensor Vertical Field of View. */
     SensorVerticalFov(23),
+    /** Motion Imagery URL. */
     MotionImageryUrl(24),
+    /** VMask Local Set. */
     VMask(101),
+    /** VObject Local Set. */
     VObject(102),
+    /** VFeature Local Set. */
     VFeature(103),
+    /** VChip Local Set. */
     VChip(105),
+    /** VChip Series Local Set. */
     VChipSeries(106),
+    /** VObject Series Local Set. */
     VObjectSeries(107);
 
     private final int tag;

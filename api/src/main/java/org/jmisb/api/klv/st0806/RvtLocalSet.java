@@ -29,6 +29,7 @@ import org.jmisb.core.klv.CRC32MPEG2;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
+/** Remote Video Terminal Local Set. */
 public class RvtLocalSet implements IMisbMessage {
 
     private static final Logger LOGGER = LoggerFactory.getLogger(RvtLocalSet.class);

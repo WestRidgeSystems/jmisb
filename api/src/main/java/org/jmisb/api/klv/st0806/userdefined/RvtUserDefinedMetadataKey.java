@@ -6,9 +6,15 @@ import org.jmisb.api.klv.IKlvKey;
 
 /** ST 0806 User Defined local set keys - description and numbers. */
 public enum RvtUserDefinedMetadataKey implements IKlvKey {
-    /** Unknown key. This should not be created. */
+    /**
+     * Unknown key.
+     *
+     * <p>This should not be created.
+     */
     Undefined(0),
+    /** Numeric identifier. */
     NumericId(1),
+    /** User data. */
     UserData(2);
 
     private final int tag;

@@ -31,6 +31,7 @@ public class VideoPanel extends JPanel
     private boolean annotationOverlayEnabled = false;
     private final Annotations annotations = new Annotations();
 
+    /** Constructor. */
     VideoPanel() {
         if (logger.isDebugEnabled()) {
             logger.debug("Creating video panel");
@@ -107,6 +108,11 @@ public class VideoPanel extends JPanel
         }
     }
 
+    /**
+     * Clear previous display.
+     *
+     * <p>This will clear the image, metadata, and any annotations.
+     */
     public void clear() {
         bufferedImage = null;
         this.metadata.clear();

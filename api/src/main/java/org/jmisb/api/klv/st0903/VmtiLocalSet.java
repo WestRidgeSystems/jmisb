@@ -25,6 +25,13 @@ import org.jmisb.core.klv.ArrayUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
+/**
+ * VMTI Local Set.
+ *
+ * <p>This is the top level ST 0903 Local Set.
+ *
+ * <p>Note that this local set can be nested in ST 0601.
+ */
 public class VmtiLocalSet implements IMisbMessage {
     private static final Logger LOGGER = LoggerFactory.getLogger(VmtiLocalSet.class);
 

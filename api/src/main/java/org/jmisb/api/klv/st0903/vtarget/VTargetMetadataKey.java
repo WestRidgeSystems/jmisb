@@ -4,6 +4,11 @@ import java.util.HashMap;
 import java.util.Map;
 import org.jmisb.api.klv.IKlvKey;
 
+/**
+ * VTarget metadata keys.
+ *
+ * <p>These keys are used to look up and identify metadata items.
+ */
 public enum VTargetMetadataKey implements IKlvKey {
     /** Unknown key. This should not be created. */
     Undefined(0),

@@ -216,8 +216,6 @@ public class AirbaseLocations implements IUasDatalinkValue {
     /**
      * Get the Takeoff Location.
      *
-     * <p>
-     *
      * @return the location, or null if it is not known.
      */
     public Location getTakeoffLocation() {
@@ -226,8 +224,6 @@ public class AirbaseLocations implements IUasDatalinkValue {
 
     /**
      * Get the Recovery Location.
-     *
-     * <p>
      *
      * @return the location, or null if it is not known.
      */
@@ -238,8 +234,6 @@ public class AirbaseLocations implements IUasDatalinkValue {
     /**
      * Whether the takeoff location is unknown.
      *
-     * <p>
-     *
      * @return true if its unknown, false if its known
      */
     public boolean isTakeoffLocationUnknown() {
@@ -248,8 +242,6 @@ public class AirbaseLocations implements IUasDatalinkValue {
 
     /**
      * Whether the recovery location is unknown.
-     *
-     * <p>
      *
      * @return true if its unknown, false if its known
      */

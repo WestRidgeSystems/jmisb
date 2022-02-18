@@ -22,6 +22,12 @@ public class TargetWidth implements IUasDatalinkValue {
     private static final double MIN_VAL = 0.0;
     private static final double MAX_VAL = 10000.0;
     private static final double MAXINT = 65535.0; // 2^16 - 1
+    /**
+     * Approximate encoding error in this value.
+     *
+     * <p>This is based on the resolution / 2 and should be considered a precision. It is unlikely
+     * to represent actual accuracy.
+     */
     public static final double DELTA = 0.08; // +/- .08 meters
 
     /**

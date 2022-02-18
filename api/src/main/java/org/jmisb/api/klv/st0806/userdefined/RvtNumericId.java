@@ -8,7 +8,9 @@ import org.jmisb.core.klv.PrimitiveConverter;
  * <p>Required when using User Defined Local Set.
  */
 public class RvtNumericId implements IRvtUserDefinedMetadataValue {
+    /** Implementing value. */
     protected short number;
+
     private static final int REQUIRED_BYTE_LENGTH = 1;
 
     /**

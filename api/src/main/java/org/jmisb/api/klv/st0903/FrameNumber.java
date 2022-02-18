@@ -39,9 +39,4 @@ public class FrameNumber extends VmtiV3Value
     public final String getDisplayName() {
         return "Frame Number";
     }
-
-    @Override
-    public String getDisplayableValue() {
-        return "" + value;
-    }
 }

@@ -6,7 +6,7 @@ package org.jmisb.api.klv.st0806;
  * <p>First two characters of Aircraft MGRS coordinates, UTM zone 01 through 60.
  */
 public class AircraftMGRSZone extends AbstractMGRSZone implements IRvtMetadataValue {
-    public static final String AIRCRAFT_MGRS_ZONE = "Aircraft MGRS Zone";
+    private static final String AIRCRAFT_MGRS_ZONE = "Aircraft MGRS Zone";
 
     /**
      * Create from value.
