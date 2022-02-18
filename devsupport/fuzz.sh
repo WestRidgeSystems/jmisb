@@ -24,7 +24,7 @@ pushd "../api"
 
 for item in "${tests[@]}"
 do
-	echo "Fuzz-testing $item..."
+    echo "Fuzz-testing $item..."
     mvn jqf:fuzz -Dclass=$item -Dmethod=checkCreateValue -Dtime=$time
 done
 
