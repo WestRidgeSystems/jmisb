@@ -1,3 +1,8 @@
+/**
+ * FFmpeg integration for jmisb.
+ *
+ * <p>This module provides FFmpeg-specific support, including parsing.
+ */
 module org.jmisb.api.ffmpeg {
     requires org.jmisb.api;
     requires org.jmisb.core;

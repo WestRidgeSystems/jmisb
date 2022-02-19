@@ -189,7 +189,7 @@ class VideoDecodeThread extends ProcessingThread {
                         AVFrameSideData sideData =
                                 av_frame_get_side_data(avFrame, AV_FRAME_DATA_SEI_UNREGISTERED);
                         if (sideData != null) {
-                            int numBytesInSideData = sideData.size();
+                            int numBytesInSideData = (int) sideData.size();
                             if (numBytesInSideData >= 16) {
                                 byte[] sideDataBytes = new byte[numBytesInSideData];
                                 sideData.data().get(sideDataBytes);
