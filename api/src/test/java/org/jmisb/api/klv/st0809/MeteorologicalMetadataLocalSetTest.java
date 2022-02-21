@@ -6,7 +6,6 @@ import java.util.HashMap;
 import java.util.Map;
 import org.jmisb.api.common.KlvParseException;
 import org.jmisb.api.klv.IKlvKey;
-import org.jmisb.api.klv.KlvConstants;
 import org.jmisb.api.klv.LoggerChecks;
 import org.testng.annotations.Test;
 
@@ -59,7 +58,9 @@ public class MeteorologicalMetadataLocalSetTest extends LoggerChecks {
         checkVersion(localSet);
         assertEquals(localSet.frameMessage(false), bytes);
         assertEquals(localSet.displayHeader(), "ST 0809 Meteorological Metadata");
-        assertEquals(localSet.getUniversalLabel(), KlvConstants.MeteorologicalMetadataLocalSetUl);
+        assertEquals(
+                localSet.getUniversalLabel(),
+                MeteorologicalMetadataLocalSet.MeteorologicalMetadataLocalSetUl);
     }
 
     private void checkTimeStamp(MeteorologicalMetadataLocalSet localSet) {
@@ -153,7 +154,9 @@ public class MeteorologicalMetadataLocalSetTest extends LoggerChecks {
         checkTemperature(localSet);
         assertEquals(localSet.frameMessage(false), bytes);
         assertEquals(localSet.displayHeader(), "ST 0809 Meteorological Metadata");
-        assertEquals(localSet.getUniversalLabel(), KlvConstants.MeteorologicalMetadataLocalSetUl);
+        assertEquals(
+                localSet.getUniversalLabel(),
+                MeteorologicalMetadataLocalSet.MeteorologicalMetadataLocalSetUl);
     }
 
     private void checkTemperature(MeteorologicalMetadataLocalSet localSet) {
@@ -242,7 +245,9 @@ public class MeteorologicalMetadataLocalSetTest extends LoggerChecks {
         checkTemperature(localSet);
         assertEquals(localSet.frameMessage(false), bytes);
         assertEquals(localSet.displayHeader(), "ST 0809 Meteorological Metadata");
-        assertEquals(localSet.getUniversalLabel(), KlvConstants.MeteorologicalMetadataLocalSetUl);
+        assertEquals(
+                localSet.getUniversalLabel(),
+                MeteorologicalMetadataLocalSet.MeteorologicalMetadataLocalSetUl);
     }
 
     @Test
@@ -311,7 +316,9 @@ public class MeteorologicalMetadataLocalSetTest extends LoggerChecks {
         checkBarometricPressure(localSet);
         assertEquals(localSet.frameMessage(false), bytes);
         assertEquals(localSet.displayHeader(), "ST 0809 Meteorological Metadata");
-        assertEquals(localSet.getUniversalLabel(), KlvConstants.MeteorologicalMetadataLocalSetUl);
+        assertEquals(
+                localSet.getUniversalLabel(),
+                MeteorologicalMetadataLocalSet.MeteorologicalMetadataLocalSetUl);
     }
 
     @Test(
@@ -378,7 +385,9 @@ public class MeteorologicalMetadataLocalSetTest extends LoggerChecks {
         checkTimeStamp(localSet);
         checkVersion(localSet);
         assertEquals(localSet.displayHeader(), "ST 0809 Meteorological Metadata");
-        assertEquals(localSet.getUniversalLabel(), KlvConstants.MeteorologicalMetadataLocalSetUl);
+        assertEquals(
+                localSet.getUniversalLabel(),
+                MeteorologicalMetadataLocalSet.MeteorologicalMetadataLocalSetUl);
     }
 
     @Test

@@ -6,7 +6,6 @@ import java.util.HashMap;
 import java.util.Map;
 import java.util.UUID;
 import org.jmisb.api.common.KlvParseException;
-import org.jmisb.api.klv.KlvConstants;
 import org.jmisb.api.klv.LoggerChecks;
 import org.jmisb.api.klv.st1204.CoreIdentifier;
 import org.jmisb.api.klv.st1204.IdType;
@@ -104,7 +103,7 @@ public class MiisLocalSetTest extends LoggerChecks {
         MiisLocalSet localSet = new MiisLocalSet(bytes);
         assertNotNull(localSet);
         assertEquals(localSet.displayHeader(), "ST 1301 MIIS Augmentation Identifiers");
-        assertEquals(localSet.getUniversalLabel(), KlvConstants.MiisLocalSetUl);
+        assertEquals(localSet.getUniversalLabel(), MiisMetadataConstants.MiisLocalSetUl);
         assertEquals(localSet.getIdentifiers().size(), 2);
         checkVersionExample(localSet);
         checkCoreIdentifierExample(localSet);
@@ -122,7 +121,7 @@ public class MiisLocalSetTest extends LoggerChecks {
         MiisLocalSet localSet = new MiisLocalSet(map);
         assertNotNull(localSet);
         assertEquals(localSet.displayHeader(), "ST 1301 MIIS Augmentation Identifiers");
-        assertEquals(localSet.getUniversalLabel(), KlvConstants.MiisLocalSetUl);
+        assertEquals(localSet.getUniversalLabel(), MiisMetadataConstants.MiisLocalSetUl);
         assertEquals(localSet.getIdentifiers().size(), 2);
         checkVersionExample(localSet);
         checkCoreIdentifierExample(localSet);
@@ -139,7 +138,7 @@ public class MiisLocalSetTest extends LoggerChecks {
         MiisLocalSet localSet = new MiisLocalSet(map);
         assertNotNull(localSet);
         assertEquals(localSet.displayHeader(), "ST 1301 MIIS Augmentation Identifiers");
-        assertEquals(localSet.getUniversalLabel(), KlvConstants.MiisLocalSetUl);
+        assertEquals(localSet.getUniversalLabel(), MiisMetadataConstants.MiisLocalSetUl);
         assertEquals(localSet.getIdentifiers().size(), 1);
         checkCoreIdentifierExample(localSet);
         assertEquals(localSet.frameMessage(false), bytes);
@@ -302,7 +301,7 @@ public class MiisLocalSetTest extends LoggerChecks {
         this.verifySingleLoggerMessage("Unknown MIIS Metadata tag: 8");
         assertNotNull(localSet);
         assertEquals(localSet.displayHeader(), "ST 1301 MIIS Augmentation Identifiers");
-        assertEquals(localSet.getUniversalLabel(), KlvConstants.MiisLocalSetUl);
+        assertEquals(localSet.getUniversalLabel(), MiisMetadataConstants.MiisLocalSetUl);
         assertEquals(localSet.getIdentifiers().size(), 2);
         checkVersionExample(localSet);
         checkCoreIdentifierExample(localSet);

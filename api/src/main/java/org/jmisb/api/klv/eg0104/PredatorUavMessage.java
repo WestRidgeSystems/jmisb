@@ -9,13 +9,21 @@ import org.jmisb.api.klv.BerDecoder;
 import org.jmisb.api.klv.BerField;
 import org.jmisb.api.klv.IKlvKey;
 import org.jmisb.api.klv.IMisbMessage;
-import org.jmisb.api.klv.KlvConstants;
 import org.jmisb.api.klv.UdsField;
 import org.jmisb.api.klv.UdsParser;
 import org.jmisb.api.klv.UniversalLabel;
 
 /** Represents a Predator UAV Metadata Message (EG0104.5). */
 public class PredatorUavMessage implements IMisbMessage {
+
+    /** Universal label for obsolete Predator UAV Basic Universal Metadata Set (EG0104.5). */
+    public static final UniversalLabel PredatorMetadataLocalSetUl =
+            new UniversalLabel(
+                    new byte[] {
+                        0x06, 0x0e, 0x2b, 0x34, 0x02, 0x01, 0x01, 0x01, 0x0e, 0x01, 0x01, 0x02,
+                        0x01, 0x01, 0x00, 0x00
+                    });
+
     /** Map containing all data elements in the message. */
     protected SortedMap<PredatorMetadataKey, IPredatorMetadataValue> map = new TreeMap<>();
 
@@ -46,7 +54,7 @@ public class PredatorUavMessage implements IMisbMessage {
 
     @Override
     public UniversalLabel getUniversalLabel() {
-        return KlvConstants.PredatorMetadataLocalSetUl;
+        return PredatorMetadataLocalSetUl;
     }
 
     @Override

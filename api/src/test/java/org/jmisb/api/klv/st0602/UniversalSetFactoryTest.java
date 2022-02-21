@@ -3,7 +3,6 @@ package org.jmisb.api.klv.st0602;
 import static org.testng.Assert.*;
 
 import org.jmisb.api.common.KlvParseException;
-import org.jmisb.api.klv.KlvConstants;
 import org.testng.Assert;
 import org.testng.annotations.Test;
 
@@ -76,7 +75,8 @@ public class UniversalSetFactoryTest {
         AnnotationMetadataUniversalSet universalSet = new AnnotationMetadataUniversalSet(bytes);
         Assert.assertEquals(universalSet.displayHeader(), "ST 0602, ID: Unknown");
         Assert.assertEquals(
-                universalSet.getUniversalLabel(), KlvConstants.AnnotationUniversalSetUl);
+                universalSet.getUniversalLabel(),
+                AnnotationMetadataUniversalSet.AnnotationUniversalSetUl);
         // Verify we still got the part we can handle
         Assert.assertEquals(universalSet.getIdentifiers().size(), 1);
         Assert.assertTrue(

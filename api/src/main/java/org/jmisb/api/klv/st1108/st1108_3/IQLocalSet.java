@@ -1,7 +1,5 @@
 package org.jmisb.api.klv.st1108.st1108_3;
 
-import static org.jmisb.api.klv.KlvConstants.InterpretabilityQualityLocalSetUl;
-
 import java.util.List;
 import java.util.Map;
 import java.util.Set;
@@ -16,6 +14,7 @@ import org.jmisb.api.klv.IMisbMessage;
 import org.jmisb.api.klv.LdsField;
 import org.jmisb.api.klv.UniversalLabel;
 import org.jmisb.api.klv.st1108.IInterpretabilityQualityMetadataValue;
+import org.jmisb.api.klv.st1108.InterpretabilityQualityConstants;
 import org.jmisb.api.klv.st1108.st1108_3.metric.MetricLocalSets;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -152,7 +151,7 @@ public class IQLocalSet implements IMisbMessage {
 
     @Override
     public UniversalLabel getUniversalLabel() {
-        return InterpretabilityQualityLocalSetUl;
+        return InterpretabilityQualityConstants.InterpretabilityQualityLocalSetUl;
     }
 
     @Override

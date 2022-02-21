@@ -21,7 +21,7 @@ import org.jmisb.api.klv.IKlvValue;
 import org.jmisb.api.klv.INestedKlvValue;
 <#if topLevel>
 import org.jmisb.api.klv.IMisbMessage;
-import org.jmisb.api.klv.KlvConstants;
+import org.jmisb.api.klv.st1902.MIMDConstants;
 </#if>
 import org.jmisb.api.klv.LdsField;
 <#if topLevel>
@@ -412,7 +412,7 @@ public class ${name} implements <#if topLevel>IMisbMessage, </#if>IMimdMetadataV
 <#if topLevel>
     @Override
     public UniversalLabel getUniversalLabel() {
-        return KlvConstants.${name}LocalSetUl;
+        return MIMDConstants.${name}LocalSetUl;
     }
 
     @Override

@@ -1,7 +1,5 @@
 package org.jmisb.api.klv.st0808;
 
-import static org.jmisb.api.klv.KlvConstants.AncillaryTextLocalSetUl;
-
 import java.util.List;
 import java.util.Map;
 import java.util.Set;
@@ -25,6 +23,14 @@ import org.slf4j.LoggerFactory;
  * <p>This is the core ST 0808 Local Set.
  */
 public class AncillaryTextLocalSet implements IMisbMessage {
+
+    /** Universal label for Ancillary Text Metadata Sets Local Set. */
+    public static final UniversalLabel AncillaryTextLocalSetUl =
+            new UniversalLabel(
+                    new byte[] {
+                        0x06, 0x0E, 0x2B, 0x34, 0x02, 0x03, 0x01, 0x01, 0x0E, 0x01, 0x03, 0x05,
+                        0x02, 0x00, 0x00, 0x00
+                    });
 
     private static final Logger LOGGER = LoggerFactory.getLogger(AncillaryTextLocalSet.class);
 

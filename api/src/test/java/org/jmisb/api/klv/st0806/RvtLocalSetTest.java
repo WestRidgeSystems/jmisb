@@ -6,7 +6,6 @@ import java.util.HashMap;
 import java.util.Map;
 import org.jmisb.api.common.KlvParseException;
 import org.jmisb.api.klv.IMisbMessage;
-import org.jmisb.api.klv.KlvConstants;
 import org.jmisb.api.klv.LoggerChecks;
 import org.jmisb.api.klv.st0806.poiaoi.IRvtPoiAoiMetadataValue;
 import org.jmisb.api.klv.st0806.poiaoi.PoiAoiNumber;
@@ -243,7 +242,7 @@ public class RvtLocalSetTest extends LoggerChecks {
         assertEquals(localSet.frameMessage(true), expectedBytes);
         assertTrue(localSet instanceof IMisbMessage);
         assertEquals(localSet.displayHeader(), "ST0806 Remote Video Terminal");
-        assertEquals(localSet.getUniversalLabel(), KlvConstants.RvtLocalSetUl);
+        assertEquals(localSet.getUniversalLabel(), RvtLocalSet.RvtLocalSetUl);
         assertEquals(
                 localSet.getUniversalLabel().getBytes(),
                 new byte[] {
@@ -405,7 +404,7 @@ public class RvtLocalSetTest extends LoggerChecks {
         assertEquals(localSet.frameMessage(true), expectedBytes);
         assertTrue(localSet instanceof IMisbMessage);
         assertEquals(localSet.displayHeader(), "ST0806 Remote Video Terminal");
-        assertEquals(localSet.getUniversalLabel(), KlvConstants.RvtLocalSetUl);
+        assertEquals(localSet.getUniversalLabel(), RvtLocalSet.RvtLocalSetUl);
         assertEquals(
                 localSet.getUniversalLabel().getBytes(),
                 new byte[] {

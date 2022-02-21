@@ -1,7 +1,5 @@
 package org.jmisb.api.klv.st0601;
 
-import static org.jmisb.api.klv.KlvConstants.UasDatalinkLocalUl;
-
 import java.util.*;
 import org.jmisb.api.common.KlvParseException;
 import org.jmisb.api.klv.LoggerChecks;
@@ -32,7 +30,7 @@ public class UasDatalinkMessageTest extends LoggerChecks {
     @Test
     public void testUniversalLabel() {
         // Check that the correct universal label is applied
-        Assert.assertEquals(message.getUniversalLabel(), UasDatalinkLocalUl);
+        Assert.assertEquals(message.getUniversalLabel(), UasDatalinkMessage.UasDatalinkLocalUl);
     }
 
     @Test
@@ -47,7 +45,8 @@ public class UasDatalinkMessageTest extends LoggerChecks {
         // System.out.println(ArrayUtils.toHexString(bytes));
 
         // Check that the bytes begin with the correct 16-byte UL
-        Assert.assertEquals(Arrays.copyOfRange(bytes, 0, 16), UasDatalinkLocalUl.getBytes());
+        Assert.assertEquals(
+                Arrays.copyOfRange(bytes, 0, 16), UasDatalinkMessage.UasDatalinkLocalUl.getBytes());
 
         // Get the length
         // In this case since the total length is < 128, length should be encoded in short form

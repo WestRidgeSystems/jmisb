@@ -9,13 +9,15 @@ public class AnnotationMetadataKeyTest {
     @Test
     public void checkUnknownKey() {
         assertEquals(
-                AnnotationMetadataKey.getKey(KlvConstants.VmtiLocalSetUl),
+                AnnotationMetadataKey.getKey(KlvConstants.GeneralizedTransformationUl),
                 AnnotationMetadataKey.Undefined);
     }
 
     @Test
     public void checkGetter() {
-        assertEquals(AnnotationMetadataKey.ByteOrder.getUl(), KlvConstants.AnnotationByteOrderUl);
+        assertEquals(
+                AnnotationMetadataKey.ByteOrder.getUl(),
+                AnnotationByteOrderMessage.AnnotationByteOrderUl);
     }
 
     @Test

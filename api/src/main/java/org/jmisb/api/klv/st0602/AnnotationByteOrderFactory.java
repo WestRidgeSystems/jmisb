@@ -2,6 +2,7 @@ package org.jmisb.api.klv.st0602;
 
 import org.jmisb.api.common.KlvParseException;
 import org.jmisb.api.klv.IMisbMessageFactory;
+import org.jmisb.api.klv.UniversalLabel;
 
 /**
  * Factory method for AnnotationByteOrder.
@@ -19,5 +20,10 @@ public class AnnotationByteOrderFactory implements IMisbMessageFactory {
     @Override
     public AnnotationByteOrderMessage create(byte[] bytes) throws KlvParseException {
         return new AnnotationByteOrderMessage(bytes);
+    }
+
+    @Override
+    public UniversalLabel getUniversalLabel() {
+        return AnnotationByteOrderMessage.AnnotationByteOrderUl;
     }
 }

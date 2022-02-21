@@ -11,7 +11,6 @@ import org.jmisb.api.klv.BerDecoder;
 import org.jmisb.api.klv.BerField;
 import org.jmisb.api.klv.IKlvKey;
 import org.jmisb.api.klv.IMisbMessage;
-import org.jmisb.api.klv.KlvConstants;
 import org.jmisb.api.klv.LdsField;
 import org.jmisb.api.klv.LdsParser;
 import org.jmisb.api.klv.UniversalLabel;
@@ -92,7 +91,7 @@ public class MiisLocalSet implements IMisbMessage {
 
     @Override
     public UniversalLabel getUniversalLabel() {
-        return KlvConstants.MiisLocalSetUl;
+        return MiisMetadataConstants.MiisLocalSetUl;
     }
 
     @Override
@@ -119,7 +118,7 @@ public class MiisLocalSet implements IMisbMessage {
             builder.append(valueBytes);
         }
         builder.prependLength();
-        builder.prepend(KlvConstants.MiisLocalSetUl);
+        builder.prepend(MiisMetadataConstants.MiisLocalSetUl);
         return builder.toBytes();
     }
 

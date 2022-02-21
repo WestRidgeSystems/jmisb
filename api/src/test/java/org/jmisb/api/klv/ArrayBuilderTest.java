@@ -2,6 +2,7 @@ package org.jmisb.api.klv;
 
 import static org.testng.Assert.*;
 
+import org.jmisb.api.klv.st0806.RvtLocalSet;
 import org.testng.annotations.Test;
 
 /** Unit tests for the ArrayBuilder class. */
@@ -22,7 +23,7 @@ public class ArrayBuilderTest {
         byte[] someData = new byte[] {0x04, 0x02, 0x00, 0x4f};
         ArrayBuilder builder =
                 new ArrayBuilder()
-                        .append(KlvConstants.RvtLocalSetUl)
+                        .append(RvtLocalSet.RvtLocalSetUl)
                         .appendAsBerLength(someData.length)
                         .append(someData);
         byte[] bytes = builder.toBytes();

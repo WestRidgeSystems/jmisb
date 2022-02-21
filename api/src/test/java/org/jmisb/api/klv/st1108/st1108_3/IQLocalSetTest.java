@@ -14,13 +14,13 @@ import org.jmisb.api.klv.BerDecoder;
 import org.jmisb.api.klv.BerField;
 import org.jmisb.api.klv.IKlvKey;
 import org.jmisb.api.klv.IKlvValue;
-import org.jmisb.api.klv.KlvConstants;
 import org.jmisb.api.klv.LdsField;
 import org.jmisb.api.klv.LdsParser;
 import org.jmisb.api.klv.LoggerChecks;
 import org.jmisb.api.klv.UniversalLabel;
 import org.jmisb.api.klv.st0603.ST0603TimeStamp;
 import org.jmisb.api.klv.st1108.IInterpretabilityQualityMetadataValue;
+import org.jmisb.api.klv.st1108.InterpretabilityQualityConstants;
 import org.jmisb.api.klv.st1108.st1108_3.metric.IMetricLocalSetValue;
 import org.jmisb.api.klv.st1108.st1108_3.metric.MetricImplementer;
 import org.jmisb.api.klv.st1108.st1108_3.metric.MetricLocalSet;
@@ -400,7 +400,9 @@ public class IQLocalSetTest extends LoggerChecks {
         IQLocalSet localSet = IQLocalSet.fromST1108_3Fields(fields, manyTagsBytes);
         assertNotNull(localSet);
         assertEquals(localSet.displayHeader(), "ST 1108 Interpretability and Quality");
-        assertEquals(localSet.getUniversalLabel(), KlvConstants.InterpretabilityQualityLocalSetUl);
+        assertEquals(
+                localSet.getUniversalLabel(),
+                InterpretabilityQualityConstants.InterpretabilityQualityLocalSetUl);
         assertEquals(localSet.getIdentifiers().size(), 10);
         checkManyValues(localSet);
         assertEquals(localSet.frameMessage(false), manyTagsBytes);
@@ -554,7 +556,9 @@ public class IQLocalSetTest extends LoggerChecks {
         IQLocalSet localSet = new IQLocalSet(values);
         assertNotNull(localSet);
         assertEquals(localSet.displayHeader(), "ST 1108 Interpretability and Quality");
-        assertEquals(localSet.getUniversalLabel(), KlvConstants.InterpretabilityQualityLocalSetUl);
+        assertEquals(
+                localSet.getUniversalLabel(),
+                InterpretabilityQualityConstants.InterpretabilityQualityLocalSetUl);
         assertEquals(localSet.getIdentifiers().size(), 10);
         checkManyValues(localSet);
         assertEquals(localSet.frameMessage(false), manyTagsBytes);
@@ -598,7 +602,9 @@ public class IQLocalSetTest extends LoggerChecks {
         IQLocalSet localSet = new IQLocalSet(values);
         assertNotNull(localSet);
         assertEquals(localSet.displayHeader(), "ST 1108 Interpretability and Quality");
-        assertEquals(localSet.getUniversalLabel(), KlvConstants.InterpretabilityQualityLocalSetUl);
+        assertEquals(
+                localSet.getUniversalLabel(),
+                InterpretabilityQualityConstants.InterpretabilityQualityLocalSetUl);
         assertEquals(localSet.getIdentifiers().size(), 11);
         checkManyValues(localSet);
         assertEquals(localSet.frameMessage(false), manyTagsBytes);
@@ -658,7 +664,9 @@ public class IQLocalSetTest extends LoggerChecks {
         IQLocalSet localSet = new IQLocalSet(values);
         assertNotNull(localSet);
         assertEquals(localSet.displayHeader(), "ST 1108 Interpretability and Quality");
-        assertEquals(localSet.getUniversalLabel(), KlvConstants.InterpretabilityQualityLocalSetUl);
+        assertEquals(
+                localSet.getUniversalLabel(),
+                InterpretabilityQualityConstants.InterpretabilityQualityLocalSetUl);
         assertEquals(localSet.getIdentifiers().size(), 10);
         checkAssessmentPoint(localSet);
         checkMetricPeriodPack(localSet);
@@ -679,7 +687,9 @@ public class IQLocalSetTest extends LoggerChecks {
         IQLocalSet localSet = IQLocalSet.fromST1108_3Fields(fields, twoMetricBytes);
         assertNotNull(localSet);
         assertEquals(localSet.displayHeader(), "ST 1108 Interpretability and Quality");
-        assertEquals(localSet.getUniversalLabel(), KlvConstants.InterpretabilityQualityLocalSetUl);
+        assertEquals(
+                localSet.getUniversalLabel(),
+                InterpretabilityQualityConstants.InterpretabilityQualityLocalSetUl);
         assertEquals(localSet.getIdentifiers().size(), 10);
         checkAssessmentPoint(localSet);
         checkMetricPeriodPack(localSet);

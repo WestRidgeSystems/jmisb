@@ -8,7 +8,6 @@ import java.util.TreeMap;
 import org.jmisb.api.common.KlvParseException;
 import org.jmisb.api.klv.BerDecoder;
 import org.jmisb.api.klv.BerField;
-import org.jmisb.api.klv.KlvConstants;
 import org.jmisb.api.klv.st0102.*;
 import org.jmisb.api.klv.st0102.Classification;
 import org.testng.Assert;
@@ -49,7 +48,8 @@ public class SecurityMetadataUniversalSetTest {
     public void testUniversalLabel() {
         // Check that the correct universal label is applied
         Assert.assertEquals(
-                universalSet.getUniversalLabel(), KlvConstants.SecurityMetadataUniversalSetUl);
+                universalSet.getUniversalLabel(),
+                SecurityMetadataUniversalSet.SecurityMetadataUniversalSetUl);
     }
 
     @Test
@@ -67,7 +67,7 @@ public class SecurityMetadataUniversalSetTest {
         // Check that the bytes begin with the correct 16-byte UL
         Assert.assertEquals(
                 Arrays.copyOfRange(bytes, 0, 16),
-                KlvConstants.SecurityMetadataUniversalSetUl.getBytes());
+                SecurityMetadataUniversalSet.SecurityMetadataUniversalSetUl.getBytes());
 
         // Check that the length field was encoded correctly
         BerField lengthField = BerDecoder.decode(bytes, 16, false);
@@ -320,7 +320,8 @@ public class SecurityMetadataUniversalSetTest {
         SecurityMetadataUniversalSet universalSet = new SecurityMetadataUniversalSet(bytes);
         Assert.assertEquals(universalSet.displayHeader(), "ST 0102 (universal)");
         Assert.assertEquals(
-                universalSet.getUniversalLabel(), KlvConstants.SecurityMetadataUniversalSetUl);
+                universalSet.getUniversalLabel(),
+                SecurityMetadataUniversalSet.SecurityMetadataUniversalSetUl);
         Assert.assertEquals(universalSet.getKeys().size(), 4);
         Assert.assertTrue(
                 universalSet.getKeys().contains(SecurityMetadataKey.SecurityClassification));

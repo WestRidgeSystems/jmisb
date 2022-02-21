@@ -9,13 +9,13 @@ import org.jmisb.api.common.KlvParseException;
 import org.jmisb.api.klv.BerDecoder;
 import org.jmisb.api.klv.BerField;
 import org.jmisb.api.klv.IKlvValue;
-import org.jmisb.api.klv.KlvConstants;
 import org.jmisb.api.klv.LdsField;
 import org.jmisb.api.klv.LdsParser;
 import org.jmisb.api.klv.LoggerChecks;
 import org.jmisb.api.klv.UniversalLabel;
 import org.jmisb.api.klv.st0603.ST0603TimeStamp;
 import org.jmisb.api.klv.st1108.IInterpretabilityQualityMetadataValue;
+import org.jmisb.api.klv.st1108.InterpretabilityQualityConstants;
 import org.testng.annotations.Test;
 
 /** Tests for the (legacy) ST 1108.2 Interpretability and Quality Local Set. */
@@ -1491,7 +1491,9 @@ public class LegacyIQLocalSetTest extends LoggerChecks {
         LegacyIQLocalSet localSet = LegacyIQLocalSet.fromST1108_2Fields(fields, manyTagsBytes);
         assertNotNull(localSet);
         assertEquals(localSet.displayHeader(), "ST 1108 Legacy Interpretability and Quality");
-        assertEquals(localSet.getUniversalLabel(), KlvConstants.InterpretabilityQualityLocalSetUl);
+        assertEquals(
+                localSet.getUniversalLabel(),
+                InterpretabilityQualityConstants.InterpretabilityQualityLocalSetUl);
         assertEquals(localSet.getIdentifiers().size(), 14);
         checkManyValues(localSet);
         assertEquals(localSet.frameMessage(false), manyTagsBytes);
@@ -1527,7 +1529,9 @@ public class LegacyIQLocalSetTest extends LoggerChecks {
         LegacyIQLocalSet localSet = new LegacyIQLocalSet(values);
         assertNotNull(localSet);
         assertEquals(localSet.displayHeader(), "ST 1108 Legacy Interpretability and Quality");
-        assertEquals(localSet.getUniversalLabel(), KlvConstants.InterpretabilityQualityLocalSetUl);
+        assertEquals(
+                localSet.getUniversalLabel(),
+                InterpretabilityQualityConstants.InterpretabilityQualityLocalSetUl);
         assertEquals(localSet.getIdentifiers().size(), 14);
         checkManyValues(localSet);
         assertEquals(localSet.frameMessage(false), manyTagsBytes);

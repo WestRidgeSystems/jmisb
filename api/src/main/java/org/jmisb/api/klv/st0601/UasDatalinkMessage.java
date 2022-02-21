@@ -1,6 +1,5 @@
 package org.jmisb.api.klv.st0601;
 
-import static org.jmisb.api.klv.KlvConstants.UasDatalinkLocalUl;
 import static org.jmisb.core.klv.ArrayUtils.arrayFromChunks;
 
 import java.util.*;
@@ -17,6 +16,15 @@ import org.slf4j.LoggerFactory;
  * a list of the minimum set of UAS Datalink LS metadata items.
  */
 public class UasDatalinkMessage implements IMisbMessage {
+
+    /** Universal label for UAS Datalink Local Metadata Set. */
+    public static final UniversalLabel UasDatalinkLocalUl =
+            new UniversalLabel(
+                    new byte[] {
+                        0x06, 0x0e, 0x2b, 0x34, 0x02, 0x0b, 0x01, 0x01, 0x0e, 0x01, 0x03, 0x01,
+                        0x01, 0x00, 0x00, 0x00
+                    });
+
     private static final Logger logger = LoggerFactory.getLogger(UasDatalinkMessage.class);
 
     // TODO: should we make this class immutable? May have benefits for stability in multi-threaded

@@ -3,7 +3,6 @@ package org.jmisb.api.klv.st1603.localset;
 import static org.testng.Assert.*;
 
 import org.jmisb.api.common.KlvParseException;
-import org.jmisb.api.klv.KlvConstants;
 import org.jmisb.api.klv.LoggerChecks;
 import org.testng.annotations.Test;
 
@@ -24,7 +23,7 @@ public class TimeTransferLocalSetFactoryTest extends LoggerChecks {
         TimeTransferLocalSetFactory factory = new TimeTransferLocalSetFactory();
         TimeTransferLocalSet localSet = factory.create(bytes);
         verifyNoLoggerMessages();
-        assertEquals(localSet.getUniversalLabel(), KlvConstants.TimeTransferLocalSetUl);
+        assertEquals(localSet.getUniversalLabel(), TimeTransferLocalSet.TimeTransferLocalSetUl);
         assertEquals(localSet.displayHeader(), "ST 1603 Time Transfer");
         assertEquals(localSet.getIdentifiers().size(), 1);
         assertTrue(localSet.getIdentifiers().contains(TimeTransferKey.DocumentVersion));

@@ -9,12 +9,9 @@ import org.jmisb.api.klv.BerField;
 import org.jmisb.api.klv.IKlvKey;
 import org.jmisb.api.klv.IKlvValue;
 import org.jmisb.api.klv.IMisbMessage;
-import org.jmisb.api.klv.KlvConstants;
 import org.jmisb.api.klv.UniversalLabel;
 import org.jmisb.api.klv.st0603.NanoPrecisionTimeStamp;
 import org.jmisb.api.klv.st1603.localset.TimeTransferLocalSet;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
 
 /**
  * ST 1603 Nano Time Transfer Pack.
@@ -28,7 +25,13 @@ import org.slf4j.LoggerFactory;
  */
 public class NanoTimeTransferPack implements IMisbMessage {
 
-    private static final Logger LOGGER = LoggerFactory.getLogger(TimeTransferLocalSet.class);
+    /** Universal label for Nano Time Transfer Pack. */
+    public static final UniversalLabel NanoTimeTransferPackUl =
+            new UniversalLabel(
+                    new byte[] {
+                        0x06, 0x0E, 0x2B, 0x34, 0x02, 0x05, 0x01, 0x01, 0x0E, 0x01, 0x03, 0x02,
+                        0x09, 0x00, 0x00, 0x00
+                    });
 
     private final NanoPrecisionTimeStamp timeStamp;
     private final TimeTransferLocalSet timeTransferLocalSet;
@@ -72,7 +75,7 @@ public class NanoTimeTransferPack implements IMisbMessage {
 
     @Override
     public UniversalLabel getUniversalLabel() {
-        return KlvConstants.NanoTimeTransferPackUl;
+        return NanoTimeTransferPackUl;
     }
 
     @Override
@@ -82,7 +85,7 @@ public class NanoTimeTransferPack implements IMisbMessage {
         builder.append(timeTransferLocalSet.frameMessage(true));
         if (!isNested) {
             builder.prependLength();
-            builder.prepend(KlvConstants.NanoTimeTransferPackUl);
+            builder.prepend(NanoTimeTransferPackUl);
         }
         return builder.toBytes();
     }

@@ -63,4 +63,9 @@ public class InterpretabilityQualityLocalSetFactory implements IMisbMessageFacto
         offset += len.getLength();
         return LdsParser.parseFields(bytes, offset, len.getValue());
     }
+
+    @Override
+    public UniversalLabel getUniversalLabel() {
+        return InterpretabilityQualityConstants.InterpretabilityQualityLocalSetUl;
+    }
 }

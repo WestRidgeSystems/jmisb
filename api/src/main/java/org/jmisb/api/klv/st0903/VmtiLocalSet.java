@@ -1,7 +1,5 @@
 package org.jmisb.api.klv.st0903;
 
-import static org.jmisb.api.klv.KlvConstants.VmtiLocalSetUl;
-
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
@@ -33,6 +31,15 @@ import org.slf4j.LoggerFactory;
  * <p>Note that this local set can be nested in ST 0601.
  */
 public class VmtiLocalSet implements IMisbMessage {
+
+    /** Universal label for VMTI Local Set. */
+    public static final UniversalLabel VmtiLocalSetUl =
+            new UniversalLabel(
+                    new byte[] {
+                        0x06, 0x0e, 0x2b, 0x34, 0x02, 0x0B, 0x01, 0x01, 0x0e, 0x01, 0x03, 0x03,
+                        0x06, 0x00, 0x00, 0x00
+                    });
+
     private static final Logger LOGGER = LoggerFactory.getLogger(VmtiLocalSet.class);
 
     /**

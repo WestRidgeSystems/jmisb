@@ -5,7 +5,6 @@ import static org.testng.Assert.*;
 import java.util.HashMap;
 import java.util.Map;
 import org.jmisb.api.common.KlvParseException;
-import org.jmisb.api.klv.KlvConstants;
 import org.jmisb.api.klv.LoggerChecks;
 import org.testng.annotations.Test;
 
@@ -25,7 +24,7 @@ public class TimeTransferLocalSetTest extends LoggerChecks {
                 };
         TimeTransferLocalSet uut = new TimeTransferLocalSet(bytes);
         verifyNoLoggerMessages();
-        assertEquals(uut.getUniversalLabel(), KlvConstants.TimeTransferLocalSetUl);
+        assertEquals(uut.getUniversalLabel(), TimeTransferLocalSet.TimeTransferLocalSetUl);
         assertEquals(uut.displayHeader(), "ST 1603 Time Transfer");
         assertEquals(uut.getIdentifiers().size(), 1);
         assertTrue(uut.getIdentifiers().contains(TimeTransferKey.DocumentVersion));
@@ -45,7 +44,7 @@ public class TimeTransferLocalSetTest extends LoggerChecks {
         verifyNoLoggerMessages();
         TimeTransferLocalSet uut = new TimeTransferLocalSet(bytes);
         this.verifySingleLoggerMessage("Unknown Time Transfer tag: Undefined");
-        assertEquals(uut.getUniversalLabel(), KlvConstants.TimeTransferLocalSetUl);
+        assertEquals(uut.getUniversalLabel(), TimeTransferLocalSet.TimeTransferLocalSetUl);
         assertEquals(uut.displayHeader(), "ST 1603 Time Transfer");
         assertEquals(uut.getIdentifiers().size(), 1);
         assertTrue(uut.getIdentifiers().contains(TimeTransferKey.DocumentVersion));
@@ -71,7 +70,7 @@ public class TimeTransferLocalSetTest extends LoggerChecks {
         map.put(TimeTransferKey.DocumentVersion, new ST1603DocumentVersion(2));
         TimeTransferLocalSet uut = new TimeTransferLocalSet(map);
         verifyNoLoggerMessages();
-        assertEquals(uut.getUniversalLabel(), KlvConstants.TimeTransferLocalSetUl);
+        assertEquals(uut.getUniversalLabel(), TimeTransferLocalSet.TimeTransferLocalSetUl);
         assertEquals(uut.displayHeader(), "ST 1603 Time Transfer");
         assertEquals(uut.getIdentifiers().size(), 1);
         assertTrue(uut.getIdentifiers().contains(TimeTransferKey.DocumentVersion));
@@ -128,7 +127,7 @@ public class TimeTransferLocalSetTest extends LoggerChecks {
         verifyNoLoggerMessages();
         TimeTransferLocalSet uut = new TimeTransferLocalSet(bytes);
         verifyNoLoggerMessages();
-        assertEquals(uut.getUniversalLabel(), KlvConstants.TimeTransferLocalSetUl);
+        assertEquals(uut.getUniversalLabel(), TimeTransferLocalSet.TimeTransferLocalSetUl);
         assertEquals(uut.displayHeader(), "ST 1603 Time Transfer");
         assertEquals(uut.getIdentifiers().size(), 3);
         assertTrue(uut.getIdentifiers().contains(TimeTransferKey.DocumentVersion));
@@ -239,7 +238,7 @@ public class TimeTransferLocalSetTest extends LoggerChecks {
         verifyNoLoggerMessages();
         TimeTransferLocalSet uut = new TimeTransferLocalSet(bytes);
         verifyNoLoggerMessages();
-        assertEquals(uut.getUniversalLabel(), KlvConstants.TimeTransferLocalSetUl);
+        assertEquals(uut.getUniversalLabel(), TimeTransferLocalSet.TimeTransferLocalSetUl);
         assertEquals(uut.displayHeader(), "ST 1603 Time Transfer");
         assertEquals(uut.getIdentifiers().size(), 9);
         assertTrue(uut.getIdentifiers().contains(TimeTransferKey.DocumentVersion));

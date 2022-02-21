@@ -1,7 +1,6 @@
 package org.jmisb.api.klv.st0102.universalset;
 
 import org.jmisb.api.common.KlvParseException;
-import org.jmisb.api.klv.KlvConstants;
 import org.jmisb.api.klv.st0102.*;
 import org.testng.Assert;
 import org.testng.annotations.Test;
@@ -47,7 +46,8 @@ public class SecurityMetadataUniversalSetFactoryTest {
         SecurityMetadataUniversalSet universalSet = factory.create(bytes);
         Assert.assertEquals(universalSet.displayHeader(), "ST 0102 (universal)");
         Assert.assertEquals(
-                universalSet.getUniversalLabel(), KlvConstants.SecurityMetadataUniversalSetUl);
+                universalSet.getUniversalLabel(),
+                SecurityMetadataUniversalSet.SecurityMetadataUniversalSetUl);
         Assert.assertEquals(universalSet.getKeys().size(), 4);
         Assert.assertTrue(
                 universalSet.getKeys().contains(SecurityMetadataKey.SecurityClassification));

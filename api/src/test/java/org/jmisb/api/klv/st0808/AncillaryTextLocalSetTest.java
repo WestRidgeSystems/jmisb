@@ -5,7 +5,6 @@ import static org.testng.Assert.*;
 import java.util.HashMap;
 import java.util.Map;
 import org.jmisb.api.common.KlvParseException;
-import org.jmisb.api.klv.KlvConstants;
 import org.jmisb.api.klv.LoggerChecks;
 import org.jmisb.api.klv.st0603.ST0603TimeStamp;
 import org.testng.annotations.Test;
@@ -98,7 +97,7 @@ public class AncillaryTextLocalSetTest extends LoggerChecks {
         AncillaryTextLocalSet localSet = new AncillaryTextLocalSet(bytes);
         assertNotNull(localSet);
         assertEquals(localSet.displayHeader(), "ST0808 Ancillary Text");
-        assertEquals(localSet.getUniversalLabel(), KlvConstants.AncillaryTextLocalSetUl);
+        assertEquals(localSet.getUniversalLabel(), AncillaryTextLocalSet.AncillaryTextLocalSetUl);
         assertEquals(localSet.getIdentifiers().size(), 5);
         checkOriginatorExample(localSet);
         checkPrecisionTimeStampExample(localSet);
@@ -332,7 +331,7 @@ public class AncillaryTextLocalSetTest extends LoggerChecks {
         this.verifySingleLoggerMessage("Unknown Ancillary Text Metadata tag: 6");
         assertNotNull(localSet);
         assertEquals(localSet.displayHeader(), "ST0808 Ancillary Text");
-        assertEquals(localSet.getUniversalLabel(), KlvConstants.AncillaryTextLocalSetUl);
+        assertEquals(localSet.getUniversalLabel(), AncillaryTextLocalSet.AncillaryTextLocalSetUl);
         assertEquals(localSet.getIdentifiers().size(), 5);
         checkOriginatorExample(localSet);
         checkPrecisionTimeStampExample(localSet);
@@ -434,7 +433,7 @@ public class AncillaryTextLocalSetTest extends LoggerChecks {
         AncillaryTextLocalSet localSet = new AncillaryTextLocalSet(values);
         assertNotNull(localSet);
         assertEquals(localSet.displayHeader(), "ST0808 Ancillary Text");
-        assertEquals(localSet.getUniversalLabel(), KlvConstants.AncillaryTextLocalSetUl);
+        assertEquals(localSet.getUniversalLabel(), AncillaryTextLocalSet.AncillaryTextLocalSetUl);
         assertEquals(localSet.getIdentifiers().size(), 5);
         checkOriginatorExample(localSet);
         checkPrecisionTimeStampExample(localSet);

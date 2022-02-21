@@ -3,7 +3,6 @@ package org.jmisb.api.klv.st0809;
 import static org.testng.Assert.*;
 
 import org.jmisb.api.common.KlvParseException;
-import org.jmisb.api.klv.KlvConstants;
 import org.jmisb.api.klv.LoggerChecks;
 import org.testng.annotations.Test;
 
@@ -53,7 +52,9 @@ public class MeteorologicalMetadataLocalSetFactoryTest extends LoggerChecks {
         MeteorologicalMetadataLocalSet localSet = factory.create(bytes);
         assertNotNull(localSet);
         assertEquals(localSet.displayHeader(), "ST 0809 Meteorological Metadata");
-        assertEquals(localSet.getUniversalLabel(), KlvConstants.MeteorologicalMetadataLocalSetUl);
+        assertEquals(
+                localSet.getUniversalLabel(),
+                MeteorologicalMetadataLocalSet.MeteorologicalMetadataLocalSetUl);
         assertEquals(localSet.getIdentifiers().size(), 2);
     }
 }

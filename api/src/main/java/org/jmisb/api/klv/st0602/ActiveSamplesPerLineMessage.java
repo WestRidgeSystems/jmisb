@@ -8,7 +8,6 @@ import org.jmisb.api.klv.ArrayBuilder;
 import org.jmisb.api.klv.IKlvKey;
 import org.jmisb.api.klv.IKlvValue;
 import org.jmisb.api.klv.IMisbMessage;
-import org.jmisb.api.klv.KlvConstants;
 import org.jmisb.api.klv.UniversalLabel;
 
 /**
@@ -19,10 +18,21 @@ import org.jmisb.api.klv.UniversalLabel;
  */
 public class ActiveSamplesPerLineMessage implements IMisbMessage {
 
+    /**
+     * Universal label for Active Samples per Line preface item for Annotation Universal Metadata
+     * Set.
+     */
+    public static final UniversalLabel AnnotationActiveSamplesPerLineUl =
+            new UniversalLabel(
+                    new byte[] {
+                        0x06, 0x0e, 0x2b, 0x34, 0x01, 0x01, 0x01, 0x01, 0x04, 0x01, 0x05, 0x01,
+                        0x02, 0x00, 0x00, 0x00
+                    });
+
     private final ActiveSamplesPerLine activeSamplesPerLine;
     private static final int UNIVERSAL_LABEL_BYTE_OFFSET = 0;
     private static final int UNIVERSAL_LABEL_LEN =
-            KlvConstants.AnnotationActiveSamplesPerLineUl.getBytes().length;
+            AnnotationActiveSamplesPerLineUl.getBytes().length;
     private static final int LEN_BYTE_OFFSET = UNIVERSAL_LABEL_BYTE_OFFSET + UNIVERSAL_LABEL_LEN;
     private static final int LEN_REQUIRED_LEN = 1;
     private static final int VALUE_BYTE_OFFSET = LEN_BYTE_OFFSET + LEN_REQUIRED_LEN;
@@ -63,7 +73,7 @@ public class ActiveSamplesPerLineMessage implements IMisbMessage {
                 bytes,
                 0,
                 UNIVERSAL_LABEL_LEN,
-                KlvConstants.AnnotationActiveSamplesPerLineUl.getBytes(),
+                AnnotationActiveSamplesPerLineUl.getBytes(),
                 0,
                 UNIVERSAL_LABEL_LEN)) {
             throw new KlvParseException(
@@ -84,7 +94,7 @@ public class ActiveSamplesPerLineMessage implements IMisbMessage {
 
     @Override
     public UniversalLabel getUniversalLabel() {
-        return KlvConstants.AnnotationActiveSamplesPerLineUl;
+        return AnnotationActiveSamplesPerLineUl;
     }
 
     @Override
@@ -94,7 +104,7 @@ public class ActiveSamplesPerLineMessage implements IMisbMessage {
         }
         byte[] linesBytes = activeSamplesPerLine.getBytes();
         ArrayBuilder arrayBuilder = new ArrayBuilder();
-        arrayBuilder.append(KlvConstants.AnnotationActiveSamplesPerLineUl);
+        arrayBuilder.append(AnnotationActiveSamplesPerLineUl);
         arrayBuilder.appendAsBerLength(linesBytes.length);
         arrayBuilder.append(linesBytes);
         return arrayBuilder.toBytes();

@@ -1,7 +1,5 @@
 package org.jmisb.api.klv.st0903.vtrack;
 
-import static org.jmisb.api.klv.KlvConstants.VTrackLocalSetUl;
-
 import java.util.Arrays;
 import java.util.List;
 import java.util.Map;
@@ -35,6 +33,15 @@ import org.slf4j.LoggerFactory;
 
 /** VTrack Local Set. */
 public class VTrackLocalSet implements IMisbMessage {
+
+    /** Universal Label for VTrack Local Set. */
+    public static final UniversalLabel VTrackLocalSetUl =
+            new UniversalLabel(
+                    new byte[] {
+                        0x06, 0x0E, 0x2B, 0x34, 0x02, 0x03, 0x01, 0x01, 0x0E, 0x01, 0x03, 0x03,
+                        0x1E, 0x00, 0x00, 0x00
+                    });
+
     private static final Logger LOGGER = LoggerFactory.getLogger(VTrackLocalSet.class);
 
     /**

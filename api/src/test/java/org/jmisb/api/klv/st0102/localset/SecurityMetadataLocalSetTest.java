@@ -6,7 +6,6 @@ import java.util.SortedMap;
 import java.util.TreeMap;
 import org.jmisb.api.common.KlvParseException;
 import org.jmisb.api.klv.IKlvKey;
-import org.jmisb.api.klv.KlvConstants;
 import org.jmisb.api.klv.LoggerChecks;
 import org.jmisb.api.klv.st0102.*;
 import org.testng.Assert;
@@ -66,7 +65,8 @@ public class SecurityMetadataLocalSetTest extends LoggerChecks {
     @Test
     public void testUniversalLabel() {
         // Check that the correct universal label is applied
-        Assert.assertEquals(localSet.getUniversalLabel(), KlvConstants.SecurityMetadataLocalSetUl);
+        Assert.assertEquals(
+                localSet.getUniversalLabel(), SecurityMetadataLocalSet.SecurityMetadataLocalSetUl);
     }
 
     @Test
@@ -135,7 +135,7 @@ public class SecurityMetadataLocalSetTest extends LoggerChecks {
         // Check that the bytes begin with the correct 16-byte UL
         Assert.assertEquals(
                 Arrays.copyOfRange(bytes, 0, 16),
-                KlvConstants.SecurityMetadataLocalSetUl.getBytes());
+                SecurityMetadataLocalSet.SecurityMetadataLocalSetUl.getBytes());
 
         Assert.assertEquals(bytes, expectedBytes);
         SecurityMetadataLocalSet localSet = new SecurityMetadataLocalSet(bytes, true);

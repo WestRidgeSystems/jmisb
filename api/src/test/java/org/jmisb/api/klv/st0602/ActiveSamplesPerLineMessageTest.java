@@ -6,7 +6,6 @@ import static org.testng.Assert.assertNull;
 import static org.testng.Assert.assertTrue;
 
 import org.jmisb.api.common.KlvParseException;
-import org.jmisb.api.klv.KlvConstants;
 import org.testng.annotations.Test;
 
 /** Unit tests for ActiveSamplesPerLineMessage. */
@@ -18,7 +17,9 @@ public class ActiveSamplesPerLineMessageTest {
     public void checkLabel() throws KlvParseException {
         ActiveSamplesPerLineMessage uut =
                 new ActiveSamplesPerLineMessage(new ActiveSamplesPerLine(640));
-        assertEquals(uut.getUniversalLabel(), KlvConstants.AnnotationActiveSamplesPerLineUl);
+        assertEquals(
+                uut.getUniversalLabel(),
+                ActiveSamplesPerLineMessage.AnnotationActiveSamplesPerLineUl);
     }
 
     @Test

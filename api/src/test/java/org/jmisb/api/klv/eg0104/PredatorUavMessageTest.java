@@ -4,7 +4,6 @@ import static org.testng.Assert.*;
 
 import org.jmisb.api.common.KlvParseException;
 import org.jmisb.api.klv.IKlvKey;
-import org.jmisb.api.klv.KlvConstants;
 import org.testng.annotations.Test;
 
 public class PredatorUavMessageTest {
@@ -159,7 +158,8 @@ public class PredatorUavMessageTest {
         assertEquals(predatorUavMessage.displayHeader(), "Predator EG0104.5");
         assertEquals(predatorUavMessage.getIdentifiers().size(), 31);
         assertEquals(
-                predatorUavMessage.getUniversalLabel(), KlvConstants.PredatorMetadataLocalSetUl);
+                predatorUavMessage.getUniversalLabel(),
+                PredatorUavMessage.PredatorMetadataLocalSetUl);
 
         // Frame Center Latitude
         assertTrue(

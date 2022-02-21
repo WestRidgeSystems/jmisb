@@ -1,7 +1,5 @@
 package org.jmisb.api.klv.st0806;
 
-import static org.jmisb.api.klv.KlvConstants.RvtLocalSetUl;
-
 import java.util.*;
 import org.jmisb.api.common.InvalidDataHandler;
 import org.jmisb.api.common.KlvParseException;
@@ -31,6 +29,14 @@ import org.slf4j.LoggerFactory;
 
 /** Remote Video Terminal Local Set. */
 public class RvtLocalSet implements IMisbMessage {
+
+    /** Universal label for Remote Video Terminal (RVT) Metadata Local Set. */
+    public static final UniversalLabel RvtLocalSetUl =
+            new UniversalLabel(
+                    new byte[] {
+                        0x06, 0x0E, 0x2B, 0x34, 0x02, 0x0B, 0x01, 0x01, 0x0E, 0x01, 0x03, 0x01,
+                        0x02, 0x00, 0x00, 0x00
+                    });
 
     private static final Logger LOGGER = LoggerFactory.getLogger(RvtLocalSet.class);
 

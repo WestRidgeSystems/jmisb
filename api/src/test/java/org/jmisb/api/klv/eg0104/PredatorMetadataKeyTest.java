@@ -9,7 +9,7 @@ public class PredatorMetadataKeyTest {
     @Test
     public void checkUnknownKey() {
         assertEquals(
-                PredatorMetadataKey.getKey(KlvConstants.VmtiLocalSetUl),
+                PredatorMetadataKey.getKey(KlvConstants.GeneralizedTransformationUl),
                 PredatorMetadataKey.Undefined);
     }
 

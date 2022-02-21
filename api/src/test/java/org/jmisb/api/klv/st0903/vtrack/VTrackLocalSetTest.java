@@ -9,7 +9,6 @@ import org.jmisb.api.common.KlvParseException;
 import org.jmisb.api.klv.IKlvKey;
 import org.jmisb.api.klv.IKlvValue;
 import org.jmisb.api.klv.IMisbMessage;
-import org.jmisb.api.klv.KlvConstants;
 import org.jmisb.api.klv.LoggerChecks;
 import org.jmisb.api.klv.st0903.ST0903Version;
 import org.jmisb.api.klv.st0903.VmtiVerticalFieldOfView;
@@ -247,7 +246,7 @@ public class VTrackLocalSetTest extends LoggerChecks {
         assertEquals(framedMessage, expectedBytes);
         assertTrue(localSet instanceof IMisbMessage);
         assertEquals(localSet.displayHeader(), "ST0903 VTrack");
-        assertEquals(localSet.getUniversalLabel(), KlvConstants.VTrackLocalSetUl);
+        assertEquals(localSet.getUniversalLabel(), VTrackLocalSet.VTrackLocalSetUl);
         assertEquals(
                 localSet.getUniversalLabel().getBytes(),
                 new byte[] {

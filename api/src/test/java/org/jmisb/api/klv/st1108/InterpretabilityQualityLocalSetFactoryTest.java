@@ -4,7 +4,6 @@ import static org.testng.Assert.*;
 
 import org.jmisb.api.common.KlvParseException;
 import org.jmisb.api.klv.IMisbMessage;
-import org.jmisb.api.klv.KlvConstants;
 import org.jmisb.api.klv.LoggerChecks;
 import org.jmisb.api.klv.st1108.st1108_2.LegacyIQLocalSet;
 import org.jmisb.api.klv.st1108.st1108_2.LegacyIQLocalSetTest;
@@ -54,7 +53,9 @@ public class InterpretabilityQualityLocalSetFactoryTest extends LoggerChecks {
         assertTrue(message instanceof IQLocalSet);
         IQLocalSet localSet = (IQLocalSet) message;
         assertEquals(localSet.displayHeader(), "ST 1108 Interpretability and Quality");
-        assertEquals(localSet.getUniversalLabel(), KlvConstants.InterpretabilityQualityLocalSetUl);
+        assertEquals(
+                localSet.getUniversalLabel(),
+                InterpretabilityQualityConstants.InterpretabilityQualityLocalSetUl);
         assertEquals(localSet.getIdentifiers().size(), 1);
         IQLocalSetTest.checkAssessmentPoint(localSet);
 
@@ -100,7 +101,9 @@ public class InterpretabilityQualityLocalSetFactoryTest extends LoggerChecks {
         assertTrue(message instanceof LegacyIQLocalSet);
         LegacyIQLocalSet localSet = (LegacyIQLocalSet) message;
         assertEquals(localSet.displayHeader(), "ST 1108 Legacy Interpretability and Quality");
-        assertEquals(localSet.getUniversalLabel(), KlvConstants.InterpretabilityQualityLocalSetUl);
+        assertEquals(
+                localSet.getUniversalLabel(),
+                InterpretabilityQualityConstants.InterpretabilityQualityLocalSetUl);
         assertEquals(localSet.getIdentifiers().size(), 1);
         LegacyIQLocalSetTest.checkMostRecentFrameTime(localSet);
         assertEquals(localSet.frameMessage(false), bytes);

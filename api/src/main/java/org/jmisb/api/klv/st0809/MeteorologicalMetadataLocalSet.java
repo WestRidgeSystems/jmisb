@@ -11,7 +11,6 @@ import org.jmisb.api.klv.BerDecoder;
 import org.jmisb.api.klv.BerField;
 import org.jmisb.api.klv.IKlvKey;
 import org.jmisb.api.klv.IMisbMessage;
-import org.jmisb.api.klv.KlvConstants;
 import org.jmisb.api.klv.LdsField;
 import org.jmisb.api.klv.LdsParser;
 import org.jmisb.api.klv.UniversalLabel;
@@ -24,6 +23,14 @@ import org.slf4j.LoggerFactory;
  * <p>This local set supports encoding of meteorological data in KLV.
  */
 public class MeteorologicalMetadataLocalSet implements IMisbMessage {
+
+    /** Universal label for Meteorological Metadata Local Set. */
+    public static final UniversalLabel MeteorologicalMetadataLocalSetUl =
+            new UniversalLabel(
+                    new byte[] {
+                        0x06, 0x0E, 0x2B, 0x34, 0x02, 0x2B, 0x01, 0x01, 0x0E, 0x01, 0x03, 0x01,
+                        0x0E, 0x00, 0x00, 0x00
+                    });
 
     private static final Logger LOGGER =
             LoggerFactory.getLogger(MeteorologicalMetadataLocalSet.class);
@@ -194,7 +201,7 @@ public class MeteorologicalMetadataLocalSet implements IMisbMessage {
             addItemToBuilder(tag, builder);
         }
         builder.prependLength();
-        builder.prepend(KlvConstants.MeteorologicalMetadataLocalSetUl);
+        builder.prepend(MeteorologicalMetadataLocalSetUl);
         return builder.toBytes();
     }
 
@@ -217,7 +224,7 @@ public class MeteorologicalMetadataLocalSet implements IMisbMessage {
 
     @Override
     public UniversalLabel getUniversalLabel() {
-        return KlvConstants.MeteorologicalMetadataLocalSetUl;
+        return MeteorologicalMetadataLocalSetUl;
     }
 
     @Override

@@ -8,7 +8,6 @@ import org.jmisb.api.klv.ArrayBuilder;
 import org.jmisb.api.klv.IKlvKey;
 import org.jmisb.api.klv.IKlvValue;
 import org.jmisb.api.klv.IMisbMessage;
-import org.jmisb.api.klv.KlvConstants;
 import org.jmisb.api.klv.UniversalLabel;
 
 /**
@@ -19,6 +18,14 @@ import org.jmisb.api.klv.UniversalLabel;
  */
 public class AnnotationByteOrderMessage implements IMisbMessage {
 
+    /** Universal label for Byte Order preface item for Annotation Universal Metadata Set. */
+    public static final UniversalLabel AnnotationByteOrderUl =
+            new UniversalLabel(
+                    new byte[] {
+                        0x06, 0x0e, 0x2b, 0x34, 0x01, 0x01, 0x01, 0x01, 0x03, 0x01, 0x02, 0x01,
+                        0x02, 0x00, 0x00, 0x00
+                    });
+
     /**
      * Construct an empty ByteOrderMessage.
      *
@@ -27,8 +34,7 @@ public class AnnotationByteOrderMessage implements IMisbMessage {
     public AnnotationByteOrderMessage() {}
 
     private static final int UNIVERSAL_LABEL_BYTE_OFFSET = 0;
-    private static final int UNIVERSAL_LABEL_LEN =
-            KlvConstants.AnnotationByteOrderUl.getBytes().length;
+    private static final int UNIVERSAL_LABEL_LEN = AnnotationByteOrderUl.getBytes().length;
     private static final int LEN_BYTE_OFFSET = UNIVERSAL_LABEL_BYTE_OFFSET + UNIVERSAL_LABEL_LEN;
     private static final int LEN_REQUIRED_LEN = 1;
     private static final int VALUE_BYTE_OFFSET = LEN_BYTE_OFFSET + LEN_REQUIRED_LEN;
@@ -55,7 +61,7 @@ public class AnnotationByteOrderMessage implements IMisbMessage {
                 bytes,
                 0,
                 UNIVERSAL_LABEL_LEN,
-                KlvConstants.AnnotationByteOrderUl.getBytes(),
+                AnnotationByteOrderUl.getBytes(),
                 0,
                 UNIVERSAL_LABEL_LEN)) {
             throw new KlvParseException(
@@ -82,7 +88,7 @@ public class AnnotationByteOrderMessage implements IMisbMessage {
 
     @Override
     public UniversalLabel getUniversalLabel() {
-        return KlvConstants.AnnotationByteOrderUl;
+        return AnnotationByteOrderUl;
     }
 
     @Override
@@ -92,7 +98,7 @@ public class AnnotationByteOrderMessage implements IMisbMessage {
         }
         ArrayBuilder arrayBuilder = new ArrayBuilder();
         byte[] byteOrderValue = new byte[] {0x4D, 0x4D};
-        arrayBuilder.append(KlvConstants.AnnotationByteOrderUl);
+        arrayBuilder.append(AnnotationByteOrderUl);
         arrayBuilder.appendAsBerLength(byteOrderValue.length);
         arrayBuilder.append(byteOrderValue);
         return arrayBuilder.toBytes();

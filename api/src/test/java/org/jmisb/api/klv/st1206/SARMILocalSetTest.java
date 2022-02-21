@@ -5,7 +5,6 @@ import static org.testng.Assert.*;
 import java.util.HashMap;
 import java.util.Map;
 import org.jmisb.api.common.KlvParseException;
-import org.jmisb.api.klv.KlvConstants;
 import org.jmisb.api.klv.LoggerChecks;
 import org.testng.annotations.Test;
 
@@ -22,7 +21,7 @@ public class SARMILocalSetTest extends LoggerChecks {
         SARMILocalSet localSet = new SARMILocalSet(bytes);
         assertNotNull(localSet);
         assertEquals(localSet.displayHeader(), "ST1206 SAR Motion Imagery");
-        assertEquals(localSet.getUniversalLabel(), KlvConstants.SARMILocalSetUl);
+        assertEquals(localSet.getUniversalLabel(), SARMILocalSet.SARMILocalSetUl);
         assertEquals(localSet.getIdentifiers().size(), 1);
         checkLookDirectionExample(localSet);
         assertEquals(
@@ -41,7 +40,7 @@ public class SARMILocalSetTest extends LoggerChecks {
         this.verifySingleLoggerMessage("Unknown SAR Motion Imagery Metadata tag: 79");
         assertNotNull(localSet);
         assertEquals(localSet.displayHeader(), "ST1206 SAR Motion Imagery");
-        assertEquals(localSet.getUniversalLabel(), KlvConstants.SARMILocalSetUl);
+        assertEquals(localSet.getUniversalLabel(), SARMILocalSet.SARMILocalSetUl);
         assertEquals(localSet.getIdentifiers().size(), 1);
         checkLookDirectionExample(localSet);
         assertEquals(
@@ -60,7 +59,7 @@ public class SARMILocalSetTest extends LoggerChecks {
         SARMILocalSet localSet = new SARMILocalSet(values);
         assertNotNull(localSet);
         assertEquals(localSet.displayHeader(), "ST1206 SAR Motion Imagery");
-        assertEquals(localSet.getUniversalLabel(), KlvConstants.SARMILocalSetUl);
+        assertEquals(localSet.getUniversalLabel(), SARMILocalSet.SARMILocalSetUl);
         assertEquals(localSet.getIdentifiers().size(), 1);
         checkLookDirectionExample(localSet);
         assertEquals(

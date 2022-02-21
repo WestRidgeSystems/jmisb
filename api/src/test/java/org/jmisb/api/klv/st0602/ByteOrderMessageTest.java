@@ -4,7 +4,6 @@ import static org.testng.Assert.assertEquals;
 import static org.testng.Assert.assertTrue;
 
 import org.jmisb.api.common.KlvParseException;
-import org.jmisb.api.klv.KlvConstants;
 import org.testng.annotations.Test;
 
 /** Unit tests for ByteOrderMessage. */
@@ -15,7 +14,7 @@ public class ByteOrderMessageTest {
     @Test
     public void checkLabel() throws KlvParseException {
         AnnotationByteOrderMessage uut = new AnnotationByteOrderMessage();
-        assertEquals(uut.getUniversalLabel(), KlvConstants.AnnotationByteOrderUl);
+        assertEquals(uut.getUniversalLabel(), AnnotationByteOrderMessage.AnnotationByteOrderUl);
     }
 
     @Test

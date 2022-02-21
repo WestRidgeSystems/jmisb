@@ -14,7 +14,6 @@ import org.jmisb.api.klv.BerDecoder;
 import org.jmisb.api.klv.BerField;
 import org.jmisb.api.klv.IKlvKey;
 import org.jmisb.api.klv.IMisbMessage;
-import org.jmisb.api.klv.KlvConstants;
 import org.jmisb.api.klv.KlvParser;
 import org.testng.annotations.BeforeTest;
 import org.testng.annotations.Test;
@@ -36,7 +35,8 @@ public class AnnotationMetadataUniversalSetTest {
     public void testUniversalLabel() {
         // Check that the correct universal label is applied
         assertEquals(
-                minimalUniversalSet.getUniversalLabel(), KlvConstants.AnnotationUniversalSetUl);
+                minimalUniversalSet.getUniversalLabel(),
+                AnnotationMetadataUniversalSet.AnnotationUniversalSetUl);
     }
 
     @Test
@@ -49,7 +49,8 @@ public class AnnotationMetadataUniversalSetTest {
         byte[] bytes = minimalUniversalSet.getAnnotationUniversalSetBytes();
         // Check that the bytes begin with the correct 16-byte UL
         assertEquals(
-                Arrays.copyOfRange(bytes, 0, 16), KlvConstants.AnnotationUniversalSetUl.getBytes());
+                Arrays.copyOfRange(bytes, 0, 16),
+                AnnotationMetadataUniversalSet.AnnotationUniversalSetUl.getBytes());
 
         // Check that the length field was encoded correctly
         BerField lengthField = BerDecoder.decode(bytes, 16, false);
@@ -133,7 +134,9 @@ public class AnnotationMetadataUniversalSetTest {
                 };
         AnnotationMetadataUniversalSet universalSet = new AnnotationMetadataUniversalSet(bytes);
         assertEquals(universalSet.displayHeader(), "ST 0602, ID: 3");
-        assertEquals(universalSet.getUniversalLabel(), KlvConstants.AnnotationUniversalSetUl);
+        assertEquals(
+                universalSet.getUniversalLabel(),
+                AnnotationMetadataUniversalSet.AnnotationUniversalSetUl);
         assertEquals(universalSet.getIdentifiers().size(), 2);
         assertEquals(universalSet.getMetadataKeys().size(), 2);
         assertTrue(universalSet.getIdentifiers().contains(AnnotationMetadataKey.EventIndication));

@@ -3,7 +3,6 @@ package org.jmisb.api.klv.st0808;
 import static org.testng.Assert.*;
 
 import org.jmisb.api.common.KlvParseException;
-import org.jmisb.api.klv.KlvConstants;
 import org.jmisb.api.klv.LoggerChecks;
 import org.jmisb.api.klv.st0603.ST0603TimeStamp;
 import org.testng.annotations.Test;
@@ -97,7 +96,7 @@ public class AncillaryTextLocalSetFactoryTest extends LoggerChecks {
         AncillaryTextLocalSet localSet = factory.create(bytes);
         assertNotNull(localSet);
         assertEquals(localSet.displayHeader(), "ST0808 Ancillary Text");
-        assertEquals(localSet.getUniversalLabel(), KlvConstants.AncillaryTextLocalSetUl);
+        assertEquals(localSet.getUniversalLabel(), AncillaryTextLocalSet.AncillaryTextLocalSetUl);
         assertEquals(localSet.getIdentifiers().size(), 5);
         checkOriginatorExample(localSet);
         checkPrecisionTimeStampExample(localSet);

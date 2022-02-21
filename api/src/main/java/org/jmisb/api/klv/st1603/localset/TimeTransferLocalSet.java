@@ -13,7 +13,6 @@ import org.jmisb.api.klv.IKlvKey;
 import org.jmisb.api.klv.IKlvValue;
 import org.jmisb.api.klv.IMisbMessage;
 import org.jmisb.api.klv.INestedKlvValue;
-import org.jmisb.api.klv.KlvConstants;
 import org.jmisb.api.klv.LdsField;
 import org.jmisb.api.klv.LdsParser;
 import org.jmisb.api.klv.UniversalLabel;
@@ -30,6 +29,13 @@ public class TimeTransferLocalSet implements IMisbMessage, IKlvValue, INestedKlv
 
     private static final Logger LOGGER = LoggerFactory.getLogger(TimeTransferLocalSet.class);
 
+    /** Universal label for Time Transfer Local Set. */
+    public static final UniversalLabel TimeTransferLocalSetUl =
+            new UniversalLabel(
+                    new byte[] {
+                        0x06, 0x0E, 0x2B, 0x34, 0x02, 0x0B, 0x01, 0x01, 0x0E, 0x01, 0x03, 0x02,
+                        0x02, 0x00, 0x00, 0x00
+                    });
     /**
      * Create a {@link ITimeTransferValue} instance from encoded bytes.
      *
@@ -141,7 +147,7 @@ public class TimeTransferLocalSet implements IMisbMessage, IKlvValue, INestedKlv
         }
         if (!isNested) {
             builder.prependLength();
-            builder.prepend(KlvConstants.TimeTransferLocalSetUl);
+            builder.prepend(TimeTransferLocalSetUl);
         }
         return builder.toBytes();
     }
@@ -158,7 +164,7 @@ public class TimeTransferLocalSet implements IMisbMessage, IKlvValue, INestedKlv
 
     @Override
     public UniversalLabel getUniversalLabel() {
-        return KlvConstants.TimeTransferLocalSetUl;
+        return TimeTransferLocalSetUl;
     }
 
     @Override

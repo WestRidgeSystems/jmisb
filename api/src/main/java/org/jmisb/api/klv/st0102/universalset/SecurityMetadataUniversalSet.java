@@ -14,6 +14,14 @@ import org.slf4j.LoggerFactory;
 /** Security Metadata Universal Set message packet defined by ST 0102. */
 public class SecurityMetadataUniversalSet extends SecurityMetadataMessage {
 
+    /** Universal label for Security Metadata Set Universal Set. */
+    public static final UniversalLabel SecurityMetadataUniversalSetUl =
+            new UniversalLabel(
+                    new byte[] {
+                        0x06, 0x0e, 0x2b, 0x34, 0x02, 0x01, 0x01, 0x01, 0x02, 0x08, 0x02, 0x00,
+                        0x00, 0x00, 0x00, 0x00
+                    });
+
     private static final Logger logger =
             LoggerFactory.getLogger(SecurityMetadataUniversalSet.class);
 
@@ -60,7 +68,7 @@ public class SecurityMetadataUniversalSet extends SecurityMetadataMessage {
 
     @Override
     public UniversalLabel getUniversalLabel() {
-        return KlvConstants.SecurityMetadataUniversalSetUl;
+        return SecurityMetadataUniversalSetUl;
     }
 
     @Override
@@ -97,7 +105,7 @@ public class SecurityMetadataUniversalSet extends SecurityMetadataMessage {
             chunks.add(0, lengthField);
 
             // Prepend key field (UL) into front of the list
-            chunks.add(0, KlvConstants.SecurityMetadataUniversalSetUl.getBytes());
+            chunks.add(0, SecurityMetadataUniversalSet.SecurityMetadataUniversalSetUl.getBytes());
 
             // Compute full message length
             totalLength = UniversalLabel.LENGTH + lengthField.length + valueLength;

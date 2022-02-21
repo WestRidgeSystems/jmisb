@@ -8,7 +8,6 @@ import org.jmisb.api.klv.ArrayBuilder;
 import org.jmisb.api.klv.IKlvKey;
 import org.jmisb.api.klv.IKlvValue;
 import org.jmisb.api.klv.IMisbMessage;
-import org.jmisb.api.klv.KlvConstants;
 import org.jmisb.api.klv.UniversalLabel;
 
 /**
@@ -19,10 +18,21 @@ import org.jmisb.api.klv.UniversalLabel;
  */
 public class ActiveLinesPerFrameMessage implements IMisbMessage {
 
+    /**
+     * Universal label for Active Lines per Frame preface item for Annotation Universal Metadata
+     * Set.
+     */
+    public static final UniversalLabel AnnotationActiveLinesPerFrameUl =
+            new UniversalLabel(
+                    new byte[] {
+                        0x06, 0x0e, 0x2b, 0x34, 0x01, 0x01, 0x01, 0x01, 0x04, 0x01, 0x03, 0x02,
+                        0x02, 0x00, 0x00, 0x00
+                    });
+
     private final ActiveLinesPerFrame activeLinesPerFrame;
     private static final int UNIVERSAL_LABEL_BYTE_OFFSET = 0;
     private static final int UNIVERSAL_LABEL_LEN =
-            KlvConstants.AnnotationActiveLinesPerFrameUl.getBytes().length;
+            AnnotationActiveLinesPerFrameUl.getBytes().length;
     private static final int LEN_BYTE_OFFSET = UNIVERSAL_LABEL_BYTE_OFFSET + UNIVERSAL_LABEL_LEN;
     private static final int LEN_REQUIRED_LEN = 1;
     private static final int VALUE_BYTE_OFFSET = LEN_BYTE_OFFSET + LEN_REQUIRED_LEN;
@@ -62,7 +72,7 @@ public class ActiveLinesPerFrameMessage implements IMisbMessage {
                 bytes,
                 0,
                 UNIVERSAL_LABEL_LEN,
-                KlvConstants.AnnotationActiveLinesPerFrameUl.getBytes(),
+                AnnotationActiveLinesPerFrameUl.getBytes(),
                 0,
                 UNIVERSAL_LABEL_LEN)) {
             throw new KlvParseException(
@@ -83,7 +93,7 @@ public class ActiveLinesPerFrameMessage implements IMisbMessage {
 
     @Override
     public UniversalLabel getUniversalLabel() {
-        return KlvConstants.AnnotationActiveLinesPerFrameUl;
+        return AnnotationActiveLinesPerFrameUl;
     }
 
     @Override
@@ -93,7 +103,7 @@ public class ActiveLinesPerFrameMessage implements IMisbMessage {
         }
         byte[] linesBytes = activeLinesPerFrame.getBytes();
         ArrayBuilder arrayBuilder = new ArrayBuilder();
-        arrayBuilder.append(KlvConstants.AnnotationActiveLinesPerFrameUl);
+        arrayBuilder.append(AnnotationActiveLinesPerFrameUl);
         arrayBuilder.appendAsBerLength(linesBytes.length);
         arrayBuilder.append(linesBytes);
         return arrayBuilder.toBytes();

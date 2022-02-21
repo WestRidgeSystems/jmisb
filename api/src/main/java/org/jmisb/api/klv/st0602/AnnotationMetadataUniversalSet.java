@@ -2,15 +2,35 @@ package org.jmisb.api.klv.st0602;
 
 import static org.jmisb.core.klv.ArrayUtils.arrayFromChunks;
 
-import java.util.*;
+import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
+import java.util.Set;
 import org.jmisb.api.common.InvalidDataHandler;
 import org.jmisb.api.common.KlvParseException;
-import org.jmisb.api.klv.*;
+import org.jmisb.api.klv.ArrayBuilder;
+import org.jmisb.api.klv.BerDecoder;
+import org.jmisb.api.klv.BerEncoder;
+import org.jmisb.api.klv.BerField;
+import org.jmisb.api.klv.IKlvKey;
+import org.jmisb.api.klv.IMisbMessage;
+import org.jmisb.api.klv.UdsField;
+import org.jmisb.api.klv.UdsParser;
+import org.jmisb.api.klv.UniversalLabel;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 /** Annotation Metadata Universal Set message packet defined by ST 0602. */
 public class AnnotationMetadataUniversalSet implements IMisbMessage {
+
+    /** Universal label for Annotation Universal Metadata Set. */
+    public static final UniversalLabel AnnotationUniversalSetUl =
+            new UniversalLabel(
+                    new byte[] {
+                        0x06, 0x0E, 0x2B, 0x34, 0x02, 0x01, 0x01, 0x01, 0x0E, 0x01, 0x03, 0x03,
+                        0x01, 0x00, 0x00, 0x00
+                    });
 
     private static Logger logger = LoggerFactory.getLogger(AnnotationMetadataUniversalSet.class);
     private Map<AnnotationMetadataKey, IAnnotationMetadataValue> map = new HashMap<>();
@@ -56,7 +76,7 @@ public class AnnotationMetadataUniversalSet implements IMisbMessage {
 
     @Override
     public UniversalLabel getUniversalLabel() {
-        return KlvConstants.AnnotationUniversalSetUl;
+        return AnnotationUniversalSetUl;
     }
 
     @Override
@@ -147,7 +167,7 @@ public class AnnotationMetadataUniversalSet implements IMisbMessage {
         chunks.add(0, lengthField);
 
         // Prepend key field (UL) into front of the list
-        chunks.add(0, KlvConstants.AnnotationUniversalSetUl.getBytes());
+        chunks.add(0, AnnotationUniversalSetUl.getBytes());
 
         // Compute full message length
         totalLength = UniversalLabel.LENGTH + lengthField.length + valueLength;

@@ -8,7 +8,6 @@ import java.util.Map;
 import org.jmisb.api.common.KlvParseException;
 import org.jmisb.api.klv.IKlvKey;
 import org.jmisb.api.klv.IMisbMessage;
-import org.jmisb.api.klv.KlvConstants;
 import org.jmisb.api.klv.LoggerChecks;
 import org.jmisb.api.klv.st0903.shared.EncodingMode;
 import org.jmisb.api.klv.st0903.shared.VmtiTextString;
@@ -183,7 +182,7 @@ public class VmtiLocalSetTest extends LoggerChecks {
         assertEquals(localSet.frameMessage(true), expectedBytes);
         assertTrue(localSet instanceof IMisbMessage);
         assertEquals(localSet.displayHeader(), "ST0903 VMTI");
-        assertEquals(localSet.getUniversalLabel(), KlvConstants.VmtiLocalSetUl);
+        assertEquals(localSet.getUniversalLabel(), VmtiLocalSet.VmtiLocalSetUl);
         assertEquals(
                 localSet.getUniversalLabel().getBytes(),
                 new byte[] {

@@ -5,7 +5,6 @@ import static org.testng.Assert.*;
 import java.util.HashMap;
 import java.util.Map;
 import org.jmisb.api.common.KlvParseException;
-import org.jmisb.api.klv.KlvConstants;
 import org.jmisb.api.klv.st1903.MIMD;
 import org.jmisb.api.klv.st1903.MIMDMetadataKey;
 import org.jmisb.api.klv.st1903.MIMD_Version;
@@ -158,7 +157,7 @@ public class MimdParseTest {
 
     private void checkVersionNumberParse(MIMD mimd) {
         assertEquals(mimd.displayHeader(), "MIMD");
-        assertEquals(mimd.getUniversalLabel(), KlvConstants.MIMDLocalSetUl);
+        assertEquals(mimd.getUniversalLabel(), MIMDConstants.MIMDLocalSetUl);
         assertEquals(mimd.getIdentifiers().size(), 1);
         assertTrue(mimd.getIdentifiers().contains(MIMDMetadataKey.version));
         assertEquals(mimd.getField(MIMDMetadataKey.version).getDisplayName(), "Version");
@@ -198,7 +197,7 @@ public class MimdParseTest {
     public void parseMissionSupportProfile() throws KlvParseException {
         MIMD mimd = new MIMD(missionSupportProfileBytes);
         assertEquals(mimd.displayHeader(), "MIMD");
-        assertEquals(mimd.getUniversalLabel(), KlvConstants.MIMDLocalSetUl);
+        assertEquals(mimd.getUniversalLabel(), MIMDConstants.MIMDLocalSetUl);
         assertEquals(mimd.getIdentifiers().size(), 2);
         assertTrue(mimd.getIdentifiers().contains(MIMDMetadataKey.version));
         assertEquals(mimd.getField(MIMDMetadataKey.version).getDisplayName(), "Version");

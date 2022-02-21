@@ -1,6 +1,5 @@
 package org.jmisb.api.klv.st0102.localset;
 
-import static org.jmisb.api.klv.KlvConstants.SecurityMetadataLocalSetUl;
 import static org.jmisb.core.klv.ArrayUtils.arrayFromChunks;
 
 import java.time.LocalDate;
@@ -18,6 +17,13 @@ import org.slf4j.LoggerFactory;
  * <p>The local set is typically nested within another local set (e.g. within ST0601).
  */
 public class SecurityMetadataLocalSet extends SecurityMetadataMessage {
+    /** Universal label for Security Metadata Set Local Set. */
+    public static final UniversalLabel SecurityMetadataLocalSetUl =
+            new UniversalLabel(
+                    new byte[] {
+                        0x06, 0x0e, 0x2b, 0x34, 0x02, 0x03, 0x01, 0x01, 0x0e, 0x01, 0x03, 0x03,
+                        0x02, 0x00, 0x00, 0x00
+                    });
 
     private static final Logger logger = LoggerFactory.getLogger(SecurityMetadataLocalSet.class);
 

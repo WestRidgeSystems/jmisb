@@ -6,7 +6,6 @@ import static org.testng.Assert.assertNull;
 import static org.testng.Assert.assertTrue;
 
 import org.jmisb.api.common.KlvParseException;
-import org.jmisb.api.klv.KlvConstants;
 import org.testng.annotations.Test;
 
 /** Unit tests for ActiveLinesPerFrameMessage. */
@@ -18,7 +17,9 @@ public class ActiveLinesPerFrameMessageTest {
     public void checkLabel() throws KlvParseException {
         ActiveLinesPerFrameMessage uut =
                 new ActiveLinesPerFrameMessage(new ActiveLinesPerFrame(480));
-        assertEquals(uut.getUniversalLabel(), KlvConstants.AnnotationActiveLinesPerFrameUl);
+        assertEquals(
+                uut.getUniversalLabel(),
+                ActiveLinesPerFrameMessage.AnnotationActiveLinesPerFrameUl);
     }
 
     @Test

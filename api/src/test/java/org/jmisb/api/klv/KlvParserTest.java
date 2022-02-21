@@ -270,7 +270,7 @@ public class KlvParserTest {
     @Test
     public void testChecksumOnlyParse() {
         ByteBuffer byteBuffer = ByteBuffer.allocate(21);
-        byteBuffer.put(KlvConstants.UasDatalinkLocalUl.getBytes());
+        byteBuffer.put(UasDatalinkMessage.UasDatalinkLocalUl.getBytes());
         byteBuffer.put((byte) 0x04);
         byteBuffer.put((byte) UasDatalinkTag.Checksum.getCode());
         byteBuffer.put(CHECKSUM_LEN);
@@ -295,7 +295,7 @@ public class KlvParserTest {
     @Test
     public void testUnknownTagParse() {
         ByteBuffer byteBuffer = ByteBuffer.allocate(26);
-        byteBuffer.put(KlvConstants.UasDatalinkLocalUl.getBytes());
+        byteBuffer.put(UasDatalinkMessage.UasDatalinkLocalUl.getBytes());
         byteBuffer.put((byte) 0x09);
         byteBuffer.put(UNKNOWN_TAG_KEY);
         byteBuffer.put(UNKNOWN_TAG_LEN);
@@ -331,7 +331,7 @@ public class KlvParserTest {
     @Test
     public void testMixedKnownAndUnknownTagParse() {
         ByteBuffer byteBuffer = ByteBuffer.allocate(42);
-        byteBuffer.put(KlvConstants.UasDatalinkLocalUl.getBytes());
+        byteBuffer.put(UasDatalinkMessage.UasDatalinkLocalUl.getBytes());
         byteBuffer.put((byte) 0x19);
         byteBuffer.put((byte) UasDatalinkTag.SensorLatitude.getCode());
         byteBuffer.put(SENSOR_LAT_LEN);
@@ -482,7 +482,8 @@ public class KlvParserTest {
         Assert.assertTrue(message instanceof SecurityMetadataUniversalSet);
         SecurityMetadataUniversalSet securityMessage = (SecurityMetadataUniversalSet) message;
         Assert.assertEquals(
-                securityMessage.getUniversalLabel(), KlvConstants.SecurityMetadataUniversalSetUl);
+                securityMessage.getUniversalLabel(),
+                SecurityMetadataUniversalSet.SecurityMetadataUniversalSetUl);
         Assert.assertEquals(securityMessage.getKeys().size(), 1);
         Assert.assertEquals(securityMessage.getIdentifiers().size(), 1);
         Assert.assertTrue(securityMessage.getIdentifiers().contains(SecurityMetadataKey.Version));

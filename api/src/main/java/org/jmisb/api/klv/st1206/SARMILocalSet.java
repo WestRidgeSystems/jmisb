@@ -1,7 +1,5 @@
 package org.jmisb.api.klv.st1206;
 
-import static org.jmisb.api.klv.KlvConstants.SARMILocalSetUl;
-
 import java.util.List;
 import java.util.Map;
 import java.util.Set;
@@ -23,6 +21,14 @@ import org.slf4j.LoggerFactory;
  * <p>This is the top level ST 1206 local set.
  */
 public class SARMILocalSet implements IMisbMessage {
+
+    /** Universal label for Synthetic Aperture Radar Motion Imagery. */
+    public static final UniversalLabel SARMILocalSetUl =
+            new UniversalLabel(
+                    new byte[] {
+                        0x06, 0x0E, 0x2B, 0x34, 0x02, 0x0B, 0x01, 0x01, 0x0E, 0x01, 0x03, 0x03,
+                        0x0D, 0x00, 0x00, 0x00
+                    });
 
     private static final Logger LOGGER = LoggerFactory.getLogger(SARMILocalSet.class);
 

@@ -35,15 +35,14 @@ So we can parse the message, and return our own `IMisbMessage` implementation in
 more complex than strictly needed, but is intended provide a model for more complex structures.
 
 To link in our parser, we use a simple factory (`TimeMessageFactory` in the example). That gets
-registered with code that looks like:
+registered in the module declaration (`module-info.java`) with:
 
 ``` java
-        TimeMessageFactory timeMessageFactory = new TimeMessageFactory();
-        MisbMessageFactory.getInstance()
-                .registerHandler(TimeMessageConstants.TIME_STAMP_UL, timeMessageFactory);
-```
+    uses org.jmisb.api.klv.IMisbMessageFactory;
 
-The constant `TIME_STAMP_UL` is just the `UniversalLabel` that matches what we want to handle.
+    provides org.jmisb.api.klv.IMisbMessageFactory with
+            org.jmisb.examples.parserplugin.timemessage.TimeMessageFactory;
+```
 
 When its all wired up, the output of the metadata dump will look like:
 
@@ -67,7 +66,7 @@ mvn clean install
 There are several ways to invoke it. One way is:
 
 ``` sh
-java -jar target/parserplugin-1.10.0-SNAPSHOT-jar-with-dependencies.jar {filename}
+java -jar target/parserplugin-2.0.0-SNAPSHOT-jar-with-dependencies.jar {filename}
 ```
 
 ## Helping us
