@@ -320,7 +320,9 @@ public class Generator {
                 }
                 UasDatalinkMessage message = new UasDatalinkMessage(values);
 
-                output.addVideoFrame(new VideoFrame(image, pts * 1.0e-6));
+                VideoFrame videoFrame = new VideoFrame(image, pts * 1.0e-6);
+                videoFrame.setMiisCoreId(coreIdentifier);
+                output.addVideoFrame(videoFrame);
                 output.addMetadataFrame(new MetadataFrame(message, pts));
                 pts += frameDuration * 1.0e6;
             }

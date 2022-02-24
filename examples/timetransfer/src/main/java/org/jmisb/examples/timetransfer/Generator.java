@@ -91,7 +91,9 @@ public class Generator {
             long startTime = System.currentTimeMillis();
             double pts = 1000.0 * System.currentTimeMillis(); // Close enough for this.
             for (long i = 0; i < numFrames; ++i) {
-                output.addVideoFrame(new VideoFrame(image, pts * 1.0e-6));
+                VideoFrame videoFrame = new VideoFrame(image, pts * 1.0e-6);
+                videoFrame.setMiisCoreId(coreIdentifier);
+                output.addVideoFrame(videoFrame);
                 if (i % (intervalBetweenTimeTransferPacksInSeconds * frameRate) == 0) {
                     Request trackingRequest = new Request();
                     trackingRequest.setCommand(Command.Tracking);

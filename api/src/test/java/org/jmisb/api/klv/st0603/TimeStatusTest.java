@@ -13,6 +13,7 @@ public class TimeStatusTest {
         assertFalse(timeStatus.isDiscontinuity());
         assertFalse(timeStatus.isReverse());
         assertEquals(timeStatus.getEncodedValue(), (byte) 0b10011111);
+        assertEquals(timeStatus.toString(), "Not locked | No discontinuity");
     }
 
     @Test
@@ -22,6 +23,7 @@ public class TimeStatusTest {
         assertFalse(timeStatus.isDiscontinuity());
         assertFalse(timeStatus.isReverse());
         assertEquals(timeStatus.getEncodedValue(), (byte) 0b10011111);
+        assertEquals(timeStatus.toString(), "Not locked | No discontinuity");
     }
 
     @Test
@@ -31,6 +33,7 @@ public class TimeStatusTest {
         assertFalse(timeStatus.isDiscontinuity());
         assertFalse(timeStatus.isReverse());
         assertEquals(timeStatus.getEncodedValue(), (byte) 0b00011111);
+        assertEquals(timeStatus.toString(), "Locked | No discontinuity");
     }
 
     @Test
@@ -40,6 +43,7 @@ public class TimeStatusTest {
         assertTrue(timeStatus.isDiscontinuity());
         assertFalse(timeStatus.isReverse());
         assertEquals(timeStatus.getEncodedValue(), (byte) 0b11011111);
+        assertEquals(timeStatus.toString(), "Not locked | Discontinuity - Forward");
     }
 
     @Test
@@ -49,6 +53,7 @@ public class TimeStatusTest {
         assertTrue(timeStatus.isDiscontinuity());
         assertTrue(timeStatus.isReverse());
         assertEquals(timeStatus.getEncodedValue(), (byte) 0b11111111);
+        assertEquals(timeStatus.toString(), "Not locked | Discontinuity - Reverse");
     }
 
     @Test

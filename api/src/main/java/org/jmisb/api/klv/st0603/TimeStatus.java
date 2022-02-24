@@ -164,4 +164,25 @@ public class TimeStatus {
         copy.setDiscontinuity(this.isDiscontinuity(), this.isReverse());
         return copy;
     }
+
+    @Override
+    public String toString() {
+        StringBuilder sb = new StringBuilder();
+        if (isLocked()) {
+            sb.append("Locked | ");
+        } else {
+            sb.append("Not locked | ");
+        }
+        if (isDiscontinuity()) {
+            sb.append("Discontinuity - ");
+            if (isReverse()) {
+                sb.append("Reverse");
+            } else {
+                sb.append("Forward");
+            }
+        } else {
+            sb.append("No discontinuity");
+        }
+        return sb.toString();
+    }
 }

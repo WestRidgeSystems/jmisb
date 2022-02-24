@@ -298,6 +298,9 @@ public abstract class VideoInput extends VideoIO implements IVideoInput {
         if (frame.getTimeStatus() != null) {
             videoFrame.setTimeStatus(frame.getTimeStatus().deepCopy());
         }
+        if (frame.getMiisCoreId() != null) {
+            videoFrame.setMiisCoreId(frame.getMiisCoreId());
+        }
         return videoFrame;
     }
 

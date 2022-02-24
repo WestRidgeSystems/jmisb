@@ -39,6 +39,8 @@ import org.bytedeco.javacpp.*;
 import org.jmisb.api.klv.st0603.ST0603TimeStamp;
 import org.jmisb.api.klv.st0603.TimeStatus;
 import org.jmisb.api.klv.st0604.TimeStampUtilities;
+import org.jmisb.api.klv.st1204.CoreIdentifier;
+import org.jmisb.api.klv.st2101.ST2101Converter;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -186,6 +188,7 @@ class VideoDecodeThread extends ProcessingThread {
 
                         ST0603TimeStamp motionImageryTimeStamp = null;
                         TimeStatus timeStatus = null;
+                        CoreIdentifier miisCoreId = null;
                         AVFrameSideData sideData =
                                 av_frame_get_side_data(avFrame, AV_FRAME_DATA_SEI_UNREGISTERED);
                         if (sideData != null) {
@@ -196,7 +199,7 @@ class VideoDecodeThread extends ProcessingThread {
                                 timeStatus = TimeStampUtilities.decodeTimeStatus(sideDataBytes);
                                 motionImageryTimeStamp =
                                         TimeStampUtilities.decodePrecisionTimeStamp(sideDataBytes);
-                                // TODO: check the ST2101 UUID case.
+                                miisCoreId = ST2101Converter.decodeCoreId(sideDataBytes);
                             }
                         }
 
@@ -206,6 +209,7 @@ class VideoDecodeThread extends ProcessingThread {
                             VideoFrame videoFrame = new VideoFrame(image, pts);
                             videoFrame.setTimeStamp(motionImageryTimeStamp);
                             videoFrame.setTimeStatus(timeStatus);
+                            videoFrame.setMiisCoreId(miisCoreId);
                             queued = inputStream.queueVideoFrame(videoFrame, 20);
                         }
                     } else if (ret != -11 && ret != -35) // -11 = EAGAIN, -35 = EDEADLK

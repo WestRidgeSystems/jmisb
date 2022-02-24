@@ -22,11 +22,13 @@ import static org.bytedeco.ffmpeg.global.avformat.avformat_new_stream;
 import static org.bytedeco.ffmpeg.global.avformat.avio_close;
 import static org.bytedeco.ffmpeg.global.avutil.AVMEDIA_TYPE_DATA;
 import static org.bytedeco.ffmpeg.global.avutil.AVMEDIA_TYPE_VIDEO;
+import static org.bytedeco.ffmpeg.global.avutil.AV_FRAME_DATA_SEI_UNREGISTERED;
 import static org.bytedeco.ffmpeg.global.avutil.AV_PIX_FMT_BGR24;
 import static org.bytedeco.ffmpeg.global.avutil.AV_PIX_FMT_YUV420P;
 import static org.bytedeco.ffmpeg.global.avutil.av_d2q;
 import static org.bytedeco.ffmpeg.global.avutil.av_frame_alloc;
 import static org.bytedeco.ffmpeg.global.avutil.av_frame_free;
+import static org.bytedeco.ffmpeg.global.avutil.av_frame_new_side_data;
 import static org.bytedeco.ffmpeg.global.avutil.av_image_alloc;
 import static org.bytedeco.ffmpeg.global.avutil.av_image_fill_arrays;
 import static org.bytedeco.ffmpeg.global.avutil.av_inv_q;
@@ -51,11 +53,13 @@ import org.bytedeco.ffmpeg.avformat.AVOutputFormat;
 import org.bytedeco.ffmpeg.avformat.AVStream;
 import org.bytedeco.ffmpeg.avutil.AVDictionary;
 import org.bytedeco.ffmpeg.avutil.AVFrame;
+import org.bytedeco.ffmpeg.avutil.AVFrameSideData;
 import org.bytedeco.ffmpeg.avutil.AVRational;
 import org.bytedeco.ffmpeg.swscale.SwsContext;
 import org.bytedeco.javacpp.BytePointer;
 import org.bytedeco.javacpp.DoublePointer;
 import org.bytedeco.javacpp.PointerPointer;
+import org.jmisb.api.klv.st2101.ST2101Converter;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -359,12 +363,13 @@ public abstract class VideoOutput extends VideoIO {
     }
 
     /**
-     * Copy a BufferedImage to avFrameDst, transforming to the pixel format required by the codec.
+     * Copy a VideoFrame to avFrameDst, transforming to the pixel format required by the codec.
      *
-     * @param image The input image
+     * @param frame The input video frame
      * @throws IOException If the frame could not be written
      */
-    private void convert(BufferedImage image) throws IOException {
+    private void convert(VideoFrame frame) throws IOException {
+        BufferedImage image = frame.getImage();
         // If needed, convert to TYPE_3BYTE_BGR format (TODO: is there a more efficient way?)
         BufferedImage inputImage = image;
         if (image.getType() != BufferedImage.TYPE_3BYTE_BGR) {
@@ -450,6 +455,14 @@ public abstract class VideoOutput extends VideoIO {
                 inputImage.getHeight(),
                 new PointerPointer(avFrameDst),
                 avFrameDst.linesize());
+
+        if (frame.getMiisCoreId() != null) {
+            byte[] sideData = ST2101Converter.coreIdToSideDataBytes(frame.getMiisCoreId());
+            AVFrameSideData st2101_sei =
+                    av_frame_new_side_data(
+                            avFrameDst, AV_FRAME_DATA_SEI_UNREGISTERED, sideData.length);
+            st2101_sei.data().put(sideData, 0, sideData.length);
+        }
     }
 
     /**
@@ -499,7 +512,7 @@ public abstract class VideoOutput extends VideoIO {
      * @throws IOException if an error occurs
      */
     void encodeFrame(VideoFrame frame) throws IOException {
-        convert(frame.getImage());
+        convert(frame);
 
         // Convert PTS in seconds to PTS in "time base" units
         long pts = Math.round(frame.getPts() / av_q2d(videoStream.time_base()));
