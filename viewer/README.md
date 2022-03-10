@@ -1,10 +1,10 @@
-# jmisb viewer
+# jmisb-viewer
 
 This directory contains a Java Swing-based GUI to visualize video and metadata on the desktop. It is primarily intended to exercise the API for development and testing, and not as an end user tool.
 
-To run it from the command line, from the `viewer` directory, run:
+To run it from the command line, from the top-level `jmisb` directory, run:
 ```sh
-mvn exec:exec
+./mvnw exec:exec -pl :jmisb-viewer
 ```
 
 There is a map view - available from the View menu. It will overlay the sensor footprint and platform / sensor location on the map

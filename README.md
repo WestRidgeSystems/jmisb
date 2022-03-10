@@ -168,7 +168,7 @@ The result of `msg.getField(UasDatalinkTag.SensorLatitude)` will be an instance
 of the `SensorLatitude` class (implementing `IUasDatalinkValue`).
 
 For more complete examples of usage, see the [examples](./examples) directory,
-as well as [viewer](viewer), a Java Swing-based tool for displaying video and metadata.
+as well as [jmisb-viewer](viewer), a Java Swing-based tool for displaying video and metadata.
 
 ## Elevation
 
@@ -191,7 +191,7 @@ with some test data. This is a sample application intended mainly to aid in
 development. To run it from the command line, issue:
 
 ```sh
-./mvnw exec:exec -pl :viewer
+./mvnw exec:exec -pl :jmisb-viewer
 ```
 
 ## Versioning
