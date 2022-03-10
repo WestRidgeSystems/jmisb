@@ -81,7 +81,7 @@
         <jqf.plugin.version>1.9</jqf.plugin.version>
         <jqf.version>1.9</jqf.version>
         <jxmapviewer.version>2.6</jxmapviewer.version>
-        <log4j.version>2.17.1</log4j.version>
+        <log4j.version>2.17.2</log4j.version>
         <maven.annotations.version>3.6.4</maven.annotations.version>
         <maven.assembly.plugin.version>3.3.0</maven.assembly.plugin.version>
         <maven.checkstyle.plugin>3.1.2</maven.checkstyle.plugin>
