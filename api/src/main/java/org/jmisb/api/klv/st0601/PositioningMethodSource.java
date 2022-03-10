@@ -45,13 +45,21 @@ public class PositioningMethodSource implements IUasDatalinkValue {
     private static final int MIN_VALUE = 1;
     private static final int MAX_VALUE = 255;
 
+    /** Inertial Navigation System (INS). */
     public static final int INS = 1;
+    /** US Global Positioning System (GPS). */
     public static final int GPS = 2;
+    /** Galileo. */
     public static final int GALILEO = 4;
+    /** QZSS. */
     public static final int QZSS = 8;
+    /** NAVIC. */
     public static final int NAVIC = 16;
+    /** GLONASS. */
     public static final int GLONASS = 32;
+    /** BeiDou Generation 1. */
     public static final int BEIDOU1 = 64;
+    /** BeiDou Generation 2. */
     public static final int BEIDOU2 = 128;
 
     /**

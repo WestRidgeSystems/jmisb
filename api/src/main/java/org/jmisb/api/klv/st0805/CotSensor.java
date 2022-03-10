@@ -6,11 +6,11 @@ package org.jmisb.api.klv.st0805;
  * <p>This represents the data in a Sensor detail element.
  */
 public class CotSensor extends CotElement {
-    public Double sensorAzimuth;
-    public Double sensorFov;
-    public Double sensorVfov;
-    public String sensorModel;
-    public Double sensorRange;
+    private Double sensorAzimuth;
+    private Double sensorFov;
+    private Double sensorVfov;
+    private String sensorModel;
+    private Double sensorRange;
 
     /**
      * Get sensor azimuth.

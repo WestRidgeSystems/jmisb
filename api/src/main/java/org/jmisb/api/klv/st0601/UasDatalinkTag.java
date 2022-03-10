@@ -6,6 +6,11 @@ import org.jmisb.api.klv.IKlvKey;
 
 /** ST 0601 tag. */
 public enum UasDatalinkTag implements IKlvKey {
+    /**
+     * Unknown / Undefined tag.
+     *
+     * <p>This is not a valid value, and should not be intentionally created or used.
+     */
     Undefined(0),
     /** Tag 1; Checksum used to detect errors within a UAS Datalink LS packet. */
     Checksum(1),

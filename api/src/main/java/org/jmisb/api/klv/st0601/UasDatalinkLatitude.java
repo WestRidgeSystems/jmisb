@@ -22,7 +22,14 @@ public abstract class UasDatalinkLatitude implements IUasDatalinkValue {
             new byte[] {(byte) 0x80, (byte) 0x00, (byte) 0x00, (byte) 0x00};
     private static final double FLOAT_RANGE = 90.0;
     private static final double MAX_INT = 2147483647.0;
+    /**
+     * Approximate encoding error in this value.
+     *
+     * <p>This is based on the resolution / 2 and should be considered a precision. It is unlikely
+     * to represent actual accuracy.
+     */
     public static final double DELTA = 21e-9; // +/- 21 nano degrees
+
     private final String displayName;
 
     /**

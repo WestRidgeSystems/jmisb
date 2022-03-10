@@ -15,10 +15,10 @@ import org.jmisb.api.klv.st1201.OutOfRangeBehaviour;
  */
 public class PulseRepetitionFrequencyScaleFactor implements ISARMIMetadataValue {
 
-    protected static final double MIN_VAL = 0.0;
-    protected static final double MAX_VAL = 1.0;
-    protected static final int NUM_BYTES = 2;
-    protected double value;
+    private static final double MIN_VAL = 0.0;
+    private static final double MAX_VAL = 1.0;
+    private static final int NUM_BYTES = 2;
+    private double value;
 
     /**
      * Create from value.

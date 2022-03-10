@@ -13,6 +13,11 @@ import org.jmisb.api.klv.UniversalLabel;
  * enumeration, and a value represented by a instance implementing {@link IAnnotationMetadataValue}.
  */
 public enum AnnotationMetadataKey implements IKlvKey {
+    /**
+     * Unknown or undefined metadata key.
+     *
+     * <p>This key indicates an error, and should not be intentionally created or used.
+     */
     Undefined(
             new UniversalLabel(
                     new byte[] {

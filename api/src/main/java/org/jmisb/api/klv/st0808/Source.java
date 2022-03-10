@@ -12,7 +12,7 @@ package org.jmisb.api.klv.st0808;
  */
 public class Source extends NaturalText implements IAncillaryTextMetadataValue {
 
-    public static final String SOURCE = "Source";
+    private static final String SOURCE = "Source";
 
     /**
      * Create from value.

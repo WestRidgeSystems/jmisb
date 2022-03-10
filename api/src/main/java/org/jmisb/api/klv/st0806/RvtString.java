@@ -4,8 +4,8 @@ import java.nio.charset.StandardCharsets;
 
 /** Base class for text string implementations. */
 public abstract class RvtString implements IRvtMetadataValue {
-    protected final String displayName;
-    protected final String stringValue;
+    private final String displayName;
+    private final String stringValue;
 
     /**
      * Create from value.

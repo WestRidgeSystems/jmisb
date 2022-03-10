@@ -11,9 +11,9 @@ import org.jmisb.api.klv.st1201.OutOfRangeBehaviour;
  * Sensor Ellipsoid Height Extended (ST 0601 Item 104).
  */
 public abstract class UasDatalinkAltitudeExtended implements IUasDatalinkValue {
-    protected static final double MIN_VAL = -900.0;
-    protected static final double MAX_VAL = 40000.0;
-    protected static final int RECOMMENDED_BYTES = 3;
+    private static final double MIN_VAL = -900.0;
+    private static final double MAX_VAL = 40000.0;
+    private static final int RECOMMENDED_BYTES = 3;
     private final double meters;
 
     /**

@@ -37,7 +37,7 @@ public class PoiAoiType implements IRvtPoiAoiMetadataValue {
         UNKNOWN = new PoiAoiType((byte) 0x04);
     }
 
-    protected byte value;
+    private byte value;
 
     /**
      * Create from value.

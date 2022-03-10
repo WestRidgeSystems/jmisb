@@ -19,11 +19,11 @@ import org.jmisb.core.klv.PrimitiveConverter;
  * </blockquote>
  */
 public class TargetHAE implements IVmtiMetadataValue {
-    protected static final double MIN_VAL = -900;
-    protected static final double MAX_VAL = 19000;
-    protected static final int NUM_BYTES = 2;
+    private static final double MIN_VAL = -900;
+    private static final double MAX_VAL = 19000;
+    private static final int NUM_BYTES = 2;
     private static final double LEGACY_INT_RANGE = 65535.0; // 2^16-1
-    protected double value;
+    private double value;
 
     /**
      * Create from value.

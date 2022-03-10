@@ -16,9 +16,9 @@ import org.jmisb.core.klv.PrimitiveConverter;
  * </blockquote>
  */
 public abstract class UasDatalinkTargetErrorEstimate implements IUasDatalinkValue {
-    protected static final double FLOAT_RANGE = 4095;
-    protected static final double INT_RANGE = 65535.0; // (2^16) - 1
-    protected double meters;
+    private static final double FLOAT_RANGE = 4095;
+    private static final double INT_RANGE = 65535.0; // (2^16) - 1
+    private double meters;
 
     /**
      * Create from value.

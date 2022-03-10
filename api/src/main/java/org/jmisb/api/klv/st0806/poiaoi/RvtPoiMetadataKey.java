@@ -8,15 +8,25 @@ import org.jmisb.api.klv.IKlvKey;
 public enum RvtPoiMetadataKey implements IKlvKey {
     /** Unknown key. This should not be created. */
     Undefined(0),
+    /** POI / AOI Number. */
     PoiAoiNumber(1),
+    /** POI Latitude. */
     PoiLatitude(2),
+    /** POI Longitude. */
     PoiLongitude(3),
+    /** POI Altitude. */
     PoiAltitude(4),
+    /** POI / AOI Type. */
     PoiAoiType(5),
+    /** POI / AOI Text. */
     PoiAoiText(6),
+    /** POI Source Icon. */
     PoiSourceIcon(7),
+    /** POI / AOI Source Identifier. */
     PoiAoiSourceId(8),
+    /** POI / AOI Label. */
     PoiAoiLabel(9),
+    /** Operation Identifier. */
     OperationId(10);
 
     private final int tag;

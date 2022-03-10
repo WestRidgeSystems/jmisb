@@ -51,8 +51,8 @@ public class TargetLocation
     private static final double MAX_LAT_VAL = 90.0;
     private static final double MIN_LON_VAL = -180.0;
     private static final double MAX_LON_VAL = 180.0;
-    protected static final double MIN_HAE_VAL = -900;
-    protected static final double MAX_HAE_VAL = 19000;
+    private static final double MIN_HAE_VAL = -900;
+    private static final double MAX_HAE_VAL = 19000;
     private static final int LEGACY_INT_RANGE = 65535;
     private static final long MAX_LAT_LON_INT_RANGE = 4294967295L;
     private static final int NUM_BYTES = 2;

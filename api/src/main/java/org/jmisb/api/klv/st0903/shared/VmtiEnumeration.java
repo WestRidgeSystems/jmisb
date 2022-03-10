@@ -6,6 +6,7 @@ import org.jmisb.api.klv.st0903.IVmtiMetadataValue;
 
 /** Abstract base class for single-byte enumeration values in ST 0903. */
 public abstract class VmtiEnumeration implements IVmtiMetadataValue {
+    /** Implementing value. */
     protected byte value;
 
     /**

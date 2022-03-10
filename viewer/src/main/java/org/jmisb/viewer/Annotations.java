@@ -20,6 +20,7 @@ import org.jmisb.api.klv.st0602.YViewportPosition;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
+/** Support for ST 0602 style annotations. */
 public class Annotations {
 
     private static Logger LOG = LoggerFactory.getLogger(Annotations.class);

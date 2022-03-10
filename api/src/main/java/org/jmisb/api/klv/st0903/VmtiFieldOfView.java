@@ -9,7 +9,7 @@ import org.jmisb.core.klv.PrimitiveConverter;
 public abstract class VmtiFieldOfView implements IVmtiMetadataValue {
     private static final double MIN_VAL = 0;
     private static final double MAX_VAL = 180;
-    protected static final double LEGACY_INT_RANGE = 65535.0; // 2^16-1
+    private static final double LEGACY_INT_RANGE = 65535.0; // 2^16-1
     private static final int NUM_BYTES = 2;
     private double value;
 

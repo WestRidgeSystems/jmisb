@@ -47,6 +47,6 @@ public class FrameHeight extends VmtiV3Value
 
     @Override
     public String getDisplayableValue() {
-        return String.format("%dpx", value);
+        return String.format("%dpx", getValue());
     }
 }

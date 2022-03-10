@@ -9,16 +9,27 @@ import java.nio.charset.StandardCharsets;
  * kinds of strings.
  */
 public class SecurityMetadataString implements ISecurityMetadataValue {
+    /** Caveats label. */
     public static final String CAVEATS = "Caveats";
+    /** Classification Comments label. */
     public static final String CLASSIFICATION_COMMENTS = "Classification Comments";
+    /** Classification Reason label. */
     public static final String CLASSIFICATION_REASON = "Classification Reason";
+    /** Classified By label. */
     public static final String CLASSIFIED_BY = "Classified By";
+    /** Classifying Country label. */
     public static final String CLASSIFYING_COUNTRY = "Classifying Country";
+    /** Derived From label. */
     public static final String DERIVED_FROM = "Derived From";
+    /** Marking System label. */
     public static final String MARKING_SYSTEM = "Marking System";
+    /** Object Country Coding Method label. */
     public static final String OBJECT_COUNTRY_CODING_METHOD = "Object Country Coding Method";
+    /** Releasing Instructions label. */
     public static final String RELEASING_INSTRUCTIONS = "Releasing Instructions";
+    /** SCI / SHI Information Label. */
     public static final String SCI_SHI_INFO = "Security-SCI/SHI Information";
+    /** Country Coding Method label. */
     public static final String COUNTRY_CODING_METHOD = "Country Coding Method";
 
     private final String stringValue;

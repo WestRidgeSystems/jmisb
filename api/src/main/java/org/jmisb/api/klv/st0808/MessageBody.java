@@ -10,7 +10,7 @@ package org.jmisb.api.klv.st0808;
  */
 public class MessageBody extends NaturalText implements IAncillaryTextMetadataValue {
 
-    public static final String MESSAGE_BODY = "Message Body";
+    private static final String MESSAGE_BODY = "Message Body";
 
     /**
      * Create from value.

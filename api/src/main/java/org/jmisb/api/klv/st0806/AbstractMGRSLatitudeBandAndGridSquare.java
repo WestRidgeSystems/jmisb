@@ -48,7 +48,7 @@ public abstract class AbstractMGRSLatitudeBandAndGridSquare extends RvtString
      * @return single character string.
      */
     public String getLatitudeBand() {
-        return this.stringValue.substring(0, 1);
+        return getDisplayableValue().substring(0, 1);
     }
 
     /**
@@ -57,6 +57,6 @@ public abstract class AbstractMGRSLatitudeBandAndGridSquare extends RvtString
      * @return two characters specifying the grid square in MGRS.
      */
     public String getGridSquare() {
-        return this.stringValue.substring(1);
+        return getDisplayableValue().substring(1);
     }
 }

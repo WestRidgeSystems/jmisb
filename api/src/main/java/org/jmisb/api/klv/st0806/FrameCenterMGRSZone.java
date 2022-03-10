@@ -6,7 +6,7 @@ package org.jmisb.api.klv.st0806;
  * <p>First two characters of Frame Centre MGRS coordinates, UTM zone 01 through 60.
  */
 public class FrameCenterMGRSZone extends AbstractMGRSZone implements IRvtMetadataValue {
-    public static final String FRAME_CENTRE_MGRS_ZONE = "Frame Center MGRS Zone";
+    private static final String FRAME_CENTRE_MGRS_ZONE = "Frame Center MGRS Zone";
 
     /**
      * Create from value.

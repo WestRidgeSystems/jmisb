@@ -20,7 +20,7 @@ public class FragCircleRadius implements IRvtMetadataValue {
     /**
      * Create from value.
      *
-     * @param radius radius in meters/second. Legal values are in [0, 65535].
+     * @param radius radius in meters. Legal values are in [0, 65535].
      */
     public FragCircleRadius(int radius) {
         if (radius > MAX_VALUE || radius < MIN_VALUE) {

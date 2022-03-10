@@ -19,6 +19,11 @@ import org.jmisb.api.klv.UniversalLabel;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
+/**
+ * Ancillary Text Local Set.
+ *
+ * <p>This is the core ST 0808 Local Set.
+ */
 public class AncillaryTextLocalSet implements IMisbMessage {
 
     private static final Logger LOGGER = LoggerFactory.getLogger(AncillaryTextLocalSet.class);

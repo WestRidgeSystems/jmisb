@@ -12,6 +12,11 @@ public class SensorPointOfInterest extends CotMessage {
 
     private Link link;
 
+    /**
+     * Constructor.
+     *
+     * @param clock clock value to use for this message
+     */
     SensorPointOfInterest(Clock clock) {
         super(clock);
         setType("b-m-p-s-p-i");
@@ -61,7 +66,7 @@ public class SensorPointOfInterest extends CotMessage {
         addEventEndToXML(sb);
     }
 
-    protected void writeLink(StringBuilder sb) {
+    private void writeLink(StringBuilder sb) {
         if (getLink() != null) {
             getLink().writeAsXML(sb);
         }

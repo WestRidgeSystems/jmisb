@@ -15,6 +15,11 @@ import org.jmisb.api.klv.UniversalLabel;
  * the universal set.
  */
 public enum SecurityMetadataKey implements IKlvKey {
+    /**
+     * Unknown / Undefined metadata item.
+     *
+     * <p>This is not a valid value, and should not be intentionally created or used.
+     */
     Undefined(
             0,
             new UniversalLabel(

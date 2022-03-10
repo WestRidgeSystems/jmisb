@@ -6,6 +6,7 @@ import java.util.Map;
 /** Abstract base class for single-byte enumeration values in ST 1206. */
 public abstract class SARMIEnumeration implements ISARMIMetadataValue {
 
+    /** Implementing value for this enumeration. */
     protected byte value;
 
     /**

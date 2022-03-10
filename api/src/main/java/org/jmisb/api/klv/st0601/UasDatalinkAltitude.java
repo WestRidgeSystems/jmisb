@@ -22,6 +22,12 @@ public abstract class UasDatalinkAltitude implements IUasDatalinkValue {
     private static final double MAX_VALUE = 19000;
     private static final double RANGE = 19900;
     private static final double MAX_INT = 65535.0; // 2^16 - 1
+    /**
+     * Approximate encoding error in this value.
+     *
+     * <p>This is based on the resolution / 2 and should be considered a precision. It is unlikely
+     * to represent actual accuracy.
+     */
     public static final double DELTA = 0.15; // +/- 0.15 meters
 
     /**

@@ -5,6 +5,12 @@ import org.jmisb.api.klv.ArrayBuilder;
 import org.jmisb.api.klv.BerDecoder;
 import org.jmisb.api.klv.BerField;
 
+/**
+ * MIMD Id Reference.
+ *
+ * <p>This models the MIMD "Ref" usage, where a value can cross-reference to another value by group
+ * identifier and serial number.
+ */
 public class MimdIdReference implements IMimdMetadataValue {
 
     private final int serialNumber;

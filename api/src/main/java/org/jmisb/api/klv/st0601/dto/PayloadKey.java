@@ -8,12 +8,20 @@ import org.jmisb.api.klv.IKlvKey;
  * <p>Each of these corresponds to part of the payload information.
  */
 public enum PayloadKey implements IKlvKey {
+    /**
+     * Unknown payload element.
+     *
+     * <p>This should not be intentionally created.
+     */
     unknown(0),
+    /** Identifier part of Payload. */
     Identifier(1),
+    /** Payload type part of Payload. */
     PayloadType(2),
+    /** Payload name part of Payload. */
     PayloadName(3);
 
-    PayloadKey(int key) {
+    private PayloadKey(int key) {
         this.tag = key;
     }
 

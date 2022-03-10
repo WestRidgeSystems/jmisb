@@ -165,10 +165,20 @@ public abstract class CotMessage extends CotElement {
         return flowTags;
     }
 
+    /**
+     * Close the event start tag.
+     *
+     * @param sb the string builder to serialize to.
+     */
     protected void closeEventStartInXML(StringBuilder sb) {
         sb.append(">");
     }
 
+    /**
+     * Append event level attributes.
+     *
+     * @param sb the string builder to serialize to.
+     */
     protected void addEventLevelAttributesToXML(StringBuilder sb) {
         sb.append("<event");
         writeAttribute(sb, "version", COT_VERSION);
@@ -193,14 +203,29 @@ public abstract class CotMessage extends CotElement {
         writeAttribute(sb, "how", getHow());
     }
 
+    /**
+     * Add Event end element.
+     *
+     * @param sb the string builder to serialize to.
+     */
     protected void addEventEndToXML(StringBuilder sb) {
         writeEndElement(sb, "event");
     }
 
+    /**
+     * Add XML header.
+     *
+     * @param sb the string builder to serialize to.
+     */
     protected void addXmlHeader(StringBuilder sb) {
         sb.append("<?xml version='1.0' standalone='yes'?>");
     }
 
+    /**
+     * Write flow tags.
+     *
+     * @param sb the string builder to serialize to.
+     */
     protected void writeFlowTags(StringBuilder sb) {
         getFlowTags().writeAsXML(sb);
     }

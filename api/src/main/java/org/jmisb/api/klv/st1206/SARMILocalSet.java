@@ -17,6 +17,11 @@ import org.jmisb.api.klv.UniversalLabel;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
+/**
+ * ST 1206 Synthetic Aperture Radar Motion Imagery Local Set.
+ *
+ * <p>This is the top level ST 1206 local set.
+ */
 public class SARMILocalSet implements IMisbMessage {
 
     private static final Logger LOGGER = LoggerFactory.getLogger(SARMILocalSet.class);

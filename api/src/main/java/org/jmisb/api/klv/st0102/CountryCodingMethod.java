@@ -23,6 +23,13 @@ public enum CountryCodingMethod implements IKlvValue {
      * <p>For example, Australia is "AUS".
      */
     ISO3166_THREE_LETTER,
+    /**
+     * Mixed ISO-3166 with CAPCO codes.
+     *
+     * <p>The Mixed Country Coding Method shall be used to support di- or tri-graphs (but not both)
+     * from GEC, ISO 3166, GENC and STANAG 1059, respectively, and approved tetragraphs in the same
+     * field.
+     */
     ISO3166_MIXED,
     /**
      * ISO-3166 Numeric codes.
@@ -31,14 +38,26 @@ public enum CountryCodingMethod implements IKlvValue {
      */
     ISO3166_NUMERIC,
     /**
-     * FIPS 10-4 codes.
+     * FIPS 10-4 / GEC codes.
      *
      * <p>For example, Australia is "AS".
      *
      * <p>This is a legacy coding method, only used in the US.
      */
     FIPS10_4_TWO_LETTER,
+    /**
+     * FIPS 10-4 / GEC four letter codes.
+     *
+     * <p>This is a legacy coding method, only used in the US.
+     */
     FIPS10_4_FOUR_LETTER,
+    /**
+     * Mixed FIPS 10-4 / GEC with CAPCO codes.
+     *
+     * <p>The Mixed Country Coding Method shall be used to support di- or tri-graphs (but not both)
+     * from GEC, ISO 3166, GENC and STANAG 1059, respectively, and approved tetragraphs in the same
+     * field.
+     */
     FIPS10_4_MIXED,
     /**
      * STANAG 1059 Two Letter codes.
@@ -60,6 +79,13 @@ public enum CountryCodingMethod implements IKlvValue {
      * <p>This is not valid, and should not be created.
      */
     OMITTED_VALUE,
+    /**
+     * Mixed STANAG 1059 with CAPCO codes.
+     *
+     * <p>The Mixed Country Coding Method shall be used to support di- or tri-graphs (but not both)
+     * from GEC, ISO 3166, GENC and STANAG 1059, respectively, and approved tetragraphs in the same
+     * field.
+     */
     STANAG_1059_MIXED,
     /**
      * GENC Two Letter codes.
@@ -82,7 +108,20 @@ public enum CountryCodingMethod implements IKlvValue {
      * US.
      */
     GENC_NUMERIC,
+    /**
+     * Mixed GENC with CAPCO codes.
+     *
+     * <p>The Mixed Country Coding Method shall be used to support di- or tri-graphs (but not both)
+     * from GEC, ISO 3166, GENC and STANAG 1059, respectively, and approved tetragraphs in the same
+     * field.
+     */
     GENC_MIXED,
+    /**
+     * GENC Administrative subdivision codes.
+     *
+     * <p>Similar to ISO-3166 Administrative subdivision codes. Motion Imagery consumers are
+     * required to understand at least the country code part of the overall code.
+     */
     GENC_ADMINSUB;
 
     @Override

@@ -134,7 +134,6 @@ public class AlgorithmLS implements IKlvValue, INestedKlvValue {
             byte[] lengthBytes = BerEncoder.encode(bytes.length);
             chunks.add(lengthBytes);
             len += lengthBytes.length;
-            ;
             chunks.add(bytes);
             len += bytes.length;
         }

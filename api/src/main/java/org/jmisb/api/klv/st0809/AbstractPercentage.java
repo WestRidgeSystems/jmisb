@@ -5,9 +5,9 @@ import org.jmisb.core.klv.PrimitiveConverter;
 
 abstract class AbstractPercentage implements IMeteorologicalMetadataValue {
 
-    protected static final float MIN_VALUE = 0.0f;
-    protected static final float MAX_VALUE = 100.0f;
-    protected final float value;
+    private static final float MIN_VALUE = 0.0f;
+    private static final float MAX_VALUE = 100.0f;
+    private final float value;
 
     AbstractPercentage(final float percentage) {
         if (percentage < MIN_VALUE || percentage > MAX_VALUE) {

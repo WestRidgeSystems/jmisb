@@ -33,6 +33,7 @@ import org.jmisb.api.klv.st0903.vtracker.TrackId;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
+/** VTrack Local Set. */
 public class VTrackLocalSet implements IMisbMessage {
     private static final Logger LOGGER = LoggerFactory.getLogger(VTrackLocalSet.class);
 

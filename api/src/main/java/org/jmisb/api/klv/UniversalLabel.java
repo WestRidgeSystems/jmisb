@@ -4,7 +4,9 @@ import java.util.Arrays;
 
 /** Represents a 16-byte Universal Label (UL). */
 public class UniversalLabel {
+    /** Length of a UniversalLabel in bytes. */
     public static final int LENGTH = 16;
+
     private final byte[] bytes;
     private static final int OID_FIELD = 0;
     private static final int UL_LENGTH_FIELD = 1;

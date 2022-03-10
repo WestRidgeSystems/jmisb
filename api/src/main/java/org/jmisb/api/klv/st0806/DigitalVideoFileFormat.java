@@ -9,7 +9,7 @@ package org.jmisb.api.klv.st0806;
  * other values or variants are also acceptable.
  */
 public class DigitalVideoFileFormat extends RvtString implements IRvtMetadataValue {
-    public static final String DIGITAL_VIDEO_FILE_FORMAT = "Digital Video File Format";
+    private static final String DIGITAL_VIDEO_FILE_FORMAT = "Digital Video File Format";
 
     /**
      * Create from value.

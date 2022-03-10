@@ -12,7 +12,7 @@ package org.jmisb.api.klv.st0808;
  */
 public class Originator extends NaturalText implements IAncillaryTextMetadataValue {
 
-    public static final String ORIGINATOR = "Originator";
+    private static final String ORIGINATOR = "Originator";
 
     /**
      * Create from value.

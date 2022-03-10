@@ -8,15 +8,25 @@ import org.jmisb.api.klv.IKlvKey;
 public enum RvtAoiMetadataKey implements IKlvKey {
     /** Unknown key. This should not be created. */
     Undefined(0),
+    /** POI / AOI Number. */
     PoiAoiNumber(1),
+    /** Corner Latitude Point 1. */
     CornerLatitudePoint1(2),
+    /** Corner Longitude Point 1. */
     CornerLongitudePoint1(3),
+    /** Corner Latitude Point 3. */
     CornerLatitudePoint3(4),
+    /** Corner Longitude Point 3. */
     CornerLongitudePoint3(5),
+    /** POI / AOI Type. */
     PoiAoiType(6),
+    /** POI / AOI Name. */
     PoiAoiText(7),
+    /** POI / AOI Source Identifier. */
     PoiAoiSourceId(8),
+    /** POI / AOI Label. */
     PoiAoiLabel(9),
+    /** Operation Identifier. */
     OperationId(10);
 
     private final int tag;
@@ -36,7 +46,7 @@ public enum RvtAoiMetadataKey implements IKlvKey {
      *
      * @param tag the tag value to initialise the enumeration value.
      */
-    RvtAoiMetadataKey(int tag) {
+    private RvtAoiMetadataKey(int tag) {
         this.tag = tag;
     }
 

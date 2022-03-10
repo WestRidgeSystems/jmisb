@@ -43,9 +43,4 @@ public class TargetIntensity extends VmtiV3Value
     public final String getDisplayName() {
         return "Target Intensity";
     }
-
-    @Override
-    public String getDisplayableValue() {
-        return String.format("%d", value);
-    }
 }

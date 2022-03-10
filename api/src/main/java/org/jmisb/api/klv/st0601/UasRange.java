@@ -17,11 +17,18 @@ import org.jmisb.core.klv.PrimitiveConverter;
  */
 public abstract class UasRange implements IUasDatalinkValue {
 
-    protected static final double MIN_VAL = 0.0;
-    protected static final double MAX_VAL = 5000000.0;
-    protected static final double MAX_INT = 4294967295.0; // 2^32-1
+    private static final double MIN_VAL = 0.0;
+    private static final double MAX_VAL = 5000000.0;
+    private static final double MAX_INT = 4294967295.0; // 2^32-1
+    /**
+     * Approximate encoding error in this value.
+     *
+     * <p>This is based on the resolution / 2 and should be considered a precision. It is unlikely
+     * to represent actual accuracy.
+     */
     public static final double DELTA = 0.6e-3; // +/- 0.6 mm
-    protected double meters;
+
+    private double meters;
 
     /**
      * Create from value.

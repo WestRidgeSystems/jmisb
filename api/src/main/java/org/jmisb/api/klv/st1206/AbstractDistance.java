@@ -10,9 +10,11 @@ import org.jmisb.api.klv.st1201.OutOfRangeBehaviour;
  */
 public abstract class AbstractDistance implements ISARMIMetadataValue {
 
-    protected static final double MIN_VAL = 0.0;
-    protected static final double MAX_VAL = 1.0e6;
-    protected static final int NUM_BYTES = 4;
+    private static final double MIN_VAL = 0.0;
+    private static final double MAX_VAL = 1.0e6;
+    private static final int NUM_BYTES = 4;
+
+    /** The implementing value. */
     protected double value;
 
     /**

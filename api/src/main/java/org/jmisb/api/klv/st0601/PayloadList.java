@@ -96,8 +96,6 @@ public class PayloadList implements IUasDatalinkValue, INestedKlvValue {
      *
      * <p>This gets the live list, so it can also be used to add an entry, or to clear the list.
      *
-     * <p>
-     *
      * @return the payloads, as a list.
      */
     public List<Payload> getPayloadList() {
