@@ -78,8 +78,8 @@
         <jackson.version>2.13.1</jackson.version>
         <jacoco.version>0.8.7</jacoco.version>
         <javacpp.logging.debug>false</javacpp.logging.debug>
-        <jqf.plugin.version>1.8</jqf.plugin.version>
-        <jqf.version>1.8</jqf.version>
+        <jqf.plugin.version>1.9</jqf.plugin.version>
+        <jqf.version>1.9</jqf.version>
         <jxmapviewer.version>2.6</jxmapviewer.version>
         <log4j.version>2.17.1</log4j.version>
         <maven.annotations.version>3.6.4</maven.annotations.version>
