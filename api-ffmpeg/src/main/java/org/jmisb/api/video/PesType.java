@@ -10,11 +10,21 @@ import java.util.Map;
  * provides the known PES types.
  */
 public enum PesType {
+    /**
+     * Unknown PES type.
+     *
+     * <p>This is not valid and should not be intentionally created.
+     */
     UNKNOWN(-1),
+    /** Video elementary stream. */
     VIDEO(0),
+    /** Audio elementary stream. */
     AUDIO(1),
+    /** Data elementary stream. */
     DATA(2),
+    /** Subtitle elementary stream. */
     SUBTITLE(3),
+    /** Attachment elementary stream. */
     ATTACHMENT(4);
 
     private final int code;
@@ -27,7 +37,7 @@ public enum PesType {
         }
     }
 
-    PesType(int c) {
+    private PesType(int c) {
         code = c;
     }
 

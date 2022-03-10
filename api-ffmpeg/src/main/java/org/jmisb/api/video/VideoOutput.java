@@ -64,8 +64,14 @@ public abstract class VideoOutput extends VideoIO {
 
     private static final Logger logger = LoggerFactory.getLogger(VideoOutput.class);
 
-    protected static final int METADATA_AU_HEADER_LEN = 5;
+    private static final int METADATA_AU_HEADER_LEN = 5;
 
+    /**
+     * Configuration options for the video output.
+     *
+     * <p>This is holds the configuration settings that change the output (e.g. rates, data
+     * included, and frame size).
+     */
     protected VideoOutputOptions options;
 
     // Format

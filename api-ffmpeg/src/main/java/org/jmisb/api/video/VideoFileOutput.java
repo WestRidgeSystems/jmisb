@@ -32,8 +32,8 @@ public class VideoFileOutput extends VideoOutput implements IVideoFileOutput {
     private static final Logger logger = LoggerFactory.getLogger(VideoFileOutput.class);
     private String filename;
 
-    protected static final byte ASYNC_STREAM_ID = (byte) 0xBD;
-    protected static final byte SYNC_STREAM_ID = (byte) 0xFC;
+    private static final byte ASYNC_STREAM_ID = (byte) 0xBD;
+    private static final byte SYNC_STREAM_ID = (byte) 0xFC;
 
     /**
      * Constructor.
