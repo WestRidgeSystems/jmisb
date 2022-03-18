@@ -36,7 +36,7 @@ public class MimlToJava extends AbstractMojo {
             required = true)
     private File outputTestDirectory;
 
-    @Parameter(defaultValue = "org.jmisb.api.klv", property = "packageNameBase", required = true)
+    @Parameter(defaultValue = "org.jmisb.mimd", property = "packageNameBase", required = true)
     private String packageNameBase;
 
     @Parameter(defaultValue = "MIMD", property = "topLevelClass", required = true)

@@ -21,7 +21,7 @@ import org.jmisb.api.klv.IKlvValue;
 import org.jmisb.api.klv.INestedKlvValue;
 <#if topLevel>
 import org.jmisb.api.klv.IMisbMessage;
-import org.jmisb.api.klv.st1902.MIMDConstants;
+import org.jmisb.mimd.st1902.MIMDConstants;
 </#if>
 import org.jmisb.api.klv.LdsField;
 <#if topLevel>
@@ -29,21 +29,21 @@ import org.jmisb.api.klv.UniversalLabel;
 <#else>
 import org.jmisb.api.klv.LdsParser;
 </#if>
-import org.jmisb.api.klv.st1902.IMimdMetadataValue;
+import org.jmisb.mimd.st1902.IMimdMetadataValue;
 <#list entries as entry>
     <#if entry.name == "mimdId">
-import org.jmisb.api.klv.st1902.MimdId;
+import org.jmisb.mimd.st1902.MimdId;
     <#break>
     </#if>
 </#list>
 <#list entries as entry>
     <#if entry.ref>
-import org.jmisb.api.klv.st1902.MimdIdReference;
+import org.jmisb.mimd.st1902.MimdIdReference;
     <#break>
     </#if>
 </#list>
 <#if topLevel>
-import org.jmisb.api.klv.st1902.MimdParser;
+import org.jmisb.mimd.st1902.MimdParser;
 </#if>
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;

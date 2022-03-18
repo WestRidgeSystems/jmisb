@@ -2,7 +2,6 @@ package org.jmisb.api.klv.st0601;
 
 import static org.testng.Assert.*;
 
-import org.jmisb.api.klv.st1108.st1108_3.metric.*;
 import org.testng.annotations.Test;
 
 /** @author bradh */

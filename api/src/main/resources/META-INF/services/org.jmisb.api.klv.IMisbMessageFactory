@@ -1,16 +1,7 @@
-org.jmisb.api.klv.eg0104.PredatorUavMessageFactory
 org.jmisb.api.klv.st0102.universalset.SecurityMetadataUniversalSetFactory
 org.jmisb.api.klv.st0102.localset.SecurityMetadataLocalSetFactory
 org.jmisb.api.klv.st0601.UasDatalinkMessageFactory
-org.jmisb.api.klv.st0602.AnnotationActiveLinesPerFrameFactory
-org.jmisb.api.klv.st0602.AnnotationActiveSamplesPerLineFactory
-org.jmisb.api.klv.st0602.AnnotationByteOrderFactory
-org.jmisb.api.klv.st0602.AnnotationMetadataUniversalSetFactory
-org.jmisb.api.klv.st0808.AncillaryTextLocalSetFactory
-org.jmisb.api.klv.st0809.MeteorologicalMetadataLocalSetFactory
 org.jmisb.api.klv.st0903.vtrack.VTrackLocalSetFactory
-org.jmisb.api.klv.st1108.InterpretabilityQualityLocalSetFactory
 org.jmisb.api.klv.st1301.MiisLocalSetFactory
 org.jmisb.api.klv.st1603.localset.TimeTransferLocalSetFactory
 org.jmisb.api.klv.st1603.nanopack.NanoTimeTransferPackFactory
-org.jmisb.api.klv.st1902.MimdLocalSetFactory

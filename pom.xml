@@ -41,6 +41,12 @@
         <module>viewer</module>
         <module>examples</module>
         <module>elevation</module>
+        <module>st0602</module>
+        <module>mimd</module>
+        <module>eg0104</module>
+        <module>st0808</module>
+        <module>st0809</module>
+        <module>st1108</module>
     </modules>
 
     <scm>

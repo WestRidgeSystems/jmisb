@@ -1,0 +1,10 @@
+<?xml version = "1.0" encoding = "UTF-8"?>
+<!DOCTYPE suite SYSTEM "http://testng.org/testng-1.0.dtd" >
+
+<suite name="UnitTests">
+    <test name="eg0104-unit">
+        <packages>
+            <package name="org.jmisb.eg0104.*"/>
+        </packages>
+    </test>
+</suite>

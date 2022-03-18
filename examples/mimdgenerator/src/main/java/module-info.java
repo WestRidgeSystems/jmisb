@@ -2,6 +2,7 @@ module org.jmisb.examples.mimdgenerator {
     requires org.jmisb.api.ffmpeg;
     requires org.jmisb.api;
     requires org.jmisb.core;
+    requires org.jmisb.mimd;
     requires org.slf4j;
     requires org.slf4j.simple;
     requires java.desktop;

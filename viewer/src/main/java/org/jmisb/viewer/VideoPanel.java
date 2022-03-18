@@ -7,13 +7,13 @@ import java.awt.image.BufferedImage;
 import javax.swing.*;
 import org.jmisb.api.awt.st1909.OverlayRenderer;
 import org.jmisb.api.klv.st0601.UasDatalinkMessage;
-import org.jmisb.api.klv.st0602.AnnotationMetadataUniversalSet;
 import org.jmisb.api.klv.st1909.MetadataItems;
 import org.jmisb.api.klv.st1909.ST0601Converter;
 import org.jmisb.api.video.IMetadataListener;
 import org.jmisb.api.video.IVideoListener;
 import org.jmisb.api.video.MetadataFrame;
 import org.jmisb.api.video.VideoFrame;
+import org.jmisb.st0602.AnnotationMetadataUniversalSet;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
