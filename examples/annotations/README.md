@@ -28,8 +28,6 @@ java -jar target/annotations-2.0.0-SNAPSHOT-jar-with-dependencies.jar --help
 
 That should provide a list of supported command line options.
 
-Note that it reads a file called `test1280.jpg`.
-
 ## Helping us
 
 Please provide pull requests.

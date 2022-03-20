@@ -6,13 +6,55 @@ import java.nio.charset.StandardCharsets;
  * The MIME Media Type describes the MIME Encoding type of the accompanying MIME Data.
  *
  * <p>The supported encodings as of ST 0602.4 are BMP ({@code "image/x-ms-bmp"}), JPEG ({@code
- * "image/jpeg"}), PNG ({@code "image/png"}) and CGM ({@code "image/cgm"}). SVG ({@code
- * "image/svg+xml"}) is known to be used, and is expected to be added to a revision of ST 0602 in
- * the near future.
+ * "image/jpeg"}), PNG ({@code "image/png"}) and CGM ({@code "image/cgm"}). ST 0602.5 adds SVG
+ * ({@code "image/svg+xml"}).
  */
 public class MIMEMediaType implements IAnnotationMetadataValue {
 
     private final String mimeType;
+
+    /**
+     * Media type for PNG.
+     *
+     * <p>Media types were historically called MIME Types, essentially equivalent terms.
+     */
+    public static final String PNG = "image/png";
+
+    /**
+     * Media type for JPEG.
+     *
+     * <p>Media types were historically called MIME Types, essentially equivalent terms.
+     */
+    public static final String JPEG = "image/jpeg";
+
+    /**
+     * Media type for BMP.
+     *
+     * <p>The term "bitmap" is generic. This is the media type for the ST 0602 required form.
+     *
+     * <p>Media types were historically called MIME Types, essentially equivalent terms.
+     */
+    public static final String BMP = "image/x-ms-bmp";
+
+    /**
+     * Media type for CGM.
+     *
+     * <p>This is the currently accepted media type. Older versions of ST 0602 used "cgm", which is
+     * accepted for parsing but not for generation.
+     *
+     * <p>Media types were historically called MIME Types, essentially equivalent terms.
+     */
+    public static final String CGM = "image/cgm";
+
+    /**
+     * Media type for SVG.
+     *
+     * <p>While not specified by the media type, as of ST 0602.5 this means SVG 1.1. Previous
+     * versions of ST 0602 (ST 0602.4 and earlier) do not allow SVG.
+     *
+     * <p>Media types were historically called MIME Types, essentially equivalent terms.
+     */
+    public static final String SVG = "image/svg+xml";
 
     /**
      * Create from value.
@@ -53,7 +95,7 @@ public class MIMEMediaType implements IAnnotationMetadataValue {
      * @return true if the value is "image/png", otherwise false.
      */
     public boolean isPNG() {
-        return "image/png".equals(mimeType);
+        return PNG.equals(mimeType);
     }
 
     /**
@@ -62,7 +104,7 @@ public class MIMEMediaType implements IAnnotationMetadataValue {
      * @return true if the value is "image/jpeg", otherwise false.
      */
     public boolean isJPEG() {
-        return "image/jpeg".equals(mimeType);
+        return JPEG.equals(mimeType);
     }
 
     /**
@@ -71,7 +113,7 @@ public class MIMEMediaType implements IAnnotationMetadataValue {
      * @return true if the value is "image/x-ms-bmp", otherwise false.
      */
     public boolean isBMP() {
-        return "image/x-ms-bmp".equals(mimeType);
+        return BMP.equals(mimeType);
     }
 
     /**
@@ -83,7 +125,7 @@ public class MIMEMediaType implements IAnnotationMetadataValue {
      * @return true if the value is "image/cgm" or "cgm", otherwise false.
      */
     public boolean isCGM() {
-        return ("image/cgm".equals(mimeType) || "cgm".equals(mimeType));
+        return (CGM.equals(mimeType) || "cgm".equals(mimeType));
     }
 
     /**
@@ -92,6 +134,6 @@ public class MIMEMediaType implements IAnnotationMetadataValue {
      * @return true if the value is "image/svg+xml", otherwise false.
      */
     public boolean isSVG() {
-        return "image/svg+xml".equals(mimeType);
+        return SVG.equals(mimeType);
     }
 }

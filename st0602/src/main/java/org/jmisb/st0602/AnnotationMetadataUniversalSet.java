@@ -214,4 +214,21 @@ public class AnnotationMetadataUniversalSet implements IMisbMessage {
             setField(entry, value);
         }
     }
+
+    /**
+     * Get the ZOrder value.
+     *
+     * <p>This is made available to support rendering order. The default is 0 (i.e. the bottom of
+     * the rendering stack) in accordance with ST 0602.4-18.
+     *
+     * @return the ZOrder value as an integer, or 0 if there is no ZOrder value.
+     */
+    public int getZOrderValue() {
+        if (this.map.containsKey(AnnotationMetadataKey.ZOrder)) {
+            ZOrder zOrder = (ZOrder) map.get(AnnotationMetadataKey.ZOrder);
+            return zOrder.getValue();
+        } else {
+            return 0;
+        }
+    }
 }

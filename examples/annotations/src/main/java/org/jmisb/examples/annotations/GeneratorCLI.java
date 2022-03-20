@@ -13,7 +13,12 @@ import org.jmisb.api.video.CodecIdentifier;
 /** Annotation file generator */
 public class GeneratorCLI {
 
-    /** @param args the command line arguments */
+    /**
+     * Main entry point.
+     *
+     * @param args the command line arguments
+     * @throws KlvParseException if there is a parsing issue
+     */
     public static void main(String[] args) throws KlvParseException {
         final Options commandLineOptions = new Options();
         commandLineOptions.addOption(
@@ -27,7 +32,8 @@ public class GeneratorCLI {
         CommandLine commandLine;
         try {
             commandLine = commandLineParser.parse(commandLineOptions, args);
-            for (String format : new String[] {"image/png", "image/jpeg", "image/x-ms-bmp"}) {
+            for (String format :
+                    new String[] {"image/png", "image/jpeg", "image/x-ms-bmp", "image/svg+xml"}) {
                 Generator generator = new Generator(format);
                 if (commandLine.hasOption("h")) {
                     showHelp(commandLineOptions);
@@ -47,7 +53,7 @@ public class GeneratorCLI {
                     }
                 }
                 if (commandLine.hasOption("outputFileBase")) {
-                    generator.setOutputFile(commandLine.getOptionValue("outputFile"));
+                    generator.setOutputFile(commandLine.getOptionValue("outputFileBase"));
                 }
                 generator.generate();
             }

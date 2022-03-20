@@ -1,3 +1,4 @@
+/** Example generator code for ST 0602 Annotations. */
 module org.jmisb.examples.annotation {
     requires org.jmisb.api.ffmpeg;
     requires org.jmisb.api;

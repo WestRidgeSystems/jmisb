@@ -18,4 +18,5 @@ module org.jmisb.st0602 {
             org.jmisb.st0602.AnnotationMetadataUniversalSetFactory;
 
     exports org.jmisb.st0602;
+    exports org.jmisb.st0602.layer;
 }
