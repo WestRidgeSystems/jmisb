@@ -46,6 +46,7 @@
         <module>st1403</module>
         <module>st1603</module>
         <module>mimd</module>
+        <module>st1909</module>
         <module>viewer</module>
         <module>elevation</module>
         <module>examples</module>

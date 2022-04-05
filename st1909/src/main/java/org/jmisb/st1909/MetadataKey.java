@@ -1,4 +1,4 @@
-package org.jmisb.api.klv.st1909;
+package org.jmisb.st1909;
 
 /**
  * The valid keys for a metadata item.

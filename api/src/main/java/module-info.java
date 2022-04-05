@@ -47,5 +47,4 @@ module org.jmisb.api {
     exports org.jmisb.api.klv.st1206;
     exports org.jmisb.api.klv.st1301;
     exports org.jmisb.api.klv.st1303;
-    exports org.jmisb.api.klv.st1909;
 }

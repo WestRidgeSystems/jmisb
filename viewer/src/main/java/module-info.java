@@ -9,6 +9,7 @@ module org.jmisb.viewer {
     requires org.jmisb.st0808;
     requires org.jmisb.st0809;
     requires org.jmisb.st1108;
+    requires org.jmisb.st1909;
     requires org.slf4j;
     requires com.miglayout.swing;
     requires jxmapviewer2;

@@ -5,4 +5,4 @@
  * visualization. The content display locations scale according to a display’s native spatial
  * density.
  */
-package org.jmisb.api.klv.st1909;
+package org.jmisb.st1909;
