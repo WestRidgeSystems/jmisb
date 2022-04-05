@@ -1,4 +1,4 @@
-package org.jmisb.api.klv.st1403;
+package org.jmisb.st1403;
 
 import java.util.ArrayList;
 import java.util.List;

@@ -6,9 +6,9 @@
         <artifactId>jmisb</artifactId>
         <version>2.0.0-SNAPSHOT</version>
     </parent>
-    <artifactId>st1603</artifactId>
+    <artifactId>st1403</artifactId>
     <version>2.0.0-SNAPSHOT</version>
-    <name>ST 1603 Time Transfer</name>
+    <name>ST 1403 SARMI Threshold Metadata</name>
     <dependencies>
         <dependency>
             <groupId>${project.groupId}</groupId>
@@ -16,13 +16,12 @@
             <version>${project.version}</version>
         </dependency>
         <dependency>
-            <groupId>org.testng</groupId>
-            <artifactId>testng</artifactId>
-            <scope>test</scope>
+            <groupId>org.slf4j</groupId>
+            <artifactId>slf4j-api</artifactId>
         </dependency>
         <dependency>
-            <groupId>uk.org.lidalia</groupId>
-            <artifactId>slf4j-test</artifactId>
+            <groupId>org.testng</groupId>
+            <artifactId>testng</artifactId>
             <scope>test</scope>
         </dependency>
     </dependencies>

@@ -1,4 +1,4 @@
-package org.jmisb.api.klv.st1403;
+package org.jmisb.st1403;
 
 /** Validity Status for conformance results. */
 public enum Validity {

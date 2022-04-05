@@ -7,4 +7,4 @@
  * the SAR image formation and SAR coherent change product processes used to create the SARMI data
  * in addition to mission and classification information. SAR Motion Imagery Metadata.
  */
-package org.jmisb.api.klv.st1403;
+package org.jmisb.st1403;

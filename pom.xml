@@ -43,12 +43,12 @@
         <module>st0808</module>
         <module>st0809</module>
         <module>st1108</module>
+        <module>st1403</module>
         <module>st1603</module>
         <module>mimd</module>
         <module>viewer</module>
         <module>elevation</module>
         <module>examples</module>
-
     </modules>
 
     <scm>
