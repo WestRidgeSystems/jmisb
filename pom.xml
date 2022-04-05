@@ -38,15 +38,17 @@
         <module>api</module>
         <module>api-awt</module>
         <module>api-ffmpeg</module>
-        <module>viewer</module>
-        <module>examples</module>
-        <module>elevation</module>
-        <module>st0602</module>
-        <module>mimd</module>
         <module>eg0104</module>
+        <module>st0602</module>
         <module>st0808</module>
         <module>st0809</module>
         <module>st1108</module>
+        <module>st1603</module>
+        <module>mimd</module>
+        <module>viewer</module>
+        <module>elevation</module>
+        <module>examples</module>
+
     </modules>
 
     <scm>

@@ -15,9 +15,7 @@ module org.jmisb.api {
             org.jmisb.api.klv.st0102.localset.SecurityMetadataLocalSetFactory,
             org.jmisb.api.klv.st0601.UasDatalinkMessageFactory,
             org.jmisb.api.klv.st0903.vtrack.VTrackLocalSetFactory,
-            org.jmisb.api.klv.st1301.MiisLocalSetFactory,
-            org.jmisb.api.klv.st1603.localset.TimeTransferLocalSetFactory,
-            org.jmisb.api.klv.st1603.nanopack.NanoTimeTransferPackFactory;
+            org.jmisb.api.klv.st1301.MiisLocalSetFactory;
 
     exports org.jmisb.api.common;
     exports org.jmisb.api.klv;
@@ -50,7 +48,5 @@ module org.jmisb.api {
     exports org.jmisb.api.klv.st1301;
     exports org.jmisb.api.klv.st1303;
     exports org.jmisb.api.klv.st1403;
-    exports org.jmisb.api.klv.st1603.localset;
-    exports org.jmisb.api.klv.st1603.nanopack;
     exports org.jmisb.api.klv.st1909;
 }
