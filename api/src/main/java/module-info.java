@@ -4,7 +4,7 @@
  * <p>This module provides the implementation of the MISB standards.
  */
 module org.jmisb.api {
-    requires org.jmisb.core;
+    requires transitive org.jmisb.core;
     requires org.slf4j;
 
     uses org.jmisb.api.klv.IMisbMessageFactory;

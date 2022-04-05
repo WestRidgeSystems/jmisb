@@ -5,7 +5,6 @@
  */
 @SuppressWarnings("module") // That is not a version number - its a document number.
 module org.jmisb.st0808 {
-    requires org.jmisb.core;
     requires org.jmisb.api;
     requires org.slf4j;
 

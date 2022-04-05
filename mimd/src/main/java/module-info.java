@@ -4,7 +4,6 @@
  * <p>This module provides the implementation of the MISB Motion Imagery Metadata (MIMD) standards.
  */
 module org.jmisb.mimd {
-    requires org.jmisb.core;
     requires org.jmisb.api;
     requires org.slf4j;
 
