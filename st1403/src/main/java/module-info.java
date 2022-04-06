@@ -10,6 +10,7 @@
 @SuppressWarnings("module") // That is not a version number - its a document number.
 module org.jmisb.st1403 {
     requires org.jmisb.api;
+    requires org.jmisb.st0601;
     requires org.slf4j;
 
     exports org.jmisb.st1403;

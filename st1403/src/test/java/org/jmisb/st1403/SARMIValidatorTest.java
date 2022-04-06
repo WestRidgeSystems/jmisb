@@ -20,25 +20,25 @@ import org.jmisb.api.klv.st0102.localset.CcMethod;
 import org.jmisb.api.klv.st0102.localset.ClassificationLocal;
 import org.jmisb.api.klv.st0102.localset.OcMethod;
 import org.jmisb.api.klv.st0102.localset.SecurityMetadataLocalSet;
-import org.jmisb.api.klv.st0601.FrameCenterHae;
-import org.jmisb.api.klv.st0601.FrameCenterLatitude;
-import org.jmisb.api.klv.st0601.FrameCenterLongitude;
-import org.jmisb.api.klv.st0601.FullCornerLatitude;
-import org.jmisb.api.klv.st0601.FullCornerLongitude;
-import org.jmisb.api.klv.st0601.IUasDatalinkValue;
-import org.jmisb.api.klv.st0601.MiisCoreIdentifier;
-import org.jmisb.api.klv.st0601.NestedSARMILocalSet;
-import org.jmisb.api.klv.st0601.NestedSecurityMetadata;
-import org.jmisb.api.klv.st0601.PrecisionTimeStamp;
-import org.jmisb.api.klv.st0601.ST0601Version;
-import org.jmisb.api.klv.st0601.SensorEllipsoidHeight;
-import org.jmisb.api.klv.st0601.SensorEllipsoidHeightExtended;
-import org.jmisb.api.klv.st0601.SensorLatitude;
-import org.jmisb.api.klv.st0601.SensorLongitude;
-import org.jmisb.api.klv.st0601.SlantRange;
-import org.jmisb.api.klv.st0601.UasDatalinkMessage;
-import org.jmisb.api.klv.st0601.UasDatalinkString;
-import org.jmisb.api.klv.st0601.UasDatalinkTag;
+import org.jmisb.st0601.FrameCenterHae;
+import org.jmisb.st0601.FrameCenterLatitude;
+import org.jmisb.st0601.FrameCenterLongitude;
+import org.jmisb.st0601.FullCornerLatitude;
+import org.jmisb.st0601.FullCornerLongitude;
+import org.jmisb.st0601.IUasDatalinkValue;
+import org.jmisb.st0601.MiisCoreIdentifier;
+import org.jmisb.st0601.NestedSARMILocalSet;
+import org.jmisb.st0601.NestedSecurityMetadata;
+import org.jmisb.st0601.PrecisionTimeStamp;
+import org.jmisb.st0601.ST0601Version;
+import org.jmisb.st0601.SensorEllipsoidHeight;
+import org.jmisb.st0601.SensorEllipsoidHeightExtended;
+import org.jmisb.st0601.SensorLatitude;
+import org.jmisb.st0601.SensorLongitude;
+import org.jmisb.st0601.SlantRange;
+import org.jmisb.st0601.UasDatalinkMessage;
+import org.jmisb.st0601.UasDatalinkString;
+import org.jmisb.st0601.UasDatalinkTag;
 import org.jmisb.api.klv.st1204.CoreIdentifier;
 import org.jmisb.api.klv.st1206.ApertureDuration;
 import org.jmisb.api.klv.st1206.CrossRangeImagePlanePixelSize;
@@ -145,7 +145,7 @@ public class SARMIValidatorTest {
         assertEquals(failure.getTraceability(), "ST 1403-03");
         assertEquals(
                 failure.getDescription(),
-                "Sensor Ellipsoid Height was not of the correct type. Found class org.jmisb.api.klv.st0601.SensorEllipsoidHeightExtended");
+                "Sensor Ellipsoid Height was not of the correct type. Found class org.jmisb.st0601.SensorEllipsoidHeightExtended");
     }
 
     @Test
@@ -349,7 +349,7 @@ public class SARMIValidatorTest {
         assertEquals(failure.getTraceability(), "ST 1403-03");
         assertEquals(
                 failure.getDescription(),
-                "Sensor Ellipsoid Height Extended was not of the correct type. Found class org.jmisb.api.klv.st0601.SensorEllipsoidHeight");
+                "Sensor Ellipsoid Height Extended was not of the correct type. Found class org.jmisb.st0601.SensorEllipsoidHeight");
     }
 
     @Test

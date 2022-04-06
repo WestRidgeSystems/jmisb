@@ -8,15 +8,15 @@ import java.util.SortedMap;
 import java.util.TreeMap;
 import javax.imageio.ImageIO;
 import org.jmisb.api.klv.IMisbMessage;
-import org.jmisb.api.klv.st0601.IUasDatalinkValue;
-import org.jmisb.api.klv.st0601.PrecisionTimeStamp;
-import org.jmisb.api.klv.st0601.ST0601Version;
-import org.jmisb.api.klv.st0601.SensorLatitude;
-import org.jmisb.api.klv.st0601.SensorLongitude;
-import org.jmisb.api.klv.st0601.SensorTrueAltitude;
-import org.jmisb.api.klv.st0601.UasDatalinkMessage;
-import org.jmisb.api.klv.st0601.UasDatalinkString;
-import org.jmisb.api.klv.st0601.UasDatalinkTag;
+import org.jmisb.st0601.IUasDatalinkValue;
+import org.jmisb.st0601.PrecisionTimeStamp;
+import org.jmisb.st0601.ST0601Version;
+import org.jmisb.st0601.SensorLatitude;
+import org.jmisb.st0601.SensorLongitude;
+import org.jmisb.st0601.SensorTrueAltitude;
+import org.jmisb.st0601.UasDatalinkMessage;
+import org.jmisb.st0601.UasDatalinkString;
+import org.jmisb.st0601.UasDatalinkTag;
 
 /** Interactive test for VideoStreamOutput to stand up a UDP stream with a test pattern */
 public class StreamerUtil {

@@ -39,7 +39,9 @@
         <module>api-awt</module>
         <module>api-ffmpeg</module>
         <module>eg0104</module>
+        <module>st0601</module>
         <module>st0602</module>
+        <module>st0805</module>
         <module>st0808</module>
         <module>st0809</module>
         <module>st1108</module>

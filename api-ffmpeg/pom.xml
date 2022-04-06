@@ -26,6 +26,12 @@
             <groupId>org.slf4j</groupId>
             <artifactId>slf4j-api</artifactId>
         </dependency>
+        <!-- TODO: this should only be a test dependency -->
+        <dependency>
+            <groupId>${project.groupId}</groupId>
+            <artifactId>st0601</artifactId>
+            <version>${project.version}</version>
+        </dependency>
         <dependency>
             <groupId>org.testng</groupId>
             <artifactId>testng</artifactId>

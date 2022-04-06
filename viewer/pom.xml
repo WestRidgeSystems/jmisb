@@ -82,6 +82,11 @@
             <artifactId>st1909</artifactId>
             <version>${project.version}</version>
         </dependency>
+        <dependency>
+            <groupId>${project.groupId}</groupId>
+            <artifactId>st0601</artifactId>
+            <version>${project.version}</version>
+        </dependency>
     </dependencies>
 
     <build>
