@@ -11,6 +11,7 @@
 module org.jmisb.st1403 {
     requires org.jmisb.api;
     requires org.jmisb.st0601;
+    requires org.jmisb.st1206;
     requires org.slf4j;
 
     exports org.jmisb.st1403;

@@ -3,10 +3,10 @@ package org.jmisb.st0601;
 import java.util.SortedMap;
 import java.util.TreeMap;
 import org.jmisb.api.common.KlvParseException;
-import org.jmisb.api.klv.st1206.ISARMIMetadataValue;
-import org.jmisb.api.klv.st1206.LookDirection;
-import org.jmisb.api.klv.st1206.SARMILocalSet;
-import org.jmisb.api.klv.st1206.SARMIMetadataKey;
+import org.jmisb.st1206.ISARMIMetadataValue;
+import org.jmisb.st1206.LookDirection;
+import org.jmisb.st1206.SARMILocalSet;
+import org.jmisb.st1206.SARMIMetadataKey;
 import org.testng.Assert;
 import org.testng.annotations.Test;
 

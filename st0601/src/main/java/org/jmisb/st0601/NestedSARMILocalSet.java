@@ -4,8 +4,8 @@ import java.util.Set;
 import org.jmisb.api.common.KlvParseException;
 import org.jmisb.api.klv.IKlvKey;
 import org.jmisb.api.klv.INestedKlvValue;
-import org.jmisb.api.klv.st1206.ISARMIMetadataValue;
-import org.jmisb.api.klv.st1206.SARMILocalSet;
+import org.jmisb.st1206.ISARMIMetadataValue;
+import org.jmisb.st1206.SARMILocalSet;
 
 /**
  * SARMI Local Set (ST 0601 Item 95).

@@ -6,6 +6,7 @@
 @SuppressWarnings("module") // That is not a version number - its a document number.
 module org.jmisb.st0601 {
     requires org.jmisb.api;
+    requires org.jmisb.st1206;
     requires org.slf4j;
 
     uses org.jmisb.api.klv.IMisbMessageFactory;
