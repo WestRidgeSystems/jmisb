@@ -1,4 +1,4 @@
-package org.jmisb.api.klv.st1301;
+package org.jmisb.st1301;
 
 import org.jmisb.api.common.KlvParseException;
 import org.jmisb.api.klv.st1204.CoreIdentifier;

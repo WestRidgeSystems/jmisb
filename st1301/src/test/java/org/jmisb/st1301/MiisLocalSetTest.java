@@ -1,4 +1,4 @@
-package org.jmisb.api.klv.st1301;
+package org.jmisb.st1301;
 
 import static org.testng.Assert.*;
 
@@ -6,7 +6,6 @@ import java.util.HashMap;
 import java.util.Map;
 import java.util.UUID;
 import org.jmisb.api.common.KlvParseException;
-import org.jmisb.api.klv.LoggerChecks;
 import org.jmisb.api.klv.st1204.CoreIdentifier;
 import org.jmisb.api.klv.st1204.IdType;
 import org.testng.annotations.Test;

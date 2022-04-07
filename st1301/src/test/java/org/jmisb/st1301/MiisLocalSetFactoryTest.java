@@ -1,6 +1,6 @@
-package org.jmisb.api.klv.st1301;
+package org.jmisb.st1301;
 
-import static org.jmisb.api.klv.st1301.MiisLocalSetTest.bytes;
+import static org.jmisb.st1301.MiisLocalSetTest.bytes;
 import static org.testng.Assert.*;
 
 import org.jmisb.api.common.KlvParseException;

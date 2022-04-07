@@ -9,10 +9,6 @@ module org.jmisb.api {
 
     uses org.jmisb.api.klv.IMisbMessageFactory;
 
-    // If this is updated, ensure src/main/resources/META-INF/services is updated
-    provides org.jmisb.api.klv.IMisbMessageFactory with
-            org.jmisb.api.klv.st1301.MiisLocalSetFactory;
-
     exports org.jmisb.api.common;
     exports org.jmisb.api.klv;
     exports org.jmisb.api.klv.st0107;
@@ -20,6 +16,5 @@ module org.jmisb.api {
     exports org.jmisb.api.klv.st0604;
     exports org.jmisb.api.klv.st1201;
     exports org.jmisb.api.klv.st1204;
-    exports org.jmisb.api.klv.st1301;
     exports org.jmisb.api.klv.st1303;
 }

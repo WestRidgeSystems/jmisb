@@ -11,4 +11,4 @@
  *
  * <p>Please refer to MISB ST 1204 for the overview, scope and background of the MIIS.
  */
-package org.jmisb.api.klv.st1301;
+package org.jmisb.st1301;

@@ -21,7 +21,7 @@
  * OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
  * THE SOFTWARE.
  */
-package org.jmisb.api.klv.st1301;
+package org.jmisb.st1301;
 
 import static org.testng.Assert.*;
 
