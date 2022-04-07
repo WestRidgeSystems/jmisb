@@ -63,7 +63,7 @@
     <properties>
         <antlr4.version>4.9.3</antlr4.version>
         <appdirs.version>1.2.1</appdirs.version>
-        <checkstyle.version>10.0</checkstyle.version>
+        <checkstyle.version>10.1</checkstyle.version>
         <commons-cli.version>1.5.0</commons-cli.version>
         <commons-io.version>2.11.0</commons-io.version>
         <coveralls.version>4.3.0</coveralls.version>
@@ -75,7 +75,7 @@
         <googleformatter.maven.plugin.version>1.7.5</googleformatter.maven.plugin.version>
         <gstreamer.version>1.4.0</gstreamer.version>
         <guava.version>31.1-jre</guava.version>
-        <jackson.version>2.13.2</jackson.version>
+        <jackson.version>2.13.2.2</jackson.version>
         <jacoco.version>0.8.7</jacoco.version>
         <javacpp.logging.debug>false</javacpp.logging.debug>
         <jqf.plugin.version>1.9</jqf.plugin.version>
