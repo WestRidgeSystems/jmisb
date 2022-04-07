@@ -65,7 +65,7 @@
         <cyclonedx.version>2.5.1</cyclonedx.version>
         <failsafe.version>3.0.0-M5</failsafe.version>
         <googleformatter.maven.plugin.version>1.7.5</googleformatter.maven.plugin.version>
-        <jackson.version>2.12.4</jackson.version>
+        <jackson.version>2.13.2.2</jackson.version>
         <jacoco.version>0.8.7</jacoco.version>
         <javacpp.logging.debug>false</javacpp.logging.debug>
         <jqf.plugin.version>1.7</jqf.plugin.version>
@@ -79,7 +79,7 @@
         <spotbugs.version>4.3.0</spotbugs.version>
         <surefire.verbosity>0</surefire.verbosity>
         <surefire.version>3.0.0-M5</surefire.version>
-        <testng.version>7.4.0</testng.version>
+        <testng.version>7.5</testng.version>
     </properties>
 
     <dependencyManagement>
@@ -97,7 +97,7 @@
             <dependency>
                 <groupId>org.apache.logging.log4j</groupId>
                 <artifactId>log4j-slf4j-impl</artifactId>
-                <version>2.17.1</version>
+                <version>2.17.2</version>
             </dependency>
             <dependency>
                 <groupId>org.bytedeco</groupId>
