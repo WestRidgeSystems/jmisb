@@ -2,9 +2,9 @@ name: JDK8 Build (Ubuntu 18.04)
 
 on:
     push:
-      branches: [ develop ]
+      branches: [ develop, main ]
     pull_request:
-      branches: [ develop ]
+      branches: [ develop, main ]
 
 jobs:
   build:
