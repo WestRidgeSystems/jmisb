@@ -63,7 +63,7 @@
     <properties>
         <antlr4.version>4.9.3</antlr4.version>
         <appdirs.version>1.2.1</appdirs.version>
-        <checkstyle.version>9.3</checkstyle.version>
+        <checkstyle.version>10.1</checkstyle.version>
         <commons-cli.version>1.5.0</commons-cli.version>
         <commons-io.version>2.11.0</commons-io.version>
         <coveralls.version>4.3.0</coveralls.version>
@@ -74,8 +74,8 @@
         <freemarker.version>2.3.31</freemarker.version>
         <googleformatter.maven.plugin.version>1.7.5</googleformatter.maven.plugin.version>
         <gstreamer.version>1.4.0</gstreamer.version>
-        <guava.version>31.0.1-jre</guava.version>
-        <jackson.version>2.13.1</jackson.version>
+        <guava.version>31.1-jre</guava.version>
+        <jackson.version>2.13.2.2</jackson.version>
         <jacoco.version>0.8.7</jacoco.version>
         <javacpp.logging.debug>false</javacpp.logging.debug>
         <jqf.plugin.version>1.9</jqf.plugin.version>
@@ -100,7 +100,7 @@
         <maven.resources.plugin.version>3.2.0</maven.resources.plugin.version>
         <maven.site.plugin.version>3.9.1</maven.site.plugin.version>
         <maven.source.plugin.version>3.2.1</maven.source.plugin.version>
-        <maven.version>3.8.4</maven.version>
+        <maven.version>3.8.5</maven.version>
         <miglayout.version>11.0</miglayout.version>
         <nexus.staging.plugin.version>1.6.8</nexus.staging.plugin.version>
         <owasp.dependency-check.version>6.5.0</owasp.dependency-check.version>
@@ -110,7 +110,7 @@
         <slf4j.version>1.7.32</slf4j.version>
         <sortpom.version>3.0.0</sortpom.version>
         <spotbugs.maven.version>4.5.2.0</spotbugs.maven.version>
-        <spotbugs.version>4.5.3</spotbugs.version>
+        <spotbugs.version>4.6.0</spotbugs.version>
         <surefire.verbosity>0</surefire.verbosity>
         <surefire.version>3.0.0-M5</surefire.version>
         <testng.version>7.5</testng.version>
