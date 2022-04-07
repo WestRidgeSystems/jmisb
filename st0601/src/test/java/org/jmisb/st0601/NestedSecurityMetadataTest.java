@@ -3,10 +3,10 @@ package org.jmisb.st0601;
 import java.util.SortedMap;
 import java.util.TreeMap;
 import org.jmisb.api.common.KlvParseException;
-import org.jmisb.api.klv.st0102.ISecurityMetadataValue;
-import org.jmisb.api.klv.st0102.SecurityMetadataKey;
-import org.jmisb.api.klv.st0102.SecurityMetadataString;
-import org.jmisb.api.klv.st0102.localset.SecurityMetadataLocalSet;
+import org.jmisb.st0102.ISecurityMetadataValue;
+import org.jmisb.st0102.SecurityMetadataKey;
+import org.jmisb.st0102.SecurityMetadataString;
+import org.jmisb.st0102.localset.SecurityMetadataLocalSet;
 import org.testng.Assert;
 import org.testng.annotations.Test;
 

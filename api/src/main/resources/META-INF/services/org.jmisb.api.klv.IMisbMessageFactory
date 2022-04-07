@@ -1,3 +1,1 @@
-org.jmisb.api.klv.st0102.universalset.SecurityMetadataUniversalSetFactory
-org.jmisb.api.klv.st0102.localset.SecurityMetadataLocalSetFactory
 org.jmisb.api.klv.st1301.MiisLocalSetFactory

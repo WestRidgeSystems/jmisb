@@ -2,8 +2,8 @@ package org.jmisb.st1909;
 
 import java.util.Collection;
 import java.util.EnumSet;
-import org.jmisb.api.klv.st0102.SecurityMetadataKey;
-import org.jmisb.api.klv.st0102.localset.SecurityMetadataLocalSet;
+import org.jmisb.st0102.SecurityMetadataKey;
+import org.jmisb.st0102.localset.SecurityMetadataLocalSet;
 import org.jmisb.st0601.CornerOffset;
 import org.jmisb.st0601.FlagDataKey;
 import org.jmisb.st0601.FrameCenterElevation;

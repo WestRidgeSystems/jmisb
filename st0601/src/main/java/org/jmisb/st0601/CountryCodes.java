@@ -12,9 +12,9 @@ import org.jmisb.api.klv.BerField;
 import org.jmisb.api.klv.IKlvKey;
 import org.jmisb.api.klv.IKlvValue;
 import org.jmisb.api.klv.INestedKlvValue;
-import org.jmisb.api.klv.st0102.CountryCodingMethod;
-import org.jmisb.api.klv.st0102.CountryCodingMethodUtilities;
 import org.jmisb.core.klv.ArrayUtils;
+import org.jmisb.st0102.CountryCodingMethod;
+import org.jmisb.st0102.CountryCodingMethodUtilities;
 
 /**
  * Country Codes (ST 0601 Item 122).

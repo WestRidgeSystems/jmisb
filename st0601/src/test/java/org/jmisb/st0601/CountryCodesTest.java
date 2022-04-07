@@ -3,7 +3,7 @@ package org.jmisb.st0601;
 import static org.testng.Assert.*;
 
 import org.jmisb.api.common.KlvParseException;
-import org.jmisb.api.klv.st0102.CountryCodingMethod;
+import org.jmisb.st0102.CountryCodingMethod;
 import org.testng.Assert;
 import org.testng.annotations.Test;
 

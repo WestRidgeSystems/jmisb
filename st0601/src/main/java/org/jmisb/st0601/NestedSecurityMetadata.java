@@ -4,9 +4,9 @@ import java.util.Set;
 import org.jmisb.api.common.KlvParseException;
 import org.jmisb.api.klv.IKlvKey;
 import org.jmisb.api.klv.INestedKlvValue;
-import org.jmisb.api.klv.st0102.ISecurityMetadataValue;
-import org.jmisb.api.klv.st0102.SecurityMetadataKey;
-import org.jmisb.api.klv.st0102.localset.SecurityMetadataLocalSet;
+import org.jmisb.st0102.ISecurityMetadataValue;
+import org.jmisb.st0102.SecurityMetadataKey;
+import org.jmisb.st0102.localset.SecurityMetadataLocalSet;
 
 /**
  * Security Local Set (ST 0601 Item 48).

@@ -11,15 +11,10 @@ module org.jmisb.api {
 
     // If this is updated, ensure src/main/resources/META-INF/services is updated
     provides org.jmisb.api.klv.IMisbMessageFactory with
-            org.jmisb.api.klv.st0102.universalset.SecurityMetadataUniversalSetFactory,
-            org.jmisb.api.klv.st0102.localset.SecurityMetadataLocalSetFactory,
             org.jmisb.api.klv.st1301.MiisLocalSetFactory;
 
     exports org.jmisb.api.common;
     exports org.jmisb.api.klv;
-    exports org.jmisb.api.klv.st0102;
-    exports org.jmisb.api.klv.st0102.localset;
-    exports org.jmisb.api.klv.st0102.universalset;
     exports org.jmisb.api.klv.st0107;
     exports org.jmisb.api.klv.st0603;
     exports org.jmisb.api.klv.st0604;
