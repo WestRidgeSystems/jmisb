@@ -133,6 +133,8 @@ public class MiisLocalSetTest extends LoggerChecks {
         CoreIdentifier coreIdentifier =
                 CoreIdentifier.fromString(
                         "0154:C7D1-6253-98A2-41C2-BA6E-90F8-FCC7-3914/E047-AB3E-81BE-41ED-9664-09B0-2F44-5FAB/5E71-B0DC-20FE-4920-8216-26D6-4F61-D863:C8");
+        //
+        // "0104:C7D1-6253-98A2-41C2-BA6E-90F8-FCC7-3914/E047-AB3E-81BE-41ED-9664-09B0-2F44-5FAB/5E71-B0DC-20FE-4920-8216-26D6-4F61-D863:F7"
         map.put(MiisMetadataKey.CoreIdentifier, new ST1301CoreIdentifier(coreIdentifier));
         MiisLocalSet localSet = new MiisLocalSet(map);
         assertNotNull(localSet);

@@ -20,7 +20,7 @@ public class ST1301CoreIdentifier implements IMiisMetadataValue {
      * @param identifier the core identifier
      */
     public ST1301CoreIdentifier(CoreIdentifier identifier) {
-        this.value = identifier;
+        this.value = new CoreIdentifier(identifier);
     }
 
     /**
@@ -39,7 +39,7 @@ public class ST1301CoreIdentifier implements IMiisMetadataValue {
      * @return The ST 1204 Core Identifier
      */
     public CoreIdentifier getCoreIdentifier() {
-        return value;
+        return new CoreIdentifier(value);
     }
 
     @Override
