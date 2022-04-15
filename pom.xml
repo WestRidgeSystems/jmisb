@@ -456,7 +456,7 @@
                     <dependencies>
                         <dependency>
                             <groupId>org.jmisb</groupId>
-                            <artifactId>identicalpropertiesshader</artifactId>
+                            <artifactId>maven-shade</artifactId>
                             <version>${project.version}</version>
                         </dependency>
                     </dependencies>
