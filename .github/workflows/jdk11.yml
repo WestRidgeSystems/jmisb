@@ -44,11 +44,56 @@ jobs:
         with:
           file: ./st0602/target/site/jacoco/jacoco.xml
           flags: unittests-st0602
+      - name: Upload ST 0805 implementation test results to Codecov
+        uses: codecov/codecov-action@v1.5.0
+        with:
+          file: ./st0805/target/site/jacoco/jacoco.xml
+          flags: unittests-st0805
+      - name: Upload ST 0808 implementation test results to Codecov
+        uses: codecov/codecov-action@v1.5.0
+        with:
+          file: ./st0808/target/site/jacoco/jacoco.xml
+          flags: unittests-st0808
+      - name: Upload ST 0809 implementation test results to Codecov
+        uses: codecov/codecov-action@v1.5.0
+        with:
+          file: ./st0809/target/site/jacoco/jacoco.xml
+          flags: unittests-st0809
+      - name: Upload ST 1108 implementation test results to Codecov
+        uses: codecov/codecov-action@v1.5.0
+        with:
+          file: ./st1108/target/site/jacoco/jacoco.xml
+          flags: unittests-st1108
+      - name: Upload ST 1206 implementation test results to Codecov
+        uses: codecov/codecov-action@v1.5.0
+        with:
+          file: ./st1206/target/site/jacoco/jacoco.xml
+          flags: unittests-st1206
+      - name: Upload ST 1301 implementation test results to Codecov
+        uses: codecov/codecov-action@v1.5.0
+        with:
+          file: ./st1301/target/site/jacoco/jacoco.xml
+          flags: unittests-st1301
+      - name: Upload ST 1403 implementation test results to Codecov
+        uses: codecov/codecov-action@v1.5.0
+        with:
+          file: ./st1403/target/site/jacoco/jacoco.xml
+          flags: unittests-st1403
+      - name: Upload ST 1603 implementation test results to Codecov
+        uses: codecov/codecov-action@v1.5.0
+        with:
+          file: ./st1603/target/site/jacoco/jacoco.xml
+          flags: unittests-st1603
       - name: Upload ST 190x implementation test results to Codecov
         uses: codecov/codecov-action@v1.5.0
         with:
           file: ./mimd/target/site/jacoco/jacoco.xml
           flags: unittests-mimd
+      - name: Upload ST 1909 implementation test results to Codecov
+        uses: codecov/codecov-action@v1.5.0
+        with:
+          file: ./st1909/target/site/jacoco/jacoco.xml
+          flags: unittests-st1909
       - name: Upload geoid test results to Codecov
         uses: codecov/codecov-action@v1.5.0
         with:
