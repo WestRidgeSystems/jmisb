@@ -23,6 +23,8 @@ public class ExampleE8Test {
         CoreIdentifier coreIdentifier =
                 CoreIdentifier.fromString("0110:1AB8-231E-17E8-4748-A133-CE93-89A7-A060:25");
         verifyCoreIdentifierE8(coreIdentifier);
+        CoreIdentifier copy = new CoreIdentifier(coreIdentifier);
+        verifyCoreIdentifierE8(copy);
     }
 
     @Test
