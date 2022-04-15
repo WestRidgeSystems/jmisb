@@ -3,26 +3,16 @@
     <modelVersion>4.0.0</modelVersion>
     <parent>
         <groupId>org.jmisb</groupId>
-        <artifactId>examples</artifactId>
+        <artifactId>jmisb</artifactId>
         <version>2.0.0-SNAPSHOT</version>
     </parent>
-    <groupId>org.jmisb.examples</groupId>
-    <artifactId>rawklv</artifactId>
-    <packaging>jar</packaging>
-    <name>Raw KLV parser example</name>
-    <description>Example code that dumps raw KLV to standard output.</description>
-    <properties>
-        <main.class>org.jmisb.examples.rawklv.Main</main.class>
-    </properties>
+    <artifactId>maven-shade</artifactId>
+    <version>2.0.0-SNAPSHOT</version>
     <dependencies>
         <dependency>
-            <groupId>org.jmisb</groupId>
-            <artifactId>jmisb-api</artifactId>
-            <version>${project.version}</version>
-        </dependency>
-        <dependency>
-            <groupId>org.slf4j</groupId>
-            <artifactId>slf4j-simple</artifactId>
+            <groupId>org.apache.maven.plugins</groupId>
+            <artifactId>maven-shade-plugin</artifactId>
+            <version>${maven.shade.plugin.version}</version>
         </dependency>
     </dependencies>
     <build>
@@ -31,9 +21,14 @@
                 <groupId>com.theoryinpractise</groupId>
                 <artifactId>googleformatter-maven-plugin</artifactId>
             </plugin>
+
+            <plugin>
+                <groupId>com.github.spotbugs</groupId>
+                <artifactId>spotbugs-maven-plugin</artifactId>
+            </plugin>
             <plugin>
                 <groupId>org.apache.maven.plugins</groupId>
-                <artifactId>maven-shade-plugin</artifactId>
+                <artifactId>maven-checkstyle-plugin</artifactId>
             </plugin>
         </plugins>
     </build>

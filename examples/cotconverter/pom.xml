@@ -11,6 +11,9 @@
     <packaging>jar</packaging>
     <name>CoT converter example</name>
     <description>Example code that converts a file to a Cursor on Target (CoT) UDP stream.</description>
+    <properties>
+        <main.class>org.jmisb.examples.cotconverter.Main</main.class>
+    </properties>
     <dependencies>
         <dependency>
             <groupId>org.jmisb</groupId>
@@ -35,15 +38,7 @@
             </plugin>
             <plugin>
                 <groupId>org.apache.maven.plugins</groupId>
-                <artifactId>maven-assembly-plugin</artifactId>
-                <configuration>
-                    <archive>
-                        <manifest>
-                            <addClasspath>true</addClasspath>
-                            <mainClass>org.jmisb.examples.cotconverter.Main</mainClass>
-                        </manifest>
-                    </archive>
-                </configuration>
+                <artifactId>maven-shade-plugin</artifactId>
             </plugin>
         </plugins>
     </build>

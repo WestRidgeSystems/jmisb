@@ -11,6 +11,9 @@
     <packaging>jar</packaging>
     <name>Time Transfer generator example</name>
     <description>Example code that generates ST 1603 time transfer test files.</description>
+    <properties>
+        <main.class>org.jmisb.examples.timetransfer.GeneratorCLI</main.class>
+    </properties>
     <dependencies>
         <dependency>
             <groupId>org.jmisb</groupId>
@@ -44,15 +47,7 @@
             </plugin>
             <plugin>
                 <groupId>org.apache.maven.plugins</groupId>
-                <artifactId>maven-assembly-plugin</artifactId>
-                <configuration>
-                    <archive>
-                        <manifest>
-                            <addClasspath>true</addClasspath>
-                            <mainClass>org.jmisb.examples.timetransfer.GeneratorCLI</mainClass>
-                        </manifest>
-                    </archive>
-                </configuration>
+                <artifactId>maven-shade-plugin</artifactId>
             </plugin>
         </plugins>
     </build>

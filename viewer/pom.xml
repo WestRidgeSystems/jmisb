@@ -11,7 +11,9 @@
     <packaging>jar</packaging>
     <name>viewer</name>
     <description>Java Swing-based GUI to visualize video and metadata on the desktop</description>
-
+    <properties>
+        <main.class>org.jmisb.viewer.MisbViewer</main.class>
+    </properties>
     <dependencies>
         <dependency>
             <groupId>org.jmisb</groupId>
@@ -25,42 +27,7 @@
         </dependency>
         <dependency>
             <groupId>org.jmisb</groupId>
-            <artifactId>st0102</artifactId>
-            <version>${project.version}</version>
-        </dependency>
-        <dependency>
-            <groupId>org.jmisb</groupId>
-            <artifactId>eg0104</artifactId>
-            <version>${project.version}</version>
-        </dependency>
-        <dependency>
-            <groupId>org.jmisb</groupId>
-            <artifactId>mimd</artifactId>
-            <version>${project.version}</version>
-        </dependency>
-        <dependency>
-            <groupId>org.jmisb</groupId>
-            <artifactId>st0602</artifactId>
-            <version>${project.version}</version>
-        </dependency>
-        <dependency>
-            <groupId>org.jmisb</groupId>
-            <artifactId>st0808</artifactId>
-            <version>${project.version}</version>
-        </dependency>
-        <dependency>
-            <groupId>org.jmisb</groupId>
-            <artifactId>st0809</artifactId>
-            <version>${project.version}</version>
-        </dependency>
-        <dependency>
-            <groupId>org.jmisb</groupId>
-            <artifactId>st1108</artifactId>
-            <version>${project.version}</version>
-        </dependency>
-        <dependency>
-            <groupId>org.jmisb</groupId>
-            <artifactId>st1301</artifactId>
+            <artifactId>impl</artifactId>
             <version>${project.version}</version>
         </dependency>
         <dependency>
@@ -87,16 +54,6 @@
             <groupId>net.harawata</groupId>
             <artifactId>appdirs</artifactId>
         </dependency>
-        <dependency>
-            <groupId>${project.groupId}</groupId>
-            <artifactId>st1909</artifactId>
-            <version>${project.version}</version>
-        </dependency>
-        <dependency>
-            <groupId>${project.groupId}</groupId>
-            <artifactId>st0601</artifactId>
-            <version>${project.version}</version>
-        </dependency>
     </dependencies>
 
     <build>
@@ -114,15 +71,7 @@
             </plugin>
             <plugin>
                 <groupId>org.apache.maven.plugins</groupId>
-                <artifactId>maven-assembly-plugin</artifactId>
-                <configuration>
-                    <archive>
-                        <manifest>
-                            <addClasspath>true</addClasspath>
-                            <mainClass>org.jmisb.viewer.MisbViewer</mainClass>
-                        </manifest>
-                    </archive>
-                </configuration>
+                <artifactId>maven-shade-plugin</artifactId>
             </plugin>
             <plugin>
                 <!-- Allow running from the command-line using mvn exec:exec -->

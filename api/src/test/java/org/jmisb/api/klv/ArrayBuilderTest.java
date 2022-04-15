@@ -1,13 +1,18 @@
-package fix_me_tests;
+package org.jmisb.api.klv;
 
 import static org.testng.Assert.*;
 
-import org.jmisb.api.klv.ArrayBuilder;
-import org.jmisb.st0806.RvtLocalSet;
 import org.testng.annotations.Test;
 
 /** Unit tests for the ArrayBuilder class. */
 public class ArrayBuilderTest {
+
+    private static final UniversalLabel RvtLocalSetUl =
+            new UniversalLabel(
+                    new byte[] {
+                        0x06, 0x0E, 0x2B, 0x34, 0x02, 0x0B, 0x01, 0x01, 0x0E, 0x01, 0x03, 0x01,
+                        0x02, 0x00, 0x00, 0x00
+                    });
 
     public ArrayBuilderTest() {}
 
@@ -24,7 +29,7 @@ public class ArrayBuilderTest {
         byte[] someData = new byte[] {0x04, 0x02, 0x00, 0x4f};
         ArrayBuilder builder =
                 new ArrayBuilder()
-                        .append(RvtLocalSet.RvtLocalSetUl)
+                        .append(RvtLocalSetUl)
                         .appendAsBerLength(someData.length)
                         .append(someData);
         byte[] bytes = builder.toBytes();
