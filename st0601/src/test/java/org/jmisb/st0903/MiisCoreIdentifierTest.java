@@ -4,7 +4,6 @@ import static org.testng.Assert.*;
 
 import org.jmisb.api.common.KlvParseException;
 import org.jmisb.api.klv.st1204.CoreIdentifier;
-import org.jmisb.st0601.MiisCoreIdentifier;
 import org.jmisb.st0903.shared.EncodingMode;
 import org.testng.Assert;
 import org.testng.annotations.Test;

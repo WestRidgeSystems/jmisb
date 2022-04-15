@@ -7,4 +7,14 @@
             <package name="org.jmisb.st0601.*"/>
         </packages>
     </test>
+    <test name="st0806-unit">
+        <packages>
+            <package name="org.jmisb.st0806.*"/>
+        </packages>
+    </test>
+    <test name="st0903-unit">
+        <packages>
+            <package name="org.jmisb.st0903.*"/>
+        </packages>
+    </test>
 </suite>
