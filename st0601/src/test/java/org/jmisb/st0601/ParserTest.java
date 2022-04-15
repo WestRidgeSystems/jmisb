@@ -1,4 +1,4 @@
-package fix_me_tests;
+package org.jmisb.st0601;
 
 import java.nio.ByteBuffer;
 import java.util.Collection;
@@ -16,12 +16,6 @@ import org.jmisb.st0102.ST0102Version;
 import org.jmisb.st0102.SecurityMetadataKey;
 import org.jmisb.st0102.localset.SecurityMetadataLocalSet;
 import org.jmisb.st0102.universalset.SecurityMetadataUniversalSet;
-import org.jmisb.st0601.IUasDatalinkValue;
-import org.jmisb.st0601.SensorLatitude;
-import org.jmisb.st0601.SensorLongitude;
-import org.jmisb.st0601.SensorTrueAltitude;
-import org.jmisb.st0601.UasDatalinkMessage;
-import org.jmisb.st0601.UasDatalinkTag;
 import org.testng.Assert;
 import org.testng.annotations.AfterMethod;
 import org.testng.annotations.BeforeTest;
@@ -31,7 +25,7 @@ import uk.org.lidalia.slf4jtest.LoggingEvent;
 import uk.org.lidalia.slf4jtest.TestLogger;
 import uk.org.lidalia.slf4jtest.TestLoggerFactory;
 
-public class KlvParserTest {
+public class ParserTest {
     TestLogger LOGGER = TestLoggerFactory.getTestLogger(KlvParser.class);
     TestLogger UAS_DATALINK_MESSAGE_LOGGER =
             TestLoggerFactory.getTestLogger(UasDatalinkMessage.class);
