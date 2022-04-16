@@ -19,10 +19,10 @@ public class NaturalFormatEncoder {
     public NaturalFormatEncoder() {}
 
     /**
-     * Encode a two dimensional real array to a Multi-Dimensional Array Pack using Natural Format
+     * Encode a one dimensional real array to a Multi-Dimensional Array Pack using Natural Format
      * Encoding.
      *
-     * @param data the array of arrays of ({@code double}) values.
+     * @param data the array of ({@code double}) values.
      * @return the encoded byte array including the MISB ST1303 header and array data.
      * @throws KlvParseException if the encoding fails, such as for invalid array dimensions.
      */

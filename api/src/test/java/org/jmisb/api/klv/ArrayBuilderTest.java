@@ -43,6 +43,26 @@ public class ArrayBuilderTest {
     }
 
     @Test
+    public void checkBuildTypicalLocalSetPrepend() {
+        byte[] someData = new byte[] {0x04, 0x02, 0x00, 0x4f};
+        byte[] moreData = new byte[] {0x01, 0x03, 0x1e, 0x2f, 0x3a};
+        byte[] bytes =
+                new ArrayBuilder()
+                        .append(someData)
+                        .append(moreData)
+                        .prependLength()
+                        .prepend(RvtLocalSetUl)
+                        .toBytes();
+        assertNotNull(bytes);
+        assertEquals(
+                bytes,
+                new byte[] {
+                    0x06, 0x0E, 0x2B, 0x34, 0x02, 0x0B, 0x01, 0x01, 0x0E, 0x01, 0x03, 0x01, 0x02,
+                    0x00, 0x00, 0x00, 0x09, 0x04, 0x02, 0x00, 0x4f, 0x01, 0x03, 0x1e, 0x2f, 0x3a
+                });
+    }
+
+    @Test
     public void checkIntegerTypes() {
         byte[] bytes =
                 new ArrayBuilder()

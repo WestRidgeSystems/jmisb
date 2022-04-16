@@ -73,7 +73,7 @@ public class CoreIdentifier {
     public CoreIdentifier() {}
 
     /**
-     * Copy constructor
+     * Copy constructor.
      *
      * @param other the CoreIdentifier to copy from
      */

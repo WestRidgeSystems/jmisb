@@ -8,9 +8,9 @@ import java.util.TreeMap;
 import org.jmisb.api.common.KlvParseException;
 import org.jmisb.api.klv.IKlvKey;
 import org.jmisb.api.klv.IMisbMessage;
-import org.jmisb.api.klv.KlvConstants;
 import org.jmisb.api.klv.KlvParser;
 import org.jmisb.api.klv.RawMisbMessage;
+import org.jmisb.api.klv.UniversalLabel;
 import org.jmisb.core.klv.ArrayUtils;
 import org.jmisb.st0102.ST0102Version;
 import org.jmisb.st0102.SecurityMetadataKey;
@@ -42,6 +42,14 @@ public class ParserTest {
             new byte[] {(byte) 0xcd, (byte) 0x6b, (byte) 0x78, (byte) 0x4e};
     private final byte SENSOR_ALT_LEN = (byte) 0x02;
     private final byte[] SENSOR_ALT_VALUE = new byte[] {(byte) 0x1b, (byte) 0xc4};
+
+    /** Universal label for Generalized Transformation Set (ST 1202). */
+    private static final UniversalLabel GeneralizedTransformationUl =
+            new UniversalLabel(
+                    new byte[] {
+                        0x06, 0x0E, 0x2B, 0x34, 0x02, 0x0B, 0x01, 0x01, 0x0E, 0x01, 0x03, 0x05,
+                        0x05, 0x00, 0x00, 0x00
+                    });
 
     @BeforeTest
     public void resetLoggers() {
@@ -233,7 +241,7 @@ public class ParserTest {
     @Test
     public void testUnknownLabel() {
         ByteBuffer byteBuffer = ByteBuffer.allocate(20);
-        byteBuffer.put(KlvConstants.GeneralizedTransformationUl.getBytes());
+        byteBuffer.put(GeneralizedTransformationUl.getBytes());
         byteBuffer.put((byte) 0x03);
         byteBuffer.put(new byte[] {0x00, 0x00, 0x00});
 
@@ -243,8 +251,7 @@ public class ParserTest {
             IMisbMessage message = messages.get(0);
             Assert.assertTrue(message instanceof RawMisbMessage);
             RawMisbMessage rawMisbMessage = (RawMisbMessage) message;
-            Assert.assertEquals(
-                    rawMisbMessage.getUniversalLabel(), KlvConstants.GeneralizedTransformationUl);
+            Assert.assertEquals(rawMisbMessage.getUniversalLabel(), GeneralizedTransformationUl);
             Assert.assertEquals(rawMisbMessage.getBytes().length, 20);
             Assert.assertEquals(rawMisbMessage.frameMessage(true).length, 20);
             Assert.assertEquals(rawMisbMessage.displayHeader(), "Unknown");
