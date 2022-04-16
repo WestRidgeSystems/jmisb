@@ -13,6 +13,9 @@ public class MDAPDecoder {
     /**
      * Decode a one-dimensional floating point array from a byte array.
      *
+     * <p>This supports Natural Format, ST 1201 and Run Length Encoding. Boolean Array and Unsigned
+     * Integer array processing are not applicable to this kind of data.
+     *
      * @param bytes the byte array to decode from
      * @param offset the offset to start the decoding from
      * @return floating point (double) array containing the data decoded from the byte array.
@@ -41,13 +44,15 @@ public class MDAPDecoder {
                             bytes, i, dim1.getValue(), ebytes.getValue());
                 case BooleanArray:
                     throw new KlvParseException(
-                            "Unsupported APA algorithm for floating point 1D decode: BooleanArray");
+                            "Invalid APA algorithm for floating point 1D decode: BooleanArray");
                 case UnsignedInteger:
                     throw new KlvParseException(
-                            "Unsupported APA algorithm for floating point 1D decode: UnsignedInteger");
+                            "Invalid APA algorithm for floating point 1D decode: UnsignedInteger");
                 case RunLengthEncoding:
-                    throw new KlvParseException(
-                            "Unsupported APA algorithm for floating point 1D decode: RunLengthEncoding");
+                    double apas = getFloatingPointValue(bytes, i, ebytes.getValue());
+                    i += ebytes.getValue();
+                    return decodeFloatingPoint1D_RunLengthEncoding(
+                            bytes, i, ebytes.getValue(), dim1.getValue(), apas);
                 default:
                     throw new KlvParseException(
                             String.format(
@@ -65,20 +70,26 @@ public class MDAPDecoder {
         int index = offset;
         double[] result = new double[numElements];
         for (int i = 0; i < numElements; ++i) {
-            switch (eBytes) {
-                case Double.BYTES:
-                    result[i] = PrimitiveConverter.toFloat64(bytes, index);
-                    break;
-                case Float.BYTES:
-                    result[i] = PrimitiveConverter.toFloat32(bytes, index);
-                    break;
-                default:
-                    throw new KlvParseException(
-                            String.format("Invalid number of bytes: %d", eBytes));
-            }
+            result[i] = getFloatingPointValue(bytes, index, eBytes);
             index += eBytes;
         }
         return result;
+    }
+
+    private double getFloatingPointValue(byte[] bytes, int index, final int eBytes)
+            throws KlvParseException {
+        double d;
+        switch (eBytes) {
+            case Double.BYTES:
+                d = PrimitiveConverter.toFloat64(bytes, index);
+                break;
+            case Float.BYTES:
+                d = PrimitiveConverter.toFloat32(bytes, index);
+                break;
+            default:
+                throw new KlvParseException(String.format("Invalid number of bytes: %d", eBytes));
+        }
+        return d;
     }
 
     private double[] decodeFloatingPoint1D_ST1201(
@@ -119,8 +130,46 @@ public class MDAPDecoder {
         return result;
     }
 
+    private double[] decodeFloatingPoint1D_RunLengthEncoding(
+            byte[] bytes,
+            final int offset,
+            final int eBytes,
+            final int numElements,
+            final double apas)
+            throws KlvParseException {
+        int index = offset;
+        double[] result = new double[numElements];
+        // Fill with APAS value
+        for (int i = 0; i < numElements; ++i) {
+            result[i] = apas;
+        }
+        while (index < bytes.length) {
+            index = processNextRunDouble(bytes, eBytes, index, result);
+        }
+        return result;
+    }
+
+    private int processNextRunDouble(byte[] bytes, int eBytes, int i, double[] result)
+            throws KlvParseException {
+        double value = getFloatingPointValue(bytes, i, eBytes);
+        i += eBytes;
+        BerField dim = BerDecoder.decode(bytes, i, true);
+        i += dim.getLength();
+        int startPosition = dim.getValue();
+        BerField runLength = BerDecoder.decode(bytes, i, true);
+        i += runLength.getLength();
+        int entriesInRun = runLength.getValue();
+        for (int r = startPosition; r < startPosition + entriesInRun; ++r) {
+            result[r] = value;
+        }
+        return i;
+    }
+
     /**
      * Decode a two-dimensional floating point array from a byte array.
+     *
+     * <p>This supports Natural Format, ST 1201 and Run Length Encoding. Boolean Array and Unsigned
+     * Integer array processing are not applicable to this kind of data.
      *
      * @param bytes the byte array to decode from
      * @param offset the offset to start the decoding from
@@ -153,13 +202,15 @@ public class MDAPDecoder {
                             bytes, i, dim1.getValue(), dim2.getValue(), ebytes.getValue());
                 case BooleanArray:
                     throw new KlvParseException(
-                            "Unsupported APA algorithm for floating point 2D decode: BooleanArray");
+                            "Invalid APA algorithm for floating point 2D decode: BooleanArray");
                 case UnsignedInteger:
                     throw new KlvParseException(
-                            "Unsupported APA algorithm for floating point 2D decode: UnsignedInteger");
+                            "Invalid APA algorithm for floating point 2D decode: UnsignedInteger");
                 case RunLengthEncoding:
-                    throw new KlvParseException(
-                            "Unsupported APA algorithm for floating point 2D decode: RunLengthEncoding");
+                    double apas = getFloatingPointValue(bytes, i, ebytes.getValue());
+                    i += ebytes.getValue();
+                    return decodeFloatingPoint2D_RunLengthEncoding(
+                            bytes, i, dim1.getValue(), dim2.getValue(), ebytes.getValue(), apas);
                 default:
                     throw new KlvParseException(
                             String.format(
@@ -182,17 +233,7 @@ public class MDAPDecoder {
         double[][] result = new double[numRows][numColumns];
         for (int r = 0; r < numRows; ++r) {
             for (int c = 0; c < numColumns; ++c) {
-                switch (eBytes) {
-                    case Double.BYTES:
-                        result[r][c] = PrimitiveConverter.toFloat64(bytes, index);
-                        break;
-                    case Float.BYTES:
-                        result[r][c] = PrimitiveConverter.toFloat32(bytes, index);
-                        break;
-                    default:
-                        throw new KlvParseException(
-                                String.format("Invalid number of bytes: %d", eBytes));
-                }
+                result[r][c] = getFloatingPointValue(bytes, index, eBytes);
                 index += eBytes;
             }
         }
@@ -243,8 +284,163 @@ public class MDAPDecoder {
         return result;
     }
 
+    private double[][] decodeFloatingPoint2D_RunLengthEncoding(
+            byte[] bytes,
+            final int offset,
+            final int numRows,
+            final int numColumns,
+            final int eBytes,
+            final double apas)
+            throws KlvParseException {
+        int index = offset;
+        double[][] result = new double[numRows][numColumns];
+        // Fill with APAS value
+        for (int r = 0; r < numRows; ++r) {
+            for (int c = 0; c < numColumns; ++c) {
+                result[r][c] = apas;
+            }
+        }
+        while (index < bytes.length) {
+            index = processNextPatchDouble(bytes, eBytes, index, result);
+        }
+        return result;
+    }
+
+    private int processNextPatchDouble(byte[] bytes, int eBytes, int i, double[][] result)
+            throws KlvParseException {
+        double value = getFloatingPointValue(bytes, i, eBytes);
+        i += eBytes;
+        BerField dim1 = BerDecoder.decode(bytes, i, true);
+        i += dim1.getLength();
+        int startRow = dim1.getValue();
+        BerField dim2 = BerDecoder.decode(bytes, i, true);
+        i += dim2.getLength();
+        int startColumn = dim2.getValue();
+        BerField runLength1 = BerDecoder.decode(bytes, i, true);
+        i += runLength1.getLength();
+        int numRowsForRun = runLength1.getValue();
+        BerField runLength2 = BerDecoder.decode(bytes, i, true);
+        i += runLength2.getLength();
+        int numColumnsForRun = runLength2.getValue();
+        for (int r = startRow; r < startRow + numRowsForRun; ++r) {
+            for (int c = startColumn; c < startColumn + numColumnsForRun; ++c) {
+                result[r][c] = value;
+            }
+        }
+        return i;
+    }
+
+    /**
+     * Decode a one-dimensional boolean array from a byte array.
+     *
+     * <p>This supports Natural Format, Boolean Array and Run Length Encoding. ST 1201 and Unsigned
+     * Integer array processing are not applicable to this kind of data.
+     *
+     * @param bytes the byte array to decode from
+     * @param offset the offset to start the decoding from
+     * @return boolean 1D array containing the data decoded from the byte array.
+     * @throws KlvParseException if the parsing fails.
+     */
+    public boolean[] decodeBoolean1D(byte[] bytes, final int offset) throws KlvParseException {
+        int i = offset;
+        BerField ndim = BerDecoder.decode(bytes, i, true);
+        if (ndim.getValue() != 1) {
+            throw new KlvParseException("Wrong dimensions for this call");
+        }
+        i += ndim.getLength();
+        BerField dim = BerDecoder.decode(bytes, i, true);
+        i += dim.getLength();
+        int numValues = dim.getValue();
+        BerField ebytes = BerDecoder.decode(bytes, i, true);
+        i += ebytes.getLength();
+        if (ebytes.getValue() != Byte.BYTES) {
+            throw new KlvParseException("Expected 1 byte encoding for boolean MDAP");
+        }
+        BerField apa = BerDecoder.decode(bytes, i, true);
+        i += apa.getLength();
+        switch (ArrayProcessingAlgorithm.getValue(apa.getValue())) {
+            case NaturalFormat:
+                return decodeBoolean1D_NaturalFormat(numValues, bytes, i);
+            case ST1201:
+                throw new KlvParseException("Invalid APA algorithm for boolean 1D decode: ST1201");
+            case BooleanArray:
+                return decodeBoolean1D_BooleanArray(numValues, bytes, i);
+            case UnsignedInteger:
+                throw new KlvParseException(
+                        "Invalid APA algorithm for boolean 1D decode: Unsigned Integer");
+            case RunLengthEncoding:
+                int apas = bytes[i];
+                i += Byte.BYTES;
+                return decodeBoolean1D_RunLengthEncoding(numValues, bytes, i, apas);
+            default:
+                throw new KlvParseException(
+                        String.format(
+                                "Unknown APA algorithm for boolean 2D decode: %d", apa.getValue()));
+        }
+    }
+
+    private boolean[] decodeBoolean1D_NaturalFormat(int numValues, byte[] bytes, int offset) {
+        boolean[] result = new boolean[numValues];
+        for (int i = 0; i < numValues; ++i) {
+            // The only legal values are 0x00 or 0x01
+            result[i] = bytes[offset] != 0x00;
+            offset++;
+        }
+        return result;
+    }
+
+    private boolean[] decodeBoolean1D_BooleanArray(int numValues, byte[] bytes, int offset) {
+        boolean[] result = new boolean[numValues];
+        int bitOffset = Byte.SIZE - 1;
+        int currentByte = bytes[offset];
+        offset++;
+        for (int r = 0; r < numValues; ++r) {
+            int mask = 0x01 << bitOffset;
+            result[r] = (currentByte & mask) == mask;
+            bitOffset -= 1;
+            if (bitOffset < 0) {
+                bitOffset = Byte.SIZE - 1;
+                currentByte = bytes[offset];
+                offset++;
+            }
+        }
+        return result;
+    }
+
+    private boolean[] decodeBoolean1D_RunLengthEncoding(
+            int numValues, byte[] bytes, int i, int apas) {
+        boolean[] result = new boolean[numValues];
+        // Fill "background" with APAS value
+        for (int r = 0; r < numValues; ++r) {
+            // The only legal values are 0x00 or 0x01
+            result[r] = apas != 0x00;
+        }
+        while (i < bytes.length) {
+            i = processNextRun(bytes, i, result);
+        }
+        return result;
+    }
+
+    private int processNextRun(byte[] bytes, int i, boolean[] result) {
+        boolean value = bytes[i] != 0x00;
+        i++;
+        BerField dim = BerDecoder.decode(bytes, i, true);
+        i += dim.getLength();
+        int startPosition = dim.getValue();
+        BerField runLength = BerDecoder.decode(bytes, i, true);
+        i += runLength.getLength();
+        int entriesInRun = runLength.getValue();
+        for (int r = startPosition; r < startPosition + entriesInRun; ++r) {
+            result[r] = value;
+        }
+        return i;
+    }
+
     /**
      * Decode a two-dimensional boolean array from a byte array.
+     *
+     * <p>This supports Natural Format, Boolean Array and Run Length Encoding. ST 1201 and Unsigned
+     * Integer array processing are not applicable to this kind of data.
      *
      * @param bytes the byte array to decode from
      * @param offset the offset to start the decoding from
@@ -267,7 +463,7 @@ public class MDAPDecoder {
         BerField ebytes = BerDecoder.decode(bytes, i, true);
         i += ebytes.getLength();
         if (ebytes.getValue() != Byte.BYTES) {
-            throw new KlvParseException("Expected 1 byte encoding for boolean RLE");
+            throw new KlvParseException("Expected 1 byte encoding for boolean MDAP");
         }
         BerField apa = BerDecoder.decode(bytes, i, true);
         i += apa.getLength();
@@ -275,13 +471,12 @@ public class MDAPDecoder {
             case NaturalFormat:
                 return decodeBoolean2D_NaturalFormat(numRows, numColumns, bytes, i);
             case ST1201:
-                throw new KlvParseException(
-                        "Unsupported APA algorithm for boolean 2D decode: ST1201");
+                throw new KlvParseException("Invalid APA algorithm for boolean 2D decode: ST1201");
             case BooleanArray:
                 return decodeBoolean2D_BooleanArray(numRows, numColumns, bytes, i);
             case UnsignedInteger:
                 throw new KlvParseException(
-                        "Unsupported APA algorithm for boolean 2D decode: Unsigned Integer");
+                        "Invalid APA algorithm for boolean 2D decode: Unsigned Integer");
             case RunLengthEncoding:
                 int apas = bytes[i];
                 i += Byte.BYTES;
@@ -369,6 +564,9 @@ public class MDAPDecoder {
     /**
      * Decode a one-dimensional signed integer array from a byte array.
      *
+     * <p>This supports Natural Format and Run Length Encoding. ST 1201, Boolean Array, and Unsigned
+     * Integer array processing are not applicable to this kind of data.
+     *
      * @param bytes the byte array to decode from
      * @param offset the offset to start the decoding from
      * @return (signed) 1D integer array containing the data decoded from the byte array.
@@ -400,8 +598,10 @@ public class MDAPDecoder {
                 throw new KlvParseException(
                         "Invalid APA algorithm for signed integer 1D decode: UnsignedInteger");
             case RunLengthEncoding:
-                throw new KlvParseException(
-                        "Unsupported APA algorithm for signed integer 1D decode: RunLengthEncoding");
+                long apas = PrimitiveConverter.variableBytesToInt64(bytes, i, ebytes.getValue());
+                i += ebytes.getValue();
+                return decodeInt1D_RunLengthEncoding(
+                        bytes, i, dim1.getValue(), ebytes.getValue(), apas);
             default:
                 throw new KlvParseException(
                         String.format(
@@ -421,8 +621,44 @@ public class MDAPDecoder {
         return result;
     }
 
+    private long[] decodeInt1D_RunLengthEncoding(
+            byte[] bytes,
+            final int offset,
+            final int numElements,
+            final int eBytes,
+            final long apas) {
+        int index = offset;
+        long[] result = new long[numElements];
+        // Fill with APAS value
+        for (int i = 0; i < numElements; ++i) {
+            result[i] = apas;
+        }
+        while (index < bytes.length) {
+            index = processNextRunSignedInt(bytes, eBytes, index, result);
+        }
+        return result;
+    }
+
+    private int processNextRunSignedInt(byte[] bytes, int eBytes, int i, long[] result) {
+        long value = PrimitiveConverter.variableBytesToInt64(bytes, i, eBytes);
+        i += eBytes;
+        BerField dim = BerDecoder.decode(bytes, i, true);
+        i += dim.getLength();
+        int startPosition = dim.getValue();
+        BerField runLength = BerDecoder.decode(bytes, i, true);
+        i += runLength.getLength();
+        int entriesInRun = runLength.getValue();
+        for (int r = startPosition; r < startPosition + entriesInRun; ++r) {
+            result[r] = value;
+        }
+        return i;
+    }
+
     /**
      * Decode a two-dimensional signed integer array from a byte array.
+     *
+     * <p>This supports Natural Format and Run Length Encoding. ST 1201, Boolean Array, and Unsigned
+     * Integer array processing are not applicable to this kind of data.
      *
      * @param bytes the byte array to decode from
      * @param offset the offset to start the decoding from
@@ -458,8 +694,10 @@ public class MDAPDecoder {
                 throw new KlvParseException(
                         "Invalid APA algorithm for signed integer 2D decode: UnsignedInteger");
             case RunLengthEncoding:
-                throw new KlvParseException(
-                        "Unsupported APA algorithm for signed integer 2D decode: RunLengthEncoding");
+                long apas = PrimitiveConverter.variableBytesToInt64(bytes, i, ebytes.getValue());
+                i += ebytes.getValue();
+                return decodeInt2D_RunLengthEncoding(
+                        bytes, i, dim1.getValue(), dim2.getValue(), ebytes.getValue(), apas);
             default:
                 throw new KlvParseException(
                         String.format(
@@ -485,8 +723,55 @@ public class MDAPDecoder {
         return result;
     }
 
+    private long[][] decodeInt2D_RunLengthEncoding(
+            byte[] bytes,
+            final int offset,
+            final int numRows,
+            final int numColumns,
+            final int eBytes,
+            final long apas) {
+        int index = offset;
+        long[][] result = new long[numRows][numColumns];
+        // Fill with APAS value
+        for (int r = 0; r < numRows; ++r) {
+            for (int c = 0; c < numColumns; ++c) {
+                result[r][c] = apas;
+            }
+        }
+        while (index < bytes.length) {
+            index = processNextPatchSignedInt(bytes, eBytes, index, result);
+        }
+        return result;
+    }
+
+    private int processNextPatchSignedInt(byte[] bytes, int eBytes, int i, long[][] result) {
+        long value = PrimitiveConverter.variableBytesToInt64(bytes, i, eBytes);
+        i += eBytes;
+        BerField dim1 = BerDecoder.decode(bytes, i, true);
+        i += dim1.getLength();
+        int startRow = dim1.getValue();
+        BerField dim2 = BerDecoder.decode(bytes, i, true);
+        i += dim2.getLength();
+        int startColumn = dim2.getValue();
+        BerField runLength1 = BerDecoder.decode(bytes, i, true);
+        i += runLength1.getLength();
+        int numRowsForRun = runLength1.getValue();
+        BerField runLength2 = BerDecoder.decode(bytes, i, true);
+        i += runLength2.getLength();
+        int numColumnsForRun = runLength2.getValue();
+        for (int r = startRow; r < startRow + numRowsForRun; ++r) {
+            for (int c = startColumn; c < startColumn + numColumnsForRun; ++c) {
+                result[r][c] = value;
+            }
+        }
+        return i;
+    }
+
     /**
      * Decode a one-dimensional unsigned integer array from a byte array.
+     *
+     * <p>This supports Natural Format, Unsigned Integer and Run Length Encoding. ST 1201 and
+     * Boolean Array array processing are not applicable to this kind of data.
      *
      * @param bytes the byte array to decode from
      * @param offset the offset to start the decoding from
@@ -522,8 +807,10 @@ public class MDAPDecoder {
                         bytes, i, dim1.getValue(), biasField.getValue());
 
             case RunLengthEncoding:
-                throw new KlvParseException(
-                        "Unsupported APA algorithm for unsigned integer 1D decode: RunLengthEncoding");
+                long apas = PrimitiveConverter.variableBytesToUint64(bytes, i, ebytes.getValue());
+                i += ebytes.getValue();
+                return decodeUInt_RunLengthEncoding(
+                        bytes, i, dim1.getValue(), ebytes.getValue(), apas);
             default:
                 throw new KlvParseException(
                         String.format(
@@ -555,8 +842,44 @@ public class MDAPDecoder {
         return result;
     }
 
+    private long[] decodeUInt_RunLengthEncoding(
+            byte[] bytes,
+            final int offset,
+            final int numElements,
+            final int eBytes,
+            final long apas) {
+        int index = offset;
+        long[] result = new long[numElements];
+        // Fill with APAS value
+        for (int i = 0; i < numElements; ++i) {
+            result[i] = apas;
+        }
+        while (index < bytes.length) {
+            index = processNextRunUnsignedInt(bytes, eBytes, index, result);
+        }
+        return result;
+    }
+
+    private int processNextRunUnsignedInt(byte[] bytes, int eBytes, int i, long[] result) {
+        long value = PrimitiveConverter.variableBytesToUint64(bytes, i, eBytes);
+        i += eBytes;
+        BerField dim = BerDecoder.decode(bytes, i, true);
+        i += dim.getLength();
+        int startPosition = dim.getValue();
+        BerField runLength = BerDecoder.decode(bytes, i, true);
+        i += runLength.getLength();
+        int entriesInRun = runLength.getValue();
+        for (int r = startPosition; r < startPosition + entriesInRun; ++r) {
+            result[r] = value;
+        }
+        return i;
+    }
+
     /**
      * Decode a two-dimensional unsigned integer array from a byte array.
+     *
+     * <p>This supports Natural Format, Unsigned Integer and Run Length Encoding. ST 1201 and
+     * Boolean Array array processing are not applicable to this kind of data.
      *
      * @param bytes the byte array to decode from
      * @param offset the offset to start the decoding from
@@ -595,8 +918,10 @@ public class MDAPDecoder {
                         bytes, i, dim1.getValue(), dim2.getValue(), biasField.getValue());
 
             case RunLengthEncoding:
-                throw new KlvParseException(
-                        "Unsupported APA algorithm for unsigned integer 1D decode: RunLengthEncoding");
+                long apas = PrimitiveConverter.variableBytesToUint64(bytes, i, ebytes.getValue());
+                i += ebytes.getValue();
+                return decodeUInt2D_RunLengthEncoding(
+                        bytes, i, dim1.getValue(), dim2.getValue(), ebytes.getValue(), apas);
             default:
                 throw new KlvParseException(
                         String.format(
@@ -638,5 +963,49 @@ public class MDAPDecoder {
             }
         }
         return result;
+    }
+
+    private long[][] decodeUInt2D_RunLengthEncoding(
+            byte[] bytes,
+            final int offset,
+            final int numRows,
+            final int numColumns,
+            final int eBytes,
+            final long apas) {
+        int index = offset;
+        long[][] result = new long[numRows][numColumns];
+        // Fill with APAS value
+        for (int r = 0; r < numRows; ++r) {
+            for (int c = 0; c < numColumns; ++c) {
+                result[r][c] = apas;
+            }
+        }
+        while (index < bytes.length) {
+            index = processNextPatchUnsignedInt(bytes, eBytes, index, result);
+        }
+        return result;
+    }
+
+    private int processNextPatchUnsignedInt(byte[] bytes, int eBytes, int i, long[][] result) {
+        long value = PrimitiveConverter.variableBytesToUint64(bytes, i, eBytes);
+        i += eBytes;
+        BerField dim1 = BerDecoder.decode(bytes, i, true);
+        i += dim1.getLength();
+        int startRow = dim1.getValue();
+        BerField dim2 = BerDecoder.decode(bytes, i, true);
+        i += dim2.getLength();
+        int startColumn = dim2.getValue();
+        BerField runLength1 = BerDecoder.decode(bytes, i, true);
+        i += runLength1.getLength();
+        int numRowsForRun = runLength1.getValue();
+        BerField runLength2 = BerDecoder.decode(bytes, i, true);
+        i += runLength2.getLength();
+        int numColumnsForRun = runLength2.getValue();
+        for (int r = startRow; r < startRow + numRowsForRun; ++r) {
+            for (int c = startColumn; c < startColumn + numColumnsForRun; ++c) {
+                result[r][c] = value;
+            }
+        }
+        return i;
     }
 }
