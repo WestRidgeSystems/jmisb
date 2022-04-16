@@ -53,6 +53,9 @@ Time Message Example
 
 Note that this plugin is not restricted to command line parsing. It will work wherever its loaded.
 
+If you are looking to use this in a packaged assembly, you may need a `META-INF/services/` entry as well.
+There is one in the example.
+
 ## Building
 
 To build the example, use maven.
