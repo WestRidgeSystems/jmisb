@@ -312,7 +312,7 @@ public enum UasDatalinkTag implements IKlvKey {
     MiisCoreIdentifier(94),
     /**
      * Tag 95; MISB ST 1206 SAR Motion Imagery Metadata Local Set metadata items; Value is a {@link
-     * OpaqueValue}.
+     * NestedSARMILocalSet}.
      */
     SarMotionImageryMetadata(95),
     /** Tag 96; Target width within sensor field of view; Value is a {@link TargetWidthExtended}. */
@@ -323,7 +323,7 @@ public enum UasDatalinkTag implements IKlvKey {
     RangeImage(97),
     /**
      * Tag 98; MISB ST 1601 Geo-Registration Local Set metadata items; Value is a {@link
-     * OpaqueValue}.
+     * NestedGeoRegistrationLocalSet}.
      */
     Georegistration(98),
     /**

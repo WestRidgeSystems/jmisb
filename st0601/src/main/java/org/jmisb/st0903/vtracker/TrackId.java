@@ -18,7 +18,7 @@ public class TrackId implements IVmtiMetadataValue, IVTrackMetadataValue {
     /**
      * Create from value.
      *
-     * @param id Microseconds since the epoch
+     * @param id track identifier
      */
     public TrackId(UUID id) {
         this.id = id;

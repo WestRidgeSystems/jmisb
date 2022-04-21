@@ -36,6 +36,7 @@ import org.jmisb.st0601.FrameCenterLongitude;
 import org.jmisb.st0601.HorizontalFov;
 import org.jmisb.st0601.IUasDatalinkValue;
 import org.jmisb.st0601.MiisCoreIdentifier;
+import org.jmisb.st0601.NestedGeoRegistrationLocalSet;
 import org.jmisb.st0601.NestedSARMILocalSet;
 import org.jmisb.st0601.NestedSecurityMetadata;
 import org.jmisb.st0601.NestedVmtiLocalSet;
@@ -102,6 +103,12 @@ import org.jmisb.st1206.ISARMIMetadataValue;
 import org.jmisb.st1206.LookDirection;
 import org.jmisb.st1206.SARMILocalSet;
 import org.jmisb.st1206.SARMIMetadataKey;
+import org.jmisb.st1601.GeoRegistrationAlgorithmName;
+import org.jmisb.st1601.GeoRegistrationAlgorithmVersion;
+import org.jmisb.st1601.GeoRegistrationKey;
+import org.jmisb.st1601.GeoRegistrationLocalSet;
+import org.jmisb.st1601.IGeoRegistrationValue;
+import org.jmisb.st1601.ST1601DocumentVersion;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -125,6 +132,7 @@ public class Generator {
     private byte version0102 = 12;
     private byte version0903 = 5;
     private boolean includeSARMI = false;
+    private boolean includeGeoRegistration = false;
     private String filename = "generator_output.mpeg";
 
     private static final Logger LOG = LoggerFactory.getLogger(Generator.class);
@@ -153,6 +161,10 @@ public class Generator {
 
     public void setIncludeSARMI() {
         includeSARMI = true;
+    }
+
+    public void setIncludeGeoRegistration() {
+        this.includeGeoRegistration = true;
     }
 
     public void setOutputFile(String filename) {
@@ -267,6 +279,11 @@ public class Generator {
                             UasDatalinkTag.SarMotionImageryMetadata,
                             new NestedSARMILocalSet(getSARMILocalSet()));
                 }
+                if (includeGeoRegistration) {
+                    values.put(
+                            UasDatalinkTag.Georegistration,
+                            new NestedGeoRegistrationLocalSet(getGeoRegistrationLocalSet()));
+                }
                 UasDatalinkMessage message = new UasDatalinkMessage(values);
 
                 output.addVideoFrame(new VideoFrame(image, pts * 1.0e-6));
@@ -317,6 +334,15 @@ public class Generator {
         values.put(SARMIMetadataKey.LookDirection, new LookDirection((byte) 0));
         values.put(SARMIMetadataKey.DocumentVersion, new DocumentVersion(0));
         return new SARMILocalSet(values);
+    }
+
+    private GeoRegistrationLocalSet getGeoRegistrationLocalSet() {
+        Map<GeoRegistrationKey, IGeoRegistrationValue> values = new TreeMap<>();
+        values.put(GeoRegistrationKey.DocumentVersion, new ST1601DocumentVersion(1));
+        values.put(GeoRegistrationKey.AlgorithmName, new GeoRegistrationAlgorithmName("keypoints"));
+        values.put(
+                GeoRegistrationKey.AlgorithmVersion, new GeoRegistrationAlgorithmVersion("0.1a"));
+        return new GeoRegistrationLocalSet(values);
     }
 
     private VmtiLocalSet getVmtiLocalSet() {
