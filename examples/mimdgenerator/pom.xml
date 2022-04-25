@@ -11,10 +11,18 @@
     <packaging>jar</packaging>
     <name>MIMD generator example</name>
     <description>Example code that generates MIMD KLV in a test file.</description>
+    <properties>
+        <main.class>org.jmisb.examples.mimdgenerator.GeneratorCLI</main.class>
+    </properties>
     <dependencies>
         <dependency>
             <groupId>org.jmisb</groupId>
             <artifactId>jmisb-api-ffmpeg</artifactId>
+            <version>${project.version}</version>
+        </dependency>
+        <dependency>
+            <groupId>org.jmisb</groupId>
+            <artifactId>mimd</artifactId>
             <version>${project.version}</version>
         </dependency>
         <dependency>
@@ -30,15 +38,7 @@
             </plugin>
             <plugin>
                 <groupId>org.apache.maven.plugins</groupId>
-                <artifactId>maven-assembly-plugin</artifactId>
-                <configuration>
-                    <archive>
-                        <manifest>
-                            <addClasspath>true</addClasspath>
-                            <mainClass>org.jmisb.examples.mimdgenerator.GeneratorCLI</mainClass>
-                        </manifest>
-                    </archive>
-                </configuration>
+                <artifactId>maven-shade-plugin</artifactId>
             </plugin>
         </plugins>
     </build>

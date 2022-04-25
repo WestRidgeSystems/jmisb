@@ -10,9 +10,9 @@ import java.awt.font.GlyphVector;
 import java.awt.geom.Rectangle2D;
 import java.awt.image.BufferedImage;
 import org.jmisb.api.klv.st0603.ST0603TimeStamp;
-import org.jmisb.api.klv.st1909.MetadataItems;
-import org.jmisb.api.klv.st1909.MetadataKey;
-import org.jmisb.api.klv.st1909.ST1909DateTimeFormatter;
+import org.jmisb.st1909.MetadataItems;
+import org.jmisb.st1909.MetadataKey;
+import org.jmisb.st1909.ST1909DateTimeFormatter;
 
 /**
  * Renderer for ST1909 Metadata Overlays.

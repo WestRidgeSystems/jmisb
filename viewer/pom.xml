@@ -11,7 +11,9 @@
     <packaging>jar</packaging>
     <name>viewer</name>
     <description>Java Swing-based GUI to visualize video and metadata on the desktop</description>
-
+    <properties>
+        <main.class>org.jmisb.viewer.MisbViewer</main.class>
+    </properties>
     <dependencies>
         <dependency>
             <groupId>org.jmisb</groupId>
@@ -21,6 +23,11 @@
         <dependency>
             <groupId>org.jmisb</groupId>
             <artifactId>jmisb-api-awt</artifactId>
+            <version>${project.version}</version>
+        </dependency>
+        <dependency>
+            <groupId>org.jmisb</groupId>
+            <artifactId>impl</artifactId>
             <version>${project.version}</version>
         </dependency>
         <dependency>
@@ -64,15 +71,7 @@
             </plugin>
             <plugin>
                 <groupId>org.apache.maven.plugins</groupId>
-                <artifactId>maven-assembly-plugin</artifactId>
-                <configuration>
-                    <archive>
-                        <manifest>
-                            <addClasspath>true</addClasspath>
-                            <mainClass>org.jmisb.viewer.MisbViewer</mainClass>
-                        </manifest>
-                    </archive>
-                </configuration>
+                <artifactId>maven-shade-plugin</artifactId>
             </plugin>
             <plugin>
                 <!-- Allow running from the command-line using mvn exec:exec -->

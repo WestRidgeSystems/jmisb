@@ -5,7 +5,8 @@
  */
 module org.jmisb.api.ffmpeg {
     requires org.jmisb.api;
-    requires org.jmisb.core;
+    requires org.jmisb.st0102;
+    requires org.jmisb.st0601;
     requires org.bytedeco.javacpp;
     requires org.bytedeco.ffmpeg;
     requires org.slf4j;

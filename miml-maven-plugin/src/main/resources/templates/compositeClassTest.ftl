@@ -10,15 +10,15 @@ import java.util.TreeMap;
 import org.jmisb.api.common.KlvParseException;
 import org.jmisb.api.klv.ArrayBuilder;
 import org.jmisb.api.klv.IKlvValue;
-import org.jmisb.api.klv.LoggerChecks;
-import org.jmisb.api.klv.st1902.IMimdMetadataValue;
+import org.jmisb.mimd.st1902.LoggerChecks;
+import org.jmisb.mimd.st1902.IMimdMetadataValue;
 <#list entries as entry>
     <#if entry.name == "mimdId">
-import org.jmisb.api.klv.st1902.MimdId;
+import org.jmisb.mimd.st1902.MimdId;
     <#break>
     </#if>
 </#list>
-import org.jmisb.api.klv.st1902.MimdIdReference;
+import org.jmisb.mimd.st1902.MimdIdReference;
 import static org.testng.Assert.*;
 
 import org.testng.annotations.Test;
@@ -260,9 +260,9 @@ public class ${name}Test extends LoggerChecks {
     public void parseFromValuesBaseElements() throws KlvParseException {
         SortedMap<${name}MetadataKey, IMimdMetadataValue> values = new TreeMap<>();
         values.put(${name}MetadataKey.mimdId, new MimdId(4, 1));
-        values.put(${name}MetadataKey.timerOffset, new org.jmisb.api.klv.st1904.Base_TimerOffset(3210L));
-        Map<org.jmisb.api.klv.st1904.NumericalPrecisionMetadataKey, IMimdMetadataValue> numericPrecisionValues = new HashMap<>();
-        values.put(${name}MetadataKey.numericPrecision, new org.jmisb.api.klv.st1904.NumericalPrecision(numericPrecisionValues));
+        values.put(${name}MetadataKey.timerOffset, new org.jmisb.mimd.st1904.Base_TimerOffset(3210L));
+        Map<org.jmisb.mimd.st1904.NumericalPrecisionMetadataKey, IMimdMetadataValue> numericPrecisionValues = new HashMap<>();
+        values.put(${name}MetadataKey.numericPrecision, new org.jmisb.mimd.st1904.NumericalPrecision(numericPrecisionValues));
         ${name} uut = new ${name}(values);
         assertEquals(uut.getIdentifiers().size(), 3);
     }

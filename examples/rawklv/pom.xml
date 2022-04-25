@@ -11,10 +11,18 @@
     <packaging>jar</packaging>
     <name>Raw KLV parser example</name>
     <description>Example code that dumps raw KLV to standard output.</description>
+    <properties>
+        <main.class>org.jmisb.examples.rawklv.Main</main.class>
+    </properties>
     <dependencies>
         <dependency>
             <groupId>org.jmisb</groupId>
             <artifactId>jmisb-api</artifactId>
+            <version>${project.version}</version>
+        </dependency>
+        <dependency>
+            <groupId>org.jmisb</groupId>
+            <artifactId>impl</artifactId>
             <version>${project.version}</version>
         </dependency>
         <dependency>
@@ -30,15 +38,7 @@
             </plugin>
             <plugin>
                 <groupId>org.apache.maven.plugins</groupId>
-                <artifactId>maven-assembly-plugin</artifactId>
-                <configuration>
-                    <archive>
-                        <manifest>
-                            <addClasspath>true</addClasspath>
-                            <mainClass>org.jmisb.examples.rawklv.Main</mainClass>
-                        </manifest>
-                    </archive>
-                </configuration>
+                <artifactId>maven-shade-plugin</artifactId>
             </plugin>
         </plugins>
     </build>

@@ -23,6 +23,8 @@ public class ExampleE6Test {
         CoreIdentifier coreIdentifier =
                 CoreIdentifier.fromString("0140:BC76-CFEF-0BEE-41A4-9618-EB4B-010D-2F08:B6");
         verifyCoreIdentifierE6(coreIdentifier);
+        CoreIdentifier copy = new CoreIdentifier(coreIdentifier);
+        verifyCoreIdentifierE6(copy);
     }
 
     @Test

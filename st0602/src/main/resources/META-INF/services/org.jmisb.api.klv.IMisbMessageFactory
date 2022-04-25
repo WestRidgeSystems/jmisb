@@ -1,0 +1,5 @@
+org.jmisb.st0602.AnnotationActiveLinesPerFrameFactory
+org.jmisb.st0602.AnnotationActiveSamplesPerLineFactory
+org.jmisb.st0602.AnnotationByteOrderFactory
+org.jmisb.st0602.AnnotationMetadataUniversalSetFactory
+

@@ -1,6 +1,6 @@
 package org.jmisb.api.klv.st1204;
 
-/** Implementation of ST1204 Appendix B Check Value calculations. */
+/** Implementation of ST 1204 Appendix B Check Value calculations. */
 class CheckValue {
 
     static int[][] P_PERMUTATIONS;

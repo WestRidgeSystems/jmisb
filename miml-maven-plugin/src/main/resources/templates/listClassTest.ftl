@@ -6,8 +6,8 @@ import java.util.ArrayList;
 import java.util.List;
 import org.jmisb.api.common.KlvParseException;
 import org.jmisb.api.klv.IKlvKey;
-import org.jmisb.api.klv.LoggerChecks;
-import org.jmisb.api.klv.st1902.IMimdMetadataValue;
+import org.jmisb.mimd.st1902.LoggerChecks;
+import org.jmisb.mimd.st1902.IMimdMetadataValue;
 import static org.testng.Assert.*;
 
 import org.testng.annotations.Test;

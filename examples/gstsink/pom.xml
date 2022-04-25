@@ -11,6 +11,9 @@
     <packaging>jar</packaging>
     <name>GStreamer sink example</name>
     <description>Example code that adapts jmisb to be a GStreamer Sink.</description>
+    <properties>
+        <main.class>org.jmisb.examples.gstsink.Main</main.class>
+    </properties>
     <dependencies>
         <dependency>
             <groupId>org.jmisb</groupId>
@@ -34,15 +37,7 @@
             </plugin>
             <plugin>
                 <groupId>org.apache.maven.plugins</groupId>
-                <artifactId>maven-assembly-plugin</artifactId>
-                <configuration>
-                    <archive>
-                        <manifest>
-                            <addClasspath>true</addClasspath>
-                            <mainClass>org.jmisb.examples.gstsink.Main</mainClass>
-                        </manifest>
-                    </archive>
-                </configuration>
+                <artifactId>maven-shade-plugin</artifactId>
             </plugin>
         </plugins>
     </build>

@@ -2,9 +2,9 @@ package org.jmisb.api.video;
 
 import java.util.TreeMap;
 import org.jmisb.api.klv.IMisbMessage;
-import org.jmisb.api.klv.st0601.IUasDatalinkValue;
-import org.jmisb.api.klv.st0601.UasDatalinkMessage;
-import org.jmisb.api.klv.st0601.UasDatalinkTag;
+import org.jmisb.st0601.IUasDatalinkValue;
+import org.jmisb.st0601.UasDatalinkMessage;
+import org.jmisb.st0601.UasDatalinkTag;
 import org.testng.Assert;
 import org.testng.annotations.Test;
 

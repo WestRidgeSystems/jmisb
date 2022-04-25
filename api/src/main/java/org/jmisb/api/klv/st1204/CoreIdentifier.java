@@ -69,6 +69,27 @@ public class CoreIdentifier {
     private UUID windowUUID;
     private UUID minorUUID;
 
+    /** Constructor. */
+    public CoreIdentifier() {}
+
+    /**
+     * Copy constructor.
+     *
+     * @param other the CoreIdentifier to copy from
+     */
+    public CoreIdentifier(CoreIdentifier other) {
+        this.version = other.version;
+        this.sensorIdType = other.sensorIdType;
+        this.platformIdType = other.platformIdType;
+        this.hasWindowId = other.hasWindowId;
+        this.hasMinorId = other.hasMinorId;
+        this.hasValidCheckValue = other.hasValidCheckValue;
+        this.sensorUUID = other.sensorUUID;
+        this.platformUUID = other.platformUUID;
+        this.windowUUID = other.windowUUID;
+        this.minorUUID = other.minorUUID;
+    }
+
     /**
      * Construct a CoreIdentifier from a text format string.
      *

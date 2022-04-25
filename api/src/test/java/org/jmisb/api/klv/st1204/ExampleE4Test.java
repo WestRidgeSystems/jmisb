@@ -67,6 +67,8 @@ public class ExampleE4Test {
                 };
         CoreIdentifier coreIdentifier = CoreIdentifier.fromBytes(bytes);
         verifyCoreIdentifierE4(coreIdentifier);
+        CoreIdentifier copy = new CoreIdentifier(coreIdentifier);
+        verifyCoreIdentifierE4(copy);
     }
 
     private void verifyCoreIdentifierE4(CoreIdentifier coreIdentifier) {

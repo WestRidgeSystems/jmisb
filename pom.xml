@@ -33,14 +33,30 @@
     </developers>
 
     <modules>
+        <module>maven-shade</module>
         <module>core</module>
         <module>miml-maven-plugin</module>
         <module>api</module>
         <module>api-awt</module>
         <module>api-ffmpeg</module>
+        <module>st0102</module>
+        <module>eg0104</module>
+        <module>st0601</module>
+        <module>st0602</module>
+        <module>st0805</module>
+        <module>st0808</module>
+        <module>st0809</module>
+        <module>st1108</module>
+        <module>st1206</module>
+        <module>st1301</module>
+        <module>st1403</module>
+        <module>st1603</module>
+        <module>mimd</module>
+        <module>st1909</module>
+        <module>impl</module>
         <module>viewer</module>
-        <module>examples</module>
         <module>elevation</module>
+        <module>examples</module>
     </modules>
 
     <scm>
@@ -98,6 +114,7 @@
         <maven.minimum.version>3.3.9</maven.minimum.version>
         <maven.plugin.plugin.version>3.6.1</maven.plugin.plugin.version>
         <maven.resources.plugin.version>3.2.0</maven.resources.plugin.version>
+        <maven.shade.plugin.version>3.3.0</maven.shade.plugin.version>
         <maven.site.plugin.version>3.9.1</maven.site.plugin.version>
         <maven.source.plugin.version>3.2.1</maven.source.plugin.version>
         <maven.version>3.8.5</maven.version>
@@ -434,20 +451,56 @@
                 </plugin>
                 <plugin>
                     <groupId>org.apache.maven.plugins</groupId>
-                    <artifactId>maven-assembly-plugin</artifactId>
-                    <version>${maven.assembly.plugin.version}</version>
-                    <configuration>
-                        <descriptorRefs>
-                            <descriptorRef>jar-with-dependencies</descriptorRef>
-                        </descriptorRefs>
-                    </configuration>
+                    <artifactId>maven-shade-plugin</artifactId>
+                    <version>${maven.shade.plugin.version}</version>
+                    <dependencies>
+                        <dependency>
+                            <groupId>org.jmisb</groupId>
+                            <artifactId>maven-shade</artifactId>
+                            <version>${project.version}</version>
+                        </dependency>
+                    </dependencies>
                     <executions>
                         <execution>
-                            <id>make-assembly</id>
                             <goals>
-                                <goal>single</goal>
+                                <goal>shade</goal>
                             </goals>
                             <phase>package</phase>
+                            <configuration>
+                                <filters>
+                                    <filter>
+                                        <artifact>*:*</artifact>
+                                        <excludes>
+                                            <exclude>module-info.class</exclude>
+                                            <exclude>META-INF/MANIFEST.MF</exclude>
+                                            <exclude>META-INF/maven/org.bytedeco/*/pom.xml</exclude>
+                                            <exclude>META-INF/versions/9/module-info.class</exclude>
+                                            <exclude>META-INF/DEPENDENCIES</exclude>
+                                        </excludes>
+                                    </filter>
+                                </filters>
+                                <createDependencyReducedPom>false</createDependencyReducedPom>
+                                <shadedArtifactAttached>true</shadedArtifactAttached>
+                                <shadedClassifierName>jar-with-dependencies</shadedClassifierName>
+                                <transformers>
+                                    <transformer implementation="org.apache.maven.plugins.shade.resource.ManifestResourceTransformer">
+                                        <mainClass>${main.class}</mainClass>
+                                    </transformer>
+                                    <transformer implementation="org.apache.maven.plugins.shade.resource.ServicesResourceTransformer"></transformer>
+                                    <transformer implementation="org.apache.maven.plugins.shade.resource.ApacheLicenseResourceTransformer"></transformer>
+                                    <transformer implementation="org.apache.maven.plugins.shade.resource.ApacheNoticeResourceTransformer">
+                                        <addHeader>false</addHeader>
+                                    </transformer>
+                                    <transformer implementation="org.jmisb.identicalpropertiesshader.IdenticalPropertiesTransformer">
+                                        <files>
+                                            <file>META-INF/maven/org.bytedeco/ffmpeg/pom.properties</file>
+                                            <file>META-INF/maven/org.bytedeco/javacpp/pom.properties</file>
+                                            <file>META-INF/AL2.0</file>
+                                            <file>META-INF/LGPL2.1</file>
+                                        </files>
+                                    </transformer>
+                                </transformers>
+                            </configuration>
                         </execution>
                     </executions>
                 </plugin>

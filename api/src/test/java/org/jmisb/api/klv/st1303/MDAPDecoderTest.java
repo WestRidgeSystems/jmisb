@@ -1076,6 +1076,13 @@ public class MDAPDecoderTest {
     }
 
     @Test(expectedExceptions = KlvParseException.class)
+    public void testInt2DimBadDimensions() throws KlvParseException {
+        MDAPDecoder decoder = new MDAPDecoder();
+        decoder.decodeInt2D(
+                new byte[] {(byte) 0x01, (byte) 0x01, (byte) 0x01, (byte) 0x01, (byte) 0x02}, 0);
+    }
+
+    @Test(expectedExceptions = KlvParseException.class)
     public void testInt2Dim_BadAPA_Unused() throws KlvParseException {
         MDAPDecoder decoder = new MDAPDecoder();
         decoder.decodeInt2D(

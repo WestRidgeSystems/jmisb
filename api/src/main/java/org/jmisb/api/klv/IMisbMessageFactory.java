@@ -4,6 +4,16 @@ import org.jmisb.api.common.KlvParseException;
 
 /** Interface for IMisbMessage factory creation. */
 public interface IMisbMessageFactory {
+
+    /**
+     * Universal Label associated with this message factory.
+     *
+     * <p>This is used to look up the factory to use to parse the corresponding message.
+     *
+     * @return the universal label for the factory.
+     */
+    UniversalLabel getUniversalLabel();
+
     /**
      * Create a new {@link IMisbMessage} instance from encoded bytes.
      *
