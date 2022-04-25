@@ -11,7 +11,7 @@ public class RunLengthEncodingEncoderTest {
     public RunLengthEncodingEncoderTest() {}
 
     @Test
-    public void check2D() throws KlvParseException {
+    public void check2Dboolean() throws KlvParseException {
         RunLengthEncodingEncoder encoder = new RunLengthEncodingEncoder();
         boolean[][] input =
                 new boolean[][] {
@@ -58,7 +58,7 @@ public class RunLengthEncodingEncoderTest {
     }
 
     @Test
-    public void check2DAlternate() throws KlvParseException {
+    public void check2DAlternateBoolean() throws KlvParseException {
         RunLengthEncodingEncoder encoder = new RunLengthEncodingEncoder();
         boolean[][] input =
                 new boolean[][] {
@@ -110,7 +110,7 @@ public class RunLengthEncodingEncoderTest {
     }
 
     @Test
-    public void check2DRectangularVertical() throws KlvParseException {
+    public void check2DRectangularVerticalBoolean() throws KlvParseException {
         RunLengthEncodingEncoder encoder = new RunLengthEncodingEncoder();
         boolean[][] input =
                 new boolean[][] {
@@ -142,7 +142,7 @@ public class RunLengthEncodingEncoderTest {
     }
 
     @Test
-    public void check2DRectangularHorizontal() throws KlvParseException {
+    public void check2DRectangularHorizontalBoolean() throws KlvParseException {
         RunLengthEncodingEncoder encoder = new RunLengthEncodingEncoder();
         boolean[][] input =
                 new boolean[][] {
@@ -174,7 +174,7 @@ public class RunLengthEncodingEncoderTest {
     }
 
     @Test
-    public void checkSingleElement2DTrue() throws KlvParseException {
+    public void checkSingleElement2DTrueBoolean() throws KlvParseException {
         RunLengthEncodingEncoder encoder = new RunLengthEncodingEncoder();
         byte[] encoded = encoder.encode(new boolean[][] {{true}});
         assertEquals(
@@ -188,7 +188,7 @@ public class RunLengthEncodingEncoderTest {
     }
 
     @Test
-    public void checkSingleElement2DFalse() throws KlvParseException {
+    public void checkSingleElement2DFalseBoolean() throws KlvParseException {
         RunLengthEncodingEncoder encoder = new RunLengthEncodingEncoder();
         byte[] encoded = encoder.encode(new boolean[][] {{false}});
         assertEquals(
@@ -202,7 +202,7 @@ public class RunLengthEncodingEncoderTest {
     }
 
     @Test
-    public void checkSingleRow2DTrue() throws KlvParseException {
+    public void checkSingleRow2DTrueBoolean() throws KlvParseException {
         RunLengthEncodingEncoder encoder = new RunLengthEncodingEncoder();
         byte[] encoded = encoder.encode(new boolean[][] {{true, true, true, true}});
         assertEquals(
@@ -216,7 +216,7 @@ public class RunLengthEncodingEncoderTest {
     }
 
     @Test
-    public void checkSingleRow2DMixed() throws KlvParseException {
+    public void checkSingleRow2DMixedBoolean() throws KlvParseException {
         RunLengthEncodingEncoder encoder = new RunLengthEncodingEncoder();
         byte[] encoded = encoder.encode(new boolean[][] {{false, true, true, true}});
         assertEquals(
@@ -240,7 +240,7 @@ public class RunLengthEncodingEncoderTest {
     }
 
     @Test
-    public void checkNonRectangular() throws KlvParseException {
+    public void checkNonRectangularBoolean() throws KlvParseException {
         RunLengthEncodingEncoder encoder = new RunLengthEncodingEncoder();
         boolean[][] input =
                 new boolean[][] {
@@ -275,19 +275,19 @@ public class RunLengthEncodingEncoderTest {
     }
 
     @Test(expectedExceptions = KlvParseException.class)
-    public void checkBadRowDimension() throws KlvParseException {
+    public void checkBadRowDimensionBoolean() throws KlvParseException {
         RunLengthEncodingEncoder encoder = new RunLengthEncodingEncoder();
         encoder.encode(new boolean[0][1]);
     }
 
     @Test(expectedExceptions = KlvParseException.class)
-    public void checkBadColumnDimension() throws KlvParseException {
+    public void checkBadColumnDimensionBoolean() throws KlvParseException {
         RunLengthEncodingEncoder encoder = new RunLengthEncodingEncoder();
         encoder.encode(new boolean[1][0]);
     }
 
     @Test(expectedExceptions = KlvParseException.class)
-    public void checkBadBothDimensions() throws KlvParseException {
+    public void checkBadBothDimensionsBoolean() throws KlvParseException {
         RunLengthEncodingEncoder encoder = new RunLengthEncodingEncoder();
         encoder.encode(new boolean[0][0]);
     }

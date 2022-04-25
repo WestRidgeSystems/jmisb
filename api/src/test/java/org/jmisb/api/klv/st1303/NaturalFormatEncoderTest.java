@@ -296,6 +296,13 @@ public class NaturalFormatEncoderTest {
     }
 
     @Test(expectedExceptions = KlvParseException.class)
+    public void check1DBooleanBadCount() throws KlvParseException {
+        NaturalFormatEncoder encoder = new NaturalFormatEncoder();
+        assertNotNull(encoder);
+        encoder.encode(new boolean[0]);
+    }
+
+    @Test(expectedExceptions = KlvParseException.class)
     public void check2DBooleanBadColumns() throws KlvParseException {
         NaturalFormatEncoder encoder = new NaturalFormatEncoder();
         assertNotNull(encoder);
@@ -314,6 +321,15 @@ public class NaturalFormatEncoderTest {
         NaturalFormatEncoder encoder = new NaturalFormatEncoder();
         assertNotNull(encoder);
         encoder.encode(new boolean[0][0]);
+    }
+
+    @Test
+    public void check1DBoolean() throws KlvParseException {
+        NaturalFormatEncoder encoder = new NaturalFormatEncoder();
+        assertNotNull(encoder);
+        byte[] encoded = encoder.encode(new boolean[] {true, false, true, false, false, true});
+        assertEquals(
+                encoded, new byte[] {0x01, 0x06, 0x01, 0x1, 0x01, 0x00, 0x01, 0x00, 0x00, 0x01});
     }
 
     @Test

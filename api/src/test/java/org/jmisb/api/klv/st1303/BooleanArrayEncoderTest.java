@@ -11,6 +11,47 @@ public class BooleanArrayEncoderTest {
     public BooleanArrayEncoderTest() {}
 
     @Test
+    public void checkSingleElement1D() throws KlvParseException {
+        BooleanArrayEncoder encoder = new BooleanArrayEncoder();
+        byte[] encoded = encoder.encode(new boolean[] {true});
+        assertEquals(
+                encoded,
+                new byte[] {(byte) 0x01, (byte) 0x01, (byte) 0x01, (byte) 0x03, (byte) 0x80});
+    }
+
+    @Test
+    public void check1D() throws KlvParseException {
+        BooleanArrayEncoder encoder = new BooleanArrayEncoder();
+        byte[] encoded =
+                encoder.encode(
+                        new boolean[] {
+                            false, true, false, false,
+                            true, false, false, false,
+                            true, false, true, false,
+                            true, false, false, false,
+                            true, true, true, true
+                        });
+        assertEquals(
+                encoded,
+                new byte[] {
+                    (byte) 0x01,
+                    (byte) 0x14,
+                    (byte) 0x01,
+                    (byte) 0x03,
+                    (byte) 0x48,
+                    (byte) 0xA8,
+                    (byte) 0xF0
+                });
+    }
+
+    @Test(expectedExceptions = KlvParseException.class)
+    public void check1DBadCount() throws KlvParseException {
+        BooleanArrayEncoder encoder = new BooleanArrayEncoder();
+        assertNotNull(encoder);
+        encoder.encode(new boolean[0]);
+    }
+
+    @Test
     public void check2D() throws KlvParseException {
         BooleanArrayEncoder encoder = new BooleanArrayEncoder();
         byte[] encoded =
@@ -48,21 +89,21 @@ public class BooleanArrayEncoderTest {
     }
 
     @Test(expectedExceptions = KlvParseException.class)
-    public void check2DIntBadColumns() throws KlvParseException {
+    public void check2DBadColumns() throws KlvParseException {
         BooleanArrayEncoder encoder = new BooleanArrayEncoder();
         assertNotNull(encoder);
         encoder.encode(new boolean[1][0]);
     }
 
     @Test(expectedExceptions = KlvParseException.class)
-    public void check2DIntBadRows() throws KlvParseException {
+    public void check2DBadRows() throws KlvParseException {
         BooleanArrayEncoder encoder = new BooleanArrayEncoder();
         assertNotNull(encoder);
         encoder.encode(new boolean[0][1]);
     }
 
     @Test(expectedExceptions = KlvParseException.class)
-    public void check2DIntBadRowsAndColumns() throws KlvParseException {
+    public void check2DBadRowsAndColumns() throws KlvParseException {
         BooleanArrayEncoder encoder = new BooleanArrayEncoder();
         assertNotNull(encoder);
         encoder.encode(new boolean[0][0]);
