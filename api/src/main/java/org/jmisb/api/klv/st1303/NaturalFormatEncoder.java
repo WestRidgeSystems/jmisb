@@ -19,10 +19,10 @@ public class NaturalFormatEncoder {
     public NaturalFormatEncoder() {}
 
     /**
-     * Encode a two dimensional real array to a Multi-Dimensional Array Pack using Natural Format
+     * Encode a one dimensional real array to a Multi-Dimensional Array Pack using Natural Format
      * Encoding.
      *
-     * @param data the array of arrays of ({@code double}) values.
+     * @param data the array of ({@code double}) values.
      * @return the encoded byte array including the MISB ST1303 header and array data.
      * @throws KlvParseException if the encoding fails, such as for invalid array dimensions.
      */
@@ -190,6 +190,38 @@ public class NaturalFormatEncoder {
                 }
                 builder.append(encodedValue);
             }
+        }
+        return builder.toBytes();
+    }
+
+    /**
+     * Encode a one dimensional Boolean array to a Multi-Dimensional Array Pack using Natural Format
+     * Encoding.
+     *
+     * <p>This serialises each value into a byte array.
+     *
+     * @param data the array of ({@code boolean}) values.
+     * @return the encoded byte array including the MISB ST1303 header and array data.
+     * @throws KlvParseException if the encoding fails, such as for invalid array dimensions.
+     */
+    public byte[] encode(boolean[] data) throws KlvParseException {
+        if (data.length < 1) {
+            throw new KlvParseException("MDAP encoding requires at least one item");
+        }
+        ArrayBuilder builder =
+                new ArrayBuilder()
+                        // Number of dimensions
+                        .appendAsOID(1)
+                        // dim
+                        .appendAsOID(data.length)
+                        // E_bytes value - single byte
+                        .appendAsOID(1)
+                        // array processing algorithm (APA)
+                        // note no array processing algorithm support (APAS) values
+                        .appendAsOID(ArrayProcessingAlgorithm.NaturalFormat.getCode());
+        // Array Of Elements
+        for (int i = 0; i < data.length; ++i) {
+            builder.appendByte(data[i] == true ? (byte) 0x01 : (byte) 0x00);
         }
         return builder.toBytes();
     }

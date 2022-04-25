@@ -57,6 +57,24 @@ public class BerEncoderTest {
     }
 
     @Test
+    public void encodeSelectShort() {
+        byte[] bytes = BerEncoder.encode(5);
+        Assert.assertEquals(bytes, new byte[] {(byte) 0x05});
+    }
+
+    @Test
+    public void encodeSelectShort127() {
+        byte[] bytes = BerEncoder.encode(127);
+        Assert.assertEquals(bytes, new byte[] {(byte) 0x7F});
+    }
+
+    @Test
+    public void encodeSelectLong128() {
+        byte[] bytes = BerEncoder.encode(128);
+        Assert.assertEquals(bytes, new byte[] {(byte) 0x81, (byte) 0x80});
+    }
+
+    @Test
     public void testBerOidEncode() {
         byte[] bytes = BerEncoder.encode(1, Ber.OID);
         Assert.assertEquals(bytes, new byte[] {(byte) 0x01});
@@ -75,5 +93,8 @@ public class BerEncoderTest {
 
         bytes = BerEncoder.encode(256, Ber.OID); // 256 = 0x0100 -> 10 0000000
         Assert.assertEquals(bytes, new byte[] {(byte) 0x82, (byte) 0x00});
+
+        bytes = BerEncoder.encode(65535, Ber.OID);
+        Assert.assertEquals(bytes, new byte[] {(byte) 0x83, (byte) 0xff, (byte) 0x7f});
     }
 }

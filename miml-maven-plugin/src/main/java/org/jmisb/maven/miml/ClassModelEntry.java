@@ -79,7 +79,7 @@ public class ClassModelEntry {
      */
     public String getPrimitiveType() {
         if (isRef()) {
-            return "org.jmisb.api.klv.st1902.MimdId";
+            return "org.jmisb.mimd.st1902.MimdId";
         }
         switch (getTypeName()) {
             case "Boolean":

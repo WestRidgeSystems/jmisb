@@ -23,6 +23,8 @@ public class ExampleE9Test {
         CoreIdentifier coreIdentifier =
                 CoreIdentifier.fromString("0104:C2A7-D724-96F7-47DB-A23D-A297-3007-5876:55");
         verifyCoreIdentifierE9(coreIdentifier);
+        CoreIdentifier copy = new CoreIdentifier(coreIdentifier);
+        verifyCoreIdentifierE9(copy);
     }
 
     @Test

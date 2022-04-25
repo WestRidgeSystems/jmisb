@@ -17,6 +17,40 @@ public class NaturalFormatEncoderTest {
         encoder.encode(new double[0]);
     }
 
+    @Test
+    public void check1DimReadlEncoding() throws KlvParseException {
+        NaturalFormatEncoder encoder = new NaturalFormatEncoder();
+        double[] input = new double[] {2.4, -8.67};
+        byte[] encoded = encoder.encode(input);
+        assertEquals(
+                encoded,
+                new byte[] {
+                    0x01,
+                    0x02,
+                    0x08,
+                    0x01,
+                    0x40,
+                    0x03,
+                    0x33,
+                    0x33,
+                    0x33,
+                    0x33,
+                    0x33,
+                    0x33,
+                    (byte) 0xc0,
+                    0x21,
+                    0x57,
+                    0x0a,
+                    0x3d,
+                    0x70,
+                    (byte) 0xa3,
+                    (byte) 0xd7
+                });
+        MDAPDecoder checkDecoder = new MDAPDecoder();
+        double[] decoded = checkDecoder.decodeFloatingPoint1D(encoded, 0);
+        assertEquals(decoded, input);
+    }
+
     @Test(expectedExceptions = KlvParseException.class)
     public void check1DIntBadLength() throws KlvParseException {
         NaturalFormatEncoder encoder = new NaturalFormatEncoder();
@@ -79,6 +113,57 @@ public class NaturalFormatEncoderTest {
                 });
         MDAPDecoder checkDecoder = new MDAPDecoder();
         long[] decoded = checkDecoder.decodeInt1D(encoded, 0);
+        assertEquals(decoded, input);
+    }
+
+    @Test
+    public void check2DimSignedEncoding() throws KlvParseException {
+        NaturalFormatEncoder encoder = new NaturalFormatEncoder();
+        long[][] input = new long[][] {{130, -170}, {65535, -256}};
+        byte[] encoded = encoder.encode(input);
+        assertEquals(
+                encoded,
+                new byte[] {
+                    (byte) 0x02,
+                    (byte) 0x02,
+                    (byte) 0x02,
+                    (byte) 0x08,
+                    (byte) 0x01,
+                    (byte) 0x00,
+                    (byte) 0x00,
+                    (byte) 0x00,
+                    (byte) 0x00,
+                    (byte) 0x00,
+                    (byte) 0x00,
+                    (byte) 0x00,
+                    (byte) 0x82,
+                    (byte) 0xff,
+                    (byte) 0xff,
+                    (byte) 0xff,
+                    (byte) 0xff,
+                    (byte) 0xff,
+                    (byte) 0xff,
+                    (byte) 0xff,
+                    (byte) 0x56,
+                    (byte) 0x00,
+                    (byte) 0x00,
+                    (byte) 0x00,
+                    (byte) 0x00,
+                    (byte) 0x00,
+                    (byte) 0x00,
+                    (byte) 0xff,
+                    (byte) 0xff,
+                    (byte) 0xff,
+                    (byte) 0xff,
+                    (byte) 0xff,
+                    (byte) 0xff,
+                    (byte) 0xff,
+                    (byte) 0xff,
+                    (byte) 0xff,
+                    (byte) 0x00
+                });
+        MDAPDecoder checkDecoder = new MDAPDecoder();
+        long[][] decoded = checkDecoder.decodeInt2D(encoded, 0);
         assertEquals(decoded, input);
     }
 
@@ -211,6 +296,13 @@ public class NaturalFormatEncoderTest {
     }
 
     @Test(expectedExceptions = KlvParseException.class)
+    public void check1DBooleanBadCount() throws KlvParseException {
+        NaturalFormatEncoder encoder = new NaturalFormatEncoder();
+        assertNotNull(encoder);
+        encoder.encode(new boolean[0]);
+    }
+
+    @Test(expectedExceptions = KlvParseException.class)
     public void check2DBooleanBadColumns() throws KlvParseException {
         NaturalFormatEncoder encoder = new NaturalFormatEncoder();
         assertNotNull(encoder);
@@ -229,6 +321,15 @@ public class NaturalFormatEncoderTest {
         NaturalFormatEncoder encoder = new NaturalFormatEncoder();
         assertNotNull(encoder);
         encoder.encode(new boolean[0][0]);
+    }
+
+    @Test
+    public void check1DBoolean() throws KlvParseException {
+        NaturalFormatEncoder encoder = new NaturalFormatEncoder();
+        assertNotNull(encoder);
+        byte[] encoded = encoder.encode(new boolean[] {true, false, true, false, false, true});
+        assertEquals(
+                encoded, new byte[] {0x01, 0x06, 0x01, 0x1, 0x01, 0x00, 0x01, 0x00, 0x00, 0x01});
     }
 
     @Test

@@ -25,6 +25,8 @@ public class ExampleE7Test {
                 CoreIdentifier.fromString(
                         "0114:3D50-2DB6-4A93-44C3-B56E-94AD-7C4E-E476/45E2-8FAF-C2D3-4A6E-815B-5FE6-B0A9-6ABD:F1");
         verifyCoreIdentifierE7(coreIdentifier);
+        CoreIdentifier copy = new CoreIdentifier(coreIdentifier);
+        verifyCoreIdentifierE7(copy);
     }
 
     @Test

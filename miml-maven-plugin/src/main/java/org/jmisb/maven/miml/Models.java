@@ -58,7 +58,7 @@ class Models {
         }
 
         if (st1902ClassNames.contains(typeName)) {
-            return "org.jmisb.api.klv.st1902";
+            return "org.jmisb.mimd.st1902";
         }
         return null;
     }

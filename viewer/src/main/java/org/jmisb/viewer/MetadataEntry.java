@@ -1,6 +1,6 @@
 package org.jmisb.viewer;
 
-import org.jmisb.api.klv.st0601.OpaqueValue;
+import org.jmisb.st0601.OpaqueValue;
 
 /**
  * Entry in the metadata tree.

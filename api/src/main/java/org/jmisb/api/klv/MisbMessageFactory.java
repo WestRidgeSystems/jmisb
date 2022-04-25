@@ -3,23 +3,8 @@ package org.jmisb.api.klv;
 import java.util.Arrays;
 import java.util.HashMap;
 import java.util.Map;
+import java.util.ServiceLoader;
 import org.jmisb.api.common.KlvParseException;
-import org.jmisb.api.klv.eg0104.PredatorUavMessageFactory;
-import org.jmisb.api.klv.st0102.localset.SecurityMetadataLocalSetFactory;
-import org.jmisb.api.klv.st0102.universalset.SecurityMetadataUniversalSetFactory;
-import org.jmisb.api.klv.st0601.UasDatalinkMessageFactory;
-import org.jmisb.api.klv.st0602.AnnotationActiveLinesPerFrameFactory;
-import org.jmisb.api.klv.st0602.AnnotationActiveSamplesPerLineFactory;
-import org.jmisb.api.klv.st0602.AnnotationByteOrderFactory;
-import org.jmisb.api.klv.st0602.AnnotationMetadataUniversalSetFactory;
-import org.jmisb.api.klv.st0808.AncillaryTextLocalSetFactory;
-import org.jmisb.api.klv.st0809.MeteorologicalMetadataLocalSetFactory;
-import org.jmisb.api.klv.st0903.vtrack.VTrackLocalSetFactory;
-import org.jmisb.api.klv.st1108.InterpretabilityQualityLocalSetFactory;
-import org.jmisb.api.klv.st1301.MiisLocalSetFactory;
-import org.jmisb.api.klv.st1603.localset.TimeTransferLocalSetFactory;
-import org.jmisb.api.klv.st1603.nanopack.NanoTimeTransferPackFactory;
-import org.jmisb.api.klv.st1902.MimdLocalSetFactory;
 
 /**
  * Factory class for {@link IMisbMessage} instances.
@@ -33,34 +18,10 @@ public class MisbMessageFactory {
             new HashMap<>();
 
     private MisbMessageFactory() {
-        registerHandler(KlvConstants.UasDatalinkLocalUl, new UasDatalinkMessageFactory());
-        registerHandler(KlvConstants.AncillaryTextLocalSetUl, new AncillaryTextLocalSetFactory());
-        registerHandler(
-                KlvConstants.SecurityMetadataUniversalSetUl,
-                new SecurityMetadataUniversalSetFactory());
-        registerHandler(
-                KlvConstants.SecurityMetadataLocalSetUl, new SecurityMetadataLocalSetFactory());
-        registerHandler(KlvConstants.PredatorMetadataLocalSetUl, new PredatorUavMessageFactory());
-        registerHandler(KlvConstants.VTrackLocalSetUl, new VTrackLocalSetFactory());
-        registerHandler(KlvConstants.MIMDLocalSetUl, new MimdLocalSetFactory());
-        registerHandler(KlvConstants.MiisLocalSetUl, new MiisLocalSetFactory());
-        registerHandler(
-                KlvConstants.InterpretabilityQualityLocalSetUl,
-                new InterpretabilityQualityLocalSetFactory());
-        registerHandler(KlvConstants.AnnotationByteOrderUl, new AnnotationByteOrderFactory());
-        registerHandler(
-                KlvConstants.AnnotationActiveLinesPerFrameUl,
-                new AnnotationActiveLinesPerFrameFactory());
-        registerHandler(
-                KlvConstants.AnnotationActiveSamplesPerLineUl,
-                new AnnotationActiveSamplesPerLineFactory());
-        registerHandler(
-                KlvConstants.AnnotationUniversalSetUl, new AnnotationMetadataUniversalSetFactory());
-        registerHandler(
-                KlvConstants.MeteorologicalMetadataLocalSetUl,
-                new MeteorologicalMetadataLocalSetFactory());
-        registerHandler(KlvConstants.TimeTransferLocalSetUl, new TimeTransferLocalSetFactory());
-        registerHandler(KlvConstants.NanoTimeTransferPackUl, new NanoTimeTransferPackFactory());
+        ServiceLoader<IMisbMessageFactory> loader = ServiceLoader.load(IMisbMessageFactory.class);
+        for (IMisbMessageFactory factory : loader) {
+            MESSAGE_HANDLERS.put(factory.getUniversalLabel(), factory);
+        }
     }
 
     /**
@@ -77,7 +38,9 @@ public class MisbMessageFactory {
      *
      * @param universalLabel the universal label
      * @param factory the corresponding factory to use
+     * @deprecated Use the service loader instead.
      */
+    @Deprecated
     public final void registerHandler(UniversalLabel universalLabel, IMisbMessageFactory factory) {
         MESSAGE_HANDLERS.put(universalLabel, factory);
     }

@@ -11,7 +11,7 @@ import java.util.Set;
 import org.jmisb.api.common.KlvParseException;
 import org.jmisb.api.klv.IKlvKey;
 import org.jmisb.api.klv.IKlvValue;
-import org.jmisb.api.klv.st1902.MimdId;
+import org.jmisb.mimd.st1902.MimdId;
 import static org.testng.Assert.*;
 
 import org.testng.annotations.Test;

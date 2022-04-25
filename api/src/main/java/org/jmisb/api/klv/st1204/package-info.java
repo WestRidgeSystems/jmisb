@@ -1,7 +1,7 @@
 /**
  * ST 1204: Motion Imagery Identification System (MIIS) - Core Identifier.
  *
- * <p>From ST1204.3 Section 1:
+ * <p>From ST 1204.3 Section 1:
  *
  * <blockquote>
  *
@@ -33,7 +33,7 @@
  *       Motion Imagery source.
  * </ol>
  *
- * <p>When fully implemented, the MIIS fulfills the need to provide a consistent and unique
+ * <p>When fully implemented, the MIIS fulfils the need to provide a consistent and unique
  * identifier for all sensors and platforms.
  *
  * </blockquote>

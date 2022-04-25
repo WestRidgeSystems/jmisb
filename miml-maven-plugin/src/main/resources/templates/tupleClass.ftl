@@ -10,7 +10,7 @@ import org.jmisb.api.common.KlvParseException;
 import org.jmisb.api.klv.ArrayBuilder;
 import org.jmisb.api.klv.BerDecoder;
 import org.jmisb.api.klv.BerField;
-import org.jmisb.api.klv.st1902.IMimdMetadataValue;
+import org.jmisb.mimd.st1902.IMimdMetadataValue;
 
 /**
  * MIMD {@link ${parentName}} ${name} attribute.

@@ -22,6 +22,39 @@ public class BooleanArrayEncoder {
     public BooleanArrayEncoder() {}
 
     /**
+     * Encode a one dimensional Boolean array to a Multi-Dimensional Array Pack using Binary Array
+     * Encoding.
+     *
+     * <p>This packs each value into a bit-encoded 1D array, and serialises the array to a byte
+     * array.
+     *
+     * @param data the array of ({@code boolean}) values.
+     * @return the encoded byte array including the MISB ST1303 header and array data.
+     * @throws KlvParseException if the encoding fails, such as for invalid array dimensions.
+     */
+    public byte[] encode(boolean[] data) throws KlvParseException {
+        if (data.length < 1) {
+            throw new KlvParseException("MDAP encoding requires at least one item.");
+        }
+        ArrayBuilder builder =
+                new ArrayBuilder()
+                        // Number of dimensions
+                        .appendAsOID(1)
+                        // dim
+                        .appendAsOID(data.length)
+                        // E_bytes value, see ST1303 Appendix D.2
+                        .appendAsOID(1)
+                        // array processing algorithm (APA)
+                        // note no array processing algorithm support (APAS) values
+                        .appendAsOID(ArrayProcessingAlgorithm.BooleanArray.getCode());
+        // Array Of Elements
+        for (boolean b : data) {
+            builder.appendAsBit(b);
+        }
+        return builder.toBytes();
+    }
+
+    /**
      * Encode a two dimensional Boolean array to a Multi-Dimensional Array Pack using Binary Array
      * Encoding.
      *

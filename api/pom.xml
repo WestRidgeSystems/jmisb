@@ -84,10 +84,6 @@
                 <groupId>edu.berkeley.cs.jqf</groupId>
                 <artifactId>jqf-maven-plugin</artifactId>
             </plugin>
-            <plugin>
-                <groupId>org.jmisb.maven</groupId>
-                <artifactId>miml-maven-plugin</artifactId>
-            </plugin>
         </plugins>
     </build>
 

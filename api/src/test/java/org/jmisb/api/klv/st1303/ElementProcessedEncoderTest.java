@@ -180,6 +180,39 @@ public class ElementProcessedEncoderTest {
     }
 
     @Test
+    public void check2DSingleItemResolution() throws KlvParseException {
+        ElementProcessedEncoder encoder = new ElementProcessedEncoder(-900.0, 19000.0, 1.0);
+        byte[] encoded = encoder.encode(new double[][] {{10.0}});
+        assertEquals(
+                encoded,
+                new byte[] {
+                    (byte) 0x02,
+                    (byte) 0x01,
+                    (byte) 0x01,
+                    (byte) 0x02,
+                    (byte) 0x02,
+                    (byte) 0xc0,
+                    (byte) 0x8c,
+                    (byte) 0x20,
+                    (byte) 0x00,
+                    (byte) 0x00,
+                    (byte) 0x00,
+                    (byte) 0x00,
+                    (byte) 0x00,
+                    (byte) 0x40,
+                    (byte) 0xd2,
+                    (byte) 0x8e,
+                    (byte) 0x00,
+                    (byte) 0x00,
+                    (byte) 0x00,
+                    (byte) 0x00,
+                    (byte) 0x00,
+                    (byte) 0x03,
+                    (byte) 0x8e
+                });
+    }
+
+    @Test
     public void check2DSingleItemFloat() throws KlvParseException {
         ElementProcessedEncoder encoder = new ElementProcessedEncoder(-900.0f, 19000.0f, 3);
         byte[] encoded = encoder.encode(new float[][] {{10.0f}});

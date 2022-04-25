@@ -11,7 +11,20 @@
     <packaging>jar</packaging>
     <name>System.out example</name>
     <description>Example code that dumps decoded KLV to standard output.</description>
+    <properties>
+        <main.class>org.jmisb.examples.systemout.Main</main.class>
+    </properties>
     <dependencies>
+        <dependency>
+            <groupId>org.jmisb</groupId>
+            <artifactId>jmisb-api</artifactId>
+            <version>${project.version}</version>
+        </dependency>
+        <dependency>
+            <groupId>org.jmisb</groupId>
+            <artifactId>impl</artifactId>
+            <version>${project.version}</version>
+        </dependency>
         <dependency>
             <groupId>org.jmisb</groupId>
             <artifactId>jmisb-api-ffmpeg</artifactId>
@@ -30,15 +43,7 @@
             </plugin>
             <plugin>
                 <groupId>org.apache.maven.plugins</groupId>
-                <artifactId>maven-assembly-plugin</artifactId>
-                <configuration>
-                    <archive>
-                        <manifest>
-                            <addClasspath>true</addClasspath>
-                            <mainClass>org.jmisb.examples.systemout.Main</mainClass>
-                        </manifest>
-                    </archive>
-                </configuration>
+                <artifactId>maven-shade-plugin</artifactId>
             </plugin>
         </plugins>
     </build>

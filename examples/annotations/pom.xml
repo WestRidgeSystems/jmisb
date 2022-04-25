@@ -11,10 +11,28 @@
     <packaging>jar</packaging>
     <name>Annotation generator example</name>
     <description>Example code that generates ST 0602 annotation test files.</description>
+    <properties>
+        <main.class>org.jmisb.examples.annotations.GeneratorCLI</main.class>
+    </properties>
     <dependencies>
         <dependency>
             <groupId>org.jmisb</groupId>
             <artifactId>jmisb-api-ffmpeg</artifactId>
+            <version>${project.version}</version>
+        </dependency>
+        <dependency>
+            <groupId>org.jmisb</groupId>
+            <artifactId>st0102</artifactId>
+            <version>${project.version}</version>
+        </dependency>
+        <dependency>
+            <groupId>org.jmisb</groupId>
+            <artifactId>st0602</artifactId>
+            <version>${project.version}</version>
+        </dependency>
+        <dependency>
+            <groupId>org.jmisb</groupId>
+            <artifactId>st1301</artifactId>
             <version>${project.version}</version>
         </dependency>
         <dependency>
@@ -34,15 +52,7 @@
             </plugin>
             <plugin>
                 <groupId>org.apache.maven.plugins</groupId>
-                <artifactId>maven-assembly-plugin</artifactId>
-                <configuration>
-                    <archive>
-                        <manifest>
-                            <addClasspath>true</addClasspath>
-                            <mainClass>org.jmisb.examples.annotations.GeneratorCLI</mainClass>
-                        </manifest>
-                    </archive>
-                </configuration>
+                <artifactId>maven-shade-plugin</artifactId>
             </plugin>
         </plugins>
     </build>
