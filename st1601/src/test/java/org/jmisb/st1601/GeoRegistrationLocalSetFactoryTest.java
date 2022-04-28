@@ -7,7 +7,7 @@ import org.jmisb.api.klv.IMisbMessage;
 import org.jmisb.api.klv.MisbMessageFactory;
 import org.testng.annotations.Test;
 
-/** @author bradh */
+/** Unit tests for GeoRegistrationLocalSetFactory. */
 public class GeoRegistrationLocalSetFactoryTest {
 
     public GeoRegistrationLocalSetFactoryTest() {}
@@ -28,10 +28,7 @@ public class GeoRegistrationLocalSetFactoryTest {
         IMisbMessage message =
                 messageFactory.handleMessage(GeoRegistrationLocalSetTwoImageTest.BYTES_NON_NESTED);
         assertTrue(message instanceof GeoRegistrationLocalSet);
-        GeoRegistrationLocalSet localSet =
-                (GeoRegistrationLocalSet)
-                        new GeoRegistrationLocalSet(
-                                GeoRegistrationLocalSetTwoImageTest.BYTES_NON_NESTED);
+        GeoRegistrationLocalSet localSet = (GeoRegistrationLocalSet) message;
         assertEquals(
                 localSet.getUniversalLabel(), GeoRegistrationLocalSet.GeoRegistrationLocalSetUl);
         GeoRegistrationLocalSetTwoImageTest.checkLocalSet(localSet);
