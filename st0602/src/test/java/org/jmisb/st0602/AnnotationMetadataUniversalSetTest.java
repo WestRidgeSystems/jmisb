@@ -177,6 +177,141 @@ public class AnnotationMetadataUniversalSetTest {
                 "3");
     }
 
+    @Test
+    public void parseBytesZOrder() throws KlvParseException {
+        byte[] bytes =
+                new byte[] {
+                    (byte) 0x06,
+                    (byte) 0x0e,
+                    (byte) 0x2b,
+                    (byte) 0x34,
+                    (byte) 0x02,
+                    (byte) 0x01,
+                    (byte) 0x01,
+                    (byte) 0x01,
+                    (byte) 0x0e,
+                    (byte) 0x01,
+                    (byte) 0x03,
+                    (byte) 0x03,
+                    (byte) 0x01,
+                    (byte) 0x00,
+                    (byte) 0x00,
+                    (byte) 0x00,
+                    // This use of BER long form is test fix for broken parsing.
+                    (byte) 0x81,
+                    (byte) 0x39,
+                    (byte) 0x06,
+                    (byte) 0x0e,
+                    (byte) 0x2b,
+                    (byte) 0x34,
+                    (byte) 0x01,
+                    (byte) 0x01,
+                    (byte) 0x01,
+                    (byte) 0x01,
+                    (byte) 0x01,
+                    (byte) 0x03,
+                    (byte) 0x03,
+                    (byte) 0x01,
+                    (byte) 0x00,
+                    (byte) 0x00,
+                    (byte) 0x00,
+                    (byte) 0x00,
+                    (byte) 0x04,
+                    (byte) 0x00,
+                    (byte) 0x00,
+                    (byte) 0x00,
+                    (byte) 0x03,
+                    (byte) 0x06,
+                    (byte) 0x0e,
+                    (byte) 0x2b,
+                    (byte) 0x34,
+                    (byte) 0x01,
+                    (byte) 0x01,
+                    (byte) 0x01,
+                    (byte) 0x01,
+                    (byte) 0x05,
+                    (byte) 0x01,
+                    (byte) 0x01,
+                    (byte) 0x02,
+                    (byte) 0x00,
+                    (byte) 0x00,
+                    (byte) 0x00,
+                    (byte) 0x00,
+                    (byte) 0x01,
+                    (byte) 0x31,
+                    (byte) 0x06,
+                    (byte) 0x0E,
+                    (byte) 0x2B,
+                    (byte) 0x34,
+                    (byte) 0x01,
+                    (byte) 0x01,
+                    (byte) 0x01,
+                    (byte) 0x01,
+                    (byte) 0x0E,
+                    (byte) 0x01,
+                    (byte) 0x02,
+                    (byte) 0x05,
+                    (byte) 0x06,
+                    (byte) 0x00,
+                    (byte) 0x00,
+                    (byte) 0x00,
+                    (byte) 0x01,
+                    (byte) 0x02
+                };
+        AnnotationMetadataUniversalSet universalSet = new AnnotationMetadataUniversalSet(bytes);
+        assertEquals(universalSet.displayHeader(), "ST 0602, ID: 3");
+        assertEquals(
+                universalSet.getUniversalLabel(),
+                AnnotationMetadataUniversalSet.AnnotationUniversalSetUl);
+        assertEquals(universalSet.getIdentifiers().size(), 3);
+        assertEquals(universalSet.getMetadataKeys().size(), 3);
+        assertTrue(universalSet.getIdentifiers().contains(AnnotationMetadataKey.EventIndication));
+        assertTrue(universalSet.getMetadataKeys().contains(AnnotationMetadataKey.EventIndication));
+        assertEquals(
+                universalSet.getField(AnnotationMetadataKey.EventIndication).getDisplayName(),
+                "Event Indication");
+        assertEquals(
+                universalSet
+                        .getField((IKlvKey) AnnotationMetadataKey.EventIndication)
+                        .getDisplayName(),
+                "Event Indication");
+        assertEquals(
+                universalSet.getField(AnnotationMetadataKey.EventIndication).getDisplayableValue(),
+                "NEW");
+        assertTrue(
+                universalSet
+                        .getIdentifiers()
+                        .contains(AnnotationMetadataKey.LocallyUniqueIdentifier));
+        assertTrue(
+                universalSet
+                        .getMetadataKeys()
+                        .contains(AnnotationMetadataKey.LocallyUniqueIdentifier));
+        assertEquals(
+                universalSet
+                        .getField(AnnotationMetadataKey.LocallyUniqueIdentifier)
+                        .getDisplayName(),
+                "Locally Unique Identifier");
+        assertEquals(
+                universalSet
+                        .getField((IKlvKey) AnnotationMetadataKey.LocallyUniqueIdentifier)
+                        .getDisplayName(),
+                "Locally Unique Identifier");
+        assertEquals(
+                universalSet
+                        .getField(AnnotationMetadataKey.LocallyUniqueIdentifier)
+                        .getDisplayableValue(),
+                "3");
+        assertTrue(universalSet.getIdentifiers().contains(AnnotationMetadataKey.ZOrder));
+        assertTrue(universalSet.getMetadataKeys().contains(AnnotationMetadataKey.ZOrder));
+        assertEquals(
+                universalSet.getField(AnnotationMetadataKey.ZOrder).getDisplayName(), "Z-Order");
+        assertEquals(
+                universalSet.getField((IKlvKey) AnnotationMetadataKey.ZOrder).getDisplayName(),
+                "Z-Order");
+        assertEquals(
+                universalSet.getField(AnnotationMetadataKey.ZOrder).getDisplayableValue(), "2");
+    }
+
     @Test(expectedExceptions = IllegalArgumentException.class)
     public void frameMessageNested() throws KlvParseException {
         Map<AnnotationMetadataKey, IAnnotationMetadataValue> map = sampleDeleteMessageValues();
