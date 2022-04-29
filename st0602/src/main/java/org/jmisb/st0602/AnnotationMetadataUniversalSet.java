@@ -32,7 +32,9 @@ public class AnnotationMetadataUniversalSet implements IMisbMessage {
                         0x01, 0x00, 0x00, 0x00
                     });
 
-    private static Logger logger = LoggerFactory.getLogger(AnnotationMetadataUniversalSet.class);
+    private static final Logger LOGGER =
+            LoggerFactory.getLogger(AnnotationMetadataUniversalSet.class);
+
     private Map<AnnotationMetadataKey, IAnnotationMetadataValue> map = new HashMap<>();
 
     /**
@@ -69,7 +71,7 @@ public class AnnotationMetadataUniversalSet implements IMisbMessage {
                 }
             } catch (IllegalArgumentException ex) {
                 InvalidDataHandler.getInstance()
-                        .handleInvalidFieldEncoding(logger, ex.getMessage());
+                        .handleInvalidFieldEncoding(LOGGER, ex.getMessage());
             }
         }
     }

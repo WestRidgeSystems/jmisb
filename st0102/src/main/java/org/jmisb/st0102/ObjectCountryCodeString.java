@@ -6,7 +6,7 @@ import org.slf4j.LoggerFactory;
 
 /** Represents an Object Country Code value in ST 0102. */
 public class ObjectCountryCodeString implements ISecurityMetadataValue {
-    private static final Logger LOG = LoggerFactory.getLogger(ObjectCountryCodeString.class);
+    private static final Logger LOGGER = LoggerFactory.getLogger(ObjectCountryCodeString.class);
 
     private final String stringValue;
 
@@ -27,7 +27,7 @@ public class ObjectCountryCodeString implements ISecurityMetadataValue {
     public ObjectCountryCodeString(byte[] bytes) {
         if (bytes.length < 4) {
             // This probably isn't going to be a valid UTF-16 country code
-            LOG.warn(
+            LOGGER.warn(
                     "{} has too few bytes for required UTF-16 encoding. Trying UTF-8 workaround.",
                     getDisplayName());
             this.stringValue = new String(bytes, StandardCharsets.UTF_8);

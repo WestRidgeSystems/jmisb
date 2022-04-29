@@ -3,11 +3,15 @@ package org.jmisb.api.klv.st1204;
 import static org.testng.Assert.*;
 
 import java.util.UUID;
+import org.jmisb.api.klv.LoggerChecks;
 import org.testng.annotations.Test;
+import uk.org.lidalia.slf4jtest.LoggingEvent;
 
-public class CoreIdentifierTortureTest {
+public class CoreIdentifierTortureTest extends LoggerChecks {
 
-    public CoreIdentifierTortureTest() {}
+    public CoreIdentifierTortureTest() {
+        super(CoreIdentifier.class);
+    }
 
     @Test
     public void badCheckDigitsC7() {
@@ -15,6 +19,7 @@ public class CoreIdentifierTortureTest {
                 CoreIdentifier.fromString(
                         "0154:C7D1-6253-98A2-41C2-BA6E-90F8-FCC7-3914/E047-AB3E-81BE-41ED-9664-09B0-2F44-5FAB/5E71-B0DC-20FE-4920-8216-26D6-4F61-D863:C7");
         verifyCoreIdentifierE1BadCheck(coreIdentifier);
+        this.verifyNoLoggerMessages();
     }
 
     @Test
@@ -23,6 +28,7 @@ public class CoreIdentifierTortureTest {
                 CoreIdentifier.fromString(
                         "0154:C7D1-6253-98A2-41C2-BA6E-90F8-FCC7-3914/E047-AB3E-81BE-41ED-9664-09B0-2F44-5FAB/5E71-B0DC-20FE-4920-8216-26D6-4F61-D863:D7");
         verifyCoreIdentifierE1BadCheck(coreIdentifier);
+        this.verifyNoLoggerMessages();
     }
 
     private void verifyCoreIdentifierE1BadCheck(CoreIdentifier coreIdentifier) {
@@ -94,6 +100,7 @@ public class CoreIdentifierTortureTest {
         String expectedText =
                 "0154:C7D1-6253-98A2-41C2-BA6E-90F8-FCC7-3914/E047-AB3E-81BE-41ED-9664-09B0-2F44-5FAB/5E71-B0DC-20FE-4920-8216-26D6-4F61-D863:C8";
         assertEquals(coreIdentifier.getTextRepresentation(), expectedText);
+        this.verifyNoLoggerMessages();
     }
 
     @Test
@@ -102,6 +109,7 @@ public class CoreIdentifierTortureTest {
                 CoreIdentifier.fromString(
                         "0154:C7D1-6253-98A2-41C2-BA6E-90F8-FCC7-3914/E047-AB3E-81BE-41ED-9664-09B0-2F44-5FAB/5E71-B0DC-20FE-4920-8216-26D6-4F61-D863");
         verifyCoreIdentifierE1BadCheck(coreIdentifier);
+        this.verifyNoLoggerMessages();
     }
 
     @Test
@@ -110,6 +118,7 @@ public class CoreIdentifierTortureTest {
                 CoreIdentifier.fromString(
                         "015:C7D1-6253-98A2-41C2-BA6E-90F8-FCC7-3914/E047-AB3E-81BE-41ED-9664-09B0-2F44-5FAB/5E71-B0DC-20FE-4920-8216-26D6-4F61-D863");
         assertNull(coreIdentifier);
+        this.verifyNoLoggerMessages();
     }
 
     @Test
@@ -118,6 +127,7 @@ public class CoreIdentifierTortureTest {
                 CoreIdentifier.fromString(
                         "0154C7D1-6253-98A2-41C2-BA6E-90F8-FCC7-3914/E047-AB3E-81BE-41ED-9664-09B0-2F44-5FAB/5E71-B0DC-20FE-4920-8216-26D6-4F61-D863");
         assertNull(coreIdentifier);
+        this.verifyNoLoggerMessages();
     }
 
     @Test
@@ -126,12 +136,17 @@ public class CoreIdentifierTortureTest {
                 CoreIdentifier.fromString(
                         "0154:C7D1-6253-98A2-41C2-BA6E-90F8-FCC7-3914/E047-AB3E-81BE-41ED-9664-09B0-2F44-5FAB:C8");
         assertNull(coreIdentifier);
+        this.verifyNoLoggerMessages();
     }
 
     @Test
     public void badByteLengthHeader() {
         CoreIdentifier coreIdentifier = CoreIdentifier.fromBytes(new byte[] {0x01});
         assertNull(coreIdentifier);
+        assertEquals(LOGGER.getLoggingEvents().size(), 1);
+        LoggingEvent event = LOGGER.getLoggingEvents().get(0);
+        assertEquals(event.getMessage(), "Insufficient bytes to read MIIS Core Identifier usage");
+        LOGGER.clear();
     }
 
     @Test
@@ -140,6 +155,10 @@ public class CoreIdentifierTortureTest {
                 CoreIdentifier.fromBytes(
                         new byte[] {0x01, 0x40, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15});
         assertNull(coreIdentifier);
+        assertEquals(LOGGER.getLoggingEvents().size(), 1);
+        LoggingEvent event = LOGGER.getLoggingEvents().get(0);
+        assertEquals(event.getMessage(), "Insufficient bytes to read MIIS Sensor UUID");
+        LOGGER.clear();
     }
 
     @Test
@@ -148,6 +167,10 @@ public class CoreIdentifierTortureTest {
                 CoreIdentifier.fromBytes(
                         new byte[] {0x01, 0x10, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15});
         assertNull(coreIdentifier);
+        assertEquals(LOGGER.getLoggingEvents().size(), 1);
+        LoggingEvent event = LOGGER.getLoggingEvents().get(0);
+        assertEquals(event.getMessage(), "Insufficient bytes to read MIIS Platform UUID");
+        LOGGER.clear();
     }
 
     @Test
@@ -156,6 +179,10 @@ public class CoreIdentifierTortureTest {
                 CoreIdentifier.fromBytes(
                         new byte[] {0x01, 0x04, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15});
         assertNull(coreIdentifier);
+        assertEquals(LOGGER.getLoggingEvents().size(), 1);
+        LoggingEvent event = LOGGER.getLoggingEvents().get(0);
+        assertEquals(event.getMessage(), "Insufficient bytes to read MIIS Window UUID");
+        LOGGER.clear();
     }
 
     @Test
@@ -164,11 +191,19 @@ public class CoreIdentifierTortureTest {
                 CoreIdentifier.fromBytes(
                         new byte[] {0x01, 0x02, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15});
         assertNull(coreIdentifier);
+        assertEquals(LOGGER.getLoggingEvents().size(), 1);
+        LoggingEvent event = LOGGER.getLoggingEvents().get(0);
+        assertEquals(event.getMessage(), "Insufficient bytes to read MIIS Minor UUID");
+        LOGGER.clear();
     }
 
     @Test
     public void badByteLengthUsage() {
         CoreIdentifier coreIdentifier = CoreIdentifier.fromBytes(new byte[] {(byte) 0x81, 0x00});
         assertNull(coreIdentifier);
+        assertEquals(LOGGER.getLoggingEvents().size(), 1);
+        LoggingEvent event = LOGGER.getLoggingEvents().get(0);
+        assertEquals(event.getMessage(), "Insufficient bytes to read MIIS Core Identifier usage");
+        LOGGER.clear();
     }
 }

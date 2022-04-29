@@ -3,11 +3,14 @@ package org.jmisb.api.klv.st1204;
 import static org.testng.Assert.*;
 
 import java.util.UUID;
+import org.jmisb.api.klv.LoggerChecks;
 import org.testng.annotations.Test;
 
-public class CoreIdentifierTest {
+public class CoreIdentifierTest extends LoggerChecks {
 
-    public CoreIdentifierTest() {}
+    public CoreIdentifierTest() {
+        super(CoreIdentifier.class);
+    }
 
     @Test
     public void sensorSetter() {

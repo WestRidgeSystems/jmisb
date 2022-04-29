@@ -4,7 +4,11 @@ import java.io.IOException;
 import org.testng.Assert;
 import org.testng.annotations.Test;
 
-public class VideoFileInputTest {
+public class VideoFileInputTest extends LoggerChecks {
+
+    public VideoFileInputTest() {
+        super(VideoFileInput.class);
+    }
 
     @Test
     public void testCreate() {

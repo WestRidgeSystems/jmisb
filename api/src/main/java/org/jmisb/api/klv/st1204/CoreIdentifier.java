@@ -169,7 +169,7 @@ public class CoreIdentifier {
      */
     public static CoreIdentifier fromBytes(byte[] bytes) {
         if (bytes.length < 2) {
-            LOGGER.error("Insufficient bytes to read MIIS Core Identifer usage");
+            LOGGER.error("Insufficient bytes to read MIIS Core Identifier usage");
             return null;
         }
         int index = 0;
@@ -178,7 +178,7 @@ public class CoreIdentifier {
         index += field.getLength();
         coreIdentifier.setVersion(field.getValue());
         if (index >= bytes.length) {
-            LOGGER.error("Insufficient bytes to read MIIS Core Identifer usage");
+            LOGGER.error("Insufficient bytes to read MIIS Core Identifier usage");
             return null;
         }
         byte usage = bytes[index];

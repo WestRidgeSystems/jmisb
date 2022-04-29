@@ -9,6 +9,10 @@ import org.jmisb.st1108.st1108_2.LegacyIQLocalSetTest;
 import org.jmisb.st1108.st1108_3.IQLocalSet;
 import org.jmisb.st1108.st1108_3.IQLocalSetTest;
 import org.testng.annotations.Test;
+import uk.org.lidalia.slf4jext.Level;
+import uk.org.lidalia.slf4jtest.LoggingEvent;
+import uk.org.lidalia.slf4jtest.TestLogger;
+import uk.org.lidalia.slf4jtest.TestLoggerFactory;
 
 /** Tests for the ST 1108 Interpretability and Quality Local Set Factory. */
 public class InterpretabilityQualityLocalSetFactoryTest {
@@ -107,6 +111,9 @@ public class InterpretabilityQualityLocalSetFactoryTest {
 
     @Test
     public void parseTagSimpleUnknown() throws KlvParseException {
+        TestLogger logger =
+                TestLoggerFactory.getTestLogger(InterpretabilityQualityLocalSetFactory.class);
+        logger.setEnabledLevelsForAllThreads(Level.ERROR, Level.WARN, Level.INFO);
         final byte[] bytes =
                 new byte[] {
                     0x06,
@@ -134,12 +141,20 @@ public class InterpretabilityQualityLocalSetFactoryTest {
                 };
         InterpretabilityQualityLocalSetFactory factory =
                 new InterpretabilityQualityLocalSetFactory();
+        assertEquals(logger.getLoggingEvents().size(), 0);
         IMisbMessage message = factory.create(bytes);
+        assertEquals(logger.getLoggingEvents().size(), 1);
+        LoggingEvent event = logger.getLoggingEvents().get(0);
+        assertEquals(event.getMessage(), "Unsupported/unknown ST 1108 version");
+        logger.clear();
         assertNull(message);
     }
 
     @Test
     public void parseTagSimpleUnknownNoTag1() throws KlvParseException {
+        TestLogger logger =
+                TestLoggerFactory.getTestLogger(InterpretabilityQualityLocalSetFactory.class);
+        logger.setEnabledLevelsForAllThreads(Level.ERROR, Level.WARN, Level.INFO);
         final byte[] bytes =
                 new byte[] {
                     0x06,
@@ -166,7 +181,12 @@ public class InterpretabilityQualityLocalSetFactoryTest {
                 };
         InterpretabilityQualityLocalSetFactory factory =
                 new InterpretabilityQualityLocalSetFactory();
+        assertEquals(logger.getLoggingEvents().size(), 0);
         IMisbMessage message = factory.create(bytes);
+        assertEquals(logger.getLoggingEvents().size(), 1);
+        LoggingEvent event = logger.getLoggingEvents().get(0);
+        assertEquals(event.getMessage(), "Unsupported/unknown ST 1108 version");
+        logger.clear();
         assertNull(message);
     }
 }

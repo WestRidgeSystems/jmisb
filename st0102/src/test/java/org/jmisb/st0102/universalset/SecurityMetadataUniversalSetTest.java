@@ -10,6 +10,7 @@ import org.jmisb.api.klv.BerDecoder;
 import org.jmisb.api.klv.BerField;
 import org.jmisb.st0102.Classification;
 import org.jmisb.st0102.ISecurityMetadataValue;
+import org.jmisb.st0102.LoggerChecks;
 import org.jmisb.st0102.ObjectCountryCodeString;
 import org.jmisb.st0102.ST0102Version;
 import org.jmisb.st0102.SecurityMetadataConstants;
@@ -19,8 +20,12 @@ import org.testng.Assert;
 import org.testng.annotations.BeforeTest;
 import org.testng.annotations.Test;
 
-public class SecurityMetadataUniversalSetTest {
+public class SecurityMetadataUniversalSetTest extends LoggerChecks {
     private SecurityMetadataUniversalSet universalSet;
+
+    public SecurityMetadataUniversalSetTest() {
+        super(SecurityMetadataUniversalSet.class);
+    }
 
     @BeforeTest
     public void createSet() {

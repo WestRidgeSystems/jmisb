@@ -15,11 +15,22 @@ import org.jmisb.api.klv.BerField;
 import org.jmisb.api.klv.IKlvKey;
 import org.jmisb.api.klv.IMisbMessage;
 import org.jmisb.api.klv.KlvParser;
+import org.testng.annotations.AfterMethod;
+import org.testng.annotations.BeforeMethod;
 import org.testng.annotations.BeforeTest;
 import org.testng.annotations.Test;
+import uk.org.lidalia.slf4jext.Level;
+import uk.org.lidalia.slf4jtest.TestLogger;
+import uk.org.lidalia.slf4jtest.TestLoggerFactory;
 
 public class AnnotationMetadataUniversalSetTest {
     private AnnotationMetadataUniversalSet minimalUniversalSet;
+    private TestLogger LOGGER;
+
+    public AnnotationMetadataUniversalSetTest() {
+        LOGGER = TestLoggerFactory.getTestLogger(AnnotationMetadataUniversalSet.class);
+        LOGGER.setEnabledLevelsForAllThreads(Level.ERROR, Level.WARN, Level.INFO);
+    }
 
     @BeforeTest
     public void createSet() throws KlvParseException {
@@ -29,6 +40,16 @@ public class AnnotationMetadataUniversalSetTest {
                 new EventIndication(EventIndicationKind.DELETE));
         values.put(AnnotationMetadataKey.LocallyUniqueIdentifier, new LocallyUniqueIdentifier(3));
         minimalUniversalSet = new AnnotationMetadataUniversalSet(values);
+    }
+
+    @BeforeMethod
+    public void clearLogger() {
+        LOGGER.clear();
+    }
+
+    @AfterMethod
+    public void checkLogger() {
+        assertEquals(LOGGER.getLoggingEvents().size(), 0);
     }
 
     @Test

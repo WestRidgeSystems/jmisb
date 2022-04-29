@@ -4,7 +4,11 @@ import java.io.IOException;
 import org.testng.Assert;
 import org.testng.annotations.Test;
 
-public class VideoStreamInputTest {
+public class VideoStreamInputTest extends LoggerChecks {
+
+    public VideoStreamInputTest() {
+        super(VideoStreamInput.class);
+    }
 
     @Test
     public void createInputStream() {
