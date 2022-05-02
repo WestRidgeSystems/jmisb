@@ -217,8 +217,7 @@ public class UasDatalinkFactory {
                 // TODO Implement ST 1002
                 return new OpaqueValue(bytes);
             case Georegistration:
-                // TODO Implement ST 1601
-                return new OpaqueValue(bytes);
+                return new NestedGeoRegistrationLocalSet(bytes);
             case CompositeImaging:
                 // TODO Implement ST 1602
                 return new OpaqueValue(bytes);

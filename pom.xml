@@ -41,6 +41,7 @@
         <module>api-ffmpeg</module>
         <module>st0102</module>
         <module>eg0104</module>
+        <module>st1601</module>
         <module>st0601</module>
         <module>st0602</module>
         <module>st0805</module>
@@ -57,6 +58,7 @@
         <module>viewer</module>
         <module>elevation</module>
         <module>examples</module>
+
     </modules>
 
     <scm>

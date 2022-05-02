@@ -30,6 +30,8 @@ public class GeneratorCLI {
                         false,
                         "Include SAR Motion Imagery (implies synchronousMultiplex)"));
         commandLineOptions.addOption(
+                new Option(null, "georegistration", false, "Include GeoRegistration data"));
+        commandLineOptions.addOption(
                 new Option("s", "synchronousMultiplex", false, "Use synchronous multiplexing."));
         commandLineOptions.addOption(
                 new Option(null, "coding", true, "The video coding to use (H.264 or H.265)"));
@@ -73,6 +75,9 @@ public class GeneratorCLI {
             if (commandLine.hasOption("sarmi")) {
                 generator.setKlvFormat(KlvFormat.Synchronous);
                 generator.setIncludeSARMI();
+            }
+            if (commandLine.hasOption("georegistration")) {
+                generator.setIncludeGeoRegistration();
             }
             generator.generate();
         } catch (ParseException ex) {

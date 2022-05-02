@@ -8,6 +8,7 @@ module org.jmisb.st0601 {
     requires org.jmisb.api;
     requires org.jmisb.st0102;
     requires org.jmisb.st1206;
+    requires org.jmisb.st1601;
     requires org.slf4j;
 
     uses org.jmisb.api.klv.IMisbMessageFactory;

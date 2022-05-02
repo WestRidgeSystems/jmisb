@@ -56,6 +56,16 @@
         </dependency>
         <dependency>
             <groupId>org.jmisb</groupId>
+            <artifactId>st1601</artifactId>
+            <version>${project.version}</version>
+        </dependency>
+        <dependency>
+            <groupId>org.jmisb</groupId>
+            <artifactId>st1603</artifactId>
+            <version>${project.version}</version>
+        </dependency>
+        <dependency>
+            <groupId>org.jmisb</groupId>
             <artifactId>mimd</artifactId>
             <version>${project.version}</version>
         </dependency>
