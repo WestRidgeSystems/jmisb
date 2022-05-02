@@ -4,10 +4,10 @@ import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
 import org.jmisb.api.common.KlvParseException;
+import org.jmisb.api.klv.ArrayBuilder;
 import org.jmisb.api.klv.BerDecoder;
 import org.jmisb.api.klv.BerEncoder;
 import org.jmisb.api.klv.BerField;
-import org.jmisb.core.klv.ArrayUtils;
 import org.jmisb.core.klv.PrimitiveConverter;
 import org.jmisb.st0903.IVmtiMetadataValue;
 
@@ -67,8 +67,7 @@ public class BitMaskSeries implements IVmtiMetadataValue {
 
     @Override
     public byte[] getBytes() {
-        int len = 0;
-        List<byte[]> chunks = new ArrayList<>();
+        ArrayBuilder arrayBuilder = new ArrayBuilder();
         for (PixelRunPair run : getRuns()) {
             byte[] pixelNumberBytes =
                     PrimitiveConverter.uintToVariableBytesV6(run.getPixelNumber());
@@ -76,17 +75,12 @@ public class BitMaskSeries implements IVmtiMetadataValue {
             byte[] runBytes = BerEncoder.encode(run.getRun());
             int bytesForThisRun =
                     pixelNumberLengthBytes.length + pixelNumberBytes.length + runBytes.length;
-            byte[] overallLengthBytes = BerEncoder.encode(bytesForThisRun);
-            chunks.add(overallLengthBytes);
-            len += overallLengthBytes.length;
-            chunks.add(pixelNumberLengthBytes);
-            len += pixelNumberLengthBytes.length;
-            chunks.add(pixelNumberBytes);
-            len += pixelNumberBytes.length;
-            chunks.add(runBytes);
-            len += runBytes.length;
+            arrayBuilder.appendAsBerLength(bytesForThisRun);
+            arrayBuilder.append(pixelNumberLengthBytes);
+            arrayBuilder.append(pixelNumberBytes);
+            arrayBuilder.append(runBytes);
         }
-        return ArrayUtils.arrayFromChunks(chunks, len);
+        return arrayBuilder.toBytes();
     }
 
     @Override

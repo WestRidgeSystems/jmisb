@@ -1,12 +1,8 @@
 package org.jmisb.st0601;
 
-import java.util.ArrayList;
-import java.util.List;
-import org.jmisb.api.klv.Ber;
+import org.jmisb.api.klv.ArrayBuilder;
 import org.jmisb.api.klv.BerDecoder;
-import org.jmisb.api.klv.BerEncoder;
 import org.jmisb.api.klv.BerField;
-import org.jmisb.core.klv.ArrayUtils;
 
 /**
  * Sensor Frame Rate (ST 0601 Item 127).
@@ -69,17 +65,12 @@ public class SensorFrameRate implements IUasDatalinkValue {
 
     @Override
     public byte[] getBytes() {
-        List<byte[]> chunks = new ArrayList<>();
-        int totalLength = 0;
-        byte[] numeratorBytes = BerEncoder.encode(numerator, Ber.OID);
-        chunks.add(numeratorBytes);
-        totalLength += numeratorBytes.length;
+        ArrayBuilder builder = new ArrayBuilder();
+        builder.appendAsOID(numerator);
         if (denominator != 1) {
-            byte[] denominatorBytes = BerEncoder.encode(denominator, Ber.OID);
-            chunks.add(denominatorBytes);
-            totalLength += denominatorBytes.length;
+            builder.appendAsOID(denominator);
         }
-        return ArrayUtils.arrayFromChunks(chunks, totalLength);
+        return builder.toBytes();
     }
 
     /**

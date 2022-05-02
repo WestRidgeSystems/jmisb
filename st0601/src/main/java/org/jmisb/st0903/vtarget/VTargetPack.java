@@ -1,6 +1,5 @@
 package org.jmisb.st0903.vtarget;
 
-import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
 import java.util.Set;
@@ -8,16 +7,14 @@ import java.util.SortedMap;
 import java.util.TreeMap;
 import org.jmisb.api.common.InvalidDataHandler;
 import org.jmisb.api.common.KlvParseException;
-import org.jmisb.api.klv.Ber;
+import org.jmisb.api.klv.ArrayBuilder;
 import org.jmisb.api.klv.BerDecoder;
-import org.jmisb.api.klv.BerEncoder;
 import org.jmisb.api.klv.BerField;
 import org.jmisb.api.klv.IKlvKey;
 import org.jmisb.api.klv.IKlvValue;
 import org.jmisb.api.klv.INestedKlvValue;
 import org.jmisb.api.klv.LdsField;
 import org.jmisb.api.klv.LdsParser;
-import org.jmisb.core.klv.ArrayUtils;
 import org.jmisb.st0903.IVmtiMetadataValue;
 import org.jmisb.st0903.shared.AlgorithmId;
 import org.jmisb.st0903.shared.EncodingMode;
@@ -238,25 +235,16 @@ public class VTargetPack implements IKlvValue, INestedKlvValue {
      * @return byte array with the encoded local set.
      */
     public byte[] getBytes() {
-        int len = 0;
-        List<byte[]> chunks = new ArrayList<>();
-
-        byte[] targetIdBytes = BerEncoder.encode(targetId, Ber.OID);
-        chunks.add(targetIdBytes);
-        len += targetIdBytes.length;
-
+        ArrayBuilder arrayBuilder = new ArrayBuilder();
+        arrayBuilder.appendAsOID(targetId);
         for (VTargetMetadataKey tag : getTags()) {
-            chunks.add(new byte[] {(byte) tag.getTag()});
-            len += 1;
+            arrayBuilder.appendByte((byte) tag.getTag());
             IVmtiMetadataValue value = getField(tag);
             byte[] bytes = value.getBytes();
-            byte[] lengthBytes = BerEncoder.encode(bytes.length);
-            chunks.add(lengthBytes);
-            len += lengthBytes.length;
-            chunks.add(bytes);
-            len += bytes.length;
+            arrayBuilder.appendAsBerLength(bytes.length);
+            arrayBuilder.append(bytes);
         }
-        return ArrayUtils.arrayFromChunks(chunks, len);
+        return arrayBuilder.toBytes();
     }
 
     @Override

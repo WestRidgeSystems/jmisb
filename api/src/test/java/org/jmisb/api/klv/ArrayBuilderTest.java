@@ -2,6 +2,8 @@ package org.jmisb.api.klv;
 
 import static org.testng.Assert.*;
 
+import java.util.ArrayList;
+import java.util.Collection;
 import org.testng.annotations.Test;
 
 /** Unit tests for the ArrayBuilder class. */
@@ -188,5 +190,21 @@ public class ArrayBuilderTest {
         assertNotNull(bytes);
         assertEquals(bytes.length, 1);
         assertEquals(bytes, new byte[] {(byte) 0xFF});
+    }
+
+    @Test
+    public void checkBytesToArray() {
+        Collection<byte[]> chunks = new ArrayList<>();
+        byte[] chunk0 = new byte[] {0x0a, 0x0b};
+        int len = chunk0.length;
+        chunks.add(chunk0);
+        byte[] chunk1 = new byte[] {0x01, 0x02};
+        len += chunk1.length;
+        chunks.add(chunk1);
+        byte[] chunk2 = new byte[] {0x09, 0x08, 0x07};
+        len += chunk2.length;
+        chunks.add(chunk2);
+        byte[] a = ArrayBuilder.arrayFromChunks(chunks, len);
+        assertEquals(a, new byte[] {0x0a, 0x0b, 0x01, 0x02, 0x09, 0x08, 0x07});
     }
 }

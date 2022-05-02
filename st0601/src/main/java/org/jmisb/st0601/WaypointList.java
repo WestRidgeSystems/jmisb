@@ -4,13 +4,13 @@ import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
 import org.jmisb.api.common.KlvParseException;
+import org.jmisb.api.klv.ArrayBuilder;
 import org.jmisb.api.klv.Ber;
 import org.jmisb.api.klv.BerDecoder;
 import org.jmisb.api.klv.BerEncoder;
 import org.jmisb.api.klv.BerField;
 import org.jmisb.api.klv.st1201.FpEncoder;
 import org.jmisb.api.klv.st1201.OutOfRangeBehaviour;
-import org.jmisb.core.klv.ArrayUtils;
 import org.jmisb.core.klv.PrimitiveConverter;
 import org.jmisb.st0601.dto.Location;
 import org.jmisb.st0601.dto.Waypoint;
@@ -116,15 +116,11 @@ public class WaypointList implements IUasDatalinkValue {
 
     @Override
     public byte[] getBytes() {
-        List<byte[]> chunks = new ArrayList<>();
-        int totalLength = 0;
+        ArrayBuilder array = new ArrayBuilder();
         for (Waypoint wp : getWaypoints()) {
-            int len = 0;
             byte[] idBytes = BerEncoder.encode(wp.getWaypointID(), Ber.OID);
-            len += idBytes.length;
             byte[] prosecutionOrderBytes =
                     PrimitiveConverter.int16ToBytes(wp.getProsecutionOrder());
-            len += prosecutionOrderBytes.length;
             byte infoVal = 0;
             if (wp.isAdhocSource()) {
                 infoVal += ADHOC_SOURCE;
@@ -133,25 +129,25 @@ public class WaypointList implements IUasDatalinkValue {
                 infoVal += MANUAL_MODE;
             }
             byte[] infoBytes = BerEncoder.encode(infoVal, Ber.OID);
-            len += infoBytes.length;
             byte[] latBytes = latDecoder.encode(wp.getLocation().getLatitude());
-            len += latBytes.length;
             byte[] lonBytes = lonDecoder.encode(wp.getLocation().getLongitude());
-            len += lonBytes.length;
             byte[] haeBytes = haeDecoder.encode(wp.getLocation().getHAE());
-            len += haeBytes.length;
-            byte[] lenBytes = BerEncoder.encode(len);
-            chunks.add(lenBytes);
-            chunks.add(idBytes);
-            chunks.add(prosecutionOrderBytes.clone());
-            chunks.add(infoBytes);
-            chunks.add(latBytes);
-            chunks.add(lonBytes);
-            chunks.add(haeBytes);
-            totalLength += len;
-            totalLength += lenBytes.length;
+            int length =
+                    idBytes.length
+                            + prosecutionOrderBytes.length
+                            + infoBytes.length
+                            + latBytes.length
+                            + lonBytes.length
+                            + haeBytes.length;
+            array.appendAsBerLength(length);
+            array.append(idBytes);
+            array.append(prosecutionOrderBytes.clone());
+            array.append(infoBytes);
+            array.append(latBytes);
+            array.append(lonBytes);
+            array.append(haeBytes);
         }
-        return ArrayUtils.arrayFromChunks(chunks, totalLength);
+        return array.toBytes();
     }
 
     @Override

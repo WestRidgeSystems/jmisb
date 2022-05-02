@@ -2,12 +2,11 @@ package org.jmisb.api.klv.st1204;
 
 import java.security.MessageDigest;
 import java.security.NoSuchAlgorithmException;
-import java.util.ArrayList;
 import java.util.List;
 import java.util.UUID;
+import org.jmisb.api.klv.ArrayBuilder;
 import org.jmisb.api.klv.BerDecoder;
 import org.jmisb.api.klv.BerField;
-import org.jmisb.core.klv.ArrayUtils;
 import org.jmisb.core.klv.UuidUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -463,28 +462,21 @@ public class CoreIdentifier {
      * @return byte array representation of this identifier.
      */
     public byte[] getRawBytesRepresentation() {
-        int len = 0;
-        List<byte[]> chunks = new ArrayList<>();
-        chunks.add(new byte[] {(byte) version});
-        len += 1;
-        chunks.add(new byte[] {(byte) buildUsage()});
-        len += 1;
+        ArrayBuilder builder = new ArrayBuilder();
+        builder.appendByte((byte) version);
+        builder.appendByte((byte) buildUsage());
         if (sensorUUID != null) {
-            chunks.add(UuidUtils.uuidToArray(sensorUUID));
-            len += 16;
+            builder.append(sensorUUID);
         }
         if (platformUUID != null) {
-            chunks.add(UuidUtils.uuidToArray(platformUUID));
-            len += 16;
+            builder.append(platformUUID);
         }
         if (windowUUID != null) {
-            chunks.add(UuidUtils.uuidToArray(windowUUID));
-            len += 16;
+            builder.append(windowUUID);
         }
         if (minorUUID != null) {
-            chunks.add(UuidUtils.uuidToArray(minorUUID));
-            len += 16;
+            builder.append(minorUUID);
         }
-        return ArrayUtils.arrayFromChunks(chunks, len);
+        return builder.toBytes();
     }
 }

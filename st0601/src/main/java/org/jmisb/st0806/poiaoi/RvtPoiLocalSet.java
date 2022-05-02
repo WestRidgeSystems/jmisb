@@ -1,19 +1,17 @@
 package org.jmisb.st0806.poiaoi;
 
-import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
 import java.util.Set;
 import java.util.SortedMap;
 import java.util.TreeMap;
 import org.jmisb.api.common.KlvParseException;
-import org.jmisb.api.klv.BerEncoder;
+import org.jmisb.api.klv.ArrayBuilder;
 import org.jmisb.api.klv.IKlvKey;
 import org.jmisb.api.klv.IKlvValue;
 import org.jmisb.api.klv.INestedKlvValue;
 import org.jmisb.api.klv.LdsField;
 import org.jmisb.api.klv.LdsParser;
-import org.jmisb.core.klv.ArrayUtils;
 import org.jmisb.st0806.IRvtMetadataValue;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -124,20 +122,15 @@ public class RvtPoiLocalSet implements IRvtMetadataValue, INestedKlvValue {
      */
     @Override
     public byte[] getBytes() {
-        int len = 0;
-        List<byte[]> chunks = new ArrayList<>();
+        ArrayBuilder builder = new ArrayBuilder();
         for (RvtPoiMetadataKey tag : getTags()) {
-            chunks.add(new byte[] {(byte) tag.getIdentifier()});
-            len += 1;
+            builder.appendByte((byte) tag.getIdentifier());
             IRvtPoiAoiMetadataValue value = getField(tag);
             byte[] bytes = value.getBytes();
-            byte[] lengthBytes = BerEncoder.encode(bytes.length);
-            chunks.add(lengthBytes);
-            len += lengthBytes.length;
-            chunks.add(bytes);
-            len += bytes.length;
+            builder.appendAsBerLength(bytes.length);
+            builder.append(bytes);
         }
-        return ArrayUtils.arrayFromChunks(chunks, len);
+        return builder.toBytes();
     }
 
     @Override

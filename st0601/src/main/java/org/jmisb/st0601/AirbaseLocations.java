@@ -1,13 +1,10 @@
 package org.jmisb.st0601;
 
-import java.util.ArrayList;
-import java.util.List;
+import org.jmisb.api.klv.ArrayBuilder;
 import org.jmisb.api.klv.BerDecoder;
-import org.jmisb.api.klv.BerEncoder;
 import org.jmisb.api.klv.BerField;
 import org.jmisb.api.klv.st1201.FpEncoder;
 import org.jmisb.api.klv.st1201.OutOfRangeBehaviour;
-import org.jmisb.core.klv.ArrayUtils;
 import org.jmisb.st0601.dto.Location;
 
 /**
@@ -173,44 +170,32 @@ public class AirbaseLocations implements IUasDatalinkValue {
 
     @Override
     public byte[] getBytes() {
-        List<byte[]> chunks = new ArrayList<>();
-        int totalLength = 0;
+        ArrayBuilder arrayBuilder = new ArrayBuilder();
         if (takeoffLocationIsUnknown) {
-            byte[] takeoffLenBytes = BerEncoder.encode(0);
-            chunks.add(takeoffLenBytes);
-            totalLength += takeoffLenBytes.length;
+            arrayBuilder.appendAsBerLength(0);
         } else {
-            totalLength = getTotalLength(chunks, totalLength, takeoffLocation);
+            addLocationBytes(arrayBuilder, takeoffLocation);
         }
         if (recoveryLocationIsUnknown) {
-            byte[] recoveryLenBytes = BerEncoder.encode(0);
-            chunks.add(recoveryLenBytes);
-            totalLength += recoveryLenBytes.length;
+            arrayBuilder.appendAsBerLength(0);
         } else if (!takeoffAndRecoveryLocationsAreTheSame()) {
-            totalLength = getTotalLength(chunks, totalLength, recoveryLocation);
+            addLocationBytes(arrayBuilder, recoveryLocation);
         }
-        return ArrayUtils.arrayFromChunks(chunks, totalLength);
+        return arrayBuilder.toBytes();
     }
 
-    private int getTotalLength(List<byte[]> chunks, int totalLength, Location recoveryLocation) {
-        int recoveryLen = 0;
-        byte[] latBytes = latDecoder.encode(recoveryLocation.getLatitude());
-        recoveryLen += latBytes.length;
-        byte[] lonBytes = lonDecoder.encode(recoveryLocation.getLongitude());
-        recoveryLen += lonBytes.length;
+    private void addLocationBytes(ArrayBuilder arrayBuilder, Location location) {
+        byte[] latBytes = latDecoder.encode(location.getLatitude());
+        byte[] lonBytes = lonDecoder.encode(location.getLongitude());
         byte[] haeBytes = new byte[] {};
-        if (!(recoveryLocation.getHAE() < -900.0)) {
-            haeBytes = haeDecoder.encode(recoveryLocation.getHAE());
-            recoveryLen += haeBytes.length;
+        if (!(location.getHAE() < -900.0)) {
+            haeBytes = haeDecoder.encode(location.getHAE());
         }
-        byte[] recoveryLenBytes = BerEncoder.encode(recoveryLen);
-        chunks.add(recoveryLenBytes);
-        chunks.add(latBytes);
-        chunks.add(lonBytes);
-        chunks.add(haeBytes);
-        totalLength += recoveryLen;
-        totalLength += recoveryLenBytes.length;
-        return totalLength;
+        int locationByteCount = latBytes.length + lonBytes.length + haeBytes.length;
+        arrayBuilder.appendAsBerLength(locationByteCount);
+        arrayBuilder.append(latBytes);
+        arrayBuilder.append(lonBytes);
+        arrayBuilder.append(haeBytes);
     }
 
     /**

@@ -6,6 +6,7 @@ import java.util.List;
 import java.util.Set;
 import java.util.TreeSet;
 import org.jmisb.api.common.KlvParseException;
+import org.jmisb.api.klv.ArrayBuilder;
 import org.jmisb.api.klv.Ber;
 import org.jmisb.api.klv.BerDecoder;
 import org.jmisb.api.klv.BerEncoder;
@@ -13,7 +14,6 @@ import org.jmisb.api.klv.BerField;
 import org.jmisb.api.klv.IKlvKey;
 import org.jmisb.api.klv.IKlvValue;
 import org.jmisb.api.klv.INestedKlvValue;
-import org.jmisb.core.klv.ArrayUtils;
 import org.jmisb.st0601.dto.Payload;
 
 /**
@@ -104,31 +104,22 @@ public class PayloadList implements IUasDatalinkValue, INestedKlvValue {
 
     @Override
     public byte[] getBytes() {
-        List<byte[]> chunks = new ArrayList<>();
-        int totalLength = 0;
-        byte[] countBytes = BerEncoder.encode(payloadList.size(), Ber.OID);
-        chunks.add(countBytes);
-        totalLength += countBytes.length;
+        ArrayBuilder arrayBuilder = new ArrayBuilder();
+        arrayBuilder.appendAsOID(payloadList.size());
         for (Payload payload : getPayloadList()) {
-            int lengthForPayload = 0;
             byte[] idBytes = BerEncoder.encode(payload.getIdentifier(), Ber.OID);
-            lengthForPayload += idBytes.length;
             byte[] typeBytes = BerEncoder.encode(payload.getType(), Ber.OID);
-            lengthForPayload += typeBytes.length;
             byte[] nameBytes = payload.getName().getBytes(StandardCharsets.UTF_8);
             byte[] nameLengthBytes = BerEncoder.encode(nameBytes.length);
-            lengthForPayload += nameLengthBytes.length;
-            lengthForPayload += nameBytes.length;
-            byte[] lengthForPayloadBytes = BerEncoder.encode(lengthForPayload, Ber.OID);
-            chunks.add(lengthForPayloadBytes);
-            chunks.add(idBytes);
-            chunks.add(typeBytes);
-            chunks.add(nameLengthBytes);
-            chunks.add(nameBytes);
-            totalLength += lengthForPayloadBytes.length;
-            totalLength += lengthForPayload;
+            int payloadLength =
+                    idBytes.length + typeBytes.length + nameBytes.length + nameLengthBytes.length;
+            arrayBuilder.appendAsOID(payloadLength);
+            arrayBuilder.append(idBytes);
+            arrayBuilder.append(typeBytes);
+            arrayBuilder.append(nameLengthBytes);
+            arrayBuilder.append(nameBytes);
         }
-        return ArrayUtils.arrayFromChunks(chunks, totalLength);
+        return arrayBuilder.toBytes();
     }
 
     @Override

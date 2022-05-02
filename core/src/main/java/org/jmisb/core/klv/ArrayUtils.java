@@ -1,6 +1,5 @@
 package org.jmisb.core.klv;
 
-import java.util.Collection;
 import java.util.Formatter;
 
 /** Utility methods for arrays */
@@ -53,22 +52,5 @@ public class ArrayUtils {
             }
         }
         return formatter.toString();
-    }
-
-    /**
-     * Concatenate a collection of byte arrays (chunks) sequentially into one big array
-     *
-     * @param chunks The collection of chunks
-     * @param totalLength The total number of bytes in all chunks
-     * @return New array concatenating all chunks
-     */
-    public static byte[] arrayFromChunks(Collection<byte[]> chunks, int totalLength) {
-        byte[] array = new byte[totalLength];
-        int i = 0;
-        for (byte[] chunk : chunks) {
-            System.arraycopy(chunk, 0, array, i, chunk.length);
-            i += chunk.length;
-        }
-        return array;
     }
 }

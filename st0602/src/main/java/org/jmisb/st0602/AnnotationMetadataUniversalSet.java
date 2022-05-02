@@ -1,8 +1,5 @@
 package org.jmisb.st0602;
 
-import static org.jmisb.core.klv.ArrayUtils.arrayFromChunks;
-
-import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -11,7 +8,6 @@ import org.jmisb.api.common.InvalidDataHandler;
 import org.jmisb.api.common.KlvParseException;
 import org.jmisb.api.klv.ArrayBuilder;
 import org.jmisb.api.klv.BerDecoder;
-import org.jmisb.api.klv.BerEncoder;
 import org.jmisb.api.klv.BerField;
 import org.jmisb.api.klv.IKlvKey;
 import org.jmisb.api.klv.IMisbMessage;
@@ -129,9 +125,7 @@ public class AnnotationMetadataUniversalSet implements IMisbMessage {
      * @return byte array containing KLV serialised form of the Annotation Universal Metadata Set.
      */
     public byte[] getAnnotationUniversalSetBytes() {
-        // List representing all keys and values as primitive byte arrays. Avoids boxing/unboxing
-        // individual bytes for efficiency.
-        List<byte[]> chunks = new ArrayList<>();
+        ArrayBuilder arrayBuilder = new ArrayBuilder();
 
         // Add all values from map
         for (Map.Entry<AnnotationMetadataKey, IAnnotationMetadataValue> entry : map.entrySet()) {
@@ -148,32 +142,14 @@ public class AnnotationMetadataUniversalSet implements IMisbMessage {
             IAnnotationMetadataValue value = entry.getValue();
             byte[] bytes = value.getBytes();
             if (bytes != null && bytes.length > 0) {
-                chunks.add(key.getUl().getBytes());
-                chunks.add(BerEncoder.encode(bytes.length));
-                chunks.add(bytes.clone());
+                arrayBuilder.append(key.getUl());
+                arrayBuilder.appendAsBerLength(bytes.length);
+                arrayBuilder.append(bytes.clone());
             }
         }
-
-        // Figure out value length
-        int valueLength = 0;
-        for (byte[] chunk : chunks) {
-            valueLength += chunk.length;
-        }
-
-        // Determine total length
-        int totalLength;
-        // Prepend length field into front of the list
-        byte[] lengthField = BerEncoder.encode(valueLength);
-        chunks.add(0, lengthField);
-
-        // Prepend key field (UL) into front of the list
-        chunks.add(0, AnnotationUniversalSetUl.getBytes());
-
-        // Compute full message length
-        totalLength = UniversalLabel.LENGTH + lengthField.length + valueLength;
-
-        // Allocate array and write all chunks
-        return arrayFromChunks(chunks, totalLength);
+        arrayBuilder.prependLength();
+        arrayBuilder.prepend(AnnotationUniversalSetUl);
+        return arrayBuilder.toBytes();
     }
 
     @Override

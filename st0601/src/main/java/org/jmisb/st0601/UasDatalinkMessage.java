@@ -1,7 +1,5 @@
 package org.jmisb.st0601;
 
-import static org.jmisb.core.klv.ArrayUtils.arrayFromChunks;
-
 import java.util.*;
 import org.jmisb.api.common.InvalidDataHandler;
 import org.jmisb.api.common.KlvParseException;
@@ -29,7 +27,6 @@ public class UasDatalinkMessage implements IMisbMessage {
 
     // TODO: should we make this class immutable? May have benefits for stability in multi-threaded
     // environments.
-
     /** Map containing all data elements in the message (except, normally, the checksum). */
     private SortedMap<UasDatalinkTag, IUasDatalinkValue> map = new TreeMap<>();
 
@@ -142,13 +139,7 @@ public class UasDatalinkMessage implements IMisbMessage {
 
     @Override
     public byte[] frameMessage(boolean isNested) {
-        // List representing all tags and values as primitive byte arrays. Avoids boxing/unboxing
-        // individual bytes for efficiency.
-        List<byte[]> chunks = new ArrayList<>();
-
-        // Note: we will insert key/length fields into chunks after all value fields have been added
-
-        // Add all values from map
+        ArrayBuilder arrayBuilder = new ArrayBuilder();
         for (Map.Entry<UasDatalinkTag, IUasDatalinkValue> entry : map.entrySet()) {
             UasDatalinkTag tag = entry.getKey();
 
@@ -161,56 +152,34 @@ public class UasDatalinkMessage implements IMisbMessage {
             IUasDatalinkValue value = entry.getValue();
             if (value instanceof ISpecialFraming) {
                 ISpecialFraming specialFramingEntry = (ISpecialFraming) value;
-                chunks.add(specialFramingEntry.getEncodedValue());
+                arrayBuilder.append(specialFramingEntry.getEncodedValue());
             } else {
                 byte[] bytes = value.getBytes();
                 if (bytes != null && bytes.length > 0) {
                     // Add key, length, value to chunks
-                    chunks.add(BerEncoder.encode(tag.getCode(), Ber.OID));
-                    chunks.add(BerEncoder.encode(bytes.length));
-                    chunks.add(bytes.clone());
+                    arrayBuilder.appendAsOID(tag.getCode());
+                    arrayBuilder.appendAsBerLength(bytes.length);
+                    arrayBuilder.append(bytes.clone());
                 }
             }
         }
-
         // Add Key and Length of checksum with placeholder for value - Checksum must be final
         // element
         byte[] checksum = new byte[2];
-        chunks.add(new byte[] {(byte) UasDatalinkTag.Checksum.getCode()});
-        chunks.add(BerEncoder.encode(checksum.length, Ber.SHORT_FORM));
-        chunks.add(checksum);
-
-        // Figure out value length
-        final int keyLength = UniversalLabel.LENGTH;
-        int valueLength = 0;
-        for (byte[] chunk : chunks) {
-            valueLength += chunk.length;
-        }
-
-        // Determine total length
-        int totalLength;
+        arrayBuilder.appendByte((byte) UasDatalinkTag.Checksum.getCode());
+        arrayBuilder.appendAsBerLength(checksum.length);
+        arrayBuilder.append(checksum);
         if (isNested) {
-            // NOTE: nesting ST 0601 seems unlikely, but we'll support it anyway
-            totalLength = valueLength;
+            return arrayBuilder.toBytes();
         } else {
-            // Prepend length field into front of the list
-            byte[] lengthField = BerEncoder.encode(valueLength);
-            chunks.add(0, lengthField);
-
-            // Prepend key field (UL) into front of the list
-            chunks.add(0, UasDatalinkLocalUl.getBytes());
-
-            // Compute full message length
-            totalLength = keyLength + lengthField.length + valueLength;
+            arrayBuilder.prependLength();
+            arrayBuilder.prepend(UasDatalinkLocalUl);
+            ;
+            byte[] array = arrayBuilder.toBytes();
+            // Compute the checksum and replace the last two bytes of array
+            Checksum.compute(array, true);
+            return array;
         }
-
-        // Allocate array and write all chunks
-        byte[] array = arrayFromChunks(chunks, totalLength);
-
-        // Compute the checksum and replace the last two bytes of array
-        Checksum.compute(array, true);
-
-        return array;
     }
 
     @Override

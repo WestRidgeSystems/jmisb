@@ -1,18 +1,15 @@
 package org.jmisb.st0601;
 
 import java.nio.charset.StandardCharsets;
-import java.util.ArrayList;
 import java.util.HashSet;
-import java.util.List;
 import java.util.Set;
 import org.jmisb.api.common.KlvParseException;
+import org.jmisb.api.klv.ArrayBuilder;
 import org.jmisb.api.klv.BerDecoder;
-import org.jmisb.api.klv.BerEncoder;
 import org.jmisb.api.klv.BerField;
 import org.jmisb.api.klv.IKlvKey;
 import org.jmisb.api.klv.IKlvValue;
 import org.jmisb.api.klv.INestedKlvValue;
-import org.jmisb.core.klv.ArrayUtils;
 import org.jmisb.st0102.CountryCodingMethod;
 import org.jmisb.st0102.CountryCodingMethodUtilities;
 
@@ -155,48 +152,30 @@ public class CountryCodes implements IUasDatalinkValue, INestedKlvValue {
 
     @Override
     public byte[] getBytes() {
-        List<byte[]> chunks = new ArrayList<>();
-        int totalLength = 0;
+        ArrayBuilder builder = new ArrayBuilder();
         byte[] codingMethodBytes =
                 new byte[] {CountryCodingMethodUtilities.getValueForCodingMethod(codingMethod)};
-        byte[] codingMethodLengthBytes = BerEncoder.encode(codingMethodBytes.length);
-        chunks.add(codingMethodLengthBytes);
-        totalLength += codingMethodLengthBytes.length;
-        chunks.add(codingMethodBytes);
-        totalLength += codingMethodBytes.length;
+        builder.appendAsBerLength(codingMethodBytes.length);
+        builder.append(codingMethodBytes);
 
         byte[] overflightCountryBytes = overflightCountry.getBytes(StandardCharsets.UTF_8);
-        byte[] overflightCountryLengthBytes = BerEncoder.encode(overflightCountryBytes.length);
-        chunks.add(overflightCountryLengthBytes);
-        totalLength += overflightCountryLengthBytes.length;
-        chunks.add(overflightCountryBytes);
-        totalLength += overflightCountryBytes.length;
-
+        builder.appendAsBerLength(overflightCountryBytes.length);
+        builder.append(overflightCountryBytes);
         byte[] operatorCountryBytes = operatorCountry.getBytes(StandardCharsets.UTF_8);
         byte[] countryOfManufactureBytes = countryOfManufacture.getBytes(StandardCharsets.UTF_8);
-
         if ((operatorCountryBytes.length == 0) && (countryOfManufactureBytes.length == 0)) {
             // truncate here
-            return ArrayUtils.arrayFromChunks(chunks, totalLength);
+            return builder.toBytes();
         }
-        byte[] operatorCountryLengthBytes = BerEncoder.encode(operatorCountryBytes.length);
-        chunks.add(operatorCountryLengthBytes);
-        totalLength += operatorCountryLengthBytes.length;
-        chunks.add(operatorCountryBytes);
-        totalLength += operatorCountryBytes.length;
-
+        builder.appendAsBerLength(operatorCountryBytes.length);
+        builder.append(operatorCountryBytes);
         if (countryOfManufactureBytes.length == 0) {
             // truncate here
-            return ArrayUtils.arrayFromChunks(chunks, totalLength);
+            return builder.toBytes();
         }
-        byte[] countryOfManufactureLengthBytes =
-                BerEncoder.encode(countryOfManufactureBytes.length);
-        chunks.add(countryOfManufactureLengthBytes);
-        totalLength += countryOfManufactureLengthBytes.length;
-        chunks.add(countryOfManufactureBytes);
-        totalLength += countryOfManufactureBytes.length;
-
-        return ArrayUtils.arrayFromChunks(chunks, totalLength);
+        builder.appendAsBerLength(countryOfManufactureBytes.length);
+        builder.append(countryOfManufactureBytes);
+        return builder.toBytes();
     }
 
     /**
