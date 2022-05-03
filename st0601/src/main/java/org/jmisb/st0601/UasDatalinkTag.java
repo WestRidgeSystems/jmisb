@@ -328,7 +328,7 @@ public enum UasDatalinkTag implements IKlvKey {
     Georegistration(98),
     /**
      * Tag 99; MISB ST 1602 Composite Imaging Local Set metadata items; Value is a {@link
-     * OpaqueValue}.
+     * NestedCompositeImagingLocalSet}.
      */
     CompositeImaging(99),
     /**
