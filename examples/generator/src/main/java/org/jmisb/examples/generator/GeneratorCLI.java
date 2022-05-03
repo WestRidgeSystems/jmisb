@@ -30,7 +30,10 @@ public class GeneratorCLI {
                         false,
                         "Include SAR Motion Imagery (implies synchronousMultiplex)"));
         commandLineOptions.addOption(
-                new Option(null, "georegistration", false, "Include GeoRegistration data"));
+                new Option(null, "georegistration", false, "Include ST 1601 GeoRegistration data"));
+        commandLineOptions.addOption(
+                new Option(
+                        null, "compositeimaging", false, "Include ST 1602 Composite Imaging data"));
         commandLineOptions.addOption(
                 new Option("s", "synchronousMultiplex", false, "Use synchronous multiplexing."));
         commandLineOptions.addOption(
@@ -78,6 +81,9 @@ public class GeneratorCLI {
             }
             if (commandLine.hasOption("georegistration")) {
                 generator.setIncludeGeoRegistration();
+            }
+            if (commandLine.hasOption("compositeimaging")) {
+                generator.setIncludeCompositeImaging();
             }
             generator.generate();
         } catch (ParseException ex) {

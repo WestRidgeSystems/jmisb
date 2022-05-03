@@ -6,6 +6,7 @@ module org.jmisb.examples.generator {
     requires org.jmisb.st0601;
     requires org.jmisb.st1206;
     requires org.jmisb.st1601;
+    requires org.jmisb.st1602;
     requires commons.cli;
     requires java.desktop;
 }

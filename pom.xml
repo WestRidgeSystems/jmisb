@@ -41,7 +41,6 @@
         <module>api-ffmpeg</module>
         <module>st0102</module>
         <module>eg0104</module>
-        <module>st1601</module>
         <module>st0601</module>
         <module>st0602</module>
         <module>st0805</module>
@@ -51,6 +50,7 @@
         <module>st1206</module>
         <module>st1301</module>
         <module>st1403</module>
+        <module>st1601</module>
         <module>st1602</module>
         <module>st1603</module>
         <module>mimd</module>

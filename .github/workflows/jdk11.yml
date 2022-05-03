@@ -84,6 +84,11 @@ jobs:
         with:
           file: ./st1601/target/site/jacoco/jacoco.xml
           flags: unittests-st1601
+      - name: Upload ST 1602 implementation test results to Codecov
+        uses: codecov/codecov-action@v1.5.0
+        with:
+          file: ./st1602/target/site/jacoco/jacoco.xml
+          flags: unittests-st1602
       - name: Upload ST 1603 implementation test results to Codecov
         uses: codecov/codecov-action@v1.5.0
         with:

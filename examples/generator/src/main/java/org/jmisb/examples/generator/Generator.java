@@ -1,5 +1,7 @@
 package org.jmisb.examples.generator;
 
+import java.awt.Color;
+import java.awt.Graphics2D;
 import java.awt.image.BufferedImage;
 import java.io.File;
 import java.io.IOException;
@@ -36,6 +38,7 @@ import org.jmisb.st0601.FrameCenterLongitude;
 import org.jmisb.st0601.HorizontalFov;
 import org.jmisb.st0601.IUasDatalinkValue;
 import org.jmisb.st0601.MiisCoreIdentifier;
+import org.jmisb.st0601.NestedCompositeImagingLocalSet;
 import org.jmisb.st0601.NestedGeoRegistrationLocalSet;
 import org.jmisb.st0601.NestedSARMILocalSet;
 import org.jmisb.st0601.NestedSecurityMetadata;
@@ -109,6 +112,15 @@ import org.jmisb.st1601.GeoRegistrationKey;
 import org.jmisb.st1601.GeoRegistrationLocalSet;
 import org.jmisb.st1601.IGeoRegistrationValue;
 import org.jmisb.st1601.ST1601DocumentVersion;
+import org.jmisb.st1602.CompositeImagingKey;
+import org.jmisb.st1602.CompositeImagingLocalSet;
+import org.jmisb.st1602.ICompositeImagingValue;
+import org.jmisb.st1602.ST1602DocumentVersion;
+import org.jmisb.st1602.SubImageColumns;
+import org.jmisb.st1602.SubImagePositionX;
+import org.jmisb.st1602.SubImagePositionY;
+import org.jmisb.st1602.SubImageRows;
+import org.jmisb.st1602.ZOrder;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -133,7 +145,13 @@ public class Generator {
     private byte version0903 = 5;
     private boolean includeSARMI = false;
     private boolean includeGeoRegistration = false;
+    private boolean includeCompositeImaging = false;
     private String filename = "generator_output.mpeg";
+
+    private static final int COMPOSITE_IMAGE_ROWS = 60;
+    private static final int COMPOSITE_IMAGE_COLUMNS = 500;
+    private static final int COMPOSITE_IMAGE_POS_X = 390;
+    private static final int COMPOSITE_IMAGE_POS_Y = 450;
 
     private static final Logger LOG = LoggerFactory.getLogger(Generator.class);
 
@@ -165,6 +183,10 @@ public class Generator {
 
     public void setIncludeGeoRegistration() {
         this.includeGeoRegistration = true;
+    }
+
+    public void setIncludeCompositeImaging() {
+        this.includeCompositeImaging = true;
     }
 
     public void setOutputFile(String filename) {
@@ -284,6 +306,18 @@ public class Generator {
                             UasDatalinkTag.Georegistration,
                             new NestedGeoRegistrationLocalSet(getGeoRegistrationLocalSet()));
                 }
+                if (includeCompositeImaging) {
+                    values.put(
+                            UasDatalinkTag.CompositeImaging,
+                            new NestedCompositeImagingLocalSet(getCompositeImagingLocalSet()));
+                    Graphics2D graphics = image.createGraphics();
+                    graphics.setColor(Color.yellow);
+                    graphics.fillRect(
+                            COMPOSITE_IMAGE_POS_X,
+                            COMPOSITE_IMAGE_POS_Y,
+                            COMPOSITE_IMAGE_COLUMNS,
+                            COMPOSITE_IMAGE_ROWS);
+                }
                 UasDatalinkMessage message = new UasDatalinkMessage(values);
 
                 output.addVideoFrame(new VideoFrame(image, pts * 1.0e-6));
@@ -343,6 +377,22 @@ public class Generator {
         values.put(
                 GeoRegistrationKey.AlgorithmVersion, new GeoRegistrationAlgorithmVersion("0.1a"));
         return new GeoRegistrationLocalSet(values);
+    }
+
+    private CompositeImagingLocalSet getCompositeImagingLocalSet() {
+        Map<CompositeImagingKey, ICompositeImagingValue> values = new TreeMap<>();
+        values.put(CompositeImagingKey.DocumentVersion, new ST1602DocumentVersion(1));
+        values.put(CompositeImagingKey.SubImageRows, new SubImageRows(COMPOSITE_IMAGE_ROWS));
+        values.put(
+                CompositeImagingKey.SubImageColumns, new SubImageColumns(COMPOSITE_IMAGE_COLUMNS));
+        values.put(
+                CompositeImagingKey.SubImagePositionX,
+                new SubImagePositionX(COMPOSITE_IMAGE_POS_X));
+        values.put(
+                CompositeImagingKey.SubImagePositionY,
+                new SubImagePositionY(COMPOSITE_IMAGE_POS_Y));
+        values.put(CompositeImagingKey.ZOrder, new ZOrder(88));
+        return new CompositeImagingLocalSet(values);
     }
 
     private VmtiLocalSet getVmtiLocalSet() {
