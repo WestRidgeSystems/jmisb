@@ -48,6 +48,11 @@
             <artifactId>st1601</artifactId>
             <version>${project.version}</version>
         </dependency>
+        <dependency>
+            <groupId>org.jmisb</groupId>
+            <artifactId>st1602</artifactId>
+            <version>${project.version}</version>
+        </dependency>
     </dependencies>
     <build>
         <plugins>

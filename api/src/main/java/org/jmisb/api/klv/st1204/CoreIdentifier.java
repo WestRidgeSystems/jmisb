@@ -391,6 +391,11 @@ public class CoreIdentifier {
         return sb.toString();
     }
 
+    @Override
+    public String toString() {
+        return getTextRepresentation();
+    }
+
     private void parseVersionAndUsage(String versionAndUsage) {
         int versionAndUsageValue = Integer.parseInt(versionAndUsage, 16);
         setVersion(versionAndUsageValue >> 8);

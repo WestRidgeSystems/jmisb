@@ -16,6 +16,7 @@ public class CodecConfigurations {
         codecs.add(
                 new CodecConfiguration("hevc_nvenc", "NVIDIA", CodecIdentifier.H265)
                         .addCodecOption("tune", "zerolatency")
+                        .addCodecOption("udu_sei", "1")
                         .addCodecOption("preset", "ll"));
         codecs.add(
                 new CodecConfiguration("libx265", "x265", CodecIdentifier.H265)
@@ -24,6 +25,7 @@ public class CodecConfigurations {
         codecs.add(
                 new CodecConfiguration("h264_nvenc", "NVIDIA", CodecIdentifier.H264)
                         .addCodecOption("tune", "zerolatency")
+                        .addCodecOption("udu_sei", "1")
                         .addCodecOption("preset", "fast"));
         codecs.add(
                 new CodecConfiguration("h264_qsv", "Intel QuickSync", CodecIdentifier.H264)
@@ -38,6 +40,7 @@ public class CodecConfigurations {
         codecs.add(
                 new CodecConfiguration("libx264", "x264", CodecIdentifier.H264)
                         .addCodecOption("tune", "zerolatency")
+                        .addCodecOption("udu_sei", "1")
                         .addCodecOption("preset", "ultrafast"));
     }
 

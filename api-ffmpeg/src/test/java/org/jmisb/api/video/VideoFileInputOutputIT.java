@@ -7,8 +7,10 @@ import java.time.LocalDateTime;
 import java.util.List;
 import java.util.SortedMap;
 import java.util.TreeMap;
+import java.util.UUID;
 import javax.imageio.ImageIO;
 import org.jmisb.api.klv.IMisbMessage;
+import org.jmisb.api.klv.st1204.CoreIdentifier;
 import org.jmisb.core.video.TimingUtils;
 import org.jmisb.st0102.Classification;
 import org.jmisb.st0102.CountryCodingMethod;
@@ -291,7 +293,11 @@ public class VideoFileInputOutputIT {
 
                 UasDatalinkMessage message = new UasDatalinkMessage(values);
 
-                output.addVideoFrame(new VideoFrame(image, pts));
+                VideoFrame frame = new VideoFrame(image, pts);
+                CoreIdentifier miisCoreId = new CoreIdentifier();
+                miisCoreId.setMinorUUID(UUID.randomUUID());
+                frame.setMiisCoreId(miisCoreId);
+                output.addVideoFrame(frame);
                 output.addMetadataFrame(new MetadataFrame(message, pts));
                 pts += frameDuration;
             }

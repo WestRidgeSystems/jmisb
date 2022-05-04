@@ -153,7 +153,9 @@ public class Generator {
                 try (FileOutputStream stream = new FileOutputStream(path)) {
                     stream.write(message.getBytes());
                 }
-                output.addVideoFrame(new VideoFrame(image, pts));
+                VideoFrame videoFrame = new VideoFrame(image, pts * 1.0e-6);
+                videoFrame.setMiisCoreId(coreIdentifier);
+                output.addVideoFrame(videoFrame);
                 output.addMetadataFrame(new MetadataFrame(message, pts));
                 pts += frameDuration;
             }

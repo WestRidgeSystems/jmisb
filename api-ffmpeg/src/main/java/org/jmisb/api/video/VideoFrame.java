@@ -3,6 +3,7 @@ package org.jmisb.api.video;
 import java.awt.image.BufferedImage;
 import org.jmisb.api.klv.st0603.ST0603TimeStamp;
 import org.jmisb.api.klv.st0603.TimeStatus;
+import org.jmisb.api.klv.st1204.CoreIdentifier;
 
 /** An uncompressed video frame. */
 public class VideoFrame {
@@ -10,6 +11,7 @@ public class VideoFrame {
     private final double pts;
     private ST0603TimeStamp timeStamp = null;
     private TimeStatus timeStatus = null;
+    private CoreIdentifier miisCoreId = null;
 
     /**
      * Create a video frame.
@@ -84,5 +86,28 @@ public class VideoFrame {
      */
     public void setTimeStatus(TimeStatus timeStatus) {
         this.timeStatus = timeStatus;
+    }
+
+    /**
+     * Get the MIIS Core Identifier.
+     *
+     * <p>Not all frames will have a MIIS Core Identifier. ST 2101 requires it at least every 30
+     * seconds, or when it changes. Also, this concept is fairly new, and there are a lot of older
+     * imagery sources.
+     *
+     * @return the core identifier for this frame, or null if there is no core identifier in the
+     *     frame.
+     */
+    public CoreIdentifier getMiisCoreId() {
+        return miisCoreId;
+    }
+
+    /**
+     * Set the core identifier for this frame.
+     *
+     * @param miisCoreId the core identifier to set on the frame.
+     */
+    public void setMiisCoreId(CoreIdentifier miisCoreId) {
+        this.miisCoreId = miisCoreId;
     }
 }

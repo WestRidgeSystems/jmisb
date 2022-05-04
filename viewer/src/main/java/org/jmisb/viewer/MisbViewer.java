@@ -223,6 +223,7 @@ public class MisbViewer extends JFrame implements ActionListener {
 
             fileInput.addFrameListener(videoPanel);
             fileInput.addMetadataListener(videoPanel);
+            fileInput.addFrameListener(metadataPanel);
             fileInput.addMetadataListener(metadataPanel);
             fileInput.addMetadataListener(mapFrame);
             fileInput.addFrameListener(controlPanel);
