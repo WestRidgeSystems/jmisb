@@ -1,20 +1,31 @@
 import os
-modules = ['api', 'core']
+modules = ['api', 'api-awt', 'api-ffmpeg', 'core', 'elevation/geoid', 'eg0104', 'st0102', 'st0601', 'st0602', 'st0805', 'st0808', 'st0809', 'st1108', 'st1206', 'st1301', 'st1403', 'st1603', 'st1909']
 
 sourcedirs = []
 
-expectedToHaveNoTest = [ 'api/src/main/java/org/jmisb/api/klv/LdsParser.java',
-    'api/src/main/java/org/jmisb/api/video/VideoDecodeThread.java',
-    'api/src/main/java/org/jmisb/api/video/VideoOutput.java',
-    'api/src/main/java/org/jmisb/api/video/VideoStreamOutput.java',
-    'api/src/main/java/org/jmisb/api/video/DemuxerUtils.java',
-    'api/src/main/java/org/jmisb/api/video/MetadataDecodeThread.java',
-    'api/src/main/java/org/jmisb/api/video/VideoInput.java',
-    'api/src/main/java/org/jmisb/api/video/StreamDemuxer.java',
-    'api/src/main/java/org/jmisb/api/video/VideoFileOutput.java',
-    'api/src/main/java/org/jmisb/api/video/FfmpegLog.java',
-    'api/src/main/java/org/jmisb/api/video/FileDemuxer.java',
-    'core/src/main/java/org/jmisb/core/video/FrameConverter.java']
+expectedToHaveNoFactory = [
+    'api/src/main/java/org/jmisb/api/common/IInvalidDataHandlerStrategy.java',
+    'api/src/main/java/org/jmisb/api/common/InvalidDataHandler.java',
+    'api/src/main/java/org/jmisb/api/common/LogOnInvalidDataStrategy.java',
+    'api/src/main/java/org/jmisb/api/common/ThrowOnInvalidDataStrategy.java',
+]
+
+expectedToHaveNoTest = [
+    'api/src/main/java/org/jmisb/api/common/LogOnInvalidDataStrategy.java',
+    'api/src/main/java/org/jmisb/api/common/IInvalidDataHandlerStrategy.java',
+    'api/src/main/java/org/jmisb/api/common/ThrowOnInvalidDataStrategy.java',
+    'api-ffmpeg/src/main/java/org/jmisb/api/video/VideoDecodeThread.java',
+    'api-ffmpeg/src/main/java/org/jmisb/api/video/VideoOutput.java',
+    'api-ffmpeg/src/main/java/org/jmisb/api/video/VideoStreamOutput.java',
+    'api-ffmpeg/src/main/java/org/jmisb/api/video/DemuxerUtils.java',
+    'api-ffmpeg/src/main/java/org/jmisb/api/video/MetadataDecodeThread.java',
+    'api-ffmpeg/src/main/java/org/jmisb/api/video/VideoInput.java',
+    'api-ffmpeg/src/main/java/org/jmisb/api/video/StreamDemuxer.java',
+    'api-ffmpeg/src/main/java/org/jmisb/api/video/VideoFileOutput.java',
+    'api-ffmpeg/src/main/java/org/jmisb/api/video/FfmpegLog.java',
+    'api-ffmpeg/src/main/java/org/jmisb/api/video/FileDemuxer.java',
+    'api-ffmpeg/src/main/java/org/jmisb/api/video/VideoIO.java'
+]
 
 # flag that says whether everything was OK. Any failing check fails the result.
 checkPasses = True
@@ -44,9 +55,7 @@ def isCalledLOGGER(text):
         return False
 
 def isPrivateStaticFinal(text):
-    # TODO: fix final
-    # return text.startswith('private static final ')
-    return text.startswith('private static ')
+    return text.startswith('private static final ')
 
 def matchesExpectedFormat(text):
     return isCalledLOGGER(text) and isPrivateStaticFinal(text)
@@ -66,18 +75,26 @@ def matchesFileName(text, filePath):
         return False
 
 def checkUsesExpectedLoggerName(filePath):
+    if filePath in expectedToHaveNoFactory:
+        return
     didFindFactory = False
     f = open(filePath, 'r')
+    previousLine = ""
     for line in f.readlines():
         if "LoggerFactory.getLogger" in line:
             didFindFactory = True
-            text = line.strip()
+            if previousLine.endswith('='):
+                # handle line wrap formatting case
+                text = previousLine + " " + line.strip()
+            else:
+                text = line.strip()
             if not matchesExpectedFormat(text):
                 print('Does not match expected format ' + text)
                 checkPasses = False
             if not matchesFileName(text, filePath):
                 print('Does not match expected class name ' + text)
                 checkPasses = False
+        previousLine = line.strip()
     if not didFindFactory:
         print("Did not find expected factory line in " + filePath)
         checkPasses = False
@@ -117,7 +134,7 @@ def checkHasTestCase(sourceFilePath):
 filesWithJavaUtilLogging = []
 filesWithLoggers = []
 for module in modules:
-    sourcedir = os.path.join("..", "..", module, "src", "main", "java")
+    sourcedir = os.path.join(module, "src", "main", "java")
     for subdir, dirs, files in os.walk(sourcedir):
         for file in files:
             filePath = os.path.join(subdir, file)

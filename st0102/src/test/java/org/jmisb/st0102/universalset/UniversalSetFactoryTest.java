@@ -11,6 +11,7 @@ import org.jmisb.st0102.Classification;
 import org.jmisb.st0102.DeclassificationDate;
 import org.jmisb.st0102.ISecurityMetadataValue;
 import org.jmisb.st0102.ItemDesignatorId;
+import org.jmisb.st0102.LoggerChecks;
 import org.jmisb.st0102.ObjectCountryCodeString;
 import org.jmisb.st0102.OcmDate;
 import org.jmisb.st0102.SecurityMetadataKey;
@@ -20,7 +21,12 @@ import org.jmisb.st0102.TransportStreamId;
 import org.testng.Assert;
 import org.testng.annotations.Test;
 
-public class UniversalSetFactoryTest {
+public class UniversalSetFactoryTest extends LoggerChecks {
+
+    public UniversalSetFactoryTest() {
+        super(UniversalSetFactory.class);
+    }
+
     @Test
     public void testCreate() {
         ISecurityMetadataValue value =

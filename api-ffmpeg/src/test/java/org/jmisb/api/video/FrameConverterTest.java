@@ -17,7 +17,11 @@ import org.bytedeco.javacpp.PointerPointer;
 import org.testng.Assert;
 import org.testng.annotations.Test;
 
-public class FrameConverterTest {
+public class FrameConverterTest extends LoggerChecks {
+
+    public FrameConverterTest() {
+        super(FrameConverter.class);
+    }
 
     @Test
     public void basicConstruct() {

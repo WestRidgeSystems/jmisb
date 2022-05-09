@@ -9,13 +9,16 @@ import org.jmisb.api.klv.IKlvKey;
 import org.jmisb.st0903.MiisCoreIdentifier;
 import org.jmisb.st0903.shared.EncodingMode;
 import org.jmisb.st0903.shared.IVTrackItemMetadataValue;
+import org.jmisb.st0903.shared.LoggerChecks;
 import org.jmisb.st0903.vtarget.TargetPriority;
 import org.testng.annotations.Test;
 
 /** Unit tests for VTrackItem. */
-public class VTrackItemTest {
+public class VTrackItemTest extends LoggerChecks {
 
-    public VTrackItemTest() {}
+    public VTrackItemTest() {
+        super(VTrackItem.class);
+    }
 
     @Test
     public void checkVTrackItemFromBytes() throws KlvParseException {
@@ -58,7 +61,9 @@ public class VTrackItemTest {
     @Test
     public void checkVTrackItemFromBytesWithUnknownKey() throws KlvParseException {
         byte[] bytes = new byte[] {0x01, 0x7F, 0x01, 0x06, 0x07, 0x01, 0x03};
+        this.verifyNoLoggerMessages();
         VTrackItem uut = new VTrackItem(bytes, 0, bytes.length, EncodingMode.IMAPB);
+        this.verifySingleLoggerMessage("Unknown VTrackItem Metadata tag: 127");
         assertEquals(uut.getDisplayName(), "VTrackItem");
         assertEquals(uut.getDisplayableValue(), "Track Item 1");
         assertEquals(uut.getTargetIdentifier(), 1);
@@ -76,7 +81,9 @@ public class VTrackItemTest {
     @Test
     public void checkVTrackItemWithUnknownTag() throws KlvParseException {
         byte[] bytes = new byte[] {0x08, 0x7f, 0x01, 0x00, 0x07, 0x01, 0x03};
+        this.verifyNoLoggerMessages();
         VTrackItem uut = new VTrackItem(bytes, 0, bytes.length, EncodingMode.IMAPB);
+        this.verifySingleLoggerMessage("Unknown VTrackItem Metadata tag: 127");
         assertEquals(uut.getDisplayName(), "VTrackItem");
         assertEquals(uut.getDisplayableValue(), "Track Item 8");
         assertEquals(uut.getTargetIdentifier(), 8);
@@ -90,6 +97,7 @@ public class VTrackItemTest {
                 VTrackItem.createValue(
                         VTrackItemMetadataKey.Undefined, new byte[] {0x00}, EncodingMode.IMAPB);
         assertNull(v);
+        this.verifySingleLoggerMessage("Unrecognized VTrackItem tag: Undefined");
     }
 
     @Test
