@@ -56,10 +56,8 @@ public class AnnotationMetadataUniversalSet implements IMisbMessage {
     public AnnotationMetadataUniversalSet(byte[] bytes) throws KlvParseException {
         // Parse the length field
         BerField lengthField = BerDecoder.decode(bytes, UniversalLabel.LENGTH, false);
-        int lengthLength = lengthField.getLength();
-        int offset = UniversalLabel.LENGTH + lengthLength;
-        int valueLength = lengthField.getValue();
-        List<UdsField> fields = UdsParser.parseFields(bytes, offset, valueLength);
+        int offset = UniversalLabel.LENGTH + lengthField.getLength();
+        List<UdsField> fields = UdsParser.parseFields(bytes, offset, lengthField.getValue());
         for (UdsField field : fields) {
             try {
                 AnnotationMetadataKey key = AnnotationMetadataKey.getKey(field.getKey());
