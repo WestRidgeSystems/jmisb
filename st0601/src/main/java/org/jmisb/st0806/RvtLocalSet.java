@@ -4,16 +4,13 @@ import java.util.*;
 import org.jmisb.api.common.InvalidDataHandler;
 import org.jmisb.api.common.KlvParseException;
 import org.jmisb.api.klv.ArrayBuilder;
-import org.jmisb.api.klv.Ber;
 import org.jmisb.api.klv.BerDecoder;
-import org.jmisb.api.klv.BerEncoder;
 import org.jmisb.api.klv.BerField;
 import org.jmisb.api.klv.IKlvKey;
 import org.jmisb.api.klv.IMisbMessage;
 import org.jmisb.api.klv.LdsField;
 import org.jmisb.api.klv.LdsParser;
 import org.jmisb.api.klv.UniversalLabel;
-import org.jmisb.core.klv.ArrayUtils;
 import org.jmisb.core.klv.CRC32MPEG2;
 import org.jmisb.st0601.UasDatalinkTag;
 import org.jmisb.st0806.poiaoi.PoiAoiNumber;
@@ -206,72 +203,52 @@ public class RvtLocalSet implements IMisbMessage {
 
     @Override
     public byte[] frameMessage(boolean isNested) {
-        List<byte[]> chunks = new ArrayList<>();
+        ArrayBuilder arrayBuilder = new ArrayBuilder();
         for (RvtMetadataKey tag : map.keySet()) {
             if (tag == RvtMetadataKey.CRC32) {
                 continue;
             }
-            chunks.add(new byte[] {(byte) tag.getIdentifier()});
+            arrayBuilder.appendByte((byte) tag.getIdentifier());
             IRvtMetadataValue value = getField(tag);
             byte[] bytes = value.getBytes();
-            byte[] lengthBytes = BerEncoder.encode(bytes.length);
-            chunks.add(lengthBytes);
-            chunks.add(bytes);
+            arrayBuilder.appendAsBerLength(bytes.length);
+            arrayBuilder.append(bytes);
         }
         for (Integer numericId : getUserDefinedIndexes()) {
             RvtUserDefinedLocalSet userDefinedLocalSet = getUserDefinedLocalSet(numericId);
-            chunks.add(new byte[] {(byte) (RvtMetadataKey.UserDefinedLS.getIdentifier())});
+            arrayBuilder.appendByte((byte) (RvtMetadataKey.UserDefinedLS.getIdentifier()));
             byte[] localSetBytes = userDefinedLocalSet.getBytes();
-            byte[] lengthBytes = BerEncoder.encode(localSetBytes.length);
-            chunks.add(lengthBytes);
-            chunks.add(localSetBytes);
+            arrayBuilder.appendAsBerLength(localSetBytes.length);
+            arrayBuilder.append(localSetBytes);
         }
         for (Integer poiNumber : getPOIIndexes()) {
             RvtPoiLocalSet poiLocalSet = getPOI(poiNumber);
-            chunks.add(new byte[] {(byte) (RvtMetadataKey.PointOfInterestLS.getIdentifier())});
+            arrayBuilder.appendByte((byte) (RvtMetadataKey.PointOfInterestLS.getIdentifier()));
             byte[] localSetBytes = poiLocalSet.getBytes();
-            byte[] lengthBytes = BerEncoder.encode(localSetBytes.length);
-            chunks.add(lengthBytes);
-            chunks.add(localSetBytes);
+            arrayBuilder.appendAsBerLength(localSetBytes.length);
+            arrayBuilder.append(localSetBytes);
         }
         for (Integer aoiNumber : getAOIIndexes()) {
             RvtAoiLocalSet aoiLocalSet = getAOI(aoiNumber);
-            chunks.add(new byte[] {(byte) (RvtMetadataKey.AreaOfInterestLS.getIdentifier())});
+            arrayBuilder.appendByte((byte) (RvtMetadataKey.AreaOfInterestLS.getIdentifier()));
             byte[] localSetBytes = aoiLocalSet.getBytes();
-            byte[] lengthBytes = BerEncoder.encode(localSetBytes.length);
-            chunks.add(lengthBytes);
-            chunks.add(localSetBytes);
+            arrayBuilder.appendAsBerLength(localSetBytes.length);
+            arrayBuilder.append(localSetBytes);
         }
-        // Figure out value length
-        final int keyLength = UniversalLabel.LENGTH;
-        int valueLength = 0;
-        valueLength =
-                chunks.stream().map((chunk) -> chunk.length).reduce(valueLength, Integer::sum);
-
         if (isNested) {
-            return ArrayUtils.arrayFromChunks(chunks, valueLength);
+            return arrayBuilder.toBytes();
         } else {
             // Add Key and Length of CRC-32 with placeholder for value - must be final element if
             // used
             byte[] checksum = new byte[4];
-            chunks.add(new byte[] {(byte) RvtMetadataKey.CRC32.getIdentifier()});
-            valueLength += 1;
-            byte[] checksumLengthBytes = BerEncoder.encode(checksum.length, Ber.SHORT_FORM);
-            chunks.add(checksumLengthBytes);
-            valueLength += checksumLengthBytes.length;
-            chunks.add(checksum);
-            valueLength += 4;
+            arrayBuilder.appendByte((byte) RvtMetadataKey.CRC32.getIdentifier());
+            arrayBuilder.appendAsBerLength(checksum.length);
+            arrayBuilder.append(checksum);
 
-            // Prepend length field into front of the list
-            byte[] lengthField = BerEncoder.encode(valueLength);
-            chunks.add(0, lengthField);
+            arrayBuilder.prependLength();
+            arrayBuilder.prepend(RvtLocalSetUl);
 
-            // Prepend UL since this is standalone message
-            chunks.add(0, RvtLocalSetUl.getBytes());
-
-            byte[] array =
-                    ArrayUtils.arrayFromChunks(
-                            chunks, keyLength + lengthField.length + valueLength);
+            byte[] array = arrayBuilder.toBytes();
             // Compute the CRC-32 and replace the last four bytes of array
             CRC32MPEG2.compute(array);
             return array;

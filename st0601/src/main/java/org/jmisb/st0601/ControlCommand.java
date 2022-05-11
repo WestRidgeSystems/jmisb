@@ -1,14 +1,10 @@
 package org.jmisb.st0601;
 
 import java.nio.charset.StandardCharsets;
-import java.util.ArrayList;
-import java.util.List;
 import org.jmisb.api.common.KlvParseException;
-import org.jmisb.api.klv.Ber;
+import org.jmisb.api.klv.ArrayBuilder;
 import org.jmisb.api.klv.BerDecoder;
-import org.jmisb.api.klv.BerEncoder;
 import org.jmisb.api.klv.BerField;
-import org.jmisb.core.klv.ArrayUtils;
 import org.jmisb.core.klv.PrimitiveConverter;
 
 /**
@@ -109,23 +105,16 @@ public class ControlCommand implements IUasDatalinkValue {
 
     @Override
     public byte[] getBytes() {
-        List<byte[]> chunks = new ArrayList<>();
-        int totalLength = 0;
-        byte[] idBytes = BerEncoder.encode(id, Ber.OID);
-        chunks.add(idBytes);
-        totalLength += idBytes.length;
+        ArrayBuilder builder = new ArrayBuilder();
+        builder.appendAsOID(id);
         byte[] commandBytes = commandText.getBytes(StandardCharsets.UTF_8);
-        byte[] commandLengthBytes = BerEncoder.encode(commandBytes.length);
-        chunks.add(commandLengthBytes);
-        totalLength += commandLengthBytes.length;
-        chunks.add(commandBytes);
-        totalLength += commandBytes.length;
+        builder.appendAsBerLength(commandBytes.length);
+        builder.append(commandBytes);
         if (timestampIsValid) {
             byte[] timestampBytes = PrimitiveConverter.int64ToBytes(timestamp);
-            chunks.add(timestampBytes);
-            totalLength += timestampBytes.length;
+            builder.append(timestampBytes);
         }
-        return ArrayUtils.arrayFromChunks(chunks, totalLength);
+        return builder.toBytes();
     }
 
     /**

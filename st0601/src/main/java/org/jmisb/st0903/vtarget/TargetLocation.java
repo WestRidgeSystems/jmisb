@@ -1,15 +1,13 @@
 package org.jmisb.st0903.vtarget;
 
-import java.util.ArrayList;
 import java.util.EnumSet;
-import java.util.List;
 import java.util.Set;
+import org.jmisb.api.klv.ArrayBuilder;
 import org.jmisb.api.klv.IKlvKey;
 import org.jmisb.api.klv.IKlvValue;
 import org.jmisb.api.klv.INestedKlvValue;
 import org.jmisb.api.klv.st1201.FpEncoder;
 import org.jmisb.api.klv.st1201.OutOfRangeBehaviour;
-import org.jmisb.core.klv.ArrayUtils;
 import org.jmisb.core.klv.PrimitiveConverter;
 import org.jmisb.st0903.IVmtiMetadataValue;
 import org.jmisb.st0903.shared.EncodingMode;
@@ -289,27 +287,23 @@ public class TargetLocation
      * @return the byte array containing the serialised LocationPack.
      */
     public static byte[] serialiseLocationPack(LocationPack targetLocationPack) {
-        int len = 0;
-        List<byte[]> chunks = new ArrayList<>();
+        ArrayBuilder arrayBuilder = new ArrayBuilder();
         if (hasRequiredValues(targetLocationPack)) {
-            chunks.add(LatEncoder.encode(targetLocationPack.getLat()));
-            chunks.add(LonEncoder.encode(targetLocationPack.getLon()));
-            chunks.add(HaeEncoder.encode(targetLocationPack.getHae()));
-            len += COORDINATES_GROUP_LEN;
+            arrayBuilder.append(LatEncoder.encode(targetLocationPack.getLat()));
+            arrayBuilder.append(LonEncoder.encode(targetLocationPack.getLon()));
+            arrayBuilder.append(HaeEncoder.encode(targetLocationPack.getHae()));
             if (hasStandardDeviations(targetLocationPack)) {
-                chunks.add(SigmaEncoder.encode(targetLocationPack.getSigEast()));
-                chunks.add(SigmaEncoder.encode(targetLocationPack.getSigNorth()));
-                chunks.add(SigmaEncoder.encode(targetLocationPack.getSigUp()));
-                len += STANDARD_DEVIATIONS_GROUP_LEN;
+                arrayBuilder.append(SigmaEncoder.encode(targetLocationPack.getSigEast()));
+                arrayBuilder.append(SigmaEncoder.encode(targetLocationPack.getSigNorth()));
+                arrayBuilder.append(SigmaEncoder.encode(targetLocationPack.getSigUp()));
                 if (hasCorrelations(targetLocationPack)) {
-                    chunks.add(RhoEncoder.encode(targetLocationPack.getRhoEastNorth()));
-                    chunks.add(RhoEncoder.encode(targetLocationPack.getRhoEastUp()));
-                    chunks.add(RhoEncoder.encode(targetLocationPack.getRhoNorthUp()));
-                    len += CORRELATION_GROUP_LEN;
+                    arrayBuilder.append(RhoEncoder.encode(targetLocationPack.getRhoEastNorth()));
+                    arrayBuilder.append(RhoEncoder.encode(targetLocationPack.getRhoEastUp()));
+                    arrayBuilder.append(RhoEncoder.encode(targetLocationPack.getRhoNorthUp()));
                 }
             }
         }
-        return ArrayUtils.arrayFromChunks(chunks, len);
+        return arrayBuilder.toBytes();
     }
 
     @Override

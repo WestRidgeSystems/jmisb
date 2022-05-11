@@ -5,13 +5,12 @@ import java.util.List;
 import java.util.Set;
 import java.util.TreeSet;
 import org.jmisb.api.common.KlvParseException;
+import org.jmisb.api.klv.ArrayBuilder;
 import org.jmisb.api.klv.BerDecoder;
-import org.jmisb.api.klv.BerEncoder;
 import org.jmisb.api.klv.BerField;
 import org.jmisb.api.klv.IKlvKey;
 import org.jmisb.api.klv.IKlvValue;
 import org.jmisb.api.klv.INestedKlvValue;
-import org.jmisb.core.klv.ArrayUtils;
 import org.jmisb.st0903.ontology.OntologyId;
 import org.jmisb.st0903.ontology.OntologyLS;
 import org.jmisb.st0903.ontology.OntologyMetadataKey;
@@ -69,17 +68,13 @@ public class OntologySeries implements IVmtiMetadataValue, IVTrackMetadataValue,
 
     @Override
     public byte[] getBytes() {
-        int len = 0;
-        List<byte[]> chunks = new ArrayList<>();
+        ArrayBuilder builder = new ArrayBuilder();
         for (OntologyLS localSet : localSets) {
             byte[] bytes = localSet.getBytes();
-            byte[] lengthBytes = BerEncoder.encode(bytes.length);
-            chunks.add(lengthBytes);
-            len += lengthBytes.length;
-            chunks.add(bytes);
-            len += bytes.length;
+            builder.appendAsBerLength(bytes.length);
+            builder.append(bytes);
         }
-        return ArrayUtils.arrayFromChunks(chunks, len);
+        return builder.toBytes();
     }
 
     @Override

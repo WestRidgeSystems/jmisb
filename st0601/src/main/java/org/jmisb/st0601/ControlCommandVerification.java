@@ -2,11 +2,9 @@ package org.jmisb.st0601;
 
 import java.util.ArrayList;
 import java.util.List;
-import org.jmisb.api.klv.Ber;
+import org.jmisb.api.klv.ArrayBuilder;
 import org.jmisb.api.klv.BerDecoder;
-import org.jmisb.api.klv.BerEncoder;
 import org.jmisb.api.klv.BerField;
-import org.jmisb.core.klv.ArrayUtils;
 
 /**
  * Control Command Verification List (ST 0601 Item 116).
@@ -60,14 +58,12 @@ public class ControlCommandVerification implements IUasDatalinkValue {
 
     @Override
     public byte[] getBytes() {
-        List<byte[]> chunks = new ArrayList<>();
-        int totalLength = 0;
-        for (int id : commands) {
-            byte[] idBytes = BerEncoder.encode(id, Ber.OID);
-            totalLength += idBytes.length;
-            chunks.add(idBytes);
-        }
-        return ArrayUtils.arrayFromChunks(chunks, totalLength);
+        ArrayBuilder builder = new ArrayBuilder();
+        commands.forEach(
+                id -> {
+                    builder.appendAsOID(id);
+                });
+        return builder.toBytes();
     }
 
     @Override

@@ -3,10 +3,9 @@ package org.jmisb.st0903.vmask;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
+import org.jmisb.api.klv.ArrayBuilder;
 import org.jmisb.api.klv.BerDecoder;
-import org.jmisb.api.klv.BerEncoder;
 import org.jmisb.api.klv.BerField;
-import org.jmisb.core.klv.ArrayUtils;
 import org.jmisb.core.klv.PrimitiveConverter;
 import org.jmisb.st0903.IVmtiMetadataValue;
 
@@ -67,17 +66,13 @@ public class PixelPolygon implements IVmtiMetadataValue {
 
     @Override
     public byte[] getBytes() {
-        int len = 0;
-        List<byte[]> chunks = new ArrayList<>();
+        ArrayBuilder arrayBuilder = new ArrayBuilder();
         for (Long point : getPolygon()) {
             byte[] pointBytes = PrimitiveConverter.uintToVariableBytesV6(point);
-            byte[] lengthBytes = BerEncoder.encode(pointBytes.length);
-            chunks.add(lengthBytes);
-            len += lengthBytes.length;
-            chunks.add(pointBytes);
-            len += pointBytes.length;
+            arrayBuilder.appendAsBerLength(pointBytes.length);
+            arrayBuilder.append(pointBytes);
         }
-        return ArrayUtils.arrayFromChunks(chunks, len);
+        return arrayBuilder.toBytes();
     }
 
     @Override

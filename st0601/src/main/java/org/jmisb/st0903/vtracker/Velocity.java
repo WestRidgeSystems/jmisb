@@ -1,15 +1,13 @@
 package org.jmisb.st0903.vtracker;
 
-import java.util.ArrayList;
 import java.util.EnumSet;
-import java.util.List;
 import java.util.Set;
+import org.jmisb.api.klv.ArrayBuilder;
 import org.jmisb.api.klv.IKlvKey;
 import org.jmisb.api.klv.IKlvValue;
 import org.jmisb.api.klv.INestedKlvValue;
 import org.jmisb.api.klv.st1201.FpEncoder;
 import org.jmisb.api.klv.st1201.OutOfRangeBehaviour;
-import org.jmisb.core.klv.ArrayUtils;
 import org.jmisb.core.klv.PrimitiveConverter;
 import org.jmisb.st0903.IVmtiMetadataValue;
 import org.jmisb.st0903.shared.EncodingMode;
@@ -235,27 +233,23 @@ public class Velocity implements IVmtiMetadataValue, IVTrackItemMetadataValue, I
 
     @Override
     public byte[] getBytes() {
-        int len = 0;
-        List<byte[]> chunks = new ArrayList<>();
+        ArrayBuilder arrayBuilder = new ArrayBuilder();
         if (hasRequiredValues()) {
-            chunks.add(VelocityEncoder.encode(value.getEast()));
-            chunks.add(VelocityEncoder.encode(value.getNorth()));
-            chunks.add(VelocityEncoder.encode(value.getUp()));
-            len += VELOCITY_GROUP_LEN;
+            arrayBuilder.append(VelocityEncoder.encode(value.getEast()));
+            arrayBuilder.append(VelocityEncoder.encode(value.getNorth()));
+            arrayBuilder.append(VelocityEncoder.encode(value.getUp()));
             if (hasStandardDeviations()) {
-                chunks.add(SigmaEncoder.encode(value.getSigEast()));
-                chunks.add(SigmaEncoder.encode(value.getSigNorth()));
-                chunks.add(SigmaEncoder.encode(value.getSigUp()));
-                len += STANDARD_DEVIATIONS_GROUP_LEN;
+                arrayBuilder.append(SigmaEncoder.encode(value.getSigEast()));
+                arrayBuilder.append(SigmaEncoder.encode(value.getSigNorth()));
+                arrayBuilder.append(SigmaEncoder.encode(value.getSigUp()));
                 if (hasCorrelations()) {
-                    chunks.add(RhoEncoder.encode(value.getRhoEastNorth()));
-                    chunks.add(RhoEncoder.encode(value.getRhoEastUp()));
-                    chunks.add(RhoEncoder.encode(value.getRhoNorthUp()));
-                    len += CORRELATION_GROUP_LEN;
+                    arrayBuilder.append(RhoEncoder.encode(value.getRhoEastNorth()));
+                    arrayBuilder.append(RhoEncoder.encode(value.getRhoEastUp()));
+                    arrayBuilder.append(RhoEncoder.encode(value.getRhoNorthUp()));
                 }
             }
         }
-        return ArrayUtils.arrayFromChunks(chunks, len);
+        return arrayBuilder.toBytes();
     }
 
     private boolean hasRequiredValues() {

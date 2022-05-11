@@ -3,10 +3,9 @@ package org.jmisb.st0903.vtarget;
 import java.util.ArrayList;
 import java.util.List;
 import org.jmisb.api.common.KlvParseException;
+import org.jmisb.api.klv.ArrayBuilder;
 import org.jmisb.api.klv.BerDecoder;
-import org.jmisb.api.klv.BerEncoder;
 import org.jmisb.api.klv.BerField;
-import org.jmisb.core.klv.ArrayUtils;
 import org.jmisb.st0903.IVmtiMetadataValue;
 import org.jmisb.st0903.shared.IVTrackItemMetadataValue;
 import org.jmisb.st0903.vobject.VObjectLS;
@@ -56,17 +55,13 @@ public class VObjectSeries implements IVmtiMetadataValue, IVTrackItemMetadataVal
 
     @Override
     public byte[] getBytes() {
-        int len = 0;
-        List<byte[]> chunks = new ArrayList<>();
+        ArrayBuilder arrayBuilder = new ArrayBuilder();
         for (VObjectLS vobject : getVObjects()) {
-            byte[] localSetBytes = vobject.getBytes();
-            byte[] lengthBytes = BerEncoder.encode(localSetBytes.length);
-            chunks.add(lengthBytes);
-            len += lengthBytes.length;
-            chunks.add(localSetBytes);
-            len += localSetBytes.length;
+            byte[] bytes = vobject.getBytes();
+            arrayBuilder.appendAsBerLength(bytes.length);
+            arrayBuilder.append(bytes);
         }
-        return ArrayUtils.arrayFromChunks(chunks, len);
+        return arrayBuilder.toBytes();
     }
 
     @Override

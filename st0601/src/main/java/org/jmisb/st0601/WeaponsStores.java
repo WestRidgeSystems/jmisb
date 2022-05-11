@@ -4,11 +4,11 @@ import java.nio.charset.StandardCharsets;
 import java.util.ArrayList;
 import java.util.List;
 import org.jmisb.api.common.KlvParseException;
+import org.jmisb.api.klv.ArrayBuilder;
 import org.jmisb.api.klv.Ber;
 import org.jmisb.api.klv.BerDecoder;
 import org.jmisb.api.klv.BerEncoder;
 import org.jmisb.api.klv.BerField;
-import org.jmisb.core.klv.ArrayUtils;
 import org.jmisb.st0601.dto.WeaponStore;
 import org.jmisb.st0601.dto.WeaponStoreStatus;
 
@@ -101,18 +101,12 @@ public class WeaponsStores implements IUasDatalinkValue {
 
     @Override
     public byte[] getBytes() {
-        List<byte[]> chunks = new ArrayList<>();
-        int totalLength = 0;
+        ArrayBuilder arrayBuilder = new ArrayBuilder();
         for (WeaponStore weaponStore : getWeaponsStores()) {
-            int len = 0;
             byte[] stationIdBytes = BerEncoder.encode(weaponStore.getStationId(), Ber.OID);
-            len += stationIdBytes.length;
             byte[] hardpointIdBytes = BerEncoder.encode(weaponStore.getHardpointId(), Ber.OID);
-            len += hardpointIdBytes.length;
             byte[] carriageIdBytes = BerEncoder.encode(weaponStore.getCarriageId(), Ber.OID);
-            len += carriageIdBytes.length;
             byte[] storeIdBytes = BerEncoder.encode(weaponStore.getStoreId(), Ber.OID);
-            len += storeIdBytes.length;
             int status = weaponStore.getStatus().getCode();
             if (weaponStore.isFuzeEnabled()) {
                 status += 0x0100;
@@ -127,24 +121,26 @@ public class WeaponsStores implements IUasDatalinkValue {
                 status += 0x0800;
             }
             byte[] statusBytes = BerEncoder.encode(status, Ber.OID);
-            len += statusBytes.length;
             byte[] typeBytes = weaponStore.getStoreType().getBytes(StandardCharsets.UTF_8);
-            len += typeBytes.length;
             byte[] typeLengthBytes = BerEncoder.encode(typeBytes.length);
-            len += typeLengthBytes.length;
-            byte[] lenBytes = BerEncoder.encode(len);
-            chunks.add(lenBytes);
-            chunks.add(stationIdBytes);
-            chunks.add(hardpointIdBytes);
-            chunks.add(carriageIdBytes);
-            chunks.add(storeIdBytes);
-            chunks.add(statusBytes);
-            chunks.add(typeLengthBytes);
-            chunks.add(typeBytes);
-            totalLength += len;
-            totalLength += lenBytes.length;
+            int len =
+                    stationIdBytes.length
+                            + hardpointIdBytes.length
+                            + carriageIdBytes.length
+                            + storeIdBytes.length
+                            + statusBytes.length
+                            + typeBytes.length
+                            + typeLengthBytes.length;
+            arrayBuilder.appendAsBerLength(len);
+            arrayBuilder.append(stationIdBytes);
+            arrayBuilder.append(hardpointIdBytes);
+            arrayBuilder.append(carriageIdBytes);
+            arrayBuilder.append(storeIdBytes);
+            arrayBuilder.append(statusBytes);
+            arrayBuilder.append(typeLengthBytes);
+            arrayBuilder.append(typeBytes);
         }
-        return ArrayUtils.arrayFromChunks(chunks, totalLength);
+        return arrayBuilder.toBytes();
     }
 
     @Override

@@ -1,6 +1,5 @@
 package org.jmisb.st0903;
 
-import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
 import java.util.Map;
@@ -9,14 +8,12 @@ import java.util.SortedMap;
 import java.util.TreeMap;
 import org.jmisb.api.common.InvalidDataHandler;
 import org.jmisb.api.common.KlvParseException;
-import org.jmisb.api.klv.Ber;
-import org.jmisb.api.klv.BerEncoder;
+import org.jmisb.api.klv.ArrayBuilder;
 import org.jmisb.api.klv.IKlvKey;
 import org.jmisb.api.klv.IMisbMessage;
 import org.jmisb.api.klv.LdsField;
 import org.jmisb.api.klv.LdsParser;
 import org.jmisb.api.klv.UniversalLabel;
-import org.jmisb.core.klv.ArrayUtils;
 import org.jmisb.st0601.Checksum;
 import org.jmisb.st0903.shared.EncodingMode;
 import org.jmisb.st0903.shared.VmtiTextString;
@@ -176,46 +173,30 @@ public class VmtiLocalSet implements IMisbMessage {
     @Override
     public byte[] frameMessage(boolean isNested) {
         updateVersion();
-        List<byte[]> chunks = new ArrayList<>();
+        ArrayBuilder arrayBuilder = new ArrayBuilder();
         for (VmtiMetadataKey tag : getIdentifiers()) {
             if (tag == VmtiMetadataKey.Checksum) {
                 continue;
             }
-            chunks.add(new byte[] {(byte) tag.getIdentifier()});
+            arrayBuilder.appendByte((byte) tag.getIdentifier());
             IVmtiMetadataValue value = getField(tag);
             byte[] bytes = value.getBytes();
-            byte[] lengthBytes = BerEncoder.encode(bytes.length);
-            chunks.add(lengthBytes);
-            chunks.add(bytes);
+            arrayBuilder.appendAsBerLength(bytes.length);
+            arrayBuilder.append(bytes);
         }
-
-        // Figure out value length
-        final int keyLength = UniversalLabel.LENGTH;
-        int valueLength = 0;
-        valueLength =
-                chunks.stream().map((chunk) -> chunk.length).reduce(valueLength, Integer::sum);
-
         if (isNested) {
-            return ArrayUtils.arrayFromChunks(chunks, valueLength);
+            return arrayBuilder.toBytes();
         } else {
-            // Add Key and Length of checksum with placeholder for value - Checksum must be final
-            // element
             byte[] checksum = new byte[2];
-            chunks.add(new byte[] {(byte) VmtiMetadataKey.Checksum.getIdentifier()});
-            chunks.add(BerEncoder.encode(checksum.length, Ber.SHORT_FORM));
-            chunks.add(checksum);
-            valueLength += 4;
+            arrayBuilder.appendByte((byte) VmtiMetadataKey.Checksum.getIdentifier());
+            arrayBuilder.appendAsBerLength(checksum.length);
+            arrayBuilder.append(checksum);
 
             // Prepend length field into front of the list
-            byte[] lengthField = BerEncoder.encode(valueLength);
-            chunks.add(0, lengthField);
+            arrayBuilder.prependLength();
+            arrayBuilder.prepend(VmtiLocalSetUl);
 
-            // Prepend UL since this is standalone message
-            chunks.add(0, VmtiLocalSetUl.getBytes());
-
-            byte[] array =
-                    ArrayUtils.arrayFromChunks(
-                            chunks, keyLength + lengthField.length + valueLength);
+            byte[] array = arrayBuilder.toBytes();
             // Compute the checksum and replace the last two bytes of array
             Checksum.compute(array, true);
             return array;

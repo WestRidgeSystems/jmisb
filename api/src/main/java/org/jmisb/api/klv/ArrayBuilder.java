@@ -1,9 +1,11 @@
 package org.jmisb.api.klv;
 
 import java.util.ArrayList;
+import java.util.Collection;
 import java.util.List;
-import org.jmisb.core.klv.ArrayUtils;
+import java.util.UUID;
 import org.jmisb.core.klv.PrimitiveConverter;
+import org.jmisb.core.klv.UuidUtils;
 
 /**
  * Builder for linear byte arrays.
@@ -14,6 +16,7 @@ import org.jmisb.core.klv.PrimitiveConverter;
  * <p>It supports method chaining to make the code more fluent.
  */
 public class ArrayBuilder {
+
     private final List<byte[]> chunks;
     private int numBytesInChunks = 0;
     private byte bitBuffer = 0;
@@ -87,6 +90,7 @@ public class ArrayBuilder {
         bitBuffer = 0x00;
         bitPosition = 0;
     }
+
     /**
      * Append an unsigned integer encoded as a BER-OID value.
      *
@@ -176,6 +180,16 @@ public class ArrayBuilder {
     }
 
     /**
+     * Append a UUID.
+     *
+     * @param uuid the value to append
+     * @return this instance, to support method chaining.
+     */
+    public ArrayBuilder append(final UUID uuid) {
+        return append(UuidUtils.uuidToArray(uuid));
+    }
+
+    /**
      * Append a Universal Label.
      *
      * @param universalLabel the value to append
@@ -235,6 +249,7 @@ public class ArrayBuilder {
         chunks.add(0, encodedBytes);
         return this;
     }
+
     /**
      * Build the byte array from the appended parts.
      *
@@ -242,6 +257,23 @@ public class ArrayBuilder {
      */
     public byte[] toBytes() {
         flushBitBuffer();
-        return ArrayUtils.arrayFromChunks(chunks, numBytesInChunks);
+        return arrayFromChunks(this.chunks, this.numBytesInChunks);
+    }
+
+    /**
+     * Concatenate a collection of byte arrays (chunks) sequentially into one big array
+     *
+     * @param chunks The collection of chunks
+     * @param totalLength The total number of bytes in all chunks
+     * @return New array concatenating all chunks
+     */
+    public static byte[] arrayFromChunks(Collection<byte[]> chunks, int totalLength) {
+        byte[] array = new byte[totalLength];
+        int i = 0;
+        for (byte[] chunk : chunks) {
+            System.arraycopy(chunk, 0, array, i, chunk.length);
+            i += chunk.length;
+        }
+        return array;
     }
 }

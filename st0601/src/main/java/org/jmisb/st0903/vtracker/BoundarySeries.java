@@ -3,10 +3,9 @@ package org.jmisb.st0903.vtracker;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
+import org.jmisb.api.klv.ArrayBuilder;
 import org.jmisb.api.klv.BerDecoder;
-import org.jmisb.api.klv.BerEncoder;
 import org.jmisb.api.klv.BerField;
-import org.jmisb.core.klv.ArrayUtils;
 import org.jmisb.st0903.IVmtiMetadataValue;
 import org.jmisb.st0903.shared.EncodingMode;
 import org.jmisb.st0903.shared.IVTrackMetadataValue;
@@ -70,17 +69,13 @@ public class BoundarySeries implements IVmtiMetadataValue, IVTrackMetadataValue 
 
     @Override
     public byte[] getBytes() {
-        int len = 0;
-        List<byte[]> chunks = new ArrayList<>();
+        ArrayBuilder arrayBuilder = new ArrayBuilder();
         for (LocationPack location : getLocations()) {
-            byte[] localSetBytes = TargetLocation.serialiseLocationPack(location);
-            byte[] lengthBytes = BerEncoder.encode(localSetBytes.length);
-            chunks.add(lengthBytes);
-            len += lengthBytes.length;
-            chunks.add(localSetBytes);
-            len += localSetBytes.length;
+            byte[] locationPackBytes = TargetLocation.serialiseLocationPack(location);
+            arrayBuilder.appendAsBerLength(locationPackBytes.length);
+            arrayBuilder.append(locationPackBytes);
         }
-        return ArrayUtils.arrayFromChunks(chunks, len);
+        return arrayBuilder.toBytes();
     }
 
     @Override

@@ -1,9 +1,7 @@
 package org.jmisb.st0601;
 
-import java.util.ArrayList;
 import java.util.Arrays;
-import java.util.List;
-import org.jmisb.core.klv.ArrayUtils;
+import org.jmisb.api.klv.ArrayBuilder;
 import org.jmisb.core.klv.PrimitiveConverter;
 
 /**
@@ -121,13 +119,13 @@ public class ImageHorizonPixelPack implements IUasDatalinkValue {
                 || Double.isFinite(this.longitude0)
                 || Double.isFinite(this.latitude1)
                 || Double.isFinite(this.longitude1)) {
-            List<byte[]> chunks = new ArrayList<>();
-            chunks.add(getMandatoryBytes());
-            chunks.add(getLatitudeBytes(latitude0));
-            chunks.add(getLongitudeBytes(longitude0));
-            chunks.add(getLatitudeBytes(latitude1));
-            chunks.add(getLongitudeBytes(longitude1));
-            return ArrayUtils.arrayFromChunks(chunks, 20);
+            ArrayBuilder builder = new ArrayBuilder();
+            builder.append(getMandatoryBytes());
+            builder.append(getLatitudeBytes(latitude0));
+            builder.append(getLongitudeBytes(longitude0));
+            builder.append(getLatitudeBytes(latitude1));
+            builder.append(getLongitudeBytes(longitude1));
+            return builder.toBytes();
         } else {
             return getMandatoryBytes();
         }

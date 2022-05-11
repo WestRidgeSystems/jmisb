@@ -5,13 +5,12 @@ import java.util.List;
 import java.util.Set;
 import java.util.TreeSet;
 import org.jmisb.api.common.KlvParseException;
+import org.jmisb.api.klv.ArrayBuilder;
 import org.jmisb.api.klv.BerDecoder;
-import org.jmisb.api.klv.BerEncoder;
 import org.jmisb.api.klv.BerField;
 import org.jmisb.api.klv.IKlvKey;
 import org.jmisb.api.klv.IKlvValue;
 import org.jmisb.api.klv.INestedKlvValue;
-import org.jmisb.core.klv.ArrayUtils;
 import org.jmisb.st0903.algorithm.AlgorithmLS;
 import org.jmisb.st0903.algorithm.AlgorithmMetadataKey;
 import org.jmisb.st0903.shared.AlgorithmId;
@@ -68,17 +67,13 @@ public class AlgorithmSeries implements IVmtiMetadataValue, INestedKlvValue {
 
     @Override
     public byte[] getBytes() {
-        int len = 0;
-        List<byte[]> chunks = new ArrayList<>();
+        ArrayBuilder builder = new ArrayBuilder();
         for (AlgorithmLS localSet : localSets) {
             byte[] localSetBytes = localSet.getBytes();
-            byte[] lengthBytes = BerEncoder.encode(localSetBytes.length);
-            chunks.add(lengthBytes);
-            len += lengthBytes.length;
-            chunks.add(localSetBytes);
-            len += localSetBytes.length;
+            builder.appendAsBerLength(localSetBytes.length);
+            builder.append(localSetBytes);
         }
-        return ArrayUtils.arrayFromChunks(chunks, len);
+        return builder.toBytes();
     }
 
     @Override

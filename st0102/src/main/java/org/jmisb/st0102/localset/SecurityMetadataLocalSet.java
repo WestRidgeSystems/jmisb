@@ -1,7 +1,5 @@
 package org.jmisb.st0102.localset;
 
-import static org.jmisb.core.klv.ArrayUtils.arrayFromChunks;
-
 import java.time.LocalDate;
 import java.util.*;
 import org.jmisb.api.common.InvalidDataHandler;
@@ -96,9 +94,7 @@ public class SecurityMetadataLocalSet extends SecurityMetadataMessage {
 
     @Override
     public byte[] frameMessage(boolean isNested) {
-        // List representing all tags and values as primitive byte arrays. Avoids boxing/unboxing
-        // individual bytes for efficiency.
-        List<byte[]> chunks = new ArrayList<>();
+        ArrayBuilder builder = new ArrayBuilder();
 
         // Add all values from map
         for (Map.Entry<SecurityMetadataKey, ISecurityMetadataValue> entry : map.entrySet()) {
@@ -106,36 +102,16 @@ public class SecurityMetadataLocalSet extends SecurityMetadataMessage {
             ISecurityMetadataValue value = entry.getValue();
             byte[] bytes = value.getBytes();
             if (bytes != null && bytes.length > 0) {
-                chunks.add(new byte[] {(byte) key.getIdentifier()});
-                chunks.add(BerEncoder.encode(bytes.length));
-                chunks.add(bytes.clone());
+                builder.appendByte((byte) key.getIdentifier());
+                builder.appendAsBerLength(bytes.length);
+                builder.append(bytes.clone());
             }
         }
-
-        // Figure out value length
-        int valueLength = 0;
-        for (byte[] chunk : chunks) {
-            valueLength += chunk.length;
+        if (!isNested) {
+            builder.prependLength();
+            builder.prepend(SecurityMetadataLocalSetUl);
         }
-
-        // Determine total length
-        int totalLength;
-        if (isNested) {
-            totalLength = valueLength;
-        } else {
-            // Prepend length field into front of the list
-            byte[] lengthField = BerEncoder.encode(valueLength);
-            chunks.add(0, lengthField);
-
-            // Prepend key field (UL) into front of the list
-            chunks.add(0, SecurityMetadataLocalSetUl.getBytes());
-
-            // Compute full message length
-            totalLength = UniversalLabel.LENGTH + lengthField.length + valueLength;
-        }
-
-        // Allocate array and write all chunks
-        return arrayFromChunks(chunks, totalLength);
+        return builder.toBytes();
     }
 
     @Override
