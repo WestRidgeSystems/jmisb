@@ -23,7 +23,7 @@ public class UdsParser {
         List<UdsField> fields = new ArrayList<>();
 
         int offset = start;
-        while (offset < length) {
+        while (offset < start + length) {
             // Get the Key (UL)
             UniversalLabel key =
                     new UniversalLabel(
