@@ -259,7 +259,7 @@ public class CodeGeneratorListener implements MIML_v3Listener {
                             + entry.getName()
                             + " - "
                             + entry.getTypeName());
-            throw new RuntimeException("Not enough code");
+            throw new UnsupportedOperationException("Not enough code");
         }
     }
 
@@ -410,7 +410,7 @@ public class CodeGeneratorListener implements MIML_v3Listener {
     public void enterGrammarVer(MIML_v3Parser.GrammarVerContext ctx) {
         String mimlVersion = ctx.MIMLVER().getText();
         if (!mimlVersion.equals("3.0")) {
-            throw new RuntimeException(
+            throw new UnsupportedOperationException(
                     "We only support Grammar Version 3.0, but this one claims to be "
                             + mimlVersion);
         }
@@ -456,7 +456,7 @@ public class CodeGeneratorListener implements MIML_v3Listener {
     public void enterIncludes(MIML_v3Parser.IncludesContext ctx) {
         String classname = ctx.CLASSNAME().toString();
         if (this.currentClassModel == null) {
-            throw new RuntimeException(
+            throw new InvalidMimlException(
                     "Got class 'includes' but do not have a valid class in work");
         } else {
             this.currentClassModel.setIncludes(classname);
@@ -476,7 +476,7 @@ public class CodeGeneratorListener implements MIML_v3Listener {
     public void enterClassdoc(MIML_v3Parser.ClassdocContext ctx) {
         String classDocument = ctx.DOCNAME().toString();
         if (this.currentClassModel == null) {
-            throw new RuntimeException(
+            throw new InvalidMimlException(
                     "Got class documentation entry but do not have a valid class in work");
         } else {
             this.currentClassModel.setDocument(classDocument);
@@ -739,7 +739,7 @@ public class CodeGeneratorListener implements MIML_v3Listener {
             this.currentClassModelEntry.setMaxLength(upperLength);
         } else {
             if (ctx.STAR() == null) {
-                throw new RuntimeException("Expected to get *, but not found");
+                throw new InvalidMimlException("Expected to get *, but not found");
             }
             // We don't need to set the upper limit.
         }
@@ -826,7 +826,7 @@ public class CodeGeneratorListener implements MIML_v3Listener {
     public void enterEnumdoc(MIML_v3Parser.EnumdocContext ctx) {
         String enumDocument = ctx.ENUMDOCNAME().toString();
         if (this.currentEnumerationModel == null) {
-            throw new RuntimeException(
+            throw new InvalidMimlException(
                     "Got enumeration documentation entry but do not have a valid enumeration in work");
         } else {
             this.currentEnumerationModel.setDocument(enumDocument);
@@ -890,7 +890,7 @@ public class CodeGeneratorListener implements MIML_v3Listener {
         if (ctxValue.TWOPISTR() != null) {
             return (2.0 * Math.PI * sign);
         }
-        throw new RuntimeException("Unhandled parseRealNoneContextValue()");
+        throw new UnsupportedOperationException("Unhandled parseRealNoneContextValue()");
     }
 
     private double parseIntNoneContextValue(MIML_v3Parser.IntNoneContext ctxValue) {
@@ -906,7 +906,7 @@ public class CodeGeneratorListener implements MIML_v3Listener {
         if (ctxValue.NONE() != null) {
             return Double.NaN;
         }
-        throw new RuntimeException("Unhandled parseIntNoneContextValue()");
+        throw new UnsupportedOperationException("Unhandled parseIntNoneContextValue()");
     }
 
     private double parseUintNoneContextValue(MIML_v3Parser.UintNoneContext ctxValue) {
@@ -916,7 +916,7 @@ public class CodeGeneratorListener implements MIML_v3Listener {
         if (ctxValue.NONE() != null) {
             return Double.NaN;
         }
-        throw new RuntimeException("Unhandled parseUintNoneContextValue()");
+        throw new UnsupportedOperationException("Unhandled parseUintNoneContextValue()");
     }
 
     private ClassModel findClassByName(String className) {

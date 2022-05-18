@@ -133,7 +133,7 @@
         <slf4j.version>1.7.32</slf4j.version>
         <sortpom.version>3.0.1</sortpom.version>
         <spotbugs.maven.version>4.6.0.0</spotbugs.maven.version>
-        <spotbugs.version>4.6.0</spotbugs.version>
+        <spotbugs.version>4.7.0</spotbugs.version>
         <surefire.verbosity>0</surefire.verbosity>
         <surefire.version>3.0.0-M6</surefire.version>
         <testng.version>7.6.0</testng.version>
