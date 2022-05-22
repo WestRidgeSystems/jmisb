@@ -15,6 +15,8 @@ import org.jmisb.st0102.ObjectCountryCodeString;
 import org.jmisb.st0102.ST0102Version;
 import org.jmisb.st0102.SecurityMetadataKey;
 import org.jmisb.st0102.SecurityMetadataString;
+import org.jmisb.st0102.validity.SecurityMetadataLocalSetValidator;
+import org.jmisb.st0102.validity.ValidationResults;
 import org.testng.Assert;
 import org.testng.annotations.BeforeTest;
 import org.testng.annotations.Test;
@@ -61,7 +63,7 @@ public class SecurityMetadataLocalSetTest extends LoggerChecks {
 
         values.put(
                 SecurityMetadataKey.OcCodingMethod,
-                new CcMethod(CountryCodingMethod.GENC_TWO_LETTER));
+                new OcMethod(CountryCodingMethod.GENC_TWO_LETTER));
         values.put(SecurityMetadataKey.ObjectCountryCodes, new ObjectCountryCodeString("US;CA"));
 
         values.put(SecurityMetadataKey.Version, new ST0102Version(12));
@@ -224,6 +226,13 @@ public class SecurityMetadataLocalSetTest extends LoggerChecks {
     }
 
     @Test
+    public void testValidity() {
+        ValidationResults results = SecurityMetadataLocalSetValidator.checkValidity(localSet);
+        Assert.assertTrue(results.isConformant());
+        Assert.assertEquals(results.getNonConformances().size(), 0);
+    }
+
+    @Test
     public void testMinimumFromBuilder() {
         // Create a message equivalent to localSet
         SecurityMetadataLocalSet builderSet =
@@ -239,6 +248,11 @@ public class SecurityMetadataLocalSetTest extends LoggerChecks {
         bytes1 = localSet.frameMessage(true);
         bytes2 = builderSet.frameMessage(true);
         Assert.assertEquals(bytes1, bytes2);
+
+        ValidationResults validationResults =
+                SecurityMetadataLocalSetValidator.checkValidity(builderSet);
+        Assert.assertTrue(validationResults.isConformant());
+        Assert.assertEquals(validationResults.getNonConformances().size(), 0);
     }
 
     @Test(expectedExceptions = IllegalArgumentException.class)
@@ -299,6 +313,11 @@ public class SecurityMetadataLocalSetTest extends LoggerChecks {
         // System.out.println(ArrayUtils.toHexString(bytes));
 
         Assert.assertEquals(bytes[20], Classification.TOP_SECRET.getCode());
+
+        ValidationResults validationResults =
+                SecurityMetadataLocalSetValidator.checkValidity(fullMessage);
+        Assert.assertTrue(validationResults.isConformant());
+        Assert.assertEquals(validationResults.getNonConformances().size(), 0);
     }
 
     @Test
