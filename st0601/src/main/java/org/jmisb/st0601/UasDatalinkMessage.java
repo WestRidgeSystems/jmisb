@@ -4,6 +4,7 @@ import java.util.*;
 import org.jmisb.api.common.InvalidDataHandler;
 import org.jmisb.api.common.KlvParseException;
 import org.jmisb.api.klv.*;
+import org.jmisb.api.klv.Checksum;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 

@@ -49,6 +49,11 @@ jobs:
         with:
           file: ./st0805/target/site/jacoco/jacoco.xml
           flags: unittests-st0805
+      - name: Upload ST 0806 implementation test results to Codecov
+        uses: codecov/codecov-action@v1.5.0
+        with:
+          file: ./st0806/target/site/jacoco/jacoco.xml
+          flags: unittests-st0806
       - name: Upload ST 0808 implementation test results to Codecov
         uses: codecov/codecov-action@v1.5.0
         with:
@@ -59,6 +64,16 @@ jobs:
         with:
           file: ./st0809/target/site/jacoco/jacoco.xml
           flags: unittests-st0809
+      - name: Upload ST 0903 VMTI implementation test results to Codecov
+        uses: codecov/codecov-action@v1.5.0
+        with:
+          file: ./st0903/target/site/jacoco/jacoco.xml
+          flags: unittests-st0903-vmti
+      - name: Upload ST 0903 VTrack implementation test results to Codecov
+        uses: codecov/codecov-action@v1.5.0
+        with:
+          file: ./st0903vtrack/target/site/jacoco/jacoco.xml
+          flags: unittests-st0903-vtrack
       - name: Upload ST 1108 implementation test results to Codecov
         uses: codecov/codecov-action@v1.5.0
         with:

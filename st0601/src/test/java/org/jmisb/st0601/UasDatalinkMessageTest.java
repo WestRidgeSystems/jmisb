@@ -2,7 +2,7 @@ package org.jmisb.st0601;
 
 import java.util.*;
 import org.jmisb.api.common.KlvParseException;
-import org.jmisb.st0903.shared.LoggerChecks;
+import org.jmisb.api.klv.Checksum;
 import org.testng.Assert;
 import org.testng.annotations.BeforeTest;
 import org.testng.annotations.Test;
