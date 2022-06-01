@@ -8,6 +8,7 @@ import java.util.List;
 import java.util.SortedMap;
 import java.util.TreeMap;
 import javax.imageio.ImageIO;
+import org.bytedeco.javacpp.Loader;
 import org.jmisb.api.klv.IMisbMessage;
 import org.jmisb.core.video.TimingUtils;
 import org.jmisb.st0102.Classification;
@@ -49,6 +50,7 @@ import org.jmisb.st0601.VerticalFov;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.testng.Assert;
+import org.testng.annotations.BeforeClass;
 import org.testng.annotations.Test;
 
 /** Integration test for {@link VideoFileInput} and {@link VideoFileOutput} */
@@ -62,6 +64,12 @@ public class VideoFileInputOutputIT {
     private final String missionId = "Unit Testing";
     private final byte version0601 = 11;
     private final byte version0102 = 12;
+
+    @BeforeClass
+    public void loadPresets() {
+        // See https://github.com/WestRidgeSystems/jmisb/issues/403
+        Loader.load(org.bytedeco.ffmpeg.global.swscale.class);
+    }
 
     /** Video stream only test */
     @Test
