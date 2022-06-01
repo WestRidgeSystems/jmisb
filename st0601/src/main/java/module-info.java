@@ -7,6 +7,8 @@
 module org.jmisb.st0601 {
     requires org.jmisb.api;
     requires org.jmisb.st0102;
+    requires org.jmisb.st0806;
+    requires transitive org.jmisb.st0903;
     requires org.jmisb.st1206;
     requires org.jmisb.st1601;
     requires org.jmisb.st1602;
@@ -16,21 +18,8 @@ module org.jmisb.st0601 {
 
     // If this is updated, ensure src/main/resources/META-INF/services is updated
     provides org.jmisb.api.klv.IMisbMessageFactory with
-            org.jmisb.st0601.UasDatalinkMessageFactory,
-            org.jmisb.st0903.vtrack.VTrackLocalSetFactory;
+            org.jmisb.st0601.UasDatalinkMessageFactory;
 
     exports org.jmisb.st0601;
     exports org.jmisb.st0601.dto;
-    exports org.jmisb.st0806;
-    exports org.jmisb.st0903;
-    exports org.jmisb.st0903.algorithm;
-    exports org.jmisb.st0903.ontology;
-    exports org.jmisb.st0903.shared;
-    exports org.jmisb.st0903.vchip;
-    exports org.jmisb.st0903.vfeature;
-    exports org.jmisb.st0903.vmask;
-    exports org.jmisb.st0903.vobject;
-    exports org.jmisb.st0903.vtarget;
-    exports org.jmisb.st0903.vtrack;
-    exports org.jmisb.st0903.vtracker;
 }

@@ -1,12 +1,6 @@
 <?xml version = "1.0" encoding = "UTF-8"?>
 <!DOCTYPE suite SYSTEM "http://testng.org/testng-1.0.dtd" >
-
 <suite name="UnitTests">
-    <test name="st0601-unit">
-        <packages>
-            <package name="org.jmisb.st0601.*"/>
-        </packages>
-    </test>
     <test name="st0903-unit">
         <packages>
             <package name="org.jmisb.st0903.*"/>

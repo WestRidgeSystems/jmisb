@@ -44,8 +44,11 @@
         <module>st0601</module>
         <module>st0602</module>
         <module>st0805</module>
+        <module>st0806</module>
         <module>st0808</module>
         <module>st0809</module>
+        <module>st0903</module>
+        <module>st0903vtrack</module>
         <module>st1108</module>
         <module>st1206</module>
         <module>st1301</module>
