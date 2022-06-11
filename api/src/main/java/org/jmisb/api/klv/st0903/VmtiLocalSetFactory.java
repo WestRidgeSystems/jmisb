@@ -9,9 +9,12 @@ import org.jmisb.api.klv.IMisbMessageFactory;
  * <p>From ST:
  *
  * <blockquote>
- * This standard defines Local Sets for VMTI and Track Metadata. These Local Sets may be embedded within a MISB ST0601LS,
- * or they may stand alone.  The latter permits VMTI and Track Metadata to be provided independent of Motion Imagery essence.
- * This is useful in constrained bandwidth environments, where the Motion Imagery may be omitted in favor of the VMTI data.
+ *
+ * This standard defines Local Sets for VMTI and Track Metadata. These Local Sets may be embedded
+ * within a MISB ST0601LS, or they may stand alone. The latter permits VMTI and Track Metadata to be
+ * provided independent of Motion Imagery essence. This is useful in constrained bandwidth
+ * environments, where the Motion Imagery may be omitted in favor of the VMTI data.
+ *
  * </blockquote>
  */
 public class VmtiLocalSetFactory implements IMisbMessageFactory {
