@@ -9,6 +9,7 @@ import org.jmisb.api.klv.st0102.localset.SecurityMetadataLocalSetFactory;
 import org.jmisb.api.klv.st0102.universalset.SecurityMetadataUniversalSetFactory;
 import org.jmisb.api.klv.st0601.UasDatalinkMessageFactory;
 import org.jmisb.api.klv.st0808.AncillaryTextLocalSetFactory;
+import org.jmisb.api.klv.st0903.VmtiLocalSetFactory;
 import org.jmisb.api.klv.st0903.vtrack.VTrackLocalSetFactory;
 import org.jmisb.api.klv.st1108.InterpretabilityQualityLocalSetFactory;
 import org.jmisb.api.klv.st1902.MimdLocalSetFactory;
@@ -34,6 +35,7 @@ public class MisbMessageFactory {
                 KlvConstants.SecurityMetadataLocalSetUl, new SecurityMetadataLocalSetFactory());
         registerHandler(KlvConstants.PredatorMetadataLocalSetUl, new PredatorUavMessageFactory());
         registerHandler(KlvConstants.VTrackLocalSetUl, new VTrackLocalSetFactory());
+        registerHandler(KlvConstants.VmtiLocalSetUl, new VmtiLocalSetFactory());
         registerHandler(KlvConstants.MIMDLocalSetUl, new MimdLocalSetFactory());
         registerHandler(
                 KlvConstants.InterpretabilityQualityLocalSetUl,
