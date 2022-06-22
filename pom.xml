@@ -123,11 +123,11 @@
         <maven.shade.plugin.version>3.3.0</maven.shade.plugin.version>
         <maven.site.plugin.version>3.11.0</maven.site.plugin.version>
         <maven.source.plugin.version>3.2.1</maven.source.plugin.version>
-        <maven.version>3.8.5</maven.version>
+        <maven.version>3.8.6</maven.version>
         <miglayout.version>11.0</miglayout.version>
         <nexus.staging.plugin.version>1.6.13</nexus.staging.plugin.version>
         <owasp.dependency-check.version>7.1.0</owasp.dependency-check.version>
-        <plexus.utils.version>3.4.1</plexus.utils.version>
+        <plexus.utils.version>3.4.2</plexus.utils.version>
         <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
         <slf4j.test.version>1.2.0</slf4j.test.version>
         <slf4j.version>1.7.32</slf4j.version>
@@ -136,7 +136,7 @@
         <spotbugs.version>4.6.0</spotbugs.version>
         <surefire.verbosity>0</surefire.verbosity>
         <surefire.version>3.0.0-M6</surefire.version>
-        <testng.version>7.5</testng.version>
+        <testng.version>7.6.0</testng.version>
         <versions.plugin.version>2.10.0</versions.plugin.version>
     </properties>
 
