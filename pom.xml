@@ -85,7 +85,7 @@
     <properties>
         <antlr4.version>4.10.1</antlr4.version>
         <appdirs.version>1.2.1</appdirs.version>
-        <checkstyle.version>10.2</checkstyle.version>
+        <checkstyle.version>10.3</checkstyle.version>
         <commons-cli.version>1.5.0</commons-cli.version>
         <commons-io.version>2.11.0</commons-io.version>
         <coveralls.version>4.3.0</coveralls.version>
@@ -130,7 +130,7 @@
         <plexus.utils.version>3.4.2</plexus.utils.version>
         <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
         <slf4j.test.version>1.2.0</slf4j.test.version>
-        <slf4j.version>1.7.32</slf4j.version>
+        <slf4j.version>1.7.36</slf4j.version>
         <sortpom.version>3.0.1</sortpom.version>
         <spotbugs.maven.version>4.6.0.0</spotbugs.maven.version>
         <spotbugs.version>4.6.0</spotbugs.version>
