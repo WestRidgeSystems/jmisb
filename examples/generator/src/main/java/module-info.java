@@ -9,4 +9,5 @@ module org.jmisb.examples.generator {
     requires org.jmisb.st1602;
     requires commons.cli;
     requires java.desktop;
+    requires org.slf4j;
 }

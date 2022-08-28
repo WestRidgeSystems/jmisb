@@ -2,10 +2,10 @@ package org.jmisb.api.klv.st1204;
 
 import static org.testng.Assert.*;
 
+import com.github.valfirst.slf4jtest.LoggingEvent;
 import java.util.UUID;
 import org.jmisb.api.klv.LoggerChecks;
 import org.testng.annotations.Test;
-import uk.org.lidalia.slf4jtest.LoggingEvent;
 
 public class CoreIdentifierTortureTest extends LoggerChecks {
 

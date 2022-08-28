@@ -36,7 +36,7 @@
             <scope>test</scope>
         </dependency>
         <dependency>
-            <groupId>uk.org.lidalia</groupId>
+            <groupId>com.github.valfirst</groupId>
             <artifactId>slf4j-test</artifactId>
             <scope>test</scope>
         </dependency>

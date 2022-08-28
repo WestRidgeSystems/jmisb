@@ -6,4 +6,5 @@ module org.jmisb.examples.annotation {
     requires org.jmisb.st1301;
     requires commons.cli;
     requires java.desktop;
+    requires org.slf4j;
 }

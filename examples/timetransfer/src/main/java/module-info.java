@@ -5,4 +5,5 @@ module org.jmisb.examples.timetransfer {
     requires commons.cli;
     requires java.desktop;
     requires net.frogmouth.chronyjava;
+    requires org.slf4j;
 }

@@ -1,5 +1,8 @@
 package org.jmisb.st0601;
 
+import com.github.valfirst.slf4jtest.LoggingEvent;
+import com.github.valfirst.slf4jtest.TestLogger;
+import com.github.valfirst.slf4jtest.TestLoggerFactory;
 import java.nio.ByteBuffer;
 import java.util.Collection;
 import java.util.List;
@@ -21,9 +24,6 @@ import org.testng.annotations.AfterMethod;
 import org.testng.annotations.BeforeTest;
 import org.testng.annotations.Test;
 import uk.org.lidalia.slf4jext.Level;
-import uk.org.lidalia.slf4jtest.LoggingEvent;
-import uk.org.lidalia.slf4jtest.TestLogger;
-import uk.org.lidalia.slf4jtest.TestLoggerFactory;
 
 public class ParserTest {
     TestLogger LOGGER = TestLoggerFactory.getTestLogger(KlvParser.class);

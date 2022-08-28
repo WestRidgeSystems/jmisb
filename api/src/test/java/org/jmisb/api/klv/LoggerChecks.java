@@ -1,14 +1,14 @@
 package org.jmisb.api.klv;
 
+import com.github.valfirst.slf4jtest.LoggingEvent;
+import com.github.valfirst.slf4jtest.TestLogger;
+import com.github.valfirst.slf4jtest.TestLoggerFactory;
 import java.util.List;
 import org.slf4j.helpers.MessageFormatter;
 import org.testng.Assert;
 import org.testng.annotations.AfterMethod;
 import org.testng.annotations.BeforeMethod;
 import uk.org.lidalia.slf4jext.Level;
-import uk.org.lidalia.slf4jtest.LoggingEvent;
-import uk.org.lidalia.slf4jtest.TestLogger;
-import uk.org.lidalia.slf4jtest.TestLoggerFactory;
 
 /**
  * Superclass for logging checks in a test case.
@@ -41,7 +41,7 @@ public abstract class LoggerChecks {
     }
 
     protected void verifyNoLoggerMessages() {
-        if (LOGGER.getLoggingEvents().size() > 0) {
+        if (!LOGGER.getLoggingEvents().isEmpty()) {
             List<LoggingEvent> events = LOGGER.getLoggingEvents();
             for (LoggingEvent event : events) {
                 System.out.println(event.getLevel().name() + ": " + event.getMessage().toString());
