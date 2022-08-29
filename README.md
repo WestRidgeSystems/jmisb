@@ -167,7 +167,10 @@ class ExampleProcessor implements IVideoListener, IMetadataListener
 ```
 
 The result of `msg.getField(UasDatalinkTag.SensorLatitude)` will be an instance
-of the `SensorLatitude` class (implementing `IUasDatalinkValue`).
+of the `SensorLatitude` class (implementing `IUasDatalinkValue`). In addition
+to displayable name and value, that instance will also provide get and set of the
+underlying value (e.g. a double for something like Latitude). Consult the javadoc
+for the relevant class.
 
 For more complete examples of usage, see the [examples](./examples) directory,
 as well as [jmisb-viewer](viewer), a Java Swing-based tool for displaying video and metadata.
