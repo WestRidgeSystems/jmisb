@@ -2,6 +2,8 @@ package org.jmisb.api.klv;
 
 import static org.testng.Assert.*;
 
+import com.github.valfirst.slf4jtest.TestLogger;
+import com.github.valfirst.slf4jtest.TestLoggerFactory;
 import java.util.List;
 import org.jmisb.api.common.InvalidDataHandler;
 import org.jmisb.api.common.KlvParseException;
@@ -9,8 +11,6 @@ import org.jmisb.api.common.LogOnInvalidDataStrategy;
 import org.testng.annotations.AfterMethod;
 import org.testng.annotations.Test;
 import uk.org.lidalia.slf4jext.Level;
-import uk.org.lidalia.slf4jtest.TestLogger;
-import uk.org.lidalia.slf4jtest.TestLoggerFactory;
 
 /** Unit tests for LdsParser. */
 public class LdsParserTest {

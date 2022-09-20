@@ -2,6 +2,9 @@ package org.jmisb.st1108;
 
 import static org.testng.Assert.*;
 
+import com.github.valfirst.slf4jtest.LoggingEvent;
+import com.github.valfirst.slf4jtest.TestLogger;
+import com.github.valfirst.slf4jtest.TestLoggerFactory;
 import org.jmisb.api.common.KlvParseException;
 import org.jmisb.api.klv.IMisbMessage;
 import org.jmisb.st1108.st1108_2.LegacyIQLocalSet;
@@ -10,9 +13,6 @@ import org.jmisb.st1108.st1108_3.IQLocalSet;
 import org.jmisb.st1108.st1108_3.IQLocalSetTest;
 import org.testng.annotations.Test;
 import uk.org.lidalia.slf4jext.Level;
-import uk.org.lidalia.slf4jtest.LoggingEvent;
-import uk.org.lidalia.slf4jtest.TestLogger;
-import uk.org.lidalia.slf4jtest.TestLoggerFactory;
 
 /** Tests for the ST 1108 Interpretability and Quality Local Set Factory. */
 public class InterpretabilityQualityLocalSetFactoryTest {

@@ -3,6 +3,8 @@ package org.jmisb.st0602;
 import static org.testng.Assert.assertEquals;
 import static org.testng.Assert.assertTrue;
 
+import com.github.valfirst.slf4jtest.TestLogger;
+import com.github.valfirst.slf4jtest.TestLoggerFactory;
 import java.util.Arrays;
 import java.util.HashMap;
 import java.util.List;
@@ -20,8 +22,6 @@ import org.testng.annotations.BeforeMethod;
 import org.testng.annotations.BeforeTest;
 import org.testng.annotations.Test;
 import uk.org.lidalia.slf4jext.Level;
-import uk.org.lidalia.slf4jtest.TestLogger;
-import uk.org.lidalia.slf4jtest.TestLoggerFactory;
 
 public class AnnotationMetadataUniversalSetTest {
     private AnnotationMetadataUniversalSet minimalUniversalSet;
