@@ -85,7 +85,7 @@
     <properties>
         <antlr4.version>4.10.1</antlr4.version>
         <appdirs.version>1.2.1</appdirs.version>
-        <checkstyle.version>10.3.2</checkstyle.version>
+        <checkstyle.version>10.3.3</checkstyle.version>
         <commons-cli.version>1.5.0</commons-cli.version>
         <commons-io.version>2.11.0</commons-io.version>
         <coveralls.version>4.3.0</coveralls.version>
