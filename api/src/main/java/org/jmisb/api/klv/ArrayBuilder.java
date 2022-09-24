@@ -261,7 +261,7 @@ public class ArrayBuilder {
     }
 
     /**
-     * Concatenate a collection of byte arrays (chunks) sequentially into one big array
+     * Concatenate a collection of byte arrays (chunks) sequentially into one big array.
      *
      * @param chunks The collection of chunks
      * @param totalLength The total number of bytes in all chunks
