@@ -349,4 +349,27 @@ public class VmtiLocalSetTest extends LoggerChecks {
         this.verifySingleLoggerMessage("Unknown VMTI Metadata tag: Undefined");
         assertNull(unknown);
     }
+
+    @Test
+    public void parseWithUniversalLabel() throws KlvParseException, URISyntaxException {
+        final byte[] bytes =
+                new byte[] {
+                    0x06, 0x0e, 0x2b, 0x34, 0x02, 0x0B, 0x01, 0x01, 0x0e, 0x01, 0x03, 0x03, 0x06,
+                    0x00, 0x00, 0x00, 0x03, 0x06, 0x01, 0x01
+                };
+        VmtiLocalSet vmti = new VmtiLocalSet(bytes);
+        assertNotNull(vmti.getField(VmtiMetadataKey.NumberOfReportedTargets));
+    }
+
+    @Test(
+            expectedExceptions = KlvParseException.class,
+            expectedExceptionsMessageRegExp = "VMTI BER length is greater than provided bytes")
+    public void parseWithUniversalLabelBadLength() throws KlvParseException, URISyntaxException {
+        final byte[] bytes =
+                new byte[] {
+                    0x06, 0x0e, 0x2b, 0x34, 0x02, 0x0B, 0x01, 0x01, 0x0e, 0x01, 0x03, 0x03, 0x06,
+                    0x00, 0x00, 0x00, 0x04, 0x06, 0x01, 0x01
+                };
+        new VmtiLocalSet(bytes);
+    }
 }

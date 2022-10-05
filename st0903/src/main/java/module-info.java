@@ -11,8 +11,8 @@ module org.jmisb.st0903 {
     uses org.jmisb.api.klv.IMisbMessageFactory;
 
     // If this is updated, ensure src/main/resources/META-INF/services is updated
-    // provides org.jmisb.api.klv.IMisbMessageFactory with
-    //        org.jmisb.st0601.UasDatalinkMessageFactory;
+    provides org.jmisb.api.klv.IMisbMessageFactory with
+            org.jmisb.st0903.VmtiLocalSetFactory;
 
     exports org.jmisb.st0903;
     exports org.jmisb.st0903.algorithm;
