@@ -53,4 +53,13 @@ public class ZOrder implements IAnnotationMetadataValue {
     public String getDisplayableValue() {
         return String.format("%d", value);
     }
+
+    /**
+     * Get the Z-Order value.
+     *
+     * @return the Z-Order value as an integer.
+     */
+    public int getValue() {
+        return value;
+    }
 }

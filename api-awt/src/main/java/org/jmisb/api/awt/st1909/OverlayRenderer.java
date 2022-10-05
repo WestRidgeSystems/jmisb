@@ -163,13 +163,31 @@ public class OverlayRenderer {
         return triangle;
     }
 
-    // Exposed for unit testing purposes
+    /**
+     * Calculate the north arrow row offset location.
+     *
+     * <p>This is mainly exposed for unit testing purposes, and should not normally be used.
+     *
+     * @param size the size of the north arrow circle.
+     * @param northAngle the north angle in radians.
+     * @return the offset in pixels for the north arrow location, relative to the row anchor pixel
+     *     position.
+     */
     protected int calculateRowOffset(int size, double northAngle) {
         int rowOffset = (int) Math.round(Math.sin((-1 * northAngle) + (Math.PI / 2)) * size);
         return -1 * rowOffset;
     }
 
-    // Exposed for unit testing purposes
+    /**
+     * Calculate the north arrow column offset location.
+     *
+     * <p>This is mainly exposed for unit testing purposes, and should not normally be used.
+     *
+     * @param size the size of the north arrow circle.
+     * @param northAngle the north angle in radians.
+     * @return offset in pixels for the north arrow location, relative to the column anchor pixel
+     *     position.
+     */
     protected int calculateColumnOffset(int size, double northAngle) {
         return (int) Math.round(Math.cos((-1 * northAngle) + (Math.PI / 2)) * size);
     }

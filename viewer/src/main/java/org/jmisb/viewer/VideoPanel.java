@@ -5,6 +5,7 @@ import java.awt.event.ComponentEvent;
 import java.awt.event.ComponentListener;
 import java.awt.image.BufferedImage;
 import javax.swing.*;
+import org.jmisb.api.awt.st0602.AnnotationsRenderer;
 import org.jmisb.api.awt.st1909.OverlayRenderer;
 import org.jmisb.api.video.IMetadataListener;
 import org.jmisb.api.video.IVideoListener;
@@ -29,7 +30,7 @@ public class VideoPanel extends JPanel
     private final MetadataItems metadata = new MetadataItems();
     private boolean metadataOverlayEnabled = false;
     private boolean annotationOverlayEnabled = false;
-    private final Annotations annotations = new Annotations();
+    private final AnnotationsRenderer annotations = new AnnotationsRenderer();
 
     /** Constructor. */
     VideoPanel() {
