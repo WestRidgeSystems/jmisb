@@ -18,10 +18,12 @@ import org.jmisb.core.video.TimingUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.testng.Assert;
+import org.testng.annotations.Ignore;
 import org.testng.annotations.Test;
 
 /** Integration test for {@link VideoFileInput} and {@link VideoFileOutput} */
 @Test(groups = {"integration-tests"})
+@Ignore
 public class VideoFileInputOutputIT {
     private static final Logger logger = LoggerFactory.getLogger(VideoFileInputOutputIT.class);
     private final double sensorLatitude = 42.4036;
