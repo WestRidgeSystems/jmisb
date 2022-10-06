@@ -2,9 +2,9 @@ name: JDK11 Build (Ubuntu 20.04 default)
 
 on:
     push:
-      branches: [ develop, main ]
+      branches: [ 1.x, main ]
     pull_request:
-      branches: [ develop, main ]
+      branches: [ 1.x, main ]
 
 jobs:
   build:
