@@ -11,13 +11,7 @@ import java.util.SortedMap;
 import java.util.TreeMap;
 import org.jmisb.api.common.InvalidDataHandler;
 import org.jmisb.api.common.KlvParseException;
-import org.jmisb.api.klv.Ber;
-import org.jmisb.api.klv.BerEncoder;
-import org.jmisb.api.klv.IKlvKey;
-import org.jmisb.api.klv.IMisbMessage;
-import org.jmisb.api.klv.LdsField;
-import org.jmisb.api.klv.LdsParser;
-import org.jmisb.api.klv.UniversalLabel;
+import org.jmisb.api.klv.*;
 import org.jmisb.api.klv.st0601.Checksum;
 import org.jmisb.api.klv.st0903.shared.EncodingMode;
 import org.jmisb.api.klv.st0903.shared.VmtiTextString;
@@ -119,9 +113,25 @@ public class VmtiLocalSet implements IMisbMessage {
      * @throws KlvParseException if parsing fails
      */
     public VmtiLocalSet(byte[] bytes) throws KlvParseException {
+
         int offset = 0;
+        int setLength = bytes.length;
+
+        // conditionally parse Universal Key if not embedded in 0601
+        if (setLength > UniversalLabel.LENGTH) {
+            byte[] ul = Arrays.copyOfRange(bytes, offset, UniversalLabel.LENGTH);
+            if (Arrays.equals(KlvConstants.VmtiLocalSetUl.getBytes(), ul)) {
+                BerField lengthField = BerDecoder.decode(bytes, UniversalLabel.LENGTH, false);
+                setLength = lengthField.getValue();
+                offset = UniversalLabel.LENGTH + lengthField.getLength();
+
+                if (setLength + offset > bytes.length)
+                    throw new KlvParseException("VMTI BER length is greater than provided bytes");
+            }
+        }
+
         EncodingMode encodingMode = EncodingMode.IMAPB;
-        List<LdsField> fields = LdsParser.parseFields(bytes, offset, bytes.length);
+        List<LdsField> fields = LdsParser.parseFields(bytes, offset, setLength);
         for (LdsField field : fields) {
             VmtiMetadataKey key = VmtiMetadataKey.getKey(field.getTag());
             if (key.equals(VmtiMetadataKey.VersionNumber)) {
@@ -140,7 +150,8 @@ public class VmtiLocalSet implements IMisbMessage {
                     break;
                 case Checksum:
                     byte[] expected = Checksum.compute(bytes, false);
-                    byte[] actual = Arrays.copyOfRange(bytes, bytes.length - 2, bytes.length);
+                    byte[] actual =
+                            Arrays.copyOfRange(bytes, setLength + offset - 2, setLength + offset);
                     if (!Arrays.equals(expected, actual)) {
                         InvalidDataHandler.getInstance()
                                 .handleInvalidChecksum(LOGGER, "Bad checksum");
@@ -249,7 +260,7 @@ public class VmtiLocalSet implements IMisbMessage {
 
     private void updateVersion() {
         ST0903Version version = (ST0903Version) getField(VmtiMetadataKey.VersionNumber);
-        // If we're missing a version, or its too old, update it to current. Otherwise leave it
+        // If we're missing a version, or it's too old, update it to current. Otherwise, leave it
         // alone.
         if ((version == null) || (version.getVersion() < 4)) {
             version = new ST0903Version(VmtiMetadataConstants.ST_VERSION_NUMBER);

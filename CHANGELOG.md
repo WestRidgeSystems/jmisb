@@ -1,3 +1,9 @@
+### October 12, 2022, version 1.12.0
+ * The majority of development over the past year has been on 2.x, so
+   this is primarily a maintenance release 
+ * Added support for top-level ST 0903 messages in MisbMessageFactory
+ * Numerous dependency updates
+
 ### December 29, 2021, version 1.11.0
  * Completed ST 0805 implementation and added `cotconverter` example
  * Implemented ST 1108, Interpretability and Quality Metadata Local Set

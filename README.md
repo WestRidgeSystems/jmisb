@@ -1,7 +1,7 @@
 # jMISB
 
 ![Build Status](https://github.com/WestRidgeSystems/jmisb/actions/workflows/jdk11.yml/badge.svg)
-[![codecov](https://codecov.io/gh/WestRidgeSystems/jmisb/branch/develop/graph/badge.svg?token=SWXQJKERQY)](https://codecov.io/gh/WestRidgeSystems/jmisb)
+[![codecov](https://codecov.io/gh/WestRidgeSystems/jmisb/branch/main/graph/badge.svg?token=SWXQJKERQY)](https://codecov.io/gh/WestRidgeSystems/jmisb)
 [![CodeQL](https://github.com/WestRidgeSystems/jmisb/actions/workflows/codeql-analysis.yml/badge.svg)](https://github.com/WestRidgeSystems/jmisb/actions/workflows/codeql-analysis.yml)
 [![Maven Central](https://maven-badges-generator.herokuapp.com/maven-central/org.jmisb/jmisb/badge.svg)](https://maven-badges-generator.herokuapp.com/maven-central/org.jmisb/jmisb)
 [![Gitter](https://badges.gitter.im/jmisb/community.svg)](https://gitter.im/jmisb/community?utm_source=badge&utm_medium=badge&utm_campaign=pr-badge)
@@ -77,7 +77,7 @@ jMISB as a dependency. For Maven, add the following to your `pom.xml`:
     <dependency>
         <groupId>org.jmisb</groupId>
         <artifactId>jmisb-api</artifactId>
-        <version>1.11.0</version>
+        <version>1.12.0</version>
     </dependency>
 ```
 
@@ -85,7 +85,7 @@ For Gradle, include the following:
 
 ```groovy
 dependencies {
-    implementation 'org.jmisb:jmisb-api:1.11.0'
+    implementation 'org.jmisb:jmisb-api:1.12.0'
 }
 ```
 

@@ -12,9 +12,11 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.testng.Assert;
 import org.testng.annotations.BeforeClass;
+import org.testng.annotations.Ignore;
 import org.testng.annotations.Test;
 
 /** Integration test for {@link VideoStreamInput} and {@link VideoStreamOutput} */
+@Ignore
 @Test(groups = {"integration-tests"})
 public class VideoStreamInputOutputIT {
     private static Logger logger = LoggerFactory.getLogger(VideoStreamInputOutputIT.class);

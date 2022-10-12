@@ -1,6 +1,6 @@
 # How to Contribute
 
-As a new project, there are many areas where jMISB could use your help.
+There are many areas where jMISB could use your help.
 To get an idea of some of the things on our road map, see the
 [issues board](https://github.com/WestRidgeSystems/jmisb/issues). New contributors
 are encouraged to get started on smaller tasks, which we will tag using the
@@ -8,13 +8,15 @@ are encouraged to get started on smaller tasks, which we will tag using the
 
 ## Development Guidelines
 
-* If you develop a new feature or enhancement, please create a branch off of
-the `develop` branch for your changes, and create a pull request when you
-believe it is ready for review.
+* There are currently two development branches to which all pull requests should
+go: `1.x` and `2.x`.
 
-* If you are fixing a bug, you may either branch off `develop`, or
-off `master` if you need to patch a prior release (perhaps because
-you're using the release in your own project).
+* `1.x` is in maintenance mode, so preferably PRs for new features should go into 
+`2.x`.
+
+* If you are fixing a bug, you may submit the PR against either branch. Once
+approved on that branch, we will ensure it gets merged into the other branch, 
+if appropriate.
 
 * On your branch, please only make changes for the single issue you are
 working on. If you find yourself tempted to make other enhancements along the
