@@ -130,7 +130,7 @@
         <plexus.utils.version>3.5.0</plexus.utils.version>
         <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
         <slf4j.test.version>2.6.1</slf4j.test.version>
-        <slf4j.version>2.0.2</slf4j.version>
+        <slf4j.version>2.0.5</slf4j.version>
         <sortpom.version>3.0.1</sortpom.version>
         <spotbugs.maven.version>4.6.0.0</spotbugs.maven.version>
         <spotbugs.version>4.7.2</spotbugs.version>
