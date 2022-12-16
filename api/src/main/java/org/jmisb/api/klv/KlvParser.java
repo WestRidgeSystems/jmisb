@@ -1,8 +1,12 @@
 package org.jmisb.api.klv;
 
+import java.io.ByteArrayOutputStream;
+import java.io.IOException;
+import java.io.InputStream;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
+import java.util.function.Consumer;
 import org.jmisb.api.common.KlvParseException;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -12,6 +16,60 @@ public class KlvParser {
     private static Logger logger = LoggerFactory.getLogger(KlvParser.class);
 
     private KlvParser() {}
+
+    public static void parseStream(
+            InputStream is,
+            Consumer<IMisbMessage> handler,
+            Consumer<KlvParseException> exceptionHandler)
+            throws KlvParseException {
+
+        // reusable key array to minimize garbage
+        byte[] key = new byte[UniversalLabel.LENGTH];
+
+        try {
+            while (true) {
+                ByteArrayOutputStream out = new ByteArrayOutputStream();
+
+                // Read the UniversalLabel
+                int read = is.read(key, 0, key.length);
+                if (read < 0) {
+                    break;
+                }
+                if (read != key.length) {
+                    throw new KlvParseException(
+                            "Read " + read + " bytes when expected " + key.length);
+                }
+                out.write(key);
+
+                // Read the payload length
+                BerField length = BerDecoder.decode(is, false);
+                out.write(BerEncoder.encode(length.getValue()));
+
+                // Read the payload
+                byte[] payload = new byte[length.getValue()];
+                read = is.read(payload, 0, payload.length);
+                if (read == 0) {
+                    break;
+                }
+                if (read != payload.length) {
+                    throw new KlvParseException(
+                            "Read " + read + " bytes when expected " + key.length);
+                }
+                out.write(payload);
+
+                // hand off the IMisbMessage
+                byte[] buf = out.toByteArray();
+                try {
+                    IMisbMessage msg = MisbMessageFactory.getInstance().handleMessage(buf);
+                    handler.accept(msg);
+                } catch (KlvParseException e) {
+                    exceptionHandler.accept(e);
+                }
+            }
+        } catch (IOException e) {
+            throw new KlvParseException("IOException during stream parsing");
+        }
+    }
 
     /**
      * Parse a byte array containing one or more {@link IMisbMessage}s.
