@@ -1,8 +1,12 @@
 package org.jmisb.api.klv;
 
+import java.io.ByteArrayOutputStream;
+import java.io.IOException;
+import java.io.InputStream;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
+import java.util.function.Consumer;
 import org.jmisb.api.common.KlvParseException;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -12,6 +16,84 @@ public class KlvParser {
     private static final Logger logger = LoggerFactory.getLogger(KlvParser.class);
 
     private KlvParser() {}
+
+    /**
+     * Parse an InputStream containing one or more {@link IMisbMessage}s.
+     *
+     * <p>This differs from {@link #parseBytes(byte[]) parseBytes(byte[])} by parsing the
+     * UniversalLabel, BER-length, and value, and sending the {@link IMisbMessage} object in
+     * realtime to {@code handler}.
+     *
+     * <p>This is an additional interface for parsing KLV metadata. It assumes that {@code is}
+     * contains one or more top-level messages, i.e., byte sequences starting with a Universal Label
+     * (UL). If a particular UL is unsupported it will be send to {@code handler} as a {@link
+     * RawMisbMessage}.
+     *
+     * <p>If parsing errors occur with a valid length message, with an invalid value, the
+     * corresponding {@code byte[]} and {@link KlvParseException} will be sent to {@code
+     * exceptionHandler}.
+     *
+     * <p>The supported UL are determined by the {@link MisbMessageFactory} singleton.
+     *
+     * @param is The input stream
+     * @param handler The resultant {@link IMisbMessage} objects streamed
+     * @param exceptionHandler The {@link KlvParseException} errors detected in the stream.
+     * @throws KlvParseException if an unrecoverable parsing exception occurs when splitting
+     *     messages
+     */
+    public static void parseStream(
+            InputStream is,
+            Consumer<IMisbMessage> handler,
+            Consumer<KlvParseException> exceptionHandler)
+            throws KlvParseException {
+
+        // reusable key array to minimize garbage
+        byte[] key = new byte[UniversalLabel.LENGTH];
+
+        try {
+            while (true) {
+                ByteArrayOutputStream out = new ByteArrayOutputStream();
+
+                // Read the UniversalLabel
+                int read = is.read(key, 0, key.length);
+                if (read < 0) {
+                    break;
+                }
+                if (read != key.length) {
+                    throw new KlvParseException(
+                            "Read " + read + " bytes when expected " + key.length);
+                }
+                out.write(key);
+
+                // Read the payload length
+                BerField length = BerDecoder.decode(is, false);
+                out.write(BerEncoder.encode(length.getValue()));
+
+                // Read the payload
+                byte[] payload = new byte[length.getValue()];
+                read = is.read(payload, 0, payload.length);
+                if (read == 0) {
+                    break;
+                }
+                if (read != payload.length) {
+                    throw new KlvParseException(
+                            "Read " + read + " bytes when expected " + key.length);
+                }
+                out.write(payload);
+
+                // hand off the IMisbMessage
+                byte[] buf = out.toByteArray();
+                try {
+                    IMisbMessage msg = MisbMessageFactory.getInstance().handleMessage(buf);
+                    handler.accept(msg);
+                } catch (KlvParseException e) {
+                    exceptionHandler.accept(new KlvParseException(e, buf));
+                }
+            }
+        } catch (IOException e) {
+            throw new KlvParseException("IOException during stream parsing");
+        }
+    }
 
     /**
      * Parse a byte array containing one or more {@link IMisbMessage}s.
