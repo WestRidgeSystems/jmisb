@@ -1,7 +1,11 @@
 package org.jmisb.api.klv;
 
+import java.io.IOException;
+import java.io.InputStream;
+
 /** Decode data using Basic Encoding Rules (BER). */
 public class BerDecoder {
+
     private BerDecoder() {}
 
     /**
@@ -10,7 +14,7 @@ public class BerDecoder {
      * @param data Array holding the BER-encoded data
      * @param offset Index of the first byte of the array to decode
      * @param isOid true if the data is encoded using BER-OID
-     * @return decoded The decoded field
+     * @return the decoded field
      * @throws IllegalArgumentException if the encoded data is invalid
      */
     public static BerField decode(byte[] data, int offset, boolean isOid)
@@ -75,6 +79,64 @@ public class BerDecoder {
             throw new IllegalArgumentException("BER: error decoding value");
         }
 
+        return new BerField(length, value);
+    }
+
+    /**
+     * Decode a field (length and value) from an InputStream.
+     *
+     * @param is InputStream with BER-encoded data at the tip
+     * @param isOid true if the data is encoded using BER-OID
+     * @return the decoded field
+     * @throws IllegalArgumentException if the encoded data is invalid
+     */
+    public static BerField decode(InputStream is, boolean isOid) throws IOException {
+        if (!isOid) {
+            return decodeBer(is);
+        }
+
+        return decodeBerOid(is);
+    }
+
+    private static BerField decodeBer(InputStream is) throws IOException {
+        int length = is.read();
+
+        if ((length & 0x80) == 0) {
+            // BER Short Form.  If the first bit of the BER is 0 then the BER is 1-byte.
+            return new BerField(1, length);
+        }
+
+        // BER Long Form (variable length)
+        int berLength = length & 0x7f;
+        if (berLength > 4) {
+            throw new IllegalArgumentException(
+                    "BER long form: BER length is >5 bytes; data is probably corrupt");
+        }
+        int fullBerSize = berLength + 1;
+        byte[] data = new byte[berLength];
+        int read = is.read(data, 0, data.length);
+        if (read != data.length) {
+            throw new IllegalArgumentException("BER parsing ran out of bytes");
+        }
+        int len = 0;
+        for (int i = 0; i < berLength; ++i) {
+            int b = 0x00FF & data[i];
+            len = (len << 8) | b;
+        }
+        return new BerField(fullBerSize, len);
+    }
+
+    private static BerField decodeBerOid(InputStream is) throws IOException {
+        int read;
+        int value = 0;
+        int length = 0;
+        do {
+            read = is.read();
+            int highbits = (value << 7);
+            int lowbits = (read & 0x7F);
+            value = highbits + lowbits;
+            length++;
+        } while ((read & 0x80) == 0x80);
         return new BerField(length, value);
     }
 }
