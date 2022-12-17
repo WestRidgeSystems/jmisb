@@ -5,7 +5,7 @@ package ${packageName};
 import java.util.HashMap;
 import java.util.Map;
 import org.jmisb.api.common.KlvParseException;
-import org.jmisb.mimd.st1902.IMimdMetadataValue;
+import org.jmisb.mimd.IMimdMetadataValue;
 import org.jmisb.core.klv.PrimitiveConverter;
 
 /**

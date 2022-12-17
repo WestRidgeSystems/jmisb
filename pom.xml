@@ -56,7 +56,9 @@
         <module>st1601</module>
         <module>st1602</module>
         <module>st1603</module>
-        <module>mimd</module>
+        <module>mimdbase</module>
+        <module>mimd1</module>
+        <module>mimd2</module>
         <module>st1909</module>
         <module>impl</module>
         <module>viewer</module>

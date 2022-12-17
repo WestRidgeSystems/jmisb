@@ -25,6 +25,18 @@ public class AbstractModel {
      * Set the base of package name.
      *
      * <p>This is the Java package that the resulting class or enumeration will be within. The
+     * document will be appended to the package name base to make the package name.
+     *
+     * @return the package name base as a String.
+     */
+    public String getPackageNameBase() {
+        return packageNameBase;
+    }
+
+    /**
+     * Set the base of package name.
+     *
+     * <p>This is the Java package that the resulting class or enumeration will be within. The
      * document will be appended to the package name base to make the package name. For example, if
      * the package name base is {@code com.blah} and the document is ST1903, the resulting package
      * name will be {@code com.blah.st1903}.

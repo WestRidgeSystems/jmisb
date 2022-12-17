@@ -10,17 +10,16 @@ import java.util.TreeMap;
 import org.jmisb.api.common.KlvParseException;
 import org.jmisb.api.klv.ArrayBuilder;
 import org.jmisb.api.klv.IKlvValue;
-import org.jmisb.mimd.st1902.LoggerChecks;
-import org.jmisb.mimd.st1902.IMimdMetadataValue;
+import ${packageNameBase}.st1902.LoggerChecks;
+import org.jmisb.mimd.IMimdMetadataValue;
 <#list entries as entry>
     <#if entry.name == "mimdId">
-import org.jmisb.mimd.st1902.MimdId;
+import org.jmisb.mimd.MimdId;
     <#break>
     </#if>
 </#list>
-import org.jmisb.mimd.st1902.MimdIdReference;
+import org.jmisb.mimd.MimdIdReference;
 import static org.testng.Assert.*;
-
 import org.testng.annotations.Test;
 
 /** Unit tests for ${name} */
@@ -85,36 +84,7 @@ public class ${name}Test extends LoggerChecks {
         assertNull(uut);
     }
 
-<#if topLevel>
-    @Test
-    public void parseFromBytesMimdId() throws KlvParseException {
-        verifyNoLoggerMessages();
-        ${name} uut = new ${name}(new byte[]{0x06, 0x0E, 0x2B, 0x34, 0x02, 0x05, 0x01, 0x01, 0x0E, 0x01, 0x05, 0x03,
-                        0x00, 0x00, 0x00, 0x00, 0x06, 0x01, 0x02, 0x04, 0x03, (byte)0xbb, (byte)0xd4});
-        verifyNoLoggerMessages();
-        assertEquals(uut.getBytes(), new byte[]{0x06, 0x0E, 0x2B, 0x34, 0x02, 0x05, 0x01, 0x01, 0x0E, 0x01, 0x05, 0x03,
-                        0x00, 0x00, 0x00, 0x00, 0x06, 0x01, 0x02, 0x04, 0x03, (byte)0xbb, (byte)0xd4});
-        assertNotNull(uut.getIdentifiers());
-        assertEquals(uut.getIdentifiers().size(), 1);
-        assertNotNull(uut.getField(${name}MetadataKey.mimdId));
-    }
-
-    @Test(expectedExceptions = KlvParseException.class)
-    public void parseFromBytesBadValue() throws KlvParseException {
-        new ${name}(new byte[]{0x06, 0x0E, 0x2B, 0x34, 0x02, 0x05, 0x01, 0x01, 0x0E, 0x01, 0x05, 0x03,
-                        0x00, 0x00, 0x00, 0x00, 0x05, 0x01, 0x01, (byte)0x81, (byte)0xc6, (byte)0x8f});
-    }
-
-    @Test
-    public void parseFromBytesBadTag() throws KlvParseException {
-        verifyNoLoggerMessages();
-        IMimdMetadataValue uut = new ${name}(new byte[]{0x06, 0x0E, 0x2B, 0x34, 0x02, 0x05, 0x01, 0x01, 0x0E, 0x01, 0x05, 0x03,
-                        0x00, 0x00, 0x00, 0x00, 0x09, 0x7F, 0x01, 0x00, 0x01, 0x02, 0x04, 0x03, 0x59, 0x4d});
-        verifySingleLoggerMessage("Unknown MIMD Metadata id: 127");
-        assertEquals(uut.getBytes(), new byte[]{0x06, 0x0E, 0x2B, 0x34, 0x02, 0x05, 0x01, 0x01, 0x0E, 0x01, 0x05, 0x03,
-                        0x00, 0x00, 0x00, 0x00, 0x06, 0x01, 0x02, 0x04, 0x03, (byte)0xbb, (byte)0xd4});
-    }
-<#else>
+<#if !topLevel>
     @Test
     public void parseFromBytesEmpty() throws KlvParseException {
         verifyNoLoggerMessages();
@@ -260,9 +230,9 @@ public class ${name}Test extends LoggerChecks {
     public void parseFromValuesBaseElements() throws KlvParseException {
         SortedMap<${name}MetadataKey, IMimdMetadataValue> values = new TreeMap<>();
         values.put(${name}MetadataKey.mimdId, new MimdId(4, 1));
-        values.put(${name}MetadataKey.timerOffset, new org.jmisb.mimd.st1904.Base_TimerOffset(3210L));
-        Map<org.jmisb.mimd.st1904.NumericalPrecisionMetadataKey, IMimdMetadataValue> numericPrecisionValues = new HashMap<>();
-        values.put(${name}MetadataKey.numericPrecision, new org.jmisb.mimd.st1904.NumericalPrecision(numericPrecisionValues));
+        values.put(${name}MetadataKey.timerOffset, new ${packageNameBase}.st1904.Base_TimerOffset(3210L));
+        Map<${packageNameBase}.st1904.NumericalPrecisionMetadataKey, IMimdMetadataValue> numericPrecisionValues = new HashMap<>();
+        values.put(${name}MetadataKey.numericPrecision, new ${packageNameBase}.st1904.NumericalPrecision(numericPrecisionValues));
         ${name} uut = new ${name}(values);
         assertEquals(uut.getIdentifiers().size(), 3);
     }

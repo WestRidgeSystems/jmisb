@@ -13,7 +13,7 @@ import org.jmisb.api.klv.BerField;
 import org.jmisb.api.klv.IKlvKey;
 import org.jmisb.api.klv.IKlvValue;
 import org.jmisb.api.klv.INestedKlvValue;
-import org.jmisb.mimd.st1902.IMimdMetadataValue;
+import org.jmisb.mimd.IMimdMetadataValue;
 import ${qualifiedTypeName};
 
 /**
