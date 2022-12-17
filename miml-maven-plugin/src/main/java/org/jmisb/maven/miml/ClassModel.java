@@ -90,4 +90,8 @@ public class ClassModel extends AbstractModel {
     void setParent(Models parent) {
         this.parent = parent;
     }
+
+    public String getMIMDModelVersion() {
+        return parent.getMIMDModelVersion();
+    }
 }

@@ -4,7 +4,7 @@
 package ${packageName};
 
 import org.jmisb.api.common.KlvParseException;
-import org.jmisb.mimd.st1902.IMimdMetadataValue;
+import org.jmisb.mimd.IMimdMetadataValue;
 
 /**
 <#if parentName == "Base">
@@ -120,8 +120,10 @@ public class ${namespacedName} implements IMimdMetadataValue {
 <#elseif typeName=="Real">
     <#if resolution??>
             org.jmisb.api.klv.st1303.ElementProcessedEncoder encoder = new org.jmisb.api.klv.st1303.ElementProcessedEncoder(${minValue}, ${maxValue}, (double)${resolution});
-    <#else>
+    <#elseif minValue?? && maxValue??>
             org.jmisb.api.klv.st1303.ElementProcessedEncoder encoder = new org.jmisb.api.klv.st1303.ElementProcessedEncoder(${minValue}, ${maxValue}, Float.BYTES);
+    <#else>
+            org.jmisb.api.klv.st1303.NaturalFormatEncoder encoder = new org.jmisb.api.klv.st1303.NaturalFormatEncoder();
     </#if>
 <#elseif typeName=="UInt">
             org.jmisb.api.klv.st1303.UnsignedIntegerEncodingEncoder encoder = new org.jmisb.api.klv.st1303.UnsignedIntegerEncodingEncoder();

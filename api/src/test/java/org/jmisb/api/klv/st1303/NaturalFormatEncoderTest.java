@@ -18,7 +18,7 @@ public class NaturalFormatEncoderTest {
     }
 
     @Test
-    public void check1DimReadlEncoding() throws KlvParseException {
+    public void check1DimRealEncoding() throws KlvParseException {
         NaturalFormatEncoder encoder = new NaturalFormatEncoder();
         double[] input = new double[] {2.4, -8.67};
         byte[] encoded = encoder.encode(input);
@@ -48,6 +48,90 @@ public class NaturalFormatEncoderTest {
                 });
         MDAPDecoder checkDecoder = new MDAPDecoder();
         double[] decoded = checkDecoder.decodeFloatingPoint1D(encoded, 0);
+        assertEquals(decoded, input);
+    }
+
+    @Test(expectedExceptions = KlvParseException.class)
+    public void check2DRealBadRows() throws KlvParseException {
+        NaturalFormatEncoder encoder = new NaturalFormatEncoder();
+        assertNotNull(encoder);
+        encoder.encode(new double[0][1]);
+    }
+
+    @Test(expectedExceptions = KlvParseException.class)
+    public void check2DRealBadColumns() throws KlvParseException {
+        NaturalFormatEncoder encoder = new NaturalFormatEncoder();
+        assertNotNull(encoder);
+        encoder.encode(new double[1][0]);
+    }
+
+    @Test
+    public void check2DimRealEncoding() throws KlvParseException {
+        NaturalFormatEncoder encoder = new NaturalFormatEncoder();
+        double[][] input = new double[][] {{2.4}, {-8.67}};
+        byte[] encoded = encoder.encode(input);
+        assertEquals(
+                encoded,
+                new byte[] {
+                    0x02,
+                    0x02,
+                    0x01,
+                    0x08,
+                    0x01,
+                    0x40,
+                    0x03,
+                    0x33,
+                    0x33,
+                    0x33,
+                    0x33,
+                    0x33,
+                    0x33,
+                    (byte) 0xc0,
+                    0x21,
+                    0x57,
+                    0x0a,
+                    0x3d,
+                    0x70,
+                    (byte) 0xa3,
+                    (byte) 0xd7
+                });
+        MDAPDecoder checkDecoder = new MDAPDecoder();
+        double[][] decoded = checkDecoder.decodeFloatingPoint2D(encoded, 0);
+        assertEquals(decoded, input);
+    }
+
+    @Test
+    public void check2DimRealEncoding2() throws KlvParseException {
+        NaturalFormatEncoder encoder = new NaturalFormatEncoder();
+        double[][] input = new double[][] {{2.4, -8.67}};
+        byte[] encoded = encoder.encode(input);
+        assertEquals(
+                encoded,
+                new byte[] {
+                    0x02,
+                    0x01,
+                    0x02,
+                    0x08,
+                    0x01,
+                    0x40,
+                    0x03,
+                    0x33,
+                    0x33,
+                    0x33,
+                    0x33,
+                    0x33,
+                    0x33,
+                    (byte) 0xc0,
+                    0x21,
+                    0x57,
+                    0x0a,
+                    0x3d,
+                    0x70,
+                    (byte) 0xa3,
+                    (byte) 0xd7
+                });
+        MDAPDecoder checkDecoder = new MDAPDecoder();
+        double[][] decoded = checkDecoder.decodeFloatingPoint2D(encoded, 0);
         assertEquals(decoded, input);
     }
 

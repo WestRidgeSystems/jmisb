@@ -71,7 +71,12 @@
         </dependency>
         <dependency>
             <groupId>org.jmisb</groupId>
-            <artifactId>mimd</artifactId>
+            <artifactId>mimd1</artifactId>
+            <version>${project.version}</version>
+        </dependency>
+        <dependency>
+            <groupId>org.jmisb</groupId>
+            <artifactId>mimd2</artifactId>
             <version>${project.version}</version>
         </dependency>
         <dependency>

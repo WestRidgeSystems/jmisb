@@ -422,7 +422,7 @@ public class CodeGeneratorListener implements MIML_v3Listener {
 
     @Override
     public void enterModelVer(MIML_v3Parser.ModelVerContext ctx) {
-        // System.out.println("Model version: " + ctx.MODELVERNUM());
+        models.setMIMDModelVersion(ctx.MODELVERNUM().toString());
     }
 
     @Override

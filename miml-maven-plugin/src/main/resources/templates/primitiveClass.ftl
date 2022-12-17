@@ -4,7 +4,7 @@
 package ${packageName};
 
 import org.jmisb.api.common.KlvParseException;
-import org.jmisb.mimd.st1902.IMimdMetadataValue;
+import org.jmisb.mimd.IMimdMetadataValue;
 
 /**
 <#if parentName == "Base">

@@ -5,7 +5,8 @@ module org.jmisb.viewer {
     requires org.jmisb.api;
     requires org.jmisb.st0102;
     requires org.jmisb.eg0104;
-    requires org.jmisb.mimd;
+    requires org.jmisb.mimd1;
+    requires org.jmisb.mimd2;
     requires org.jmisb.st0601;
     requires org.jmisb.st0602;
     requires org.jmisb.st0808;

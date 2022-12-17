@@ -29,9 +29,13 @@ It generates a test file with video and KLV metadata. This example is a work-in-
 It provides a GStreamer Sink for KLV metadata.
 This example is a work-in-progress. See [its README](gstsink/README.md) for more information.
 
-## mimdgenerator
+## mimd1generator
 
-It generates a test file with video and KLV metadata using the MIMD (ST1901 through ST 1908) standards. This example is a work-in-progress. See [its README](mimdgenerator/README.md) for more information.
+It generates a test file with video and KLV metadata using the MIMD Version 1 (ST1901.1 through ST 1908.1) standards. This example is a work-in-progress. See [its README](mimd1generator/README.md) for more information.
+
+## mimd2generator
+
+It generates a test file with video and KLV metadata using the MIMD Version 2 (ST1901.2 through ST 1908.2) standards. This example is a work-in-progress. See [its README](mimd2generator/README.md) for more information.
 
 ## movingfeatures
 

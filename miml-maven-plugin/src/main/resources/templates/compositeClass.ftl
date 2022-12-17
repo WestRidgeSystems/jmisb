@@ -14,14 +14,18 @@ import org.jmisb.api.common.InvalidDataHandler;
 import org.jmisb.api.common.KlvParseException;
 import org.jmisb.api.klv.ArrayBuilder;
 <#if topLevel>
+import org.jmisb.api.klv.BerEncoder;
 import org.jmisb.api.klv.CrcCcitt;
+<#if MIMDModelVersion != "1">
+import org.jmisb.api.klv.CrcCcitt8;
+</#if>
 </#if>
 import org.jmisb.api.klv.IKlvKey;
 import org.jmisb.api.klv.IKlvValue;
 import org.jmisb.api.klv.INestedKlvValue;
 <#if topLevel>
 import org.jmisb.api.klv.IMisbMessage;
-import org.jmisb.mimd.st1902.MIMDConstants;
+import ${packageNameBase}.st1902.MIMDConstants;
 </#if>
 import org.jmisb.api.klv.LdsField;
 <#if topLevel>
@@ -29,21 +33,21 @@ import org.jmisb.api.klv.UniversalLabel;
 <#else>
 import org.jmisb.api.klv.LdsParser;
 </#if>
-import org.jmisb.mimd.st1902.IMimdMetadataValue;
+import org.jmisb.mimd.IMimdMetadataValue;
 <#list entries as entry>
     <#if entry.name == "mimdId">
-import org.jmisb.mimd.st1902.MimdId;
+import org.jmisb.mimd.MimdId;
     <#break>
     </#if>
 </#list>
 <#list entries as entry>
     <#if entry.ref>
-import org.jmisb.mimd.st1902.MimdIdReference;
+import org.jmisb.mimd.MimdIdReference;
     <#break>
     </#if>
 </#list>
 <#if topLevel>
-import org.jmisb.mimd.st1902.MimdParser;
+import ${packageNameBase}.st1902.MimdParser;
 </#if>
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -415,6 +419,7 @@ public class ${name} implements <#if topLevel>IMisbMessage, </#if>IMimdMetadataV
         return MIMDConstants.${name}LocalSetUl;
     }
 
+    <#if MIMDModelVersion == "1">
     @Override
     public byte[] frameMessage(boolean isNested) {
         ArrayBuilder arrayBuilder = new ArrayBuilder();
@@ -442,6 +447,44 @@ public class ${name} implements <#if topLevel>IMisbMessage, </#if>IMimdMetadataV
         }
         return arrayBuilder.toBytes();
     }
+    <#else>
+    @Override
+    public byte[] frameMessage(boolean isNested) {
+        ArrayBuilder arrayBuilder = new ArrayBuilder();
+        for (IKlvKey key: getIdentifiers()) {
+            <#if hasDeprecatedAttribute>
+            if (key.isDeprecated()) {
+                // ST1902-01
+                LOGGER.info("Omitting deprecated ${name} Metadata: {}", key.toString());
+                continue;
+            }
+            </#if>
+            arrayBuilder.appendAsOID(key.getIdentifier());
+            byte[] valueBytes = ((IMimdMetadataValue)getField(key)).getBytes();
+            arrayBuilder.appendAsBerLength(valueBytes.length);
+            arrayBuilder.append(valueBytes);
+        }
+        // Nesting is highly unlikely, but is supported.
+        if (!isNested) {
+            byte[] mimdLocalSetBytes = arrayBuilder.toBytes();
+            byte[] mimdLocalSetCheckBytes = CrcCcitt.getCRC(mimdLocalSetBytes);
+            int length = 1 + mimdLocalSetBytes.length + mimdLocalSetCheckBytes.length;
+            byte[] lengthBytes = BerEncoder.encode(length);
+            CrcCcitt8 keyLengthCheckValueCalculator = new CrcCcitt8();
+            keyLengthCheckValueCalculator.addData(getUniversalLabel().getBytes());
+            keyLengthCheckValueCalculator.addData(lengthBytes);
+            ArrayBuilder dlpBuilder = new ArrayBuilder();
+            dlpBuilder.append(getUniversalLabel());
+            dlpBuilder.append(lengthBytes);
+            dlpBuilder.append(keyLengthCheckValueCalculator.getCrc());
+            dlpBuilder.append(mimdLocalSetBytes);
+            dlpBuilder.append(mimdLocalSetCheckBytes);
+            return dlpBuilder.toBytes();
+        } else {
+            return arrayBuilder.toBytes();
+        }
+    }
+    </#if>
 
     @Override
     public String displayHeader() {

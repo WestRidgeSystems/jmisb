@@ -26,6 +26,10 @@ public class ClassModelEntry {
         return parent.getPackageName();
     }
 
+    public String getPackageNameBase() {
+        return parent.getPackageNameBase();
+    }
+
     public String getDocument() {
         return parent.getDocument();
     }
@@ -79,7 +83,7 @@ public class ClassModelEntry {
      */
     public String getPrimitiveType() {
         if (isRef()) {
-            return "org.jmisb.mimd.st1902.MimdId";
+            return "org.jmisb.mimd.MimdId";
         }
         switch (getTypeName()) {
             case "Boolean":

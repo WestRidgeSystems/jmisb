@@ -11,5 +11,6 @@ module org.jmisb.impl {
     requires transitive org.jmisb.st1601;
     requires transitive org.jmisb.st1602;
     requires transitive org.jmisb.st1603;
-    requires transitive org.jmisb.mimd;
+    requires transitive org.jmisb.mimd1;
+    requires transitive org.jmisb.mimd2;
 }

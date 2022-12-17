@@ -17,7 +17,8 @@
         <module>movingfeatures</module>
         <module>gstsink</module>
         <module>parserplugin</module>
-        <module>mimdgenerator</module>
+        <module>mimd1generator</module>
+        <module>mimd2generator</module>
         <module>cotconverter</module>
         <module>rawklv</module>
         <module>annotations</module>

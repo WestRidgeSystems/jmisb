@@ -8,15 +8,7 @@ class Models {
 
     private final List<EnumerationModel> enumerationModels = new ArrayList<>();
     private final List<ClassModel> classModels = new ArrayList<>();
-    private final List<String> st1902ClassNames =
-            new ArrayList<String>() {
-                {
-                    add("IMimdMetadataValue");
-                    add("MimdId");
-                    add("MimdIdReference");
-                    add("Tuple");
-                }
-            };
+    private String MIMDModelVersion;
 
     List<EnumerationModel> getEnumerationModels() {
         return enumerationModels;
@@ -56,10 +48,6 @@ class Models {
                 return enumerationModel.getPackageName();
             }
         }
-
-        if (st1902ClassNames.contains(typeName)) {
-            return "org.jmisb.mimd.st1902";
-        }
         return null;
     }
 
@@ -71,5 +59,13 @@ class Models {
         }
         System.out.println("Failed to look up " + className);
         return null;
+    }
+
+    public String getMIMDModelVersion() {
+        return MIMDModelVersion;
+    }
+
+    public void setMIMDModelVersion(String MIMDModelVersion) {
+        this.MIMDModelVersion = MIMDModelVersion;
     }
 }

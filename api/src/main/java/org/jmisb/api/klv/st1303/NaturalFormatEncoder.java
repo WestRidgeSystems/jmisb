@@ -49,6 +49,41 @@ public class NaturalFormatEncoder {
     }
 
     /**
+     * Encode a two dimensional real array to a Multi-Dimensional Array Pack using Natural Format
+     * Encoding.
+     *
+     * @param data the array of arrays of ({@code double}) values.
+     * @return the encoded byte array including the MISB ST1303 header and array data.
+     * @throws KlvParseException if the encoding fails, such as for invalid array dimensions.
+     */
+    public byte[] encode(double[][] data) throws KlvParseException {
+        if ((data.length < 1) || (data[0].length < 1)) {
+            throw new KlvParseException("MDAP encoding requires each dimension to be at least 1");
+        }
+        // Possibly this could be more efficient, but its hard to tell what accuracy we need.
+        ArrayBuilder builder =
+                new ArrayBuilder()
+                        // Number of dimensions
+                        .appendAsOID(2)
+                        // dim_1
+                        .appendAsOID(data.length)
+                        // dim_2
+                        .appendAsOID(data[0].length)
+                        // E_bytes value
+                        .appendAsOID(Double.BYTES)
+                        // array processing algorithm (APA)
+                        // note: no array processing algorithm support (APAS)
+                        .appendAsOID(ArrayProcessingAlgorithm.NaturalFormat.getCode());
+        // Array Of Elements
+        for (int r = 0; r < data.length; ++r) {
+            for (int c = 0; c < data[r].length; ++c) {
+                builder.append(PrimitiveConverter.float64ToBytes(data[r][c]));
+            }
+        }
+        return builder.toBytes();
+    }
+
+    /**
      * Encode a one dimensional (signed) integer array to a Multi-Dimensional Array Pack using
      * Natural Format Encoding.
      *
