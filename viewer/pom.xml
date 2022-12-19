@@ -178,6 +178,9 @@
                         <configuration>
                             <failBuildOnAnyVulnerability>true</failBuildOnAnyVulnerability>
                             <assemblyAnalyzerEnabled>false</assemblyAnalyzerEnabled>
+                            <suppressionFiles>
+                                <suppressionFile>dependency-check-suppression.xml</suppressionFile>
+                            </suppressionFiles>
                         </configuration>
                         <executions>
                             <execution>
