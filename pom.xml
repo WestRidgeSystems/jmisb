@@ -137,7 +137,7 @@
         <surefire.verbosity>0</surefire.verbosity>
         <surefire.version>3.0.0-M6</surefire.version>
         <svgSalamander.version>1.1.4</svgSalamander.version>
-        <testng.version>7.6.1</testng.version>
+        <testng.version>7.7.0</testng.version>
         <versions.plugin.version>2.10.0</versions.plugin.version>
     </properties>
 
