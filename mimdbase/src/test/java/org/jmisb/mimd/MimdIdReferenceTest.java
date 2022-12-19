@@ -46,4 +46,26 @@ public class MimdIdReferenceTest {
     public void fromBytesWithGroupBadFormat() throws KlvParseException {
         new MimdIdReference(new byte[] {0x08, (byte) 0x84}, 0, 2, "X", "Y");
     }
+
+    @Test
+    public void fromBytesStatic() throws KlvParseException {
+        MimdIdReference uut =
+                MimdIdReference.fromBytes(new byte[] {0x08}, "CompositeSomething", "Timer");
+        assertEquals(uut.getDisplayName(), "CompositeSomething");
+        assertEquals(uut.getDisplayableValue(), "REF<Timer>(8, 0)");
+        assertEquals(uut.getGroupId(), 0);
+        assertEquals(uut.getSerialNumber(), 8);
+        assertEquals(uut.getBytes(), new byte[] {0x08});
+    }
+
+    @Test
+    public void fromBytesWithGroupStatic() throws KlvParseException {
+        MimdIdReference uut =
+                MimdIdReference.fromBytes(new byte[] {0x08, 0x04}, "Composite Something", "Stage");
+        assertEquals(uut.getDisplayName(), "Composite Something");
+        assertEquals(uut.getDisplayableValue(), "REF<Stage>(8, 4)");
+        assertEquals(uut.getGroupId(), 4);
+        assertEquals(uut.getSerialNumber(), 8);
+        assertEquals(uut.getBytes(), new byte[] {0x08, 0x04});
+    }
 }
