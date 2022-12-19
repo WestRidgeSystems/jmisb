@@ -109,11 +109,21 @@ jobs:
         with:
           file: ./st1603/target/site/jacoco/jacoco.xml
           flags: unittests-st1603
-      - name: Upload ST 190x implementation test results to Codecov
+      - name: Upload ST 190x shared implementation test results to Codecov
         uses: codecov/codecov-action@v1.5.0
         with:
-          file: ./mimd/target/site/jacoco/jacoco.xml
-          flags: unittests-mimd
+          file: ./mimdbase/target/site/jacoco/jacoco.xml
+          flags: unittests-mimdbase
+      - name: Upload ST 190x Version 1 implementation test results to Codecov
+        uses: codecov/codecov-action@v1.5.0
+        with:
+          file: ./mimd1/target/site/jacoco/jacoco.xml
+          flags: unittests-mimd1
+      - name: Upload ST 190x Version 1 implementation test results to Codecov
+        uses: codecov/codecov-action@v1.5.0
+        with:
+          file: ./mimd2/target/site/jacoco/jacoco.xml
+          flags: unittests-mimd2
       - name: Upload ST 1909 implementation test results to Codecov
         uses: codecov/codecov-action@v1.5.0
         with:
