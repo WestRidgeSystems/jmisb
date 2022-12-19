@@ -73,6 +73,16 @@ public class MimdIdTest {
     }
 
     @Test
+    public void fromBytesDefaultGroupLongSerialStatic() throws KlvParseException {
+        MimdId uut = MimdId.fromBytes(new byte[] {(byte) 0x83, 0x04});
+        assertEquals(uut.getDisplayName(), "MIMD Id");
+        assertEquals(uut.getDisplayableValue(), "[388, 0]");
+        assertEquals(uut.getSerialNumber(), 388);
+        assertEquals(uut.getGroupIdentifier(), 0);
+        assertEquals(uut.getBytes(), new byte[] {(byte) 0x83, 0x04});
+    }
+
+    @Test
     public void fromBytesDefaultGroupLongGroup() throws KlvParseException {
         MimdId uut = new MimdId(new byte[] {0x07, (byte) 0x82, 0x05});
         assertEquals(uut.getDisplayName(), "MIMD Id");
@@ -85,6 +95,16 @@ public class MimdIdTest {
     @Test
     public void fromBytesDefaultGroupLongSerialAndGroup() throws KlvParseException {
         MimdId uut = new MimdId(new byte[] {(byte) 0x81, 0x07, (byte) 0x82, 0x05});
+        assertEquals(uut.getDisplayName(), "MIMD Id");
+        assertEquals(uut.getDisplayableValue(), "[135, 261]");
+        assertEquals(uut.getSerialNumber(), 135);
+        assertEquals(uut.getGroupIdentifier(), 261);
+        assertEquals(uut.getBytes(), new byte[] {(byte) 0x81, 0x07, (byte) 0x82, 0x05});
+    }
+
+    @Test
+    public void fromBytesDefaultGroupLongSerialAndGroupStatic() throws KlvParseException {
+        MimdId uut = MimdId.fromBytes(new byte[] {(byte) 0x81, 0x07, (byte) 0x82, 0x05});
         assertEquals(uut.getDisplayName(), "MIMD Id");
         assertEquals(uut.getDisplayableValue(), "[135, 261]");
         assertEquals(uut.getSerialNumber(), 135);
