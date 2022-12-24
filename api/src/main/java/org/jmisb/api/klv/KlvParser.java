@@ -77,7 +77,7 @@ public class KlvParser {
                 }
                 if (read != payload.length) {
                     throw new KlvParseException(
-                            "Read " + read + " bytes when expected " + key.length);
+                            "Read " + read + " bytes when expected " + payload.length);
                 }
                 out.write(payload);
 
