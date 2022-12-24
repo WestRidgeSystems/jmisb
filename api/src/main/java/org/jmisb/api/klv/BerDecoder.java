@@ -46,7 +46,7 @@ public class BerDecoder {
 
                 if (berLength > 4) {
                     throw new IllegalArgumentException(
-                            "BER long form: BER length is >5 bytes; data is probably corrupt");
+                            "BER long form: BER length is >4 bytes; data is probably corrupt");
                 }
                 int val = 0;
                 for (int i = 0; i < berLength; ++i) {
@@ -110,7 +110,7 @@ public class BerDecoder {
         int berLength = length & 0x7f;
         if (berLength > 4) {
             throw new IllegalArgumentException(
-                    "BER long form: BER length is >5 bytes; data is probably corrupt");
+                    "BER long form: BER length is >4 bytes; data is probably corrupt");
         }
         int fullBerSize = berLength + 1;
         byte[] data = new byte[berLength];
