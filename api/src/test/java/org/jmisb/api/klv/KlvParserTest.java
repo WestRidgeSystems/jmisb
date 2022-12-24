@@ -5,6 +5,7 @@ import static org.testng.Assert.*;
 import com.github.valfirst.slf4jtest.TestLogger;
 import com.github.valfirst.slf4jtest.TestLoggerFactory;
 import java.io.ByteArrayInputStream;
+import java.io.InputStream;
 import java.util.ArrayList;
 import java.util.List;
 import org.jmisb.api.common.KlvParseException;
@@ -66,10 +67,6 @@ public class KlvParserTest {
 
     @Test
     public void checkParseStream() throws KlvParseException {
-        doParseStream();
-    }
-
-    private void doParseStream() throws KlvParseException {
         byte[] bytes =
                 new byte[] {
                     0x06, 0x0E, 0x2B, 0x34, 0x02, 0x0B, 0x01, 0x01, 0x0E, 0x01, 0x03, 0x01, 0x02,
@@ -110,6 +107,65 @@ public class KlvParserTest {
                     });
             assertTrue(rawMessage.getIdentifiers().isEmpty());
         }
+    }
+
+    @Test
+    @SuppressWarnings("deprecation")
+    public void checkParseStreamWithError() throws KlvParseException {
+        byte[] bytes =
+                new byte[] {
+                    0x06, 0x0e, 0x2b, 0x34, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00,
+                    0x00, 0x00, 0x03, 0x03, 0x01, 0x01, 0x00, 0x06, 0x0E, 0x2B, 0x34, 0x02, 0x0B,
+                    0x01, 0x01, 0x0E, 0x01, 0x03, 0x01, 0x02, 0x00, 0x00, 0x00, 0x09, 0x04, 0x02,
+                    0x00, 0x4f, 0x01, 0x03, 0x1e, 0x2f, 0x3a
+                };
+        MisbMessageFactory.getInstance()
+                .registerHandler(
+                        MisbMessageFactoryThatThrowsOnCreate.UNIVERSAL_LABEL,
+                        new MisbMessageFactoryThatThrowsOnCreate());
+        InputStream is = new ByteArrayInputStream(bytes);
+        List<IMisbMessage> messages = new ArrayList<>();
+        List<KlvParseException> errors = new ArrayList<>();
+        KlvParser.parseStream(is, messages::add, errors::add);
+        assertNotNull(errors);
+        assertEquals(errors.size(), 1);
+        assertEquals(
+                errors.get(0).getMessage(),
+                "org.jmisb.api.common.KlvParseException: MisbMessageFactoryThatThrowsOnCreate::create()");
+        assertNotNull(messages);
+        assertEquals(messages.size(), 1);
+        IMisbMessage message = messages.get(0);
+        assertNotNull(message);
+        assertEquals(
+                message.getUniversalLabel(),
+                new UniversalLabel(
+                        new byte[] {
+                            0x06, 0x0E, 0x2B, 0x34, 0x02, 0x0B, 0x01, 0x01, 0x0E, 0x01, 0x03, 0x01,
+                            0x02, 0x00, 0x00, 0x00
+                        }));
+        assertEquals(message.displayHeader(), "Unknown");
+        assertTrue(message instanceof RawMisbMessage);
+        RawMisbMessage rawMessage = (RawMisbMessage) message;
+        assertEquals(
+                rawMessage.getBytes(),
+                new byte[] {
+                    0x06, 0x0E, 0x2B, 0x34, 0x02, 0x0B, 0x01, 0x01, 0x0E, 0x01, 0x03, 0x01,
+                    0x02, 0x00, 0x00, 0x00, 0x09, 0x04, 0x02, 0x00, 0x4f, 0x01, 0x03, 0x1e,
+                    0x2f, 0x3a
+                });
+    }
+
+    @Test(
+            expectedExceptions = KlvParseException.class,
+            expectedExceptionsMessageRegExp = "Read 1 bytes when expected 2")
+    public void checkParseStreamBadLength() throws KlvParseException {
+        InputStream is =
+                new ByteArrayInputStream(
+                        new byte[] {
+                            0x06, 0x0E, 0x2B, 0x34, 0x02, 0x0B, 0x01, 0x01, 0x0E, 0x01, 0x03, 0x01,
+                            0x02, 0x00, 0x00, 0x00, 0x02, 0x00
+                        });
+        KlvParser.parseStream(is, null, null);
     }
 
     @Test(expectedExceptions = KlvParseException.class)
