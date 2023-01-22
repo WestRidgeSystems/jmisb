@@ -42,45 +42,52 @@ public class GeoRegistrationKeyTest {
         assertEquals(key.getIdentifier(), 3);
     }
 
+    @Test
     public void Enum4Test() {
         GeoRegistrationKey key = GeoRegistrationKey.getKey(4);
         assertEquals(key, GeoRegistrationKey.CorrespondencePointsRowColumn);
         assertEquals(key.getIdentifier(), 4);
     }
 
+    @Test
     public void Enum5Test() {
         GeoRegistrationKey key = GeoRegistrationKey.getKey(5);
         assertEquals(key, GeoRegistrationKey.CorrespondencePointsLatLon);
         assertEquals(key.getIdentifier(), 5);
     }
 
+    @Test
     public void Enum6Test() {
         GeoRegistrationKey key = GeoRegistrationKey.getKey(6);
         assertEquals(key, GeoRegistrationKey.SecondImageName);
         assertEquals(key.getIdentifier(), 6);
     }
 
+    @Test
     public void Enum7Test() {
         GeoRegistrationKey key = GeoRegistrationKey.getKey(7);
         assertEquals(key, GeoRegistrationKey.AlgorithmConfigurationIdentifier);
         assertEquals(key.getIdentifier(), 7);
     }
 
+    @Test
     public void Enum8Test() {
         GeoRegistrationKey key = GeoRegistrationKey.getKey(8);
         assertEquals(key, GeoRegistrationKey.CorrespondencePointsElevation);
         assertEquals(key.getIdentifier(), 8);
     }
 
+    @Test
     public void Enum9Test() {
         GeoRegistrationKey key = GeoRegistrationKey.getKey(9);
         assertEquals(key, GeoRegistrationKey.CorrespondencePointsRowColumnSDCC);
         assertEquals(key.getIdentifier(), 9);
     }
 
+    @Test
     public void Enum10Test() {
         GeoRegistrationKey key = GeoRegistrationKey.getKey(10);
         assertEquals(key, GeoRegistrationKey.CorrespondencePointsLatLonElevSDCC);
-        assertEquals(key.getIdentifier(), 9);
+        assertEquals(key.getIdentifier(), 10);
     }
 }
