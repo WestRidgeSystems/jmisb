@@ -71,7 +71,7 @@
         <jqf.plugin.version>1.7</jqf.plugin.version>
         <jqf.version>1.7</jqf.version>
         <maven.assembly.plugin.version>3.3.0</maven.assembly.plugin.version>
-        <owasp.version>6.2.2</owasp.version>
+        <owasp.version>8.0.1</owasp.version>
         <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
         <slf4j.version>1.7.32</slf4j.version>
         <sortpom.version>3.0.0</sortpom.version>
