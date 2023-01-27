@@ -102,7 +102,7 @@
             <dependency>
                 <groupId>org.bytedeco</groupId>
                 <artifactId>ffmpeg-platform</artifactId>
-                <version>4.3.1-1.5.4</version>
+                <version>5.1.2-1.5.8</version>
             </dependency>
         </dependencies>
     </dependencyManagement>
