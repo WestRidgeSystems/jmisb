@@ -79,7 +79,7 @@
         <spotbugs.version>4.3.0</spotbugs.version>
         <surefire.verbosity>0</surefire.verbosity>
         <surefire.version>3.0.0-M5</surefire.version>
-        <testng.version>7.7.0</testng.version>
+        <testng.version>7.5</testng.version>
     </properties>
 
     <dependencyManagement>
