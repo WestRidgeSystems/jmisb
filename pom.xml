@@ -87,7 +87,7 @@
     <properties>
         <antlr4.version>4.11.1</antlr4.version>
         <appdirs.version>1.2.1</appdirs.version>
-        <checkstyle.version>10.5.0</checkstyle.version>
+        <checkstyle.version>10.6.0</checkstyle.version>
         <commons-cli.version>1.5.0</commons-cli.version>
         <commons-io.version>2.11.0</commons-io.version>
         <coveralls.version>4.3.0</coveralls.version>
@@ -95,7 +95,7 @@
         <cyclonedx.version>2.6.2</cyclonedx.version>
         <failsafe.version>3.0.0-M6</failsafe.version>
         <ffmpeg.platform.version>5.1.2-1.5.8</ffmpeg.platform.version>
-        <freemarker.version>2.3.31</freemarker.version>
+        <freemarker.version>2.3.32</freemarker.version>
         <googleformatter.maven.plugin.version>1.7.5</googleformatter.maven.plugin.version>
         <gstreamer.version>1.4.0</gstreamer.version>
         <guava.version>31.1-jre</guava.version>
@@ -106,7 +106,7 @@
         <jqf.version>1.9</jqf.version>
         <jxmapviewer.version>2.6</jxmapviewer.version>
         <log4j.version>2.19.0</log4j.version>
-        <maven.annotations.version>3.7.0</maven.annotations.version>
+        <maven.annotations.version>3.7.1</maven.annotations.version>
         <maven.assembly.plugin.version>3.3.0</maven.assembly.plugin.version>
         <maven.checkstyle.plugin>3.1.2</maven.checkstyle.plugin>
         <maven.clean.plugin.version>3.2.0</maven.clean.plugin.version>
@@ -120,7 +120,7 @@
         <maven.jar.plugin.version>3.2.2</maven.jar.plugin.version>
         <maven.javadoc.plugin.version>3.4.0</maven.javadoc.plugin.version>
         <maven.minimum.version>3.3.9</maven.minimum.version>
-        <maven.plugin.plugin.version>3.7.0</maven.plugin.plugin.version>
+        <maven.plugin.plugin.version>3.7.1</maven.plugin.plugin.version>
         <maven.resources.plugin.version>3.2.0</maven.resources.plugin.version>
         <maven.shade.plugin.version>3.4.1</maven.shade.plugin.version>
         <maven.site.plugin.version>3.11.0</maven.site.plugin.version>
@@ -131,7 +131,7 @@
         <owasp.dependency-check.version>8.0.1</owasp.dependency-check.version>
         <plexus.utils.version>3.5.0</plexus.utils.version>
         <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
-        <slf4j.test.version>2.8.0</slf4j.test.version>
+        <slf4j.test.version>2.8.1</slf4j.test.version>
         <slf4j.version>2.0.6</slf4j.version>
         <sortpom.version>3.0.1</sortpom.version>
         <spotbugs.maven.version>4.6.0.0</spotbugs.maven.version>
