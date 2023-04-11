@@ -214,8 +214,7 @@ public class UasDatalinkFactory {
             case TargetWidthExtended:
                 return new TargetWidthExtended(bytes);
             case RangeImage:
-                // TODO Implement ST 1002
-                return new OpaqueValue(bytes);
+                return new NestedRangeImageLocalSet(bytes);
             case Georegistration:
                 return new NestedGeoRegistrationLocalSet(bytes);
             case CompositeImaging:

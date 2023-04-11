@@ -9,6 +9,7 @@ module org.jmisb.st0601 {
     requires org.jmisb.st0102;
     requires org.jmisb.st0806;
     requires transitive org.jmisb.st0903;
+    requires transitive org.jmisb.st1002;
     requires org.jmisb.st1206;
     requires org.jmisb.st1601;
     requires org.jmisb.st1602;

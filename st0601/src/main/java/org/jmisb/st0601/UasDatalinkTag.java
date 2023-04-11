@@ -318,7 +318,8 @@ public enum UasDatalinkTag implements IKlvKey {
     /** Tag 96; Target width within sensor field of view; Value is a {@link TargetWidthExtended}. */
     TargetWidthExtended(96),
     /**
-     * Tag 97; MISB ST 1002 Range Imaging Local Set metadata items; Value is a {@link OpaqueValue}.
+     * Tag 97; MISB ST 1002 Range Imaging Local Set metadata items; Value is a {@link
+     * NestedRangeImageLocalSet}.
      */
     RangeImage(97),
     /**
