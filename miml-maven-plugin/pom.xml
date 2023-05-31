@@ -68,7 +68,7 @@
             <!-- Override for CVE 2020-8908 -->
             <groupId>com.google.guava</groupId>
             <artifactId>guava</artifactId>
-            <version>30.1.1-android</version>
+            <version>32.0.0-android</version>
             <scope>provided</scope>
         </dependency>
         <dependency>
