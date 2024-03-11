@@ -23,7 +23,7 @@
         <antlr4.version>4.9.1</antlr4.version>
         <maven.compiler.source>1.8</maven.compiler.source>
         <maven.compiler.target>1.8</maven.compiler.target>
-        <maven.core.version>3.8.6</maven.core.version>
+        <maven.core.version>3.9.6</maven.core.version>
         <maven.version>3.3.9</maven.version>
         <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
     </properties>
@@ -32,18 +32,12 @@
         <dependency>
             <groupId>org.freemarker</groupId>
             <artifactId>freemarker</artifactId>
-            <version>2.3.30</version>
+            <version>2.3.32</version>
         </dependency>
         <dependency>
             <groupId>org.antlr</groupId>
             <artifactId>antlr4-runtime</artifactId>
             <version>${antlr4.version}</version>
-        </dependency>
-        <dependency>
-            <!-- Override for CVE 2021-29425 -->
-            <groupId>commons-io</groupId>
-            <artifactId>commons-io</artifactId>
-            <version>2.8.0</version>
         </dependency>
         <dependency>
             <groupId>org.apache.maven</groupId>
@@ -58,20 +52,6 @@
             <scope>provided</scope>
         </dependency>
         <dependency>
-            <!-- Override for OSSINDEX-d89d-15b4-33be -->
-            <groupId>org.codehaus.plexus</groupId>
-            <artifactId>plexus-utils</artifactId>
-            <version>3.3.0</version>
-            <scope>provided</scope>
-        </dependency>
-        <dependency>
-            <!-- Override for CVE 2020-8908 -->
-            <groupId>com.google.guava</groupId>
-            <artifactId>guava</artifactId>
-            <version>32.0.0-android</version>
-            <scope>provided</scope>
-        </dependency>
-        <dependency>
             <groupId>org.apache.maven</groupId>
             <artifactId>maven-artifact</artifactId>
             <version>${maven.version}</version>
@@ -80,7 +60,7 @@
         <dependency>
             <groupId>org.apache.maven.plugin-tools</groupId>
             <artifactId>maven-plugin-annotations</artifactId>
-            <version>3.6.0</version>
+            <version>3.6.4</version>
             <scope>provided</scope>
         </dependency>
         <dependency>
