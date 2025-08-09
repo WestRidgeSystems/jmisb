@@ -115,6 +115,16 @@ public class FfmpegUtils {
     }
 
     /**
+     * Get the start time.
+     *
+     * @param context the format context
+     * @return The start time, in seconds
+     */
+    public static double getStartTime(AVFormatContext context) {
+        return (double) context.start_time() / AV_TIME_BASE;
+    }
+
+    /**
      * Get the frame rate
      *
      * @param context The format context
