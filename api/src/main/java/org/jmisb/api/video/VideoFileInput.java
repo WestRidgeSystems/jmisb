@@ -31,6 +31,7 @@ public class VideoFileInput extends VideoInput implements IVideoFileInput {
     private final Set<IFileEventListener> fileEventListeners = new HashSet<>();
     private boolean open = false;
     private boolean playing = false;
+    private double startTime = 0.0;
     private double position = 0.0;
     private double duration = 0.0;
     private int numFrames = 0;
@@ -87,6 +88,7 @@ public class VideoFileInput extends VideoInput implements IVideoFileInput {
         AVStream videoStream = FfmpegUtils.getVideoStream(formatContext);
 
         duration = FfmpegUtils.getDuration(formatContext);
+        startTime = FfmpegUtils.getStartTime(formatContext);
 
         // Require a valid video stream
         if (videoStream == null) {
@@ -223,7 +225,7 @@ public class VideoFileInput extends VideoInput implements IVideoFileInput {
         if (logger.isDebugEnabled()) logger.debug("Seeking to " + pos + "s");
 
         // Seek the demuxer, this will also cause packet queues to be cleared
-        demuxer.seek(pos);
+        demuxer.seek(startTime + pos);
 
         // Stop notifiers & clear decodedFrameQueue & decodedMetadataQueue
         stopNotifiers();
@@ -272,7 +274,7 @@ public class VideoFileInput extends VideoInput implements IVideoFileInput {
         prevVideoTime = time;
 
         // TODO: good?
-        position = prevVideoPts;
+        position = pts - startTime;
 
         // logger.debug("Setting position = " + prevVideoPts);
     }
