@@ -6,9 +6,9 @@ package org.jmisb.api.klv.st0805;
  * <p>This is one of the things that can be included in the {@code detail} part of an Event.
  */
 public class Link extends CotElement {
-    public String linkType;
-    public String linkUid;
-    public String linkRelation;
+    private String linkType;
+    private String linkUid;
+    private String linkRelation;
 
     /**
      * Get the link type (CoT type of the producing {@link PlatformPosition}).

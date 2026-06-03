@@ -151,14 +151,17 @@ public class MapFrame implements IMetadataListener {
                 }
             } else {
                 LOG.info("No configuration file found, creating from default");
-                try {
-                    InputStream defaultConfigurationInputStream =
-                            MapFrame.class.getResourceAsStream("/" + CONFIG_FILE_NAME);
-                    Files.copy(
-                            defaultConfigurationInputStream,
-                            userConfigurationFile.toPath(),
-                            StandardCopyOption.REPLACE_EXISTING);
-                } catch (IOException | NullPointerException ex) {
+                try (InputStream defaultConfigurationInputStream =
+                        MapFrame.class.getResourceAsStream("/" + CONFIG_FILE_NAME)) {
+                    if (defaultConfigurationInputStream == null) {
+                        LOG.warn("Failed to create user configuration file from defaults.");
+                    } else {
+                        Files.copy(
+                                defaultConfigurationInputStream,
+                                userConfigurationFile.toPath(),
+                                StandardCopyOption.REPLACE_EXISTING);
+                    }
+                } catch (IOException ex) {
                     LOG.warn("Failed to create user configuration file from defaults.");
                 }
             }

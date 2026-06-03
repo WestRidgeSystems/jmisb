@@ -18,7 +18,7 @@ import org.antlr.v4.runtime.tree.ErrorNode;
 import org.antlr.v4.runtime.tree.TerminalNode;
 
 /** Class to turn models into code using templates. */
-public class CodeGeneratorListener implements MIML_v3Listener {
+public final class CodeGeneratorListener implements MIML_v3Listener {
 
     private final CodeGeneratorConfiguration generatorConf;
     private Configuration templateConfiguration;

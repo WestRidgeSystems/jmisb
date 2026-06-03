@@ -176,8 +176,8 @@ public abstract class VideoInput extends VideoIO implements IVideoInput {
     /** Thread to notify clients of new video frames. */
     protected class VideoNotifier extends Thread {
         private volatile boolean shutdown = false;
-        private boolean paused = false;
-        private boolean getOneFrame = false;
+        private volatile boolean paused = false;
+        private volatile boolean getOneFrame = false;
 
         VideoNotifier(boolean paused) {
             this.paused = paused;
@@ -233,7 +233,7 @@ public abstract class VideoInput extends VideoIO implements IVideoInput {
     /** Thread to notify clients of new metadata. */
     protected class MetadataNotifier extends Thread {
         private volatile boolean shutdown = false;
-        private boolean paused = false;
+        private volatile boolean paused = false;
 
         MetadataNotifier(boolean paused) {
             this.paused = paused;

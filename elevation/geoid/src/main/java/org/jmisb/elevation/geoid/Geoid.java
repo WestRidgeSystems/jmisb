@@ -16,7 +16,7 @@ import java.io.IOException;
  * while being slightly less complex to calculate. Using nearest neighbor might be order low meters
  * of error, and is computationally equivalent to bilinear interpolation.
  */
-public class Geoid {
+public final class Geoid {
 
     private final Grid grid;
     private static final float HALF_WAY = 0.5f;

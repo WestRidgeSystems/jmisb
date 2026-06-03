@@ -14,7 +14,7 @@ abstract class Demuxer extends ProcessingThread {
     final AVFormatContext avFormatContext;
     VideoDecodeThread videoDecodeThread;
     Map<Integer, MetadataDecodeThread> metadataDecodeThreads = new HashMap<>(3);
-    int videoStreamIndex;
+    volatile int videoStreamIndex;
     List<Integer> dataStreamIndices;
     private final VideoInputOptions options;
 

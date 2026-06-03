@@ -10,9 +10,9 @@ import org.jmisb.api.klv.st0601.OpaqueValue;
  * separated by a colon and a space.
  */
 class MetadataEntry {
-    public String displayName;
-    public String tag;
-    public String value;
+    private final String displayName;
+    private final String tag;
+    private String value;
 
     /**
      * Constructor.

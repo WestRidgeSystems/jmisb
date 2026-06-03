@@ -5,9 +5,9 @@ import org.jmisb.core.video.TimingUtils;
 /** Thread allowing itself to be paused and unpaused. */
 class ProcessingThread extends Thread {
     private final Object pauseLock = new Object();
-    private boolean shutdown = false;
-    private boolean paused = false;
-    private boolean pauseRequested = false;
+    private volatile boolean shutdown = false;
+    private volatile boolean paused = false;
+    private volatile boolean pauseRequested = false;
 
     /**
      * Pause if requested and check whether to shut down.
@@ -74,6 +74,7 @@ class ProcessingThread extends Thread {
 
     protected void play() {
         synchronized (pauseLock) {
+            pauseRequested = false;
             pauseLock.notifyAll();
         }
     }
