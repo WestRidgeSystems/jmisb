@@ -6,6 +6,7 @@ jMISB has some input fuzzing support, using JQF.
 It is integrated into maven, so you can do:
 
 ``` sh
+cd api
 mvn jqf:fuzz -Dclass=org.jmisb.api.klv.st0601.UasDatalinkFactoryFuzzTest -Dmethod=checkCreateValue -Dtime=25m
 ```
 
