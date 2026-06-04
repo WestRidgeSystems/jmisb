@@ -62,7 +62,12 @@ public class KlvParser {
     private static byte[] getNextMessage(byte[] bytes, int pos) throws KlvParseException {
         // Length of the key field (UL)
         final int keyLength = UniversalLabel.LENGTH;
-        BerField lengthField = BerDecoder.decode(bytes, pos + keyLength, false);
+        final BerField lengthField;
+        try {
+            lengthField = BerDecoder.decode(bytes, pos + keyLength, false);
+        } catch (IllegalArgumentException ex) {
+            throw new KlvParseException(ex.getMessage());
+        }
         final int totalLength = keyLength + lengthField.getLength() + lengthField.getValue();
 
         if (pos + totalLength > bytes.length) {
