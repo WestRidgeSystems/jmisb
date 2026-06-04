@@ -1,10 +1,10 @@
 package org.jmisb.api.video;
 
-import static org.bytedeco.ffmpeg.avcodec.AVCodecContext.FF_PROFILE_KLVA_ASYNC;
-import static org.bytedeco.ffmpeg.avcodec.AVCodecContext.FF_PROFILE_KLVA_SYNC;
 import static org.bytedeco.ffmpeg.global.avcodec.AV_CODEC_ID_H264;
 import static org.bytedeco.ffmpeg.global.avcodec.AV_CODEC_ID_H265;
 import static org.bytedeco.ffmpeg.global.avcodec.AV_CODEC_ID_SMPTE_KLV;
+import static org.bytedeco.ffmpeg.global.avcodec.AV_PROFILE_KLVA_ASYNC;
+import static org.bytedeco.ffmpeg.global.avcodec.AV_PROFILE_KLVA_SYNC;
 import static org.bytedeco.ffmpeg.global.avcodec.av_packet_alloc;
 import static org.bytedeco.ffmpeg.global.avcodec.avcodec_alloc_context3;
 import static org.bytedeco.ffmpeg.global.avcodec.avcodec_find_encoder;
@@ -131,9 +131,9 @@ public abstract class VideoOutput extends VideoIO {
             }
             klvCodecParams = avcodec_parameters_alloc();
             if (options.getMultiplexingMethod().equals(KlvFormat.Synchronous)) {
-                klvCodecParams.profile(FF_PROFILE_KLVA_SYNC);
+                klvCodecParams.profile(AV_PROFILE_KLVA_SYNC);
             } else {
-                klvCodecParams.profile(FF_PROFILE_KLVA_ASYNC);
+                klvCodecParams.profile(AV_PROFILE_KLVA_ASYNC);
             }
             klvCodecParams.codec_tag(FfmpegUtils.fourCcToTag("klva"));
             klvCodecParams.codec_type(AVMEDIA_TYPE_DATA);
